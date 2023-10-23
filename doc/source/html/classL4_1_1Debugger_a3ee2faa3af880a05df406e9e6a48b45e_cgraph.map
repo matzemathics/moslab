@@ -1,0 +1,5 @@
+<map id="L4::Debugger::global_id" name="L4::Debugger::global_id">
+<area shape="rect" id="Node000001" title="Get the globally unique ID of the object behind a capability." alt="" coords="5,5,180,31"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="228,5,352,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,15,214,15,214,21,181,21"/>
+</map>

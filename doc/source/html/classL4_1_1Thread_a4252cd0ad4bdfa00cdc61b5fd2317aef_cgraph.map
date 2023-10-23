@@ -1,0 +1,5 @@
+<map id="L4::Thread::control" name="L4::Thread::control">
+<area shape="rect" id="Node000001" title="Commit the given thread&#45;attributes object." alt="" coords="5,5,148,31"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="196,5,320,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,15,182,15,182,21,148,21"/>
+</map>

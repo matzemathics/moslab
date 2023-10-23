@@ -1,0 +1,7 @@
+<map id="L4::Kip::Mem_desc::set" name="L4::Kip::Mem_desc::set">
+<area shape="rect" id="Node000001" title="Set values of a memory descriptor." alt="" coords="5,35,177,60"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kip_1_1Mem__desc.html#a5fdbd66440b54a05ad1678fcb04ed9e4" title="Return end address of memory descriptor." alt="" coords="225,5,401,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,33,212,29,212,34,178,39"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kip_1_1Mem__desc.html#a78a483ff068305e31dc15bcbf69c1b64" title="Return start address of memory descriptor." alt="" coords="237,55,389,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,56,224,61,223,67,177,61"/>
+</map>

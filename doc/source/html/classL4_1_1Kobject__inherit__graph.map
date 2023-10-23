@@ -1,0 +1,95 @@
+<map id="L4::Kobject" name="L4::Kobject">
+<area shape="rect" id="Node000001" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="2363,5,2469,91"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="5,146,251,261"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2349,53,1908,63,1255,81,628,107,398,123,317,132,263,141,239,148,238,143,262,136,316,127,397,118,628,102,1255,75,1908,57,2349,48"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="275,153,512,253"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="2349,52,1990,52,1460,62,1180,73,918,89,693,111,600,125,525,141,483,156,481,151,523,136,599,120,692,106,918,84,1180,67,1460,57,1990,47,2349,46"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="537,146,717,261"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="2349,54,1994,63,1487,82,1007,108,832,124,771,132,730,141,711,148,709,143,729,136,770,127,831,119,1007,103,1487,77,1993,58,2349,48"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="741,153,963,253"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="2349,52,2067,57,1668,70,1461,82,1266,97,1100,117,975,141,936,156,934,151,974,136,1099,111,1266,92,1460,77,1668,65,2067,52,2349,47"/>
+<area shape="rect" id="Node000010" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="987,146,1167,261"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="2349,53,2103,58,1763,71,1588,83,1424,98,1285,117,1181,141,1162,148,1161,143,1179,136,1284,112,1424,93,1587,77,1763,66,2103,52,2349,47"/>
+<area shape="rect" id="Node000011" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="1192,146,1384,261"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="2349,54,2142,62,1866,79,1593,105,1481,121,1397,141,1378,148,1376,143,1395,136,1480,116,1592,99,1865,73,2142,57,2349,49"/>
+<area shape="rect" id="Node000012" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="1409,146,1639,261"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="2349,52,2218,56,2043,69,1847,96,1747,116,1651,141,1631,148,1629,143,1650,136,1746,111,1846,91,2042,64,2217,51,2349,47"/>
+<area shape="rect" id="Node000013" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="1663,153,1862,253"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="2349,55,2254,63,2134,79,2003,104,1938,121,1874,141,1841,156,1839,151,1872,136,1936,116,2002,99,2133,74,2254,58,2349,50"/>
+<area shape="rect" id="Node000015" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="1886,146,2077,261"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="2350,65,2227,95,2158,116,2090,141,2075,148,2073,143,2088,136,2156,111,2226,89,2349,60"/>
+<area shape="rect" id="Node000017" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="2101,139,2288,268"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="2353,96,2288,141,2285,136,2350,92"/>
+<area shape="rect" id="Node000023" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="2312,146,2520,261"/>
+<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="2419,105,2419,145,2413,145,2413,105"/>
+<area shape="rect" id="Node000027" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="2544,146,2752,261"/>
+<area shape="poly" id="edge27_Node000001_Node000027" title=" " alt="" coords="2483,90,2564,144,2561,148,2480,94"/>
+<area shape="rect" id="Node000029" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="2776,139,2965,268"/>
+<area shape="poly" id="edge29_Node000001_Node000029" title=" " alt="" coords="2483,58,2615,87,2691,109,2765,136,2777,142,2775,146,2763,141,2690,114,2614,93,2482,63"/>
+<area shape="rect" id="Node000033" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="2990,146,3162,261"/>
+<area shape="poly" id="edge33_Node000001_Node000033" title=" " alt="" coords="2484,49,2583,55,2708,70,2844,96,2913,114,2978,136,2995,143,2993,148,2976,141,2911,119,2843,101,2707,75,2582,60,2483,54"/>
+<area shape="rect" id="Node000035" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="3186,139,3358,268"/>
+<area shape="poly" id="edge35_Node000001_Node000035" title=" " alt="" coords="2483,51,2641,62,2841,80,3035,105,3114,120,3174,136,3187,141,3185,146,3172,141,3113,125,3034,110,2841,85,2640,67,2483,56"/>
+<area shape="rect" id="Node000036" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="3383,146,3564,261"/>
+<area shape="poly" id="edge36_Node000001_Node000036" title=" " alt="" coords="2483,49,2678,58,2935,75,3188,100,3292,117,3370,136,3388,143,3386,148,3369,141,3291,122,3187,106,2935,80,2678,63,2483,54"/>
+<area shape="rect" id="Node000038" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="3588,146,3799,261"/>
+<area shape="poly" id="edge39_Node000001_Node000038" title=" " alt="" coords="2483,48,2715,56,3032,71,3196,83,3348,97,3479,115,3577,136,3598,143,3596,148,3575,141,3478,120,3348,103,3195,88,3032,77,2715,61,2483,54"/>
+<area shape="rect" id="Node000040" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="3823,139,4017,268"/>
+<area shape="poly" id="edge41_Node000001_Node000040" title=" " alt="" coords="2483,47,2757,51,3143,63,3344,75,3531,90,3691,110,3757,122,3811,136,3824,140,3822,145,3810,141,3756,128,3691,116,3530,95,3343,80,3143,69,2757,56,2483,52"/>
+<area shape="rect" id="Node000042" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="4042,139,4233,268"/>
+<area shape="poly" id="edge43_Node000001_Node000042" title=" " alt="" coords="2483,46,2796,47,3245,57,3480,68,3701,84,3889,106,3967,120,4030,136,4043,140,4041,145,4029,141,3966,126,3888,112,3700,89,3480,73,3245,62,2796,52,2483,52"/>
+<area shape="rect" id="Node000043" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="4257,146,4439,261"/>
+<area shape="poly" id="edge44_Node000001_Node000043" title=" " alt="" coords="2483,48,2865,57,3416,75,3694,87,3941,101,4132,117,4200,126,4245,136,4264,143,4262,148,4243,141,4199,132,4132,123,3940,106,3693,92,3416,80,2865,62,2483,53"/>
+<area shape="rect" id="Node000045" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="4463,146,4644,261"/>
+<area shape="poly" id="edge46_Node000001_Node000045" title=" " alt="" coords="2483,48,2903,55,3519,72,3831,83,4109,98,4325,116,4401,125,4451,136,4471,143,4469,148,4450,141,4400,131,4324,121,4109,103,3831,89,3519,77,2903,61,2483,53"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Debugger.html" title="C++ kernel debugger API." alt="" coords="318,356,469,541"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="396,267,396,356,391,356,391,267"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Factory.html" title="C++ Factory interface, see Factory for the C interface." alt="" coords="785,376,919,521"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="855,267,855,376,849,376,849,267"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="766,637,938,751"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="855,535,855,636,849,636,849,535"/>
+<area shape="rect" id="Node000009" href="$classL4Re_1_1Mem__alloc.html" title="Memory allocation interface." alt="" coords="789,847,915,912"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="855,765,855,847,849,847,849,765"/>
+<area shape="rect" id="Node000014" href="$classL4_1_1Meta.html" title="Meta interface that shall be implemented by each L4Re object and gives access to the dynamic type inf..." alt="" coords="1693,396,1833,501"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1765,267,1765,396,1760,396,1760,267"/>
+<area shape="rect" id="Node000016" href="$classL4_1_1Platform__control.html" title="L4 C++ interface for controlling platform&#45;wide properties, see Platform Control C API for the C inter..." alt="" coords="1895,376,2068,521"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="1984,275,1984,376,1979,376,1979,275"/>
+<area shape="rect" id="Node000018" href="$classL4_1_1Rcv__endpoint.html" title="Interface for kernel objects that allow to receive IPC from them." alt="" coords="2132,416,2257,481"/>
+<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="2197,282,2197,416,2192,416,2192,282"/>
+<area shape="rect" id="Node000019" href="$classL4_1_1Kobject__2t.html" title=" " alt="" coords="1894,637,2085,751"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="2161,494,2039,638,2035,635,2157,490"/>
+<area shape="rect" id="Node000021" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="2109,629,2296,759"/>
+<area shape="poly" id="edge20_Node000018_Node000021" title=" " alt="" coords="2199,495,2203,629,2198,629,2193,495"/>
+<area shape="rect" id="Node000020" href="$classL4_1_1Irq.html" title="C++ Irq interface, see IRQs for the C interface." alt="" coords="1944,817,2035,942"/>
+<area shape="poly" id="edge19_Node000019_Node000020" title=" " alt="" coords="1992,765,1992,816,1987,816,1987,765"/>
+<area shape="rect" id="Node000022" href="$classL4_1_1Ipc__gate.html" title="The C++ IPC gate interface, see IPC&#45;Gate API for the C interface." alt="" coords="2153,847,2252,912"/>
+<area shape="poly" id="edge21_Node000021_Node000022" title=" " alt="" coords="2205,772,2205,847,2200,847,2200,772"/>
+<area shape="rect" id="Node000024" href="$classL4_1_1Task.html" title="C++ interface of the Task kernel object, see Task for the C interface." alt="" coords="2353,346,2479,551"/>
+<area shape="poly" id="edge23_Node000023_Node000024" title=" " alt="" coords="2419,274,2419,346,2413,346,2413,274"/>
+<area shape="rect" id="Node000025" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="2330,644,2502,744"/>
+<area shape="poly" id="edge24_Node000024_Node000025" title=" " alt="" coords="2419,565,2419,644,2413,644,2413,565"/>
+<area shape="rect" id="Node000026" href="$classL4_1_1Vm.html" title="Virtual machine host address space." alt="" coords="2361,847,2471,912"/>
+<area shape="poly" id="edge25_Node000025_Node000026" title=" " alt="" coords="2410,758,2412,846,2406,846,2405,758"/>
+<area shape="poly" id="edge26_Node000025_Node000026" title=" " alt="" coords="2427,758,2426,846,2420,846,2422,758"/>
+<area shape="rect" id="Node000028" href="$classL4_1_1Thread.html" title="C++ L4 kernel thread interface, see Thread for the C interface." alt="" coords="2557,316,2739,581"/>
+<area shape="poly" id="edge28_Node000027_Node000028" title=" " alt="" coords="2651,275,2651,316,2645,316,2645,275"/>
+<area shape="rect" id="Node000030" href="$classL4Re_1_1Dataspace.html" title="Interface for memory&#45;like objects." alt="" coords="2839,346,2961,551"/>
+<area shape="poly" id="edge30_Node000029_Node000030" title=" " alt="" coords="2883,282,2890,346,2885,346,2877,282"/>
+<area shape="rect" id="Node000031" href="$structL4_1_1Kobject__3t.html" title=" " alt="" coords="3037,637,3213,751"/>
+<area shape="poly" id="edge31_Node000030_Node000031" title=" " alt="" coords="2972,542,3005,580,3061,634,3057,638,3001,583,2968,545"/>
+<area shape="rect" id="Node000032" href="$classL4vbus_1_1Vbus.html" title="The virtual bus (Vbus) interface." alt="" coords="3039,807,3212,952"/>
+<area shape="poly" id="edge32_Node000031_Node000032" title=" " alt="" coords="3128,765,3128,806,3123,806,3123,765"/>
+<area shape="rect" id="Node000034" href="$classL4Re_1_1Debug__obj.html" title="Debug interface." alt="" coords="3015,416,3137,481"/>
+<area shape="poly" id="edge34_Node000033_Node000034" title=" " alt="" coords="3079,274,3079,416,3073,416,3073,274"/>
+<area shape="rect" id="Node000037" href="$classL4Re_1_1Inhibitor.html" title="Set of inhibitor locks, which inhibit specific actions when held." alt="" coords="3284,396,3417,501"/>
+<area shape="poly" id="edge37_Node000036_Node000037" title=" " alt="" coords="3441,274,3379,397,3374,395,3436,272"/>
+<area shape="poly" id="edge38_Node000037_Node000031" title=" " alt="" coords="3296,513,3179,638,3175,635,3292,510"/>
+<area shape="rect" id="Node000039" href="$structL4Re_1_1Mmio__space.html" title="Interface for memory&#45;like address space accessible via IPC." alt="" coords="3625,406,3761,491"/>
+<area shape="poly" id="edge40_Node000038_Node000039" title=" " alt="" coords="3696,274,3696,406,3691,406,3691,274"/>
+<area shape="rect" id="Node000041" href="$classL4Re_1_1Namespace.html" title="Name&#45;space interface." alt="" coords="3855,386,3985,511"/>
+<area shape="poly" id="edge42_Node000040_Node000041" title=" " alt="" coords="3923,282,3923,386,3917,386,3917,282"/>
+<area shape="rect" id="Node000044" href="$classL4Re_1_1Parent.html" title="Parent interface." alt="" coords="4301,416,4395,481"/>
+<area shape="poly" id="edge45_Node000043_Node000044" title=" " alt="" coords="4351,274,4351,416,4345,416,4345,274"/>
+<area shape="rect" id="Node000046" href="$classL4Re_1_1Video_1_1Goos.html" title="Class that abstracts framebuffers." alt="" coords="4479,346,4627,551"/>
+<area shape="poly" id="edge47_Node000045_Node000046" title=" " alt="" coords="4556,274,4556,346,4551,346,4551,274"/>
+</map>

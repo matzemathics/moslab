@@ -1,0 +1,14 @@
+<map id="L4virtio::Device" name="L4virtio::Device">
+<area shape="rect" id="Node000001" title="IPC interface for virtio over L4 IPC." alt="" coords="151,797,303,957"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="111,633,342,748"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,762,229,797,224,797,224,762"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Icu.html" title="C++ Icu interface, see Interrupt controller for the C interface." alt="" coords="121,419,223,584"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="202,597,213,633,208,634,197,598"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="5,197,213,312"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="130,325,154,418,148,419,125,327"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Irq__eoi.html" title="Interface for sending an unmask message to an object." alt="" coords="20,23,111,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="74,101,87,173,93,197,88,198,81,174,68,102"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="159,5,359,105"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="266,119,267,129,267,173,252,431,235,634,229,633,246,430,261,173,261,129,261,119"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="148,96,129,112,113,131,101,163,100,197,95,197,96,162,108,128,125,108,145,92"/>
+</map>

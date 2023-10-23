@@ -1,0 +1,12 @@
+<map id="l4/cxx/bits/bst.h" name="l4/cxx/bits/bst.h">
+<area shape="rect" id="Node000001" title="AVL tree." alt="" coords="98,5,223,31"/>
+<area shape="rect" id="Node000002" href="$type__traits_source.html" title=" " alt="" coords="19,79,123,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,33,98,72,95,68,145,29"/>
+<area shape="rect" id="Node000004" href="$bst__base_8h.html" title="AVL tree." alt="" coords="177,152,269,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="166,31,174,64,188,103,209,139,205,142,184,105,169,65,161,32"/>
+<area shape="rect" id="Node000005" href="$bst__iter_8h.html" title="AVL tree." alt="" coords="198,79,281,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="175,29,218,68,215,71,172,33"/>
+<area shape="rect" id="Node000003" href="$type__traits_8h_source.html" title=" " alt="" coords="5,152,137,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="74,104,74,138,69,138,69,104"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="239,105,231,139,226,138,234,104"/>
+</map>

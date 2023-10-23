@@ -1,0 +1,7 @@
+<map id="L4virtio::Virtqueue::Used" name="L4virtio::Virtqueue::Used">
+<area shape="rect" id="Node000001" title="Used ring." alt="" coords="84,208,219,288"/>
+<area shape="rect" id="Node000002" href="$structL4virtio_1_1Virtqueue_1_1Used_1_1Flags.html" title="flags for the used ring." alt="" coords="5,5,140,145"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,145,129,192,124,194,102,147"/>
+<area shape="rect" id="Node000003" href="$structL4virtio_1_1Virtqueue_1_1Used__elem.html" title="Type of an element of the used ring." alt="" coords="164,25,299,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,127,179,194,174,191,206,124"/>
+</map>

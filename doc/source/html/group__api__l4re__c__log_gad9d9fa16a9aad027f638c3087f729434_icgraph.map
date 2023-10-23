@@ -1,0 +1,5 @@
+<map id="l4re_log_printn_srv" name="l4re_log_printn_srv">
+<area shape="rect" id="Node000001" title="Write a string of a given length to a log." alt="" coords="172,5,319,31"/>
+<area shape="rect" id="Node000002" href="$group__api__l4re__c__log.html#ga95fbf827600b5204e44dd1b87946045e" title="Write a string of a given length to the default log." alt="" coords="5,5,124,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,21,124,21,124,15,158,15"/>
+</map>

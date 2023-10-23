@@ -1,0 +1,18 @@
+<map id="fiasco_tbuf_log" name="fiasco_tbuf_log">
+<area shape="rect" id="Node000001" title="Create new trace&#45;buffer entry with describing &lt;text&gt;." alt="" coords="5,129,125,155"/>
+<area shape="rect" id="Node000002" href="$kdebug_8h.html#ab2ebe85a62a8d8b933eef79a3ca418d7" title="Invoke a text output operation on the base debugger capability." alt="" coords="173,104,291,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,130,159,125,160,130,126,136"/>
+<area shape="rect" id="Node000008" href="$group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call." alt="" coords="196,153,268,179"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="126,148,182,156,182,162,125,153"/>
+<area shape="rect" id="Node000003" href="$group__l4__memory__api.html#ga2be30f4e5dde3c85d115d2a9c77f6215" title="Determine how many machine words (l4_umword_t) are required to store a buffer of &#39;size&#39; bytes." alt="" coords="339,5,495,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="246,102,286,71,337,40,353,33,355,38,340,44,289,76,250,106"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="371,55,462,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="280,101,357,80,359,85,281,107"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="371,104,462,129"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="291,114,357,114,357,119,291,119"/>
+<area shape="rect" id="Node000007" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="382,153,451,179"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="281,127,369,151,368,156,280,132"/>
+<area shape="rect" id="Node000005" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="543,55,603,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="462,65,529,65,529,70,462,70"/>
+<area shape="poly" id="edge8_Node000008_Node000007" title=" " alt="" coords="268,163,368,163,368,169,268,169"/>
+</map>

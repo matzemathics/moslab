@@ -1,0 +1,8 @@
+<map id="cxx::Bits::Bst::remove_tree" name="cxx::Bits::Bst::remove_tree">
+<area shape="rect" id="Node000001" title="Remove all elements in the subtree of head." alt="" coords="468,29,667,55"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="611,20,599,11,567,8,542,10,528,15,525,20,532,27,528,31,520,21,524,11,540,5,567,3,601,7,614,16"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Bits_1_1Bst.html#ab86f783914505fd36cf3abddda981d4a" title="Clear the tree." alt="" coords="232,29,420,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="454,45,420,45,420,39,454,39"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Avl__tree.html#a76c21afd43e451651a66e95278fd5c26" title="Destroy the tree." alt="" coords="5,29,184,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="218,45,184,45,184,39,218,39"/>
+</map>

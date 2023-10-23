@@ -1,0 +1,21 @@
+<map id="L4::Vcon::write" name="L4::Vcon::write">
+<area shape="rect" id="Node000001" title="Write data to this virtual console." alt="" coords="5,55,124,80"/>
+<area shape="rect" id="Node000002" href="$group__l4__vcon__api.html#ga899728ba23baf18f59f62142534e039c" title="Write data to this virtual console." alt="" coords="172,55,299,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,65,158,65,158,70,124,70"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call." alt="" coords="390,5,462,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="284,52,376,28,377,33,286,57"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87" title="Test for error indicator flag." alt="" coords="347,55,505,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="299,65,333,65,333,70,299,70"/>
+<area shape="rect" id="Node000006" href="$group__l4__vcon__api.html#ga05df63a45bb7ade1e0e19caaa6e35f5f" title="Send data to this virtual console." alt="" coords="363,104,489,129"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="286,77,363,98,362,103,284,83"/>
+<area shape="rect" id="Node000004" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="597,5,666,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="462,15,583,15,583,21,462,21"/>
+<area shape="rect" id="Node000007" href="$group__l4__memory__api.html#ga2be30f4e5dde3c85d115d2a9c77f6215" title="Determine how many machine words (l4_umword_t) are required to store a buffer of &#39;size&#39; bytes." alt="" coords="553,55,709,80"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="479,101,564,81,565,86,480,107"/>
+<area shape="rect" id="Node000008" href="$group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e" title="Send a message to an object (do not wait for a reply)." alt="" coords="582,104,681,129"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="489,114,568,114,568,119,489,119"/>
+<area shape="rect" id="Node000010" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="586,153,677,179"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="480,127,573,149,572,155,479,132"/>
+<area shape="rect" id="Node000009" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="757,104,817,129"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="681,114,744,114,744,119,681,119"/>
+</map>

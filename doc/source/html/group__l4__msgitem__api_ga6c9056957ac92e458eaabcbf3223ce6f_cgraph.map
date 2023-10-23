@@ -1,0 +1,5 @@
+<map id="l4_map_obj_control" name="l4_map_obj_control">
+<area shape="rect" id="Node000001" title="Create the first word for a map item for the object space." alt="" coords="5,5,155,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__msgitem__api.html#ga1ce1321fd25614e9af43a35819540ba7" title="Create the first word for a map item for the memory space." alt="" coords="203,5,325,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,15,189,15,189,21,155,21"/>
+</map>

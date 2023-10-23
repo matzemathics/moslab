@@ -1,0 +1,11 @@
+<map id="l4/sys/typeinfo_svr" name="l4/sys/typeinfo_svr">
+<area shape="rect" id="Node000001" title="Type information server template." alt="" coords="72,5,217,31"/>
+<area shape="rect" id="Node000002" href="$cxx_2ipc__server.html" title="IPC server loop." alt="" coords="5,79,137,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,42,85,80,81,77,121,38"/>
+<area shape="rect" id="Node000003" href="$re_2util_2meta_source.html" title=" " alt="" coords="162,79,277,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="168,38,209,77,205,80,165,42"/>
+<area shape="rect" id="Node000004" href="$server_2l4virtio_source.html" title=" " alt="" coords="155,152,284,192"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="222,118,222,152,217,152,217,118"/>
+<area shape="rect" id="Node000005" href="$server_2virtio-block_source.html" title=" " alt="" coords="155,240,284,280"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="222,206,222,240,217,240,217,206"/>
+</map>

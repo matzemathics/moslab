@@ -1,0 +1,5 @@
+<map id="L4::Ipc_svr::Br_manager_no_buffers" name="L4::Ipc_svr::Br_manager_no_buffers">
+<area shape="rect" id="Node000001" title="Empty implementation of Server_iface." alt="" coords="5,273,180,473"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Server__iface.html" title="Interface for server&#45;loop related functions." alt="" coords="5,5,180,225"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,239,95,273,90,273,90,239"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="l4re_rm_detach_srv" name="l4re_rm_detach_srv">
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,80,401,105"/>
+<area shape="rect" id="Node000002" href="$group__api__l4re__c__rm.html#ga5d553540131111a12f66712bb6d4d449" title="Detach and unmap a region from the address space in the current task." alt="" coords="43,5,165,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="284,77,202,45,163,33,164,28,204,39,286,72"/>
+<area shape="rect" id="Node000003" href="$group__api__l4re__c__rm.html#gab808c5167e7464afa8be55a1650c938a" title="Detach and unmap a region and return affected dataspace in the current task." alt="" coords="31,55,177,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,85,177,78,177,73,237,80"/>
+<area shape="rect" id="Node000004" href="$group__api__l4re__c__rm.html#gaf909259f07302cc9f7d4798192aa58f4" title="Detach and unmap in specified task." alt="" coords="5,104,203,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="237,105,203,109,203,103,237,100"/>
+<area shape="rect" id="Node000005" href="$group__api__l4re__c__rm.html#gac52716554eaf92c93e3634f1dbde236b" title="Detach and unmap in specified task." alt="" coords="17,153,191,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="283,113,204,143,160,156,158,151,202,138,281,108"/>
+</map>

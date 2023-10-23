@@ -1,0 +1,5 @@
+<map id="l4_infinite_loop" name="l4_infinite_loop">
+<area shape="rect" id="Node000001" title="Infinite loop." alt="" coords="5,5,127,31"/>
+<area shape="rect" id="Node000002" href="$group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728" title="Memory barrier." alt="" coords="175,5,259,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,15,161,15,161,21,127,21"/>
+</map>

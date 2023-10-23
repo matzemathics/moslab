@@ -1,0 +1,5 @@
+<map id="L4::Registry_iface" name="L4::Registry_iface">
+<area shape="rect" id="Node000001" title="Abstract interface for object registries." alt="" coords="5,5,145,151"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Util_1_1Object__registry.html" title="A registry that manages server objects and their attached IPC gates for a single server loop for a sp..." alt="" coords="5,199,145,399"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,164,78,198,73,198,73,164"/>
+</map>

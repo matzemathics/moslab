@@ -1,0 +1,17 @@
+<map id="cxx::Bits::Base_avl_set::Base_avl_set" name="cxx::Bits::Base_avl_set::Base_avl_set">
+<area shape="rect" id="Node000001" title="Create a copy of an AVL&#45;tree based set." alt="" coords="5,69,151,109"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Bits_1_1Base__avl__set.html#a83e54951cd2dcbaec5f65dd54fbbe184" title="Get the constant forward iterator for the first element in the set." alt="" coords="199,5,344,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,67,197,47,198,52,140,72"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1Bits_1_1Base__avl__set.html#a8020e80cf3586ab9f036cfed74af67f6" title="Get the end marker for the constant forward iterator." alt="" coords="199,69,344,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="151,87,184,87,184,92,151,92"/>
+<area shape="rect" id="Node000007" href="$classcxx_1_1Bits_1_1Base__avl__set.html#ac1f7218e9e51bfef71ecb746719a389a" title="Insert an item into the set." alt="" coords="199,133,344,173"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="140,107,198,126,197,131,138,112"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Bits_1_1Bst.html#af24506a1efd4a2d22f89a0211da3d5e0" title="Get the constant forward iterator for the first element in the set." alt="" coords="392,13,543,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,23,378,23,378,28,344,28"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Bits_1_1Bst.html#affbc6ff2833634e3351077102ae110a4" title="Access the head node as object of type Node." alt="" coords="591,13,737,38"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="543,23,577,23,577,28,543,28"/>
+<area shape="rect" id="Node000006" href="$classcxx_1_1Bits_1_1Bst.html#adc58a4db4e1d3ab931ffb74cf6f0b36a" title="Get the end marker for the constant forward iterator." alt="" coords="398,77,537,102"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="344,87,384,87,384,92,344,92"/>
+<area shape="rect" id="Node000008" href="$classcxx_1_1Avl__tree.html#a202d84f24c534368f98b0986be0eee1b" title="Insert a new node into this AVL tree." alt="" coords="392,141,543,166"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="344,151,378,151,378,156,344,156"/>
+</map>

@@ -1,0 +1,33 @@
+<map id="L4vbus::Vbus" name="L4vbus::Vbus">
+<area shape="rect" id="Node000001" title="The virtual bus (Vbus) interface." alt="" coords="309,1512,483,1657"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Kobject__3t.html" title=" " alt="" coords="308,1348,484,1463"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="399,1476,399,1512,393,1512,393,1476"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Dataspace.html" title="Interface for memory&#45;like objects." alt="" coords="267,593,389,799"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="328,812,332,1020,341,1138,356,1256,379,1347,374,1348,351,1256,336,1139,327,1020,323,813"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="233,197,423,327"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="331,341,331,593,325,593,325,341"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="5,13,112,98"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="65,111,76,144,95,171,110,182,124,188,153,190,185,188,222,195,234,200,232,205,221,200,184,193,153,195,123,193,108,187,91,175,71,146,60,113"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="28,205,209,319"/>
+<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="56,112,57,142,63,173,77,203,72,205,57,174,51,143,50,112"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="347,5,547,105"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="341,117,332,131,321,163,319,197,314,197,316,162,327,128,337,114"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="333,72,273,82,214,95,166,111,135,131,125,147,118,165,114,205,109,204,113,164,120,145,131,127,164,107,213,90,272,76,332,67"/>
+<area shape="rect" id="Node000010" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="479,823,651,937"/>
+<area shape="poly" id="edge16_Node000010_Node000006" title=" " alt="" coords="540,114,549,128,555,161,559,227,565,424,568,823,563,823,559,424,554,227,549,161,544,130,536,117"/>
+<area shape="rect" id="Node000012" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="628,205,836,319"/>
+<area shape="poly" id="edge15_Node000012_Node000006" title=" " alt="" coords="559,109,582,127,591,139,595,150,600,160,607,172,641,202,638,206,603,175,595,163,591,152,586,142,578,131,556,113"/>
+<area shape="rect" id="Node000007" href="$classL4Re_1_1Inhibitor.html" title="Set of inhibitor locks, which inhibit specific actions when held." alt="" coords="144,961,277,1067"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="224,1080,236,1135,255,1197,279,1262,312,1323,330,1346,326,1349,307,1325,275,1264,249,1199,231,1136,219,1081"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="130,333,207,961,202,962,125,333"/>
+<area shape="rect" id="Node000009" href="$classL4Re_1_1Event.html" title="Event class." alt="" coords="365,1091,563,1256"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="439,1270,415,1349,410,1347,433,1268"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="544,951,495,1091,490,1089,539,949"/>
+<area shape="rect" id="Node000011" href="$classL4_1_1Icu.html" title="C++ Icu interface, see Interrupt controller for the C interface." alt="" coords="642,404,745,569"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="665,583,586,823,581,822,660,581"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="724,334,716,380,712,404,706,403,711,380,719,333"/>
+<area shape="rect" id="Node000013" href="$classL4_1_1Irq__eoi.html" title="Interface for sending an unmask message to an object." alt="" coords="737,23,828,88"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="780,102,767,174,757,205,752,204,761,173,775,101"/>
+<area shape="rect" id="Node000014" href="$structL4_1_1Kobject__3t.html" title="Helper class to create an L4Re interface class that is derived from three base classes (see L4::Kobje..." alt="" coords="587,1116,762,1231"/>
+<area shape="poly" id="edge17_Node000002_Node000014" title=" " alt="" coords="598,1241,466,1350,463,1346,594,1237"/>
+</map>

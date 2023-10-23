@@ -1,0 +1,17 @@
+<map id="l4/re/error_helper" name="l4/re/error_helper">
+<area shape="rect" id="Node000001" title="Error helper." alt="" coords="199,5,333,31"/>
+<area shape="rect" id="Node000002" href="$client_2l4virtio_source.html" title=" " alt="" coords="104,79,228,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,41,192,81,188,76,239,37"/>
+<area shape="rect" id="Node000003" href="$client_2virtio-block_source.html" title=" " alt="" coords="5,167,129,207"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="186,32,136,49,113,63,93,80,81,100,73,123,69,167,64,166,68,122,76,98,89,77,110,59,134,45,184,27"/>
+<area shape="rect" id="Node000004" href="$virtio-net_source.html" title=" " alt="" coords="155,167,279,207"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="262,45,242,119,226,167,221,165,237,118,257,44"/>
+<area shape="rect" id="Node000005" href="$server_2l4virtio_source.html" title=" " alt="" coords="304,79,433,119"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="293,37,346,76,342,81,290,41"/>
+<area shape="rect" id="Node000007" href="$mem__alloc__impl_8h.html" title="Memory allocator client stub implementation." alt="" coords="458,79,618,119"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="319,32,473,76,472,81,318,37"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="136,130,91,168,87,164,132,126"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="187,129,208,165,203,168,182,132"/>
+<area shape="rect" id="Node000006" href="$server_2virtio-block_source.html" title=" " alt="" coords="304,167,433,207"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="371,133,371,166,366,166,366,133"/>
+</map>

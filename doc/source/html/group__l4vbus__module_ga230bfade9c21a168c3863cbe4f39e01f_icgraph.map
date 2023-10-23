@@ -1,0 +1,7 @@
+<map id="l4vbus_assign_dma_domain" name="l4vbus_assign_dma_domain">
+<area shape="rect" id="Node000001" title="Bind or unbind a kernel DMA space or a L4Re::Dma_space to a DMA domain." alt="" coords="212,45,419,70"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Vbus.html#a7e78ffe39d692ceeed7e81f6ab1ffc43" title="Bind or unbind a kernel DMA space to a DMA domain." alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,45,164,39,165,34,210,40"/>
+<area shape="rect" id="Node000003" href="$classL4vbus_1_1Vbus.html#a15085069054edbb9b221154e25db52b2" title="Bind or unbind an L4Re::Dma_space to a DMA domain." alt="" coords="5,69,164,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,75,165,81,164,76,209,69"/>
+</map>

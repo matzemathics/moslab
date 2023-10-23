@@ -1,0 +1,7 @@
+<map id="L4Re::Video::Pixel_info::padding" name="L4Re::Video::Pixel_info::padding">
+<area shape="rect" id="Node000001" title="Compute the padding pseudo component." alt="" coords="5,37,144,77"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Video_1_1Color__component.html#adc0b10eeea765f27a518d68085f8ae58" title="Return the position of the component in the pixel." alt="" coords="192,5,333,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,43,178,37,179,42,145,48"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Video_1_1Color__component.html#a68a69675b5ce76aba3ebdec992b297b5" title="Return the number of bits used by the component." alt="" coords="192,69,333,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,67,179,72,178,78,144,72"/>
+</map>

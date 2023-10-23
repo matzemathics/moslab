@@ -1,0 +1,5 @@
+<map id="l4_ipc_gate_get_infos" name="l4_ipc_gate_get_infos">
+<area shape="rect" id="Node000001" title="Get information about the IPC&#45;gate." alt="" coords="5,5,168,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="216,5,285,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
+</map>

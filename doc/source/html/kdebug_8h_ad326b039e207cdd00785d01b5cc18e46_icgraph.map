@@ -1,0 +1,21 @@
+<map id="__kdebug_op_1" name="__kdebug_op_1">
+<area shape="rect" id="Node000001" title="Invoke an unary operation on the base debugger capability." alt="" coords="149,203,272,228"/>
+<area shape="rect" id="Node000002" href="$kdebug_8h.html#a1485b07fe2161bc493d5f5b9dcbcb264" title="Output a single character via the kernel debugger." alt="" coords="18,5,89,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,191,159,120,132,80,100,44,84,33,87,29,103,40,136,77,164,117,201,189"/>
+<area shape="rect" id="Node000003" href="$kdebug_8h.html#a890c2a20abb8142bd6491916ecb29455" title="Output a decimal unsigned machine word via the kernel debugger." alt="" coords="20,55,87,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="191,193,152,144,100,93,82,82,85,78,103,89,156,140,195,190"/>
+<area shape="rect" id="Node000004" href="$kdebug_8h.html#aa276f1dc3987a1fbbfe1079e88cace64" title="Output a 12&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="12,104,95,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="180,197,100,143,80,132,82,127,103,138,183,192"/>
+<area shape="rect" id="Node000005" href="$kdebug_8h.html#a6d5c7cc038f5af74ce5afc318456b23d" title="Output a 16&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="12,153,95,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="156,201,94,181,96,176,157,196"/>
+<area shape="rect" id="Node000006" href="$kdebug_8h.html#a37d2c18c36ad2a924e3758ef197b6a11" title="Output a 20&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="12,203,95,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="136,218,95,218,95,213,136,213"/>
+<area shape="rect" id="Node000007" href="$kdebug_8h.html#a0ca95852178f7ed5e590e1451e9231cd" title="Output a 32&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="12,252,95,277"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="157,235,96,254,94,249,156,230"/>
+<area shape="rect" id="Node000008" href="$kdebug_8h.html#a54737b2e0ee7fb8371252a5cfcd24549" title="Output a 64&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="12,301,95,327"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="182,238,103,291,80,304,78,299,100,286,179,234"/>
+<area shape="rect" id="Node000009" href="$kdebug_8h.html#a112dbd653d3960fb7ae4b6c8c8ee86f2" title="Output an 8&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="16,351,91,376"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="195,241,155,289,103,340,83,353,80,348,100,336,151,286,190,237"/>
+<area shape="rect" id="Node000010" href="$kdebug_8h.html#aafcf07a388e4429b87089f0b68db69f8" title="Output a hexadecimal unsigned machine word via the kernel debugger." alt="" coords="5,400,101,425"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="201,242,163,312,136,353,103,389,85,402,82,398,100,385,132,349,159,310,196,239"/>
+</map>

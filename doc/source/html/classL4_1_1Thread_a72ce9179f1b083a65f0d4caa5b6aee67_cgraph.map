@@ -1,0 +1,5 @@
+<map id="L4::Thread::vcpu_resume_commit" name="L4::Thread::vcpu_resume_commit">
+<area shape="rect" id="Node000001" title="Resume from vCPU asynchronous IPC handler, commit." alt="" coords="5,5,191,45"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="239,13,363,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,23,225,23,225,28,191,28"/>
+</map>

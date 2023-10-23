@@ -1,0 +1,9 @@
+<map id="cxx::Avl_tree::remove" name="cxx::Avl_tree::remove">
+<area shape="rect" id="Node000001" title="Remove the node with key from the tree." alt="" coords="397,35,561,60"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Avl__tree.html#a252f6cf51fe5e53c647a7fdfd0dc2be1" title="An alias for remove()." alt="" coords="199,5,349,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="384,36,349,31,350,26,384,31"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Bits_1_1Base__avl__set.html#a74890468049590443959526dbd52030d" title="Remove an item from the set." alt="" coords="201,55,347,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="384,63,348,68,347,63,384,58"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Bits_1_1Base__avl__set.html#ac23e6ce546c6c8c0721f1e5937428387" title="Erase the item with the given key." alt="" coords="5,55,151,95"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="188,78,151,78,151,73,188,73"/>
+</map>

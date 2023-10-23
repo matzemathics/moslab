@@ -1,0 +1,5 @@
+<map id="l4_vcpu_ipc_regs_t" name="l4_vcpu_ipc_regs_t">
+<area shape="rect" id="Node000001" title="vCPU message registers." alt="" coords="11,353,149,419"/>
+<area shape="rect" id="Node000002" href="$structl4__msgtag__t.html" title="Message tag data structure." alt="" coords="5,5,155,291"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,291,83,337,77,337,77,291"/>
+</map>

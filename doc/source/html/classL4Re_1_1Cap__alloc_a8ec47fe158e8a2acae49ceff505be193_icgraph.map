@@ -1,0 +1,13 @@
+<map id="L4Re::Cap_alloc::alloc" name="L4Re::Cap_alloc::alloc">
+<area shape="rect" id="Node000001" title="Allocate a capability." alt="" coords="260,104,424,129"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Cap__alloc.html#a88fcbfda3d06aa82bb0c36d6a0b60ab2" title="Allocate a capability." alt="" coords="27,5,191,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="310,99,265,71,211,44,176,33,178,28,213,40,267,66,313,94"/>
+<area shape="rect" id="Node000003" href="$namespaceL4Re.html#a4289d6b17e3c1c85c9f5e90ad1b2de59" title="Allocate a capability slot and wrap it in a Shared_cap." alt="" coords="19,55,198,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,104,169,83,170,77,269,99"/>
+<area shape="rect" id="Node000004" href="$namespaceL4Re.html#a601e533638e6519ea3097671c8dbdab7" title="Allocate a capability slot and wrap it in a Shared_del_cap." alt="" coords="5,104,212,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="246,119,212,119,212,114,246,114"/>
+<area shape="rect" id="Node000005" href="$namespaceL4Re.html#a8bb9901b3ac8527809d74b8f7ff585d9" title="Allocate a capability slot and wrap it in an Unique_cap." alt="" coords="19,153,198,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="269,135,170,156,169,151,267,130"/>
+<area shape="rect" id="Node000006" href="$namespaceL4Re.html#ae161858ed73bf085288274e0a9e0bc7d" title="Allocate a capability slot and wrap it in an Unique_del_cap." alt="" coords="5,203,212,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="312,139,266,167,213,192,174,205,172,200,211,188,264,162,309,135"/>
+</map>

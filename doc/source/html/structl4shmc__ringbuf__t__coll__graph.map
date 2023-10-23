@@ -1,0 +1,5 @@
+<map id="l4shmc_ringbuf_t" name="l4shmc_ringbuf_t">
+<area shape="rect" id="Node000001" title="Ring buffer." alt="" coords="25,213,151,419"/>
+<area shape="rect" id="Node000002" href="$structl4shmc__ringbuf__head__t.html" title="Head field of a ring buffer." alt="" coords="5,5,171,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,151,91,197,85,197,85,151"/>
+</map>

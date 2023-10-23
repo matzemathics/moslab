@@ -1,0 +1,5 @@
+<map id="L4::Vm::vgicc_map" name="L4::Vm::vgicc_map">
+<area shape="rect" id="Node000001" title="Map the GIC virtual CPU interface page to the task in case Fiasco detected a GIC version 2." alt="" coords="5,5,151,31"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="199,5,323,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,15,185,15,185,21,151,21"/>
+</map>

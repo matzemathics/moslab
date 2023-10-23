@@ -1,0 +1,16 @@
+<map id="L4virtio::Virtqueue::total_size" name="L4virtio::Virtqueue::total_size">
+<area shape="rect" id="Node000001" title="Calculate the total size for a virtqueue of the given dimensions." alt="" coords="5,120,148,160"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue.html#a962767a117dad07184f59191d399f9ce" title="Calculate the size of the available ring for num entries." alt="" coords="196,5,339,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,117,195,62,216,50,218,54,197,66,110,122"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="387,99,565,125"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="139,117,196,105,286,99,373,101,373,106,286,104,196,111,140,123"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Virtqueue.html#a19410c09db5499023cb4b9f11742cd26" title="Calculate the size of the descriptor table for num entries." alt="" coords="196,120,339,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="148,137,183,137,183,143,148,143"/>
+<area shape="rect" id="Node000005" href="$group__l4__memory__api.html#gae876a4c6e0f21b2ecbf17863dc7d11e4" title="Round value up to the next alignment with bits size." alt="" coords="212,185,323,210"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="145,158,212,178,210,183,143,163"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Virtqueue.html#a7747ac81d7fd21e1e55e43c2e7ead2ea" title="Calculate the size of the used ring for num entries." alt="" coords="196,235,339,275"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="106,158,197,219,210,226,208,231,195,224,103,163"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="317,43,433,91,431,96,315,48"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="339,128,373,123,373,128,339,133"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="313,232,337,219,399,175,449,132,452,136,402,179,340,224,316,237"/>
+</map>

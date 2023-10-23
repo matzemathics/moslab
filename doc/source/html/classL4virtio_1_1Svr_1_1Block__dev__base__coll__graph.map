@@ -1,0 +1,11 @@
+<map id="L4virtio::Svr::Block_dev_base&lt; Ds_data &gt;" name="L4virtio::Svr::Block_dev_base&lt; Ds_data &gt;">
+<area shape="rect" id="Node000001" title="Base class for virtio block devices." alt="" coords="159,1039,325,1439"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Device__t.html" title=" " alt="" coords="147,680,337,989"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,1003,245,1038,239,1038,239,1003"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html" title=" " alt="" coords="5,343,183,583"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="144,582,177,663,172,665,139,584"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html" title="List of driver memory regions assigned to a single L4&#45;VIRTIO transport instance." alt="" coords="15,5,173,245"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="97,259,97,342,91,342,91,259"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Device__t.html" title="Server&#45;side L4&#45;VIRTIO device stub." alt="" coords="207,308,397,617"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="277,631,270,680,264,679,272,631"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="l4re_rm_detach_ds" name="l4re_rm_detach_ds">
+<area shape="rect" id="Node000001" title="Detach and unmap a region and return affected dataspace in the current task." alt="" coords="5,5,151,31"/>
+<area shape="rect" id="Node000002" href="$group__api__l4re__c__rm.html#gac259254e1fd41d731c0ba3354d45c5a8" title=" " alt="" coords="199,5,349,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,15,185,15,185,21,151,21"/>
+</map>

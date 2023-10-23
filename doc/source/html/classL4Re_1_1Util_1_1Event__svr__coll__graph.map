@@ -1,0 +1,10 @@
+<map id="L4Re::Util::Event_svr&lt; SVR &gt;" name="L4Re::Util::Event_svr&lt; SVR &gt;">
+<area shape="rect" id="Node000001" title="Convenience wrapper for implementing an event server." alt="" coords="31,936,181,1016"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap.html" title=" " alt="" coords="5,668,207,873"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,874,109,919,103,919,103,874"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Cap__base.html" title="Base class for all kinds of capabilities." alt="" coords="43,5,159,351"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="105,364,108,668,102,668,100,364"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Cap.html" title="C++ interface for capabilities." alt="" coords="122,400,231,605"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="147,363,155,399,150,401,142,365"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="149,619,136,669,130,667,144,618"/>
+</map>

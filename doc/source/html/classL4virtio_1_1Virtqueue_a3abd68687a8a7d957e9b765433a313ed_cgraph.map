@@ -1,0 +1,7 @@
+<map id="L4virtio::Virtqueue::dump" name="L4virtio::Virtqueue::dump">
+<area shape="rect" id="Node000001" title="Dump descriptors for this queue." alt="" coords="5,5,148,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue_1_1Desc.html#a71bbf562153b0bcdb7c38e572c2f85ec" title="Dump a single descriptor." alt="" coords="196,5,339,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,23,183,23,183,28,148,28"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Ptr.html#a8e39f7c9cd370812ebb4610b096c44b6" title=" " alt="" coords="387,13,513,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="339,23,373,23,373,28,339,28"/>
+</map>

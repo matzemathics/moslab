@@ -1,0 +1,10 @@
+<map id="L4::Typeid::Rpc_nocode&lt; OPERATION &gt;" name="L4::Typeid::Rpc_nocode&lt; OPERATION &gt;">
+<area shape="rect" id="Node000001" title="List of RPCs of an interface using a single operation without an opcode." alt="" coords="31,407,197,487"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title=" " alt="" coords="5,277,223,357"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,371,117,406,111,406,111,371"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Typeid_1_1Detail_1_1Rpcs__end.html" title="Internal end&#45;of&#45;list marker." alt="" coords="45,5,172,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="112,99,116,277,111,277,107,100"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title="Empty list of RPCs." alt="" coords="131,135,311,215"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="154,94,188,133,184,136,150,97"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="185,227,146,279,141,276,181,224"/>
+</map>

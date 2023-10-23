@@ -1,0 +1,7 @@
+<map id="l4_vcon_get_attr_u" name="l4_vcon_get_attr_u">
+<area shape="rect" id="Node000001" title="Get attributes of this virtual console." alt="" coords="189,31,335,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Vcon.html#a367997ce7608f9fd170828bba6d025ed" title="Get attributes of this virtual console." alt="" coords="5,5,141,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,34,142,30,142,25,176,29"/>
+<area shape="rect" id="Node000003" href="$group__l4__vcon__api.html#gadc134de4289402f313cae68717e0a5d4" title="Get attributes of a Vcon." alt="" coords="8,55,139,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,57,139,62,139,56,176,52"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="L4virtio::Driver::Virtio_net_device::tx_queue_size" name="L4virtio::Driver::Virtio_net_device::tx_queue_size">
+<area shape="rect" id="Node000001" title="Return the maximum transmit queue size allowed by the device." alt="" coords="5,5,207,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Device.html#a07dd8cdbc1ce12dca8af6a540463ae23" title="Maximum queue size allowed by the device." alt="" coords="255,5,427,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,23,241,23,241,28,207,28"/>
+</map>

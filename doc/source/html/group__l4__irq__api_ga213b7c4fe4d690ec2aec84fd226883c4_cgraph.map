@@ -1,0 +1,13 @@
+<map id="l4_irq_unmask" name="l4_irq_unmask">
+<area shape="rect" id="Node000001" title="Unmask IRQ." alt="" coords="5,55,123,80"/>
+<area shape="rect" id="Node000002" href="$group__l4__irq__api.html#ga1dd27341b8d2a6cd09e9784188109b7c" title="Unmask IRQ." alt="" coords="171,29,303,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,56,157,51,157,56,123,61"/>
+<area shape="rect" id="Node000006" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="202,79,271,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="123,73,189,82,188,87,123,78"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e" title="Send a message to an object (do not wait for a reply)." alt="" coords="351,5,449,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="302,30,337,25,337,30,303,35"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="355,55,445,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="303,50,341,56,340,61,302,55"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="497,5,557,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="450,15,483,15,483,21,450,21"/>
+</map>

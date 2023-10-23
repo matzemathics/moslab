@@ -1,0 +1,5 @@
+<map id="l4vbus_gpio_to_irq" name="l4vbus_gpio_to_irq">
+<area shape="rect" id="Node000001" title="Create IRQ for GPIO pin." alt="" coords="232,5,376,31"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Gpio__pin.html#a8aa117fce1844d2c1056a562c11ad478" title="Create IRQ for GPIO pin." alt="" coords="5,5,184,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,21,184,21,184,15,218,15"/>
+</map>

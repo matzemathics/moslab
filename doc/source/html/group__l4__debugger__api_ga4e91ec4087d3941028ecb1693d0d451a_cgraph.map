@@ -1,0 +1,5 @@
+<map id="l4_debugger_query_log_name" name="l4_debugger_query_log_name">
+<area shape="rect" id="Node000001" title="Query the name of a log type given the ID." alt="" coords="5,5,223,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="271,5,340,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,15,257,15,257,21,223,21"/>
+</map>

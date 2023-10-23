@@ -1,0 +1,11 @@
+<map id="l4/cxx/atomic.h" name="l4/cxx/atomic.h">
+<area shape="rect" id="Node000001" title="Atomic template." alt="" coords="67,5,190,31"/>
+<area shape="rect" id="Node000002" href="$l4_2util_2atomic_8h.html" title="atomic operations header and generic implementations" alt="" coords="69,79,189,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,31,131,65,126,65,126,31"/>
+<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="5,152,111,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,106,81,144,77,140,115,102"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="135,152,267,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="142,102,181,140,177,144,139,106"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="139,225,262,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="203,178,203,212,198,212,198,178"/>
+</map>

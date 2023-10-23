@@ -1,0 +1,9 @@
+<map id="l4_irq_receive_u" name="l4_irq_receive_u">
+<area shape="rect" id="Node000001" title="Unmask and wait for this IRQ." alt="" coords="395,38,523,63"/>
+<area shape="rect" id="Node000002" href="$group__l4__irq__api.html#ga997f18b89d6235214d2f9c381ed6c6a5" title="Unmask and wait for specified IRQ." alt="" coords="231,13,344,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="381,42,344,36,345,31,382,37"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Irq.html#ad6e4134fba0e3d985f4ef988a524fa6d" title="Unmask and wait for this IRQ." alt="" coords="228,62,347,87"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="382,64,347,69,347,64,381,59"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Util_1_1Event__buffer__consumer__t.html#a4ed22b41ce4c7e6b93efae878b1415ef" title="Continuously wait for events and process them." alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="217,28,180,28,180,23,217,23"/>
+</map>

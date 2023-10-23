@@ -1,0 +1,16 @@
+<map id="Base API" name="Base API">
+<area shape="rect" id="Node000007" href="$group__api__calls__fiasco.html" title="Extensions of the Fiasco L4 implementation." alt="" coords="168,5,307,31"/>
+<area shape="rect" id="Node000001" title="Interfaces for all kinds of base functionality." alt="" coords="5,301,84,327"/>
+<area shape="rect" id="Node000009" href="$group__l4__basic__types.html" title=" " alt="" coords="183,55,292,80"/>
+<area shape="rect" id="Node000004" href="$group__l4__cache__api.html" title="Various functions for cache consistency." alt="" coords="165,104,310,129"/>
+<area shape="rect" id="Node000005" href="$group__l4__cap__api.html" title="C interface for capabilities." alt="" coords="188,153,287,179"/>
+<area shape="rect" id="Node000003" href="$group__l4__cxx__ipc__ifaces.html" title="APIs for defining IPC interfaces using C++ as language." alt="" coords="132,203,343,228"/>
+<area shape="rect" id="Node000006" href="$group__l4__error__api.html" title="Common error codes." alt="" coords="190,252,285,277"/>
+<area shape="rect" id="Node000008" href="$group__l4__fpage__api.html" title="Flex&#45;page related API." alt="" coords="191,301,284,327"/>
+<area shape="rect" id="Node000014" href="$group__l4__ipc__api.html" title="API for L4 object invocation." alt="" coords="169,351,305,376"/>
+<area shape="rect" id="Node000011" href="$group__l4__kernel__object__api.html" title="API of kernel objects." alt="" coords="179,400,295,425"/>
+<area shape="rect" id="Node000010" href="$group__l4__kip__api.html" title="Kernel Interface Page." alt="" coords="157,449,317,475"/>
+<area shape="rect" id="Node000012" href="$group__l4__mem__op__api.html" title="Operations for memory access." alt="" coords="161,499,314,524"/>
+<area shape="rect" id="Node000013" href="$group__l4__memory__api.html" title="Memory related constants, data types and functions." alt="" coords="174,548,301,573"/>
+<area shape="rect" id="Node000002" href="$group__l4sys__defines.html" title="L4 standard macros for header files, function definitions, and public APIs etc." alt="" coords="183,597,291,623"/>
+</map>

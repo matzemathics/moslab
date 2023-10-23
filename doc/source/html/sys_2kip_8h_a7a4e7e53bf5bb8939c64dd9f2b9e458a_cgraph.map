@@ -1,0 +1,7 @@
+<map id="l4_kip_kernel_has_feature" name="l4_kip_kernel_has_feature">
+<area shape="rect" id="Node000001" title="Check if kernel supports a feature." alt="" coords="5,13,197,38"/>
+<area shape="rect" id="Node000002" href="$group__l4__kip__api.html#ga93a1b85e22b798e46f7608f59153895c" title="Get the kernel version string." alt="" coords="245,13,405,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,23,232,23,232,28,198,28"/>
+<area shape="rect" id="Node000003" href="$group__l4__kip__api.html#ga1af259277589e06845c682bff91563c8" title="Return offset in bytes of version_strings relative to the KIP base." alt="" coords="453,5,621,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="406,23,440,23,440,28,406,28"/>
+</map>

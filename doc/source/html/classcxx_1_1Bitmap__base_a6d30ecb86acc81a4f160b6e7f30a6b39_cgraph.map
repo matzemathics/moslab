@@ -1,0 +1,5 @@
+<map id="cxx::Bitmap_base::operator[]" name="cxx::Bitmap_base::operator[]">
+<area shape="rect" id="Node000001" title="Get the lvalue for the bit at index bit." alt="" coords="5,5,216,31"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1" title="Set the value of bit bit to on." alt="" coords="264,5,427,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,15,250,15,250,21,216,21"/>
+</map>

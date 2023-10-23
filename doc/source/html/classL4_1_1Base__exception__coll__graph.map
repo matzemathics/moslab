@@ -1,0 +1,5 @@
+<map id="L4::Base_exception" name="L4::Base_exception">
+<area shape="rect" id="Node000001" title="Base class for all exceptions, thrown by the L4Re framework." alt="" coords="5,159,159,264"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Exception__tracer.html" title="Back&#45;trace support for exceptions." alt="" coords="8,5,156,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,124,85,158,79,158,79,124"/>
+</map>

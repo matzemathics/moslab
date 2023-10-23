@@ -1,0 +1,9 @@
+<map id="L4::Out_of_memory" name="L4::Out_of_memory">
+<area shape="rect" id="Node000001" title="Exception signalling insufficient memory." alt="" coords="5,485,160,571"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Runtime__error.html" title="Exception for an abstract runtime error." alt="" coords="17,312,149,437"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,451,85,485,80,485,80,451"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Base__exception.html" title="Base class for all exceptions, thrown by the L4Re framework." alt="" coords="6,159,159,264"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,278,85,312,80,312,80,278"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Exception__tracer.html" title="Back&#45;trace support for exceptions." alt="" coords="9,5,157,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="85,124,85,158,80,158,80,124"/>
+</map>

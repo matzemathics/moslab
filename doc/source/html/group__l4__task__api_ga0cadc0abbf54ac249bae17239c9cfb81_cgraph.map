@@ -1,0 +1,5 @@
+<map id="l4_task_cap_equal" name="l4_task_cap_equal">
+<area shape="rect" id="Node000001" title="Test whether two capabilities point to the same object with the same rights." alt="" coords="5,5,148,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="196,5,265,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,15,182,15,182,21,148,21"/>
+</map>

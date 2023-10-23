@@ -1,0 +1,9 @@
+<map id="l4_irq_wait_u" name="l4_irq_wait_u">
+<area shape="rect" id="Node000001" title="Unmask IRQ and (open) wait for any message." alt="" coords="5,31,113,56"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#ga72ee1f322b3f633fb885905ce213e2b5" title="Send a message and do an open wait." alt="" coords="161,5,325,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,33,147,29,148,34,114,39"/>
+<area shape="rect" id="Node000004" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="198,55,289,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="114,48,185,57,184,62,113,53"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="373,5,433,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="326,15,359,15,359,21,326,21"/>
+</map>

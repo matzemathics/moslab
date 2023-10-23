@@ -1,0 +1,27 @@
+<map id="l4/re/c/video/view.h" name="l4/re/c/video/view.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="309,5,457,31"/>
+<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="217,152,329,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="360,33,329,53,300,80,286,109,278,139,273,138,281,108,296,77,325,48,357,28"/>
+<area shape="rect" id="Node000009" href="$dataspace_8h.html" title="Data space C interface." alt="" coords="311,79,456,104"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="386,31,386,65,381,65,381,31"/>
+<area shape="rect" id="Node000010" href="$colors_8h.html" title=" " alt="" coords="475,152,633,177"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="403,29,470,77,536,140,533,144,467,81,400,33"/>
+<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="41,299,147,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="217,173,159,180,98,191,45,207,26,216,13,227,9,235,8,243,17,260,35,276,58,290,55,295,32,281,13,264,3,245,4,234,9,224,23,212,43,202,97,186,159,175,216,168"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="335,299,467,324"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="285,176,383,287,379,290,281,180"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="189,225,308,251"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="271,179,260,213,255,211,266,177"/>
+<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="383,225,530,251"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="303,175,415,218,413,223,301,180"/>
+<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="23,225,165,251"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="245,180,137,223,135,218,243,175"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="339,372,462,397"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="403,324,403,358,398,358,398,324"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="225,253,133,295,131,290,223,248"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="274,248,365,290,363,295,272,253"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="450,253,420,289,416,286,445,249"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="97,251,97,285,91,285,91,251"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="367,106,304,147,301,142,364,102"/>
+<area shape="poly" id="edge15_Node000010_Node000004" title=" " alt="" coords="558,178,558,213,554,234,544,252,513,279,477,297,474,292,510,275,540,249,549,232,553,213,553,178"/>
+</map>

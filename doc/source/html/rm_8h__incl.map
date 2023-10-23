@@ -1,0 +1,40 @@
+<map id="l4/re/c/rm.h" name="l4/re/c/rm.h">
+<area shape="rect" id="Node000001" title="Region map interface, C interface." alt="" coords="266,5,362,31"/>
+<area shape="rect" id="Node000002" href="$env_8h.html" title="Environment interface." alt="" coords="464,79,555,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="346,28,466,71,464,76,344,33"/>
+<area shape="rect" id="Node000014" href="$dataspace_8h.html" title="Data space C interface." alt="" coords="170,79,316,104"/>
+<area shape="poly" id="edge23_Node000001_Node000014" title=" " alt="" coords="304,33,266,71,262,67,300,29"/>
+<area shape="rect" id="Node000003" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="526,372,645,397"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="523,103,551,134,588,179,623,236,649,298,652,312,649,325,635,347,617,365,613,361,631,344,644,323,647,311,644,299,618,238,583,183,547,137,519,106"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="422,445,554,471"/>
+<area shape="poly" id="edge20_Node000002_Node000004" title=" " alt="" coords="556,100,609,116,664,143,688,161,708,183,721,208,726,236,726,313,722,340,711,363,694,383,673,401,622,427,569,444,567,439,620,422,670,396,690,380,706,360,716,338,720,312,720,237,716,209,703,186,685,165,661,148,607,121,555,105"/>
+<area shape="rect" id="Node000007" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="271,299,383,324"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="507,105,473,171,446,213,414,253,388,275,361,294,358,289,385,271,410,249,442,210,468,169,502,103"/>
+<area shape="rect" id="Node000010" href="$sys_2kip_8h.html" title="Kernel Info Page access functions." alt="" coords="279,152,375,177"/>
+<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="481,107,371,149,369,144,479,102"/>
+<area shape="rect" id="Node000013" href="$l4_2re_2consts_8h.html" title="Constants." alt="" coords="526,299,635,324"/>
+<area shape="poly" id="edge21_Node000002_Node000013" title=" " alt="" coords="516,104,575,284,570,286,511,105"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="571,400,517,439,514,435,568,395"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="110,445,216,471"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="526,399,230,448,229,443,525,393"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="427,519,550,544"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="491,471,491,505,486,505,486,471"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="369,321,531,366,530,371,368,327"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="347,322,379,343,414,370,446,402,473,433,469,436,442,406,410,374,376,347,344,326"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="310,326,243,374,183,436,179,433,240,370,307,322"/>
+<area shape="rect" id="Node000008" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="254,372,400,397"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="330,324,330,358,324,358,324,324"/>
+<area shape="rect" id="Node000009" href="$____timeout_8h_source.html" title=" " alt="" coords="38,372,179,397"/>
+<area shape="poly" id="edge12_Node000007_Node000009" title=" " alt="" coords="293,327,158,370,156,365,291,321"/>
+<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="354,395,450,437,448,442,352,400"/>
+<area shape="poly" id="edge13_Node000009_Node000006" title=" " alt="" coords="119,396,148,433,144,436,115,399"/>
+<area shape="poly" id="edge15_Node000010_Node000004" title=" " alt="" coords="353,175,385,195,414,224,445,277,467,335,481,389,488,431,483,432,475,390,462,337,441,280,410,227,381,199,350,180"/>
+<area shape="poly" id="edge16_Node000010_Node000006" title=" " alt="" coords="279,174,163,194,110,209,75,227,37,267,23,287,14,307,9,328,9,350,15,372,28,396,42,412,59,425,98,442,96,447,56,429,38,416,23,399,10,374,4,350,4,328,9,306,19,285,33,264,72,223,108,204,162,189,278,169"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="86,225,229,251"/>
+<area shape="poly" id="edge17_Node000010_Node000011" title=" " alt="" coords="301,180,199,222,197,217,299,175"/>
+<area shape="rect" id="Node000012" href="$____kip-64bit_8h_source.html" title=" " alt="" coords="253,225,401,251"/>
+<area shape="poly" id="edge18_Node000010_Node000012" title=" " alt="" coords="330,178,330,212,324,212,324,178"/>
+<area shape="poly" id="edge19_Node000012_Node000007" title=" " alt="" coords="330,251,330,285,324,285,324,251"/>
+<area shape="poly" id="edge22_Node000013_Node000003" title=" " alt="" coords="584,324,586,358,581,359,578,325"/>
+<area shape="poly" id="edge24_Node000014_Node000007" title=" " alt="" coords="213,107,159,131,103,165,82,185,68,206,66,227,76,249,87,259,103,267,149,282,258,301,257,306,148,287,101,272,84,263,71,252,60,228,63,204,78,182,100,161,157,126,211,102"/>
+</map>

@@ -1,0 +1,16 @@
+<map id="l4/sys/semaphore" name="l4/sys/semaphore">
+<area shape="rect" id="Node000001" title="Semaphore class definition." alt="" coords="332,5,469,31"/>
+<area shape="rect" id="Node000002" href="$vcon__stream_8h_source.html" title=" " alt="" coords="183,79,341,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="370,40,297,81,294,76,367,35"/>
+<area shape="rect" id="Node000005" href="$client_2l4virtio_source.html" title=" " alt="" coords="439,79,563,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="428,37,478,76,475,81,425,41"/>
+<area shape="rect" id="Node000006" href="$client_2virtio-block_source.html" title=" " alt="" coords="360,167,484,207"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="406,44,422,166,417,167,401,44"/>
+<area shape="rect" id="Node000003" href="$vcon__stream__impl_8h_source.html" title=" " alt="" coords="5,167,164,207"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="212,127,125,169,122,164,210,122"/>
+<area shape="rect" id="Node000004" href="$vfs__impl_8h_source.html" title=" " alt="" coords="189,167,335,207"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="265,133,265,166,259,166,259,133"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="476,131,441,168,437,165,472,127"/>
+<area shape="rect" id="Node000007" href="$virtio-net_source.html" title=" " alt="" coords="508,167,632,207"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="527,128,557,165,553,168,523,131"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="L4::Ipc::Istream::get" name="L4::Ipc::Istream::get">
+<area shape="rect" id="Node000001" title="Copy out an array of type T with size elements." alt="" coords="152,104,303,129"/>
+<area shape="rect" id="Node000002" href="$ipc__stream.html#ace3d2ecfa7716243dbecdcfc52d733d0" title="Extract one element of type T from the stream s." alt="" coords="5,5,104,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,99,103,44,81,33,84,28,105,40,196,94"/>
+<area shape="rect" id="Node000003" href="$ipc__stream.html#a53ae87ffdd0c79ecf6b74210419475db" title="Extract an array of T elements from the stream s." alt="" coords="5,55,104,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,103,99,83,101,78,170,98"/>
+<area shape="rect" id="Node000004" href="$ipc__stream.html#a3bcad61fc6dfcc57bc6fe4afafabe831" title="Extract an array of T elements from the stream s." alt="" coords="5,104,104,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="138,119,104,119,104,114,138,114"/>
+<area shape="rect" id="Node000005" href="$ipc__stream.html#acae581e2444ca424076b52497666535b" title="Extract an element of type T from the stream s." alt="" coords="5,153,104,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="170,136,101,156,99,151,169,131"/>
+<area shape="rect" id="Node000006" href="$ipc__stream.html#a912d9d789e4d6c608d97d9def1302033" title="Extract a zero&#45;terminated string from the stream." alt="" coords="5,203,104,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="195,139,105,192,82,205,80,200,103,188,193,134"/>
+</map>

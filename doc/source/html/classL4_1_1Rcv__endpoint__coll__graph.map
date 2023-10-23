@@ -1,0 +1,9 @@
+<map id="L4::Rcv_endpoint" name="L4::Rcv_endpoint">
+<area shape="rect" id="Node000001" title="Interface for kernel objects that allow to receive IPC from them." alt="" coords="84,376,209,441"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="53,197,240,327"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,340,149,376,144,376,144,340"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="5,13,112,98"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,110,122,196,117,198,80,112"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="136,5,336,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="212,119,177,198,172,196,207,117"/>
+</map>

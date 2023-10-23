@@ -1,0 +1,7 @@
+<map id="L4virtio::Driver::Block_device::start_request" name="L4virtio::Driver::Block_device::start_request">
+<area shape="rect" id="Node000001" title="Start the setup of a new request." alt="" coords="5,37,172,77"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a60e0cff278a11e1aeb749c17e809e093" title="Allocate and return an unused descriptor from the descriptor table." alt="" coords="220,5,411,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,43,206,38,207,43,173,48"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a9ebf7e4518d01a4dc17c5ee6c0e3025b" title="Return a reference to a descriptor in the descriptor table." alt="" coords="220,69,411,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,66,207,71,206,77,172,72"/>
+</map>

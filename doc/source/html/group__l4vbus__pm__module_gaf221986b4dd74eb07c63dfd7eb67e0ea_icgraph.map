@@ -1,0 +1,5 @@
+<map id="l4vbus_pm_suspend" name="l4vbus_pm_suspend">
+<area shape="rect" id="Node000001" title="Suspend the device." alt="" coords="240,5,395,31"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Pm.html#a3f6361841097aeed4f5eb44fafaaaa42" title="Suspend the device." alt="" coords="5,5,192,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,21,192,21,192,15,226,15"/>
+</map>

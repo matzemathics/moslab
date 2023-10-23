@@ -1,0 +1,23 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcxx_1_1Bits_1_1Basic__list.html" title="Internal: Common functions for all head&#45;based list implementations." alt="" coords="5,261,153,301"/>
+<area shape="rect" id="Node000001" href="$classcxx_1_1H__list.html" title=" " alt="" coords="201,5,397,60"/>
+<area shape="poly" id="edge9_Node000000_Node000001" title=" " alt="" coords="89,247,106,207,130,159,161,111,200,69,215,58,219,62,203,73,165,115,134,162,111,209,94,249"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1H__list.html" title=" " alt="" coords="210,84,389,109"/>
+<area shape="poly" id="edge11_Node000000_Node000003" title=" " alt="" coords="95,247,136,182,166,148,200,120,226,107,228,112,203,124,169,152,140,185,99,250"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1H__list.html" title=" " alt="" coords="215,134,383,174"/>
+<area shape="poly" id="edge12_Node000000_Node000004" title=" " alt="" coords="110,249,151,215,200,184,227,172,229,177,203,188,154,220,113,253"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1H__list.html" title=" " alt="" coords="205,199,393,283"/>
+<area shape="poly" id="edge13_Node000000_Node000005" title=" " alt="" coords="167,262,205,255,206,260,168,267"/>
+<area shape="rect" id="Node000006" href="$classcxx_1_1H__list.html" title=" " alt="" coords="212,307,387,332"/>
+<area shape="poly" id="edge14_Node000000_Node000006" title=" " alt="" coords="168,293,227,304,226,309,167,299"/>
+<area shape="rect" id="Node000007" href="$classcxx_1_1S__list.html" title=" " alt="" coords="225,356,374,411"/>
+<area shape="poly" id="edge15_Node000000_Node000007" title=" " alt="" coords="131,305,202,341,231,353,228,358,200,346,128,310"/>
+<area shape="rect" id="Node000008" href="$classcxx_1_1H__list.html" title="General double&#45;linked list of unspecified cxx::H_list_item elements." alt="" coords="208,435,391,460"/>
+<area shape="poly" id="edge16_Node000000_Node000008" title=" " alt="" coords="101,311,143,368,171,397,203,421,226,432,224,437,200,426,168,401,139,371,97,314"/>
+<area shape="rect" id="Node000010" href="$classcxx_1_1S__list.html" title="Simple single&#45;linked list." alt="" coords="209,484,389,509"/>
+<area shape="poly" id="edge18_Node000000_Node000010" title=" " alt="" coords="95,313,111,350,135,393,165,435,203,471,223,482,221,486,200,475,161,439,130,396,106,353,90,315"/>
+<area shape="rect" id="Node000002" href="$structcxx_1_1H__list__t.html" title="Double&#45;linked list of typed H_list_item_t elements." alt="" coords="452,20,592,45"/>
+<area shape="poly" id="edge10_Node000001_Node000002" title=" " alt="" coords="412,30,452,30,452,35,412,35"/>
+<area shape="rect" id="Node000009" href="$structcxx_1_1H__list__t.html" title=" " alt="" coords="445,427,599,467"/>
+<area shape="poly" id="edge17_Node000008_Node000009" title=" " alt="" coords="404,445,445,445,445,450,404,450"/>
+</map>

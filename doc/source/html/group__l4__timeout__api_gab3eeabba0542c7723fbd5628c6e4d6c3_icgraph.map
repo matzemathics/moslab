@@ -1,0 +1,9 @@
+<map id="l4_timeout_abs" name="l4_timeout_abs">
+<area shape="rect" id="Node000001" title="Set an absolute timeout." alt="" coords="481,49,604,74"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#ae4a6bd9781bf97a37dbff039db58d47d" title="get the time for the next timeout" alt="" coords="259,41,433,81"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="467,64,434,64,434,59,467,59"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a07277e39d7a77e66fbd6556f00e3e8aa" title="Add a timeout to the queue for time time." alt="" coords="5,5,211,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="245,49,210,43,211,38,246,43"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a559c5881cc36b16338904749c4578ae9" title="Remove timeout from the queue." alt="" coords="21,70,195,125"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="246,79,195,87,194,82,245,74"/>
+</map>

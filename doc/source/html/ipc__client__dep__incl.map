@@ -1,0 +1,23 @@
+<map id="l4/sys/cxx/ipc_client" name="l4/sys/cxx/ipc_client">
+<area shape="rect" id="Node000001" title=" " alt="" coords="399,5,552,31"/>
+<area shape="rect" id="Node000002" href="$l4virtio_source.html" title=" " alt="" coords="148,86,283,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="425,37,254,89,252,83,424,32"/>
+<area shape="rect" id="Node000008" href="$dataspace__impl_8h.html" title="Dataspace client stub implementation." alt="" coords="307,79,462,119"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="453,42,408,81,405,76,450,38"/>
+<area shape="rect" id="Node000009" href="$namespace__impl_8h.html" title="Namespace client stub implementation." alt="" coords="486,79,649,119"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="501,38,547,76,543,81,498,42"/>
+<area shape="rect" id="Node000010" href="$rm__impl_8h.html" title="Region map client stub implementation." alt="" coords="673,86,827,111"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="529,32,711,83,709,89,527,37"/>
+<area shape="rect" id="Node000003" href="$client_2l4virtio_source.html" title=" " alt="" coords="104,167,228,207"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="204,125,179,168,175,165,200,122"/>
+<area shape="rect" id="Node000004" href="$client_2virtio-block_source.html" title=" " alt="" coords="5,255,129,295"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="165,119,126,139,108,152,93,168,82,189,75,212,70,255,64,254,69,211,77,187,89,165,105,148,123,134,162,114"/>
+<area shape="rect" id="Node000005" href="$virtio-net_source.html" title=" " alt="" coords="155,255,279,295"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="229,123,242,166,244,187,242,207,227,255,222,254,237,206,239,187,237,167,224,125"/>
+<area shape="rect" id="Node000006" href="$server_2l4virtio_source.html" title=" " alt="" coords="304,167,433,207"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="249,116,336,164,334,169,246,120"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="136,218,91,256,87,252,132,214"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="187,217,208,253,203,256,182,220"/>
+<area shape="rect" id="Node000007" href="$server_2virtio-block_source.html" title=" " alt="" coords="304,255,433,295"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="371,221,371,254,366,254,366,221"/>
+</map>

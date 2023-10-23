@@ -1,0 +1,25 @@
+<map id="L4::Typeid::Detail::Rpcs_end" name="L4::Typeid::Detail::Rpcs_end">
+<area shape="rect" id="Node000001" title="Internal end&#45;of&#45;list marker." alt="" coords="393,5,520,85"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title=" " alt="" coords="232,285,449,365"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="381,72,320,98,256,134,225,156,196,181,171,209,150,240,147,246,149,252,178,267,233,287,231,292,175,272,145,255,142,246,145,237,166,205,192,177,221,151,253,129,318,93,379,67"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title=" " alt="" coords="21,277,172,372"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="380,53,326,61,268,77,212,101,186,117,163,137,138,168,121,205,110,243,103,277,98,277,104,241,116,203,133,165,159,133,183,113,209,96,266,72,325,56,379,48"/>
+<area shape="rect" id="Node000006" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title=" " alt="" coords="814,277,987,372"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="534,52,632,64,741,81,841,104,881,118,910,132,947,158,977,184,987,199,993,215,992,234,986,255,969,279,965,276,981,252,987,233,987,216,982,201,973,188,944,162,907,137,879,122,840,109,740,86,631,69,533,57"/>
+<area shape="rect" id="Node000008" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title=" " alt="" coords="491,277,654,372"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="534,48,636,62,694,75,754,93,814,118,870,149,920,189,961,237,973,250,986,258,1013,267,1036,266,1045,263,1036,259,998,256,923,262,802,280,655,309,654,303,802,275,922,257,998,251,1038,254,1050,263,1037,271,1013,272,983,263,969,254,957,240,916,193,867,154,811,123,753,98,693,80,635,67,533,53"/>
+<area shape="rect" id="Node000010" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title="Empty list of RPCs." alt="" coords="367,135,547,215"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="459,99,459,134,454,134,454,99"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Typeid_1_1Rpc__nocode.html" title="List of RPCs of an interface using a single operation without an opcode." alt="" coords="258,421,423,501"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="343,378,343,421,338,421,338,378"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Typeid_1_1Rpcs.html" title="Standard list of RPCs of an interface." alt="" coords="5,429,188,494"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="99,386,99,429,94,429,94,386"/>
+<area shape="rect" id="Node000007" href="$structL4_1_1Typeid_1_1Rpcs__code_1_1F.html" title=" " alt="" coords="791,421,1010,501"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="903,385,903,421,898,421,898,385"/>
+<area shape="rect" id="Node000009" href="$structL4_1_1Typeid_1_1Rpcs__sys.html" title="List of RPCs typically used for kernel interfaces." alt="" coords="499,421,646,501"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="575,385,575,421,570,421,570,385"/>
+<area shape="poly" id="edge10_Node000010_Node000002" title=" " alt="" coords="377,226,364,240,353,262,347,285,342,284,348,260,360,237,373,222"/>
+<area shape="poly" id="edge11_Node000010_Node000004" title=" " alt="" coords="354,186,262,204,216,220,173,241,150,258,130,279,126,275,146,254,170,236,214,215,261,199,353,180"/>
+<area shape="poly" id="edge12_Node000010_Node000006" title=" " alt="" coords="561,193,641,212,722,236,815,276,813,281,720,241,639,217,560,198"/>
+<area shape="poly" id="edge13_Node000010_Node000008" title=" " alt="" coords="513,223,525,237,551,275,547,278,521,240,509,226"/>
+</map>

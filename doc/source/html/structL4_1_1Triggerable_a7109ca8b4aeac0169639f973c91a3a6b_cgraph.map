@@ -1,0 +1,11 @@
+<map id="L4::Triggerable::trigger" name="L4::Triggerable::trigger">
+<area shape="rect" id="Node000001" title="Trigger the object." alt="" coords="5,31,173,56"/>
+<area shape="rect" id="Node000002" href="$group__l4__irq__api.html#ga180cfaf342ce9ff484a6aa7c276e1597" title="Trigger the object." alt="" coords="221,31,344,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,41,207,41,207,46,174,46"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e" title="Send a message to an object (do not wait for a reply)." alt="" coords="392,5,491,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,31,378,25,379,31,345,36"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="396,55,487,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="345,50,383,56,382,61,344,55"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="539,5,599,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="491,15,525,15,525,21,491,21"/>
+</map>

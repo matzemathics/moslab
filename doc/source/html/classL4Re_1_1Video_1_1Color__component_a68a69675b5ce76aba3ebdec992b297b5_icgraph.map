@@ -1,0 +1,9 @@
+<map id="L4Re::Video::Color_component::size" name="L4Re::Video::Color_component::size">
+<area shape="rect" id="Node000001" title="Return the number of bits used by the component." alt="" coords="205,69,347,109"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Video_1_1Pixel__info.html#ad22a6f5891085219d36e844abb69ba11" title="Number of bits of the pixel." alt="" coords="5,5,157,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,67,142,48,144,43,202,62"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Video_1_1Pixel__info.html#a6733df4bfc30ad4535a609ef90e63258" title="Return whether the pixel has an alpha channel." alt="" coords="12,69,151,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="191,92,151,92,151,87,191,87"/>
+<area shape="rect" id="Node000004" href="$classL4Re_1_1Video_1_1Pixel__info.html#af201eefedd086bdc13c5996e0738e1ff" title="Compute the padding pseudo component." alt="" coords="12,133,151,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="202,116,144,136,142,131,200,111"/>
+</map>

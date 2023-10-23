@@ -1,0 +1,7 @@
+<map id="L4Re::Util::Event_buffer_consumer_t::foreach_available_event" name="L4Re::Util::Event_buffer_consumer_t::foreach_available_event">
+<area shape="rect" id="Node000001" title="Call function on every available event." alt="" coords="5,5,279,45"/>
+<area shape="rect" id="Node000002" href="$structL4Re_1_1Event__buffer__t_1_1Event.html#a955b5c13ca2a0990eb345f09eb50f514" title="Free the entry." alt="" coords="327,5,471,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,23,313,23,313,28,279,28"/>
+<area shape="rect" id="Node000003" href="$group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e" title="Memory barrier." alt="" coords="519,13,581,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="471,23,505,23,505,28,471,28"/>
+</map>

@@ -1,0 +1,31 @@
+<map id="amd64/l4/util/rdtsc.h" name="amd64/l4/util/rdtsc.h">
+<area shape="rect" id="Node000001" title="Timestamp counter related functions." alt="" coords="206,5,362,31"/>
+<area shape="rect" id="Node000002" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="511,372,643,397"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="363,25,476,42,600,70,655,88,700,109,730,134,738,148,741,163,741,240,738,263,729,284,716,303,700,320,661,349,622,369,620,364,658,344,696,316,712,300,725,282,733,261,736,239,736,164,733,150,726,138,697,114,653,93,598,75,475,48,362,30"/>
+<area shape="rect" id="Node000004" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="54,372,159,397"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="206,29,140,43,107,54,76,68,49,86,27,107,13,133,8,164,8,239,15,276,34,310,58,339,82,361,78,365,54,342,29,313,10,278,3,240,3,163,8,131,23,104,45,81,73,63,105,49,139,38,205,24"/>
+<area shape="rect" id="Node000005" href="$sys_2kip_8h.html" title="Kernel Info Page access functions." alt="" coords="236,79,332,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="287,31,287,65,281,65,281,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="516,445,639,471"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="580,398,580,432,575,432,575,398"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="333,99,412,119,458,136,506,157,553,183,597,215,635,253,665,298,668,319,658,338,640,355,619,368,616,363,637,351,654,335,663,318,660,300,631,256,594,219,551,187,504,162,456,141,410,124,331,104"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="236,98,205,104,173,114,142,130,118,154,104,178,95,204,89,261,93,315,102,358,97,359,88,316,84,261,90,203,99,176,114,150,139,126,170,109,204,99,235,93"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="129,152,271,177"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="272,106,226,145,223,141,269,102"/>
+<area shape="rect" id="Node000007" href="$____kip-64bit_8h_source.html" title=" " alt="" coords="295,152,443,177"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="299,102,347,141,343,145,296,106"/>
+<area shape="rect" id="Node000008" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="313,225,425,251"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="372,178,372,212,367,212,367,178"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="388,249,551,362,548,366,384,253"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="314,250,210,270,164,284,134,301,124,313,117,328,110,359,105,358,112,326,119,310,130,297,161,279,208,264,313,244"/>
+<area shape="rect" id="Node000009" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="310,299,429,324"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="372,251,372,285,367,285,367,251"/>
+<area shape="rect" id="Node000010" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="504,299,651,324"/>
+<area shape="poly" id="edge15_Node000008_Node000010" title=" " alt="" coords="404,248,531,292,530,297,402,253"/>
+<area shape="rect" id="Node000011" href="$____timeout_8h_source.html" title=" " alt="" coords="144,299,285,324"/>
+<area shape="poly" id="edge17_Node000008_Node000011" title=" " alt="" coords="346,253,253,295,251,290,343,248"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="404,321,531,365,530,370,402,327"/>
+<area shape="poly" id="edge14_Node000009_Node000004" title=" " alt="" coords="328,327,163,371,162,366,326,321"/>
+<area shape="poly" id="edge16_Node000010_Node000002" title=" " alt="" coords="580,324,580,358,575,358,575,324"/>
+<area shape="poly" id="edge18_Node000011_Node000004" title=" " alt="" coords="199,326,137,367,134,362,196,322"/>
+</map>

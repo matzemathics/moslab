@@ -1,0 +1,7 @@
+<map id="l4_sched_cpu_set_t::set" name="l4_sched_cpu_set_t::set">
+<area shape="rect" id="Node000001" title="Set offset and granularity." alt="" coords="5,45,181,70"/>
+<area shape="rect" id="Node000002" href="$structl4__sched__cpu__set__t.html#a8e4373ef5c99b90c1d305975cd694895" title=" " alt="" coords="229,5,377,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,42,216,36,216,41,178,47"/>
+<area shape="rect" id="Node000003" href="$structl4__sched__cpu__set__t.html#a23f6f4962b55dc6b0d581c6c5ad4d8a2" title=" " alt="" coords="229,69,377,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,67,216,73,216,79,177,73"/>
+</map>

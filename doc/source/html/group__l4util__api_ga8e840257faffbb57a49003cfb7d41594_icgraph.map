@@ -1,0 +1,6 @@
+<map id="l4_touch_rw" name="l4_touch_rw">
+<area shape="rect" id="Node000001" title="Touch data areas to force mapping (read&#45;write)" alt="" coords="137,29,237,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="211,18,204,11,187,8,173,10,166,15,164,20,168,28,164,30,159,21,161,11,171,5,187,3,207,6,215,15"/>
+<area shape="rect" id="Node000002" href="$group__l4util__api.html#ga88934d990c73f40eebe52998d894ff69" title="Suspend thread for a period of us microseconds." alt="" coords="5,29,89,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="124,45,90,45,90,39,124,39"/>
+</map>

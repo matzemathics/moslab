@@ -1,0 +1,13 @@
+<map id="l4_thread_ex_regs_u" name="l4_thread_ex_regs_u">
+<area shape="rect" id="Node000001" title="Exchange basic thread registers." alt="" coords="449,55,605,80"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Thread.html#aacd56bbf983577cfc591f21fd511d3b6" title="Exchange basic thread registers." alt="" coords="236,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="457,54,367,33,368,28,458,49"/>
+<area shape="rect" id="Node000003" href="$group__l4__thread__api.html#ga1ea29499c679caeae810516d16f4347c" title="Exchange basic thread registers." alt="" coords="240,55,381,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="435,70,382,70,382,65,435,65"/>
+<area shape="rect" id="Node000004" href="$group__l4__thread__api.html#ga5e191cd9b1cbc5d0ac9166fb2bdd5a18" title="Exchange basic thread registers and return previous values." alt="" coords="220,104,401,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="458,86,368,107,367,101,457,80"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Thread.html#af50335e91a9efefa66b440aefefd9c61" title="Exchange basic thread registers and return previous values." alt="" coords="14,79,163,104"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="206,107,163,102,164,97,206,102"/>
+<area shape="rect" id="Node000006" href="$group__l4__thread__api.html#ga828e4612273914dcae12c442bcdd2ea1" title="Exchange basic thread registers and return previous values." alt="" coords="5,128,172,153"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="207,131,173,134,172,129,206,125"/>
+</map>

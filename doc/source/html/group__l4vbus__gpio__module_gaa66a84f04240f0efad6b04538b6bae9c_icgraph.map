@@ -1,0 +1,5 @@
+<map id="l4vbus_gpio_multi_setup" name="l4vbus_gpio_multi_setup">
+<area shape="rect" id="Node000001" title="Configure function of multiple GPIO pins at once." alt="" coords="216,13,400,38"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Gpio__module.html#a05cbf73e4df7cc4fd4f32b2a47513bcf" title="Configure function of multiple GPIO pins at once." alt="" coords="5,5,168,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,28,168,28,168,23,202,23"/>
+</map>

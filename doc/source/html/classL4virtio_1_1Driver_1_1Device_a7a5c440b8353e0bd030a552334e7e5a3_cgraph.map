@@ -1,0 +1,7 @@
+<map id="L4virtio::Driver::Device::register_ds" name="L4virtio::Driver::Device::register_ds">
+<area shape="rect" id="Node000001" title="Share a dataspace with the device." alt="" coords="5,23,177,63"/>
+<area shape="rect" id="Node000002" href="$namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c" title="Make an L4::Ipc::Cap&lt;T&gt; for the given capability with L4_CAP_FPAGE_RW rights." alt="" coords="247,5,408,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,31,233,25,233,31,178,37"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Device.html#a033005cb79e876d02b8ca405ffadca2b" title="Register a shared data space with VIRTIO host." alt="" coords="225,55,429,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,49,212,53,212,58,177,55"/>
+</map>

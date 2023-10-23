@@ -1,0 +1,19 @@
+<map id="L4::Icu::unbind" name="L4::Icu::unbind">
+<area shape="rect" id="Node000001" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="5,56,121,81"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="169,31,308,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,58,155,53,156,58,122,63"/>
+<area shape="rect" id="Node000003" href="$group__l4__icu__api.html#gae74204b8f2101e176add646ec2958182" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="175,80,302,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="122,74,162,80,161,85,121,79"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="385,5,476,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="276,78,307,65,355,40,372,33,374,38,357,44,309,70,278,82"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgitem__api.html#ga6c9056957ac92e458eaabcbf3223ce6f" title="Create the first word for a map item for the object space." alt="" coords="356,55,505,80"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="302,82,342,76,343,82,303,87"/>
+<area shape="rect" id="Node000008" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="385,104,476,129"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="303,98,371,107,371,112,302,103"/>
+<area shape="rect" id="Node000009" href="$group__l4__fpage__api.html#ga3eaf59757a63812044e2b3a1cdf09d54" title="Create a kernel&#45;object flex page." alt="" coords="378,153,483,179"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="270,103,357,138,379,146,377,151,355,143,268,108"/>
+<area shape="rect" id="Node000005" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="585,5,645,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="476,15,571,15,571,21,476,21"/>
+<area shape="rect" id="Node000007" href="$group__l4__msgitem__api.html#ga1ce1321fd25614e9af43a35819540ba7" title="Create the first word for a map item for the memory space." alt="" coords="553,55,676,80"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="506,65,540,65,540,70,506,70"/>
+</map>

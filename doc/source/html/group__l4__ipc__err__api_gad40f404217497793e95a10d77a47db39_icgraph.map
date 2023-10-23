@@ -1,0 +1,17 @@
+<map id="l4_ipc_error" name="l4_ipc_error">
+<area shape="rect" id="Node000001" title="Get the IPC error code for an IPC operation." alt="" coords="903,63,1001,88"/>
+<area shape="rect" id="Node000002" href="$x86_2l4f_2l4_2util_2port__io_8h.html#a38a37fdbed4dd2dca75ce192d506a2d4" title="Map a range of I/O ports." alt="" coords="699,5,835,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="900,61,854,46,812,33,814,28,855,41,901,56"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Util_1_1Event__buffer__consumer__t.html#a4ed22b41ce4c7e6b93efae878b1415ef" title="Continuously wait for events and process them." alt="" coords="680,55,855,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="889,78,855,78,855,73,889,73"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Device.html#a05a02d57ddf646f029311ca8a63f4081" title="Wait for a notification from the device." alt="" coords="681,119,853,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="902,95,827,122,825,117,900,90"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Device.html#a3b5274cb8d4e708beea944038b855885" title="Wait for the next item to arrive in the used queue and return it." alt="" coords="460,119,632,159"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="667,142,632,142,632,137,667,137"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Device.html#af4aa9ac34ce928b9d437f1bb6a2ec216" title="Send a request to the device and wait for it to be processed." alt="" coords="240,87,412,127"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="446,127,412,122,412,117,447,122"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#a90e89b3a94f186cb9b3191f35868668e" title="Block until a network packet has been received from the device and return the descriptor number." alt="" coords="245,151,407,191"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="446,156,408,162,407,157,446,151"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Block__device.html#a63f21e71556accc8c669ef80161ecd8e" title="Process request synchronously." alt="" coords="5,87,192,127"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="226,110,192,110,192,105,226,105"/>
+</map>

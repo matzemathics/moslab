@@ -1,0 +1,7 @@
+<map id="cxx::Avl_map::insert" name="cxx::Avl_map::insert">
+<area shape="rect" id="Node000001" title="Insert a &lt;key, data&gt; pair into the map." alt="" coords="5,13,160,38"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Bits_1_1Base__avl__set.html#ac1f7218e9e51bfef71ecb746719a389a" title="Insert an item into the set." alt="" coords="208,5,353,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,23,194,23,194,28,160,28"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Avl__tree.html#a202d84f24c534368f98b0986be0eee1b" title="Insert a new node into this AVL tree." alt="" coords="401,13,552,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,23,387,23,387,28,353,28"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="l4vbus_gpio_config_pad" name="l4vbus_gpio_config_pad">
+<area shape="rect" id="Node000001" title="Hardware specific configuration function." alt="" coords="264,5,441,31"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Gpio__pin.html#adea98e966587fcf7389306cc6c6bd709" title="Hardware specific configuration function." alt="" coords="5,5,216,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,21,216,21,216,15,250,15"/>
+</map>

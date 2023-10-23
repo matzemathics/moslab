@@ -1,0 +1,18 @@
+<map id="l4_usleep" name="l4_usleep">
+<area shape="rect" id="Node000001" title="Suspend thread for a period of us microseconds." alt="" coords="5,79,89,104"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#gac3b4a3b13e77b799dc154c57a04cdd9b" title="Sleep for an amount of time." alt="" coords="137,5,240,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,76,136,40,146,35,149,39,139,44,72,81"/>
+<area shape="rect" id="Node000005" href="$group__l4util__api.html#gac1e88025beb28c8f090592bf2f046080" title="Touch data area to force mapping (read&#45;only)" alt="" coords="140,79,237,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="90,89,127,89,127,94,90,94"/>
+<area shape="rect" id="Node000007" href="$group__l4util__api.html#ga8e840257faffbb57a49003cfb7d41594" title="Touch data areas to force mapping (read&#45;write)" alt="" coords="139,152,239,177"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="74,102,152,143,150,148,72,106"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga3a8617092651c67f9ef1670b53fce66c" title="Wait for a message from a specific source." alt="" coords="288,5,403,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="240,15,274,15,274,21,240,21"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="451,5,511,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="403,15,437,15,437,21,403,21"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="165,80,160,70,162,61,172,54,189,52,208,56,217,64,213,68,206,60,189,57,174,59,167,64,165,70,169,77"/>
+<area shape="rect" id="Node000006" href="$group__l4__memory__api.html#ga70b72ae96c18cb49a3445198711bba0d" title="Round an address down to the next lower page boundary." alt="" coords="289,115,402,140"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="238,100,277,109,275,114,237,105"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="238,150,278,141,279,146,239,155"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="165,153,160,144,162,134,172,128,189,125,208,129,217,137,213,141,206,134,189,131,174,133,167,137,165,143,169,151"/>
+</map>

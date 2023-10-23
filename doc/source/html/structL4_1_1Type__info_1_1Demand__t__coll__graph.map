@@ -1,0 +1,5 @@
+<map id="L4::Type_info::Demand_t&lt; CAPS, FLAGS, MEM, PORTS &gt;" name="L4::Type_info::Demand_t&lt; CAPS, FLAGS, MEM, PORTS &gt;">
+<area shape="rect" id="Node000001" title="Template type statically describing demand of receive buffers." alt="" coords="5,219,176,313"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Type__info_1_1Demand.html" title="Data type for expressing the needed receive buffers at the server&#45;side of an interface." alt="" coords="9,5,172,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,184,93,218,88,218,88,184"/>
+</map>

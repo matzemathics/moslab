@@ -1,0 +1,7 @@
+<map id="l4_ipc_sleep" name="l4_ipc_sleep">
+<area shape="rect" id="Node000001" title="Sleep for an amount of time." alt="" coords="5,5,108,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#ga3a8617092651c67f9ef1670b53fce66c" title="Wait for a message from a specific source." alt="" coords="156,5,271,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,15,142,15,142,21,108,21"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="319,5,379,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="271,15,305,15,305,21,271,21"/>
+</map>

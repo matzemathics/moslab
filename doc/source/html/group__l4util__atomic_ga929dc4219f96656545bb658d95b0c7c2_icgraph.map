@@ -1,0 +1,11 @@
+<map id="l4util_cmpxchg" name="l4util_cmpxchg">
+<area shape="rect" id="Node000001" title="Atomic compare and exchange (machine wide fields)" alt="" coords="172,80,293,105"/>
+<area shape="rect" id="Node000002" href="$group__l4util__bitops.html#ga54de534dc4cb8daba99590f38edfd12c" title="Bit test and reset." alt="" coords="25,5,105,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,76,123,44,96,33,98,28,125,40,194,71"/>
+<area shape="rect" id="Node000003" href="$group__l4util__bitops.html#gaa19a970e0ccba655837ac519d5adfdf0" title="Bit test and set." alt="" coords="23,55,106,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="158,84,106,76,107,71,159,79"/>
+<area shape="rect" id="Node000004" href="$group__l4util__bitops.html#gab1ab1fd14748d27abd7862942b5ae46b" title="Clear bit in memory." alt="" coords="5,104,124,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="158,106,125,111,124,106,158,101"/>
+<area shape="rect" id="Node000005" href="$group__l4util__bitops.html#ga1e5017ce33e0af71dc00a526ffa46f0b" title="Set bit in memory." alt="" coords="11,153,118,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="192,113,125,143,97,156,94,151,123,138,190,109"/>
+</map>

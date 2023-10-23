@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Driver_mem_region_t::size" name="L4virtio::Svr::Driver_mem_region_t::size">
+<area shape="rect" id="Node000001" title=" " alt="" coords="240,41,397,81"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a11384549e18dc249846201ac410400ac" title="Test if the given driver address range is within this region." alt="" coords="5,5,192,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,49,192,43,193,38,226,44"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#abdad88a18e5428fb2276148ceccf0434" title="Make a local memory region for the given driver values." alt="" coords="13,70,184,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,79,185,86,184,81,226,74"/>
+</map>

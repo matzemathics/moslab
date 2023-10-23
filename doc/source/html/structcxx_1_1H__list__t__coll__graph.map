@@ -1,0 +1,11 @@
+<map id="cxx::H_list_t&lt; T &gt;" name="cxx::H_list_t&lt; T &gt;">
+<area shape="rect" id="Node000001" title="Double&#45;linked list of typed H_list_item_t elements." alt="" coords="65,976,197,1041"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1H__list.html" title=" " alt="" coords="37,632,225,927"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,940,134,976,129,976,129,940"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Bits_1_1Basic__list.html" title="Internal: Common functions for all head&#45;based list implementations." alt="" coords="5,297,145,517"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,530,112,632,107,632,91,531"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1H__list.html" title="General double&#45;linked list of unspecified cxx::H_list_item elements." alt="" coords="169,275,344,540"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="210,554,183,633,178,631,205,553"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1Bits_1_1Basic__list.html" title="Internal: Common functions for all head&#45;based list implementations." alt="" coords="187,5,327,225"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="259,239,259,274,254,274,254,239"/>
+</map>

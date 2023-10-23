@@ -1,0 +1,7 @@
+<map id="l4re_env_t" name="l4re_env_t">
+<area shape="rect" id="Node000001" title="Initial environment data structure." alt="" coords="63,193,185,419"/>
+<area shape="rect" id="Node000002" href="$unionl4__fpage__t.html" title="L4 flexpage type." alt="" coords="5,25,88,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,110,85,177,80,179,58,112"/>
+<area shape="rect" id="Node000003" href="$structl4re__env__cap__entry__t.html" title="Entry in the L4Re environment array for the named inital objects." alt="" coords="113,5,290,131"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,132,168,179,163,177,178,130"/>
+</map>

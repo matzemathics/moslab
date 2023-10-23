@@ -1,0 +1,15 @@
+<map id="L4::Ipc_svr::Timeout_queue::next_timeout" name="L4::Ipc_svr::Timeout_queue::next_timeout">
+<area shape="rect" id="Node000001" title="Get the time for the next timeout." alt="" coords="491,113,655,153"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#ae4a6bd9781bf97a37dbff039db58d47d" title="get the time for the next timeout" alt="" coords="263,77,438,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="477,120,438,114,439,109,477,115"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Ipc__svr_1_1Timeout__queue.html#aaac5ada3be0b3cd1749b89c79bb22342" title="Determine if a timeout has happened." alt="" coords="259,149,443,189"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="477,151,443,157,442,152,477,146"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a07277e39d7a77e66fbd6556f00e3e8aa" title="Add a timeout to the queue for time time." alt="" coords="5,5,211,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="269,76,175,48,177,43,270,71"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a559c5881cc36b16338904749c4578ae9" title="Remove timeout from the queue." alt="" coords="21,70,195,125"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="249,100,195,100,195,95,249,95"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a27b6731396dc52f3fd5bf35f6788e27b" title="server loop hook" alt="" coords="5,149,211,189"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="245,172,211,172,211,167,245,167"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#aa2441ebaedd9d9a3c3e7066d2696ba2f" title="setup_wait() for the server loop" alt="" coords="11,213,205,253"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="262,195,185,216,184,211,260,190"/>
+</map>

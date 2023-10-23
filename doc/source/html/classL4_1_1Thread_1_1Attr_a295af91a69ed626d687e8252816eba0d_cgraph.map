@@ -1,0 +1,5 @@
+<map id="L4::Thread::Attr::exc_handler" name="L4::Thread::Attr::exc_handler">
+<area shape="rect" id="Node000001" title="Set the exception&#45;handler capability selector." alt="" coords="5,5,159,45"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Thread_1_1Attr.html#a6837b98088e389e3f9da3a0b4878f000" title="Get the capability selector used for exception messages." alt="" coords="207,5,360,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,23,193,23,193,28,159,28"/>
+</map>

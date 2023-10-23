@@ -1,0 +1,12 @@
+<map id="l4/util/bitops.h" name="l4/util/bitops.h">
+<area shape="rect" id="Node000001" title="bit manipulation functions" alt="" coords="110,5,225,31"/>
+<area shape="rect" id="Node000002" href="$client_2l4virtio_source.html" title=" " alt="" coords="105,79,229,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,44,170,79,165,79,165,44"/>
+<area shape="rect" id="Node000003" href="$client_2virtio-block_source.html" title=" " alt="" coords="5,167,129,207"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="137,40,115,58,96,80,85,102,78,125,71,167,66,166,73,124,80,100,92,77,111,54,134,36"/>
+<area shape="rect" id="Node000005" href="$splitlog2_8h.html" title="Split a range in log2 aligned and size&#45;aligned chunks." alt="" coords="254,86,385,111"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="203,35,298,83,296,88,201,39"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="137,130,91,168,88,164,133,126"/>
+<area shape="rect" id="Node000004" href="$virtio-net_source.html" title=" " alt="" coords="153,167,277,207"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="187,129,207,165,202,168,182,132"/>
+</map>

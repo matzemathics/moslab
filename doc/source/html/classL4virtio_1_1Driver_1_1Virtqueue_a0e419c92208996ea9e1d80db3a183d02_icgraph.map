@@ -1,0 +1,5 @@
+<map id="L4virtio::Driver::Virtqueue::free_descriptor" name="L4virtio::Driver::Virtqueue::free_descriptor">
+<area shape="rect" id="Node000001" title="Free a chained list of descriptors in the descriptor queue." alt="" coords="216,5,407,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#a32d2034c35d7305bef0d58e126710634" title="Free an RX descriptor number to make it available for the RX queue again." alt="" coords="5,5,168,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,28,168,28,168,23,202,23"/>
+</map>

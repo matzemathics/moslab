@@ -1,0 +1,7 @@
+<map id="L4::Kobject_3t&lt; Derived, Base1, Base2, Base3, PROTO, S_DEMAND &gt;" name="L4::Kobject_3t&lt; Derived, Base1, Base2, Base3, PROTO, S_DEMAND &gt;">
+<area shape="rect" id="Node000001" title="Helper class to create an L4Re interface class that is derived from three base classes (see L4::Kobje..." alt="" coords="6,5,181,120"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Kobject__3t.html" title=" " alt="" coords="5,212,181,327"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,134,96,212,91,212,91,134"/>
+<area shape="rect" id="Node000003" href="$classL4vbus_1_1Vbus.html" title="The virtual bus (Vbus) interface." alt="" coords="7,376,180,521"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,340,96,376,91,376,91,340"/>
+</map>

@@ -1,0 +1,205 @@
+<map id="l4_ipc" name="l4_ipc">
+<area shape="rect" id="Node000001" title="Generic L4 object invocation." alt="" coords="989,2381,1049,2407"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="813,1013,903,1039"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1012,2368,858,1039,863,1039,1018,2368"/>
+<area shape="rect" id="Node000079" href="$group__l4__ipc__api.html#ga3a8617092651c67f9ef1670b53fce66c" title="Wait for a message from a specific source." alt="" coords="801,2200,915,2225"/>
+<area shape="poly" id="edge76_Node000001_Node000079" title=" " alt="" coords="996,2372,869,2227,873,2224,1000,2369"/>
+<area shape="rect" id="Node000086" href="$group__l4__ipc__api.html#ga1bd93bc08f402cc149bf62cba3ba9905" title="Reply and wait operation (uses the reply capability)." alt="" coords="775,2356,941,2381"/>
+<area shape="poly" id="edge83_Node000001_Node000086" title=" " alt="" coords="976,2390,938,2384,939,2379,976,2385"/>
+<area shape="rect" id="Node000089" href="$group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e" title="Send a message to an object (do not wait for a reply)." alt="" coords="809,2405,907,2431"/>
+<area shape="poly" id="edge86_Node000001_Node000089" title=" " alt="" coords="976,2403,908,2413,907,2408,975,2398"/>
+<area shape="rect" id="Node000104" href="$group__l4__ipc__api.html#ga72ee1f322b3f633fb885905ce213e2b5" title="Send a message and do an open wait." alt="" coords="776,2553,940,2579"/>
+<area shape="poly" id="edge98_Node000001_Node000104" title=" " alt="" coords="1003,2420,943,2493,877,2555,873,2551,939,2490,998,2417"/>
+<area shape="rect" id="Node000107" href="$group__l4__ipc__api.html#gade81ef7ed9cb9e08bec716e640eabe04" title="Wait for an incoming message from any possible sender." alt="" coords="811,2455,905,2480"/>
+<area shape="poly" id="edge101_Node000001_Node000107" title=" " alt="" coords="990,2417,942,2444,907,2458,905,2453,940,2440,988,2412"/>
+<area shape="rect" id="Node000003" href="$kdebug_8h.html#a05f504b0c16b751c78927a464615a746" title="Invoke a text output operation with 3 additional machine word arguments on the base debugger capabili..." alt="" coords="540,400,672,425"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="852,1000,840,879,816,710,798,623,778,545,753,481,739,457,725,439,701,423,672,415,673,410,703,418,728,435,744,454,758,479,783,543,804,622,821,709,845,879,857,999"/>
+<area shape="rect" id="Node000005" href="$kdebug_8h.html#afe49ad144e638cf6f2854f3a0403c7da" title="Invoke a nullary operation on the base debugger capability." alt="" coords="553,449,659,475"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="851,1000,838,889,812,734,795,656,775,584,751,526,725,488,711,477,694,470,659,463,660,458,696,465,713,473,729,484,756,524,780,582,800,654,818,733,843,888,857,999"/>
+<area shape="rect" id="Node000008" href="$kdebug_8h.html#ad326b039e207cdd00785d01b5cc18e46" title="Invoke an unary operation on the base debugger capability." alt="" coords="545,499,667,524"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="850,1000,838,930,814,833,777,724,753,671,724,621,702,591,675,565,626,526,629,522,679,561,706,588,729,618,758,668,782,722,820,831,843,929,856,999"/>
+<area shape="rect" id="Node000018" href="$kdebug_8h.html#ab2ebe85a62a8d8b933eef79a3ca418d7" title="Invoke a text output operation on the base debugger capability." alt="" coords="547,676,665,701"/>
+<area shape="poly" id="edge17_Node000002_Node000018" title=" " alt="" coords="851,1000,841,940,819,862,803,821,782,782,756,746,725,715,696,699,664,692,666,687,698,694,728,711,760,742,786,779,807,819,824,860,846,939,857,999"/>
+<area shape="rect" id="Node000019" href="$kdebug_8h.html#a2e5f690a7b317bd50ba2d40461939033" title="Enter the kernel debugger." alt="" coords="277,696,388,721"/>
+<area shape="poly" id="edge24_Node000002_Node000019" title=" " alt="" coords="854,1000,849,929,842,884,831,836,814,787,792,741,763,700,725,665,694,647,666,637,639,633,613,635,556,648,486,666,462,675,438,686,389,700,387,695,436,681,460,670,485,661,554,643,612,630,640,628,667,632,697,642,728,661,767,696,797,738,819,785,836,834,847,883,854,928,859,999"/>
+<area shape="rect" id="Node000024" href="$classL4_1_1Ipc_1_1Iostream.html#a18ac55dddefc29f84d47935dbc86b7ca" title="Do an IPC call using the message in the output stream and receive the reply in the input stream." alt="" coords="525,725,687,751"/>
+<area shape="poly" id="edge23_Node000002_Node000024" title=" " alt="" coords="849,1000,836,949,812,885,776,819,752,789,725,764,707,753,686,746,688,741,709,748,728,760,756,786,780,816,817,883,841,948,854,999"/>
+<area shape="rect" id="Node000025" href="$amd64_2l4_2sys_2segment_8h.html#a8f6d52dba510d665894bcc77c7aab77e" title="Get segment information." alt="" coords="502,775,710,800"/>
+<area shape="poly" id="edge25_Node000002_Node000025" title=" " alt="" coords="846,1001,830,959,805,908,770,856,749,833,725,814,705,802,707,798,728,809,753,829,774,853,810,905,835,957,851,999"/>
+<area shape="rect" id="Node000026" href="$amd64_2l4f_2l4_2sys_2segment_8h.html#afd70b6cd1905d37a66f97cc373247c49" title="Set the base address for the FS segment." alt="" coords="527,824,685,849"/>
+<area shape="poly" id="edge26_Node000002_Node000026" title=" " alt="" coords="842,1002,824,970,797,932,764,894,725,863,684,847,686,842,728,858,768,890,802,928,828,967,847,1000"/>
+<area shape="rect" id="Node000027" href="$amd64_2l4f_2l4_2sys_2segment_8h.html#ac7363c40842e11b0485d011423012211" title="Set the base address for a segment." alt="" coords="485,873,727,899"/>
+<area shape="poly" id="edge27_Node000002_Node000027" title=" " alt="" coords="836,1005,789,958,758,934,725,914,693,901,695,896,728,909,761,929,792,954,839,1001"/>
+<area shape="rect" id="Node000028" href="$group__api__calls__fiasco.html#ga62cd4adfb0915e034d528472c73ad270" title="Return the offset of the entry in the GDT." alt="" coords="527,923,685,963"/>
+<area shape="poly" id="edge28_Node000002_Node000028" title=" " alt="" coords="813,1011,726,978,684,965,685,960,728,973,815,1006"/>
+<area shape="rect" id="Node000029" href="$group__api__calls__fiasco.html#ga889e52253474f768149a012b94fac148" title="Set GDT segment descriptors." alt="" coords="549,988,663,1013"/>
+<area shape="poly" id="edge29_Node000002_Node000029" title=" " alt="" coords="799,1023,663,1009,664,1004,799,1017"/>
+<area shape="rect" id="Node000030" href="$group__api__calls__fiasco.html#ga394d6b4591383b0f6c78155e6e5e5180" title="Set LDT segments descriptors." alt="" coords="551,1037,661,1063"/>
+<area shape="poly" id="edge30_Node000002_Node000030" title=" " alt="" coords="799,1034,662,1047,662,1042,799,1029"/>
+<area shape="rect" id="Node000031" href="$group__l4__icu__api.html#ga29217a67f405c5d860002dd902bf71e4" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="551,1087,661,1112"/>
+<area shape="poly" id="edge31_Node000002_Node000031" title=" " alt="" coords="815,1046,727,1077,662,1092,661,1087,726,1071,813,1041"/>
+<area shape="rect" id="Node000038" href="$group__l4__icu__api.html#ga7850caf0c29c87ba3477e1fe1139681f" title="Get information about the ICU features." alt="" coords="553,1136,659,1161"/>
+<area shape="poly" id="edge36_Node000002_Node000038" title=" " alt="" coords="835,1050,788,1089,759,1109,728,1126,694,1138,660,1145,659,1140,692,1133,726,1121,756,1105,785,1085,832,1046"/>
+<area shape="rect" id="Node000041" href="$group__l4__icu__api.html#ga0c5c381566e2e9a8dbb41f14e33c4437" title="Get MSI info about IRQ." alt="" coords="537,1185,675,1211"/>
+<area shape="poly" id="edge40_Node000002_Node000041" title=" " alt="" coords="844,1052,798,1114,765,1147,728,1175,703,1186,676,1194,675,1189,701,1181,725,1170,762,1143,794,1111,840,1049"/>
+<area shape="rect" id="Node000043" href="$group__l4__icu__api.html#gac43905e779ca41f20c9cd23fb28ac095" title="Set interrupt mode." alt="" coords="533,1235,679,1260"/>
+<area shape="poly" id="edge42_Node000002_Node000043" title=" " alt="" coords="850,1053,832,1092,806,1138,772,1185,728,1224,705,1236,681,1244,679,1239,703,1231,725,1220,768,1181,802,1135,828,1089,845,1051"/>
+<area shape="rect" id="Node000046" href="$group__l4__icu__api.html#gae74204b8f2101e176add646ec2958182" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="543,1284,669,1309"/>
+<area shape="poly" id="edge45_Node000002_Node000046" title=" " alt="" coords="853,1053,839,1101,814,1161,778,1222,755,1250,728,1274,701,1288,671,1296,669,1291,699,1283,725,1269,751,1246,773,1219,809,1159,834,1099,848,1052"/>
+<area shape="rect" id="Node000049" href="$group__l4__irq__api.html#ga52ad27a5a0d6a21bc7449a69a820db71" title="Detach from this interrupt." alt="" coords="544,1361,668,1387"/>
+<area shape="poly" id="edge48_Node000002_Node000049" title=" " alt="" coords="854,1053,841,1108,817,1179,780,1255,756,1290,728,1323,695,1347,657,1364,655,1359,692,1343,725,1319,752,1287,775,1252,812,1177,836,1106,849,1052"/>
+<area shape="rect" id="Node000052" href="$group__l4__irq__api.html#ga0bfe3132479962ae237087568fc2c94f" title="Attach an IRQ to this multiplexer." alt="" coords="531,1460,681,1485"/>
+<area shape="poly" id="edge51_Node000002_Node000052" title=" " alt="" coords="856,1053,845,1119,822,1209,805,1259,784,1308,759,1356,729,1400,709,1420,686,1437,641,1462,638,1458,683,1433,705,1416,725,1396,754,1353,780,1306,800,1257,817,1208,840,1118,851,1052"/>
+<area shape="rect" id="Node000055" href="$group__l4__irq__api.html#ga430999e1f8f6eb5f7e3f957b854b7446" title="Unmask and wait for this IRQ." alt="" coords="542,1559,670,1584"/>
+<area shape="poly" id="edge54_Node000002_Node000055" title=" " alt="" coords="859,1052,852,1134,832,1250,816,1314,794,1379,765,1441,729,1498,710,1519,687,1536,642,1561,639,1556,684,1532,706,1515,725,1495,760,1438,789,1377,811,1313,827,1249,847,1134,853,1052"/>
+<area shape="rect" id="Node000059" href="$group__l4__thread__api.html#ga9387fbfe618c3ede0eae63261ce1662e" title="Exchange basic thread registers." alt="" coords="528,1683,684,1708"/>
+<area shape="poly" id="edge58_Node000002_Node000059" title=" " alt="" coords="859,1053,854,1147,836,1287,820,1365,797,1445,767,1524,729,1597,707,1625,681,1650,632,1685,629,1680,678,1646,703,1622,724,1594,762,1521,792,1444,814,1364,831,1286,849,1147,854,1052"/>
+<area shape="rect" id="Node000065" href="$group__l4__thread__api.html#ga1015c5500bcfeaa01d209ee116cf57ec" title="Enable the extended vCPU feature for the thread." alt="" coords="519,1798,693,1838"/>
+<area shape="poly" id="edge62_Node000002_Node000065" title=" " alt="" coords="857,1052,842,1187,815,1384,797,1487,777,1582,754,1662,729,1721,711,1745,690,1767,645,1800,642,1796,686,1763,707,1742,724,1718,749,1661,772,1581,792,1486,810,1383,837,1187,852,1052"/>
+<area shape="rect" id="Node000068" href="$group__l4__thread__api.html#ga8ebc0dd643266610d76860cf0fb77f53" title="Enable the vCPU feature for the thread." alt="" coords="512,1904,700,1929"/>
+<area shape="poly" id="edge65_Node000002_Node000068" title=" " alt="" coords="858,1053,849,1212,827,1448,810,1572,788,1687,761,1783,746,1822,729,1852,712,1870,692,1885,650,1906,648,1902,690,1881,709,1866,724,1848,741,1819,756,1782,783,1686,804,1572,821,1448,843,1211,853,1052"/>
+<area shape="rect" id="Node000071" href="$group__l4__vcon__api.html#gae9c105658ebcbc5d1a86e0672f0a5465" title="Get attributes of this virtual console." alt="" coords="533,2003,679,2028"/>
+<area shape="poly" id="edge68_Node000002_Node000071" title=" " alt="" coords="859,1053,850,1227,829,1490,813,1628,791,1757,763,1865,747,1908,729,1942,711,1963,689,1981,644,2005,642,2000,686,1976,707,1960,724,1939,742,1906,758,1863,785,1756,807,1628,824,1489,845,1226,853,1053"/>
+<area shape="rect" id="Node000074" href="$group__l4__vcon__api.html#ga17f827c7d5f96b36a7c552af8d61a0e5" title="Set the attributes of this virtual console." alt="" coords="534,55,678,80"/>
+<area shape="poly" id="edge71_Node000002_Node000074" title=" " alt="" coords="853,1000,844,883,824,702,807,597,785,488,758,379,724,274,698,215,668,160,615,82,619,79,672,158,703,213,729,272,763,377,790,487,812,596,829,701,850,882,858,999"/>
+<area shape="rect" id="Node000077" href="$x86_2l4f_2l4_2util_2port__io_8h.html#a38a37fdbed4dd2dca75ce192d506a2d4" title="Map a range of I/O ports." alt="" coords="538,285,674,311"/>
+<area shape="poly" id="edge74_Node000002_Node000077" title=" " alt="" coords="853,1000,844,859,823,656,806,551,784,455,757,377,742,347,725,325,701,309,673,301,675,296,704,305,728,321,746,345,762,375,789,454,811,550,828,655,849,859,858,999"/>
+<area shape="rect" id="Node000078" href="$classL4_1_1Thread.html#a9bcade7e8db8d775cc1f2a2a6225c845" title="Apply sender modification rules." alt="" coords="535,335,677,375"/>
+<area shape="poly" id="edge75_Node000002_Node000078" title=" " alt="" coords="852,1000,841,871,817,687,800,593,779,507,754,436,740,409,725,389,703,373,676,363,678,358,705,368,729,385,744,407,759,434,784,505,806,592,823,686,846,870,858,999"/>
+<area shape="rect" id="Node000004" href="$group__fiasco__trace__api.html#gac59d89f0e05763396f2fcda591ffe870" title="Create new trace&#45;buffer entry with describing &lt;text&gt; and three additional values." alt="" coords="255,104,410,129"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="525,412,503,403,483,389,462,358,453,327,454,295,458,264,463,233,464,202,456,172,435,143,409,126,412,121,439,139,461,170,469,202,469,233,464,265,459,296,458,326,466,356,487,385,505,399,527,407"/>
+<area shape="rect" id="Node000006" href="$group__fiasco__trace__api.html#ga2a50578d66208d4434fb1bd87cd2473e" title="Clear trace&#45;buffer." alt="" coords="267,203,399,228"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="538,464,509,455,484,439,465,414,457,389,456,363,458,338,461,313,460,289,453,265,435,241,418,229,398,222,400,217,421,224,439,237,458,262,465,288,466,313,464,338,461,363,462,388,470,412,487,435,511,450,540,459"/>
+<area shape="rect" id="Node000007" href="$group__fiasco__trace__api.html#gafcdf20a03560ad5e63462e59cd55d55c" title="Dump trace&#45;buffer to kernel console." alt="" coords="264,153,401,179"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="538,464,509,456,483,439,462,408,453,376,454,345,458,313,463,282,464,252,456,222,435,192,420,180,401,173,403,168,422,175,439,188,461,219,469,251,469,283,464,314,459,345,458,376,466,405,487,435,511,451,539,459"/>
+<area shape="rect" id="Node000009" href="$kdebug_8h.html#a1485b07fe2161bc493d5f5b9dcbcb264" title="Output a single character via the kernel debugger." alt="" coords="297,597,368,623"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="568,533,508,560,438,587,369,606,368,601,437,582,506,555,566,528"/>
+<area shape="rect" id="Node000010" href="$kdebug_8h.html#a890c2a20abb8142bd6491916ecb29455" title="Output a decimal unsigned machine word via the kernel debugger." alt="" coords="299,647,366,672"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="583,536,520,586,481,613,438,636,402,649,367,657,366,652,400,644,436,632,478,609,517,582,579,531"/>
+<area shape="rect" id="Node000011" href="$kdebug_8h.html#aa276f1dc3987a1fbbfe1079e88cace64" title="Output a 12&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="291,252,374,277"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="530,511,505,503,483,488,465,463,457,438,456,413,458,387,461,362,460,338,453,314,435,291,422,281,407,274,374,267,375,262,408,269,425,276,439,287,458,312,465,337,466,363,464,388,461,413,462,437,470,461,487,484,508,498,532,506"/>
+<area shape="rect" id="Node000012" href="$kdebug_8h.html#a6d5c7cc038f5af74ce5afc318456b23d" title="Output a 16&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="291,301,374,327"/>
+<area shape="poly" id="edge11_Node000008_Node000012" title=" " alt="" coords="530,511,506,502,484,488,468,470,461,451,459,412,456,375,450,357,436,340,406,324,374,317,375,312,408,319,439,336,454,355,462,374,464,412,466,449,473,467,487,484,508,497,532,505"/>
+<area shape="rect" id="Node000013" href="$kdebug_8h.html#a37d2c18c36ad2a924e3758ef197b6a11" title="Output a 20&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="291,351,374,376"/>
+<area shape="poly" id="edge12_Node000008_Node000013" title=" " alt="" coords="530,509,506,501,484,488,472,476,464,463,459,437,453,412,447,401,436,389,406,374,374,367,375,362,408,369,439,385,451,397,458,410,464,436,469,461,476,473,487,484,508,496,532,504"/>
+<area shape="rect" id="Node000014" href="$kdebug_8h.html#a0ca95852178f7ed5e590e1451e9231cd" title="Output a 32&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="291,400,374,425"/>
+<area shape="poly" id="edge13_Node000008_Node000014" title=" " alt="" coords="530,505,484,488,468,476,459,463,450,450,436,439,405,426,374,419,375,414,407,421,439,434,454,447,463,460,472,472,487,484,532,500"/>
+<area shape="rect" id="Node000015" href="$kdebug_8h.html#a54737b2e0ee7fb8371252a5cfcd24549" title="Output a 64&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="291,449,374,475"/>
+<area shape="poly" id="edge14_Node000008_Node000015" title=" " alt="" coords="531,501,374,472,375,467,532,495"/>
+<area shape="rect" id="Node000016" href="$kdebug_8h.html#a112dbd653d3960fb7ae4b6c8c8ee86f2" title="Output an 8&#45;bit unsigned hexadecimal number via the kernel debugger." alt="" coords="295,499,370,524"/>
+<area shape="poly" id="edge15_Node000008_Node000016" title=" " alt="" coords="531,514,370,514,370,509,531,509"/>
+<area shape="rect" id="Node000017" href="$kdebug_8h.html#aafcf07a388e4429b87089f0b68db69f8" title="Output a hexadecimal unsigned machine word via the kernel debugger." alt="" coords="285,548,381,573"/>
+<area shape="poly" id="edge16_Node000008_Node000017" title=" " alt="" coords="532,527,381,555,380,549,531,522"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="534,697,388,707,388,702,533,691"/>
+<area shape="rect" id="Node000020" href="$group__fiasco__trace__api.html#ga11d469f93c5befca8389362282c5cb74" title="Create new trace&#45;buffer entry with describing &lt;text&gt;." alt="" coords="273,795,393,820"/>
+<area shape="poly" id="edge19_Node000018_Node000020" title=" " alt="" coords="535,696,510,704,487,715,471,731,464,748,456,767,439,784,417,796,394,803,392,798,415,791,436,780,451,764,459,746,467,728,484,711,508,699,533,691"/>
+<area shape="rect" id="Node000021" href="$group__fiasco__trace__api.html#gacec61dde47b1cf788fcc51614bcc1a2f" title="Create new trace&#45;buffer entry with binary data." alt="" coords="249,844,417,869"/>
+<area shape="poly" id="edge20_Node000018_Node000021" title=" " alt="" coords="535,694,509,702,487,715,475,728,468,742,464,772,459,803,452,818,439,833,419,846,416,842,436,829,448,816,454,801,458,771,463,741,470,725,484,711,507,697,533,689"/>
+<area shape="rect" id="Node000022" href="$kdebug_8h.html#adbcd0f5c67e586ed88fba868cea537fb" title="Output a fixed&#45;length string via the kernel debugger." alt="" coords="289,745,377,771"/>
+<area shape="poly" id="edge21_Node000018_Node000022" title=" " alt="" coords="534,703,486,715,438,735,378,752,376,746,436,730,484,710,533,698"/>
+<area shape="rect" id="Node000023" href="$kdebug_8h.html#a138dbb0bf857e381e9fb7cd4ef19a5f2" title="Output a string via the kernel debugger." alt="" coords="53,745,133,771"/>
+<area shape="poly" id="edge22_Node000022_Node000023" title=" " alt="" coords="275,761,133,761,133,755,275,755"/>
+<area shape="rect" id="Node000032" href="$classL4_1_1Icu.html#ada7541da586ea09b925b4d90d7dc357e" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="283,893,383,919"/>
+<area shape="poly" id="edge32_Node000031_Node000032" title=" " alt="" coords="536,1100,509,1091,484,1076,469,1058,461,1040,459,1002,456,966,449,949,436,932,411,917,382,910,384,905,413,912,439,928,454,946,461,965,464,1002,466,1038,473,1055,487,1072,511,1087,538,1095"/>
+<area shape="rect" id="Node000037" href="$group__l4__icu__api.html#ga793c534597fd98ee93cbaf24ad08a615" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="285,943,380,968"/>
+<area shape="poly" id="edge35_Node000031_Node000037" title=" " alt="" coords="537,1098,509,1090,484,1076,472,1065,465,1052,459,1027,453,1003,446,992,436,981,409,967,380,960,381,955,411,962,439,977,451,989,458,1001,464,1026,470,1050,476,1061,487,1072,511,1085,538,1093"/>
+<area shape="rect" id="Node000033" href="$classL4virtio_1_1Driver_1_1Device.html#a1c9b791b723e7e8ad2eae927094b487d" title="Register a triggerable to receive notifications from the device." alt="" coords="7,854,179,894"/>
+<area shape="poly" id="edge33_Node000032_Node000033" title=" " alt="" coords="268,900,179,888,179,883,269,895"/>
+<area shape="rect" id="Node000034" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="7,918,179,958"/>
+<area shape="poly" id="edge34_Node000032_Node000034" title=" " alt="" coords="269,917,179,929,179,924,268,912"/>
+<area shape="rect" id="Node000039" href="$classL4_1_1Icu.html#a356cfa88076c92e121ab7760d50d5f18" title="Get information about the ICU features." alt="" coords="284,1016,381,1041"/>
+<area shape="poly" id="edge37_Node000038_Node000039" title=" " alt="" coords="539,1147,510,1139,484,1125,467,1108,459,1089,451,1071,436,1055,410,1042,381,1035,382,1030,411,1037,439,1051,456,1068,464,1087,471,1105,487,1121,512,1134,540,1141"/>
+<area shape="rect" id="Node000040" href="$group__l4__icu__api.html#ga01c207fa8b166832b7eab0c60a8f2a7b" title="Get information about the ICU features." alt="" coords="287,1065,379,1091"/>
+<area shape="poly" id="edge39_Node000038_Node000040" title=" " alt="" coords="538,1140,484,1126,436,1105,378,1089,379,1084,438,1099,486,1121,540,1135"/>
+<area shape="poly" id="edge38_Node000039_Node000039" title=" " alt="" coords="376,1007,364,998,333,995,307,997,293,1002,291,1007,298,1014,294,1018,285,1008,290,998,306,992,333,989,366,993,379,1003"/>
+<area shape="rect" id="Node000042" href="$group__l4__icu__api.html#ga626c5b32a678d274de89b2be944b6a3f" title="Get MSI info about IRQ." alt="" coords="271,1115,394,1140"/>
+<area shape="poly" id="edge41_Node000041_Node000042" title=" " alt="" coords="523,1186,484,1175,436,1154,393,1142,395,1137,438,1149,486,1170,524,1181"/>
+<area shape="rect" id="Node000044" href="$group__l4__icu__api.html#gad387684dcc6b4838f1d4f466e1aeef6f" title="Set interrupt mode." alt="" coords="267,1164,398,1189"/>
+<area shape="poly" id="edge43_Node000043_Node000044" title=" " alt="" coords="519,1234,484,1225,436,1203,397,1192,398,1187,438,1198,486,1219,520,1229"/>
+<area shape="rect" id="Node000045" href="$classL4_1_1Icu.html#a4258b1c32fc968b66a1ce15191f51b8b" title="Set interrupt mode." alt="" coords="265,1213,401,1239"/>
+<area shape="poly" id="edge44_Node000043_Node000045" title=" " alt="" coords="519,1243,401,1234,401,1229,519,1238"/>
+<area shape="rect" id="Node000047" href="$group__l4__icu__api.html#ga77d613300601861b13605e7687146dc5" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="277,1263,388,1288"/>
+<area shape="poly" id="edge46_Node000046_Node000047" title=" " alt="" coords="529,1293,388,1282,388,1277,529,1288"/>
+<area shape="rect" id="Node000048" href="$classL4_1_1Icu.html#aa34e56cdac798b1949fcc00553386b8b" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="275,1312,391,1337"/>
+<area shape="poly" id="edge47_Node000046_Node000048" title=" " alt="" coords="529,1307,391,1321,390,1316,528,1302"/>
+<area shape="rect" id="Node000050" href="$classL4_1_1Irq.html#a02b43c2e256c30b3c55eccd311bb6f4f" title="Detach from this interrupt." alt="" coords="275,1361,390,1387"/>
+<area shape="poly" id="edge49_Node000049_Node000050" title=" " alt="" coords="531,1377,390,1377,390,1371,531,1371"/>
+<area shape="rect" id="Node000051" href="$group__l4__irq__api.html#ga1d9b0812f3bc01d6d5ff7010df231e56" title="Detach from an interrupt source." alt="" coords="278,1411,387,1436"/>
+<area shape="poly" id="edge50_Node000049_Node000051" title=" " alt="" coords="531,1390,388,1416,387,1411,530,1385"/>
+<area shape="rect" id="Node000053" href="$structL4_1_1Irq__mux.html#acfd63279449d20bef4226da9a01e5da9" title="Attach an IRQ to this multiplexer." alt="" coords="262,1460,403,1485"/>
+<area shape="poly" id="edge52_Node000052_Node000053" title=" " alt="" coords="517,1475,404,1475,404,1470,517,1470"/>
+<area shape="rect" id="Node000054" href="$group__l4__irq__api.html#ga3176fd8767eeabcf521356c6f1b21ac4" title="Chain an IRQ to another master IRQ source." alt="" coords="265,1509,401,1535"/>
+<area shape="poly" id="edge53_Node000052_Node000054" title=" " alt="" coords="522,1490,401,1512,400,1507,521,1485"/>
+<area shape="rect" id="Node000056" href="$group__l4__irq__api.html#ga997f18b89d6235214d2f9c381ed6c6a5" title="Unmask and wait for specified IRQ." alt="" coords="276,1559,389,1584"/>
+<area shape="poly" id="edge55_Node000055_Node000056" title=" " alt="" coords="529,1574,390,1574,390,1569,529,1569"/>
+<area shape="rect" id="Node000058" href="$classL4_1_1Irq.html#ad6e4134fba0e3d985f4ef988a524fa6d" title="Unmask and wait for this IRQ." alt="" coords="273,1608,392,1633"/>
+<area shape="poly" id="edge57_Node000055_Node000058" title=" " alt="" coords="529,1588,393,1613,392,1607,528,1583"/>
+<area shape="rect" id="Node000057" href="$classL4Re_1_1Util_1_1Event__buffer__consumer__t.html#a4ed22b41ce4c7e6b93efae878b1415ef" title="Continuously wait for events and process them." alt="" coords="5,1551,180,1591"/>
+<area shape="poly" id="edge56_Node000056_Node000057" title=" " alt="" coords="262,1574,180,1574,180,1569,262,1569"/>
+<area shape="rect" id="Node000060" href="$classL4_1_1Thread.html#aacd56bbf983577cfc591f21fd511d3b6" title="Exchange basic thread registers." alt="" coords="258,1657,407,1683"/>
+<area shape="poly" id="edge59_Node000059_Node000060" title=" " alt="" coords="514,1690,408,1680,408,1674,515,1684"/>
+<area shape="rect" id="Node000061" href="$group__l4__thread__api.html#ga1ea29499c679caeae810516d16f4347c" title="Exchange basic thread registers." alt="" coords="262,1707,403,1732"/>
+<area shape="poly" id="edge60_Node000059_Node000061" title=" " alt="" coords="515,1706,404,1716,403,1711,514,1701"/>
+<area shape="rect" id="Node000062" href="$group__l4__thread__api.html#ga5e191cd9b1cbc5d0ac9166fb2bdd5a18" title="Exchange basic thread registers and return previous values." alt="" coords="242,1756,423,1781"/>
+<area shape="poly" id="edge61_Node000059_Node000062" title=" " alt="" coords="550,1714,438,1746,388,1758,387,1753,437,1741,549,1709"/>
+<area shape="rect" id="Node000066" href="$group__l4__thread__api.html#ga592d99fe80a0091a837f6001d0d5c25b" title="Enable the extended vCPU feature for the thread." alt="" coords="232,1805,433,1831"/>
+<area shape="poly" id="edge63_Node000065_Node000066" title=" " alt="" coords="505,1821,434,1821,434,1815,505,1815"/>
+<area shape="rect" id="Node000067" href="$classL4_1_1Thread.html#ac341b827b00c21bc3753c30163e0f173" title="Enable the extended vCPU feature for the thread." alt="" coords="228,1855,437,1880"/>
+<area shape="poly" id="edge64_Node000065_Node000067" title=" " alt="" coords="506,1839,404,1857,403,1852,505,1833"/>
+<area shape="rect" id="Node000069" href="$group__l4__thread__api.html#gac3263f4949c90adda83dba763b195988" title="Enable the vCPU feature for the thread." alt="" coords="246,1904,419,1929"/>
+<area shape="poly" id="edge66_Node000068_Node000069" title=" " alt="" coords="498,1919,419,1919,419,1914,498,1914"/>
+<area shape="rect" id="Node000070" href="$classL4_1_1Thread.html#a94a6d8a5a7a78fa99ef3c6358e0a0459" title="Enable the vCPU feature for the thread." alt="" coords="242,1953,423,1979"/>
+<area shape="poly" id="edge67_Node000068_Node000070" title=" " alt="" coords="522,1934,404,1956,403,1951,521,1929"/>
+<area shape="rect" id="Node000072" href="$classL4_1_1Vcon.html#a367997ce7608f9fd170828bba6d025ed" title="Get attributes of this virtual console." alt="" coords="265,2003,401,2028"/>
+<area shape="poly" id="edge69_Node000071_Node000072" title=" " alt="" coords="519,2018,401,2018,401,2013,519,2013"/>
+<area shape="rect" id="Node000073" href="$group__l4__vcon__api.html#gadc134de4289402f313cae68717e0a5d4" title="Get attributes of a Vcon." alt="" coords="267,2052,398,2077"/>
+<area shape="poly" id="edge70_Node000071_Node000073" title=" " alt="" coords="522,2033,399,2056,398,2050,521,2028"/>
+<area shape="rect" id="Node000075" href="$group__l4__vcon__api.html#gad6423b427845fd9cff6d6b39b17f44d3" title="Set attributes of a Vcon." alt="" coords="268,5,397,31"/>
+<area shape="poly" id="edge72_Node000074_Node000075" title=" " alt="" coords="521,55,397,32,398,27,522,50"/>
+<area shape="rect" id="Node000076" href="$classL4_1_1Vcon.html#a95422b151c12b5e20dda868972516f1a" title="Set the attributes of this virtual console." alt="" coords="265,55,400,80"/>
+<area shape="poly" id="edge73_Node000074_Node000076" title=" " alt="" coords="520,70,400,70,400,65,520,65"/>
+<area shape="rect" id="Node000080" href="$group__l4__ipc__api.html#gac3b4a3b13e77b799dc154c57a04cdd9b" title="Sleep for an amount of time." alt="" coords="555,2200,657,2225"/>
+<area shape="poly" id="edge77_Node000079_Node000080" title=" " alt="" coords="787,2215,657,2215,657,2210,787,2210"/>
+<area shape="rect" id="Node000085" href="$group__l4__thread__api.html#ga5e47131f486f920826b5f72dad82bafe" title="Yield current time slice." alt="" coords="545,2151,667,2176"/>
+<area shape="poly" id="edge82_Node000079_Node000085" title=" " alt="" coords="786,2201,667,2178,668,2173,787,2196"/>
+<area shape="rect" id="Node000081" href="$group__l4__ipc__api.html#ga46347a153dfcc368ef76b022dc70a83d" title="Sleep for a certain amount of milliseconds." alt="" coords="268,2249,397,2275"/>
+<area shape="poly" id="edge78_Node000080_Node000081" title=" " alt="" coords="541,2227,398,2253,397,2248,540,2222"/>
+<area shape="rect" id="Node000082" href="$group__l4__ipc__api.html#ga7c75873cd265368610e39db5aefabe43" title="Sleep for a certain amount of microseconds." alt="" coords="271,2101,395,2127"/>
+<area shape="poly" id="edge79_Node000080_Node000082" title=" " alt="" coords="540,2209,512,2201,484,2190,468,2177,459,2164,450,2152,436,2140,394,2125,396,2120,439,2136,454,2148,463,2161,472,2174,487,2185,513,2196,542,2204"/>
+<area shape="rect" id="Node000083" href="$group__l4util__api.html#ga3a74b4dee439a339ed5a6368845cad37" title="Go sleep and never wake up." alt="" coords="267,2151,398,2176"/>
+<area shape="poly" id="edge80_Node000080_Node000083" title=" " alt="" coords="540,2204,398,2178,399,2172,541,2198"/>
+<area shape="rect" id="Node000084" href="$group__l4util__api.html#ga88934d990c73f40eebe52998d894ff69" title="Suspend thread for a period of us microseconds." alt="" coords="291,2200,375,2225"/>
+<area shape="poly" id="edge81_Node000080_Node000084" title=" " alt="" coords="540,2215,375,2215,375,2210,540,2210"/>
+<area shape="rect" id="Node000087" href="$classL4_1_1Ipc_1_1Iostream.html#a38428e61e86208016e9653937da01f6d" title="Do an IPC reply and wait." alt="" coords="537,2266,675,2306"/>
+<area shape="poly" id="edge84_Node000086_Node000087" title=" " alt="" coords="813,2353,726,2321,675,2306,677,2300,728,2315,815,2348"/>
+<area shape="rect" id="Node000088" href="$classL4_1_1Server.html#a21578e92d497db8ab2a2a88b356fa427" title="Internal implementation for reply and wait." alt="" coords="517,2429,695,2455"/>
+<area shape="poly" id="edge85_Node000086_Node000088" title=" " alt="" coords="796,2388,776,2395,752,2407,728,2419,683,2432,681,2427,726,2414,750,2403,774,2390,794,2383"/>
+<area shape="poly" id="edge96_Node000089_Node000088" title=" " alt="" coords="796,2427,696,2436,695,2431,795,2421"/>
+<area shape="rect" id="Node000090" href="$group__l4__irq__api.html#ga180cfaf342ce9ff484a6aa7c276e1597" title="Trigger the object." alt="" coords="545,2331,667,2356"/>
+<area shape="poly" id="edge87_Node000089_Node000090" title=" " alt="" coords="796,2404,774,2395,750,2382,726,2370,667,2355,668,2349,728,2365,752,2377,776,2390,798,2399"/>
+<area shape="rect" id="Node000095" href="$group__l4__irq__api.html#ga1dd27341b8d2a6cd09e9784188109b7c" title="Unmask IRQ." alt="" coords="540,2380,672,2405"/>
+<area shape="poly" id="edge90_Node000089_Node000095" title=" " alt="" coords="795,2414,672,2402,673,2397,795,2409"/>
+<area shape="rect" id="Node000097" href="$group__l4__vcon__api.html#ga05df63a45bb7ade1e0e19caaa6e35f5f" title="Send data to this virtual console." alt="" coords="543,2479,669,2504"/>
+<area shape="poly" id="edge92_Node000089_Node000097" title=" " alt="" coords="797,2437,776,2444,752,2457,728,2468,670,2484,668,2479,726,2464,750,2452,774,2440,795,2432"/>
+<area shape="rect" id="Node000103" href="$classL4_1_1Ipc_1_1Ostream.html#a0ac15ba65285ed66a3b2ae7f9dc612d1" title="Send the message via IPC to the given receiver." alt="" coords="523,2528,689,2553"/>
+<area shape="poly" id="edge97_Node000089_Node000103" title=" " alt="" coords="797,2433,776,2444,761,2462,753,2480,746,2499,728,2518,691,2534,689,2530,725,2513,741,2496,749,2478,756,2459,773,2440,794,2428"/>
+<area shape="rect" id="Node000091" href="$group__l4__irq__api.html#gab24e0fc21a207fd566ece1e6fafbac48" title="Trigger an IRQ." alt="" coords="279,2348,387,2373"/>
+<area shape="poly" id="edge88_Node000090_Node000091" title=" " alt="" coords="531,2351,387,2360,387,2355,531,2345"/>
+<area shape="rect" id="Node000093" href="$structL4_1_1Triggerable.html#a7109ca8b4aeac0169639f973c91a3a6b" title="Trigger the object." alt="" coords="249,2299,417,2324"/>
+<area shape="poly" id="edge89_Node000090_Node000093" title=" " alt="" coords="531,2337,417,2324,417,2318,531,2332"/>
+<area shape="rect" id="Node000096" href="$group__l4__irq__api.html#ga213b7c4fe4d690ec2aec84fd226883c4" title="Unmask IRQ." alt="" coords="274,2397,391,2423"/>
+<area shape="poly" id="edge91_Node000095_Node000096" title=" " alt="" coords="526,2400,392,2409,391,2404,526,2395"/>
+<area shape="rect" id="Node000098" href="$group__l4__vcon__api.html#gabbc45ad5d795d46d1edbf8118957ecb2" title="Send data to virtual console." alt="" coords="277,2447,388,2472"/>
+<area shape="poly" id="edge93_Node000097_Node000098" title=" " alt="" coords="529,2485,388,2468,389,2463,530,2480"/>
+<area shape="rect" id="Node000099" href="$group__l4__vcon__api.html#ga899728ba23baf18f59f62142534e039c" title="Write data to this virtual console." alt="" coords="269,2496,396,2521"/>
+<area shape="poly" id="edge94_Node000097_Node000099" title=" " alt="" coords="530,2499,396,2507,396,2502,529,2493"/>
+<area shape="rect" id="Node000102" href="$classL4_1_1Vcon.html#af400882103c8601a4b0750985c57d7c4" title="Send data to this virtual console." alt="" coords="275,2545,391,2571"/>
+<area shape="poly" id="edge95_Node000097_Node000102" title=" " alt="" coords="530,2507,486,2518,438,2535,391,2548,390,2543,437,2530,485,2513,529,2502"/>
+<area shape="rect" id="Node000105" href="$group__l4__irq__api.html#ga1690f577bd2896ec9b1e5a24d00af874" title="Unmask IRQ and (open) wait for any message." alt="" coords="552,2627,660,2652"/>
+<area shape="poly" id="edge99_Node000104_Node000105" title=" " alt="" coords="816,2586,727,2618,661,2633,659,2628,726,2613,814,2581"/>
+<area shape="rect" id="Node000106" href="$group__l4__irq__api.html#gaa9151a0a16974ccc5685965fdee62b02" title="Unmask IRQ and wait for any message." alt="" coords="286,2627,379,2652"/>
+<area shape="poly" id="edge100_Node000105_Node000106" title=" " alt="" coords="538,2642,380,2642,380,2637,538,2637"/>
+<area shape="poly" id="edge102_Node000107_Node000088" title=" " alt="" coords="797,2464,696,2454,696,2448,797,2459"/>
+<area shape="rect" id="Node000108" href="$classL4_1_1Ipc_1_1Istream.html#aeefe739d106daa026a1d94ade34f1d97" title="Wait for an incoming message from any sender." alt="" coords="527,2577,685,2603"/>
+<area shape="poly" id="edge103_Node000107_Node000108" title=" " alt="" coords="835,2492,788,2531,759,2550,728,2567,687,2581,685,2576,726,2562,756,2546,785,2526,832,2488"/>
+</map>

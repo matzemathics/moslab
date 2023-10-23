@@ -1,0 +1,11 @@
+<map id="l4/re/consts.h" name="l4/re/consts.h">
+<area shape="rect" id="Node000001" title="Constants." alt="" coords="87,5,197,31"/>
+<area shape="rect" id="Node000002" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="83,79,201,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,31,145,65,139,65,139,31"/>
+<area shape="rect" id="Node000003" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="5,152,137,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="132,106,94,144,90,140,128,102"/>
+<area shape="rect" id="Node000005" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="161,152,267,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="156,102,194,140,191,144,152,106"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="10,225,133,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="74,178,74,212,69,212,69,178"/>
+</map>

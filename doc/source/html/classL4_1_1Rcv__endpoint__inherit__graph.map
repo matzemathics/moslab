@@ -1,0 +1,17 @@
+<map id="L4::Rcv_endpoint" name="L4::Rcv_endpoint">
+<area shape="rect" id="Node000001" title="Interface for kernel objects that allow to receive IPC from them." alt="" coords="143,376,269,441"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Kobject__2t.html" title=" " alt="" coords="5,498,196,613"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="177,454,144,499,140,496,173,451"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="221,491,407,620"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="240,451,269,489,264,492,236,454"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="113,197,299,327"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,340,209,376,203,376,203,340"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="65,13,171,98"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="144,110,181,196,176,198,139,112"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="195,5,395,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="271,119,236,198,231,196,266,117"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Irq.html" title="C++ Irq interface, see IRQs for the C interface." alt="" coords="55,669,146,795"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="103,626,103,669,98,669,98,626"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Ipc__gate.html" title="The C++ IPC gate interface, see IPC&#45;Gate API for the C interface." alt="" coords="265,699,363,765"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="317,634,317,699,311,699,311,634"/>
+</map>

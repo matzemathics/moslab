@@ -1,0 +1,7 @@
+<map id="L4drivers::Register_block_impl&lt; BASE, MAX_BITS &gt;" name="L4drivers::Register_block_impl&lt; BASE, MAX_BITS &gt;">
+<area shape="rect" id="Node000001" title="Implementation helper for register blocks." alt="" coords="111,5,289,100"/>
+<area shape="rect" id="Node000002" href="$structL4drivers_1_1Mmio__register__block.html" title="An MMIO block with up to 64&#45;bit register access (32&#45;bit default) and little endian byte order." alt="" coords="5,185,181,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,113,120,186,115,183,161,110"/>
+<area shape="rect" id="Node000003" href="$structL4drivers_1_1Register__block__impl.html" title=" " alt="" coords="206,177,407,272"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="239,110,280,176,275,179,234,113"/>
+</map>

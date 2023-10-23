@@ -1,0 +1,5 @@
+<map id="l4_thread_stats_time" name="l4_thread_stats_time">
+<area shape="rect" id="Node000001" title="Get consumed time of thread in µs." alt="" coords="5,5,164,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="212,5,281,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,15,198,15,198,21,164,21"/>
+</map>

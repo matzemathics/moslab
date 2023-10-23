@@ -1,0 +1,7 @@
+<map id="x86/l4/util/cpu.h" name="x86/l4/util/cpu.h">
+<area shape="rect" id="Node000001" title="CPU related functions." alt="" coords="8,5,135,31"/>
+<area shape="rect" id="Node000002" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="5,79,137,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,31,74,65,69,65,69,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="10,152,133,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="74,104,74,138,69,138,69,104"/>
+</map>

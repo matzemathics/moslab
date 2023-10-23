@@ -1,0 +1,13 @@
+<map id="l4_thread_vcpu_control_ext" name="l4_thread_vcpu_control_ext">
+<area shape="rect" id="Node000001" title="Enable the extended vCPU feature for the thread." alt="" coords="5,59,207,84"/>
+<area shape="rect" id="Node000002" href="$group__l4__thread__api.html#ga1015c5500bcfeaa01d209ee116cf57ec" title="Enable the extended vCPU feature for the thread." alt="" coords="255,22,428,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,56,241,52,242,57,207,61"/>
+<area shape="rect" id="Node000006" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="307,87,376,112"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="207,81,293,91,292,96,206,86"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="476,5,567,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="428,28,462,23,463,28,429,33"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="476,55,567,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="429,52,463,56,462,62,428,57"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="615,5,675,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="567,15,601,15,601,21,567,21"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="l4_ipc_wait" name="l4_ipc_wait">
+<area shape="rect" id="Node000001" title="Wait for an incoming message from any possible sender." alt="" coords="232,31,327,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Server.html#a21578e92d497db8ab2a2a88b356fa427" title="Internal implementation for reply and wait." alt="" coords="5,5,184,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,38,184,33,184,28,219,32"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Ipc_1_1Istream.html#aeefe739d106daa026a1d94ade34f1d97" title="Wait for an incoming message from any sender." alt="" coords="15,55,174,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,54,174,60,174,54,218,49"/>
+</map>

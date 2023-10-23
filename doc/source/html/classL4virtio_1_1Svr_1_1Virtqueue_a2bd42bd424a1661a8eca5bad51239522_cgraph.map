@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Virtqueue::enable_notify" name="L4virtio::Svr::Virtqueue::enable_notify">
+<area shape="rect" id="Node000001" title="Clear the &#39;no notify&#39; flag for this queue." alt="" coords="5,37,176,77"/>
+<area shape="rect" id="Node000002" href="$structL4virtio_1_1Virtqueue_1_1Used_1_1Flags.html#ac3ce47fc7d1ceb8cbe209a71d898bc6e" title="Get the no_notify bits ( 0 to 0 ) of raw." alt="" coords="224,5,399,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,42,210,37,211,43,177,48"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue.html#aa242e930433e8705c4ee00afaf58f686" title="Test if this queue is in working state." alt="" coords="240,69,383,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,67,227,74,226,80,176,72"/>
+</map>

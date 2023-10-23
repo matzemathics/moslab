@@ -1,0 +1,9 @@
+<map id="l4re_env_get_cap_l" name="l4re_env_get_cap_l">
+<area shape="rect" id="Node000001" title="Get the full l4re_env_cap_entry_t for the object named name." alt="" coords="388,31,535,56"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Env.html#a24d6458e3722badd4b194f4b4769edfc" title="Get the Cap_entry for the object named name." alt="" coords="207,5,322,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="374,35,322,28,323,23,375,30"/>
+<area shape="rect" id="Node000003" href="$group__api__l4re__env.html#ga788aedd589b464cccbeff610416cced9" title="Get the capability selector for the object named name." alt="" coords="189,55,340,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="375,57,341,61,340,56,374,51"/>
+<area shape="rect" id="Node000004" href="$group__api__l4re__env.html#ga1413d41707d888eb9121f6efe1682504" title="Get the capability selector for the object named name." alt="" coords="5,55,141,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="176,70,142,70,142,65,176,65"/>
+</map>

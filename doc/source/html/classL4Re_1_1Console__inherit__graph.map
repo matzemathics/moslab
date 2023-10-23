@@ -1,0 +1,7 @@
+<map id="L4Re::Console" name="L4Re::Console">
+<area shape="rect" id="Node000001" title="Console class." alt="" coords="40,361,147,427"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__2t.html" title=" " alt="" coords="5,197,181,312"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,326,96,361,91,361,91,326"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject__2t.html" title="Helper class to create an L4Re interface class that is derived from two base classes (see L4::Kobject..." alt="" coords="6,5,181,120"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,134,96,197,91,197,91,134"/>
+</map>

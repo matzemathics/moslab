@@ -1,0 +1,15 @@
+<map id="cxx::Base_slab_static::alloc" name="cxx::Base_slab_static::alloc">
+<area shape="rect" id="Node000001" title="Allocate an object." alt="" coords="5,22,168,62"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Base__slab.html#a5b7c524846e7cde26b2e98cf844778b7" title="Allocate a new object." alt="" coords="216,29,375,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,39,202,39,202,45,168,45"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Base__slab.html#afe7c2b52fc3f56e683c28ce1e00b657c" title="Free the given object (_o)." alt="" coords="423,29,576,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="375,39,409,39,409,45,375,45"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1H__list.html#afa48e56b417c420b88b7494ce3e791d6" title="Add element to the front of the list." alt="" coords="624,5,791,31"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="347,27,422,14,519,9,610,10,610,15,519,14,423,19,348,32"/>
+<area shape="rect" id="Node000006" href="$classcxx_1_1H__list.html#abc13d604f76c1da4ea72c30c1302835d" title="Remove the given element from its list." alt="" coords="633,55,781,80"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="348,52,423,65,525,70,619,69,620,74,525,75,422,70,347,57"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="576,30,610,27,611,32,577,36"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="577,49,620,54,619,59,576,54"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1H__list.html#a95a4b614aadeeb364d01693d2f594ace" title="Add element to the front of the list." alt="" coords="839,5,961,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="791,15,825,15,825,21,791,21"/>
+</map>

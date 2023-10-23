@@ -1,0 +1,5 @@
+<map id="L4virtio::Driver::Virtio_net_device::Packet" name="L4virtio::Driver::Virtio_net_device::Packet">
+<area shape="rect" id="Node000001" title="Structure for a network packet (header including data) with maximum size, assuming that no extra feat..." alt="" coords="5,133,160,213"/>
+<area shape="rect" id="Node000002" href="$structl4virtio__net__header__t.html" title="Header structure of a request for a network device." alt="" coords="7,5,159,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,71,85,117,80,117,80,71"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="l4_ipc_receive" name="l4_ipc_receive">
+<area shape="rect" id="Node000001" title="Wait for a message from a specific source." alt="" coords="355,105,469,131"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#gac3b4a3b13e77b799dc154c57a04cdd9b" title="Sleep for an amount of time." alt="" coords="194,80,297,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="341,110,297,103,298,98,341,105"/>
+<area shape="rect" id="Node000007" href="$group__l4__thread__api.html#ga5e47131f486f920826b5f72dad82bafe" title="Yield current time slice." alt="" coords="184,129,307,155"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="341,131,308,136,307,131,340,126"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga46347a153dfcc368ef76b022dc70a83d" title="Sleep for a certain amount of milliseconds." alt="" coords="6,5,135,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="205,76,135,44,106,33,108,28,137,40,207,72"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga7c75873cd265368610e39db5aefabe43" title="Sleep for a certain amount of microseconds." alt="" coords="9,55,133,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="180,86,133,79,133,74,181,81"/>
+<area shape="rect" id="Node000005" href="$group__l4util__api.html#ga3a74b4dee439a339ed5a6368845cad37" title="Go sleep and never wake up." alt="" coords="5,104,136,129"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="181,104,136,110,136,105,180,99"/>
+<area shape="rect" id="Node000006" href="$group__l4util__api.html#ga88934d990c73f40eebe52998d894ff69" title="Suspend thread for a period of us microseconds." alt="" coords="29,153,113,179"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="199,113,185,119,137,143,107,156,105,151,135,138,183,114,197,108"/>
+</map>

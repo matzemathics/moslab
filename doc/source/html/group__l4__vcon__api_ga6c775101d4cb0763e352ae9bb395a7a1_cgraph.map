@@ -1,0 +1,7 @@
+<map id="l4_vcon_read" name="l4_vcon_read">
+<area shape="rect" id="Node000001" title="Read data from virtual console." alt="" coords="5,31,113,56"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="188,5,257,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,32,174,23,175,28,114,38"/>
+<area shape="rect" id="Node000003" href="$group__l4__vcon__api.html#gaac94d1d8c7650a94642d5d9254f418bc" title="Read data from this virtual console." alt="" coords="161,55,284,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="114,49,148,54,147,59,113,54"/>
+</map>

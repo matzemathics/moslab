@@ -1,0 +1,21 @@
+<map id="L4::Ipc::make_cap_rw" name="L4::Ipc::make_cap_rw">
+<area shape="rect" id="Node000001" title="Make an L4::Ipc::Cap&lt;T&gt; for the given capability with L4_CAP_FPAGE_RW rights." alt="" coords="471,191,632,217"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Util_1_1Event__buffer__t.html#a7ccb828618951c13cd1ccd7ebe1959e2" title="Attach event buffer from address space." alt="" coords="248,5,423,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="531,182,485,125,454,94,421,66,389,48,392,43,424,62,458,90,489,121,535,178"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="249,184,421,224"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="457,207,422,207,422,201,457,201"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,120,200,160"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="527,183,482,143,453,125,422,111,389,102,354,98,285,98,219,108,163,122,162,117,218,103,284,93,355,92,390,97,424,105,455,120,485,139,531,179"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,184,186,224"/>
+<area shape="poly" id="edge11_Node000001_Node000005" title=" " alt="" coords="497,223,423,239,335,245,248,239,179,227,180,221,248,233,335,240,422,233,496,218"/>
+<area shape="rect" id="Node000006" href="$classL4Re_1_1Util_1_1Event__t.html#a6052908f83d35a7bb1ba9371cbfc9834" title="Initialise an event object." alt="" coords="264,299,407,339"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="520,226,424,282,385,301,383,296,421,278,517,222"/>
+<area shape="rect" id="Node000007" href="$classL4Re_1_1Util_1_1Event__t.html#a2161b185b3f69aa9ef597a03fdbde247" title="Initialise an event object in polling mode." alt="" coords="264,363,407,403"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="537,230,491,291,460,324,424,353,403,365,400,360,421,348,456,320,487,287,533,227"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Driver_1_1Device.html#a7a5c440b8353e0bd030a552334e7e5a3" title="Share a dataspace with the device." alt="" coords="249,120,421,160"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="493,190,403,163,404,158,495,185"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="248,183,175,163,177,157,249,178"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="235,207,186,207,186,201,235,201"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="235,143,200,143,200,137,235,137"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="249,166,177,187,175,181,248,161"/>
+</map>

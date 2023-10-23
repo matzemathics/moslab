@@ -1,0 +1,7 @@
+<map id="l4_round_page" name="l4_round_page">
+<area shape="rect" id="Node000001" title="Round address up to the next page." alt="" coords="224,56,341,81"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#abdad88a18e5428fb2276148ceccf0434" title="Make a local memory region for the given driver values." alt="" coords="5,5,176,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,58,176,51,177,46,211,53"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="7,85,174,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,85,175,92,174,86,210,80"/>
+</map>

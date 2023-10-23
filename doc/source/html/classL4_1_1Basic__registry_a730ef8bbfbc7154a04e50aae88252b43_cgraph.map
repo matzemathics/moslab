@@ -1,0 +1,7 @@
+<map id="L4::Basic_registry::dispatch" name="L4::Basic_registry::dispatch">
+<area shape="rect" id="Node000001" title="The dispatch function called by the server loop." alt="" coords="5,27,143,67"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Epiface.html#aa77168d1ca477f5f7e72c4535f143381" title="The abstract handler for client requests to the object." alt="" coords="191,5,347,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,34,177,29,177,34,143,40"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Basic__registry.html#ac7e8e0bd76a6fe912ccc2a7df2cead73" title="Get the server object for an Ipc_gate label." alt="" coords="200,55,337,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,55,186,61,186,66,143,60"/>
+</map>

@@ -1,0 +1,28 @@
+<map id="L4::Types::Bool&lt; V &gt;" name="L4::Types::Bool&lt; V &gt;">
+<area shape="rect" id="Node000001" title="Boolean meta type." alt="" coords="632,5,783,71"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="5,214,191,323"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="618,46,355,65,237,80,197,88,174,97,150,121,131,151,118,183,109,215,104,213,113,182,126,149,145,118,171,92,195,83,237,74,355,60,618,41"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="215,207,373,331"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="619,46,546,52,470,62,404,77,379,86,361,97,339,120,323,148,312,178,304,207,299,206,307,176,318,145,335,117,358,93,377,81,403,72,469,57,545,47,618,41"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="397,221,580,316"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="620,62,589,77,563,97,539,125,522,157,500,222,495,220,517,155,535,122,559,93,586,72,618,57"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="604,207,811,331"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="710,85,710,206,705,206,705,85"/>
+<area shape="rect" id="Node000006" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="835,214,1041,323"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="797,63,821,76,844,93,869,120,891,151,922,213,917,215,886,154,865,123,840,97,818,81,794,68"/>
+<area shape="rect" id="Node000007" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="1066,236,1239,301"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="797,40,876,45,960,55,1034,70,1062,81,1084,93,1112,124,1132,162,1145,201,1152,235,1147,236,1140,203,1127,164,1108,127,1080,97,1060,85,1032,76,959,60,876,51,797,45"/>
+<area shape="rect" id="Node000010" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="1264,236,1431,301"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="796,38,904,43,1024,52,1133,68,1177,79,1210,92,1252,123,1286,161,1314,200,1334,234,1330,237,1310,203,1282,164,1248,127,1207,97,1175,84,1132,73,1023,58,904,48,796,44"/>
+<area shape="rect" id="Node000008" href="$structL4_1_1Types_1_1False.html" title="False meta value." alt="" coords="1095,380,1210,445"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1155,315,1155,380,1150,380,1150,315"/>
+<area shape="rect" id="Node000009" href="$structL4_1_1Types_1_1Same.html" title="Compare two data types for equality." alt="" coords="1065,502,1240,567"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1155,459,1155,502,1150,502,1150,459"/>
+<area shape="rect" id="Node000011" href="$structL4_1_1Types_1_1True.html" title="True meta value." alt="" coords="1293,380,1402,445"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1350,315,1350,380,1345,380,1345,315"/>
+<area shape="rect" id="Node000012" href="$structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html" title=" " alt="" coords="1253,637,1402,717"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1340,459,1334,495,1329,571,1329,637,1324,637,1324,570,1329,494,1334,458"/>
+<area shape="rect" id="Node000013" href="$structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html" title="Type trait defining a valid RPC parameter type." alt="" coords="1343,495,1493,575"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="1375,456,1397,493,1393,496,1371,459"/>
+<area shape="poly" id="edge13_Node000013_Node000012" title=" " alt="" coords="1388,588,1355,639,1350,636,1383,585"/>
+</map>

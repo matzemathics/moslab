@@ -1,0 +1,11 @@
+<map id="L4::Icu::bind" name="L4::Icu::bind">
+<area shape="rect" id="Node000001" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="468,45,568,70"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Device.html#a1c9b791b723e7e8ad2eae927094b487d" title="Register a triggerable to receive notifications from the device." alt="" coords="248,5,420,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="454,49,420,43,421,38,455,44"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="248,69,420,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="455,71,421,77,420,72,454,66"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,37,200,77"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="234,78,200,73,201,68,234,73"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,101,186,141"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="235,106,187,112,186,107,234,100"/>
+</map>

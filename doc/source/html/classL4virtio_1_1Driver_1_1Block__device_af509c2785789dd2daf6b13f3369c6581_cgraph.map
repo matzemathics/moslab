@@ -1,0 +1,100 @@
+<map id="L4virtio::Driver::Block_device::setup_device" name="L4virtio::Driver::Block_device::setup_device">
+<area shape="rect" id="Node000001" title="Establish a connection to the device and set up shared memory." alt="" coords="5,570,172,610"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue.html#a5a4db3f2c9356da05cd5b472ebc2f0e6" title="Get the offset of the available ring from the descriptor table." alt="" coords="256,49,399,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,569,105,470,133,329,151,257,171,191,193,136,218,99,241,82,245,86,222,103,198,139,176,193,156,258,138,331,111,471,95,570"/>
+<area shape="rect" id="Node000003" href="$namespaceL4Re.html#a64b057254a760643ba67a9ed452fede8" title="Check for valid capability or raise C++ exception." alt="" coords="531,169,639,195"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="92,569,106,520,131,453,168,382,191,349,218,319,265,293,348,257,482,205,517,194,518,199,484,210,350,262,268,298,222,323,195,352,172,385,136,455,111,521,97,571"/>
+<area shape="rect" id="Node000005" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="531,120,638,145"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="90,569,100,509,122,425,139,380,160,335,186,292,218,255,240,238,270,222,350,192,438,166,517,145,519,150,439,171,351,197,273,227,243,243,222,259,191,296,165,337,143,382,127,427,105,510,95,570"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Device.html#aa557ba0e56fbfc194b07440ecc796061" title="Send the virtqueue configuration to the device." alt="" coords="241,602,413,642"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="173,599,228,606,227,611,172,604"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Driver_1_1Device.html#af06d27e63124749456ddc8d959231741" title="Finalize handshake with the device." alt="" coords="241,113,413,153"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="89,570,96,500,117,399,134,343,155,287,183,234,218,186,235,170,254,157,257,161,238,174,222,189,188,237,160,290,139,345,122,400,102,500,94,570"/>
+<area shape="rect" id="Node000011" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="241,333,413,373"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="102,568,151,504,218,429,282,379,285,383,222,433,155,507,106,571"/>
+<area shape="rect" id="Node000023" href="$classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc" title="Returns the initial environment for the current task." alt="" coords="526,447,643,472"/>
+<area shape="poly" id="edge31_Node000001_Node000023" title=" " alt="" coords="109,568,156,529,187,510,219,494,295,472,374,460,448,454,512,453,512,459,449,459,375,465,296,477,221,499,189,514,160,533,112,572"/>
+<area shape="rect" id="Node000026" href="$namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c" title="Make an L4::Ipc::Cap&lt;T&gt; for the given capability with L4_CAP_FPAGE_RW rights." alt="" coords="504,496,665,521"/>
+<area shape="poly" id="edge42_Node000001_Node000026" title=" " alt="" coords="120,567,166,543,219,523,289,510,361,502,490,500,491,505,361,508,290,515,221,529,168,548,123,572"/>
+<area shape="rect" id="Node000027" href="$classL4Re_1_1Rm_1_1Unique__region.html#a301d5bd597f8c1e3b98bc52659f13dbe" title="Return the address." alt="" coords="220,667,435,692"/>
+<area shape="poly" id="edge32_Node000001_Node000027" title=" " alt="" coords="127,608,171,630,221,651,250,661,249,666,219,657,169,635,124,613"/>
+<area shape="rect" id="Node000028" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a8b7ef703e8e55d889419f43dc28dd40e" title="Initialize this virtqueue." alt="" coords="232,717,423,757"/>
+<area shape="poly" id="edge33_Node000001_Node000028" title=" " alt="" coords="110,608,158,655,188,679,221,701,237,709,235,714,219,706,185,684,154,659,106,612"/>
+<area shape="rect" id="Node000033" href="$group__l4__memory__api.html#ga96e3b2d8e69308aecbb11d1d24f61662" title="Round address up to the next page." alt="" coords="269,1017,386,1043"/>
+<area shape="poly" id="edge40_Node000001_Node000033" title=" " alt="" coords="93,610,98,683,116,786,132,843,155,898,184,950,222,996,238,1008,256,1017,254,1021,235,1013,218,1000,180,954,150,901,127,845,111,788,93,683,88,611"/>
+<area shape="rect" id="Node000034" href="$group__l4__memory__api.html#gae876a4c6e0f21b2ecbf17863dc7d11e4" title="Round value up to the next alignment with bits size." alt="" coords="529,1145,640,1171"/>
+<area shape="poly" id="edge41_Node000001_Node000034" title=" " alt="" coords="93,610,100,676,120,769,136,819,158,868,186,913,222,952,248,970,274,978,300,979,327,977,353,975,380,977,408,984,436,1003,449,1017,457,1032,462,1061,467,1091,473,1105,484,1119,518,1140,515,1144,481,1123,469,1107,462,1092,457,1062,452,1033,445,1020,433,1007,406,989,379,982,353,981,327,983,300,985,273,983,246,975,218,956,182,916,153,870,131,821,114,770,95,677,88,610"/>
+<area shape="rect" id="Node000035" href="$classL4virtio_1_1Driver_1_1Device.html#a07dd8cdbc1ce12dca8af6a540463ae23" title="Maximum queue size allowed by the device." alt="" coords="241,1067,413,1107"/>
+<area shape="poly" id="edge43_Node000001_Node000035" title=" " alt="" coords="92,610,94,691,100,748,110,810,126,875,149,939,180,999,222,1052,231,1060,227,1064,218,1056,176,1002,144,941,120,876,104,811,94,748,89,692,87,611"/>
+<area shape="rect" id="Node000036" href="$classL4virtio_1_1Driver_1_1Device.html#a7a5c440b8353e0bd030a552334e7e5a3" title="Share a dataspace with the device." alt="" coords="241,538,413,578"/>
+<area shape="poly" id="edge44_Node000001_Node000036" title=" " alt="" coords="172,576,227,569,228,574,173,581"/>
+<area shape="rect" id="Node000038" href="$classL4virtio_1_1Virtqueue.html#a6f8cdc52ebe6322c3023e05e0e055293" title="Calculate the total size for a virtqueue of the given dimensions." alt="" coords="256,902,399,942"/>
+<area shape="poly" id="edge47_Node000001_Node000038" title=" " alt="" coords="107,609,306,889,302,892,102,612"/>
+<area shape="rect" id="Node000042" href="$classL4virtio_1_1Virtqueue.html#a80c6d7100b025658ad3c05a844e4391b" title="Get the offset of the used ring from the descriptor table." alt="" coords="256,1131,399,1171"/>
+<area shape="poly" id="edge56_Node000001_Node000042" title=" " alt="" coords="95,610,109,716,135,868,153,947,173,1019,196,1078,222,1117,244,1134,241,1138,218,1121,192,1080,168,1021,148,948,130,869,104,716,90,611"/>
+<area shape="rect" id="Node000004" href="$namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b" title="Generate C++ exception." alt="" coords="755,145,893,171"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="639,174,741,164,742,169,639,179"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="639,136,742,147,741,152,638,141"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Device.html#a47218ed005d79308d0e297d1a731a517" title="Trigger queue configuration of the given queue." alt="" coords="499,595,670,635"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="413,617,485,615,485,621,414,622"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="413,130,518,130,518,135,413,135"/>
+<area shape="rect" id="Node000009" href="$group__l4virtio__transport.html#gae37bcd45875b27b302320e6b9580191d" title="Check if the given bit in a feature map is set." alt="" coords="509,5,660,31"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="411,110,433,98,448,85,456,70,465,55,481,41,496,33,498,38,484,46,469,59,461,73,452,88,436,103,414,115"/>
+<area shape="rect" id="Node000010" href="$classL4virtio_1_1Device.html#ab2e1044b9a29628c3ed7945b9dfe4cad" title="Write the VIRTIO status register." alt="" coords="509,55,661,95"/>
+<area shape="poly" id="edge11_Node000008_Node000010" title=" " alt="" coords="413,111,495,93,496,98,414,116"/>
+<area shape="poly" id="edge22_Node000011_Node000003" title=" " alt="" coords="392,330,414,319,433,304,449,280,455,255,462,230,469,217,481,205,498,195,516,187,518,192,500,199,484,209,473,221,467,232,460,256,454,282,437,308,417,323,395,335"/>
+<area shape="poly" id="edge23_Node000011_Node000005" title=" " alt="" coords="344,331,432,223,453,186,463,170,481,154,517,138,519,143,484,159,467,174,458,189,437,226,348,334"/>
+<area shape="poly" id="edge30_Node000011_Node000010" title=" " alt="" coords="337,331,403,211,445,147,481,105,495,96,498,101,484,109,449,150,408,214,341,334"/>
+<area shape="rect" id="Node000012" href="$classL4_1_1Icu.html#ada7541da586ea09b925b4d90d7dc357e" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="535,397,635,423"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="414,369,522,393,521,399,413,374"/>
+<area shape="rect" id="Node000021" href="$classL4virtio_1_1Device.html#a47e53efa92534451e46ecd4fef7060da" title="Get the dataspace with the L4virtio configuration page." alt="" coords="497,219,672,259"/>
+<area shape="poly" id="edge24_Node000011_Node000021" title=" " alt="" coords="379,330,433,304,457,286,481,269,497,262,499,267,484,274,460,290,436,308,382,335"/>
+<area shape="rect" id="Node000022" href="$classL4virtio_1_1Device.html#a2c81a536513972d43f95394d88c39147" title="Get the notification interrupt corresponding to the given index." alt="" coords="497,283,672,323"/>
+<area shape="poly" id="edge25_Node000011_Node000022" title=" " alt="" coords="413,334,483,320,484,325,414,339"/>
+<area shape="poly" id="edge26_Node000011_Node000023" title=" " alt="" coords="363,370,418,402,484,432,513,441,512,446,482,436,416,406,360,375"/>
+<area shape="rect" id="Node000024" href="$group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call." alt="" coords="549,348,621,373"/>
+<area shape="poly" id="edge27_Node000011_Node000024" title=" " alt="" coords="414,353,535,356,535,362,413,358"/>
+<area shape="poly" id="edge29_Node000011_Node000026" title=" " alt="" coords="348,371,405,426,443,456,484,481,503,489,501,494,481,486,440,460,402,430,345,375"/>
+<area shape="rect" id="Node000013" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="755,397,893,423"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="635,407,741,407,741,413,635,413"/>
+<area shape="rect" id="Node000014" href="$group__l4__icu__api.html#ga29217a67f405c5d860002dd902bf71e4" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="769,447,879,472"/>
+<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="636,418,756,443,755,448,634,423"/>
+<area shape="rect" id="Node000015" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="991,372,1081,397"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="875,444,912,432,960,406,978,399,980,404,962,411,914,436,877,449"/>
+<area shape="rect" id="Node000017" href="$group__l4__msgitem__api.html#ga6c9056957ac92e458eaabcbf3223ce6f" title="Create the first word for a map item for the object space." alt="" coords="961,421,1111,447"/>
+<area shape="poly" id="edge18_Node000014_Node000017" title=" " alt="" coords="879,450,947,442,948,447,880,455"/>
+<area shape="rect" id="Node000019" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="991,471,1081,496"/>
+<area shape="poly" id="edge20_Node000014_Node000019" title=" " alt="" coords="880,463,977,474,977,479,879,468"/>
+<area shape="rect" id="Node000020" href="$group__l4__fpage__api.html#ga3eaf59757a63812044e2b3a1cdf09d54" title="Create a kernel&#45;object flex page." alt="" coords="983,520,1089,545"/>
+<area shape="poly" id="edge21_Node000014_Node000020" title=" " alt="" coords="862,470,962,505,986,513,984,518,960,510,860,475"/>
+<area shape="rect" id="Node000016" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="1190,372,1250,397"/>
+<area shape="poly" id="edge17_Node000015_Node000016" title=" " alt="" coords="1082,382,1176,382,1176,387,1082,387"/>
+<area shape="rect" id="Node000018" href="$group__l4__msgitem__api.html#ga1ce1321fd25614e9af43a35819540ba7" title="Create the first word for a map item for the memory space." alt="" coords="1159,421,1281,447"/>
+<area shape="poly" id="edge19_Node000017_Node000018" title=" " alt="" coords="1111,431,1145,431,1145,437,1111,437"/>
+<area shape="rect" id="Node000025" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="789,348,859,373"/>
+<area shape="poly" id="edge28_Node000024_Node000025" title=" " alt="" coords="621,358,776,358,776,363,621,363"/>
+<area shape="rect" id="Node000029" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a9ebf7e4518d01a4dc17c5ee6c0e3025b" title="Return a reference to a descriptor in the descriptor table." alt="" coords="489,838,680,878"/>
+<area shape="poly" id="edge34_Node000028_Node000029" title=" " alt="" coords="360,755,417,789,484,824,502,831,500,836,482,828,414,794,357,759"/>
+<area shape="rect" id="Node000030" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#ac31099e5abf48745f518aed17b1dee54" title="Initialize the descriptor table and the index structures of this queue." alt="" coords="489,710,680,750"/>
+<area shape="poly" id="edge35_Node000028_Node000030" title=" " alt="" coords="423,732,476,730,476,735,423,737"/>
+<area shape="rect" id="Node000031" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="735,909,913,935"/>
+<area shape="poly" id="edge37_Node000028_Node000031" title=" " alt="" coords="393,714,482,695,541,684,588,675,611,673,635,675,660,682,688,696,715,715,739,738,777,793,803,849,818,895,813,897,798,851,772,796,735,742,712,719,685,700,658,687,634,680,611,678,589,680,542,690,483,701,394,719"/>
+<area shape="rect" id="Node000032" href="$classL4virtio_1_1Virtqueue.html#a109ea5677dd074df1d2c6a06056c7d82" title="Enable this queue." alt="" coords="513,774,656,814"/>
+<area shape="poly" id="edge38_Node000028_Node000032" title=" " alt="" coords="418,754,501,773,499,778,417,759"/>
+<area shape="poly" id="edge36_Node000030_Node000031" title=" " alt="" coords="666,748,688,760,727,792,762,829,810,896,806,899,758,832,724,796,685,764,663,752"/>
+<area shape="poly" id="edge39_Node000032_Node000031" title=" " alt="" coords="657,811,688,824,749,861,799,898,796,903,746,865,685,828,655,816"/>
+<area shape="poly" id="edge45_Node000036_Node000026" title=" " alt="" coords="413,539,504,521,505,527,414,544"/>
+<area shape="rect" id="Node000037" href="$classL4virtio_1_1Device.html#a033005cb79e876d02b8ca405ffadca2b" title="Register a shared data space with VIRTIO host." alt="" coords="483,545,687,571"/>
+<area shape="poly" id="edge46_Node000036_Node000037" title=" " alt="" coords="413,555,469,555,469,561,413,561"/>
+<area shape="poly" id="edge53_Node000038_Node000031" title=" " alt="" coords="400,936,419,946,437,959,449,975,456,991,459,1024,463,1054,471,1067,484,1080,511,1096,535,1106,559,1112,582,1113,630,1103,685,1080,727,1052,762,1016,789,979,808,946,813,948,793,981,766,1020,730,1056,688,1084,631,1108,582,1118,558,1117,534,1111,508,1101,481,1084,466,1071,458,1056,454,1025,450,993,444,977,433,963,417,950,398,941"/>
+<area shape="poly" id="edge52_Node000038_Node000034" title=" " alt="" coords="400,935,420,945,437,959,452,980,459,1002,461,1044,463,1084,470,1104,485,1124,500,1136,517,1144,515,1149,497,1140,481,1128,465,1107,457,1085,456,1044,454,1003,447,983,433,962,417,949,398,939"/>
+<area shape="rect" id="Node000039" href="$classL4virtio_1_1Virtqueue.html#a962767a117dad07184f59191d399f9ce" title="Calculate the size of the available ring for num entries." alt="" coords="513,902,656,942"/>
+<area shape="poly" id="edge48_Node000038_Node000039" title=" " alt="" coords="399,919,500,919,500,925,399,925"/>
+<area shape="rect" id="Node000040" href="$classL4virtio_1_1Virtqueue.html#a19410c09db5499023cb4b9f11742cd26" title="Calculate the size of the descriptor table for num entries." alt="" coords="513,966,656,1006"/>
+<area shape="poly" id="edge50_Node000038_Node000040" title=" " alt="" coords="400,937,501,962,499,968,398,942"/>
+<area shape="rect" id="Node000041" href="$classL4virtio_1_1Virtqueue.html#a7747ac81d7fd21e1e55e43c2e7ead2ea" title="Calculate the size of the used ring for num entries." alt="" coords="513,1030,656,1070"/>
+<area shape="poly" id="edge54_Node000038_Node000041" title=" " alt="" coords="400,939,436,959,452,973,461,988,469,1002,484,1016,502,1026,500,1030,481,1020,465,1006,456,991,448,977,433,963,398,944"/>
+<area shape="poly" id="edge49_Node000039_Node000031" title=" " alt="" coords="656,919,721,919,721,925,656,925"/>
+<area shape="poly" id="edge51_Node000040_Node000031" title=" " alt="" coords="656,964,762,936,764,941,657,970"/>
+<area shape="poly" id="edge55_Node000041_Node000031" title=" " alt="" coords="655,1028,685,1016,746,979,796,941,799,946,749,983,688,1020,657,1033"/>
+</map>

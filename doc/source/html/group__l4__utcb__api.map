@@ -1,0 +1,10 @@
+<map id="Virtual Registers (UTCBs)" name="Virtual Registers (UTCBs)">
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html" title="API for L4 object invocation." alt="" coords="5,170,141,195"/>
+<area shape="rect" id="Node000001" title="L4 Virtual Registers (UTCB)." alt="" coords="189,163,324,203"/>
+<area shape="rect" id="Node000007" href="$group__l4__utcb__api__amd64.html" title=" " alt="" coords="376,5,555,45"/>
+<area shape="rect" id="Node000003" href="$group__l4__utcb__api__arm.html" title=" " alt="" coords="383,69,547,109"/>
+<area shape="rect" id="Node000008" href="$group__l4__utcb__api__x86.html" title=" " alt="" coords="386,133,545,173"/>
+<area shape="rect" id="Node000004" href="$group__l4__utcb__br__api.html" title=" " alt="" coords="383,198,548,223"/>
+<area shape="rect" id="Node000005" href="$group__l4__utcb__mr__api.html" title=" " alt="" coords="372,247,559,273"/>
+<area shape="rect" id="Node000006" href="$group__l4__utcb__tcr__api.html" title=" " alt="" coords="374,297,557,337"/>
+</map>

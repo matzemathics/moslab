@@ -1,0 +1,5 @@
+<map id="l4vcpu_is_irq_entry" name="l4vcpu_is_irq_entry">
+<area shape="rect" id="Node000001" title="Return whether the entry reason was an IRQ/IPC message." alt="" coords="204,13,352,38"/>
+<area shape="rect" id="Node000002" href="$classL4vcpu_1_1Vcpu.html#a454e797844fe8ab7113c6241725055e4" title="Return whether the entry reason was an IRQ/IPC message." alt="" coords="5,5,156,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,28,156,28,156,23,190,23"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="L4Re::Util::Object_registry" name="L4Re::Util::Object_registry">
+<area shape="rect" id="Node000001" title="A registry that manages server objects and their attached IPC gates for a single server loop for a sp..." alt="" coords="333,951,473,1151"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Basic__registry.html" title="This registry returns the corresponding server object based on the label of an Ipc_gate." alt="" coords="5,735,135,821"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,831,124,860,148,886,193,924,241,959,334,1013,332,1018,238,963,189,928,144,890,120,863,99,834"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Registry__iface.html" title="Abstract interface for object registries." alt="" coords="159,705,299,851"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,861,342,949,337,952,280,864"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Cap.html" title=" " alt="" coords="323,675,483,881"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="406,881,406,934,401,934,401,881"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Cap__base.html" title="Base class for all kinds of capabilities." alt="" coords="457,5,573,351"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="460,365,451,401,428,544,413,675,408,675,422,543,446,399,454,363"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Cap.html" title="C++ interface for capabilities." alt="" coords="461,400,570,605"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="518,364,518,400,513,400,513,364"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Cap.html" title=" " alt="" coords="507,675,670,881"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="581,331,629,474,649,551,665,629,665,653,661,676,655,675,660,652,659,630,644,552,623,475,576,332"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="457,602,443,630,427,676,422,674,438,628,452,599"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="549,618,564,674,559,676,544,619"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="521,883,483,939,478,936,517,880"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Ipc__svr_1_1Server__iface.html" title="Interface for server&#45;loop related functions." alt="" coords="695,668,869,888"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="696,879,684,890,636,925,585,958,489,1011,487,1007,583,953,633,921,680,886,693,875"/>
+</map>

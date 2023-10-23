@@ -1,0 +1,6 @@
+<map id="L4SHM&#45;based ring buffer implementation" name="L4SHM&#45;based ring buffer implementation">
+<area shape="rect" id="Node000001" title="The library provides a non&#45;locking (strictly 1:1) shared&#45;memory&#45;based ring buffer implementation base..." alt="" coords="5,47,188,87"/>
+<area shape="rect" id="Node000002" href="$group__api__l4shm__ringbuf__internal.html" title=" " alt="" coords="239,5,311,31"/>
+<area shape="rect" id="Node000003" href="$group__api__l4shm__ringbuf__receiver.html" title=" " alt="" coords="236,55,315,80"/>
+<area shape="rect" id="Node000004" href="$group__api__l4shm__ringbuf__sender.html" title=" " alt="" coords="242,104,309,129"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="l4_kip_version_string" name="l4_kip_version_string">
+<area shape="rect" id="Node000001" title="Get the kernel version string." alt="" coords="245,5,405,31"/>
+<area shape="rect" id="Node000002" href="$sys_2kip_8h.html#a7a4e7e53bf5bb8939c64dd9f2b9e458a" title="Check if kernel supports a feature." alt="" coords="5,5,197,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,21,198,21,198,15,231,15"/>
+</map>

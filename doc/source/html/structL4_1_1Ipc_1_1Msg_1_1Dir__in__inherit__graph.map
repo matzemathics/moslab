@@ -1,0 +1,9 @@
+<map id="L4::Ipc::Msg::Dir_in" name="L4::Ipc::Msg::Dir_in">
+<area shape="rect" id="Node000001" title="Marker type for input values." alt="" coords="201,5,339,71"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Ipc_1_1Msg_1_1Do__in__data.html" title="Marker for Input data." alt="" coords="5,126,177,191"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,81,141,128,138,123,210,76"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Ipc_1_1Msg_1_1Do__in__items.html" title="Marker for Input items." alt="" coords="202,119,338,199"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="273,85,273,118,267,118,267,85"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Ipc_1_1Msg_1_1Do__rcv__buffers.html" title="Marker for receive buffers." alt="" coords="362,119,506,199"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="327,77,382,116,378,121,324,81"/>
+</map>

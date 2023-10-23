@@ -1,0 +1,5 @@
+<map id="l4_rcv_ep_bind_thread" name="l4_rcv_ep_bind_thread">
+<area shape="rect" id="Node000001" title="Bind the IPC receive endpoint to a thread." alt="" coords="5,5,173,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="221,5,291,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,15,208,15,208,21,174,21"/>
+</map>

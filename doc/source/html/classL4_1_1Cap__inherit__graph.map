@@ -1,0 +1,29 @@
+<map id="L4::Cap&lt; T &gt;" name="L4::Cap&lt; T &gt;">
+<area shape="rect" id="Node000001" title="C++ interface for capabilities." alt="" coords="1100,400,1209,605"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Cap.html" title=" " alt="" coords="5,675,125,881"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1086,510,875,526,595,556,454,578,324,604,216,634,173,652,139,670,127,679,124,675,136,666,171,647,214,629,323,598,453,572,594,551,874,521,1086,505"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Cap.html" title=" " alt="" coords="150,675,359,881"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1087,515,816,556,644,590,473,632,420,646,372,670,361,678,358,673,369,666,418,641,471,627,643,585,815,551,1086,510"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Cap.html" title=" " alt="" coords="383,675,585,881"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1087,516,999,532,890,556,772,589,657,632,620,652,585,677,582,673,617,647,655,627,770,584,889,551,998,527,1086,511"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Cap.html" title=" " alt="" coords="609,675,756,881"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1087,524,1017,546,935,578,849,619,770,670,758,680,755,676,766,666,847,614,932,573,1015,541,1086,519"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Cap.html" title=" " alt="" coords="780,675,969,881"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1090,543,1031,583,974,631,936,677,932,674,970,627,1027,578,1087,539"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Cap.html" title=" " alt="" coords="993,675,1148,881"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1118,619,1115,630,1101,676,1096,674,1109,629,1113,617"/>
+<area shape="rect" id="Node000009" href="$classL4_1_1Cap.html" title=" " alt="" coords="1173,675,1305,881"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1208,617,1212,629,1224,675,1219,676,1207,630,1203,619"/>
+<area shape="rect" id="Node000010" href="$classL4_1_1Cap.html" title=" " alt="" coords="1329,675,1489,881"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1222,557,1295,627,1335,674,1331,677,1291,631,1218,561"/>
+<area shape="rect" id="Node000011" href="$classL4_1_1Cap.html" title=" " alt="" coords="1513,675,1676,881"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1223,524,1286,548,1358,580,1433,619,1503,666,1515,676,1511,680,1500,670,1430,624,1356,585,1284,553,1221,529"/>
+<area shape="rect" id="Node000012" href="$classL4_1_1Cap.html" title=" " alt="" coords="1700,668,1855,888"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1224,509,1321,526,1442,555,1506,576,1570,601,1632,631,1689,666,1701,675,1698,679,1687,670,1629,635,1568,606,1504,581,1440,560,1320,531,1223,514"/>
+<area shape="rect" id="Node000013" href="$classL4_1_1Cap.html" title=" " alt="" coords="1879,675,2057,881"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="1223,508,1335,521,1479,545,1639,579,1719,601,1797,627,1835,643,1868,666,1880,675,1877,680,1865,670,1832,647,1795,632,1718,606,1638,584,1478,550,1334,527,1223,513"/>
+<area shape="rect" id="Node000014" href="$classL4_1_1Cap.html" title=" " alt="" coords="2082,668,2217,888"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="1223,508,1359,523,1543,547,1751,582,1959,627,2018,639,2043,648,2071,666,2084,676,2080,680,2068,670,2040,653,2016,644,1958,632,1750,587,1542,553,1359,528,1222,513"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html" title="Base class for all kinds of capabilities." alt="" coords="1097,5,1213,351"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1157,364,1157,400,1152,400,1152,364"/>
+</map>

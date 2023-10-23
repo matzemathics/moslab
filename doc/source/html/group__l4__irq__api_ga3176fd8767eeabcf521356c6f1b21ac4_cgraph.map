@@ -1,0 +1,19 @@
+<map id="l4_irq_mux_chain" name="l4_irq_mux_chain">
+<area shape="rect" id="Node000001" title="Chain an IRQ to another master IRQ source." alt="" coords="5,105,141,131"/>
+<area shape="rect" id="Node000002" href="$group__l4__irq__api.html#ga0bfe3132479962ae237087568fc2c94f" title="Attach an IRQ to this multiplexer." alt="" coords="189,80,340,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,106,175,102,176,107,142,112"/>
+<area shape="rect" id="Node000009" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="230,129,299,155"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="142,124,217,133,216,139,141,129"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="417,5,508,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="294,77,387,40,407,32,409,38,389,44,296,82"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgitem__api.html#ga6c9056957ac92e458eaabcbf3223ce6f" title="Create the first word for a map item for the object space." alt="" coords="388,55,537,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="340,80,374,76,375,81,341,86"/>
+<area shape="rect" id="Node000007" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="417,104,508,129"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="341,99,404,107,404,112,340,104"/>
+<area shape="rect" id="Node000008" href="$group__l4__fpage__api.html#ga3eaf59757a63812044e2b3a1cdf09d54" title="Create a kernel&#45;object flex page." alt="" coords="410,153,515,179"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="310,103,341,114,389,138,409,146,407,151,387,143,339,119,308,108"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="617,5,677,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="508,15,603,15,603,21,508,21"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgitem__api.html#ga1ce1321fd25614e9af43a35819540ba7" title="Create the first word for a map item for the memory space." alt="" coords="585,55,708,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="538,65,572,65,572,70,538,70"/>
+</map>

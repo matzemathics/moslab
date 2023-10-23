@@ -1,0 +1,13 @@
+<map id="l4_vcon_set_attr" name="l4_vcon_set_attr">
+<area shape="rect" id="Node000001" title="Set attributes of a Vcon." alt="" coords="5,31,135,56"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="220,5,289,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,32,206,22,206,27,135,37"/>
+<area shape="rect" id="Node000003" href="$group__l4__vcon__api.html#ga17f827c7d5f96b36a7c552af8d61a0e5" title="Set the attributes of this virtual console." alt="" coords="183,55,327,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="135,49,170,54,169,59,135,54"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="375,29,465,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="326,54,360,48,361,54,327,59"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="375,79,465,104"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="327,75,361,80,360,85,326,80"/>
+<area shape="rect" id="Node000005" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="513,29,573,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="466,39,500,39,500,45,466,45"/>
+</map>

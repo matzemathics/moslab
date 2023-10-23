@@ -1,0 +1,5 @@
+<map id="l4re_rm_free_area" name="l4re_rm_free_area">
+<area shape="rect" id="Node000001" title="Free an area from the region map." alt="" coords="5,5,147,31"/>
+<area shape="rect" id="Node000002" href="$group__api__l4re__c__rm.html#gae34b075451dd9b614e773bd440febc71" title=" " alt="" coords="195,5,363,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,15,181,15,181,21,147,21"/>
+</map>

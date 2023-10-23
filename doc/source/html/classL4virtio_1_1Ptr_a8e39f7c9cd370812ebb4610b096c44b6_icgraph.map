@@ -1,0 +1,15 @@
+<map id="L4virtio::Ptr::get" name="L4virtio::Ptr::get">
+<area shape="rect" id="Node000001" title=" " alt="" coords="419,141,545,166"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue_1_1Desc.html#a71bbf562153b0bcdb7c38e572c2f85ec" title="Dump a single descriptor." alt="" coords="212,5,355,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="457,132,418,96,369,60,346,48,348,43,372,55,422,91,461,128"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#ac02a4a037cb5ca10ac68eb28f5da8a37" title="Default implementation returning generic information." alt="" coords="196,69,371,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="428,139,345,112,347,107,430,134"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#ab848fc9ce2b3e6aff935d4ed8baeaf41" title="Default implementation returning the Driver_mem_region." alt="" coords="196,133,371,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="405,156,371,156,371,151,405,151"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#a270520dc38853577d41834c95148eb43" title="Default implementation for loading an indirect descriptor." alt="" coords="196,197,371,237"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="430,173,347,200,345,195,428,168"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#af08e01da1fdcbc0f0f4c4d90da5d0469" title="Get the local address for driver address p." alt="" coords="202,261,365,301"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="461,178,422,215,372,252,348,264,346,259,369,247,418,211,457,174"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue.html#a3abd68687a8a7d957e9b765433a313ed" title="Dump descriptors for this queue." alt="" coords="5,5,148,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="198,28,148,28,148,23,198,23"/>
+</map>

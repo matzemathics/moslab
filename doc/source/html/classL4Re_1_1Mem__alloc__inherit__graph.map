@@ -1,0 +1,14 @@
+<map id="L4Re::Mem_alloc" name="L4Re::Mem_alloc">
+<area shape="rect" id="Node000001" title="Memory allocation interface." alt="" coords="164,719,289,784"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="141,555,313,669"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,683,229,718,224,718,224,683"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Factory.html" title="C++ Factory interface, see Factory for the C interface." alt="" coords="100,360,233,505"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="198,517,210,553,205,555,193,519"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="5,183,227,283"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="134,295,151,359,146,360,129,296"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="19,13,125,98"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="83,111,93,158,100,182,95,183,88,159,78,112"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="168,5,368,105"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="272,119,272,159,265,333,248,506,240,555,235,554,243,505,260,332,267,159,267,119"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="157,95,136,111,120,131,110,156,109,183,104,182,105,155,115,128,133,107,154,91"/>
+</map>

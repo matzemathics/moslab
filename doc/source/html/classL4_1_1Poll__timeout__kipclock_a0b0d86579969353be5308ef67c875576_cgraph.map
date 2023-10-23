@@ -1,0 +1,11 @@
+<map id="L4::Poll_timeout_kipclock::Poll_timeout_kipclock" name="L4::Poll_timeout_kipclock::Poll_timeout_kipclock">
+<area shape="rect" id="Node000001" title="Initialise relative timeout in microseconds." alt="" coords="5,23,193,63"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Poll__timeout__kipclock.html#a5a981174ea6408e39c3a80b8cdb92831" title="(Re&#45;)Set relative timeout in microseconds" alt="" coords="241,31,457,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,41,228,41,228,46,193,46"/>
+<area shape="rect" id="Node000003" href="$group__l4__kip__api.html#gadeb6bfd4fa27bf58c9bd60302dbbb044" title="Return clock value from the KIP." alt="" coords="505,5,608,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="453,28,491,23,492,29,454,33"/>
+<area shape="rect" id="Node000004" href="$group__api__l4re__env.html#gaa3380feabe4b5440ed7e246fdf15f333" title="Get Kernel Info Page." alt="" coords="519,55,594,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="458,53,506,59,505,64,457,59"/>
+<area shape="rect" id="Node000005" href="$group__l4__kip__api.html#ga6e23586433097cca1631cf085c396b95" title="Get Kernel Info Page." alt="" coords="656,55,717,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="594,65,642,65,642,70,594,70"/>
+</map>

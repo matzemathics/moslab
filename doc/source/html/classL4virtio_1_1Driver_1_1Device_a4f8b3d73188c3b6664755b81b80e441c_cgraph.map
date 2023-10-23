@@ -1,0 +1,42 @@
+<map id="L4virtio::Driver::Device::driver_connect" name="L4virtio::Driver::Device::driver_connect">
+<area shape="rect" id="Node000001" title="Contacts the device and starts the initial handshake." alt="" coords="5,279,177,319"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Icu.html#ada7541da586ea09b925b4d90d7dc357e" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="263,67,363,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,278,116,240,143,192,179,143,224,101,248,89,250,93,227,106,183,147,147,195,120,243,103,280"/>
+<area shape="rect" id="Node000011" href="$namespaceL4Re.html#a64b057254a760643ba67a9ed452fede8" title="Check for valid capability or raise C++ exception." alt="" coords="259,116,367,141"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="103,277,151,215,185,180,224,150,244,140,247,145,227,155,189,184,155,218,108,281"/>
+<area shape="rect" id="Node000013" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="259,165,366,191"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="114,277,163,239,224,201,245,192,247,197,227,206,166,243,117,281"/>
+<area shape="rect" id="Node000014" href="$classL4virtio_1_1Device.html#a47e53efa92534451e46ecd4fef7060da" title="Get the dataspace with the L4virtio configuration page." alt="" coords="225,215,400,255"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="161,277,229,257,231,262,162,282"/>
+<area shape="rect" id="Node000015" href="$classL4virtio_1_1Device.html#a2c81a536513972d43f95394d88c39147" title="Get the notification interrupt corresponding to the given index." alt="" coords="225,279,400,319"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="178,297,212,297,212,302,178,302"/>
+<area shape="rect" id="Node000016" href="$classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc" title="Returns the initial environment for the current task." alt="" coords="254,344,371,369"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="170,317,250,338,249,343,168,322"/>
+<area shape="rect" id="Node000017" href="$group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call." alt="" coords="277,393,349,419"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="121,317,169,349,226,380,264,393,263,398,224,384,166,354,118,322"/>
+<area shape="rect" id="Node000019" href="$namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c" title="Make an L4::Ipc::Cap&lt;T&gt; for the given capability with L4_CAP_FPAGE_RW rights." alt="" coords="232,443,393,468"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="109,318,158,373,190,403,227,429,239,435,237,440,224,434,187,408,154,377,105,321"/>
+<area shape="rect" id="Node000020" href="$classL4virtio_1_1Device.html#ab2e1044b9a29628c3ed7945b9dfe4cad" title="Write the VIRTIO status register." alt="" coords="237,493,389,533"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="105,318,151,396,186,440,227,479,234,484,231,488,224,483,182,444,146,399,100,321"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="448,31,587,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="362,68,434,55,435,60,363,73"/>
+<area shape="rect" id="Node000004" href="$group__l4__icu__api.html#ga29217a67f405c5d860002dd902bf71e4" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="462,80,573,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="363,80,449,86,448,91,363,85"/>
+<area shape="rect" id="Node000005" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="664,5,755,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="554,78,586,65,634,40,651,33,653,38,636,44,588,70,556,82"/>
+<area shape="rect" id="Node000007" href="$group__l4__msgitem__api.html#ga6c9056957ac92e458eaabcbf3223ce6f" title="Create the first word for a map item for the object space." alt="" coords="635,55,784,80"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="573,83,620,76,621,82,573,88"/>
+<area shape="rect" id="Node000009" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="664,104,755,129"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="573,97,651,107,650,112,573,102"/>
+<area shape="rect" id="Node000010" href="$group__l4__fpage__api.html#ga3eaf59757a63812044e2b3a1cdf09d54" title="Create a kernel&#45;object flex page." alt="" coords="657,153,762,179"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="549,103,636,138,658,146,656,151,634,143,547,108"/>
+<area shape="rect" id="Node000006" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="863,5,923,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="755,15,849,15,849,21,755,21"/>
+<area shape="rect" id="Node000008" href="$group__l4__msgitem__api.html#ga1ce1321fd25614e9af43a35819540ba7" title="Create the first word for a map item for the memory space." alt="" coords="832,55,955,80"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="784,65,818,65,818,70,784,70"/>
+<area shape="rect" id="Node000012" href="$namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b" title="Generate C++ exception." alt="" coords="449,153,586,179"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="368,136,436,148,435,154,367,141"/>
+<area shape="poly" id="edge13_Node000013_Node000012" title=" " alt="" coords="366,172,435,168,435,173,366,178"/>
+<area shape="rect" id="Node000018" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="483,393,552,419"/>
+<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="349,403,469,403,469,409,349,409"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="L4::Factory::create_factory" name="L4::Factory::create_factory">
+<area shape="rect" id="Node000001" title="Create a new factory." alt="" coords="5,23,145,63"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="193,5,332,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,31,179,27,180,32,146,37"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="201,55,325,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="146,50,187,55,187,60,145,55"/>
+</map>

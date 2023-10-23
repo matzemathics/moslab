@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Dev_config::reset_queue" name="L4virtio::Svr::Dev_config::reset_queue">
+<area shape="rect" id="Node000001" title="Reset queue config for the given queue." alt="" coords="5,5,161,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Dev__config.html#aa47cc92da20edf7757449a0917f30997" title="Get queue read&#45;only config data for queue with the given index." alt="" coords="209,5,344,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,23,196,23,196,28,162,28"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Rm_1_1Unique__region.html#a301d5bd597f8c1e3b98bc52659f13dbe" title="Return the address." alt="" coords="392,13,607,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,23,378,23,378,28,344,28"/>
+</map>

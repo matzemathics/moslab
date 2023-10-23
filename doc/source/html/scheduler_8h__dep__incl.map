@@ -1,0 +1,7 @@
+<map id="l4/sys/scheduler.h" name="l4/sys/scheduler.h">
+<area shape="rect" id="Node000001" title="Scheduler object functions." alt="" coords="73,5,211,31"/>
+<area shape="rect" id="Node000002" href="$scheduler.html" title="Scheduler object functions." alt="" coords="5,79,132,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,42,82,80,79,77,118,38"/>
+<area shape="rect" id="Node000003" href="$l4_2util_2thread_8h.html" title="Low&#45;level Thread Functions." alt="" coords="157,79,274,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,38,205,77,202,80,162,42"/>
+</map>

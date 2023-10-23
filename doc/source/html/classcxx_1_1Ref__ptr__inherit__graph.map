@@ -1,0 +1,7 @@
+<map id="cxx::Ref_ptr&lt; T, CNT &gt;" name="cxx::Ref_ptr&lt; T, CNT &gt;">
+<area shape="rect" id="Node000001" title="A reference&#45;counting pointer with automatic cleanup." alt="" coords="76,5,241,211"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Ref__ptr.html" title=" " alt="" coords="5,273,144,493"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,224,89,235,81,274,75,273,84,234,88,223"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Ref__ptr.html" title=" " alt="" coords="169,273,317,493"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,223,216,234,226,272,221,274,211,235,207,224"/>
+</map>

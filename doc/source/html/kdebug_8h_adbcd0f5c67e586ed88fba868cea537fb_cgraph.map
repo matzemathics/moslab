@@ -1,0 +1,15 @@
+<map id="outnstring" name="outnstring">
+<area shape="rect" id="Node000001" title="Output a fixed&#45;length string via the kernel debugger." alt="" coords="5,80,93,105"/>
+<area shape="rect" id="Node000002" href="$kdebug_8h.html#ab2ebe85a62a8d8b933eef79a3ca418d7" title="Invoke a text output operation on the base debugger capability." alt="" coords="141,80,259,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,90,128,90,128,95,93,95"/>
+<area shape="rect" id="Node000003" href="$group__l4__memory__api.html#ga2be30f4e5dde3c85d115d2a9c77f6215" title="Determine how many machine words (l4_umword_t) are required to store a buffer of &#39;size&#39; bytes." alt="" coords="307,5,463,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="224,78,306,40,325,33,327,38,308,44,226,82"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="339,55,430,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="259,82,325,73,326,78,259,87"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="339,104,430,129"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="259,98,326,106,325,112,259,103"/>
+<area shape="rect" id="Node000007" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="350,153,419,179"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="228,103,308,138,338,149,336,154,306,143,226,108"/>
+<area shape="rect" id="Node000005" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="511,55,571,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="430,65,497,65,497,70,430,70"/>
+</map>

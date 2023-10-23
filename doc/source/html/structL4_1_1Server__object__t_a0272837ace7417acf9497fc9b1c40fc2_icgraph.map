@@ -1,0 +1,5 @@
+<map id="L4::Server_object_t::proto_dispatch" name="L4::Server_object_t::proto_dispatch">
+<area shape="rect" id="Node000001" title="Implementation of protocol&#45;based dispatch for this server object." alt="" coords="203,5,349,45"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Server__object__x.html#a8ef4af4e10f927a2957b4f61e6c2b3fd" title="Implementation forwarding to p_dispatch()." alt="" coords="5,5,155,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,28,155,28,155,23,189,23"/>
+</map>

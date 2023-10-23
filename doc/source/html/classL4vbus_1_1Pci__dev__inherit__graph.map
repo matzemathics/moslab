@@ -1,0 +1,9 @@
+<map id="L4vbus::Pci_dev" name="L4vbus::Pci_dev">
+<area shape="rect" id="Node000001" title="A PCI device." alt="" coords="28,623,147,728"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Device.html" title="Device on a L4vbus::Vbus." alt="" coords="21,288,153,573"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,587,90,622,85,622,85,587"/>
+<area shape="rect" id="Node000003" href="$classL4vbus_1_1Pm.html" title=" " alt="" coords="5,153,169,239"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,252,90,288,85,288,85,252"/>
+<area shape="rect" id="Node000004" href="$classL4vbus_1_1Pm.html" title="Power&#45;management API mixin." alt="" coords="14,5,161,91"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="90,105,90,153,85,153,85,105"/>
+</map>

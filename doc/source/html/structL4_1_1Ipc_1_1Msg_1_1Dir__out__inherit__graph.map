@@ -1,0 +1,7 @@
+<map id="L4::Ipc::Msg::Dir_out" name="L4::Ipc::Msg::Dir_out">
+<area shape="rect" id="Node000001" title="Marker type for output values." alt="" coords="116,5,263,71"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Ipc_1_1Msg_1_1Do__out__data.html" title="Marker for Output data." alt="" coords="5,126,187,191"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,83,123,127,119,124,154,80"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Ipc_1_1Msg_1_1Do__out__items.html" title="Marker for Output items." alt="" coords="211,119,357,199"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,80,255,117,251,120,221,83"/>
+</map>

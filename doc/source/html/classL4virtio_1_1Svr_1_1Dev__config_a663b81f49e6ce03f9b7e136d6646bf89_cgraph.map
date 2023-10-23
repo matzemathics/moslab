@@ -1,0 +1,12 @@
+<map id="L4virtio::Svr::Dev_config::Dev_config" name="L4virtio::Svr::Dev_config::Dev_config">
+<area shape="rect" id="Node000001" title="Create a L4&#45;Virtio config data space." alt="" coords="5,47,153,87"/>
+<area shape="rect" id="Node000002" href="$namespaceL4Re.html#a64b057254a760643ba67a9ed452fede8" title="Check for valid capability or raise C++ exception." alt="" coords="206,5,314,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,45,199,32,200,37,154,50"/>
+<area shape="rect" id="Node000004" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="207,55,313,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="154,65,193,65,193,70,154,70"/>
+<area shape="rect" id="Node000005" href="$classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc" title="Returns the initial environment for the current task." alt="" coords="201,104,319,129"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="154,85,200,98,199,103,152,90"/>
+<area shape="rect" id="Node000003" href="$namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b" title="Generate C++ exception." alt="" coords="367,31,504,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="314,23,353,29,352,34,314,28"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="313,57,353,52,354,57,314,63"/>
+</map>

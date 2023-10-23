@@ -1,0 +1,9 @@
+<map id="L4virtio::Svr::Driver_mem_list_t::add" name="L4virtio::Svr::Driver_mem_list_t::add">
+<area shape="rect" id="Node000001" title="Add a new region to the list." alt="" coords="5,27,153,67"/>
+<area shape="rect" id="Node000002" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="222,5,329,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,34,208,25,209,31,154,39"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#ab20b5da9afe9f89643a4ee31b68792aa" title=" " alt="" coords="201,55,349,95"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="154,55,188,60,187,65,153,61"/>
+<area shape="rect" id="Node000003" href="$namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b" title="Generate C++ exception." alt="" coords="397,5,535,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,15,383,15,383,21,329,21"/>
+</map>

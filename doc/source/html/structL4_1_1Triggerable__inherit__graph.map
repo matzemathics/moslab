@@ -1,0 +1,21 @@
+<map id="L4::Triggerable" name="L4::Triggerable">
+<area shape="rect" id="Node000001" title="Interface that allows an object to be triggered by some source." alt="" coords="251,332,361,397"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Kobject__2t.html" title=" " alt="" coords="5,447,196,561"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="249,407,187,449,184,444,246,403"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="220,447,392,561"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="309,411,309,446,303,446,303,411"/>
+<area shape="rect" id="Node000009" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="416,447,607,561"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="366,403,428,444,425,449,363,407"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="212,183,400,283"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="309,297,309,332,303,332,303,297"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Irq__eoi.html" title="Interface for sending an unmask message to an object." alt="" coords="177,23,267,88"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="245,99,285,181,280,184,241,101"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="291,5,491,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="364,119,332,184,327,181,359,117"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Irq.html" title="C++ Irq interface, see IRQs for the C interface." alt="" coords="55,611,146,736"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="103,575,103,610,98,610,98,575"/>
+<area shape="rect" id="Node000008" href="$structL4_1_1Irq__mux.html" title="IRQ multiplexer for shared IRQs." alt="" coords="261,641,351,706"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="309,576,309,640,303,640,303,576"/>
+<area shape="rect" id="Node000010" href="$structL4_1_1Semaphore.html" title="C++ Kernel&#45;provided semaphore interface, see Kernel&#45;provided semaphore for the C interface." alt="" coords="456,631,567,716"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="514,575,514,630,509,630,509,575"/>
+</map>

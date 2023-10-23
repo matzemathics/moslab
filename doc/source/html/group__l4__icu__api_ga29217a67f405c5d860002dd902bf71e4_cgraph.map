@@ -1,0 +1,15 @@
+<map id="l4_icu_bind_u" name="l4_icu_bind_u">
+<area shape="rect" id="Node000001" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="5,80,116,105"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="193,5,284,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,77,163,40,181,33,183,38,165,44,87,82"/>
+<area shape="rect" id="Node000004" href="$group__l4__msgitem__api.html#ga6c9056957ac92e458eaabcbf3223ce6f" title="Create the first word for a map item for the object space." alt="" coords="164,55,313,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="116,82,150,77,151,83,116,87"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="193,104,284,129"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="116,97,180,106,179,111,116,103"/>
+<area shape="rect" id="Node000007" href="$group__l4__fpage__api.html#ga3eaf59757a63812044e2b3a1cdf09d54" title="Create a kernel&#45;object flex page." alt="" coords="186,153,291,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="88,103,165,138,186,146,184,151,163,143,86,108"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="393,5,453,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="284,15,379,15,379,21,284,21"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgitem__api.html#ga1ce1321fd25614e9af43a35819540ba7" title="Create the first word for a map item for the memory space." alt="" coords="361,55,484,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="314,65,348,65,348,70,314,70"/>
+</map>

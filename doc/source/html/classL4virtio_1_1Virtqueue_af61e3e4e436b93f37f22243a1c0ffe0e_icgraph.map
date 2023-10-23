@@ -1,0 +1,55 @@
+<map id="L4virtio::Virtqueue::num" name="L4virtio::Virtqueue::num">
+<area shape="rect" id="Node000001" title=" " alt="" coords="749,376,928,402"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue.html#a962767a117dad07184f59191d399f9ce" title="Calculate the size of the available ring for num entries." alt="" coords="523,369,665,409"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="736,392,666,392,666,386,736,386"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Virtqueue.html#a437c0ed2eb83201cc69c41d011503036" title="Enable this queue." alt="" coords="272,244,415,284"/>
+<area shape="poly" id="edge25_Node000001_Node000004" title=" " alt="" coords="813,369,764,329,733,310,700,295,626,275,550,264,477,261,415,261,415,256,477,255,550,259,627,270,702,290,735,306,767,325,816,365"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a285bae271e6acfe9c5bfa3df388c6b17" title="Initialize this virtqueue." alt="" coords="7,76,198,116"/>
+<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="833,363,824,299,803,216,786,173,763,132,735,95,700,66,667,47,632,32,557,13,480,8,402,13,328,25,260,42,152,78,151,73,258,37,327,20,402,8,480,3,558,8,633,27,669,42,703,61,739,92,768,129,790,171,808,214,830,298,838,362"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Virtqueue.html#a6f8cdc52ebe6322c3023e05e0e055293" title="Calculate the total size for a virtqueue of the given dimensions." alt="" coords="272,372,415,412"/>
+<area shape="poly" id="edge30_Node000001_Node000006" title=" " alt="" coords="833,416,818,462,792,518,754,572,730,596,703,615,645,642,619,648,594,650,569,648,543,641,485,615,457,596,431,571,391,514,364,457,348,413,353,411,369,455,396,512,435,568,460,591,488,611,545,636,570,643,594,645,619,643,644,637,700,611,727,592,750,569,787,515,813,460,828,414"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Virtqueue.html#a19410c09db5499023cb4b9f11742cd26" title="Calculate the size of the descriptor table for num entries." alt="" coords="523,305,665,345"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="775,375,665,346,666,341,777,370"/>
+<area shape="rect" id="Node000010" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a8b7ef703e8e55d889419f43dc28dd40e" title="Initialize this virtqueue." alt="" coords="248,180,439,220"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="827,364,811,321,785,269,748,219,726,198,700,181,663,165,623,156,583,152,542,153,464,165,399,182,398,177,463,159,541,148,583,147,624,150,665,160,703,176,729,194,752,215,789,266,816,319,832,362"/>
+<area shape="rect" id="Node000011" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#ac31099e5abf48745f518aed17b1dee54" title="Initialize the descriptor table and the index structures of this queue." alt="" coords="499,76,689,116"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="828,363,811,315,785,254,748,191,725,162,700,136,671,118,674,114,703,132,729,158,752,188,790,252,816,313,833,362"/>
+<area shape="rect" id="Node000012" href="$classL4virtio_1_1Driver_1_1Block__device.html#a9f1a7a08e90ca6c1441bd48abc8b574a" title="Process and free all items in the used queue." alt="" coords="487,433,701,473"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="776,408,672,435,671,430,775,403"/>
+<area shape="rect" id="Node000013" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#a3ef04dbc8a5be208aa4e3ec749f63721" title="Return a reference to the RX packet buffer of the specified descriptor, e.g." alt="" coords="513,497,675,537"/>
+<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="814,413,764,450,703,487,673,499,671,494,700,482,761,446,810,408"/>
+<area shape="rect" id="Node000014" href="$classL4virtio_1_1Virtqueue.html#a109ea5677dd074df1d2c6a06056c7d82" title="Enable this queue." alt="" coords="523,190,665,230"/>
+<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="818,367,768,309,736,278,700,251,664,233,666,228,703,247,739,274,772,306,822,364"/>
+<area shape="rect" id="Node000015" href="$classL4virtio_1_1Svr_1_1Request__processor.html#abcf6a6b8bf80e0d73d45b5eb9e817abd" title="Start processing a new request." alt="" coords="513,726,675,766"/>
+<area shape="poly" id="edge26_Node000001_Node000015" title=" " alt="" coords="836,416,823,475,799,554,781,595,760,637,734,675,703,710,675,728,672,724,700,706,730,672,755,634,776,593,794,552,818,474,831,415"/>
+<area shape="rect" id="Node000018" href="$classL4virtio_1_1Virtqueue.html#a96dfd139f3a022e9e2328e28716acdc9" title="Calculate the total size of this virtqueue." alt="" coords="272,596,415,636"/>
+<area shape="poly" id="edge29_Node000001_Node000018" title=" " alt="" coords="836,416,823,470,798,537,781,571,759,604,733,633,703,656,663,675,621,684,577,686,533,682,451,663,386,638,388,633,453,657,534,677,577,680,620,679,661,670,700,652,730,629,755,601,776,569,793,535,818,468,830,415"/>
+<area shape="rect" id="Node000019" href="$classL4virtio_1_1Virtqueue.html#a7747ac81d7fd21e1e55e43c2e7ead2ea" title="Calculate the size of the used ring for num entries." alt="" coords="523,561,665,601"/>
+<area shape="poly" id="edge31_Node000001_Node000019" title=" " alt="" coords="825,415,777,482,742,519,703,551,667,568,665,563,700,547,739,516,772,479,821,412"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Device__t.html#ab906b4cc61026fd815a8056f07bef10e" title="Enable/disable the specified queue." alt="" coords="267,308,420,348"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="509,371,419,349,421,344,510,366"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="508,372,485,359,469,343,460,328,452,312,437,298,413,285,416,280,440,293,456,309,465,325,473,340,488,355,511,367"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="509,392,415,393,415,388,509,387"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="258,240,247,234,208,206,172,175,119,118,122,114,176,171,211,202,249,229,261,235"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,340,200,380"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="258,383,200,375,200,370,259,378"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,244,186,284"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="262,369,247,362,133,286,136,281,249,357,265,364"/>
+<area shape="poly" id="edge9_Node000009_Node000003" title=" " alt="" coords="509,328,420,329,420,324,509,323"/>
+<area shape="poly" id="edge10_Node000009_Node000004" title=" " alt="" coords="508,307,414,283,415,278,510,302"/>
+<area shape="poly" id="edge11_Node000009_Node000006" title=" " alt="" coords="510,350,416,375,414,370,509,345"/>
+<area shape="poly" id="edge14_Node000010_Node000007" title=" " alt="" coords="258,228,250,234,234,249,225,264,217,280,202,297,172,322,142,342,139,337,169,317,198,294,212,277,221,261,230,245,246,229,255,224"/>
+<area shape="poly" id="edge15_Node000010_Node000008" title=" " alt="" coords="255,226,179,246,178,241,253,221"/>
+<area shape="poly" id="edge17_Node000011_Node000005" title=" " alt="" coords="485,98,198,98,198,93,485,93"/>
+<area shape="poly" id="edge18_Node000011_Node000010" title=" " alt="" coords="523,123,488,137,387,182,385,177,486,132,521,118"/>
+<area shape="poly" id="edge23_Node000014_Node000003" title=" " alt="" coords="550,240,498,269,440,298,409,310,407,305,438,293,495,264,547,235"/>
+<area shape="poly" id="edge24_Node000014_Node000004" title=" " alt="" coords="510,231,415,251,414,246,508,226"/>
+<area shape="poly" id="edge22_Node000014_Node000010" title=" " alt="" coords="508,209,439,206,439,201,509,204"/>
+<area shape="rect" id="Node000016" href="$classL4virtio_1_1Svr_1_1Block__request.html#a5f6bf664cda7dfe4f82d8726f6c33099" title="Compute the total size of the data in the request." alt="" coords="269,694,417,734"/>
+<area shape="poly" id="edge27_Node000015_Node000016" title=" " alt="" coords="499,737,417,726,418,721,500,732"/>
+<area shape="rect" id="Node000017" href="$classL4virtio_1_1Svr_1_1Request__processor.html#a76dec7903350c50fe5ce0b8f7129f9bd" title="Start processing a new request." alt="" coords="263,758,424,798"/>
+<area shape="poly" id="edge28_Node000015_Node000017" title=" " alt="" coords="500,761,424,771,424,765,500,756"/>
+<area shape="poly" id="edge32_Node000019_Node000003" title=" " alt="" coords="508,567,485,551,467,527,460,502,458,478,460,454,461,431,460,408,453,385,437,361,419,347,422,343,441,358,458,382,465,407,467,431,465,455,463,478,465,501,472,524,489,547,511,563"/>
+<area shape="poly" id="edge34_Node000019_Node000006" title=" " alt="" coords="508,563,485,551,443,519,407,481,355,413,360,410,411,477,447,515,488,547,511,558"/>
+<area shape="poly" id="edge33_Node000019_Node000018" title=" " alt="" coords="509,595,415,608,414,603,509,590"/>
+</map>

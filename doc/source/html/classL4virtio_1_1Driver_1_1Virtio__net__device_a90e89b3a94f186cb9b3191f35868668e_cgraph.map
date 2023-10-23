@@ -1,0 +1,21 @@
+<map id="L4virtio::Driver::Virtio_net_device::wait_rx" name="L4virtio::Driver::Virtio_net_device::wait_rx">
+<area shape="rect" id="Node000001" title="Block until a network packet has been received from the device and return the descriptor number." alt="" coords="5,47,168,87"/>
+<area shape="rect" id="Node000002" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="249,5,355,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,46,234,31,236,36,169,51"/>
+<area shape="rect" id="Node000004" href="$group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b" title="Get the minimum of a and b." alt="" coords="263,55,341,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,65,249,65,249,70,168,70"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Device.html#a3b5274cb8d4e708beea944038b855885" title="Wait for the next item to arrive in the used queue and return it." alt="" coords="216,105,388,145"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="163,85,214,98,212,104,162,90"/>
+<area shape="rect" id="Node000003" href="$namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b" title="Generate C++ exception." alt="" coords="463,5,600,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="355,15,449,15,449,21,355,21"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a6d320be956d592d0a064fb89c5a69ba5" title="Return the next finished block." alt="" coords="436,79,627,119"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="388,113,422,109,423,114,389,118"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Device.html#a05a02d57ddf646f029311ca8a63f4081" title="Wait for a notification from the device." alt="" coords="445,143,617,183"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="389,137,432,144,432,149,388,142"/>
+<area shape="rect" id="Node000008" href="$group__l4__ipc__err__api.html#gad40f404217497793e95a10d77a47db39" title="Get the IPC error code for an IPC operation." alt="" coords="675,125,773,151"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="617,149,660,144,661,149,618,155"/>
+<area shape="rect" id="Node000010" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="689,175,759,200"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="618,171,676,179,675,184,617,177"/>
+<area shape="rect" id="Node000009" href="$group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87" title="Test for error indicator flag." alt="" coords="821,125,980,151"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="773,135,807,135,807,141,773,141"/>
+</map>

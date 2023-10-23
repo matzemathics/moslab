@@ -1,0 +1,20 @@
+<map id="L4virtio::Driver::Virtqueue::desc" name="L4virtio::Driver::Virtqueue::desc">
+<area shape="rect" id="Node000001" title="Return a reference to a descriptor in the descriptor table." alt="" coords="487,184,677,224"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Block__device.html#a53ec612b1d207804102e34d51f6016cc" title="Add a data block to a request that has already been set up." alt="" coords="262,5,425,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="554,175,503,120,471,92,437,66,402,48,405,43,440,62,475,88,507,117,558,171"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a8b7ef703e8e55d889419f43dc28dd40e" title="Initialize this virtqueue." alt="" coords="248,120,439,160"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="493,183,418,163,419,157,494,178"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,63,200,103"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="547,177,497,141,468,124,438,111,378,94,316,85,255,80,200,80,200,74,255,75,316,79,379,89,440,105,471,119,500,136,550,173"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Block__device.html#a63f21e71556accc8c669ef80161ecd8e" title="Process request synchronously." alt="" coords="250,184,437,224"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="473,207,437,207,437,201,473,201"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Block__device.html#a2c2e9924abafe2eff34821b166c6c36f" title="Process request asynchronously." alt="" coords="260,248,427,288"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="494,230,419,251,418,245,493,225"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Driver_1_1Block__device.html#afdd043c2adbca7fea5eb057f9aa4b483" title="Start the setup of a new request." alt="" coords="260,312,427,352"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="546,235,497,269,440,302,412,314,410,310,437,298,494,265,543,230"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#ae7be0e5112d84bccc6cfabd20aaa29e7" title="Attempt to allocate a descriptor in the TX queue and transmit the packet, after calling the prepare c..." alt="" coords="262,376,425,416"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="562,237,512,302,478,336,440,366,418,378,416,373,437,362,474,332,508,298,558,234"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="245,119,187,105,188,100,246,114"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,127,186,167"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="235,146,186,147,186,142,234,140"/>
+</map>

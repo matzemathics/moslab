@@ -1,0 +1,7 @@
+<map id="L4vbus::Pci_host_bridge::irq_enable" name="L4vbus::Pci_host_bridge::irq_enable">
+<area shape="rect" id="Node000001" title="Enable PCI interrupt for a specific device using the PCI root bridge." alt="" coords="5,23,184,63"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Device.html#a286c71ba7f0ab66fd9d90a9e91dfa560" title="Access the Vbus capability of the underlying virtual bus." alt="" coords="232,5,415,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,31,218,27,219,32,184,36"/>
+<area shape="rect" id="Node000003" href="$group__l4vbus__pci__module.html#gad35bdd82e72df73ba00badf6cfe7cf6c" title="Enable PCI interrupt for a specific device using the PCI root bridge." alt="" coords="240,55,407,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,50,227,55,226,60,184,55"/>
+</map>

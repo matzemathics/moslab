@@ -1,0 +1,9 @@
+<map id="arm/l4f/l4/sys/syscall_defs.h" name="arm/l4f/l4/sys/syscall_defs.h">
+<area shape="rect" id="Node000001" title="Syscall entry definitions." alt="" coords="175,5,335,45"/>
+<area shape="rect" id="Node000002" href="$arm_2l4_2sys_2cache_8h.html" title="Cache functions." alt="" coords="5,93,149,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,53,105,96,102,91,199,48"/>
+<area shape="rect" id="Node000003" href="$mem__op_8h.html" title="Memory access functions (ARM specific)" alt="" coords="173,93,336,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="257,59,257,93,252,93,252,59"/>
+<area shape="rect" id="Node000004" href="$arm_2l4f_2l4_2sys_2ipc_8h.html" title="L4 IPC System Calls, ARM." alt="" coords="360,93,507,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="311,48,408,91,406,96,309,53"/>
+</map>

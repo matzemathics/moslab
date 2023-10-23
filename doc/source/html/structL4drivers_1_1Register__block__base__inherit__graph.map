@@ -1,0 +1,13 @@
+<map id="L4drivers::Register_block_base&lt; MAX_BITS &gt;" name="L4drivers::Register_block_base&lt; MAX_BITS &gt;">
+<area shape="rect" id="Node000001" title="Abstract register block interface." alt="" coords="305,5,495,85"/>
+<area shape="rect" id="Node000002" href="$structL4drivers_1_1Register__block__base.html" title=" " alt="" coords="5,148,141,228"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="293,92,154,150,143,156,141,151,152,146,291,87"/>
+<area shape="rect" id="Node000003" href="$structL4drivers_1_1Register__block__base.html" title=" " alt="" coords="166,148,306,228"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="346,97,283,150,280,146,342,93"/>
+<area shape="rect" id="Node000004" href="$structL4drivers_1_1Register__block__base.html" title=" " alt="" coords="330,148,470,228"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="403,99,403,148,397,148,397,99"/>
+<area shape="rect" id="Node000005" href="$structL4drivers_1_1Register__block__base.html" title=" " alt="" coords="494,148,634,228"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="458,93,520,146,517,150,454,97"/>
+<area shape="rect" id="Node000006" href="$structL4drivers_1_1Register__block__base.html" title=" " alt="" coords="658,148,849,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="509,87,659,146,657,151,507,92"/>
+</map>

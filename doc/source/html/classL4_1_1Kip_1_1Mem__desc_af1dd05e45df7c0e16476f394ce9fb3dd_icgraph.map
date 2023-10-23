@@ -1,0 +1,9 @@
+<map id="L4::Kip::Mem_desc::count" name="L4::Kip::Mem_desc::count">
+<area shape="rect" id="Node000001" title="Return number of memory descriptors stored in the kernel info page." alt="" coords="221,47,373,87"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kip_1_1Mem__desc.html#ab09b47d6e8631b366088aab16f2e0f72" title="Return enumerable list of memory descriptors." alt="" coords="5,5,173,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,49,143,33,144,28,208,44"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kip_1_1Mem__desc.html#a85e3e925e5db3aa07335cdccd3c1677e" title="Return enumerable list of memory descriptors." alt="" coords="5,55,173,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,70,174,70,174,65,208,65"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kip_1_1Mem__desc.html#a3db09b7ac1d96d31f73195cd5582b851" title="Set number of memory descriptors." alt="" coords="13,105,165,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="212,94,163,107,162,102,211,88"/>
+</map>

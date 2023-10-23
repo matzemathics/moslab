@@ -1,0 +1,7 @@
+<map id="L4::Task::cap_valid" name="L4::Task::cap_valid">
+<area shape="rect" id="Node000001" title="Check whether a capability is present (refers to an object)." alt="" coords="5,31,149,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="197,5,336,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,31,183,26,184,32,150,36"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="205,55,329,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="150,50,191,55,191,60,149,55"/>
+</map>

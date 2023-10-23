@@ -1,0 +1,5 @@
+<map id="L4::Ipc::Istream::reset" name="L4::Ipc::Istream::reset">
+<area shape="rect" id="Node000001" title="Reset the stream to empty, and ready for receive()/wait()." alt="" coords="192,13,355,38"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc_1_1Iostream.html#a1015a0966b9faef7e344530b1eb6e13a" title="Reset the stream to its initial state." alt="" coords="5,5,144,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,28,145,28,145,23,178,23"/>
+</map>

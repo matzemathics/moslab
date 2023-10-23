@@ -1,0 +1,13 @@
+<map id="L4vcpu::Vcpu" name="L4vcpu::Vcpu">
+<area shape="rect" id="Node000001" title="C++ implementation of the vCPU save state area." alt="" coords="147,936,295,1261"/>
+<area shape="rect" id="Node000002" href="$structl4__vcpu__state__t.html" title="State of a vCPU." alt="" coords="163,681,279,887"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,900,224,936,219,936,219,900"/>
+<area shape="rect" id="Node000003" href="$structl4__vcpu__regs__t.html" title="vCPU registers." alt="" coords="5,353,128,619"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="130,603,163,665,158,668,126,606"/>
+<area shape="rect" id="Node000004" href="$structl4__vcpu__ipc__regs__t.html" title="vCPU message registers." alt="" coords="153,453,290,519"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="224,519,224,665,219,665,219,519"/>
+<area shape="rect" id="Node000005" href="$structl4__msgtag__t.html" title="Message tag data structure." alt="" coords="147,5,296,291"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="224,291,224,437,219,437,219,291"/>
+<area shape="rect" id="Node000006" href="$structl4__vcpu__arch__state__t.html" title="Architecture&#45;specific vCPU state." alt="" coords="314,453,465,519"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="374,520,290,668,285,665,369,518"/>
+</map>

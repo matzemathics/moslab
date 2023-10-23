@@ -1,0 +1,17 @@
+<map id="Kernel Objects" name="Kernel Objects">
+<area shape="rect" id="Node000002" href="$group__l4__api.html" title="Interfaces for all kinds of base functionality." alt="" coords="5,317,84,343"/>
+<area shape="rect" id="Node000001" title="API of kernel objects." alt="" coords="132,317,248,343"/>
+<area shape="rect" id="Node000004" href="$group__l4__factory__api.html" title="C factory interface to create objects, see L4::Factory for the C++ interface." alt="" coords="363,5,432,31"/>
+<area shape="rect" id="Node000007" href="$group__l4__icu__api.html" title="The C Icu interface, see L4::Icu for the C++ interface." alt="" coords="325,55,469,80"/>
+<area shape="rect" id="Node000006" href="$group__l4__irq__api.html" title="C IRQ interface, see L4::Irq for the C++ interface." alt="" coords="371,104,423,129"/>
+<area shape="rect" id="Node000003" href="$group__l4__kernel__object__dmar__space.html" title="A DMA space represents a device memory address space managed by an IOMMU." alt="" coords="350,153,445,179"/>
+<area shape="rect" id="Node000005" href="$group__l4__kernel__object__gate__api.html" title="The C IPC gate interface, see L4::Ipc_gate for the C++ interface." alt="" coords="345,203,449,228"/>
+<area shape="rect" id="Node000009" href="$group__l4__kobject__rtti.html" title="Type information for L4 server objects that can be called via IPC." alt="" coords="318,253,477,293"/>
+<area shape="rect" id="Node000010" href="$group__l4__platform__control__api.html" title="C interface for controlling platform&#45;wide properties, see L4::Platform_control for the C++ interface." alt="" coords="314,317,481,343"/>
+<area shape="rect" id="Node000011" href="$group__l4__scheduler__api.html" title="C interface of the Scheduler kernel object, see L4::Scheduler for the C++ interface." alt="" coords="354,367,441,392"/>
+<area shape="rect" id="Node000008" href="$group__l4__semaphore__api.html" title="C semaphore interface, see L4::Semaphore for the C++ interface." alt="" coords="296,416,499,441"/>
+<area shape="rect" id="Node000012" href="$group__l4__task__api.html" title="C interface of the Task kernel object, see L4::Task for the C++ interface." alt="" coords="372,465,423,491"/>
+<area shape="rect" id="Node000013" href="$group__l4__thread__api.html" title="C Thread object interface, see L4::Thread for the C++ interface." alt="" coords="364,515,431,540"/>
+<area shape="rect" id="Node000014" href="$group__l4__vcon__api.html" title="C Virtual console interface for simple character based input and output, see L4::Vcon for the C++ int..." alt="" coords="337,564,458,589"/>
+<area shape="rect" id="Node000015" href="$group__l4__vm__api.html" title="Virtual Machine API." alt="" coords="332,613,463,639"/>
+</map>

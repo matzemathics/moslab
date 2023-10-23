@@ -1,0 +1,31 @@
+<map id="L4Re::Util::Event_buffer_consumer_t::process" name="L4Re::Util::Event_buffer_consumer_t::process">
+<area shape="rect" id="Node000001" title="Continuously wait for events and process them." alt="" coords="5,138,180,178"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="295,5,434,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,136,159,87,191,62,227,41,281,24,283,29,229,46,194,66,162,91,113,140"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Util_1_1Event__buffer__consumer__t.html#af28d452e8c1b3720b4bc26117d4f7e1c" title="Call function on every available event." alt="" coords="228,55,501,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,135,227,105,258,96,259,101,229,110,143,140"/>
+<area shape="rect" id="Node000006" href="$group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call." alt="" coords="329,120,401,145"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="180,147,315,135,315,140,181,153"/>
+<area shape="rect" id="Node000007" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="594,171,663,196"/>
+<area shape="poly" id="edge15_Node000001_Node000007" title=" " alt="" coords="180,159,580,178,580,184,180,165"/>
+<area shape="rect" id="Node000008" href="$group__l4__ipc__err__api.html#gad40f404217497793e95a10d77a47db39" title="Get the IPC error code for an IPC operation." alt="" coords="315,271,414,296"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="116,176,166,217,196,238,229,256,265,268,302,275,301,280,264,273,227,260,194,243,162,222,113,180"/>
+<area shape="rect" id="Node000010" href="$group__l4__irq__api.html#ga997f18b89d6235214d2f9c381ed6c6a5" title="Unmask and wait for specified IRQ." alt="" coords="308,221,421,247"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="153,176,229,199,295,216,294,222,227,205,151,181"/>
+<area shape="rect" id="Node000004" href="$structL4Re_1_1Event__buffer__t_1_1Event.html#a955b5c13ca2a0990eb345f09eb50f514" title="Free the entry." alt="" coords="557,55,701,95"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="502,73,543,73,543,78,502,78"/>
+<area shape="rect" id="Node000005" href="$group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e" title="Memory barrier." alt="" coords="770,63,833,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="701,73,756,73,756,78,701,78"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="401,137,581,172,579,177,400,142"/>
+<area shape="rect" id="Node000009" href="$group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87" title="Test for error indicator flag." alt="" coords="549,271,708,296"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="415,281,536,281,536,286,415,286"/>
+<area shape="poly" id="edge14_Node000010_Node000007" title=" " alt="" coords="421,221,580,190,581,195,422,226"/>
+<area shape="rect" id="Node000011" href="$group__l4__irq__api.html#ga430999e1f8f6eb5f7e3f957b854b7446" title="Unmask and wait for this IRQ." alt="" coords="565,221,693,247"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="421,231,551,231,551,237,421,237"/>
+<area shape="rect" id="Node000012" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="756,247,847,272"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="693,241,742,248,742,253,692,246"/>
+<area shape="rect" id="Node000014" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="756,197,847,223"/>
+<area shape="poly" id="edge13_Node000011_Node000014" title=" " alt="" coords="692,222,742,216,742,221,693,228"/>
+<area shape="rect" id="Node000013" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="895,247,955,272"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="847,257,881,257,881,262,847,262"/>
+</map>

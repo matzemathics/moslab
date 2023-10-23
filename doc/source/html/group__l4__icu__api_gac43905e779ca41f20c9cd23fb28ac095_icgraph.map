@@ -1,0 +1,7 @@
+<map id="l4_icu_set_mode_u" name="l4_icu_set_mode_u">
+<area shape="rect" id="Node000001" title="Set interrupt mode." alt="" coords="189,31,336,56"/>
+<area shape="rect" id="Node000002" href="$group__l4__icu__api.html#gad387684dcc6b4838f1d4f466e1aeef6f" title="Set interrupt mode." alt="" coords="8,5,139,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,34,138,29,139,24,176,29"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Icu.html#a4258b1c32fc968b66a1ce15191f51b8b" title="Set interrupt mode." alt="" coords="5,55,141,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,57,142,61,141,56,176,52"/>
+</map>

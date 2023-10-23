@@ -1,0 +1,31 @@
+<map id="l4_map_obj_control" name="l4_map_obj_control">
+<area shape="rect" id="Node000001" title="Create the first word for a map item for the object space." alt="" coords="883,218,1032,243"/>
+<area shape="rect" id="Node000002" href="$group__l4__icu__api.html#ga29217a67f405c5d860002dd902bf71e4" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="691,94,801,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="921,213,768,122,770,117,924,209"/>
+<area shape="rect" id="Node000009" href="$group__l4__icu__api.html#gae74204b8f2101e176add646ec2958182" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="683,193,809,218"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="869,223,809,216,810,210,869,217"/>
+<area shape="rect" id="Node000012" href="$group__l4__irq__api.html#ga0bfe3132479962ae237087568fc2c94f" title="Attach an IRQ to this multiplexer." alt="" coords="671,242,821,267"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="869,243,822,249,821,243,869,238"/>
+<area shape="rect" id="Node000015" href="$classL4_1_1Cap__base.html#af270c8a40ac7f715776c155fa91c7342" title="Return send base." alt="" coords="657,291,835,317"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="916,251,836,283,798,294,797,289,834,277,914,246"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Icu.html#ada7541da586ea09b925b4d90d7dc357e" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="489,45,589,70"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="678,93,588,72,589,66,679,88"/>
+<area shape="rect" id="Node000008" href="$group__l4__icu__api.html#ga793c534597fd98ee93cbaf24ad08a615" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="491,94,586,119"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="677,109,586,109,586,104,677,104"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Device.html#a1c9b791b723e7e8ad2eae927094b487d" title="Register a triggerable to receive notifications from the device." alt="" coords="248,5,420,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="475,50,420,41,420,36,475,45"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="248,69,420,109"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="475,70,420,79,420,73,475,65"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,37,200,77"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="234,78,200,73,201,68,234,73"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,101,186,141"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="235,106,187,112,186,107,234,100"/>
+<area shape="rect" id="Node000010" href="$group__l4__icu__api.html#ga77d613300601861b13605e7687146dc5" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="483,143,594,169"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="678,192,592,171,594,166,679,187"/>
+<area shape="rect" id="Node000011" href="$classL4_1_1Icu.html#aa34e56cdac798b1949fcc00553386b8b" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="481,193,597,218"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="668,208,597,208,597,203,668,203"/>
+<area shape="rect" id="Node000013" href="$structL4_1_1Irq__mux.html#acfd63279449d20bef4226da9a01e5da9" title="Attach an IRQ to this multiplexer." alt="" coords="468,242,609,267"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="657,257,610,257,610,252,657,252"/>
+<area shape="rect" id="Node000014" href="$group__l4__irq__api.html#ga3176fd8767eeabcf521356c6f1b21ac4" title="Chain an IRQ to another master IRQ source." alt="" coords="471,291,607,317"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="679,273,594,294,592,289,678,268"/>
+</map>

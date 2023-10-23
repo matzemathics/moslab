@@ -1,0 +1,17 @@
+<map id="L4::Runtime_error" name="L4::Runtime_error">
+<area shape="rect" id="Node000001" title="Exception for an abstract runtime error." alt="" coords="290,312,422,437"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Bounds__error.html" title="Access out of bounds." alt="" coords="5,495,128,561"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="279,417,141,488,123,498,121,493,139,483,276,412"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Com__error.html" title="Error conditions during IPC." alt="" coords="152,495,259,561"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="286,449,239,497,235,493,283,446"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Element__already__exists.html" title="Exception for duplicate element insertions." alt="" coords="283,488,429,568"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="359,451,359,488,353,488,353,451"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Element__not__found.html" title="Exception for a failed lookup (element not found)." alt="" coords="453,495,616,561"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="434,438,499,493,496,497,431,442"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Out__of__memory.html" title="Exception signalling insufficient memory." alt="" coords="640,485,795,571"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="436,404,629,483,641,488,639,493,627,488,434,409"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Base__exception.html" title="Base class for all exceptions, thrown by the L4Re framework." alt="" coords="279,159,433,264"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="359,278,359,312,353,312,353,278"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Exception__tracer.html" title="Back&#45;trace support for exceptions." alt="" coords="282,5,430,111"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,124,359,158,353,158,353,124"/>
+</map>

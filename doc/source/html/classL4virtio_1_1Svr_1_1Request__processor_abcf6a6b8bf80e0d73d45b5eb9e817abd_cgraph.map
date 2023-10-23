@@ -1,0 +1,13 @@
+<map id="L4virtio::Svr::Request_processor::start" name="L4virtio::Svr::Request_processor::start">
+<area shape="rect" id="Node000001" title="Start processing a new request." alt="" coords="5,119,167,159"/>
+<area shape="rect" id="Node000002" href="$namespacecxx.html#ab148b2c460eb31462ced9a1eafd9667c" title="Read the value at an address at most once." alt="" coords="237,5,371,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,117,154,79,213,41,233,33,235,37,216,46,157,83,110,121"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Virtqueue_1_1Head__desc.html#a98a4cc67f88052754fa54451b3d68e2d" title=" " alt="" coords="219,55,389,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,117,222,97,223,102,156,122"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#a9c3e815065cc8cf0c8fe2573c047dbb4" title="Get a descriptor from the descriptor list." alt="" coords="219,119,389,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="167,137,205,137,205,142,167,142"/>
+<area shape="rect" id="Node000005" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a978fd95c3be397943f14b0e5c2c9937b" title="Get the indirect bits ( 2 to 2 ) of raw." alt="" coords="223,183,385,223"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="156,157,223,177,222,182,154,162"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="215,248,393,273"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="110,157,157,196,216,233,235,241,233,246,213,238,154,200,107,161"/>
+</map>

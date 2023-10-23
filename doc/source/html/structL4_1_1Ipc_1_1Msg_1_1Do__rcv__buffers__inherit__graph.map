@@ -1,0 +1,7 @@
+<map id="L4::Ipc::Msg::Do_rcv_buffers" name="L4::Ipc::Msg::Do_rcv_buffers">
+<area shape="rect" id="Node000001" title="Marker for receive buffers." alt="" coords="89,119,233,199"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Ipc_1_1Msg_1_1Dir__in.html" title="Marker type for input values." alt="" coords="5,5,143,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,80,134,117,130,120,103,84"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Ipc_1_1Msg_1_1Cls__buffer.html" title="Marker type for receive buffer values." alt="" coords="167,5,331,71"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,84,192,120,188,117,215,80"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="L4::Kobject_2t&lt; Derived, Base1, Base2, PROTO, S_DEMAND &gt;" name="L4::Kobject_2t&lt; Derived, Base1, Base2, PROTO, S_DEMAND &gt;">
+<area shape="rect" id="Node000001" title="Helper class to create an L4Re interface class that is derived from two base classes (see L4::Kobject..." alt="" coords="219,5,393,120"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__2t.html" title=" " alt="" coords="5,219,196,334"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,95,168,116,135,146,115,181,106,220,101,219,110,179,131,142,165,112,205,90"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__2t.html" title=" " alt="" coords="221,219,397,334"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="309,134,310,188,310,219,305,219,305,188,304,134"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__2t.html" title=" " alt="" coords="435,212,607,341"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="408,86,454,108,475,124,493,142,512,175,521,211,516,213,507,177,489,146,472,128,451,113,405,90"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Irq.html" title="C++ Irq interface, see IRQs for the C interface." alt="" coords="55,391,146,516"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="103,348,103,390,98,390,98,348"/>
+<area shape="rect" id="Node000005" href="$classL4Re_1_1Console.html" title="Console class." alt="" coords="255,421,362,486"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="311,347,311,420,306,420,306,347"/>
+</map>

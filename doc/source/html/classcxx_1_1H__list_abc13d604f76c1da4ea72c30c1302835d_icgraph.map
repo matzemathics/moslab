@@ -1,0 +1,18 @@
+<map id="cxx::H_list::remove" name="cxx::H_list::remove">
+<area shape="rect" id="Node000001" title="Remove the given element from its list." alt="" coords="645,89,793,114"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Base__slab.html#a5b7c524846e7cde26b2e98cf844778b7" title="Allocate a new object." alt="" coords="223,13,382,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="681,85,641,68,597,53,542,42,485,35,382,28,382,23,486,29,542,37,598,48,643,63,683,80"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Base__slab.html#afe7c2b52fc3f56e683c28ce1e00b657c" title="Free the given object (_o)." alt="" coords="441,63,594,89"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="631,93,594,88,594,83,632,88"/>
+<area shape="rect" id="Node000006" href="$classcxx_1_1H__list.html#a35ba3d02d38eee050c821a782df9b871" title="Remove and return the head element of the list." alt="" coords="437,113,597,138"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="632,114,598,118,597,113,631,109"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Ipc__svr_1_1Timeout__queue.html#a172e0ca0f7fcb845b75939c4f30ceebb" title="Remove timeout from the queue." alt="" coords="441,163,594,203"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="675,122,598,153,569,165,567,160,596,148,673,117"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Base__slab__static.html#a98cad873190ba381e371e17a2d9b4e81" title="Allocate an object." alt="" coords="5,5,168,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="209,28,168,28,168,23,209,23"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="449,63,356,41,358,35,450,57"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1Base__slab__static.html#aa700df9e1184f95f0a9077b12a60a055" title="Free the given object (p)." alt="" coords="221,63,384,103"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="427,81,384,83,384,77,427,76"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a559c5881cc36b16338904749c4578ae9" title="Remove timeout from the queue." alt="" coords="216,155,389,210"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="427,185,390,185,390,180,427,180"/>
+</map>

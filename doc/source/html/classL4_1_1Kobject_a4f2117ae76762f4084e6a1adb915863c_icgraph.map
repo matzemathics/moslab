@@ -1,0 +1,65 @@
+<map id="L4::Kobject::cap" name="L4::Kobject::cap">
+<area shape="rect" id="Node000001" title="Return capability selector." alt="" coords="281,777,405,803"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a" title="Add kernel&#45;user memory." alt="" coords="35,5,204,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="339,763,336,615,323,398,309,286,290,184,264,100,249,68,231,44,219,33,203,26,206,21,221,29,235,40,253,65,269,98,295,182,314,285,328,397,342,614,345,763"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Task.html#ac3a7a5e423b0b47ed028a6616fe74415" title="Test whether two capabilities point to the same object with the same rights." alt="" coords="45,55,193,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="339,764,335,624,320,422,306,318,287,223,262,145,248,115,231,93,214,80,192,72,194,67,216,75,235,89,252,113,267,143,292,221,311,317,325,421,340,624,344,763"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Task.html#ac2099a8cdf44b31d8bdcce6d758f8f98" title="Check whether a capability is present (refers to an object)." alt="" coords="47,104,191,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="339,764,333,633,316,446,303,350,284,262,261,190,247,163,231,143,213,129,191,121,192,116,215,124,235,139,251,160,266,188,289,261,308,349,322,445,338,633,344,763"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Thread.html#a4252cd0ad4bdfa00cdc61b5fd2317aef" title="Commit the given thread&#45;attributes object." alt="" coords="48,153,191,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="338,764,331,642,313,469,299,381,281,301,259,235,246,211,231,192,213,178,190,171,192,165,215,174,235,188,250,208,264,233,286,300,305,380,319,469,336,641,344,763"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Factory.html#add39d432a64a16aec33abeefcb3ba1cd" title="Create call for typed capabilities." alt="" coords="49,203,189,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="338,764,329,650,310,493,296,413,278,340,257,281,245,258,231,241,212,228,189,220,190,215,214,223,235,237,249,255,262,278,283,338,301,412,315,492,334,650,343,763"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Factory.html#ab52604d4abed4d6009ce51a59492edd7" title="Generic create call to the factory." alt="" coords="49,252,189,277"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="337,764,327,660,307,518,292,446,275,380,255,327,231,292,212,278,189,270,190,265,214,273,235,288,259,325,280,379,297,445,312,517,332,659,343,763"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Factory.html#a014721aec27ad4877555d5f4b7204896" title="Create a new factory." alt="" coords="49,302,189,342"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="336,764,323,673,301,550,270,432,252,387,231,356,212,341,188,332,190,327,214,337,235,352,256,384,275,431,307,549,329,672,342,763"/>
+<area shape="rect" id="Node000009" href="$classL4_1_1Factory.html#aac0a160a20464a6917f2f614d5b86407" title="Create a new IPC gate." alt="" coords="31,367,207,392"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="340,764,339,692,326,595,312,543,293,493,266,446,232,405,206,390,209,385,235,401,271,443,298,490,317,541,331,594,344,691,346,764"/>
+<area shape="rect" id="Node000010" href="$classL4_1_1Factory.html#a5a2119bba3ea97bfb0f10897c1c64ecb" title="Create a new task." alt="" coords="32,416,207,441"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="339,764,335,700,319,616,305,572,287,529,262,489,232,455,206,439,209,435,235,451,267,486,292,526,310,570,324,615,340,700,345,763"/>
+<area shape="rect" id="Node000011" href="$classL4_1_1Task.html#a6cc499337ace36c2cec41da182c905fc" title="Release capability and delete object." alt="" coords="44,465,195,491"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="338,764,330,709,312,638,299,601,281,565,259,532,232,504,214,493,194,485,196,480,216,488,235,500,263,529,286,563,304,599,318,637,335,708,343,763"/>
+<area shape="rect" id="Node000012" href="$classL4_1_1Thread.html#af50335e91a9efefa66b440aefefd9c61" title="Exchange basic thread registers and return previous values." alt="" coords="45,515,194,540"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="335,764,325,718,305,661,275,602,255,576,232,553,214,542,193,535,195,530,216,538,235,549,259,572,280,599,310,659,330,717,341,763"/>
+<area shape="rect" id="Node000013" href="$classL4_1_1Thread.html#aacd56bbf983577cfc591f21fd511d3b6" title="Exchange basic thread registers." alt="" coords="45,564,194,589"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="332,765,319,728,298,684,269,639,232,603,214,593,193,586,195,581,216,588,235,599,273,636,303,681,324,726,337,763"/>
+<area shape="rect" id="Node000014" href="$classL4_1_1Debugger.html#a3971a4965501d6557ee44fbef97ede7d" title="Get name of object with Id id." alt="" coords="5,613,233,639"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="327,766,290,708,263,677,232,652,209,641,211,636,235,648,267,674,294,705,332,764"/>
+<area shape="rect" id="Node000015" href="$classL4_1_1Debugger.html#a3ee2faa3af880a05df406e9e6a48b45e" title="Get the globally unique ID of the object behind a capability." alt="" coords="32,663,207,688"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="319,769,280,735,232,703,198,691,200,686,235,698,284,730,322,765"/>
+<area shape="rect" id="Node000016" href="$classL4_1_1Debugger.html#ac7c3534030cb16125329f97e2ebcda72" title="Get the globally unique ID of the object behind the kobject pointer." alt="" coords="48,713,191,753"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="279,776,190,753,192,748,280,771"/>
+<area shape="rect" id="Node000017" href="$classL4_1_1Task.html#a2712eda0c02dca9b9e5324e93326f704" title="Map resources available in the source task to a destination task." alt="" coords="64,777,175,803"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="267,793,175,793,175,787,267,787"/>
+<area shape="rect" id="Node000018" href="$classL4_1_1Thread.html#a9bcade7e8db8d775cc1f2a2a6225c845" title="Apply sender modification rules." alt="" coords="48,827,191,867"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="280,809,192,832,190,827,279,804"/>
+<area shape="rect" id="Node000019" href="$classL4_1_1Debugger.html#a882a885d5297c0c1de65e3471bc6e09b" title="Query the name of a log type given the ID." alt="" coords="43,891,196,931"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="322,815,283,849,235,882,197,897,195,892,232,877,280,845,318,811"/>
+<area shape="rect" id="Node000020" href="$classL4_1_1Debugger.html#a944cca2911968ef08d7cdb86bcab29b3" title="Query the log&#45;id for a log type." alt="" coords="43,955,196,995"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="333,817,296,881,268,916,235,946,197,964,195,959,232,941,264,912,291,878,328,814"/>
+<area shape="rect" id="Node000021" href="$classL4_1_1Thread.html#a5506636d5612bbc65a07edebcb885b8c" title="Register an IRQ that will trigger upon deletion events." alt="" coords="45,1019,193,1059"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="339,817,327,859,306,911,276,964,257,988,235,1009,216,1022,195,1031,193,1026,213,1017,232,1005,253,985,272,961,301,909,322,857,334,815"/>
+<area shape="rect" id="Node000022" href="$classL4_1_1Task.html#a6fd63174fb70beb932b8889e3d644b53" title="Release object capability." alt="" coords="39,1084,199,1109"/>
+<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="343,817,334,871,316,940,302,977,285,1012,262,1045,235,1073,219,1084,201,1092,199,1087,216,1080,232,1069,258,1042,280,1009,297,975,311,939,329,870,337,816"/>
+<area shape="rect" id="Node000023" href="$classL4_1_1Debugger.html#acdd127740e39ecba17d0c82dc1f4ff97" title="Set the name of a kernel object." alt="" coords="6,1133,233,1159"/>
+<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="344,816,339,879,323,962,309,1006,291,1048,266,1088,235,1123,216,1136,213,1131,232,1119,262,1085,286,1046,304,1004,318,960,334,878,339,816"/>
+<area shape="rect" id="Node000024" href="$classL4_1_1Thread.html#a7c75cd39ef9fbe963d357d9909da7c10" title="Get consumed time of thread in us." alt="" coords="36,1183,203,1208"/>
+<area shape="poly" id="edge23_Node000001_Node000024" title=" " alt="" coords="346,816,343,887,330,983,316,1034,296,1085,270,1131,235,1172,204,1190,202,1186,232,1168,265,1128,292,1082,311,1033,324,982,338,887,340,816"/>
+<area shape="rect" id="Node000025" href="$classL4_1_1Debugger.html#aa832e2140225b1eeba7f1c5c6d718fa6" title="Set or unset log." alt="" coords="27,1232,212,1257"/>
+<area shape="poly" id="edge24_Node000001_Node000025" title=" " alt="" coords="342,817,329,908,307,1029,292,1090,276,1145,257,1190,235,1221,214,1236,211,1232,231,1217,252,1188,271,1143,287,1088,302,1028,324,907,336,816"/>
+<area shape="rect" id="Node000026" href="$classL4_1_1Thread.html#a7bb604d3fe94545ad9e44b46600aef46" title="Switch execution to this thread." alt="" coords="39,1281,199,1307"/>
+<area shape="poly" id="edge25_Node000001_Node000026" title=" " alt="" coords="342,817,331,917,310,1053,296,1122,279,1184,259,1236,235,1270,219,1283,201,1291,199,1286,216,1278,231,1267,254,1233,274,1183,291,1120,305,1052,326,916,337,816"/>
+<area shape="rect" id="Node000027" href="$classL4_1_1Task.html#a4b9294cc5d6338a36958df578f092a25" title="Revoke rights from the task." alt="" coords="56,1331,183,1356"/>
+<area shape="poly" id="edge26_Node000001_Node000027" title=" " alt="" coords="343,816,333,925,314,1076,299,1153,282,1223,261,1281,235,1320,211,1336,184,1344,182,1339,209,1331,231,1316,256,1278,277,1222,294,1152,308,1075,328,925,338,816"/>
+<area shape="rect" id="Node000028" href="$classL4_1_1Task.html#aaf697eee4820135193d30e4b0e89535b" title="Revoke rights from a task." alt="" coords="34,1380,205,1405"/>
+<area shape="poly" id="edge27_Node000001_Node000028" title=" " alt="" coords="343,817,335,935,317,1101,303,1185,285,1262,263,1326,250,1350,235,1369,221,1380,206,1388,204,1383,219,1376,231,1365,245,1348,258,1324,280,1261,298,1184,312,1100,330,934,338,816"/>
+<area shape="rect" id="Node000029" href="$classL4_1_1Thread.html#a94a6d8a5a7a78fa99ef3c6358e0a0459" title="Enable the vCPU feature for the thread." alt="" coords="29,1429,210,1455"/>
+<area shape="poly" id="edge28_Node000001_Node000029" title=" " alt="" coords="344,817,337,944,320,1124,306,1217,288,1302,264,1371,251,1398,235,1419,212,1435,209,1430,231,1415,246,1395,260,1369,283,1300,301,1216,315,1124,332,944,339,817"/>
+<area shape="rect" id="Node000030" href="$classL4_1_1Thread.html#ac341b827b00c21bc3753c30163e0f173" title="Enable the extended vCPU feature for the thread." alt="" coords="15,1479,224,1504"/>
+<area shape="poly" id="edge29_Node000001_Node000030" title=" " alt="" coords="344,816,339,952,323,1148,309,1248,291,1340,266,1416,252,1445,235,1468,219,1481,216,1476,231,1464,247,1443,261,1414,286,1339,304,1247,318,1147,334,952,339,816"/>
+<area shape="rect" id="Node000031" href="$classL4_1_1Thread.html#a72ce9179f1b083a65f0d4caa5b6aee67" title="Resume from vCPU asynchronous IPC handler, commit." alt="" coords="27,1529,212,1569"/>
+<area shape="poly" id="edge30_Node000001_Node000031" title=" " alt="" coords="344,817,340,961,325,1170,311,1279,292,1378,267,1460,252,1492,235,1517,214,1534,211,1530,231,1514,248,1490,262,1458,287,1377,306,1278,319,1170,334,960,339,817"/>
+<area shape="rect" id="Node000032" href="$classL4_1_1Vm.html#ab14cb70e8330d3e1ce5528e96fe0a0da" title="Map the GIC virtual CPU interface page to the task in case Fiasco detected a GIC version 2." alt="" coords="47,1593,192,1619"/>
+<area shape="poly" id="edge31_Node000001_Node000032" title=" " alt="" coords="345,816,343,972,330,1202,317,1321,298,1431,271,1521,254,1556,235,1583,216,1597,193,1606,191,1601,213,1592,231,1579,250,1553,266,1519,292,1430,312,1321,325,1202,338,972,340,816"/>
+</map>

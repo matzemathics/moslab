@@ -1,0 +1,31 @@
+<map id="l4_error" name="l4_error">
+<area shape="rect" id="Node000001" title="Get IPC error code if any or message tag label otherwise for an IPC call." alt="" coords="471,260,543,285"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Mem__alloc.html#a44b301573ae859e8406400338cc8e924" title="Allocate anonymous memory." alt="" coords="249,5,421,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="501,246,494,203,481,148,457,93,441,68,421,45,402,33,405,29,424,41,445,64,462,90,486,147,500,202,506,246"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Device.html#a1c9b791b723e7e8ad2eae927094b487d" title="Register a triggerable to receive notifications from the device." alt="" coords="249,55,421,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="496,248,471,179,449,142,421,109,404,98,407,93,424,105,453,139,475,177,501,246"/>
+<area shape="rect" id="Node000004" href="$namespaceL4.html#ad28da99b08996a6fe5210be548ce0fb2" title="dynamic_cast for capabilities." alt="" coords="253,120,418,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="491,249,463,203,444,180,421,160,397,148,400,143,424,156,448,176,467,200,496,246"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="249,170,421,210"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="474,255,421,224,394,212,396,208,424,220,477,250"/>
+<area shape="rect" id="Node000008" href="$group__fiasco__trace__api.html#ga11d469f93c5befca8389362282c5cb74" title="Create new trace&#45;buffer entry with describing &lt;text&gt;." alt="" coords="275,235,395,260"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="457,268,395,259,396,254,457,263"/>
+<area shape="rect" id="Node000009" href="$group__fiasco__trace__api.html#gac59d89f0e05763396f2fcda591ffe870" title="Create new trace&#45;buffer entry with describing &lt;text&gt; and three additional values." alt="" coords="258,284,413,309"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="457,282,413,288,413,283,456,277"/>
+<area shape="rect" id="Node000010" href="$group__fiasco__trace__api.html#gacec61dde47b1cf788fcc51614bcc1a2f" title="Create new trace&#45;buffer entry with binary data." alt="" coords="251,333,419,359"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="476,295,424,323,388,336,387,331,422,318,474,290"/>
+<area shape="rect" id="Node000011" href="$classL4Re_1_1Util_1_1Event__t.html#a6052908f83d35a7bb1ba9371cbfc9834" title="Initialise an event object." alt="" coords="264,383,407,423"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="492,299,463,336,424,372,401,385,398,381,421,368,459,333,488,296"/>
+<area shape="rect" id="Node000012" href="$group__l4__vcon__api.html#ga899728ba23baf18f59f62142534e039c" title="Write data to this virtual console." alt="" coords="272,448,399,473"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="502,299,492,331,476,368,454,405,424,437,400,451,398,447,421,433,449,402,471,366,487,329,497,298"/>
+<area shape="rect" id="Node000015" href="$classL4Re_1_1Util_1_1Event__buffer__consumer__t.html#a4ed22b41ce4c7e6b93efae878b1415ef" title="Continuously wait for events and process them." alt="" coords="248,498,423,538"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="505,300,497,341,482,391,459,442,443,466,424,488,409,500,405,496,421,484,439,463,454,440,477,389,492,339,499,299"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,138,200,178"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="235,179,200,174,201,169,236,174"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,202,186,242"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="236,206,187,213,186,208,235,201"/>
+<area shape="rect" id="Node000013" href="$group__l4__vcon__api.html#ga9f083a69c2c51329da6778a3af0331bc" title="Write data to virtual console." alt="" coords="47,424,159,449"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="258,455,159,445,159,440,258,450"/>
+<area shape="rect" id="Node000014" href="$classL4_1_1Vcon.html#a83407df2f5b674126d33505d73f5d34b" title="Write data to this virtual console." alt="" coords="43,473,162,499"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="259,472,163,482,162,477,258,466"/>
+</map>

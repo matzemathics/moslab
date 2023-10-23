@@ -1,0 +1,11 @@
+<map id="cxx::H_list_item_t&lt; ELEM_TYPE &gt;" name="cxx::H_list_item_t&lt; ELEM_TYPE &gt;">
+<area shape="rect" id="Node000001" title="Basic element type for a double&#45;linked H_list." alt="" coords="62,5,198,105"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Timeout.html" title="Callback interface for Timeout_queue." alt="" coords="5,168,151,308"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,119,100,169,95,167,110,118"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1H__list__item__t.html" title=" " alt="" coords="175,188,317,288"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,116,217,186,212,189,167,119"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Weak__ref__base.html" title="Generic (base) weak reference to some object." alt="" coords="174,357,318,423"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="249,302,249,357,243,357,243,302"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1Weak__ref.html" title="Typed weak reference to an object of type T." alt="" coords="174,472,318,537"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="249,437,249,472,243,472,243,437"/>
+</map>

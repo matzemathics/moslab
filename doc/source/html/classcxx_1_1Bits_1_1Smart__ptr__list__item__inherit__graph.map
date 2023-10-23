@@ -1,0 +1,5 @@
+<map id="cxx::Bits::Smart_ptr_list_item&lt; T, STORE_T &gt;" name="cxx::Bits::Smart_ptr_list_item&lt; T, STORE_T &gt;">
+<area shape="rect" id="Node000001" title="List item for an arbitrary item in a Smart_ptr_list." alt="" coords="12,5,195,85"/>
+<area shape="rect" id="Node000002" href="$structcxx_1_1Ref__obj__list__item.html" title="Item for list linked via cxx::Ref_ptr with default refence counting." alt="" coords="5,133,201,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,100,106,133,101,133,101,100"/>
+</map>

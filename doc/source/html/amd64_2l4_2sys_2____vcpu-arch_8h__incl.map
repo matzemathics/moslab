@@ -1,0 +1,21 @@
+<map id="amd64/l4/sys/__vcpu&#45;arch.h" name="amd64/l4/sys/__vcpu&#45;arch.h">
+<area shape="rect" id="Node000001" title="AMD64&#45;specific vCPU interface." alt="" coords="169,5,328,45"/>
+<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="193,93,305,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,46,251,79,246,79,246,46"/>
+<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="41,240,147,265"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="193,116,87,135,41,150,24,159,13,168,9,177,8,185,17,202,35,218,57,231,54,236,32,222,13,205,3,186,4,175,9,165,21,154,39,145,86,130,192,111"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="280,240,412,265"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="269,117,296,137,321,165,336,196,344,226,339,227,331,197,317,168,292,141,266,121"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="189,167,308,192"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="251,119,251,153,246,153,246,119"/>
+<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="383,167,530,192"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="283,116,411,160,409,165,281,121"/>
+<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="23,167,165,192"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="225,121,133,163,131,158,223,116"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="285,313,407,339"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="349,266,349,300,343,300,343,266"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="225,194,133,237,131,232,223,190"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="266,190,320,229,317,234,263,194"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="440,194,377,235,374,230,437,190"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="97,192,97,226,91,226,91,192"/>
+</map>

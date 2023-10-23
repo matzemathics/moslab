@@ -1,0 +1,5 @@
+<map id="L4Re::Vfs::File_system" name="L4Re::Vfs::File_system">
+<area shape="rect" id="Node000001" title="Basic interface for an L4Re::Vfs file system." alt="" coords="5,5,167,91"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Vfs_1_1Be__file__system.html" title="Boilerplate class for implementing a L4Re::Vfs::File_system." alt="" coords="11,139,161,259"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,105,89,138,83,138,83,105"/>
+</map>

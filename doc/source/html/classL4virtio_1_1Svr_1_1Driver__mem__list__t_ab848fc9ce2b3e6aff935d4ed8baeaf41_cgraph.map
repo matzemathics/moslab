@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Driver_mem_list_t::load_desc" name="L4virtio::Svr::Driver_mem_list_t::load_desc">
+<area shape="rect" id="Node000001" title="Default implementation returning the Driver_mem_region." alt="" coords="5,35,180,75"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#a15115f44d2eaf629888fb34afbdbf9f8" title="Find memory region containing the given driver address region." alt="" coords="228,5,376,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,40,214,35,215,40,181,45"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Ptr.html#a8e39f7c9cd370812ebb4610b096c44b6" title=" " alt="" coords="239,70,365,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,64,225,70,225,75,180,69"/>
+</map>

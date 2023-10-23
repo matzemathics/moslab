@@ -1,0 +1,5 @@
+<map id="l4_icu_mask" name="l4_icu_mask">
+<area shape="rect" id="Node000001" title="Mask an IRQ line." alt="" coords="5,5,108,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="156,5,225,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,15,142,15,142,21,108,21"/>
+</map>

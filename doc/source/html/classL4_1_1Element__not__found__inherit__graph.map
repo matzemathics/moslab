@@ -1,0 +1,9 @@
+<map id="L4::Element_not_found" name="L4::Element_not_found">
+<area shape="rect" id="Node000001" title="Exception for a failed lookup (element not found)." alt="" coords="5,485,168,551"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Runtime__error.html" title="Exception for an abstract runtime error." alt="" coords="21,312,153,437"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,451,89,485,84,485,84,451"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Base__exception.html" title="Base class for all exceptions, thrown by the L4Re framework." alt="" coords="10,159,163,264"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,278,89,312,84,312,84,278"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Exception__tracer.html" title="Back&#45;trace support for exceptions." alt="" coords="13,5,161,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="89,124,89,158,84,158,84,124"/>
+</map>

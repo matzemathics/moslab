@@ -1,0 +1,9 @@
+<map id="L4::Debugger" name="L4::Debugger">
+<area shape="rect" id="Node000001" title="C++ kernel debugger API." alt="" coords="71,332,222,517"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="28,183,265,283"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,296,149,332,144,332,144,296"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="5,13,112,98"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="88,109,124,181,120,183,83,112"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="136,5,336,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="207,119,174,184,169,181,202,117"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="L4virtio::Svr::Request_processor::start" name="L4virtio::Svr::Request_processor::start">
+<area shape="rect" id="Node000001" title="Start processing a new request." alt="" coords="5,119,167,159"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Request__processor.html#abcf6a6b8bf80e0d73d45b5eb9e817abd" title="Start processing a new request." alt="" coords="215,119,376,159"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,137,201,137,201,142,167,142"/>
+<area shape="rect" id="Node000003" href="$namespacecxx.html#ab148b2c460eb31462ced9a1eafd9667c" title="Read the value at an address at most once." alt="" coords="446,5,581,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,117,363,79,423,41,442,33,444,37,425,46,366,83,320,121"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Virtqueue_1_1Head__desc.html#a98a4cc67f88052754fa54451b3d68e2d" title=" " alt="" coords="428,55,599,95"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="363,117,431,97,433,102,365,122"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#a9c3e815065cc8cf0c8fe2573c047dbb4" title="Get a descriptor from the descriptor list." alt="" coords="428,119,599,159"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="376,137,414,137,414,142,376,142"/>
+<area shape="rect" id="Node000006" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a978fd95c3be397943f14b0e5c2c9937b" title="Get the indirect bits ( 2 to 2 ) of raw." alt="" coords="432,183,595,223"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="365,157,433,177,431,182,363,162"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="424,248,603,273"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="320,157,366,196,425,233,444,241,442,246,423,238,363,200,316,161"/>
+</map>

@@ -1,0 +1,23 @@
+<map id="L4::Ipc_svr::Timeout_queue_hooks::add_timeout" name="L4::Ipc_svr::Timeout_queue_hooks::add_timeout">
+<area shape="rect" id="Node000001" title="Add a timeout to the queue for time time." alt="" coords="5,160,211,200"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Timeout__queue.html#ae31fed715901774759e1786b5e633a07" title="Add a timeout to the queue." alt="" coords="269,107,423,147"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,157,255,144,257,149,198,163"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#ae4a6bd9781bf97a37dbff039db58d47d" title="get the time for the next timeout" alt="" coords="259,192,433,232"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="211,191,246,196,245,201,210,196"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Bits_1_1Basic__list.html#af857846edcaf6cbc84827c585b45fd49" title="Return an iterator to the beginning of the list." alt="" coords="497,5,645,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="382,104,480,55,497,48,499,53,482,60,384,109"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Bits_1_1Basic__list.html#a08f2ae0b9f0379ce1778ba1f2d163330" title="Return a const iterator to the end of the list." alt="" coords="481,70,661,95"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="422,109,492,95,493,101,423,114"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1H__list.html#a6d51f7db1f61e1e2175e03ca8d034cfc" title="Insert an element before the iterator position." alt="" coords="504,120,639,160"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="423,129,490,133,490,138,423,134"/>
+<area shape="rect" id="Node000007" href="$group__l4__timeout__api.html#ga3345aebfb9e55eccf20ff8b765197bae" title="Combine send and receive timeout in a timeout." alt="" coords="525,185,617,210"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="433,204,511,199,512,204,434,209"/>
+<area shape="rect" id="Node000008" href="$group__l4__timeout__api.html#gab3eeabba0542c7723fbd5628c6e4d6c3" title="Set an absolute timeout." alt="" coords="510,234,633,259"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="434,223,497,233,496,238,433,228"/>
+<area shape="rect" id="Node000010" href="$classL4_1_1Ipc__svr_1_1Timeout__queue.html#a4d3404d1f551f06f9ef98121bd150569" title="Get the time for the next timeout." alt="" coords="489,284,653,324"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="391,230,482,270,501,277,499,282,480,274,389,234"/>
+<area shape="rect" id="Node000009" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="749,234,818,259"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="633,244,735,244,735,249,633,249"/>
+<area shape="rect" id="Node000011" href="$classcxx_1_1Bits_1_1Basic__list.html#afe4330106fdfcc338e7c01b1e32cdbac" title="Return the first element in the list." alt="" coords="709,284,857,324"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="654,301,695,301,695,307,654,307"/>
+</map>

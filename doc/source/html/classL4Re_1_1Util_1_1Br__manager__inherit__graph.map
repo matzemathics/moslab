@@ -1,0 +1,7 @@
+<map id="L4Re::Util::Br_manager" name="L4Re::Util::Br_manager">
+<area shape="rect" id="Node000001" title="Buffer&#45;register (BR) manager for L4::Server." alt="" coords="5,273,180,499"/>
+<area shape="rect" id="Node000003" href="$structL4Re_1_1Util_1_1Br__manager__hooks.html" title="Predefined server&#45;loop hooks for a server loop using the Br_manager." alt="" coords="11,547,175,627"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="95,512,95,547,90,547,90,512"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Server__iface.html" title="Interface for server&#45;loop related functions." alt="" coords="5,5,180,225"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,239,95,273,90,273,90,239"/>
+</map>

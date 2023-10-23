@@ -1,0 +1,13 @@
+<map id="L4virtio::Virtqueue::used_size" name="L4virtio::Virtqueue::used_size">
+<area shape="rect" id="Node000001" title="Calculate the size of the used ring for num entries." alt="" coords="449,69,592,109"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Device__t.html#ab906b4cc61026fd815a8056f07bef10e" title="Enable/disable the specified queue." alt="" coords="248,5,401,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="445,68,386,48,387,43,447,63"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue.html#a96dfd139f3a022e9e2328e28716acdc9" title="Calculate the total size of this virtqueue." alt="" coords="253,69,396,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="436,92,397,92,397,87,436,87"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Virtqueue.html#a6f8cdc52ebe6322c3023e05e0e055293" title="Calculate the total size for a virtqueue of the given dimensions." alt="" coords="253,133,396,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="447,116,387,136,386,131,445,111"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,101,200,141"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="240,144,200,138,201,133,240,139"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,165,186,205"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="240,168,187,176,186,171,240,163"/>
+</map>

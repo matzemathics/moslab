@@ -1,0 +1,15 @@
+<map id="L4virtio::Driver::Virtqueue::enqueue_descriptor" name="L4virtio::Driver::Virtqueue::enqueue_descriptor">
+<area shape="rect" id="Node000001" title="Enqueue a descriptor in the available ring." alt="" coords="680,37,871,77"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#af9f1a58dc4366d2fd3cc72b36d25d6b0" title="Queue new available descriptors in the RX queue." alt="" coords="462,5,630,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="666,45,630,40,631,34,667,39"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Device.html#a72090d324268b51f3937197748c26853" title="Send a request to the device." alt="" coords="460,69,632,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="667,75,633,80,632,75,666,70"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Device.html#af4aa9ac34ce928b9d437f1bb6a2ec216" title="Send a request to the device and wait for it to be processed." alt="" coords="240,5,412,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="463,68,395,48,396,43,464,63"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Block__device.html#a2c2e9924abafe2eff34821b166c6c36f" title="Process request asynchronously." alt="" coords="243,69,409,109"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="446,92,410,92,410,87,446,87"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#ae7be0e5112d84bccc6cfabd20aaa29e7" title="Attempt to allocate a descriptor in the TX queue and transmit the packet, after calling the prepare c..." alt="" coords="245,133,407,173"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="464,116,396,136,395,131,463,111"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Block__device.html#a63f21e71556accc8c669ef80161ecd8e" title="Process request synchronously." alt="" coords="5,5,192,45"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="226,28,192,28,192,23,226,23"/>
+</map>

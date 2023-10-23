@@ -1,0 +1,7 @@
+<map id="L4::Factory::create_task" name="L4::Factory::create_task">
+<area shape="rect" id="Node000001" title="Create a new task." alt="" coords="5,31,180,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="228,5,367,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,30,214,26,215,31,181,35"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="235,55,359,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,51,222,56,221,61,180,56"/>
+</map>

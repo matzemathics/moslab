@@ -1,0 +1,5 @@
+<map id="cxx::Base_slab::total_objects" name="cxx::Base_slab::total_objects">
+<area shape="rect" id="Node000001" title="Get the total number of objects managed by the slab allocator." alt="" coords="216,5,373,45"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Base__slab__static.html#a50f5b49a3215d75ebd9b36c8df61d701" title="Get the total number of objects managed by the slab allocator." alt="" coords="5,5,168,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,28,168,28,168,23,202,23"/>
+</map>

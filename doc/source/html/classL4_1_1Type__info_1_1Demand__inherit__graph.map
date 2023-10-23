@@ -1,0 +1,13 @@
+<map id="L4::Type_info::Demand" name="L4::Type_info::Demand">
+<area shape="rect" id="Node000001" title="Data type for expressing the needed receive buffers at the server&#45;side of an interface." alt="" coords="51,5,213,171"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Type__info_1_1Demand__t.html" title=" " alt="" coords="5,451,224,589"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,184,121,220,117,342,117,450,111,450,112,342,116,220,119,184"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Type__info_1_1Demand__t.html" title="Template type statically describing demand of receive buffers." alt="" coords="131,220,301,315"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="179,182,196,219,192,221,174,184"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Type__info_1_1Demand__union__t.html" title=" " alt="" coords="30,811,210,920"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,603,122,811,117,811,113,603"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Type__info_1_1Demand__union__t.html" title="Template type statically describing the combination of two Demand object." alt="" coords="136,639,299,719"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="169,600,194,637,190,640,165,603"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="193,732,151,812,146,809,188,730"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="195,329,145,451,140,449,190,327"/>
+</map>

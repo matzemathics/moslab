@@ -1,0 +1,5 @@
+<map id="L4virtio::Driver::Device::feature_negotiated" name="L4virtio::Driver::Device::feature_negotiated">
+<area shape="rect" id="Node000001" title="Check if a particular feature bit was negotiated with the device." alt="" coords="5,5,177,45"/>
+<area shape="rect" id="Node000002" href="$group__l4virtio__transport.html#gae37bcd45875b27b302320e6b9580191d" title="Check if the given bit in a feature map is set." alt="" coords="225,13,376,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,23,211,23,211,28,178,28"/>
+</map>

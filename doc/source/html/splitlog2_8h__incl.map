@@ -1,0 +1,21 @@
+<map id="l4/util/splitlog2.h" name="l4/util/splitlog2.h">
+<area shape="rect" id="Node000001" title="Split a range in log2 aligned and size&#45;aligned chunks." alt="" coords="5,5,136,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="41,299,164,324"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="55,33,33,53,14,80,12,91,15,103,30,156,50,207,91,285,86,288,45,209,25,158,9,105,7,91,10,78,29,49,52,29"/>
+<area shape="rect" id="Node000003" href="$err_8h.html" title="Error codes." alt="" coords="24,79,117,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="73,31,73,65,68,65,68,31"/>
+<area shape="rect" id="Node000005" href="$bitops_8h.html" title="bit manipulation functions" alt="" coords="207,79,321,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="103,28,221,71,219,76,101,33"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="143,225,275,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="68,105,58,139,58,158,65,176,78,191,94,203,131,221,129,225,91,208,74,195,60,179,53,159,53,139,63,104"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="194,253,133,293,130,289,191,248"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="264,105,241,178,225,214,220,212,236,176,259,104"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="357,225,462,251"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="322,94,353,100,384,111,412,127,436,151,442,166,441,184,428,215,423,213,436,183,437,167,431,153,409,131,381,115,351,105,321,99"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="75,152,226,177"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="247,106,182,147,179,142,244,102"/>
+<area shape="rect" id="Node000008" href="$l4_2util_2atomic_8h.html" title="atomic operations header and generic implementations" alt="" coords="301,152,421,177"/>
+<area shape="poly" id="edge9_Node000005_Node000008" title=" " alt="" coords="281,102,336,141,333,146,278,106"/>
+<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="338,180,247,222,245,217,336,175"/>
+<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="371,176,396,213,392,216,367,179"/>
+</map>

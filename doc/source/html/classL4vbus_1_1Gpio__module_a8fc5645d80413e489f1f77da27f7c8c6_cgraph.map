@@ -1,0 +1,5 @@
+<map id="L4vbus::Gpio_module::set" name="L4vbus::Gpio_module::set">
+<area shape="rect" id="Node000001" title="Set multiple GPIO output pins at once." alt="" coords="5,5,196,31"/>
+<area shape="rect" id="Node000002" href="$group__l4vbus__gpio__module.html#ga257c6a6144968e79483b7c6994113bfc" title="Set multiple GPIO output pins at once." alt="" coords="244,5,412,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,15,230,15,230,21,197,21"/>
+</map>

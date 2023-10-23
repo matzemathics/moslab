@@ -1,0 +1,41 @@
+<map id="l4/sys/ktrace.h" name="l4/sys/ktrace.h">
+<area shape="rect" id="Node000001" title="L4 kernel event tracing." alt="" coords="357,5,475,31"/>
+<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="309,372,421,397"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="419,31,419,163,419,239,415,274,406,307,381,361,377,359,401,305,410,273,413,239,413,163,413,31"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="453,79,621,104"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="437,28,507,69,505,74,434,33"/>
+<area shape="rect" id="Node000010" href="$____ktrace-impl_8h.html" title="L4 kernel event tracing." alt="" coords="213,79,379,104"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="398,33,329,74,326,69,395,28"/>
+<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="533,519,638,544"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="421,384,507,387,604,396,692,414,725,427,747,444,756,458,755,472,747,484,733,494,696,510,652,522,651,516,694,505,731,489,743,480,750,470,750,459,743,447,722,431,690,419,603,401,506,392,421,389"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="99,519,231,544"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="346,400,268,448,190,511,186,507,265,443,343,395"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="450,445,569,471"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="390,395,475,437,472,441,387,400"/>
+<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="279,445,425,471"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="366,398,359,432,354,431,361,397"/>
+<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="592,445,733,471"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="414,395,602,439,601,445,412,400"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="104,592,227,617"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="168,544,168,578,163,578,163,544"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="523,469,565,507,561,511,520,473"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="455,473,235,518,234,513,454,468"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="323,473,209,516,208,511,321,468"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="652,473,610,511,606,507,648,469"/>
+<area shape="poly" id="edge14_Node000010_Node000002" title=" " alt="" coords="304,103,321,151,348,266,364,358,359,358,343,267,316,153,299,105"/>
+<area shape="rect" id="Node000011" href="$kdebug_8h.html" title="Functionality for invoking the kernel debugger." alt="" coords="183,152,307,177"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="290,106,264,142,259,139,285,103"/>
+<area shape="poly" id="edge16_Node000011_Node000004" title=" " alt="" coords="184,178,126,194,69,220,45,237,25,258,13,282,8,310,8,386,11,408,19,428,32,446,48,463,85,491,123,511,121,515,82,495,44,467,28,450,15,431,6,409,3,386,3,310,8,280,21,255,41,233,66,215,124,189,182,173"/>
+<area shape="poly" id="edge17_Node000011_Node000006" title=" " alt="" coords="258,176,435,370,492,433,488,437,431,374,254,179"/>
+<area shape="rect" id="Node000012" href="$l4_2sys_2ipc_8h.html" title="Common IPC interface." alt="" coords="187,225,282,251"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="246,178,241,212,236,211,241,177"/>
+<area shape="poly" id="edge19_Node000012_Node000002" title=" " alt="" coords="247,249,291,297,348,360,344,363,287,300,243,252"/>
+<area shape="rect" id="Node000013" href="$l4_2sys_2utcb_8h.html" title="UTCB definitions." alt="" coords="173,299,277,324"/>
+<area shape="poly" id="edge20_Node000012_Node000013" title=" " alt="" coords="236,251,231,286,226,285,230,251"/>
+<area shape="rect" id="Node000014" href="$err_8h.html" title="Error codes." alt="" coords="43,372,136,397"/>
+<area shape="poly" id="edge24_Node000012_Node000014" title=" " alt="" coords="221,253,163,301,109,363,105,359,159,297,217,249"/>
+<area shape="poly" id="edge21_Node000013_Node000002" title=" " alt="" coords="249,322,332,363,329,368,247,326"/>
+<area shape="poly" id="edge23_Node000013_Node000003" title=" " alt="" coords="227,324,227,354,232,393,244,434,255,453,268,469,286,480,310,490,376,506,450,517,519,523,518,528,449,522,375,511,309,495,283,485,265,473,250,456,239,436,227,394,222,354,222,324"/>
+<area shape="poly" id="edge22_Node000013_Node000004" title=" " alt="" coords="225,325,175,506,170,504,220,324"/>
+<area shape="poly" id="edge25_Node000014_Node000004" title=" " alt="" coords="95,397,106,430,124,469,149,506,144,509,119,472,101,432,90,398"/>
+</map>

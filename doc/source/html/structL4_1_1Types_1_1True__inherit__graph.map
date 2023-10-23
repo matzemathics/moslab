@@ -1,0 +1,12 @@
+<map id="L4::Types::True" name="L4::Types::True">
+<area shape="rect" id="Node000001" title="True meta value." alt="" coords="34,248,143,313"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html" title=" " alt="" coords="19,505,169,585"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="92,327,96,505,91,505,87,328"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html" title="Type trait defining a valid RPC parameter type." alt="" coords="110,363,259,443"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="125,322,156,361,151,364,120,326"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="5,133,172,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,213,91,248,86,248,86,213"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Types_1_1Bool.html" title="Boolean meta type." alt="" coords="13,5,164,71"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="91,85,91,133,86,133,86,85"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="154,456,121,507,117,504,150,453"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="L4Re::Util::Object_registry::unregister_obj" name="L4Re::Util::Object_registry::unregister_obj">
+<area shape="rect" id="Node000001" title="Remove a server object from the handler list." alt="" coords="5,63,184,103"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Thread_1_1Modify__senders.html#ae36dad061d7d4ef1469780b4c74ce7de" title="Add a rule." alt="" coords="245,5,388,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,60,231,45,233,50,173,65"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Epiface.html#a0d454b9446bdf9e317b09574a5155fe0" title="Get the capability to the kernel object belonging to this object." alt="" coords="241,70,392,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,80,228,80,228,85,185,85"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Epiface.html#af47d6b2877fa4a09e04140a6644631aa" title="Set server registration info for the object." alt="" coords="232,119,401,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="185,100,246,114,245,119,184,105"/>
+</map>

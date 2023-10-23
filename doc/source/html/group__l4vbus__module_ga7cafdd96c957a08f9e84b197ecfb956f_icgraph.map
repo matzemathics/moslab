@@ -1,0 +1,5 @@
+<map id="l4vbus_request_ioport" name="l4vbus_request_ioport">
+<area shape="rect" id="Node000001" title="Request an IO port resource." alt="" coords="219,13,385,38"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Vbus.html#a56f38d95fbcf91235e28b0d0ada87ad4" title="Request the given IO port resource from the bus." alt="" coords="5,5,171,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,28,171,28,171,23,205,23"/>
+</map>

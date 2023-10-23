@@ -1,0 +1,7 @@
+<map id="L4drivers::Register_block_tmpl&lt; BLOCK &gt;" name="L4drivers::Register_block_tmpl&lt; BLOCK &gt;">
+<area shape="rect" id="Node000001" title="Helper template that translates to the Register_block_base interface." alt="" coords="131,5,298,85"/>
+<area shape="rect" id="Node000002" href="$classL4drivers_1_1Register__block__tmpl.html" title=" " alt="" coords="5,170,211,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,97,142,111,128,140,118,171,113,169,123,138,138,108,149,93"/>
+<area shape="rect" id="Node000003" href="$classL4drivers_1_1Register__block__tmpl.html" title=" " alt="" coords="235,163,410,272"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="284,93,296,108,309,134,317,161,312,163,304,136,291,111,280,97"/>
+</map>

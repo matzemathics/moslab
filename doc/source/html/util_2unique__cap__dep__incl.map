@@ -1,0 +1,22 @@
+<map id="l4/re/util/unique_cap" name="l4/re/util/unique_cap">
+<area shape="rect" id="Node000001" title="Unique_cap / Unique_del_cap." alt="" coords="318,5,473,31"/>
+<area shape="rect" id="Node000002" href="$client_2l4virtio_source.html" title=" " alt="" coords="79,167,203,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="304,29,248,37,193,47,147,62,130,71,119,80,110,100,112,123,120,146,130,165,126,168,115,148,107,124,105,99,115,77,127,66,145,57,191,42,247,31,304,24"/>
+<area shape="rect" id="Node000003" href="$client_2virtio-block_source.html" title=" " alt="" coords="179,255,303,295"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="486,18,559,25,626,42,652,55,669,72,675,94,667,120,635,163,594,198,546,225,495,245,443,259,392,268,303,276,303,271,391,263,442,254,494,240,544,220,591,194,631,160,662,117,670,94,665,75,649,59,625,47,559,31,486,23"/>
+<area shape="rect" id="Node000004" href="$virtio-net_source.html" title=" " alt="" coords="5,255,129,295"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="305,31,188,50,138,64,105,81,88,99,77,120,64,168,63,216,67,254,61,255,57,216,59,167,72,118,84,95,102,77,136,59,187,45,304,26"/>
+<area shape="rect" id="Node000005" href="$server_2l4virtio_source.html" title=" " alt="" coords="331,79,460,119"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="398,44,398,79,393,79,393,44"/>
+<area shape="rect" id="Node000006" href="$server_2virtio-block_source.html" title=" " alt="" coords="381,167,511,207"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="433,36,456,54,474,78,480,101,477,126,460,167,455,165,472,124,474,102,469,80,452,57,430,40"/>
+<area shape="rect" id="Node000007" href="$util_2event.html" title=" " alt="" coords="535,86,653,111"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="438,33,566,83,564,88,436,38"/>
+<area shape="rect" id="Node000008" href="$object__registry_source.html" title=" " alt="" coords="129,86,307,111"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="358,39,245,88,243,84,356,34"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="175,214,220,252,217,256,171,218"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="118,219,86,256,82,253,114,215"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="416,129,437,165,432,168,411,132"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="200,123,160,168,156,164,197,120"/>
+<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="224,125,241,254,236,255,219,125"/>
+</map>

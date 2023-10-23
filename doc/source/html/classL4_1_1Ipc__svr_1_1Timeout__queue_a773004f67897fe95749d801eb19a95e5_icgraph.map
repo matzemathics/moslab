@@ -1,0 +1,5 @@
+<map id="L4::Ipc_svr::Timeout_queue::handle_expired_timeouts" name="L4::Ipc_svr::Timeout_queue::handle_expired_timeouts">
+<area shape="rect" id="Node000001" title="run the callbacks of expired timeouts" alt="" coords="248,5,425,60"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#aa2441ebaedd9d9a3c3e7066d2696ba2f" title="setup_wait() for the server loop" alt="" coords="5,13,200,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,35,200,35,200,30,234,30"/>
+</map>

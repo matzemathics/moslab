@@ -1,0 +1,7 @@
+<map id="l4_ipc_reply_and_wait" name="l4_ipc_reply_and_wait">
+<area shape="rect" id="Node000001" title="Reply and wait operation (uses the reply capability)." alt="" coords="232,42,399,67"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc_1_1Iostream.html#a38428e61e86208016e9653937da01f6d" title="Do an IPC reply and wait." alt="" coords="25,5,164,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,44,164,37,165,32,218,39"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Server.html#a21578e92d497db8ab2a2a88b356fa427" title="Internal implementation for reply and wait." alt="" coords="5,70,184,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,70,185,74,184,69,218,64"/>
+</map>

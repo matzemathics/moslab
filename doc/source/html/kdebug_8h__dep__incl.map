@@ -1,0 +1,7 @@
+<map id="l4/sys/kdebug.h" name="l4/sys/kdebug.h">
+<area shape="rect" id="Node000001" title="Functionality for invoking the kernel debugger." alt="" coords="26,5,150,31"/>
+<area shape="rect" id="Node000002" href="$____ktrace-impl_8h.html" title="L4 kernel event tracing." alt="" coords="5,79,171,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,44,91,79,85,79,85,44"/>
+<area shape="rect" id="Node000003" href="$ktrace_8h.html" title="L4 kernel event tracing." alt="" coords="29,152,147,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="91,118,91,152,85,152,85,118"/>
+</map>

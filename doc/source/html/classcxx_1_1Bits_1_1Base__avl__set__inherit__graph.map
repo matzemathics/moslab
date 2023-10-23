@@ -1,0 +1,16 @@
+<map id="cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;" name="cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;">
+<area shape="rect" id="Node000001" title="Internal: AVL set with internally managed nodes." alt="" coords="461,5,664,380"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Avl__map.html" title=" " alt="" coords="5,997,171,1152"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="449,235,357,276,307,303,257,334,210,369,165,409,126,454,94,503,68,564,50,630,42,698,40,765,43,831,50,893,70,996,64,997,45,893,38,831,34,765,36,697,45,629,62,563,90,500,122,450,162,405,206,365,254,329,304,298,354,271,447,230"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Avl__map.html" title="AVL tree based associative container." alt="" coords="105,641,333,781"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="455,345,346,503,261,642,256,639,342,500,451,342"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Avl__set.html" title="AVL set for simple compareable items." alt="" coords="357,671,547,751"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="523,394,463,671,458,670,517,393"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1Bits_1_1Base__avl__set.html" title=" " alt="" coords="572,501,785,920"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="610,393,634,501,629,502,605,394"/>
+<area shape="rect" id="Node000006" href="$classcxx_1_1Bits_1_1Base__avl__set.html" title=" " alt="" coords="810,501,985,920"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="677,258,717,288,756,322,793,360,825,403,850,450,868,500,863,502,845,452,820,405,789,364,753,326,713,292,674,263"/>
+<area shape="rect" id="Node000007" href="$classcxx_1_1Bits_1_1Base__avl__set.html" title=" " alt="" coords="1021,509,1248,913"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="678,208,775,231,881,269,934,294,984,325,1031,361,1071,402,1103,452,1123,508,1118,509,1098,454,1067,406,1027,365,981,329,931,299,879,274,773,236,677,213"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="192,794,118,998,113,996,187,793"/>
+</map>

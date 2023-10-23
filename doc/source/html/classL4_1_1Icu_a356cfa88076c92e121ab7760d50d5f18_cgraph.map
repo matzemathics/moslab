@@ -1,0 +1,12 @@
+<map id="L4::Icu::info" name="L4::Icu::info">
+<area shape="rect" id="Node000001" title="Get information about the ICU features." alt="" coords="5,31,103,56"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="29,32,23,22,26,13,37,6,54,4,75,8,84,16,80,20,72,12,54,9,39,11,30,16,29,22,33,29"/>
+<area shape="rect" id="Node000002" href="$group__l4__icu__api.html#ga7850caf0c29c87ba3477e1fe1139681f" title="Get information about the ICU features." alt="" coords="151,31,257,56"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="103,41,137,41,137,46,103,46"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="305,5,396,31"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="257,31,291,25,292,31,258,37"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="305,55,396,80"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="258,49,292,55,291,60,257,55"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="444,5,504,31"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="396,15,430,15,430,21,396,21"/>
+</map>

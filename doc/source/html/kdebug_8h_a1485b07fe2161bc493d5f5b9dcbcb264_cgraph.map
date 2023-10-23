@@ -1,0 +1,13 @@
+<map id="outchar" name="outchar">
+<area shape="rect" id="Node000001" title="Output a single character via the kernel debugger." alt="" coords="5,55,76,80"/>
+<area shape="rect" id="Node000002" href="$kdebug_8h.html#ad326b039e207cdd00785d01b5cc18e46" title="Invoke an unary operation on the base debugger capability." alt="" coords="124,55,247,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,65,110,65,110,70,76,70"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="295,5,385,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="225,52,285,33,287,38,227,57"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="295,55,385,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="247,65,281,65,281,70,247,70"/>
+<area shape="rect" id="Node000006" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="305,104,375,129"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="227,78,293,99,292,104,225,83"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="433,5,493,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="386,15,420,15,420,21,386,21"/>
+</map>

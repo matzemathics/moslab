@@ -1,0 +1,12 @@
+<map id="L4::Ipc_svr::Timeout_queue_hooks&lt; HOOKS, BR_MAN &gt;" name="L4::Ipc_svr::Timeout_queue_hooks&lt; HOOKS, BR_MAN &gt;">
+<area shape="rect" id="Node000001" title="Loop hooks mixin for integrating a timeout queue into the server loop." alt="" coords="29,524,202,699"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html" title=" " alt="" coords="5,776,225,951"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="118,712,118,776,113,776,113,712"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Server__iface.html" title="Interface for server&#45;loop related functions." alt="" coords="28,5,203,225"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,239,118,524,113,524,113,239"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Ipc__svr_1_1Br__manager__no__buffers.html" title="Empty implementation of Server_iface." alt="" coords="137,275,312,475"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="170,237,185,273,180,276,165,239"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,488,158,525,153,523,170,486"/>
+<area shape="rect" id="Node000005" href="$structL4Re_1_1Util_1_1Br__manager__timeout__hooks.html" title="Predefined server&#45;loop hooks for a server with using the Br_manager and a timeout queue." alt="" coords="33,1000,197,1080"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="118,965,118,1000,113,1000,113,965"/>
+</map>

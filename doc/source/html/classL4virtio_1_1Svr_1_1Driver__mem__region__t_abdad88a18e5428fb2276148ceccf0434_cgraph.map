@@ -1,0 +1,19 @@
+<map id="L4virtio::Svr::Driver_mem_region_t::Driver_mem_region_t" name="L4virtio::Svr::Driver_mem_region_t::Driver_mem_region_t">
+<area shape="rect" id="Node000001" title="Make a local memory region for the given driver values." alt="" coords="5,155,176,209"/>
+<area shape="rect" id="Node000002" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="278,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,153,156,96,187,66,223,41,263,25,265,30,225,46,191,70,160,99,113,156"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#ada86015cfd3d2001b0a40e132558de24" title=" " alt="" coords="257,55,405,95"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="133,152,176,128,223,105,243,97,245,102,225,110,178,133,136,157"/>
+<area shape="rect" id="Node000005" href="$classL4Re_1_1Rm_1_1Unique__region.html#a301d5bd597f8c1e3b98bc52659f13dbe" title="Return the address." alt="" coords="224,120,439,145"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="176,162,255,146,256,151,177,167"/>
+<area shape="rect" id="Node000006" href="$classL4Re_1_1Dataspace.html#aa67190f2465d092c35c62d432814a8b3" title="Get information on the dataspace." alt="" coords="249,169,413,195"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="176,179,236,179,236,185,176,185"/>
+<area shape="rect" id="Node000007" href="$group__l4__memory__api.html#ga96e3b2d8e69308aecbb11d1d24f61662" title="Round address up to the next page." alt="" coords="273,219,390,244"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="177,197,260,214,259,219,176,202"/>
+<area shape="rect" id="Node000008" href="$namespaceL4_1_1Ipc.html#a2bad64d85342191b358597cd08e55574" title="Make an L4::Ipc::Cap&lt;T&gt; for the given capability and rights." alt="" coords="262,268,401,293"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="136,207,178,231,225,253,252,262,250,267,223,258,176,236,133,212"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a6d13ee0514d05868dfc96d64a5d6c8e0" title=" " alt="" coords="253,318,410,358"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="117,208,164,256,194,281,225,302,241,311,239,315,223,307,190,285,161,260,113,212"/>
+<area shape="rect" id="Node000003" href="$namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b" title="Generate C++ exception." alt="" coords="487,5,624,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,15,473,15,473,21,385,21"/>
+</map>

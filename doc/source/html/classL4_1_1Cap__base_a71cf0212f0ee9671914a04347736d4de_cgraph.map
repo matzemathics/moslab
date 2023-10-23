@@ -1,0 +1,5 @@
+<map id="L4::Cap_base::validate" name="L4::Cap_base::validate">
+<area shape="rect" id="Node000001" title="Check whether a capability is present (refers to an object)." alt="" coords="5,5,175,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="223,5,313,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,15,209,15,209,21,175,21"/>
+</map>

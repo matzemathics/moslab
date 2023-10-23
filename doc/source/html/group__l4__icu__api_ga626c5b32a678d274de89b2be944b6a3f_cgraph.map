@@ -1,0 +1,19 @@
+<map id="l4_icu_msi_info" name="l4_icu_msi_info">
+<area shape="rect" id="Node000001" title="Get MSI info about IRQ." alt="" coords="5,129,128,155"/>
+<area shape="rect" id="Node000002" href="$group__l4__icu__api.html#ga0c5c381566e2e9a8dbb41f14e33c4437" title="Get MSI info about IRQ." alt="" coords="176,104,315,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,131,162,126,163,131,128,136"/>
+<area shape="rect" id="Node000009" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="211,153,280,179"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="128,148,197,157,197,162,128,153"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="397,5,487,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="262,102,305,71,362,40,383,31,385,36,364,44,308,76,265,106"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="397,55,487,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="296,101,382,79,384,85,297,107"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87" title="Test for error indicator flag." alt="" coords="363,104,521,129"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="315,114,349,114,349,119,315,119"/>
+<area shape="rect" id="Node000007" href="$group__l4__msgtag__api.html#ga6d29d688c50ece7ec55f3c6ed749d375" title="Get the number of untyped words." alt="" coords="374,153,510,179"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="297,127,378,147,377,153,296,132"/>
+<area shape="rect" id="Node000008" href="$group__l4__timeout__api.html#gab6180d7a9aacb569666fea7aa8800c31" title="Get index into 64bit message registers alias from native&#45;sized index." alt="" coords="373,203,511,228"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="293,127,316,138,331,151,341,164,350,176,364,188,378,195,376,200,361,192,346,180,336,167,327,155,313,143,291,132"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="569,5,629,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="488,15,556,15,556,21,488,21"/>
+</map>

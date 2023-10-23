@@ -1,0 +1,5 @@
+<map id="L4Re::Util::Br_manager::realloc_rcv_cap" name="L4Re::Util::Br_manager::realloc_rcv_cap">
+<area shape="rect" id="Node000001" title="Allocate a new capability for the given receive buffer." alt="" coords="5,5,177,45"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="225,13,364,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,23,212,23,212,28,178,28"/>
+</map>

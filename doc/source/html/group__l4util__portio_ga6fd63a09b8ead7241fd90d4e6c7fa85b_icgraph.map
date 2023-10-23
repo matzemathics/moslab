@@ -1,0 +1,5 @@
+<map id="l4util_in8" name="l4util_in8">
+<area shape="rect" id="Node000001" title="Read byte from I/O port." alt="" coords="225,5,308,31"/>
+<area shape="rect" id="Node000002" href="$amd64_2l4_2util_2irq_8h.html#a1a46ec6ca729dc1c48c4c19cfea1b6ec" title="Acknowledge IRQ at PIC in fully special nested mode." alt="" coords="5,5,177,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,21,177,21,177,15,212,15"/>
+</map>

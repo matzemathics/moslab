@@ -1,0 +1,9 @@
+<map id="x86/l4/util/port_io.h" name="x86/l4/util/port_io.h">
+<area shape="rect" id="Node000001" title="x86 port I/O" alt="" coords="112,5,260,31"/>
+<area shape="rect" id="Node000002" href="$amd64_2l4_2util_2port__io_8h.html" title="Port I/O functions." alt="" coords="5,79,175,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,41,107,81,104,76,158,37"/>
+<area shape="rect" id="Node000003" href="$x86_2l4f_2l4_2util_2port__io_8h.html" title="port I/O functions" alt="" coords="199,79,368,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,37,269,76,266,81,211,41"/>
+<area shape="rect" id="Node000004" href="$amd64_2l4f_2l4_2util_2port__io_8h.html" title="Port I/O functions." alt="" coords="188,152,379,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="286,118,286,152,281,152,281,118"/>
+</map>

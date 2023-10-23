@@ -1,0 +1,7 @@
+<map id="L4::Iommu" name="L4::Iommu">
+<area shape="rect" id="Node000001" title="Interface for IO&#45;MMUs used for DMA remapping." alt="" coords="77,321,160,407"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Kobject__x.html" title=" " alt="" coords="5,177,232,272"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,286,121,321,116,321,116,286"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Kobject__x.html" title="Generic Kobject inheritance template." alt="" coords="33,5,204,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,99,121,177,116,177,116,99"/>
+</map>

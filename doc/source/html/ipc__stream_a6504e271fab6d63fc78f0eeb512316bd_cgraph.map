@@ -1,0 +1,5 @@
+<map id="operator&gt;&gt;" name="operator&gt;&gt;">
+<area shape="rect" id="Node000001" title="Extract the L4 message tag from the stream s." alt="" coords="5,5,104,31"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc_1_1Istream.html#a685d93c237cbf66ff368e17639109411" title="Get the message tag of a received IPC." alt="" coords="152,5,303,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,15,138,15,138,21,104,21"/>
+</map>

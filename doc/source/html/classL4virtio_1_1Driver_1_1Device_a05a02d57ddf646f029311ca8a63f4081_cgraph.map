@@ -1,0 +1,9 @@
+<map id="L4virtio::Driver::Device::wait" name="L4virtio::Driver::Device::wait">
+<area shape="rect" id="Node000001" title="Wait for a notification from the device." alt="" coords="5,23,177,63"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__err__api.html#gad40f404217497793e95a10d77a47db39" title="Get the IPC error code for an IPC operation." alt="" coords="225,5,324,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,29,211,24,212,29,178,34"/>
+<area shape="rect" id="Node000004" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="240,55,309,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="178,52,226,58,226,64,177,57"/>
+<area shape="rect" id="Node000003" href="$group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87" title="Test for error indicator flag." alt="" coords="372,5,531,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="324,15,358,15,358,21,324,21"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="l4_debugger_get_object_name" name="l4_debugger_get_object_name">
+<area shape="rect" id="Node000001" title="Get name of the kernel object with Id id." alt="" coords="5,5,227,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="275,5,344,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,15,261,15,261,21,227,21"/>
+</map>

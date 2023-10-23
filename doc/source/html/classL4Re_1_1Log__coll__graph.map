@@ -1,0 +1,19 @@
+<map id="L4Re::Log" name="L4Re::Log">
+<area shape="rect" id="Node000001" title="Log interface class." alt="" coords="53,1160,130,1245"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="5,996,177,1111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,1124,94,1160,89,1160,89,1124"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Vcon.html" title="C++ L4 Vcon interface, see Virtual Console for the C interface." alt="" coords="109,781,250,947"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="137,961,120,997,115,995,132,958"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="115,632,287,732"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="196,746,192,782,186,781,191,746"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Icu.html" title="C++ Icu interface, see Interrupt controller for the C interface." alt="" coords="280,389,383,555"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="275,568,234,633,229,630,270,565"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="270,197,478,312"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="365,326,358,366,353,390,348,389,353,365,360,325"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Irq__eoi.html" title="Interface for sending an unmask message to an object." alt="" coords="373,23,463,88"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="415,102,402,174,395,198,390,197,397,173,410,101"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="101,5,301,105"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="127,116,100,145,77,178,60,214,54,254,54,865,61,933,75,995,70,997,56,934,49,865,49,253,55,213,72,175,96,142,123,113"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="202,119,199,336,202,632,197,632,194,336,197,119"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="216,118,227,146,243,172,272,199,268,203,239,175,222,148,211,120"/>
+</map>

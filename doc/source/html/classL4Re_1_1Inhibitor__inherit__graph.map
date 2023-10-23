@@ -1,0 +1,13 @@
+<map id="L4Re::Inhibitor" name="L4Re::Inhibitor">
+<area shape="rect" id="Node000001" title="Set of inhibitor locks, which inhibit specific actions when held." alt="" coords="80,347,213,452"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Kobject__3t.html" title=" " alt="" coords="59,501,235,616"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="149,466,149,501,144,501,144,466"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="56,183,237,297"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,311,149,346,144,346,144,311"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="5,13,112,98"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="87,109,122,181,117,184,82,112"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="136,5,336,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="208,119,177,183,172,181,204,117"/>
+<area shape="rect" id="Node000006" href="$classL4vbus_1_1Vbus.html" title="The virtual bus (Vbus) interface." alt="" coords="60,665,233,811"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="149,630,149,665,144,665,144,630"/>
+</map>

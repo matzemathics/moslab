@@ -1,0 +1,13 @@
+<map id="L4Re::Util::Br_manager_hooks" name="L4Re::Util::Br_manager_hooks">
+<area shape="rect" id="Node000001" title="Predefined server&#45;loop hooks for a server loop using the Br_manager." alt="" coords="236,547,400,627"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Ipc__svr_1_1Ignore__errors.html" title="Mix in for LOOP_HOOKS to ignore IPC errors." alt="" coords="5,346,137,426"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,437,125,468,152,497,193,526,237,550,234,555,190,531,148,501,121,471,98,440"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Ipc__svr_1_1Default__timeout.html" title="Mix in for LOOP_HOOKS to use a 0 send and a infinite receive timeout." alt="" coords="162,346,301,426"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="256,438,304,546,299,548,251,440"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Ipc__svr_1_1Compound__reply.html" title="Mix in for LOOP_HOOKS to always use compound reply and wait." alt="" coords="325,346,487,426"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="386,440,338,548,333,546,381,438"/>
+<area shape="rect" id="Node000005" href="$classL4Re_1_1Util_1_1Br__manager.html" title="Buffer&#45;register (BR) manager for L4::Server." alt="" coords="511,273,685,499"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="501,501,501,501,452,532,401,557,399,552,449,527,498,496,498,496"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Ipc__svr_1_1Server__iface.html" title="Interface for server&#45;loop related functions." alt="" coords="511,5,685,225"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="601,239,601,273,595,273,595,239"/>
+</map>

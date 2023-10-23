@@ -1,0 +1,5 @@
+<map id="cxx::String::starts_with" name="cxx::String::starts_with">
+<area shape="rect" id="Node000001" title="Check if c is a prefix of string." alt="" coords="5,5,176,31"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90" title="Pointer to first character." alt="" coords="224,5,353,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,15,211,15,211,21,177,21"/>
+</map>

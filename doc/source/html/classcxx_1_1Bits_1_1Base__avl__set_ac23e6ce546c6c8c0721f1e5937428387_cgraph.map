@@ -1,0 +1,7 @@
+<map id="cxx::Bits::Base_avl_set::erase" name="cxx::Bits::Base_avl_set::erase">
+<area shape="rect" id="Node000001" title="Erase the item with the given key." alt="" coords="5,5,151,45"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Bits_1_1Base__avl__set.html#a74890468049590443959526dbd52030d" title="Remove an item from the set." alt="" coords="199,5,344,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,23,184,23,184,28,151,28"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Avl__tree.html#a53bfe5700fa6fd227b0d46c0c4da4ade" title="Remove the node with key from the tree." alt="" coords="392,13,556,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,23,378,23,378,28,344,28"/>
+</map>

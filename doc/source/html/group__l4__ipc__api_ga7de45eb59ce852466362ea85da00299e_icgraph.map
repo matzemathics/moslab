@@ -1,0 +1,33 @@
+<map id="l4_ipc_send" name="l4_ipc_send">
+<area shape="rect" id="Node000001" title="Send a message to an object (do not wait for a reply)." alt="" coords="639,153,737,179"/>
+<area shape="rect" id="Node000002" href="$group__l4__irq__api.html#ga180cfaf342ce9ff484a6aa7c276e1597" title="Trigger the object." alt="" coords="440,55,563,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="662,146,629,118,589,94,561,83,563,78,592,89,632,114,665,141"/>
+<area shape="rect" id="Node000007" href="$group__l4__irq__api.html#ga1dd27341b8d2a6cd09e9784188109b7c" title="Unmask IRQ." alt="" coords="435,104,567,129"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="626,152,550,132,551,127,627,147"/>
+<area shape="rect" id="Node000009" href="$group__l4__vcon__api.html#ga05df63a45bb7ade1e0e19caaa6e35f5f" title="Send data to this virtual console." alt="" coords="439,153,564,179"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="625,169,564,169,564,163,625,163"/>
+<area shape="rect" id="Node000015" href="$classL4_1_1Server.html#a21578e92d497db8ab2a2a88b356fa427" title="Internal implementation for reply and wait." alt="" coords="412,203,591,228"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="627,185,551,205,550,200,626,180"/>
+<area shape="rect" id="Node000016" href="$classL4_1_1Ipc_1_1Ostream.html#a0ac15ba65285ed66a3b2ae7f9dc612d1" title="Send the message via IPC to the given receiver." alt="" coords="418,252,585,277"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="665,191,632,218,592,243,563,254,561,249,589,238,629,214,662,186"/>
+<area shape="rect" id="Node000003" href="$group__l4__irq__api.html#gab24e0fc21a207fd566ece1e6fafbac48" title="Trigger an IRQ." alt="" coords="226,5,334,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="430,54,333,32,335,27,431,49"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Triggerable.html#a7109ca8b4aeac0169639f973c91a3a6b" title="Trigger the object." alt="" coords="196,55,364,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="426,70,364,70,364,65,426,65"/>
+<area shape="rect" id="Node000004" href="$group__l4__semaphore__api.html#ga7fc3931fba29e35a6690639c74774c43" title="Semaphore up operation (wrapper for trigger())." alt="" coords="8,5,145,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="212,21,145,21,145,15,212,15"/>
+<area shape="rect" id="Node000006" href="$structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc" title="Semaphore up operation (wrapper for trigger())." alt="" coords="5,55,148,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="182,70,148,70,148,65,182,65"/>
+<area shape="rect" id="Node000008" href="$group__l4__irq__api.html#ga213b7c4fe4d690ec2aec84fd226883c4" title="Unmask IRQ." alt="" coords="221,104,339,129"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="421,119,339,119,339,114,421,114"/>
+<area shape="rect" id="Node000010" href="$group__l4__vcon__api.html#gabbc45ad5d795d46d1edbf8118957ecb2" title="Send data to virtual console." alt="" coords="225,153,335,179"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="425,169,336,169,336,163,425,163"/>
+<area shape="rect" id="Node000011" href="$group__l4__vcon__api.html#ga899728ba23baf18f59f62142534e039c" title="Write data to this virtual console." alt="" coords="217,203,343,228"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="431,184,338,205,337,200,430,179"/>
+<area shape="rect" id="Node000014" href="$classL4_1_1Vcon.html#af400882103c8601a4b0750985c57d7c4" title="Send data to this virtual console." alt="" coords="222,252,338,277"/>
+<area shape="poly" id="edge13_Node000009_Node000014" title=" " alt="" coords="427,185,413,192,399,204,390,217,381,230,365,243,339,255,337,250,363,238,377,226,386,214,395,201,411,188,425,181"/>
+<area shape="rect" id="Node000012" href="$group__l4__vcon__api.html#ga9f083a69c2c51329da6778a3af0331bc" title="Write data to virtual console." alt="" coords="21,177,133,203"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="203,208,133,200,133,194,203,203"/>
+<area shape="rect" id="Node000013" href="$classL4_1_1Vcon.html#a83407df2f5b674126d33505d73f5d34b" title="Write data to this virtual console." alt="" coords="17,227,136,252"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="203,227,137,235,136,230,202,222"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="L4::Ipc::Varg::is_nil" name="L4::Ipc::Varg::is_nil">
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,77,393,102"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc_1_1Varg__list__ref_1_1Iterator.html#a3cb6dc1dcbb065b89962fd9dce378320" title="check for equality" alt="" coords="27,5,181,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,75,172,48,174,43,266,70"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Ipc_1_1Varg__list__ref_1_1Iterator.html#a35b403543cfb66545a5f3465bb2b1251" title="validity check for the iterator" alt="" coords="5,69,203,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="236,92,203,92,203,87,236,87"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Ipc_1_1Varg__list__ref_1_1Iterator.html#abaa41faf7abd0511f2da2a19166cf840" title="increment iterator to the next arg" alt="" coords="11,133,197,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="266,109,174,136,172,131,264,103"/>
+</map>

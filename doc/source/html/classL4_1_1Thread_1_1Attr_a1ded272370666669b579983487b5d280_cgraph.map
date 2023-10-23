@@ -1,0 +1,5 @@
+<map id="L4::Thread::Attr::pager" name="L4::Thread::Attr::pager">
+<area shape="rect" id="Node000001" title="Set the pager capability selector." alt="" coords="5,5,172,31"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Thread_1_1Attr.html#ad217d29a3b499b470e1aac462922a130" title="Get the capability selector used for page&#45;fault messages." alt="" coords="220,5,387,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,15,206,15,206,21,173,21"/>
+</map>

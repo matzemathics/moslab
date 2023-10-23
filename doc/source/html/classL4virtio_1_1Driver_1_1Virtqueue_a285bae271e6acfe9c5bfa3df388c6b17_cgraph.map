@@ -1,0 +1,22 @@
+<map id="L4virtio::Driver::Virtqueue::init_queue" name="L4virtio::Driver::Virtqueue::init_queue">
+<area shape="rect" id="Node000001" title="Initialize this virtqueue." alt="" coords="5,63,196,103"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#ac31099e5abf48745f518aed17b1dee54" title="Initialize the descriptor table and the index structures of this queue." alt="" coords="244,5,435,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,60,242,46,243,51,185,65"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="673,150,852,175"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="197,87,395,105,626,133,690,145,689,150,625,139,394,110,196,92"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Virtqueue.html#a437c0ed2eb83201cc69c41d011503036" title="Enable this queue." alt="" coords="268,203,411,243"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="137,100,294,193,291,198,134,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="436,24,529,35,579,46,626,62,659,78,691,98,740,138,737,142,687,102,657,82,624,66,577,51,529,40,435,29"/>
+<area shape="poly" id="edge10_Node000004_Node000003" title=" " alt="" coords="373,200,423,176,482,156,527,149,573,146,660,148,659,153,573,151,527,154,483,161,425,180,375,205"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Virtqueue.html#a962767a117dad07184f59191d399f9ce" title="Calculate the size of the available ring for num entries." alt="" coords="483,171,625,211"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="410,209,469,201,470,206,411,215"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Virtqueue.html#a19410c09db5499023cb4b9f11742cd26" title="Calculate the size of the descriptor table for num entries." alt="" coords="483,235,625,275"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="411,231,470,239,469,245,410,236"/>
+<area shape="rect" id="Node000007" href="$group__l4__memory__api.html#gae876a4c6e0f21b2ecbf17863dc7d11e4" title="Round value up to the next alignment with bits size." alt="" coords="499,299,609,325"/>
+<area shape="poly" id="edge9_Node000004_Node000007" title=" " alt="" coords="384,240,484,284,504,292,502,297,482,289,382,245"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Virtqueue.html#a109ea5677dd074df1d2c6a06056c7d82" title="Enable this queue." alt="" coords="483,349,625,389"/>
+<area shape="poly" id="edge11_Node000004_Node000008" title=" " alt="" coords="364,241,417,286,484,335,494,341,491,345,481,340,413,291,360,245"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="625,178,659,174,660,179,626,184"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="599,232,719,179,721,183,602,237"/>
+<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="606,347,624,335,663,299,697,258,745,186,750,189,701,262,666,303,627,339,609,351"/>
+</map>

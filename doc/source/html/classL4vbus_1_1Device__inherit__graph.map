@@ -1,0 +1,17 @@
+<map id="L4vbus::Device" name="L4vbus::Device">
+<area shape="rect" id="Node000001" title="Device on a L4vbus::Vbus." alt="" coords="311,288,443,573"/>
+<area shape="rect" id="Node000004" href="$classL4vbus_1_1Gpio__module.html" title="A Gpio_module groups multiple GPIO pins together." alt="" coords="5,653,160,798"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="303,502,174,625,146,654,142,650,170,621,299,498"/>
+<area shape="rect" id="Node000005" href="$classL4vbus_1_1Gpio__pin.html" title="A GPIO pin." alt="" coords="184,623,309,828"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="311,587,295,623,290,621,306,585"/>
+<area shape="rect" id="Node000006" href="$classL4vbus_1_1Icu.html" title="Vbus Interrupt controller API." alt="" coords="334,693,421,758"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="380,587,380,692,375,692,375,587"/>
+<area shape="rect" id="Node000007" href="$classL4vbus_1_1Pci__dev.html" title="A PCI device." alt="" coords="445,673,563,778"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="447,585,484,671,479,673,442,587"/>
+<area shape="rect" id="Node000008" href="$classL4vbus_1_1Pci__host__bridge.html" title="A Pci host bridge." alt="" coords="588,673,759,778"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="455,502,577,621,625,670,622,674,573,625,451,506"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Pm.html" title=" " alt="" coords="295,153,459,239"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="380,252,380,288,375,288,375,252"/>
+<area shape="rect" id="Node000003" href="$classL4vbus_1_1Pm.html" title="Power&#45;management API mixin." alt="" coords="304,5,451,91"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="380,105,380,153,375,153,375,105"/>
+</map>

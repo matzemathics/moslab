@@ -1,0 +1,5 @@
+<map id="l4_task_map" name="l4_task_map">
+<area shape="rect" id="Node000001" title="Map resources available in the source task to a destination task." alt="" coords="5,5,111,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="159,5,228,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,15,145,15,145,21,111,21"/>
+</map>

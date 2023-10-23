@@ -1,0 +1,16 @@
+<map id="L4::Ipc_svr::Ignore_errors" name="L4::Ipc_svr::Ignore_errors">
+<area shape="rect" id="Node000001" title="Mix in for LOOP_HOOKS to ignore IPC errors." alt="" coords="228,5,360,85"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Ipc__svr_1_1Default__loop__hooks.html" title="Default LOOP_HOOKS." alt="" coords="49,135,187,215"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,95,174,137,170,132,228,91"/>
+<area shape="rect" id="Node000006" href="$structL4Re_1_1Util_1_1Br__manager__hooks.html" title="Predefined server&#45;loop hooks for a server loop using the Br_manager." alt="" coords="212,135,376,215"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="297,99,297,134,291,134,291,99"/>
+<area shape="rect" id="Node000007" href="$structL4Re_1_1Util_1_1Br__manager__timeout__hooks.html" title="Predefined server&#45;loop hooks for a server with using the Br_manager and a timeout queue." alt="" coords="400,135,564,215"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="364,91,426,132,423,137,361,95"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Server.html" title=" " alt="" coords="5,507,199,687"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,228,108,507,103,506,113,228"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Server.html" title="Basic server loop for handling client requests." alt="" coords="139,264,337,429"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="156,224,182,262,178,265,151,227"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="155,442,147,455,125,508,120,506,142,452,150,439"/>
+<area shape="rect" id="Node000005" href="$classL4Re_1_1Util_1_1Registry__server.html" title="A server loop object which has a Object_registry included." alt="" coords="223,507,405,687"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="294,441,298,453,310,506,305,507,293,454,289,443"/>
+</map>

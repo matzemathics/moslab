@@ -1,0 +1,5 @@
+<map id="l4vcpu_print_state" name="l4vcpu_print_state">
+<area shape="rect" id="Node000001" title="Print the state of a vCPU." alt="" coords="200,13,343,38"/>
+<area shape="rect" id="Node000002" href="$classL4vcpu_1_1Vcpu.html#ac54c8a3226660bf4c38ae15369c48bbf" title="Print the state of the vCPU." alt="" coords="5,5,152,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,28,152,28,152,23,186,23"/>
+</map>

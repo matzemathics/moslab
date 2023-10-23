@@ -1,0 +1,5 @@
+<map id="l4_sched_param_t" name="l4_sched_param_t">
+<area shape="rect" id="Node000001" title="Scheduler parameter set." alt="" coords="9,193,141,279"/>
+<area shape="rect" id="Node000002" href="$structl4__sched__cpu__set__t.html" title="CPU sets." alt="" coords="5,5,145,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,131,78,177,73,177,73,131"/>
+</map>

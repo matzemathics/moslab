@@ -1,0 +1,5 @@
+<map id="l4_arm_smccc_call" name="l4_arm_smccc_call">
+<area shape="rect" id="Node000001" title="C interface for calling the ARM secure monitor, see L4::Arm_smccc::call() for the C++ interface." alt="" coords="5,5,151,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="199,5,268,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,15,185,15,185,21,151,21"/>
+</map>

@@ -1,0 +1,22 @@
+<map id="L4::Irq" name="L4::Irq">
+<area shape="rect" id="Node000001" title="C++ Irq interface, see IRQs for the C interface." alt="" coords="257,747,347,872"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__2t.html" title=" " alt="" coords="207,583,397,697"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="305,711,305,746,299,746,299,711"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Triggerable.html" title="Interface that allows an object to be triggered by some source." alt="" coords="97,401,206,466"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="185,475,263,581,258,584,180,478"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="5,212,193,312"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="121,324,144,400,139,401,116,326"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Irq__eoi.html" title="Interface for sending an unmask message to an object." alt="" coords="27,23,118,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="81,101,96,211,90,212,76,102"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="169,5,369,105"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="159,107,135,131,123,149,115,170,105,212,100,211,109,168,118,147,131,128,156,103"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="218,197,405,327"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="284,118,301,197,295,198,279,119"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Rcv__endpoint.html" title="Interface for kernel objects that allow to receive IPC from them." alt="" coords="239,401,365,466"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="305,480,305,583,299,583,299,480"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="310,341,306,400,301,400,304,341"/>
+<area shape="rect" id="Node000009" href="$classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="435,13,542,98"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="492,112,486,144,472,175,442,206,406,229,403,225,439,202,468,172,481,143,487,111"/>
+<area shape="rect" id="Node000010" href="$classL4_1_1Kobject__2t.html" title="Helper class to create an L4Re interface class that is derived from two base classes (see L4::Kobject..." alt="" coords="389,376,564,491"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="422,503,352,584,348,581,418,499"/>
+</map>

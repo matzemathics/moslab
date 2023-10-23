@@ -1,0 +1,22 @@
+<map id="l4/irq/irq.h" name="l4/irq/irq.h">
+<area shape="rect" id="Node000001" title="IRQ handling routines." alt="" coords="5,5,93,31"/>
+<area shape="rect" id="Node000002" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="10,225,142,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="48,31,33,95,31,136,37,177,46,196,58,213,54,216,42,199,32,178,25,136,28,94,43,30"/>
+<area shape="rect" id="Node000004" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="153,79,265,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="76,28,172,71,170,75,74,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="15,299,137,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="79,251,79,285,73,285,73,251"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="154,100,125,106,95,116,69,132,48,153,42,167,44,183,59,213,55,215,39,184,37,167,43,151,65,128,93,111,123,101,152,94"/>
+<area shape="rect" id="Node000005" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="333,225,438,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="267,100,317,118,341,132,362,150,379,180,386,211,381,212,374,182,358,154,338,136,314,123,265,105"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="229,152,347,177"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="224,102,267,141,263,145,220,106"/>
+<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="57,152,204,177"/>
+<area shape="poly" id="edge9_Node000004_Node000007" title=" " alt="" coords="198,106,155,145,152,141,195,102"/>
+<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="423,152,564,177"/>
+<area shape="poly" id="edge11_Node000004_Node000008" title=" " alt="" coords="256,101,435,146,434,151,254,107"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="255,180,124,223,122,218,253,175"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="305,175,360,215,357,219,302,180"/>
+<area shape="poly" id="edge10_Node000007_Node000002" title=" " alt="" coords="124,179,95,216,91,213,120,176"/>
+<area shape="poly" id="edge12_Node000008_Node000005" title=" " alt="" coords="477,180,416,220,413,215,475,175"/>
+</map>

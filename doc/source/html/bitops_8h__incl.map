@@ -1,0 +1,15 @@
+<map id="l4/util/bitops.h" name="l4/util/bitops.h">
+<area shape="rect" id="Node000001" title="bit manipulation functions" alt="" coords="130,5,245,31"/>
+<area shape="rect" id="Node000002" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="5,152,111,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,28,79,46,56,60,38,80,32,94,33,109,45,139,40,141,28,110,27,93,33,77,53,56,77,41,129,23"/>
+<area shape="rect" id="Node000003" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="224,152,356,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,21,276,27,306,38,335,54,358,77,363,96,356,115,341,132,323,146,320,142,337,128,351,112,358,96,353,80,331,58,304,42,274,32,244,26"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="192,79,343,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="202,29,246,68,242,72,198,33"/>
+<area shape="rect" id="Node000006" href="$l4_2util_2atomic_8h.html" title="atomic operations header and generic implementations" alt="" coords="47,79,167,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="176,33,132,72,129,68,173,29"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="229,225,351,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="293,178,293,212,287,212,287,178"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="101,106,76,142,72,139,97,103"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="138,102,248,144,246,149,136,107"/>
+</map>

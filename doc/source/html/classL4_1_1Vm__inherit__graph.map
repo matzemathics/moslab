@@ -1,0 +1,15 @@
+<map id="L4::Vm" name="L4::Vm">
+<area shape="rect" id="Node000001" title="Virtual machine host address space." alt="" coords="176,779,285,844"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="145,629,317,729"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,743,225,779,220,779,219,743"/>
+<area shape="poly" id="edge7_Node000001_Node000002" title=" " alt="" coords="242,743,241,779,236,779,237,743"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Task.html" title="C++ interface of the Task kernel object, see Task for the C interface." alt="" coords="107,375,234,580"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="208,592,219,628,213,630,202,594"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="5,197,213,312"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="131,325,145,374,140,375,126,326"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities." alt="" coords="12,13,119,98"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="75,112,87,173,93,197,88,198,81,174,70,113"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="167,5,367,105"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="275,119,276,129,276,173,267,377,248,580,241,630,236,629,243,580,262,377,271,173,271,129,270,119"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="156,92,132,109,113,131,101,163,100,197,95,197,96,162,108,128,128,105,153,88"/>
+</map>

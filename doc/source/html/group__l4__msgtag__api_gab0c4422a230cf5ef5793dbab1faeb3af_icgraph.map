@@ -1,0 +1,15 @@
+<map id="l4_msgtag_label" name="l4_msgtag_label">
+<area shape="rect" id="Node000001" title="Get the protocol of tag." alt="" coords="261,145,391,171"/>
+<area shape="rect" id="Node000002" href="$group__l4__msgtag__api.html#ga0f2cf0a5f8d4a733f69b94dcc388c2ef" title="Test for exception protocol." alt="" coords="20,5,199,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="306,136,266,89,241,66,212,46,183,33,185,28,215,41,244,61,270,86,310,132"/>
+<area shape="rect" id="Node000003" href="$group__l4__msgtag__api.html#ga463384faf9cb37d3f65f24913e34d687" title="Test for IO&#45;page&#45;fault protocol." alt="" coords="26,55,193,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,142,212,110,179,98,180,93,214,105,288,137"/>
+<area shape="rect" id="Node000004" href="$group__l4__msgtag__api.html#gaf949daa8e7aa7d20743502de15e86dcd" title="Test for page&#45;fault protocol." alt="" coords="17,120,201,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="247,152,201,146,202,141,248,146"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#gafb02742f6231ff4568412fed96e7e272" title="Test for preemption protocol." alt="" coords="14,169,205,195"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="248,169,205,174,205,169,247,164"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgtag__api.html#ga047100a8ec6216015fbd1385f5443760" title="Test for sigma0 protocol." alt="" coords="28,219,191,244"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="287,179,214,209,170,221,169,216,212,203,285,174"/>
+<area shape="rect" id="Node000007" href="$group__l4__msgtag__api.html#gafc73bad60b56767f6eb04cf4b71838ee" title="Test for system&#45;exception protocol." alt="" coords="5,268,213,293"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="307,183,267,221,215,258,182,270,180,265,212,253,263,217,303,179"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="l4_thread_arm_set_tpidruro" name="l4_thread_arm_set_tpidruro">
+<area shape="rect" id="Node000001" title="Set the TPIDRURO thread specific register." alt="" coords="5,5,207,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="255,5,324,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,15,241,15,241,21,207,21"/>
+</map>

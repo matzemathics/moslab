@@ -1,0 +1,5 @@
+<map id="l4_timeout_t" name="l4_timeout_t">
+<area shape="rect" id="Node000001" title="Timeout pair." alt="" coords="7,148,103,233"/>
+<area shape="rect" id="Node000002" href="$structl4__timeout__s.html" title="Basic timeout specification." alt="" coords="5,5,104,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,71,57,132,52,132,52,71"/>
+</map>

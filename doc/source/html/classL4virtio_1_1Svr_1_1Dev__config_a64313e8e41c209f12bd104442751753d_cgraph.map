@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Dev_config::get_cmd" name="L4virtio::Svr::Dev_config::get_cmd">
+<area shape="rect" id="Node000001" title="Get the value from the cmd register." alt="" coords="5,5,140,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a35714a3ebce252eb16a40033cf97d0fe" title="Get a read&#45;only pointer to the config header." alt="" coords="188,5,323,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,23,174,23,174,28,140,28"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Rm_1_1Unique__region.html#a301d5bd597f8c1e3b98bc52659f13dbe" title="Return the address." alt="" coords="371,13,585,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="323,23,357,23,357,28,323,28"/>
+</map>

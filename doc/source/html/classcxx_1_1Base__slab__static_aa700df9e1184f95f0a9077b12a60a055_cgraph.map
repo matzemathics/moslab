@@ -1,0 +1,11 @@
+<map id="cxx::Base_slab_static::free" name="cxx::Base_slab_static::free">
+<area shape="rect" id="Node000001" title="Free the given object (p)." alt="" coords="5,23,168,63"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Base__slab.html#afe7c2b52fc3f56e683c28ce1e00b657c" title="Free the given object (_o)." alt="" coords="216,31,369,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,41,202,41,202,46,168,46"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1H__list.html#afa48e56b417c420b88b7494ce3e791d6" title="Add element to the front of the list." alt="" coords="417,5,584,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="370,31,404,27,404,32,370,37"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1H__list.html#abc13d604f76c1da4ea72c30c1302835d" title="Remove the given element from its list." alt="" coords="427,55,575,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="370,50,413,55,413,60,370,55"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1H__list.html#a95a4b614aadeeb364d01693d2f594ace" title="Add element to the front of the list." alt="" coords="632,5,755,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="584,15,619,15,619,21,584,21"/>
+</map>

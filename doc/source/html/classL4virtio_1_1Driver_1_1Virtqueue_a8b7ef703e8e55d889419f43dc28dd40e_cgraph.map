@@ -1,0 +1,13 @@
+<map id="L4virtio::Driver::Virtqueue::init_queue" name="L4virtio::Driver::Virtqueue::init_queue">
+<area shape="rect" id="Node000001" title="Initialize this virtqueue." alt="" coords="5,99,196,139"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a9ebf7e4518d01a4dc17c5ee6c0e3025b" title="Return a reference to a descriptor in the descriptor table." alt="" coords="244,5,435,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,96,243,55,263,48,265,53,245,60,147,101"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#ac31099e5abf48745f518aed17b1dee54" title="Initialize the descriptor table and the index structures of this queue." alt="" coords="244,69,435,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,104,230,100,231,105,197,110"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="483,134,661,159"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="196,122,469,138,469,143,196,127"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Virtqueue.html#a109ea5677dd074df1d2c6a06056c7d82" title="Enable this queue." alt="" coords="268,184,411,224"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="158,136,271,177,269,182,156,141"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="422,107,507,128,506,133,420,112"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="410,184,506,160,507,165,412,189"/>
+</map>

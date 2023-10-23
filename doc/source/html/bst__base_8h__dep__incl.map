@@ -1,0 +1,21 @@
+<map id="l4/cxx/bits/bst_base.h" name="l4/cxx/bits/bst_base.h">
+<area shape="rect" id="Node000001" title="AVL tree." alt="" coords="97,5,259,31"/>
+<area shape="rect" id="Node000002" href="$bst_8h.html" title="AVL tree." alt="" coords="73,152,198,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,44,150,79,141,119,138,152,133,151,136,118,145,78,161,42"/>
+<area shape="rect" id="Node000009" href="$bst__iter_8h.html" title="AVL tree." alt="" coords="159,79,312,104"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="198,40,228,77,224,80,194,43"/>
+<area shape="rect" id="Node000003" href="$avl__tree.html" title="AVL tree." alt="" coords="125,225,244,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="153,187,179,224,174,227,149,190"/>
+<area shape="rect" id="Node000004" href="$avl__set.html" title="AVL set." alt="" coords="42,299,154,324"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="162,261,114,301,110,296,159,257"/>
+<area shape="rect" id="Node000008" href="$name__space__svr_source.html" title=" " alt="" coords="178,299,367,324"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="211,257,260,296,257,301,208,261"/>
+<area shape="rect" id="Node000005" href="$avl__map.html" title="AVL map." alt="" coords="37,372,159,397"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="101,338,101,372,95,372,95,338"/>
+<area shape="rect" id="Node000006" href="$region__mapping.html" title="Region handling." alt="" coords="5,445,191,471"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="101,411,101,445,95,445,95,411"/>
+<area shape="rect" id="Node000007" href="$region__mapping__svr__2_source.html" title=" " alt="" coords="5,519,191,559"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="101,484,101,519,95,519,95,484"/>
+<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="210,114,153,154,150,150,207,110"/>
+<area shape="poly" id="edge9_Node000009_Node000003" title=" " alt="" coords="231,118,213,178,193,226,188,224,207,176,226,117"/>
+</map>

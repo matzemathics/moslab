@@ -1,0 +1,11 @@
+<map id="l4/vbus/vbus.h" name="l4/vbus/vbus.h">
+<area shape="rect" id="Node000001" title="Description of the vbus C API." alt="" coords="200,5,316,31"/>
+<area shape="rect" id="Node000002" href="$vbus_source.html" title=" " alt="" coords="206,79,310,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="261,44,261,79,255,79,255,44"/>
+<area shape="rect" id="Node000003" href="$vbus__generic_source.html" title=" " alt="" coords="5,152,164,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="219,112,114,154,112,149,217,107"/>
+<area shape="rect" id="Node000004" href="$vbus__gpio_source.html" title=" " alt="" coords="189,152,327,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="261,118,261,152,255,152,255,118"/>
+<area shape="rect" id="Node000005" href="$vbus__pci_source.html" title=" " alt="" coords="351,152,482,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="297,107,392,149,390,154,295,112"/>
+</map>

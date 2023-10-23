@@ -1,0 +1,11 @@
+<map id="L4virtio::Driver::Device::driver_acknowledge" name="L4virtio::Driver::Device::driver_acknowledge">
+<area shape="rect" id="Node000001" title="Finalize handshake with the device." alt="" coords="5,47,177,87"/>
+<area shape="rect" id="Node000002" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="248,5,355,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,45,234,31,236,36,178,50"/>
+<area shape="rect" id="Node000004" href="$group__l4virtio__transport.html#gae37bcd45875b27b302320e6b9580191d" title="Check if the given bit in a feature map is set." alt="" coords="226,55,377,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="178,65,212,65,212,70,178,70"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Device.html#ab2e1044b9a29628c3ed7945b9dfe4cad" title="Write the VIRTIO status register." alt="" coords="225,105,377,145"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="166,85,215,98,214,104,164,90"/>
+<area shape="rect" id="Node000003" href="$namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b" title="Generate C++ exception." alt="" coords="425,5,563,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="355,15,411,15,411,21,355,21"/>
+</map>

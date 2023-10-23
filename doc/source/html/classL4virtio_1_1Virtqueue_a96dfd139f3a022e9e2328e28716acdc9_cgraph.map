@@ -1,0 +1,8 @@
+<map id="L4virtio::Virtqueue::total_size" name="L4virtio::Virtqueue::total_size">
+<area shape="rect" id="Node000001" title="Calculate the total size of this virtqueue." alt="" coords="5,5,148,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="387,13,565,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,20,196,19,339,19,373,19,373,25,339,24,196,24,149,25"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue.html#a7747ac81d7fd21e1e55e43c2e7ead2ea" title="Calculate the size of the used ring for num entries." alt="" coords="196,33,339,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,33,183,38,182,44,148,38"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="339,41,373,37,373,42,339,46"/>
+</map>

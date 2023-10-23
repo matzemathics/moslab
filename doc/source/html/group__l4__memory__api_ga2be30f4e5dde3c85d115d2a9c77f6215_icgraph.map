@@ -1,0 +1,31 @@
+<map id="l4_bytes_to_mwords" name="l4_bytes_to_mwords">
+<area shape="rect" id="Node000001" title="Determine how many machine words (l4_umword_t) are required to store a buffer of &#39;size&#39; bytes." alt="" coords="568,129,724,155"/>
+<area shape="rect" id="Node000002" href="$kdebug_8h.html#a05f504b0c16b751c78927a464615a746" title="Invoke a text output operation with 3 additional machine word arguments on the base debugger capabili..." alt="" coords="388,43,520,68"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="603,126,482,71,484,66,606,121"/>
+<area shape="rect" id="Node000004" href="$kdebug_8h.html#ab2ebe85a62a8d8b933eef79a3ca418d7" title="Invoke a text output operation on the base debugger capability." alt="" coords="395,129,513,155"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="554,145,513,145,513,139,554,139"/>
+<area shape="rect" id="Node000010" href="$group__l4__vcon__api.html#ga05df63a45bb7ade1e0e19caaa6e35f5f" title="Send data to this virtual console." alt="" coords="391,276,517,301"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="619,165,473,278,470,274,615,161"/>
+<area shape="rect" id="Node000003" href="$group__fiasco__trace__api.html#gac59d89f0e05763396f2fcda591ffe870" title="Create new trace&#45;buffer entry with describing &lt;text&gt; and three additional values." alt="" coords="179,5,333,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="374,43,323,33,324,28,375,38"/>
+<area shape="rect" id="Node000005" href="$kdebug_8h.html#a2e5f690a7b317bd50ba2d40461939033" title="Enter the kernel debugger." alt="" coords="201,55,311,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="414,126,339,94,305,83,306,78,341,89,416,121"/>
+<area shape="rect" id="Node000006" href="$group__fiasco__trace__api.html#ga11d469f93c5befca8389362282c5cb74" title="Create new trace&#45;buffer entry with describing &lt;text&gt;." alt="" coords="196,104,316,129"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="381,135,316,127,317,122,382,130"/>
+<area shape="rect" id="Node000007" href="$group__fiasco__trace__api.html#gacec61dde47b1cf788fcc51614bcc1a2f" title="Create new trace&#45;buffer entry with binary data." alt="" coords="172,153,340,179"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="382,153,340,158,340,153,382,148"/>
+<area shape="rect" id="Node000008" href="$kdebug_8h.html#adbcd0f5c67e586ed88fba868cea537fb" title="Output a fixed&#45;length string via the kernel debugger." alt="" coords="212,203,300,228"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="413,163,341,193,301,206,299,201,339,187,411,158"/>
+<area shape="rect" id="Node000009" href="$kdebug_8h.html#a138dbb0bf857e381e9fb7cd4ef19a5f2" title="Output a string via the kernel debugger." alt="" coords="25,203,105,228"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="198,218,105,218,105,213,198,213"/>
+<area shape="rect" id="Node000011" href="$group__l4__vcon__api.html#gabbc45ad5d795d46d1edbf8118957ecb2" title="Send data to virtual console." alt="" coords="201,252,311,277"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="377,282,311,274,312,269,378,277"/>
+<area shape="rect" id="Node000012" href="$group__l4__vcon__api.html#ga899728ba23baf18f59f62142534e039c" title="Write data to this virtual console." alt="" coords="193,301,319,327"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="378,301,320,309,319,303,377,296"/>
+<area shape="rect" id="Node000015" href="$classL4_1_1Vcon.html#af400882103c8601a4b0750985c57d7c4" title="Send data to this virtual console." alt="" coords="198,351,314,376"/>
+<area shape="poly" id="edge14_Node000010_Node000015" title=" " alt="" coords="416,310,341,342,306,353,305,348,339,337,414,305"/>
+<area shape="rect" id="Node000013" href="$group__l4__vcon__api.html#ga9f083a69c2c51329da6778a3af0331bc" title="Write data to virtual console." alt="" coords="9,276,121,301"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="178,306,121,299,122,293,179,301"/>
+<area shape="rect" id="Node000014" href="$classL4_1_1Vcon.html#a83407df2f5b674126d33505d73f5d34b" title="Write data to this virtual console." alt="" coords="5,325,124,351"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="179,326,125,333,124,328,178,321"/>
+</map>

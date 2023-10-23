@@ -1,0 +1,5 @@
+<map id="l4_thread_vcpu_resume_start" name="l4_thread_vcpu_resume_start">
+<area shape="rect" id="Node000001" title="vCPU return from event handler." alt="" coords="5,5,183,45"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="231,13,300,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,23,217,23,217,28,183,28"/>
+</map>

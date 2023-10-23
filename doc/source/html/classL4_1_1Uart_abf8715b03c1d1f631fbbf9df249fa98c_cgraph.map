@@ -1,0 +1,5 @@
+<map id="L4::Uart::generic_write" name="L4::Uart::generic_write">
+<area shape="rect" id="Node000001" title="Internal function transmitting each character one&#45;after&#45;another and finally waiting that the transmis..." alt="" coords="5,13,175,38"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Poll__timeout__counter.html#a962cff68b1bd6f4ebc520d541c0316bf" title="Evaluate the expression for a maximum number of times." alt="" coords="223,5,405,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,23,209,23,209,28,175,28"/>
+</map>

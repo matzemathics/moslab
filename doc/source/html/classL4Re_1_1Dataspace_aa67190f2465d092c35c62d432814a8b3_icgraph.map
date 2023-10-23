@@ -1,0 +1,13 @@
+<map id="L4Re::Dataspace::info" name="L4Re::Dataspace::info">
+<area shape="rect" id="Node000001" title="Get information on the dataspace." alt="" coords="431,84,595,109"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#abdad88a18e5428fb2276148ceccf0434" title="Make a local memory region for the given driver values." alt="" coords="212,5,383,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="455,82,382,61,384,55,456,77"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Dataspace.html#a52b562764431fbb94fc960f9bba5b29b" title="Get flags of the dataspace." alt="" coords="212,84,383,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="417,99,383,99,383,94,417,94"/>
+<area shape="rect" id="Node000006" href="$classL4Re_1_1Dataspace.html#a3b8146022801189ebf9143091ef79642" title="Get size of a dataspace." alt="" coords="215,133,380,159"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="444,115,354,136,353,131,443,110"/>
+<area shape="rect" id="Node000004" href="$classL4vbus_1_1Vbus.html#a7e78ffe39d692ceeed7e81f6ab1ffc43" title="Bind or unbind a kernel DMA space to a DMA domain." alt="" coords="5,45,164,85"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="198,85,164,79,165,74,199,79"/>
+<area shape="rect" id="Node000005" href="$classL4vbus_1_1Vbus.html#a15085069054edbb9b221154e25db52b2" title="Bind or unbind an L4Re::Dma_space to a DMA domain." alt="" coords="5,109,164,149"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="199,114,165,119,164,114,198,109"/>
+</map>

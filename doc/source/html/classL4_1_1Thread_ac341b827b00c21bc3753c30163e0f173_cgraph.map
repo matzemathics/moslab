@@ -1,0 +1,13 @@
+<map id="L4::Thread::vcpu_control_ext" name="L4::Thread::vcpu_control_ext">
+<area shape="rect" id="Node000001" title="Enable the extended vCPU feature for the thread." alt="" coords="5,35,215,60"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="287,5,411,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,32,273,25,274,30,214,37"/>
+<area shape="rect" id="Node000003" href="$group__l4__thread__api.html#ga1015c5500bcfeaa01d209ee116cf57ec" title="Enable the extended vCPU feature for the thread." alt="" coords="263,55,436,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,57,249,61,249,66,214,62"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="484,37,575,63"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="436,60,470,56,471,61,437,66"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="484,87,575,112"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="437,84,471,89,470,94,436,90"/>
+<area shape="rect" id="Node000005" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="623,37,683,63"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="575,47,609,47,609,53,575,53"/>
+</map>

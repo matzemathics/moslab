@@ -1,0 +1,9 @@
+<map id="L4::Ipc::Iostream::reply_and_wait" name="L4::Ipc::Iostream::reply_and_wait">
+<area shape="rect" id="Node000001" title="Do an IPC reply and wait." alt="" coords="5,23,144,63"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#ga1bd93bc08f402cc149bf62cba3ba9905" title="Reply and wait operation (uses the reply capability)." alt="" coords="192,5,359,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,32,178,28,179,33,144,37"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Ipc_1_1Istream.html#a685d93c237cbf66ff368e17639109411" title="Get the message tag of a received IPC." alt="" coords="200,55,351,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="144,49,187,54,186,59,144,54"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="407,5,467,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,15,393,15,393,21,359,21"/>
+</map>

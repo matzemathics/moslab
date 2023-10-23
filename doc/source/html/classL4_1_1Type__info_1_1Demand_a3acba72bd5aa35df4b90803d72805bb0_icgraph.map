@@ -1,0 +1,5 @@
+<map id="L4::Type_info::Demand::no_demand" name="L4::Type_info::Demand::no_demand">
+<area shape="rect" id="Node000001" title=" " alt="" coords="235,13,405,53"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc__svr_1_1Br__manager__no__buffers.html#a48d7b04f600248f991ec2967bfc85138" title="Tells the server to allocate buffers for the given demand." alt="" coords="5,5,187,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,35,187,35,187,30,221,30"/>
+</map>

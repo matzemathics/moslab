@@ -1,0 +1,9 @@
+<map id="L4Re::Util::Counting_cap_alloc::free" name="L4Re::Util::Counting_cap_alloc::free">
+<area shape="rect" id="Node000001" title="Free the capability." alt="" coords="5,23,156,63"/>
+<area shape="rect" id="Node000002" href="$group__l4__cap__api.html#ga539da15c2a1be4803ed7a3f3a5742194" title="Test if a capability selector is a valid selector." alt="" coords="204,5,325,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,30,190,26,191,31,157,36"/>
+<area shape="rect" id="Node000003" href="$group__l4__task__api.html#gaa5558855716b35c1790b61249cf2974b" title="Revoke rights from the task." alt="" coords="204,55,325,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,51,191,55,190,60,156,56"/>
+<area shape="rect" id="Node000004" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="373,55,443,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="326,65,359,65,359,70,326,70"/>
+</map>

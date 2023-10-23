@@ -1,0 +1,7 @@
+<map id="L4::Kip::Mem_desc::first" name="L4::Kip::Mem_desc::first">
+<area shape="rect" id="Node000001" title="Get first memory descriptor." alt="" coords="221,23,373,63"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kip_1_1Mem__desc.html#ab09b47d6e8631b366088aab16f2e0f72" title="Return enumerable list of memory descriptors." alt="" coords="5,5,173,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,35,173,31,174,26,208,30"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kip_1_1Mem__desc.html#a85e3e925e5db3aa07335cdccd3c1677e" title="Return enumerable list of memory descriptors." alt="" coords="5,55,173,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,56,174,60,173,55,208,51"/>
+</map>

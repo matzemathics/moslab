@@ -1,0 +1,18 @@
+<map id="l4/cxx/ref_ptr_list" name="l4/cxx/ref_ptr_list">
+<area shape="rect" id="Node000001" title="Implementation of a list of ref&#45;ptr&#45;managed objects." alt="" coords="91,5,226,31"/>
+<area shape="rect" id="Node000002" href="$ref__ptr_source.html" title=" " alt="" coords="182,79,290,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,29,215,67,211,71,169,33"/>
+<area shape="rect" id="Node000008" href="$smart__ptr__list_8h.html" title="Implementation of a list of smart&#45;pointer&#45;managed objects." alt="" coords="5,79,157,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="148,33,106,71,102,67,144,29"/>
+<area shape="rect" id="Node000003" href="$type__traits_source.html" title=" " alt="" coords="59,152,151,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="216,106,140,148,137,143,214,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="187,152,258,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="236,105,230,139,225,138,231,104"/>
+<area shape="rect" id="Node000006" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="282,152,414,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="255,102,319,142,316,147,253,106"/>
+<area shape="rect" id="Node000004" href="$type__traits_8h_source.html" title=" " alt="" coords="39,225,171,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="108,178,108,212,103,212,103,178"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="287,225,409,251"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="351,178,351,212,345,212,345,178"/>
+<area shape="poly" id="edge8_Node000008_Node000003" title=" " alt="" coords="88,103,100,138,95,140,83,105"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="L4Re::Inhibitor::next_lock_info" name="L4Re::Inhibitor::next_lock_info">
+<area shape="rect" id="Node000001" title="Get information for the next available inhibitor lock." alt="" coords="5,13,159,53"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html#a3d80fec7e057d575ec4b393437f05f8a" title="Get the capability to ourselves." alt="" coords="207,5,396,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,30,193,30,193,35,159,35"/>
+</map>

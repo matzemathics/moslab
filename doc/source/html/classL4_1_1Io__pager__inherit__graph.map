@@ -1,0 +1,11 @@
+<map id="L4::Io_pager" name="L4::Io_pager">
+<area shape="rect" id="Node000001" title="Io_pager interface." alt="" coords="41,5,168,71"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="9,119,200,233"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,84,107,118,102,118,102,84"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Pager.html" title="Pager interface including the Io_pager interface." alt="" coords="51,281,159,347"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="107,247,107,281,102,281,102,247"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="5,395,204,524"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="107,360,107,394,102,394,102,360"/>
+<area shape="rect" id="Node000005" href="$classL4Re_1_1Rm.html" title="Region map." alt="" coords="43,572,167,837"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="107,538,107,572,102,572,102,538"/>
+</map>

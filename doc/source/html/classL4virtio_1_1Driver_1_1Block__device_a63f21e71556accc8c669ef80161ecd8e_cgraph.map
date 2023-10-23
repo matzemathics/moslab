@@ -1,0 +1,29 @@
+<map id="L4virtio::Driver::Block_device::process_request" name="L4virtio::Driver::Block_device::process_request">
+<area shape="rect" id="Node000001" title="Process request synchronously." alt="" coords="5,133,192,173"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a60e0cff278a11e1aeb749c17e809e093" title="Allocate and return an unused descriptor from the descriptor table." alt="" coords="240,5,431,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,131,175,93,239,55,254,48,256,53,241,60,178,98,127,135"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a9ebf7e4518d01a4dc17c5ee6c0e3025b" title="Return a reference to a descriptor in the descriptor table." alt="" coords="240,69,431,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,131,247,110,249,115,174,136"/>
+<area shape="rect" id="Node000004" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a4c91d7f9a29c6b9f80d7db69ea066863" title="Get the next bits ( 0 to 0 ) of raw." alt="" coords="264,133,407,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="192,151,250,151,250,156,192,156"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Device.html#af4aa9ac34ce928b9d437f1bb6a2ec216" title="Send a request to the device and wait for it to be processed." alt="" coords="249,197,421,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="174,171,249,191,247,196,173,176"/>
+<area shape="rect" id="Node000014" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a30ec0bb337904ddd9b321e41f6e5a2b0" title="Get the write bits ( 1 to 1 ) of raw." alt="" coords="262,261,409,301"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="127,171,178,209,241,247,256,254,254,259,239,252,175,214,123,176"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Device.html#a72090d324268b51f3937197748c26853" title="Send a request to the device." alt="" coords="479,165,651,205"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="421,203,465,197,466,202,422,208"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Driver_1_1Device.html#a3b5274cb8d4e708beea944038b855885" title="Wait for the next item to arrive in the used queue and return it." alt="" coords="479,229,651,269"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="422,227,466,233,465,238,421,232"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a20a030dd769eddf44b6cb0bb07b84ee8" title="Enqueue a descriptor in the available ring." alt="" coords="699,165,889,205"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="651,183,685,183,685,188,651,188"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a6d320be956d592d0a064fb89c5a69ba5" title="Return the next finished block." alt="" coords="699,229,889,269"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="651,247,685,247,685,252,651,252"/>
+<area shape="rect" id="Node000010" href="$classL4virtio_1_1Driver_1_1Device.html#a05a02d57ddf646f029311ca8a63f4081" title="Wait for a notification from the device." alt="" coords="708,293,880,333"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="638,267,710,287,708,292,636,272"/>
+<area shape="rect" id="Node000011" href="$group__l4__ipc__err__api.html#gad40f404217497793e95a10d77a47db39" title="Get the IPC error code for an IPC operation." alt="" coords="937,275,1036,301"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="880,299,923,294,924,299,881,305"/>
+<area shape="rect" id="Node000013" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="952,325,1021,350"/>
+<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="881,321,939,329,938,334,880,327"/>
+<area shape="rect" id="Node000012" href="$group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87" title="Test for error indicator flag." alt="" coords="1084,275,1243,301"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1036,285,1070,285,1070,291,1036,291"/>
+</map>

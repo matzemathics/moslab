@@ -1,0 +1,5 @@
+<map id="l4_calibrate_tsc" name="l4_calibrate_tsc">
+<area shape="rect" id="Node000001" title="Determine scalers for timestamp calculations." alt="" coords="5,5,129,31"/>
+<area shape="rect" id="Node000002" href="$group__l4util__tsc.html#ga2df1ad27841de1e05deaac854cb78192" title="Initialize scaler for TSC calibrations from the kernel." alt="" coords="177,5,265,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,15,163,15,163,21,129,21"/>
+</map>

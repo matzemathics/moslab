@@ -1,0 +1,25 @@
+<map id="L4::Cap_base::is_valid" name="L4::Cap_base::is_valid">
+<area shape="rect" id="Node000001" title="Test whether the capability is a valid capability index (i.e., not L4_INVALID_CAP)." alt="" coords="451,284,617,309"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a1501f9852fda4c01a1591a7c53585d5f" title="Copy a capability." alt="" coords="236,5,383,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="524,271,510,223,485,162,450,99,427,70,401,45,380,33,383,29,404,41,431,67,454,96,490,159,515,221,529,270"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Smart__count__cap.html#a4f5fee6c54e153aba5b2cf33e4c5c5ec" title="Copy operation for L4::Smart_cap (increment ref count)." alt="" coords="222,55,397,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="519,272,501,236,475,192,441,148,401,109,382,98,385,93,404,105,445,144,479,189,506,233,524,270"/>
+<area shape="rect" id="Node000004" href="$classL4Re_1_1Util_1_1Smart__cap__auto.html#a4dfba4f2c4731689f1a53992c83371a6" title="Free operation for L4::Smart_cap." alt="" coords="228,119,391,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="512,275,465,224,434,197,401,174,378,162,380,157,404,169,438,193,469,221,516,272"/>
+<area shape="rect" id="Node000005" href="$classL4Re_1_1Util_1_1Smart__cap__auto.html#a19c486ceece95f48ce148fc3235ddca5" title="Invalidate operation for L4::Smart_cap." alt="" coords="228,183,391,223"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="494,280,402,238,370,226,372,221,404,233,497,275"/>
+<area shape="rect" id="Node000007" href="$classL4Re_1_1Rm_1_1Unique__region.html#a504ecf1b747047eac1774e12971d3449" title="Check if the Unique_region is valid." alt="" coords="216,247,403,287"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="437,287,402,282,403,277,438,281"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Cap__base.html#ab6cd8e73ebbdb5dfa45355b7c1fde1c2" title="Replace this capability with the contents of src." alt="" coords="233,312,386,337"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="437,311,386,318,386,313,437,306"/>
+<area shape="rect" id="Node000009" href="$classL4Re_1_1Rm_1_1Unique__region.html#a2dd9ea7d4a242dff0651b173c428c281" title="Move&#45;assign a Unique_region" alt="" coords="216,362,403,402"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="490,317,404,351,368,364,366,359,402,346,488,312"/>
+<area shape="rect" id="Node000010" href="$classL4Re_1_1Rm_1_1Unique__region.html#a5f72323368275b109d7b16c50a1c3ae0" title="Set new address and region manager." alt="" coords="216,426,403,466"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="515,321,467,369,437,394,404,416,380,428,377,424,401,412,433,390,463,365,511,318"/>
+<area shape="rect" id="Node000011" href="$classL4Re_1_1Video_1_1View.html#aac22679f4bbdd1d3fd9ed856c173dc03" title="Return whether this view is valid." alt="" coords="236,490,383,530"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="523,323,505,358,478,400,444,443,404,480,384,492,381,488,401,476,440,439,474,397,500,355,519,321"/>
+<area shape="rect" id="Node000012" href="$classL4Re_1_1Rm_1_1Unique__region.html#ab6bf355cf996e46b1b6f2b4638b52777" title="Destructor." alt="" coords="216,554,403,594"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="528,324,513,371,488,430,452,491,430,519,404,544,386,556,383,552,401,540,426,515,447,488,483,427,508,369,523,322"/>
+<area shape="rect" id="Node000006" href="$classL4Re_1_1Util_1_1Smart__cap__auto.html#a5bd9db013c30e736b5cc2071589de771" title="Copy operation for L4::Smart_cap." alt="" coords="5,183,168,223"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="215,206,168,206,168,201,215,201"/>
+</map>

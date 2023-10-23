@@ -1,0 +1,7 @@
+<map id="L4::Task::cap_equal" name="L4::Task::cap_equal">
+<area shape="rect" id="Node000001" title="Test whether two capabilities point to the same object with the same rights." alt="" coords="5,31,153,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="201,5,340,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,31,187,26,188,32,154,36"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="209,55,333,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,50,195,55,195,61,153,55"/>
+</map>

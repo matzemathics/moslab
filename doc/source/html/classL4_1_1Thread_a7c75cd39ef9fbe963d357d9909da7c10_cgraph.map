@@ -1,0 +1,5 @@
+<map id="L4::Thread::stats_time" name="L4::Thread::stats_time">
+<area shape="rect" id="Node000001" title="Get consumed time of thread in us." alt="" coords="5,5,172,31"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="220,5,344,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,15,207,15,207,21,173,21"/>
+</map>

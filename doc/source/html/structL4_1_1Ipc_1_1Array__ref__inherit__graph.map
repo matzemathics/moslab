@@ -1,0 +1,12 @@
+<map id="L4::Ipc::Array_ref&lt; ELEM_TYPE, LEN_TYPE &gt;" name="L4::Ipc::Array_ref&lt; ELEM_TYPE, LEN_TYPE &gt;">
+<area shape="rect" id="Node000001" title="Array reference data type for arrays located in the message." alt="" coords="223,5,413,85"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Ipc_1_1Array.html" title=" " alt="" coords="5,360,172,480"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,78,178,93,146,112,118,136,95,164,83,187,75,211,68,263,69,314,76,359,71,360,64,314,63,262,70,210,78,185,90,161,114,132,143,108,175,88,208,73"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Ipc_1_1Array.html" title="Array data type for dynamically sized arrays in RPCs." alt="" coords="105,163,254,283"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,98,228,164,224,161,277,94"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Ipc_1_1Array__ref.html" title=" " alt="" coords="278,175,451,270"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="334,98,355,175,350,176,329,99"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Ipc_1_1Array__ref.html" title=" " alt="" coords="475,175,638,270"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="427,74,457,89,485,107,515,139,537,173,533,176,511,142,482,111,455,93,425,79"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="149,296,118,361,114,359,144,294"/>
+</map>

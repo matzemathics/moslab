@@ -1,0 +1,5 @@
+<map id="L4::Epiface::dispatch" name="L4::Epiface::dispatch">
+<area shape="rect" id="Node000001" title="The abstract handler for client requests to the object." alt="" coords="191,13,347,38"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Basic__registry.html#a730ef8bbfbc7154a04e50aae88252b43" title="The dispatch function called by the server loop." alt="" coords="5,5,143,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,28,143,28,143,23,177,23"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="L4virtio::Svr::Dev_config::set_device_needs_reset" name="L4virtio::Svr::Dev_config::set_device_needs_reset">
+<area shape="rect" id="Node000001" title="Set DEVICE_NEEDS_RESET bit in device status register." alt="" coords="5,30,152,85"/>
+<area shape="rect" id="Node000002" href="$structL4virtio_1_1Svr_1_1Dev__status.html#a00de1af41a5731259d899bb58cf56212" title="Get the device_needs_reset bits ( 6 to 6 ) of raw." alt="" coords="200,5,407,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,44,186,39,187,45,152,50"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a35714a3ebce252eb16a40033cf97d0fe" title="Get a read&#45;only pointer to the config header." alt="" coords="236,69,371,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,65,223,75,222,81,152,70"/>
+<area shape="rect" id="Node000004" href="$classL4Re_1_1Rm_1_1Unique__region.html#a301d5bd597f8c1e3b98bc52659f13dbe" title="Return the address." alt="" coords="455,77,669,102"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="371,87,440,87,440,92,371,92"/>
+</map>

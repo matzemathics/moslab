@@ -1,0 +1,53 @@
+<map id="L4::Cap_base::cap" name="L4::Cap_base::cap">
+<area shape="rect" id="Node000001" title="Return capability selector." alt="" coords="692,589,831,614"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Util_1_1Br__manager.html#af2ce5604bac633f5e9bd267bb7a2ed73" title="Tells the server to allocate buffers for the given demand." alt="" coords="470,5,642,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="755,575,743,464,721,309,705,231,687,159,666,100,642,59,628,47,632,43,646,56,671,97,692,157,711,230,726,309,748,463,760,574"/>
+<area shape="rect" id="Node000003" href="$classL4vbus_1_1Vbus.html#a7e78ffe39d692ceeed7e81f6ab1ffc43" title="Bind or unbind a kernel DMA space to a DMA domain." alt="" coords="477,69,635,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="754,575,741,476,717,341,701,272,684,210,664,158,642,123,628,112,632,107,646,120,668,156,689,208,706,271,722,340,746,475,760,575"/>
+<area shape="rect" id="Node000004" href="$classL4vbus_1_1Vbus.html#a15085069054edbb9b221154e25db52b2" title="Bind or unbind an L4Re::Dma_space to a DMA domain." alt="" coords="477,133,635,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="758,575,754,500,739,396,725,341,704,285,677,233,642,187,628,175,631,171,646,183,682,231,709,283,730,339,744,395,760,499,763,575"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Icu.html#ada7541da586ea09b925b4d90d7dc357e" title="Bind an interrupt line of an interrupt controller to an interrupt object." alt="" coords="506,198,606,223"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="757,575,752,508,735,417,720,368,701,321,675,277,642,238,625,226,605,219,607,214,628,221,646,234,679,274,705,319,725,367,740,416,757,507,762,575"/>
+<area shape="rect" id="Node000010" href="$classL4_1_1Task.html#ac3a7a5e423b0b47ed028a6616fe74415" title="Test whether two capabilities point to the same object with the same rights." alt="" coords="482,247,630,273"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="755,575,747,516,729,438,714,397,695,357,671,320,642,287,624,275,627,271,646,283,675,317,700,355,719,395,734,437,753,515,761,575"/>
+<area shape="rect" id="Node000011" href="$classL4_1_1Task.html#ac2099a8cdf44b31d8bdcce6d758f8f98" title="Check whether a capability is present (refers to an object)." alt="" coords="484,297,628,322"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="754,576,743,525,722,460,689,394,668,363,642,337,623,324,625,320,646,333,672,360,694,391,727,458,748,524,759,575"/>
+<area shape="rect" id="Node000012" href="$structL4_1_1Irq__mux.html#acfd63279449d20bef4226da9a01e5da9" title="Attach an IRQ to this multiplexer." alt="" coords="485,346,627,371"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="751,576,737,534,715,483,684,431,664,407,642,386,621,374,624,369,646,382,668,403,688,428,720,480,742,532,756,574"/>
+<area shape="rect" id="Node000013" href="$classL4Re_1_1Smart__count__cap.html#a4f5fee6c54e153aba5b2cf33e4c5c5ec" title="Copy operation for L4::Smart_cap (increment ref count)." alt="" coords="469,396,643,436"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="745,578,704,514,676,480,642,450,623,438,626,434,646,446,679,476,708,511,749,575"/>
+<area shape="rect" id="Node000014" href="$classL4Re_1_1Util_1_1Smart__count__cap.html#a5886f75acada6cddee1b8c3192476b93" title="Copy operation for L4::Smart_cap (increment ref count)." alt="" coords="469,460,643,500"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="734,581,693,547,643,514,618,503,620,498,645,510,696,543,737,577"/>
+<area shape="rect" id="Node000015" href="$classL4_1_1Factory.html#a014721aec27ad4877555d5f4b7204896" title="Create a new factory." alt="" coords="486,524,626,564"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="701,587,625,566,627,561,702,582"/>
+<area shape="rect" id="Node000016" href="$classL4_1_1Factory.html#aac0a160a20464a6917f2f614d5b86407" title="Create a new IPC gate." alt="" coords="468,589,644,614"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="678,604,644,604,644,599,678,599"/>
+<area shape="rect" id="Node000017" href="$classL4_1_1Factory.html#a5a2119bba3ea97bfb0f10897c1c64ecb" title="Create a new task." alt="" coords="469,638,643,663"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="695,620,610,641,609,635,694,615"/>
+<area shape="rect" id="Node000018" href="$classL4_1_1Task.html#a6cc499337ace36c2cec41da182c905fc" title="Release capability and delete object." alt="" coords="481,687,631,713"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="734,624,693,652,645,678,614,690,612,685,643,674,691,648,731,620"/>
+<area shape="rect" id="Node000019" href="$classL4Re_1_1Util_1_1Smart__cap__auto.html#a4dfba4f2c4731689f1a53992c83371a6" title="Free operation for L4::Smart_cap." alt="" coords="475,737,637,777"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="745,627,703,677,676,704,645,728,624,739,621,735,643,723,672,700,700,673,741,623"/>
+<area shape="rect" id="Node000020" href="$classL4_1_1Task.html#a2712eda0c02dca9b9e5324e93326f704" title="Map resources available in the source task to a destination task." alt="" coords="501,802,611,827"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="754,628,738,664,715,708,684,753,646,792,613,808,610,803,642,787,680,750,711,706,734,662,749,626"/>
+<area shape="rect" id="Node000021" href="$classL4Re_1_1Util_1_1Event__buffer__consumer__t.html#a4ed22b41ce4c7e6b93efae878b1415ef" title="Continuously wait for events and process them." alt="" coords="469,852,643,892"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="757,628,744,674,722,731,689,790,669,818,646,842,629,854,626,850,642,838,665,814,685,787,717,728,739,672,752,627"/>
+<area shape="rect" id="Node000022" href="$classL4Re_1_1Util_1_1Br__manager.html#a203fd505513ab682c319d03c89724e18" title="Allocate a new capability for the given receive buffer." alt="" coords="470,916,642,956"/>
+<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="760,628,750,685,730,759,715,798,697,837,674,873,646,906,630,918,627,914,642,902,669,870,692,834,710,796,725,757,745,684,755,627"/>
+<area shape="rect" id="Node000023" href="$classL4_1_1Thread.html#a5506636d5612bbc65a07edebcb885b8c" title="Register an IRQ that will trigger upon deletion events." alt="" coords="482,980,630,1020"/>
+<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="762,628,756,695,738,786,724,835,704,883,678,929,646,970,631,982,628,978,642,966,674,926,699,881,719,833,733,785,751,694,757,627"/>
+<area shape="rect" id="Node000024" href="$classL4_1_1Task.html#a6fd63174fb70beb932b8889e3d644b53" title="Release object capability." alt="" coords="476,1045,636,1070"/>
+<area shape="poly" id="edge23_Node000001_Node000024" title=" " alt="" coords="759,628,744,719,720,840,687,957,667,1002,646,1034,628,1047,625,1042,642,1030,663,1000,682,955,715,839,739,718,754,627"/>
+<area shape="rect" id="Node000025" href="$classL4_1_1Icu.html#aa34e56cdac798b1949fcc00553386b8b" title="Remove binding of an interrupt line from the interrupt controller object." alt="" coords="498,1094,614,1119"/>
+<area shape="poly" id="edge24_Node000001_Node000025" title=" " alt="" coords="760,628,747,729,723,865,708,934,690,997,669,1049,646,1084,632,1095,615,1103,613,1098,629,1091,642,1081,665,1046,685,995,703,933,718,864,742,728,754,628"/>
+<area shape="rect" id="Node000026" href="$classL4vbus_1_1Icu.html#a836655616e1572d6e5453a566c6d6372" title="Request an L4::Icu capability for this Vbus&#39;s virtual ICU." alt="" coords="491,1143,621,1169"/>
+<area shape="poly" id="edge25_Node000001_Node000026" title=" " alt="" coords="760,628,749,737,727,888,711,966,693,1036,671,1094,646,1134,623,1149,620,1145,642,1130,666,1092,688,1034,706,964,722,887,744,736,755,627"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Device.html#a1c9b791b723e7e8ad2eae927094b487d" title="Register a triggerable to receive notifications from the device." alt="" coords="248,159,420,199"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="492,204,420,194,420,188,493,199"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="248,223,420,263"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="493,222,420,233,420,228,492,217"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,191,200,231"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="234,232,200,227,201,222,234,226"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,255,186,295"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="235,259,187,266,186,261,234,254"/>
+</map>

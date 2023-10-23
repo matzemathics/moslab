@@ -1,0 +1,7 @@
+<map id="L4Re::Dataspace::map_region" name="L4Re::Dataspace::map_region">
+<area shape="rect" id="Node000001" title="Map a part of a dataspace into a local memory area." alt="" coords="5,23,173,63"/>
+<area shape="rect" id="Node000002" href="$namespaceL4.html#a92c0d3febc3cd6b35aa072d1bf2d9d11" title="Round a value up so the given number of lsb is zero." alt="" coords="221,5,344,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,30,207,25,208,30,174,35"/>
+<area shape="rect" id="Node000003" href="$namespaceL4.html#a9e6e01651b5cc9d14d8436c6d5d46536" title="Round a value down so the given number of lsb is zero." alt="" coords="223,55,342,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,51,210,56,209,61,173,56"/>
+</map>

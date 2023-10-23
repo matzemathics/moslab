@@ -1,0 +1,25 @@
+<map id="l4/vbus/vbus.h" name="l4/vbus/vbus.h">
+<area shape="rect" id="Node000001" title="Description of the vbus C API." alt="" coords="65,5,181,31"/>
+<area shape="rect" id="Node000002" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="5,299,137,324"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,33,60,52,45,65,34,80,15,124,11,162,18,202,32,250,41,269,54,287,49,290,37,272,28,252,13,203,6,163,10,123,29,77,41,61,57,47,90,28"/>
+<area shape="rect" id="Node000004" href="$vbus__types_8h.html" title="This header file contains descriptions of vbus related data types and constants." alt="" coords="44,79,203,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="126,31,126,65,121,65,121,31"/>
+<area shape="rect" id="Node000005" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="185,152,297,177"/>
+<area shape="poly" id="edge14_Node000001_Node000005" title=" " alt="" coords="152,28,186,48,217,77,233,107,240,138,235,139,228,109,213,80,183,52,150,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="10,372,133,397"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="74,324,74,358,69,358,69,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="144,102,211,142,208,147,141,106"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="185,168,147,173,108,183,72,200,43,227,37,241,39,256,55,287,50,289,34,258,32,240,38,224,69,196,106,178,146,167,184,163"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="328,299,433,324"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="281,175,321,194,341,207,357,224,373,253,381,284,376,285,369,255,353,227,337,211,318,198,279,180"/>
+<area shape="rect" id="Node000007" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="224,225,343,251"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="250,176,272,212,267,215,245,179"/>
+<area shape="rect" id="Node000008" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="53,225,199,251"/>
+<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="224,180,158,220,155,216,221,175"/>
+<area shape="rect" id="Node000009" href="$____timeout_8h_source.html" title=" " alt="" coords="418,225,559,251"/>
+<area shape="poly" id="edge12_Node000005_Node000009" title=" " alt="" coords="281,175,436,219,435,224,280,180"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="250,253,119,297,118,292,248,248"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="301,249,355,288,352,292,297,253"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="119,253,91,289,86,286,115,249"/>
+<area shape="poly" id="edge13_Node000009_Node000006" title=" " alt="" coords="473,253,411,293,408,289,470,248"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="L4virtio::Svr::Dev_config::qconfig" name="L4virtio::Svr::Dev_config::qconfig">
+<area shape="rect" id="Node000001" title="Get queue read&#45;only config data for queue with the given index." alt="" coords="5,5,140,45"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Rm_1_1Unique__region.html#a301d5bd597f8c1e3b98bc52659f13dbe" title="Return the address." alt="" coords="188,13,403,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,23,174,23,174,28,140,28"/>
+</map>

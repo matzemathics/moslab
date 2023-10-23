@@ -1,0 +1,15 @@
+<map id="l4/cxx/bits/bst.h" name="l4/cxx/bits/bst.h">
+<area shape="rect" id="Node000001" title="AVL tree." alt="" coords="122,5,247,31"/>
+<area shape="rect" id="Node000002" href="$avl__tree.html" title="AVL tree." alt="" coords="125,79,244,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,44,187,79,182,79,182,44"/>
+<area shape="rect" id="Node000003" href="$avl__set.html" title="AVL set." alt="" coords="42,152,154,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="162,115,114,154,110,150,159,110"/>
+<area shape="rect" id="Node000007" href="$name__space__svr_source.html" title=" " alt="" coords="178,152,367,177"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="211,110,260,150,257,154,208,115"/>
+<area shape="rect" id="Node000004" href="$avl__map.html" title="AVL map." alt="" coords="37,225,159,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="101,191,101,225,95,225,95,191"/>
+<area shape="rect" id="Node000005" href="$region__mapping.html" title="Region handling." alt="" coords="5,299,191,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="101,264,101,299,95,299,95,264"/>
+<area shape="rect" id="Node000006" href="$region__mapping__svr__2_source.html" title=" " alt="" coords="5,372,191,412"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="101,338,101,372,95,372,95,338"/>
+</map>

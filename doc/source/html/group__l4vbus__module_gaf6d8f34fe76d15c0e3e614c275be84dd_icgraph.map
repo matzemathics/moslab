@@ -1,0 +1,5 @@
+<map id="l4vbus_release_ioport" name="l4vbus_release_ioport">
+<area shape="rect" id="Node000001" title="Release a previously requested IO port resource." alt="" coords="217,13,383,38"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Vbus.html#aa7a0641bf41be1fee81d4d6a871d5ef9" title="Release the given IO port resource from the bus." alt="" coords="5,5,169,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,28,170,28,170,23,203,23"/>
+</map>

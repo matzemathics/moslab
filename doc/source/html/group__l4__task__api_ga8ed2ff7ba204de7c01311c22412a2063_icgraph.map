@@ -1,0 +1,7 @@
+<map id="l4_task_map" name="l4_task_map">
+<area shape="rect" id="Node000001" title="Map resources available in the source task to a destination task." alt="" coords="207,31,312,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a1501f9852fda4c01a1591a7c53585d5f" title="Copy a capability." alt="" coords="9,5,155,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,37,155,31,156,26,194,31"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Cap__base.html#ab6cd8e73ebbdb5dfa45355b7c1fde1c2" title="Replace this capability with the contents of src." alt="" coords="5,55,159,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,55,159,60,159,54,193,50"/>
+</map>

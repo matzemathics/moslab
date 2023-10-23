@@ -1,0 +1,5 @@
+<map id="L4::Debugger::get_object_name" name="L4::Debugger::get_object_name">
+<area shape="rect" id="Node000001" title="Get name of object with Id id." alt="" coords="5,5,233,31"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="281,5,405,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,15,267,15,267,21,234,21"/>
+</map>

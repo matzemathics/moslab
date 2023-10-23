@@ -1,0 +1,12 @@
+<map id="L4::Irq_handler_object" name="L4::Irq_handler_object">
+<area shape="rect" id="Node000001" title="Server object base class for handling IRQ messages." alt="" coords="22,747,179,812"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Server__object__t.html" title=" " alt="" coords="5,577,196,697"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,711,103,746,98,746,98,711"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Server__object.html" title="Abstract server object to be used with L4::Server and L4::Basic_registry." alt="" coords="32,260,159,345"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,359,102,577,97,577,94,359"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Server__object__t.html" title="Base class (template) for server implementing server objects." alt="" coords="117,395,308,515"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="138,355,169,393,164,396,134,358"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Epiface.html" title="Base class for interface implementations." alt="" coords="13,5,178,211"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="98,225,98,260,93,260,93,225"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="171,528,140,578,135,576,167,525"/>
+</map>

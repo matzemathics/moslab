@@ -1,0 +1,5 @@
+<map id="L4virtio::Driver::Virtio_net_device::rx_pkt" name="L4virtio::Driver::Virtio_net_device::rx_pkt">
+<area shape="rect" id="Node000001" title="Return a reference to the RX packet buffer of the specified descriptor, e.g." alt="" coords="5,5,168,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="216,13,395,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,23,203,23,203,28,168,28"/>
+</map>

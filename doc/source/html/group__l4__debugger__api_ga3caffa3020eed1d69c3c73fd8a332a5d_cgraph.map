@@ -1,0 +1,5 @@
+<map id="l4_debugger_kobj_to_id" name="l4_debugger_kobj_to_id">
+<area shape="rect" id="Node000001" title="Get the globally unique ID of the object behind the kobject pointer." alt="" coords="5,5,180,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="228,5,297,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,15,214,15,214,21,180,21"/>
+</map>

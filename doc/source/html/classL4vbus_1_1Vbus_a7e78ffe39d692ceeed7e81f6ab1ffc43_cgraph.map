@@ -1,0 +1,11 @@
+<map id="L4vbus::Vbus::assign_dma_domain" name="L4vbus::Vbus::assign_dma_domain">
+<area shape="rect" id="Node000001" title="Bind or unbind a kernel DMA space to a DMA domain." alt="" coords="5,47,164,87"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="246,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,48,241,31,242,36,165,53"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Dataspace.html#a52b562764431fbb94fc960f9bba5b29b" title="Get flags of the dataspace." alt="" coords="230,55,401,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,65,216,65,216,70,164,70"/>
+<area shape="rect" id="Node000005" href="$group__l4vbus__module.html#ga230bfade9c21a168c3863cbe4f39e01f" title="Bind or unbind a kernel DMA space or a L4Re::Dma_space to a DMA domain." alt="" coords="212,104,419,129"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="165,82,242,98,241,104,164,87"/>
+<area shape="rect" id="Node000004" href="$classL4Re_1_1Dataspace.html#aa67190f2465d092c35c62d432814a8b3" title="Get information on the dataspace." alt="" coords="467,55,631,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="401,65,453,65,453,70,401,70"/>
+</map>

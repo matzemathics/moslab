@@ -1,0 +1,5 @@
+<map id="L4vbus::Pm::pm_resume" name="L4vbus::Pm::pm_resume">
+<area shape="rect" id="Node000001" title="Resume the device." alt="" coords="5,5,188,31"/>
+<area shape="rect" id="Node000002" href="$group__l4vbus__pm__module.html#ga1b1bb31b74eb1ad50a8bb1f5cca258a9" title="Resume the device." alt="" coords="236,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,15,222,15,222,21,188,21"/>
+</map>

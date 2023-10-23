@@ -1,0 +1,15 @@
+<map id="cxx::Avl_tree&lt; Node, Get_key, Compare &gt;" name="cxx::Avl_tree&lt; Node, Get_key, Compare &gt;">
+<area shape="rect" id="Node000001" title="A generic AVL tree." alt="" coords="483,875,637,1115"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="5,1221,187,1491"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="470,1000,384,1011,288,1034,241,1052,196,1076,156,1105,121,1140,100,1178,89,1221,84,1220,95,1176,117,1137,152,1101,194,1071,239,1047,287,1029,383,1005,469,995"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="230,1221,418,1491"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="472,1033,436,1053,401,1077,369,1106,344,1140,327,1179,319,1221,313,1220,322,1177,339,1137,365,1103,398,1073,434,1048,470,1029"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="470,1236,621,1476"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="557,1129,553,1236,548,1235,552,1129"/>
+<area shape="rect" id="Node000006" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="645,1221,838,1491"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="648,1069,676,1102,698,1137,716,1178,728,1220,723,1222,711,1180,694,1140,671,1105,644,1073"/>
+<area shape="rect" id="Node000007" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="863,1236,1025,1476"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="651,1012,708,1030,770,1056,829,1091,856,1113,881,1137,911,1183,930,1235,925,1237,906,1186,877,1140,853,1117,826,1096,768,1061,707,1035,649,1017"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Bits_1_1Bst.html" title="Basic binary search tree (BST)." alt="" coords="479,5,641,825"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="563,839,563,874,557,874,557,839"/>
+</map>

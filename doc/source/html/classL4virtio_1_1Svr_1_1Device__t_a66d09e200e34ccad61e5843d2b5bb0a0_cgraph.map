@@ -1,0 +1,10 @@
+<map id="L4virtio::Svr::Device_t::register_driver_irq" name="L4virtio::Svr::Device_t::register_driver_irq">
+<area shape="rect" id="Node000001" title="Callback for registering an notification IRQ (multi IRQ)." alt="" coords="5,5,167,45"/>
+<area shape="rect" id="Node000002" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="469,13,576,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,20,215,19,421,19,455,20,455,25,421,24,215,24,167,25"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Device__t.html#a8047b37ac63d6b5f84bcb1886a06f1b2" title="callback for registering a single guest IRQ for all queues (old&#45;style)" alt="" coords="215,33,421,73"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="167,32,201,37,201,42,167,38"/>
+<area shape="rect" id="Node000003" href="$namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b" title="Generate C++ exception." alt="" coords="624,13,761,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="576,23,610,23,610,28,576,28"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="421,37,455,32,456,37,422,42"/>
+</map>

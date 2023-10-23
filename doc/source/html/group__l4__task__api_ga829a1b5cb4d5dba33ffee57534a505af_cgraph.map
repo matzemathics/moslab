@@ -1,0 +1,5 @@
+<map id="l4_task_cap_valid" name="l4_task_cap_valid">
+<area shape="rect" id="Node000001" title="Check whether a capability is present (refers to an object)." alt="" coords="5,5,144,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="192,5,261,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,15,178,15,178,21,144,21"/>
+</map>

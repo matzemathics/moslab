@@ -1,0 +1,5 @@
+<map id="cxx::Slab&lt; Type, Slab_size, Max_free, Alloc &gt;" name="cxx::Slab&lt; Type, Slab_size, Max_free, Alloc &gt;">
+<area shape="rect" id="Node000001" title="Slab allocator for object of type Type." alt="" coords="5,208,176,308"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Base__slab.html" title="Basic slab allocator." alt="" coords="15,5,167,160"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,174,93,208,88,208,88,174"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="L4virtio::Driver::Device::send_and_wait" name="L4virtio::Driver::Device::send_and_wait">
+<area shape="rect" id="Node000001" title="Send a request to the device and wait for it to be processed." alt="" coords="240,5,412,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Block__device.html#a63f21e71556accc8c669ef80161ecd8e" title="Process request synchronously." alt="" coords="5,5,192,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,28,192,28,192,23,226,23"/>
+</map>

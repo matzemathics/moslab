@@ -1,0 +1,5 @@
+<map id="L4Re::make_shared_del_cap" name="L4Re::make_shared_del_cap">
+<area shape="rect" id="Node000001" title="Allocate a capability slot and wrap it in a Shared_del_cap." alt="" coords="5,5,212,31"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Cap__alloc.html#a8ec47fe158e8a2acae49ceff505be193" title="Allocate a capability." alt="" coords="260,5,424,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,15,246,15,246,21,212,21"/>
+</map>

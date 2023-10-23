@@ -1,0 +1,7 @@
+<map id="l4_ipc_send_and_wait" name="l4_ipc_send_and_wait">
+<area shape="rect" id="Node000001" title="Send a message and do an open wait." alt="" coords="303,5,467,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__irq__api.html#ga1690f577bd2896ec9b1e5a24d00af874" title="Unmask IRQ and (open) wait for any message." alt="" coords="147,5,255,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,21,255,21,255,15,289,15"/>
+<area shape="rect" id="Node000003" href="$group__l4__irq__api.html#gaa9151a0a16974ccc5685965fdee62b02" title="Unmask IRQ and wait for any message." alt="" coords="5,5,99,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="133,21,99,21,99,15,133,15"/>
+</map>

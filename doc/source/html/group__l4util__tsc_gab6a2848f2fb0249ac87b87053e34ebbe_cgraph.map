@@ -1,0 +1,7 @@
+<map id="l4_busy_wait_us" name="l4_busy_wait_us">
+<area shape="rect" id="Node000001" title="Wait busy for a small amount of time." alt="" coords="5,31,135,56"/>
+<area shape="rect" id="Node000002" href="$group__l4util__tsc.html#ga8aee7e04f45212bea302d72e1496262b" title="Convert nano seconds into CPU ticks." alt="" coords="183,5,285,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,31,169,25,169,31,136,36"/>
+<area shape="rect" id="Node000003" href="$group__l4util__tsc.html#ga560ae83d3afe878e0aaf8a95b987f923" title="Read current value of CPU&#45;internal timestamp counter." alt="" coords="197,55,271,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="135,50,184,57,183,63,135,55"/>
+</map>

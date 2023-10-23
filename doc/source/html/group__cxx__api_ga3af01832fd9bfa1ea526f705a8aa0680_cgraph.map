@@ -1,0 +1,7 @@
+<map id="cxx::clamp" name="cxx::clamp">
+<area shape="rect" id="Node000001" title="Limit v to the range given by lo and hi." alt="" coords="5,31,99,56"/>
+<area shape="rect" id="Node000002" href="$group__cxx__api.html#ga1d7a566ab5b06016155d693f91a7ee2d" title="Get the maximum of a and b." alt="" coords="147,5,229,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,32,132,26,133,31,99,37"/>
+<area shape="rect" id="Node000003" href="$group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b" title="Get the minimum of a and b." alt="" coords="149,55,227,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="99,49,136,55,135,61,98,54"/>
+</map>

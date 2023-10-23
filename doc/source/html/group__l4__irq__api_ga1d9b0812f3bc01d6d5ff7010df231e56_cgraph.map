@@ -1,0 +1,13 @@
+<map id="l4_irq_detach" name="l4_irq_detach">
+<area shape="rect" id="Node000001" title="Detach from an interrupt source." alt="" coords="5,55,115,80"/>
+<area shape="rect" id="Node000002" href="$group__l4__irq__api.html#ga52ad27a5a0d6a21bc7449a69a820db71" title="Detach from this interrupt." alt="" coords="163,29,287,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,56,149,51,150,56,115,62"/>
+<area shape="rect" id="Node000006" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="190,79,259,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="115,73,177,82,176,87,114,78"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="335,5,425,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="286,30,321,24,322,30,287,35"/>
+<area shape="rect" id="Node000005" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="335,55,425,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="287,49,322,55,321,60,286,55"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="473,5,533,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="426,15,460,15,460,21,426,21"/>
+</map>

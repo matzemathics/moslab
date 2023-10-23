@@ -1,0 +1,5 @@
+<map id="outnstring" name="outnstring">
+<area shape="rect" id="Node000001" title="Output a fixed&#45;length string via the kernel debugger." alt="" coords="133,5,221,31"/>
+<area shape="rect" id="Node000002" href="$kdebug_8h.html#a138dbb0bf857e381e9fb7cd4ef19a5f2" title="Output a string via the kernel debugger." alt="" coords="5,5,85,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,21,85,21,85,15,120,15"/>
+</map>

@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['icu_0',['icu',['../classL4vbus_1_1Icu.html',1,'L4vbus::Icu'],['../classL4_1_1Icu.html',1,'L4::Icu']]],
+  ['ignore_5ferrors_1',['Ignore_errors',['../structL4_1_1Ipc__svr_1_1Ignore__errors.html',1,'L4::Ipc_svr']]],
+  ['in_5fout_2',['In_out',['../structL4_1_1Ipc_1_1In__out.html',1,'L4::Ipc']]],
+  ['info_3',['info',['../structL4Re_1_1Video_1_1Goos_1_1Info.html',1,'L4Re::Video::Goos::Info'],['../structL4Re_1_1Video_1_1View_1_1Info.html',1,'L4Re::Video::View::Info'],['../classL4_1_1Icu_1_1Info.html',1,'L4::Icu::Info']]],
+  ['inhibitor_4',['Inhibitor',['../classL4Re_1_1Inhibitor.html',1,'L4Re']]],
+  ['int_5ffor_5fsize_5',['Int_for_size',['../structL4_1_1Types_1_1Int__for__size.html',1,'L4::Types']]],
+  ['int_5ffor_5ftype_6',['Int_for_type',['../structL4_1_1Types_1_1Int__for__type.html',1,'L4::Types']]],
+  ['invalid_5fcapability_7',['Invalid_capability',['../classL4_1_1Invalid__capability.html',1,'L4']]],
+  ['io_5fpager_8',['Io_pager',['../classL4_1_1Io__pager.html',1,'L4']]],
+  ['iommu_9',['Iommu',['../classL4_1_1Iommu.html',1,'L4']]],
+  ['iomodifier_10',['IOModifier',['../classL4_1_1IOModifier.html',1,'L4']]],
+  ['iostream_11',['Iostream',['../classL4_1_1Ipc_1_1Iostream.html',1,'L4::Ipc']]],
+  ['ipc_5fgate_12',['Ipc_gate',['../classL4_1_1Ipc__gate.html',1,'L4']]],
+  ['irq_13',['Irq',['../classL4_1_1Irq.html',1,'L4']]],
+  ['irq_5feoi_14',['Irq_eoi',['../classL4_1_1Irq__eoi.html',1,'L4']]],
+  ['irq_5fhandler_5fobject_15',['Irq_handler_object',['../structL4_1_1Irq__handler__object.html',1,'L4']]],
+  ['irq_5fmux_16',['Irq_mux',['../structL4_1_1Irq__mux.html',1,'L4']]],
+  ['irqep_5ft_17',['Irqep_t',['../structL4_1_1Irqep__t.html',1,'L4']]],
+  ['irqep_5ft_3c_20irq_5fobject_20_3e_18',['Irqep_t&lt; Irq_object &gt;',['../structL4_1_1Irqep__t.html',1,'L4']]],
+  ['is_5fvalid_5frpc_5ftype_19',['Is_valid_rpc_type',['../structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html',1,'L4::Ipc::Msg']]],
+  ['is_5fvalid_5frpc_5ftype_3c_20a_20_2a_20_3e_20',['Is_valid_rpc_type&lt; A * &gt;',['../structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html',1,'L4::Ipc::Msg']]],
+  ['istream_21',['Istream',['../classL4_1_1Ipc_1_1Istream.html',1,'L4::Ipc']]],
+  ['item_5falloc_5fbase_22',['Item_alloc_base',['../classL4Re_1_1Util_1_1Item__alloc__base.html',1,'L4Re::Util']]],
+  ['iter_23',['iter',['../classcxx_1_1List__item_1_1Iter.html',1,'cxx::List_item::Iter'],['../classcxx_1_1List_1_1Iter.html',1,'cxx::List&lt; D, Alloc &gt;::Iter']]],
+  ['iterator_24',['Iterator',['../classL4_1_1Ipc_1_1Varg__list__ref_1_1Iterator.html',1,'L4::Ipc::Varg_list_ref']]]
+];

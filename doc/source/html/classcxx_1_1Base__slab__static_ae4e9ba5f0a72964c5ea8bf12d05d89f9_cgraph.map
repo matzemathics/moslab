@@ -1,0 +1,9 @@
+<map id="cxx::Base_slab_static::free_objects" name="cxx::Base_slab_static::free_objects">
+<area shape="rect" id="Node000001" title="Get the number of free objects in the slab allocator." alt="" coords="5,35,168,75"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Base__slab.html#a0d151a79c4781dadc59d03f635b2651e" title="Get the number of objects which can be allocated before a new empty slab needs to be added to the sla..." alt="" coords="216,35,369,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,52,202,52,202,57,168,57"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Bits_1_1Basic__list.html#af857846edcaf6cbc84827c585b45fd49" title="Return an iterator to the beginning of the list." alt="" coords="433,5,581,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="369,42,419,35,420,40,370,47"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Bits_1_1Basic__list.html#a08f2ae0b9f0379ce1778ba1f2d163330" title="Return a const iterator to the end of the list." alt="" coords="417,70,597,95"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="370,62,404,67,403,72,369,67"/>
+</map>

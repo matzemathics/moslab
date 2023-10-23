@@ -1,0 +1,7 @@
+<map id="L4::Factory::create_gate" name="L4::Factory::create_gate">
+<area shape="rect" id="Node000001" title="Create a new IPC gate." alt="" coords="5,31,181,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7" title="Return capability selector." alt="" coords="229,5,368,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,30,215,26,216,31,182,35"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="237,55,361,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,51,223,56,223,61,181,56"/>
+</map>

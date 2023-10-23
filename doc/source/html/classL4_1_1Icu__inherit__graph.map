@@ -1,0 +1,37 @@
+<map id="L4::Icu" name="L4::Icu">
+<area shape="rect" id="Node000001" title="C++ Icu interface, see Interrupt controller for the C interface." alt="" coords="469,361,571,527"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="5,576,213,691"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="457,475,226,578,215,584,212,579,224,574,455,471"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="238,583,410,683"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="461,506,377,585,373,581,457,502"/>
+<area shape="rect" id="Node000011" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="434,576,606,691"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="523,541,523,576,517,576,517,541"/>
+<area shape="rect" id="Node000015" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="630,583,802,683"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="583,502,667,581,663,585,579,506"/>
+<area shape="rect" id="Node000017" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="826,576,1057,691"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="585,471,827,578,824,583,583,476"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="416,197,624,312"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="523,325,523,361,517,361,517,325"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Irq__eoi.html" title="Interface for sending an unmask message to an object." alt="" coords="391,23,481,88"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="457,100,498,196,494,198,452,102"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="505,5,705,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="581,119,547,198,542,196,576,117"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Scheduler.html" title="C++ interface of the Scheduler kernel object, see Scheduler for the C interface." alt="" coords="55,760,164,885"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="112,704,112,759,107,759,107,704"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Vcon.html" title="C++ L4 Vcon interface, see Virtual Console for the C interface." alt="" coords="252,740,393,905"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="326,697,326,740,321,740,321,697"/>
+<area shape="rect" id="Node000009" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="237,955,409,1069"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="325,919,325,955,320,955,320,919"/>
+<area shape="rect" id="Node000010" href="$classL4Re_1_1Log.html" title="Log interface class." alt="" coords="284,1149,361,1234"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="325,1083,325,1148,320,1148,320,1083"/>
+<area shape="rect" id="Node000012" href="$classL4Re_1_1Event.html" title="Event class." alt="" coords="421,740,619,905"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="523,704,523,740,517,740,517,704"/>
+<area shape="rect" id="Node000013" href="$structL4_1_1Kobject__3t.html" title=" " alt="" coords="433,955,609,1069"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="523,919,524,955,518,955,518,919"/>
+<area shape="rect" id="Node000014" href="$classL4vbus_1_1Vbus.html" title="The virtual bus (Vbus) interface." alt="" coords="435,1119,608,1264"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="524,1083,524,1119,519,1119,519,1083"/>
+<area shape="rect" id="Node000016" href="$structL4Re_1_1Random.html" title="Low&#45;bandwidth interface for random number generators." alt="" coords="657,790,775,855"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="719,697,719,790,713,790,713,697"/>
+<area shape="rect" id="Node000018" href="$classL4virtio_1_1Device.html" title="IPC interface for virtio over L4 IPC." alt="" coords="865,743,1017,903"/>
+<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="944,704,944,743,939,743,939,704"/>
+</map>

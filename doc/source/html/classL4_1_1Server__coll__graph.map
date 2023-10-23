@@ -1,0 +1,15 @@
+<map id="L4::Server&lt; LOOP_HOOKS &gt;" name="L4::Server&lt; LOOP_HOOKS &gt;">
+<area shape="rect" id="Node000001" title="Basic server loop for handling client requests." alt="" coords="219,649,417,815"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Ipc__svr_1_1Default__loop__hooks.html" title="Default LOOP_HOOKS." alt="" coords="249,521,387,601"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="321,615,321,649,315,649,315,615"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Ipc__svr_1_1Ignore__errors.html" title="Mix in for LOOP_HOOKS to ignore IPC errors." alt="" coords="5,333,137,413"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="107,423,128,448,152,471,200,504,250,530,247,535,197,509,148,475,124,452,102,426"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Ipc__svr_1_1Default__timeout.html" title="Mix in for LOOP_HOOKS to use a 0 send and a infinite receive timeout." alt="" coords="162,333,301,413"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="258,425,302,520,297,522,253,427"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Ipc__svr_1_1Compound__reply.html" title="Mix in for LOOP_HOOKS to always use compound reply and wait." alt="" coords="325,333,487,413"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="384,427,339,522,334,520,379,425"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Ipc__svr_1_1Br__manager__no__buffers.html" title="Empty implementation of Server_iface." alt="" coords="511,273,685,473"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="501,475,501,476,445,509,388,536,386,531,442,505,498,471,498,471"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Ipc__svr_1_1Server__iface.html" title="Interface for server&#45;loop related functions." alt="" coords="511,5,685,225"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="601,239,601,273,595,273,595,239"/>
+</map>

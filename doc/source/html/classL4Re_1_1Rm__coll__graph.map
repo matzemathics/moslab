@@ -1,0 +1,14 @@
+<map id="L4Re::Rm" name="L4Re::Rm">
+<area shape="rect" id="Node000001" title="Region map." alt="" coords="185,683,309,948"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="148,504,347,633"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,647,250,683,245,683,245,647"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Pager.html" title="Pager interface including the Io_pager interface." alt="" coords="135,389,243,455"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="209,466,224,503,219,505,204,468"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Kobject__t.html" title=" " alt="" coords="17,183,208,297"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="144,309,178,388,173,390,139,311"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Io__pager.html" title="Io_pager interface." alt="" coords="5,23,132,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="78,101,90,158,96,182,91,183,85,159,73,102"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class." alt="" coords="181,5,381,105"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="290,119,290,159,276,347,258,504,253,503,270,347,285,159,284,119"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="169,98,136,114,116,131,106,155,104,182,99,182,101,154,112,128,133,110,167,93"/>
+</map>

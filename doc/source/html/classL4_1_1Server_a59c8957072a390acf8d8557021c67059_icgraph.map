@@ -1,0 +1,7 @@
+<map id="L4::Server::internal_loop" name="L4::Server::internal_loop">
+<area shape="rect" id="Node000001" title="The server loop." alt="" coords="223,31,403,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Server.html#a81de12837c9c5bb6e0a11f2338341934" title="Server loop with internal exception handling." alt="" coords="29,5,151,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,34,151,28,152,22,209,29"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Server.html#ae30bfa9ee9facb019e348bdac2779eea" title="Server loop without exception handling." alt="" coords="5,55,175,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,57,175,61,175,56,209,52"/>
+</map>

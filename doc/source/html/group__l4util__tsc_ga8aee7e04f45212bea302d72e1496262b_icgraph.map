@@ -1,0 +1,7 @@
+<map id="l4_ns_to_tsc" name="l4_ns_to_tsc">
+<area shape="rect" id="Node000001" title="Convert nano seconds into CPU ticks." alt="" coords="183,31,285,56"/>
+<area shape="rect" id="Node000002" href="$group__l4util__tsc.html#gad36e512741c07634ab67562ff7052543" title="Wait busy for a small amount of time." alt="" coords="5,5,135,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,36,135,31,136,25,170,31"/>
+<area shape="rect" id="Node000003" href="$group__l4util__tsc.html#gab6a2848f2fb0249ac87b87053e34ebbe" title="Wait busy for a small amount of time." alt="" coords="5,55,135,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,55,136,60,135,55,169,50"/>
+</map>

@@ -1,0 +1,44 @@
+<map id="l4/re/util/counting_cap_alloc" name="l4/re/util/counting_cap_alloc">
+<area shape="rect" id="Node000001" title="Reference&#45;counting capability allocator." alt="" coords="478,5,614,45"/>
+<area shape="rect" id="Node000002" href="$cap__alloc__impl_8h.html" title="Capability allocator implementation." alt="" coords="475,93,617,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="549,59,549,93,543,93,543,59"/>
+<area shape="rect" id="Node000003" href="$util_2cap__alloc.html" title="Capability allocator." alt="" coords="475,181,617,207"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="549,147,549,181,543,181,543,147"/>
+<area shape="rect" id="Node000004" href="$server_2l4virtio_source.html" title=" " alt="" coords="888,328,1017,368"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="628,207,708,225,791,252,866,289,926,326,924,330,863,293,789,257,707,230,627,212"/>
+<area shape="rect" id="Node000006" href="$br__manager_source.html" title=" " alt="" coords="173,255,332,280"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="486,212,301,257,300,252,485,207"/>
+<area shape="rect" id="Node000007" href="$env__ns_source.html" title=" " alt="" coords="19,255,145,280"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="462,211,146,259,145,254,461,206"/>
+<area shape="rect" id="Node000009" href="$util_2event.html" title=" " alt="" coords="341,335,458,361"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="538,220,521,251,497,282,459,314,423,337,420,333,456,310,493,278,516,248,533,218"/>
+<area shape="rect" id="Node000010" href="$icu__svr_source.html" title=" " alt="" coords="356,255,483,280"/>
+<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="515,216,441,257,439,252,512,211"/>
+<area shape="rect" id="Node000012" href="$object__registry_source.html" title=" " alt="" coords="483,335,660,361"/>
+<area shape="poly" id="edge11_Node000003_Node000012" title=" " alt="" coords="553,220,572,335,567,336,548,220"/>
+<area shape="rect" id="Node000016" href="$util_2shared__cap.html" title="Shared_cap / Shared_del_cap." alt="" coords="871,255,1026,280"/>
+<area shape="poly" id="edge16_Node000003_Node000016" title=" " alt="" coords="624,206,884,252,883,257,623,212"/>
+<area shape="rect" id="Node000017" href="$util_2unique__cap.html" title="Unique_cap / Unique_del_cap." alt="" coords="623,255,778,280"/>
+<area shape="poly" id="edge18_Node000003_Node000017" title=" " alt="" coords="584,210,676,252,674,257,582,215"/>
+<area shape="rect" id="Node000005" href="$server_2virtio-block_source.html" title=" " alt="" coords="873,416,1003,456"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="950,382,944,416,939,415,944,381"/>
+<area shape="rect" id="Node000008" href="$ns__fs__impl_8h_source.html" title=" " alt="" coords="5,328,148,368"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="83,294,81,328,75,328,78,294"/>
+<area shape="rect" id="Node000011" href="$event__svr_source.html" title=" " alt="" coords="173,335,317,361"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="382,288,271,338,269,333,380,283"/>
+<area shape="rect" id="Node000013" href="$client_2l4virtio_source.html" title=" " alt="" coords="660,416,784,456"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="605,365,690,414,687,418,602,370"/>
+<area shape="rect" id="Node000014" href="$client_2virtio-block_source.html" title=" " alt="" coords="560,504,684,544"/>
+<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="581,373,619,503,614,505,576,375"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="691,467,646,506,642,502,688,463"/>
+<area shape="rect" id="Node000015" href="$virtio-net_source.html" title=" " alt="" coords="733,504,857,544"/>
+<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="749,465,781,502,777,506,745,468"/>
+<area shape="poly" id="edge17_Node000016_Node000004" title=" " alt="" coords="953,294,954,328,949,328,947,294"/>
+<area shape="poly" id="edge22_Node000017_Node000004" title=" " alt="" coords="751,282,893,325,891,330,750,287"/>
+<area shape="poly" id="edge23_Node000017_Node000005" title=" " alt="" coords="741,283,780,302,820,326,877,371,922,414,918,418,873,375,816,330,777,307,739,288"/>
+<area shape="poly" id="edge24_Node000017_Node000009" title=" " alt="" coords="644,286,472,331,444,338,442,333,471,325,643,281"/>
+<area shape="poly" id="edge25_Node000017_Node000012" title=" " alt="" coords="671,289,592,337,589,333,669,285"/>
+<area shape="poly" id="edge19_Node000017_Node000013" title=" " alt="" coords="711,293,719,328,724,375,725,416,720,416,719,375,714,328,706,294"/>
+<area shape="poly" id="edge20_Node000017_Node000014" title=" " alt="" coords="698,294,675,369,651,417,637,464,628,504,623,503,632,462,646,415,670,367,692,293"/>
+<area shape="poly" id="edge21_Node000017_Node000015" title=" " alt="" coords="723,289,764,343,784,378,799,415,805,463,802,504,796,503,800,463,794,417,779,380,760,346,719,292"/>
+</map>

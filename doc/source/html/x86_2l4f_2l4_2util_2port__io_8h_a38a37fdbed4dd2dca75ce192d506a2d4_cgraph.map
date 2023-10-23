@@ -1,0 +1,25 @@
+<map id="l4util_ioport_map" name="l4util_ioport_map">
+<area shape="rect" id="Node000001" title="Map a range of I/O ports." alt="" coords="5,179,141,204"/>
+<area shape="rect" id="Node000002" href="$group__l4__fpage__api.html#gac623c94001223760fe0d734828c1956a" title="Create an IO&#45;port flex page." alt="" coords="211,5,302,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,177,119,113,150,74,188,40,198,34,201,38,191,44,154,77,123,116,83,180"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="211,55,302,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="84,177,127,135,157,110,188,89,199,83,202,88,191,94,160,115,131,138,88,180"/>
+<area shape="rect" id="Node000005" href="$group__l4__ipc__err__api.html#gad40f404217497793e95a10d77a47db39" title="Get the IPC error code for an IPC operation." alt="" coords="207,104,306,129"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="101,176,188,138,205,132,207,137,190,143,103,181"/>
+<area shape="rect" id="Node000007" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="211,153,302,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="141,179,198,171,198,177,142,185"/>
+<area shape="rect" id="Node000008" href="$group__l4__msgtag__api.html#ga2f57b9cb540e4cbb6a77363828b9a671" title="Get the number of typed items." alt="" coords="189,203,324,228"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="142,198,176,202,175,207,141,203"/>
+<area shape="rect" id="Node000009" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="417,304,486,329"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="104,202,190,237,305,274,404,302,403,307,304,279,188,242,102,206"/>
+<area shape="rect" id="Node000010" href="$group__l4__utcb__api.html#gae35044c9bae188ccffb2fd90781c60a5" title="Get the buffer&#45;register block of a UTCB." alt="" coords="212,304,301,329"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="90,202,134,240,191,282,214,295,211,300,188,287,130,244,87,206"/>
+<area shape="rect" id="Node000011" href="$group__l4__utcb__api.html#ga090bdcc433d5ce568b22ec9ab4f3357b" title="Get the message&#45;register block of a UTCB." alt="" coords="209,353,304,379"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="83,203,123,268,154,306,191,340,199,345,196,349,188,344,150,310,119,271,79,206"/>
+<area shape="rect" id="Node000004" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="421,55,481,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="302,65,408,65,408,70,302,70"/>
+<area shape="rect" id="Node000006" href="$group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87" title="Test for error indicator flag." alt="" coords="372,104,531,129"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="306,114,358,114,358,119,306,119"/>
+<area shape="poly" id="edge10_Node000010_Node000009" title=" " alt="" coords="302,314,403,314,403,319,302,319"/>
+<area shape="poly" id="edge12_Node000011_Node000009" title=" " alt="" coords="304,351,403,326,404,331,305,357"/>
+</map>

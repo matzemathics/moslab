@@ -1,0 +1,10 @@
+<map id="L4::Typeid::Rpcs_code&lt; OPCODE_TYPE &gt;::F&lt; RPCS &gt;" name="L4::Typeid::Rpcs_code&lt; OPCODE_TYPE &gt;::F&lt; RPCS &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,421,224,501"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title=" " alt="" coords="28,277,201,372"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,385,117,421,112,421,112,385"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Typeid_1_1Detail_1_1Rpcs__end.html" title="Internal end&#45;of&#45;list marker." alt="" coords="46,5,173,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,99,116,277,111,277,108,100"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Typeid_1_1Detail_1_1__Rpcs.html" title="Empty list of RPCs." alt="" coords="131,135,311,215"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="154,94,189,133,185,136,150,97"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="187,227,150,279,146,275,183,224"/>
+</map>

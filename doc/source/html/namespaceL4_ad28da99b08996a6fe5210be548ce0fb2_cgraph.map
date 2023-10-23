@@ -1,0 +1,7 @@
+<map id="L4::cap_dynamic_cast" name="L4::cap_dynamic_cast">
+<area shape="rect" id="Node000001" title="dynamic_cast for capabilities." alt="" coords="5,5,171,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call." alt="" coords="219,5,291,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,15,205,15,205,21,171,21"/>
+<area shape="rect" id="Node000003" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="339,5,408,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="291,15,325,15,325,21,291,21"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="L4::Ipc::Ostream" name="L4::Ipc::Ostream">
+<area shape="rect" id="Node000001" title="Output stream for IPC marshalling." alt="" coords="20,353,140,659"/>
+<area shape="rect" id="Node000002" href="$structl4__msgtag__t.html" title="Message tag data structure." alt="" coords="5,5,155,291"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,291,83,337,77,337,77,291"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="l4_icu_info_u" name="l4_icu_info_u">
+<area shape="rect" id="Node000001" title="Get information about the ICU features." alt="" coords="151,55,257,80"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Icu.html#a356cfa88076c92e121ab7760d50d5f18" title="Get information about the ICU features." alt="" coords="5,29,103,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,59,103,53,104,48,138,53"/>
+<area shape="rect" id="Node000003" href="$group__l4__icu__api.html#ga01c207fa8b166832b7eab0c60a8f2a7b" title="Get information about the ICU features." alt="" coords="8,79,100,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="137,81,101,87,100,81,137,75"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="80,19,72,11,54,8,39,10,30,15,29,20,33,28,29,31,23,21,26,11,37,5,54,3,75,6,84,15"/>
+</map>

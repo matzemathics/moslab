@@ -1,0 +1,9 @@
+<map id="L4virtio::Svr::Request_processor::next" name="L4virtio::Svr::Request_processor::next">
+<area shape="rect" id="Node000001" title="Switch to the next descriptor in a descriptor chain." alt="" coords="211,69,372,109"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Block__request.html#a5f6bf664cda7dfe4f82d8726f6c33099" title="Compute the total size of the data in the request." alt="" coords="10,5,158,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,68,149,48,150,43,214,63"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Block__request.html#a7b714611659c91ffd67e9d8c20102ab6" title="Check if the request contains more data blocks." alt="" coords="9,69,159,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,92,160,92,160,87,197,87"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Block__request.html#aa2cb429f504f6568d6e25c13936d5be7" title="Return next block in scatter&#45;gather list." alt="" coords="5,133,163,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,116,150,136,149,131,212,111"/>
+</map>

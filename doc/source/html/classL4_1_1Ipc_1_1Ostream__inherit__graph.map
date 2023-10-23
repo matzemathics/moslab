@@ -1,0 +1,5 @@
+<map id="L4::Ipc::Ostream" name="L4::Ipc::Ostream">
+<area shape="rect" id="Node000001" title="Output stream for IPC marshalling." alt="" coords="14,5,134,311"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc_1_1Iostream.html" title="Input/Output stream for IPC [un]marshalling." alt="" coords="5,359,143,764"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,324,77,359,71,359,71,324"/>
+</map>

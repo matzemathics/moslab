@@ -1,0 +1,7 @@
+<map id="__kdebug_op" name="__kdebug_op">
+<area shape="rect" id="Node000001" title="Invoke a nullary operation on the base debugger capability." alt="" coords="191,31,297,56"/>
+<area shape="rect" id="Node000002" href="$group__fiasco__trace__api.html#ga2a50578d66208d4434fb1bd87cd2473e" title="Clear trace&#45;buffer." alt="" coords="8,5,140,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,36,140,30,141,25,178,31"/>
+<area shape="rect" id="Node000003" href="$group__fiasco__trace__api.html#gafcdf20a03560ad5e63462e59cd55d55c" title="Dump trace&#45;buffer to kernel console." alt="" coords="5,55,143,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,55,143,60,142,55,177,50"/>
+</map>

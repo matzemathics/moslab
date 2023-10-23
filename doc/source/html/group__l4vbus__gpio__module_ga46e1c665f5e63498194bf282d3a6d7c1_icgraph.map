@@ -1,0 +1,5 @@
+<map id="l4vbus_gpio_setup" name="l4vbus_gpio_setup">
+<area shape="rect" id="Node000001" title="Configure the function of a GPIO pin." alt="" coords="231,5,373,31"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Gpio__pin.html#af7387a08f9973b6def8cf89d57508b18" title="Configure the function of a GPIO pin." alt="" coords="5,5,183,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,21,183,21,183,15,217,15"/>
+</map>

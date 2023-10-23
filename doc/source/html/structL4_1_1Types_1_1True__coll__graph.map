@@ -1,0 +1,7 @@
+<map id="L4::Types::True" name="L4::Types::True">
+<area shape="rect" id="Node000001" title="True meta value." alt="" coords="34,248,143,313"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Types_1_1Bool.html" title=" " alt="" coords="5,133,172,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,213,91,248,86,248,86,213"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Types_1_1Bool.html" title="Boolean meta type." alt="" coords="13,5,164,71"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="91,85,91,133,86,133,86,85"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="L4::Thread::ex_regs" name="L4::Thread::ex_regs">
+<area shape="rect" id="Node000001" title="Exchange basic thread registers and return previous values." alt="" coords="5,31,155,56"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c" title="Return capability selector." alt="" coords="231,5,355,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,32,217,24,218,30,155,37"/>
+<area shape="rect" id="Node000003" href="$group__l4__thread__api.html#ga5e191cd9b1cbc5d0ac9166fb2bdd5a18" title="Exchange basic thread registers and return previous values." alt="" coords="203,55,384,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,49,189,53,189,58,155,54"/>
+<area shape="rect" id="Node000004" href="$group__l4__thread__api.html#ga9387fbfe618c3ede0eae63261ce1662e" title="Exchange basic thread registers." alt="" coords="432,55,588,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="384,65,418,65,418,70,384,70"/>
+<area shape="rect" id="Node000005" href="$group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6" title="Object call (usual invocation)." alt="" coords="636,29,727,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="588,53,622,48,623,53,589,58"/>
+<area shape="rect" id="Node000007" href="$group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78" title="Create a message tag from the specified values." alt="" coords="636,79,727,104"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="589,76,623,80,622,86,588,81"/>
+<area shape="rect" id="Node000006" href="$group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation." alt="" coords="775,29,835,55"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="727,39,761,39,761,45,727,45"/>
+</map>

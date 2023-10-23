@@ -1,0 +1,13 @@
+<map id="L4virtio::Driver::Virtqueue::find_next_used" name="L4virtio::Driver::Virtqueue::find_next_used">
+<area shape="rect" id="Node000001" title="Return the next finished block." alt="" coords="723,37,913,77"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Block__device.html#a9f1a7a08e90ca6c1441bd48abc8b574a" title="Process and free all items in the used queue." alt="" coords="460,5,675,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="709,46,674,42,675,36,710,41"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Device.html#a3b5274cb8d4e708beea944038b855885" title="Wait for the next item to arrive in the used queue and return it." alt="" coords="481,69,653,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="709,74,654,81,653,76,709,69"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Device.html#af4aa9ac34ce928b9d437f1bb6a2ec216" title="Send a request to the device and wait for it to be processed." alt="" coords="240,37,412,77"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="468,79,412,71,413,66,468,74"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#a90e89b3a94f186cb9b3191f35868668e" title="Block until a network packet has been received from the device and return the descriptor number." alt="" coords="245,101,407,141"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="468,105,408,113,407,108,467,100"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Block__device.html#a63f21e71556accc8c669ef80161ecd8e" title="Process request synchronously." alt="" coords="5,37,192,77"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="226,60,192,60,192,55,226,55"/>
+</map>
