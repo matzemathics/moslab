@@ -73,14 +73,16 @@
 // - Tunable glibcxx.eh_pool.obj_size overrides EMERGENCY_OBJ_SIZE.
 
 #if _GLIBCXX_HOSTED
-using std::free;
-using std::malloc;
+//using std::free;
+//using std::malloc;
 using std::memset;
+extern "C" void *__wrap_malloc (std::size_t);
+extern "C" void __wrap_free(void *);
 #else
 // In a freestanding environment, these functions may not be available
 // -- but for now, we assume that they are.
-extern "C" void *malloc (std::size_t);
-extern "C" void free(void *);
+extern "C" void *__wrap_malloc (std::size_t);
+extern "C" void __wrap_free(void *);
 extern "C" void *memset (void *, int, std::size_t);
 #endif
 
@@ -91,16 +93,16 @@ using namespace __cxxabiv1;
 // N.B. sizeof(std::bad_alloc) == sizeof(void*)
 // and sizeof(std::runtime_error) == 2 * sizeof(void*)
 // and sizeof(std::system_error) == 4 * sizeof(void*).
-#define EMERGENCY_OBJ_SIZE	6
+#define EMERGENCY_OBJ_SIZE  6
 
 #ifdef __GTHREADS
 // Assume that the number of concurrent exception objects scales with the
 // processor word size, i.e., 16-bit systems are not likely to have hundreds
 // of threads all simultaneously throwing on OOM conditions.
-# define EMERGENCY_OBJ_COUNT	(4 * __SIZEOF_POINTER__ * __SIZEOF_POINTER__)
+# define EMERGENCY_OBJ_COUNT  (4 * __SIZEOF_POINTER__ * __SIZEOF_POINTER__)
 # define MAX_OBJ_COUNT          (16 << __SIZEOF_POINTER__)
 #else
-# define EMERGENCY_OBJ_COUNT	4
+# define EMERGENCY_OBJ_COUNT  4
 # define MAX_OBJ_COUNT          64
 #endif
 
@@ -153,12 +155,12 @@ namespace
 
     private:
       struct free_entry {
-	std::size_t size;
-	free_entry *next;
+  std::size_t size;
+  free_entry *next;
       };
       struct allocated_entry {
-	std::size_t size;
-	char data[] __attribute__((aligned));
+  std::size_t size;
+  char data[] __attribute__((aligned));
       };
 
 #if _GLIBCXX_HOSTED
@@ -176,7 +178,7 @@ namespace
       // to implement in_pool.
 #ifdef _GLIBCXX_EH_POOL_STATIC
       static constexpr std::size_t arena_size
-	= buffer_size_in_bytes(EMERGENCY_OBJ_COUNT, EMERGENCY_OBJ_SIZE);
+  = buffer_size_in_bytes(EMERGENCY_OBJ_COUNT, EMERGENCY_OBJ_SIZE);
       alignas(void*) char arena[arena_size];
 #else
       char *arena = nullptr;
@@ -201,48 +203,48 @@ namespace
 #endif
       const std::string_view ns_name = "glibcxx.eh_pool";
       std::pair<std::string_view, int> tunables[]{
-	{"obj_size", 0}, {"obj_count", obj_count}
+  {"obj_size", 0}, {"obj_count", obj_count}
       };
       while (str)
-	{
-	  if (*str == ':')
-	    ++str;
+  {
+    if (*str == ':')
+      ++str;
 
-	  if (!ns_name.compare(0, ns_name.size(), str, ns_name.size())
-		&& str[ns_name.size()] == '.')
-	  {
-	    str += ns_name.size() + 1;
-	    for (auto& t : tunables)
-	      if (!t.first.compare(0, t.first.size(), str, t.first.size())
-		  && str[t.first.size()] == '=')
-	      {
-		str += t.first.size() + 1;
-		char* end;
-		unsigned long val = strtoul(str, &end, 0);
-		if ((*end == ':' || *end == '\0') && val <= INT_MAX)
-		  t.second = val;
-		str = end;
-		break;
-	      }
-	  }
-	  str = strchr(str, ':');
-	}
+    if (!ns_name.compare(0, ns_name.size(), str, ns_name.size())
+    && str[ns_name.size()] == '.')
+    {
+      str += ns_name.size() + 1;
+      for (auto& t : tunables)
+        if (!t.first.compare(0, t.first.size(), str, t.first.size())
+      && str[t.first.size()] == '=')
+        {
+    str += t.first.size() + 1;
+    char* end;
+    unsigned long val = strtoul(str, &end, 0);
+    if ((*end == ':' || *end == '\0') && val <= INT_MAX)
+      t.second = val;
+    str = end;
+    break;
+        }
+    }
+    str = strchr(str, ':');
+  }
       obj_count = std::min(tunables[1].second, MAX_OBJ_COUNT); // Can be zero.
       if (tunables[0].second != 0)
-	obj_size = tunables[0].second;
+  obj_size = tunables[0].second;
 #endif // HOSTED
 #endif // NOT_FOR_L4
 
       arena_size = buffer_size_in_bytes(obj_count, obj_size);
       if (arena_size == 0)
-	return;
-      arena = (char *)malloc (arena_size);
+  return;
+      arena = (char *)__wrap_malloc (arena_size);
       if (!arena)
-	{
-	  // If the allocation failed go without an emergency pool.
-	  arena_size = 0;
-	  return;
-	}
+  {
+    // If the allocation failed go without an emergency pool.
+    arena_size = 0;
+    return;
+  }
 #endif // STATIC
 
       // Populate the free-list with a single entry covering the whole arena
@@ -261,46 +263,46 @@ namespace
       // And we need to at least hand out objects of the size of
       // a freelist entry.
       if (size < sizeof (free_entry))
-	size = sizeof (free_entry);
+  size = sizeof (free_entry);
       // And we need to align objects we hand out to the maximum
       // alignment required on the target (this really aligns the
       // tail which will become a new freelist entry).
       size = ((size + __alignof__ (allocated_entry::data) - 1)
-	      & ~(__alignof__ (allocated_entry::data) - 1));
+        & ~(__alignof__ (allocated_entry::data) - 1));
       // Search for an entry of proper size on the freelist.
       free_entry **e;
       for (e = &first_free_entry;
-	   *e && (*e)->size < size;
-	   e = &(*e)->next)
-	;
+     *e && (*e)->size < size;
+     e = &(*e)->next)
+  ;
       if (!*e)
-	return NULL;
+  return NULL;
       allocated_entry *x;
       if ((*e)->size - size >= sizeof (free_entry))
-	{
-	  // Split block if it is too large.
-	  free_entry *f = reinterpret_cast <free_entry *>
-	      (reinterpret_cast <char *> (*e) + size);
-	  std::size_t sz = (*e)->size;
-	  free_entry *next = (*e)->next;
-	  new (f) free_entry;
-	  f->next = next;
-	  f->size = sz - size;
-	  x = reinterpret_cast <allocated_entry *> (*e);
-	  new (x) allocated_entry;
-	  x->size = size;
-	  *e = f;
-	}
+  {
+    // Split block if it is too large.
+    free_entry *f = reinterpret_cast <free_entry *>
+        (reinterpret_cast <char *> (*e) + size);
+    std::size_t sz = (*e)->size;
+    free_entry *next = (*e)->next;
+    new (f) free_entry;
+    f->next = next;
+    f->size = sz - size;
+    x = reinterpret_cast <allocated_entry *> (*e);
+    new (x) allocated_entry;
+    x->size = size;
+    *e = f;
+  }
       else
-	{
-	  // Exact size match or too small overhead for a free entry.
-	  std::size_t sz = (*e)->size;
-	  free_entry *next = (*e)->next;
-	  x = reinterpret_cast <allocated_entry *> (*e);
-	  new (x) allocated_entry;
-	  x->size = sz;
-	  *e = next;
-	}
+  {
+    // Exact size match or too small overhead for a free entry.
+    std::size_t sz = (*e)->size;
+    free_entry *next = (*e)->next;
+    x = reinterpret_cast <allocated_entry *> (*e);
+    new (x) allocated_entry;
+    x->size = sz;
+    *e = next;
+  }
       return &x->data;
     }
 
@@ -308,64 +310,64 @@ namespace
     {
       __scoped_lock sentry(emergency_mutex);
       allocated_entry *e = reinterpret_cast <allocated_entry *>
-	(reinterpret_cast <char *> (data) - offsetof (allocated_entry, data));
+  (reinterpret_cast <char *> (data) - offsetof (allocated_entry, data));
       std::size_t sz = e->size;
       if (!first_free_entry
-	  || (reinterpret_cast <char *> (e) + sz
-	      < reinterpret_cast <char *> (first_free_entry)))
-	{
-	  // If the free list is empty or the entry is before the
-	  // first element and cannot be merged with it add it as
-	  // the first free entry.
-	  free_entry *f = reinterpret_cast <free_entry *> (e);
-	  new (f) free_entry;
-	  f->size = sz;
-	  f->next = first_free_entry;
-	  first_free_entry = f;
-	}
+    || (reinterpret_cast <char *> (e) + sz
+        < reinterpret_cast <char *> (first_free_entry)))
+  {
+    // If the free list is empty or the entry is before the
+    // first element and cannot be merged with it add it as
+    // the first free entry.
+    free_entry *f = reinterpret_cast <free_entry *> (e);
+    new (f) free_entry;
+    f->size = sz;
+    f->next = first_free_entry;
+    first_free_entry = f;
+  }
       else if (reinterpret_cast <char *> (e) + sz
-	       == reinterpret_cast <char *> (first_free_entry))
-	{
-	  // Check if we can merge with the first free entry being right
-	  // after us.
-	  free_entry *f = reinterpret_cast <free_entry *> (e);
-	  new (f) free_entry;
-	  f->size = sz + first_free_entry->size;
-	  f->next = first_free_entry->next;
-	  first_free_entry = f;
-	}
+         == reinterpret_cast <char *> (first_free_entry))
+  {
+    // Check if we can merge with the first free entry being right
+    // after us.
+    free_entry *f = reinterpret_cast <free_entry *> (e);
+    new (f) free_entry;
+    f->size = sz + first_free_entry->size;
+    f->next = first_free_entry->next;
+    first_free_entry = f;
+  }
       else
-	{
-	  // Else search for a free item we can merge with at its end.
-	  free_entry **fe;
-	  for (fe = &first_free_entry;
-	       (*fe)->next
-	       && (reinterpret_cast <char *> (e) + sz
-		   > reinterpret_cast <char *> ((*fe)->next));
-	       fe = &(*fe)->next)
-	    ;
-	  // If we can merge the next block into us do so and continue
-	  // with the cases below.
-	  if (reinterpret_cast <char *> (e) + sz
-	      == reinterpret_cast <char *> ((*fe)->next))
-	    {
-	      sz += (*fe)->next->size;
-	      (*fe)->next = (*fe)->next->next;
-	    }
-	  if (reinterpret_cast <char *> (*fe) + (*fe)->size
-	      == reinterpret_cast <char *> (e))
-	    // Merge with the freelist entry.
-	    (*fe)->size += sz;
-	  else
-	    {
-	      // Else put it after it which keeps the freelist sorted.
-	      free_entry *f = reinterpret_cast <free_entry *> (e);
-	      new (f) free_entry;
-	      f->size = sz;
-	      f->next = (*fe)->next;
-	      (*fe)->next = f;
-	    }
-	}
+  {
+    // Else search for a free item we can merge with at its end.
+    free_entry **fe;
+    for (fe = &first_free_entry;
+         (*fe)->next
+         && (reinterpret_cast <char *> (e) + sz
+       > reinterpret_cast <char *> ((*fe)->next));
+         fe = &(*fe)->next)
+      ;
+    // If we can merge the next block into us do so and continue
+    // with the cases below.
+    if (reinterpret_cast <char *> (e) + sz
+        == reinterpret_cast <char *> ((*fe)->next))
+      {
+        sz += (*fe)->next->size;
+        (*fe)->next = (*fe)->next->next;
+      }
+    if (reinterpret_cast <char *> (*fe) + (*fe)->size
+        == reinterpret_cast <char *> (e))
+      // Merge with the freelist entry.
+      (*fe)->size += sz;
+    else
+      {
+        // Else put it after it which keeps the freelist sorted.
+        free_entry *f = reinterpret_cast <free_entry *> (e);
+        new (f) free_entry;
+        f->size = sz;
+        f->next = (*fe)->next;
+        (*fe)->next = f;
+      }
+  }
     }
 
   inline bool pool::in_pool (void *ptr) const noexcept
@@ -386,8 +388,8 @@ namespace __gnu_cxx
 #ifndef _GLIBCXX_EH_POOL_STATIC
     if (emergency_pool.arena)
       {
-	::free(emergency_pool.arena);
-	emergency_pool.arena = 0;
+  ::free(emergency_pool.arena);
+  emergency_pool.arena = 0;
       }
 #endif
   }
@@ -399,7 +401,7 @@ __cxxabiv1::__cxa_allocate_exception(std::size_t thrown_size) noexcept
 {
   thrown_size += sizeof (__cxa_refcounted_exception);
 
-  void *ret = malloc (thrown_size);
+  void *ret = __wrap_malloc (thrown_size);
 
 #if USE_POOL
   if (!ret)
@@ -431,7 +433,7 @@ __cxxabiv1::__cxa_free_exception(void *vptr) noexcept
 extern "C" __cxa_dependent_exception*
 __cxxabiv1::__cxa_allocate_dependent_exception() noexcept
 {
-  void *ret = malloc (sizeof (__cxa_dependent_exception));
+  void *ret = __wrap_malloc (sizeof (__cxa_dependent_exception));
 
 #if USE_POOL
   if (!ret)
