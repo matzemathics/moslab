@@ -1,0 +1,36 @@
+PKGDIR		?= ../..
+L4DIR		?= $(PKGDIR)/../..
+
+include $(L4DIR)/mk/Makeconf
+
+#MODE		= shared
+MODE		= static
+TARGET		= pong-server
+
+OBJS		+= ball.img.o paddle.img.o
+
+SRC_CC		= main.cc gfx-drv.cc ball.cc env.cc sintab.cc paddle.cc \
+                  paddle-server.cc
+CXXFLAGS	+= -Wall -Wreorder 
+
+REQUIRES_LIBS    = cxx_libc_io cxx_io libpthread libstdc++
+
+include $(L4DIR)/mk/prog.mk
+
+CHECKCXX        = $(shell if $(CXX) $(1) -S -o /dev/null -xc++ /dev/null \
+		    > /dev/null 2>&1; then echo "$(1)"; else echo "$(2)"; fi ;)
+
+CXXFLAGS	+= $(call CHECKCXX,-fno-threadsafe-statics,)
+
+%.img.o: %.img
+	$(OBJCOPY) -B $(BFD_ARCH) -I binary -O $(OFORMAT) $< $@
+
+paddle.img: $(SRC_DIR)/paddle.bmp
+	tail -c 3600 $< >$@
+
+ball.img: $(SRC_DIR)/ball.bmp
+	tail -c 1200 $< >$@
+
+#%.img: $(SRC_DIR)/%.bmp
+#	convert $< rgb:$@
+
