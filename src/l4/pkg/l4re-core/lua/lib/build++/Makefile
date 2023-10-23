@@ -10,6 +10,8 @@ $(GENERAL_D_LOC): $(PKGDIR)/lib/build/Makefile
 
 PKGNAME_DIRNAME := lua-c++
 
+LDFLAGS        += --wrap=malloc --wrap=free --wrap=realloc
+
 # Difference to other version
 
 # WARNINGS EXCEPTION: CFLAGS is used here for C++ files (instead of the usual

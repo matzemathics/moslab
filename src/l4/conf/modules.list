@@ -71,6 +71,15 @@ module ned
 module hello.cfg
 module hello
 
+entry cltnsrv
+kernel fiasco -serial_esc
+roottask moe rom/ex_clntsrv.cfg
+module l4re
+module ned
+module ex_clntsrv.cfg
+module ex_clntsrv-client
+module ex_clntsrv-server
+
 entry hello-2
 kernel fiasco -serial_esc
 roottask moe rom/hello-2.cfg

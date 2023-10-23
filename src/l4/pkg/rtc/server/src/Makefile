@@ -7,6 +7,7 @@ SRC_CC_amd64-l4f = x86.cc
 SRC_CC_arm-l4f   = pl031.cc
 SRC_CC_arm64-l4f = pl031.cc
 SRC_CC           = main.cc
-REQUIRES_LIBS    = libio cxx_libc_io cxx_io libstdc++
+REQUIRES_LIBS    = libio cxx_libc_io cxx_io libstdc++ libc_be_mem
+REQUIRES_LIBS_x86 = lxfuxlibc
 
 include $(L4DIR)/mk/prog.mk

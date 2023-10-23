@@ -1,2 +1,2 @@
-requires: libstdc++ stdlibs l4virtio-server
+requires: libstdc++ stdlibs l4virtio-server libc_be_mem
 maintainer: matthias.lange@kernkonzept.com alexander.warg@kernkonzept.com

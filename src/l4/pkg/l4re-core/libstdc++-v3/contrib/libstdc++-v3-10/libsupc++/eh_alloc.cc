@@ -87,13 +87,18 @@ namespace
     {
     public:
       pool();
+      pool(char*, int);
 
       _GLIBCXX_NODISCARD void *allocate (std::size_t);
       void free (void *);
 
       bool in_pool (void *);
 
+      bool mem_static;
+
     private:
+      void init();
+
       struct free_entry {
   std::size_t size;
   free_entry *next;
@@ -122,14 +127,30 @@ namespace
       // to make this tunable.
       arena_size = (EMERGENCY_OBJ_SIZE * EMERGENCY_OBJ_COUNT
         + EMERGENCY_OBJ_COUNT * sizeof (__cxa_dependent_exception));
-      arena = (char *)__wrap_malloc (arena_size);
+      arena = (char *)malloc (arena_size);
+      mem_static = false;
+
+      init();
+    }
+
+  pool::pool(char * storage, int size)
+    {
+      arena_size = size;
+      arena = storage;
+      mem_static = true;
+
+      init();
+    }
+
+  void pool::init()
+    {
       if (!arena)
-  {
-    // If the allocation failed go without an emergency pool.
-    arena_size = 0;
-    first_free_entry = NULL;
-    return;
-  }
+      {
+        // If the allocation failed go without an emergency pool.
+        arena_size = 0;
+        first_free_entry = NULL;
+        return;
+      }
 
       // Populate the free-list with a single entry covering the whole arena
       first_free_entry = reinterpret_cast <free_entry *> (arena);
@@ -261,7 +282,10 @@ namespace
         && p < arena + arena_size);
     }
 
-  pool emergency_pool;
+  int const emergency_pool_size = EMERGENCY_OBJ_SIZE * EMERGENCY_OBJ_COUNT
+    + EMERGENCY_OBJ_COUNT * sizeof (__cxa_dependent_exception);
+  char emergency_pool_storage[emergency_pool_size];
+  pool emergency_pool{emergency_pool_storage, emergency_pool_size};
 }
 
 namespace __gnu_cxx
@@ -269,7 +293,8 @@ namespace __gnu_cxx
   void
   __freeres()
   {
-    if (emergency_pool.arena)
+    // why is this not a destructor?
+    if (emergency_pool.arena and not emergency_pool.mem_static)
       {
   ::free(emergency_pool.arena);
   emergency_pool.arena = 0;

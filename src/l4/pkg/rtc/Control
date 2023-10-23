@@ -1,4 +1,4 @@
 provides: rtc rtc_libc_be
-requires: stdlibs libio cxx_libc_io cxx_io libstdc++
+requires: stdlibs libio cxx_libc_io cxx_io libstdc++ lxfuxlibc libc_be_mem
 optional: drivers-frst
 Maintainer: adam.lackorzynski@kernkonzept.com

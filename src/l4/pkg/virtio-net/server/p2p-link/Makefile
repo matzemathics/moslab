@@ -2,7 +2,7 @@ PKGDIR         ?= ../..
 L4DIR          ?= $(PKGDIR)/../..
 
 TARGET          = l4vio_net_p2p
-REQUIRES_LIBS   = libstdc++ l4virtio
+REQUIRES_LIBS   = libstdc++ l4virtio libc_be_mem
 PRIVATE_INCDIR += $(PKGDIR)/server/include
 SRC_CC          = net.cc
 

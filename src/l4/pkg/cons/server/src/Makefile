@@ -10,4 +10,6 @@ SRC_CC-$(CONFIG_CONS_USE_ASYNC_FE)  += async_vcon_fe.cc
 REQUIRES_LIBS                             = libstdc++ cxx_libc_io cxx_io
 REQUIRES_LIBS-$(CONFIG_CONS_USE_ASYNC_FE) = libpthread
 
+LDFLAGS        += --wrap=malloc --wrap=free --wrap=realloc
+
 include $(L4DIR)/mk/prog.mk

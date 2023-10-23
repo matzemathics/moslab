@@ -1,2 +1,2 @@
-requires: libdrivers-lcd x86emu_int10 stdlibs libio-vbus
+requires: libdrivers-lcd x86emu_int10 stdlibs libio-vbus libc_be_mem
 maintainer: adam@os.inf.tu-dresden.de
