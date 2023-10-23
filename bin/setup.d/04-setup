@@ -318,7 +318,7 @@ do_config()
     echo "'dialog' program not found,"
     echo "press ENTER to continue and just build for x86-64"
     echo "abort with Ctrl-C, install dialog and issue 'make setup' again."
-    read 
+    read
 
     CONF_DO_AMD64=1
   fi
@@ -481,9 +481,9 @@ declare -A Makeconf_added_qemu_std
 add_gen()
 {
   if [ -z "${Makeconf_added_gen[$1]}" ]; then
-    if [ -z "$REMOTE" ]; then
-      echo "QEMU_OPTIONS += -vnc :4" >> $1
-    fi
+    #if [ -z "$REMOTE" ]; then
+    #  echo "QEMU_OPTIONS += -vnc :4" >> $1
+    #fi
 
     echo 'QEMU_OPTIONS += $(QEMU_OPTIONS-$(PLATFORM_TYPE))' >> $1
     echo 'QEMU_OPTIONS += $(QEMU_OPTIONS-$(PLATFORM_TYPE)-$(PLATFORM_CFG))' >> $1
