@@ -1,2 +1,2 @@
-requires: l4sys l4re crtn stdlibs libpthread
+requires: l4sys l4re crtn stdlibs libpthread libstdc++ libc_be_mem
 maintainer: warg@os.inf.tu-dresden.de

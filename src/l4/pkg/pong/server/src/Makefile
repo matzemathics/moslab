@@ -13,7 +13,7 @@ SRC_CC		= main.cc gfx-drv.cc ball.cc env.cc sintab.cc paddle.cc \
                   paddle-server.cc
 CXXFLAGS	+= -Wall -Wreorder 
 
-REQUIRES_LIBS    = cxx_libc_io cxx_io libpthread libstdc++
+REQUIRES_LIBS    = cxx_libc_io cxx_io libpthread libstdc++ libc_be_mem
 
 include $(L4DIR)/mk/prog.mk
 
