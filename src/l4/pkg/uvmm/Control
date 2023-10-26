@@ -1,4 +1,0 @@
-requires: stdlibs libstdc++ libpthread libio-vbus libfdt l4virtio libloader libc_be_mem
-optional: readline acpica zlib rtc
-variants: nofpu
-maintainer: alexander.warg@kernkonzept.com adam@l4re.org
