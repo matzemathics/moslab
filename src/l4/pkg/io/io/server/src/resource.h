@@ -72,13 +72,13 @@ protected:
 class Resource
 {
 private:
-  unsigned long _f;
-  l4_uint32_t _id;
-  Resource *_p;
+  unsigned long _f = 0;
+  l4_uint32_t _id = 0;
+  Resource *_p = nullptr;
 
 public:
   typedef l4_uint64_t Addr;
-  typedef l4_int64_t Size;
+  typedef l4_uint64_t Size;
 
   enum Type
   {
@@ -91,7 +91,7 @@ public:
     Dma_domain_res = L4VBUS_RESOURCE_DMA_DOMAIN
   };
 
-  enum Flags
+  enum Flags : unsigned long
   {
     F_type_mask    = 0x00ff,
     F_disabled     = 0x0100,
@@ -146,19 +146,19 @@ public:
   { return (_f & Irq_type_mask) & (L4_IRQ_F_NEG   * Irq_type_base); }
 
   explicit Resource(unsigned long flags = 0)
-  : _f(flags), _id(0), _p(0), _s(0), _e(0), _a(0) {}
+  : _f(flags) {}
 
   Resource(unsigned long flags, Addr start, Addr end)
-  : _f(flags), _id(0), _p(0), _s(start), _e(end), _a(end - start)
+  : _f(flags), _s(start), _e(end), _a(end - start)
   {}
 
   Resource(unsigned type, unsigned long flags, Addr start, Addr end)
-  : _f((type & F_type_mask) | (flags & ~(unsigned long)F_type_mask)),
-    _id(0), _p(0), _s(start), _e(end), _a(end - start)
+  : _f((type & F_type_mask) | (flags & ~F_type_mask)),
+    _s(start), _e(end), _a(end - start)
   {}
 
   Resource(char const *id, unsigned type, Addr start, Addr end)
-  : _f(type), _id(str_to_id(id)), _p(0), _s(start), _e(end), _a(end - start)
+  : _f(type), _id(str_to_id(id)), _s(start), _e(end), _a(end - start)
   {}
 
   unsigned long flags() const { return _f; }
@@ -182,7 +182,7 @@ public:
   {
     l4_uint32_t res = 0;
     for (unsigned i = 0; i < 4 && id && id[i]; ++i)
-      res |= (l4_uint32_t)id[i] << (8 * i);
+      res |= static_cast<l4_uint32_t>(id[i]) << (8 * i);
     return res;
   }
 
@@ -235,13 +235,21 @@ public:
   virtual ~Resource() = default;
 
 private:
-  Addr _s, _e;
-  l4_umword_t _a;
+  Addr _s = 0, _e = 0;
+  l4_uint64_t _a = 0;
 
   void _start_end(Addr s, Addr e) { _s = s; _e = e; }
 
 public:
   void set_empty() { _s = _e = 0; set_empty(true); }
+
+  /**
+   * Set the alignment required by the resource.
+   *
+   * \param a  The resource alignment, encoded as `alignment size - 1`, i.e. for
+   *           example, to require a resource to be aligned on a page boundary
+   *           its alignment needs to be set to `L4_PAGESIZE - 1`.
+   */
   void alignment(Size a)
   {
     _a = a;
@@ -258,7 +266,7 @@ public:
 
   Addr start() const { return _s; }
   Addr end() const { return _e; }
-  Size size() const { return (Size)_e + 1 - _s; }
+  Size size() const { return static_cast<Size>(_e) + 1 - _s; }
 
   bool contains(Resource const &o) const
   { return start() <= o.start() && end() >= o.end(); }
@@ -290,7 +298,14 @@ public:
 
   bool is_64bit() const { return flags() & F_width_64bit; }
 
-  l4_umword_t alignment() const
+  /**
+   * Get the alignment required by the resource.
+   *
+   * \return The resource alignment, encoded as `alignment size - 1`, i.e. for
+   *         example, a resource that is required to be aligned on a page
+   *         boundary has an alignment of `L4_PAGESIZE - 1`.
+   */
+  l4_uint64_t alignment() const
   {
     return  flags() & F_size_aligned ? (_e - _s) : _a;
   }

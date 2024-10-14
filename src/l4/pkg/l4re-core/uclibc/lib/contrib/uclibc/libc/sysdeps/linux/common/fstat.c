@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * fstat() for uClibc
  *
@@ -7,25 +6,43 @@
  * Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
  */
 
-#include <sys/syscall.h>
+#include <features.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/syscall.h>
+#include <bits/uClibc_arch_features.h>
+
 #include "xstatconv.h"
 
-#if defined __NR_fstat64 && !defined __NR_fstat
+#if defined __NR_fstat64 && !defined __NR_fstat && !defined(__UCLIBC_USE_TIME64__)
 int fstat(int fd, struct stat *buf)
 {
-	int result = INLINE_SYSCALL(fstat64, 2, fd, buf);
-	if (result == 0) {
-		/* Did we overflow? */
-		if (buf->__pad1 || buf->__pad2 || buf->__pad3
-		    || buf->__pad4 || buf->__pad5
-		    || buf->__pad6 || buf->__pad7) {
-			__set_errno(EOVERFLOW);
-			return -1;
-		}
-	}
-	return result;
+	return INLINE_SYSCALL(fstat64, 2, fd, buf);
+}
+libc_hidden_def(fstat)
+
+#elif __WORDSIZE == 64 && defined __NR_newfstatat && !defined __ARCH_HAS_DEPRECATED_SYSCALLS__
+#include <fcntl.h>
+
+int fstat(int fd, struct stat *buf)
+{
+	return INLINE_SYSCALL(fstat, 2, fd, buf);
+}
+libc_hidden_def(fstat)
+
+#elif defined __NR_statx && defined __UCLIBC_HAVE_STATX__
+# include <fcntl.h>
+# include <statx_cp.h>
+
+int fstat(int fd, struct stat *buf)
+{
+      struct statx tmp;
+      int rc = INLINE_SYSCALL (statx, 5, fd, "", AT_EMPTY_PATH,
+                               STATX_BASIC_STATS, &tmp);
+      if (rc == 0)
+        __cp_stat_statx ((struct stat *)buf, &tmp);
+
+      return rc;
 }
 libc_hidden_def(fstat)
 
@@ -55,10 +72,9 @@ int fstat(int fd, struct stat *buf)
 	return result;
 }
 libc_hidden_def(fstat)
+#endif
 
-# if ! defined __NR_fstat64 && defined __UCLIBC_HAS_LFS__
+# if ! defined __NR_fstat64 && ! defined __UCLIBC_HAVE_STATX__
 strong_alias_untyped(fstat,fstat64)
 libc_hidden_def(fstat64)
-# endif
-
 #endif

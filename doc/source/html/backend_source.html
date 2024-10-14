@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/l4re_vfs/backend Source File</title>
+<title>L4Re Operating System Framework: l4/l4re_vfs/backend Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -151,7 +154,7 @@ $(document).ready(function(){initNavTree('backend_source.html',''); initResizabl
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="comment">// for mmap</span></div>
 <div class="foldopen" id="foldopen00056" data-start="{" data-end="}">
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file.html#a0af5c0c8ef8ec07855ebaf2de5ac2d53">   56</a></span>  <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4Re::Dataspace&gt;</a> <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file.html#a0af5c0c8ef8ec07855ebaf2de5ac2d53">data_space</a>() const noexcept<span class="keyword"> override</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file.html#aa288bb0d3f71593953dbae5883517116">   56</a></span>  <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4Re::Dataspace&gt;</a> <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file.html#aa288bb0d3f71593953dbae5883517116">data_space</a>() noexcept<span class="keyword"> override</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">  </span>{ <span class="keywordflow">return</span> <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4Re::Dataspace&gt;::Invalid</a>; }</div>
 </div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
@@ -344,131 +347,133 @@ $(document).ready(function(){initNavTree('backend_source.html',''); initResizabl
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>  ~Be_file() noexcept = 0;</div>
 <div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>private:</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>  <span class="keywordtype">int</span> get_entry(const <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, mode_t, <a class="code hl_namespace" href="namespacecxx.html">cxx</a>::Ref_ptr&lt;File&gt; *) noexcept<span class="keyword"> override</span></div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="keyword">  </span>{ <span class="keywordflow">return</span> -ENOTDIR; }</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *get_mount(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_class" href="classcxx_1_1Ref__ptr.html">cxx::Ref_ptr&lt;File&gt;</a> *dir) <span class="keyword">noexcept</span>;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>};</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>  <span class="keywordtype">int</span> select(<span class="keywordtype">int</span>, fd_set *, fd_set *, fd_set *, struct timeval *) throw()</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>  { <span class="keywordflow">return</span> -EOPNOTSUPP; }</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>  <span class="keywordtype">int</span> get_entry(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, mode_t, <a class="code hl_class" href="classcxx_1_1Ref__ptr.html">cxx::Ref_ptr&lt;File&gt;</a> *) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>  { <span class="keywordflow">return</span> -ENOTDIR; }</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *get_mount(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_class" href="classcxx_1_1Ref__ptr.html">cxx::Ref_ptr&lt;File&gt;</a> *dir) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>};</div>
 </div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="keyword">inline</span></div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>Be_file::~Be_file() noexcept {}</div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="keyword">class </span>Be_file_pos : <span class="keyword">public</span> Be_file</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>{</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>  Be_file_pos() noexcept : Be_file(), _pos(0) {}</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>  <span class="keyword">virtual</span> off64_t size() const noexcept = 0;</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>  ssize_t readv(const struct iovec *v, <span class="keywordtype">int</span> iovcnt) noexcept<span class="keyword"> override</span></div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="keyword">  </span>{</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    ssize_t r = preadv(v, iovcnt, _pos);</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    <span class="keywordflow">if</span> (r &gt; 0)</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>      _pos += r;</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordflow">return</span> r;</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>  }</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>  ssize_t writev(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  {</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    ssize_t r = pwritev(v, iovcnt, _pos);</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="keywordflow">if</span> (r &gt; 0)</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>      _pos += r;</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keywordflow">return</span> r;</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>  }</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  ssize_t preadv(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt, off64_t offset) <span class="keyword">noexcept</span> <span class="keyword">override</span> = 0;</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  ssize_t pwritev(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt, off64_t offset) <span class="keyword">noexcept</span> <span class="keyword">override</span> = 0;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="keyword">inline</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>Be_file::~Be_file() noexcept {}</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="keyword">class </span>Be_file_pos : <span class="keyword">public</span> Be_file</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>{</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  Be_file_pos() noexcept : Be_file(), _pos(0) {}</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>  <span class="keyword">virtual</span> off64_t size() const noexcept = 0;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>  ssize_t readv(const struct iovec *v, <span class="keywordtype">int</span> iovcnt) noexcept<span class="keyword"> override</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="keyword">  </span>{</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    ssize_t r = preadv(v, iovcnt, _pos);</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keywordflow">if</span> (r &gt; 0)</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>      _pos += r;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordflow">return</span> r;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  }</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>  ssize_t writev(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  {</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    ssize_t r = pwritev(v, iovcnt, _pos);</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    <span class="keywordflow">if</span> (r &gt; 0)</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>      _pos += r;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordflow">return</span> r;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  }</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>  off64_t lseek64(off64_t offset, <span class="keywordtype">int</span> whence) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  {</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    off64_t r;</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    <span class="keywordflow">switch</span> (whence)</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>      {</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>      <span class="keywordflow">case</span> SEEK_SET: r = offset; <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>      <span class="keywordflow">case</span> SEEK_CUR: r = _pos + offset; <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>      <span class="keywordflow">case</span> SEEK_END: r = size() + offset; <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>      <span class="keywordflow">default</span>: <span class="keywordflow">return</span> -EINVAL;</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>      };</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keywordflow">if</span> (r &lt; 0)</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>      <span class="keywordflow">return</span> -EINVAL;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>  ssize_t preadv(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt, off64_t offset) <span class="keyword">noexcept</span> <span class="keyword">override</span> = 0;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  ssize_t pwritev(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt, off64_t offset) <span class="keyword">noexcept</span> <span class="keyword">override</span> = 0;</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>  off64_t lseek64(off64_t offset, <span class="keywordtype">int</span> whence) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>  {</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    off64_t r;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="keywordflow">switch</span> (whence)</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>      {</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>      <span class="keywordflow">case</span> SEEK_SET: r = offset; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>      <span class="keywordflow">case</span> SEEK_CUR: r = _pos + offset; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>      <span class="keywordflow">case</span> SEEK_END: r = size() + offset; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>      <span class="keywordflow">default</span>: <span class="keywordflow">return</span> -EINVAL;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>      };</div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    _pos = r;</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="keywordflow">return</span> _pos;</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>  }</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span> </div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  ~Be_file_pos() noexcept = 0;</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>protected:</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  off64_t pos() const noexcept { <span class="keywordflow">return</span> _pos; }</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keywordflow">if</span> (r &lt; 0)</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>      <span class="keywordflow">return</span> -EINVAL;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    _pos = r;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="keywordflow">return</span> _pos;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>  }</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  ~Be_file_pos() noexcept = 0;</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>  off64_t _pos;</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>};</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span> </div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span><span class="keyword">inline</span> Be_file_pos::~Be_file_pos() noexcept {}</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="keyword">class </span>Be_file_stream : <span class="keyword">public</span> Be_file</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>{</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>  ssize_t preadv(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt, off64_t) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>  { <span class="keywordflow">return</span> <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file.html#a5acbef1e5329330ad4162bbdb108ff2e">readv</a>(v, iovcnt); }</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>  ssize_t pwritev(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt, off64_t) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  { <span class="keywordflow">return</span> <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file.html#a03be4ff948db701b77cc0fda762bffcb">writev</a>(v, iovcnt); }</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>protected:</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>  off64_t pos() const noexcept { <span class="keywordflow">return</span> _pos; }</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>  off64_t _pos;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>};</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="keyword">inline</span> Be_file_pos::~Be_file_pos() noexcept {}</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="keyword">class </span>Be_file_stream : <span class="keyword">public</span> Be_file</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>{</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>  ssize_t preadv(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt, off64_t) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  { <span class="keywordflow">return</span> <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file.html#a5acbef1e5329330ad4162bbdb108ff2e">readv</a>(v, iovcnt); }</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span> </div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>  ~Be_file_stream() throw () = 0;</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>};</div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>inline Be_file_stream::~Be_file_stream() noexcept {}</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
-<div class="foldopen" id="foldopen00308" data-start="{" data-end="};">
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file__system.html">  308</a></span><span class="keyword">class </span><a class="code hl_class" href="classL4Re_1_1Vfs_1_1Be__file__system.html">Be_file_system</a> : <span class="keyword">public</span> <a class="code hl_class" href="classL4Re_1_1Vfs_1_1File__system.html">File_system</a></div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>{</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>  <span class="keywordtype">char</span> <span class="keyword">const</span> *<span class="keyword">const</span> _fstype;</div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
-<div class="foldopen" id="foldopen00322" data-start="{" data-end="}">
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file__system.html#acb71b8fb0eccaca723fc3b1d8d65c2ea">  322</a></span>  <span class="keyword">explicit</span> <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file__system.html#acb71b8fb0eccaca723fc3b1d8d65c2ea">Be_file_system</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> *fstype) noexcept</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>  : <a class="code hl_class" href="classL4Re_1_1Vfs_1_1File__system.html">File_system</a>(), _fstype(fstype)</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>  {</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    vfs_ops-&gt;register_file_system(<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>  }</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>  ssize_t pwritev(<span class="keyword">const</span> <span class="keyword">struct</span> iovec *v, <span class="keywordtype">int</span> iovcnt, off64_t) <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>  { <span class="keywordflow">return</span> <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file.html#a03be4ff948db701b77cc0fda762bffcb">writev</a>(v, iovcnt); }</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>  ~Be_file_stream() noexcept = 0;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>};</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>inline Be_file_stream::~Be_file_stream() noexcept {}</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
+<div class="foldopen" id="foldopen00311" data-start="{" data-end="};">
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file__system.html">  311</a></span><span class="keyword">class </span><a class="code hl_class" href="classL4Re_1_1Vfs_1_1Be__file__system.html">Be_file_system</a> : <span class="keyword">public</span> <a class="code hl_class" href="classL4Re_1_1Vfs_1_1File__system.html">File_system</a></div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>{</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>  <span class="keywordtype">char</span> <span class="keyword">const</span> *<span class="keyword">const</span> _fstype;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span> </div>
+<div class="foldopen" id="foldopen00325" data-start="{" data-end="}">
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file__system.html#acb71b8fb0eccaca723fc3b1d8d65c2ea">  325</a></span>  <span class="keyword">explicit</span> <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file__system.html#acb71b8fb0eccaca723fc3b1d8d65c2ea">Be_file_system</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> *fstype) noexcept</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>  : <a class="code hl_class" href="classL4Re_1_1Vfs_1_1File__system.html">File_system</a>(), _fstype(fstype)</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>  {</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    vfs_ops-&gt;register_file_system(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>  }</div>
 </div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span> </div>
-<div class="foldopen" id="foldopen00334" data-start="{" data-end="}">
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file__system.html#a674376f70ce6b2d0fc69d54188ceaa80">  334</a></span>  <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file__system.html#a674376f70ce6b2d0fc69d54188ceaa80">~Be_file_system</a>() noexcept</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>  {</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    vfs_ops-&gt;unregister_file_system(<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>  }</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span> </div>
+<div class="foldopen" id="foldopen00337" data-start="{" data-end="}">
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file__system.html#a674376f70ce6b2d0fc69d54188ceaa80">  337</a></span>  <a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file__system.html#a674376f70ce6b2d0fc69d54188ceaa80">~Be_file_system</a>() noexcept</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>  {</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    vfs_ops-&gt;unregister_file_system(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>  }</div>
 </div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file__system.html#ab5d0c8e512ec5cc7f0e2bb3ad428b576">  344</a></span>  <span class="keywordtype">char</span> <span class="keyword">const</span> *<a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file__system.html#ab5d0c8e512ec5cc7f0e2bb3ad428b576">type</a>() const noexcept<span class="keyword"> override </span>{ <span class="keywordflow">return</span> _fstype; }</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>};</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno"><a class="line" href="classL4Re_1_1Vfs_1_1Be__file__system.html#ab5d0c8e512ec5cc7f0e2bb3ad428b576">  347</a></span>  <span class="keywordtype">char</span> <span class="keyword">const</span> *<a class="code hl_function" href="classL4Re_1_1Vfs_1_1Be__file__system.html#ab5d0c8e512ec5cc7f0e2bb3ad428b576">type</a>() const noexcept<span class="keyword"> override </span>{ <span class="keywordflow">return</span> _fstype; }</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>};</div>
 </div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span><span class="comment">/* Make sure filesystems can register before the constructor of libmount</span></div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span><span class="comment"> * runs */</span></div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span><span class="preprocessor">#define L4RE_VFS_FILE_SYSTEM_ATTRIBUTE \</span></div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span><span class="preprocessor">     __attribute__((init_priority(INIT_PRIO_LATE)))</span></div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>}}</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span><span class="comment">/* Make sure filesystems can register before the constructor of libmount</span></div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="comment"> * runs */</span></div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span><span class="preprocessor">#define L4RE_VFS_FILE_SYSTEM_ATTRIBUTE \</span></div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span><span class="preprocessor">     __attribute__((init_priority(INIT_PRIO_LATE)))</span></div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>}}</div>
 </div>
-<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html">L4Re::Vfs::Be_file_system</a></div><div class="ttdoc">Boilerplate class for implementing a L4Re::Vfs::File_system.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00308">backend:309</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html_a674376f70ce6b2d0fc69d54188ceaa80"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html#a674376f70ce6b2d0fc69d54188ceaa80">L4Re::Vfs::Be_file_system::~Be_file_system</a></div><div class="ttdeci">~Be_file_system() noexcept</div><div class="ttdoc">Destroy a file-system object.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00334">backend:334</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html_ab5d0c8e512ec5cc7f0e2bb3ad428b576"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html#ab5d0c8e512ec5cc7f0e2bb3ad428b576">L4Re::Vfs::Be_file_system::type</a></div><div class="ttdeci">char const * type() const noexcept override</div><div class="ttdoc">Return the file-system type.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00344">backend:344</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html_acb71b8fb0eccaca723fc3b1d8d65c2ea"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html#acb71b8fb0eccaca723fc3b1d8d65c2ea">L4Re::Vfs::Be_file_system::Be_file_system</a></div><div class="ttdeci">Be_file_system(char const *fstype) noexcept</div><div class="ttdoc">Create a file-system object for the given fstype.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00322">backend:322</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html">L4Re::Vfs::Be_file_system</a></div><div class="ttdoc">Boilerplate class for implementing a L4Re::Vfs::File_system.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00311">backend:312</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html_a674376f70ce6b2d0fc69d54188ceaa80"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html#a674376f70ce6b2d0fc69d54188ceaa80">L4Re::Vfs::Be_file_system::~Be_file_system</a></div><div class="ttdeci">~Be_file_system() noexcept</div><div class="ttdoc">Destroy a file-system object.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00337">backend:337</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html_ab5d0c8e512ec5cc7f0e2bb3ad428b576"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html#ab5d0c8e512ec5cc7f0e2bb3ad428b576">L4Re::Vfs::Be_file_system::type</a></div><div class="ttdeci">char const * type() const noexcept override</div><div class="ttdoc">Return the file-system type.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00347">backend:347</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html_acb71b8fb0eccaca723fc3b1d8d65c2ea"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html#acb71b8fb0eccaca723fc3b1d8d65c2ea">L4Re::Vfs::Be_file_system::Be_file_system</a></div><div class="ttdeci">Be_file_system(char const *fstype) noexcept</div><div class="ttdoc">Create a file-system object for the given fstype.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00325">backend:325</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html">L4Re::Vfs::Be_file</a></div><div class="ttdoc">Boiler plate class for implementing an open file for L4Re::Vfs.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00039">backend:40</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a02f723794ed7da71a51c66b2d1928647"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a02f723794ed7da71a51c66b2d1928647">L4Re::Vfs::Be_file::faccessat</a></div><div class="ttdeci">int faccessat(const char *, int, int) noexcept override</div><div class="ttdoc">Default backend for POSIX access and faccessat functions.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00119">backend:119</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a03be4ff948db701b77cc0fda762bffcb"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a03be4ff948db701b77cc0fda762bffcb">L4Re::Vfs::Be_file::writev</a></div><div class="ttdeci">ssize_t writev(const struct iovec *, int) noexcept override</div><div class="ttdoc">Default backend for POSIX write and writev functions.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00064">backend:64</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a03f650bebfa88e37ca20eda790079a19"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a03f650bebfa88e37ca20eda790079a19">L4Re::Vfs::Be_file::unlink</a></div><div class="ttdeci">int unlink(const char *) noexcept override</div><div class="ttdoc">Default backend for POSIX unlink, unlinkat.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00143">backend:143</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a0af5c0c8ef8ec07855ebaf2de5ac2d53"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a0af5c0c8ef8ec07855ebaf2de5ac2d53">L4Re::Vfs::Be_file::data_space</a></div><div class="ttdeci">L4::Cap&lt; L4Re::Dataspace &gt; data_space() const noexcept override</div><div class="ttdoc">Get an L4Re::Dataspace object for the file.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00056">backend:56</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a0d88f0d431fbd2c748287e97d8aeff1d"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a0d88f0d431fbd2c748287e97d8aeff1d">L4Re::Vfs::Be_file::fchmodat</a></div><div class="ttdeci">int fchmodat(const char *, mode_t, int) noexcept override</div><div class="ttdoc">Default backend for POSIX fchmodat function.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00123">backend:123</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a1c9e92c920f8879cd0efcb532a7b5e8e"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a1c9e92c920f8879cd0efcb532a7b5e8e">L4Re::Vfs::Be_file::ioctl</a></div><div class="ttdeci">int ioctl(unsigned long, va_list) noexcept override</div><div class="ttdoc">Default backend for POSIX ioctl.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00092">backend:92</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a1caf5af09421927a0d75601375eb5f39"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a1caf5af09421927a0d75601375eb5f39">L4Re::Vfs::Be_file::utimensat</a></div><div class="ttdeci">int utimensat(const char *, const struct timespec[2], int) noexcept override</div><div class="ttdoc">Default backend for POSIX utimensat.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00135">backend:135</a></div></div>
@@ -489,18 +494,18 @@ $(document).ready(function(){initNavTree('backend_source.html',''); initResizabl
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a8b6fec3ca46ce303b4b891e7b5d24069"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a8b6fec3ca46ce303b4b891e7b5d24069">L4Re::Vfs::Be_file::lseek64</a></div><div class="ttdeci">off64_t lseek64(off64_t, int) noexcept override</div><div class="ttdoc">Default backend for POSIX seek and lseek functions.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00076">backend:76</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a8bf7376f3f3ef25d46bc93306912c84e"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a8bf7376f3f3ef25d46bc93306912c84e">L4Re::Vfs::Be_file::fdatasync</a></div><div class="ttdeci">int fdatasync() const noexcept override</div><div class="ttdoc">Default backend for POSIX fdatasync.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00088">backend:88</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_a9996dd89077d89b9c1a469495a9e670f"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#a9996dd89077d89b9c1a469495a9e670f">L4Re::Vfs::Be_file::symlink</a></div><div class="ttdeci">int symlink(const char *, const char *) noexcept override</div><div class="ttdoc">Default backend for POSIX symlink, symlinkat.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00155">backend:155</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_aa288bb0d3f71593953dbae5883517116"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#aa288bb0d3f71593953dbae5883517116">L4Re::Vfs::Be_file::data_space</a></div><div class="ttdeci">L4::Cap&lt; L4Re::Dataspace &gt; data_space() noexcept override</div><div class="ttdoc">Get an L4Re::Dataspace object for the file.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00056">backend:56</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_aa5446b1903d7964fcd0d9ea98e68a7d5"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#aa5446b1903d7964fcd0d9ea98e68a7d5">L4Re::Vfs::Be_file::utime</a></div><div class="ttdeci">int utime(const struct utimbuf *) noexcept override</div><div class="ttdoc">Default backend for POSIX utime.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00127">backend:127</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_aa76b2e8295ba688c3289f417053ce6d4"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#aa76b2e8295ba688c3289f417053ce6d4">L4Re::Vfs::Be_file::rename</a></div><div class="ttdeci">int rename(const char *, const char *) noexcept override</div><div class="ttdoc">Default backend for POSIX rename, renameat.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00147">backend:147</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_acf463260efb5c95a8741f5f3b3279af7"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#acf463260efb5c95a8741f5f3b3279af7">L4Re::Vfs::Be_file::get_lock</a></div><div class="ttdeci">int get_lock(struct flock64 *) noexcept override</div><div class="ttdoc">Default backend for POSIX fcntl subfunctions.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00111">backend:111</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_af32a6487856bdec8f406af5c22f846a0"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#af32a6487856bdec8f406af5c22f846a0">L4Re::Vfs::Be_file::link</a></div><div class="ttdeci">int link(const char *, const char *) noexcept override</div><div class="ttdoc">Default backend for POSIX link, linkat.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00151">backend:151</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html_aff46baca1251a6f369c879ce09639725"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html#aff46baca1251a6f369c879ce09639725">L4Re::Vfs::Be_file::readlink</a></div><div class="ttdeci">ssize_t readlink(char *, size_t) override</div><div class="ttdoc">Default backend for POSIX readlink, readlinkat.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00163">backend:163</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Vfs_1_1File__system_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1File__system.html">L4Re::Vfs::File_system</a></div><div class="ttdoc">Basic interface for an L4Re::Vfs file system.</div><div class="ttdef"><b>Definition</b> <a href="vfs_8h_source.html#l00828">vfs.h:829</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Vfs_1_1File__system_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1File__system.html">L4Re::Vfs::File_system</a></div><div class="ttdoc">Basic interface for an L4Re::Vfs file system.</div><div class="ttdef"><b>Definition</b> <a href="vfs_8h_source.html#l00831">vfs.h:832</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1File_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1File.html">L4Re::Vfs::File</a></div><div class="ttdoc">The basic interface for an open POSIX file.</div><div class="ttdef"><b>Definition</b> <a href="vfs_8h_source.html#l00435">vfs.h:441</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Ops_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Ops.html">L4Re::Vfs::Ops</a></div><div class="ttdoc">Interface for the POSIX backends of an application.</div><div class="ttdef"><b>Definition</b> <a href="vfs_8h_source.html#l01007">vfs.h:1008</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Ops_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Ops.html">L4Re::Vfs::Ops</a></div><div class="ttdoc">Interface for the POSIX backends of an application.</div><div class="ttdef"><b>Definition</b> <a href="vfs_8h_source.html#l01083">vfs.h:1084</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="aclasscxx_1_1Ref__ptr_html"><div class="ttname"><a href="classcxx_1_1Ref__ptr.html">cxx::Ref_ptr</a></div><div class="ttdoc">A reference-counting pointer with automatic cleanup.</div><div class="ttdef"><b>Definition</b> <a href="ref__ptr_source.html#l00081">ref_ptr:82</a></div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
-<div class="ttc" id="anamespacecxx_html"><div class="ttname"><a href="namespacecxx.html">cxx</a></div><div class="ttdoc">Our C++ library.</div><div class="ttdef"><b>Definition</b> <a href="arith_source.html#l00022">arith:22</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -508,7 +513,7 @@ $(document).ready(function(){initNavTree('backend_source.html',''); initResizabl
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_23b146a426e7ed970afb9c6da946d6da.html">l4re_vfs</a></li><li class="navelem"><b>backend</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -126,7 +126,7 @@ double __ieee754_exp(double x)	/* default IEEE double exp */
 	    if(hx < 0x3FF0A2B2) {	/* and |x| < 1.5 ln2 */
 		hi = x-ln2HI[xsb]; lo=ln2LO[xsb]; k = 1-xsb-xsb;
 	    } else {
-		k  = invln2*x+halF[xsb];
+		k  = (int32_t)(invln2*x+halF[xsb]);
 		t  = k;
 		hi = x - t*ln2HI[0];	/* t*ln2HI is exact here */
 		lo = t*ln2LO[0];
@@ -155,28 +155,3 @@ double __ieee754_exp(double x)	/* default IEEE double exp */
 	    return y*twom1000;
 	}
 }
-
-/*
- * wrapper exp(x)
- */
-#ifndef _IEEE_LIBM
-double exp(double x)
-{
-	static const double o_threshold =  7.09782712893383973096e+02; /* 0x40862E42, 0xFEFA39EF */
-	static const double u_threshold = -7.45133219101941108420e+02; /* 0xc0874910, 0xD52D3051 */
-
-	double z = __ieee754_exp(x);
-	if (_LIB_VERSION == _IEEE_)
-		return z;
-	if (isfinite(x)) {
-		if (x > o_threshold)
-			return __kernel_standard(x, x, 6); /* exp overflow */
-		if (x < u_threshold)
-			return __kernel_standard(x, x, 7); /* exp underflow */
-	}
-	return z;
-}
-#else
-strong_alias(__ieee754_exp, exp)
-#endif
-libm_hidden_def(exp)

@@ -4,14 +4,11 @@ INTERFACE [ppc32]:
 
 class Page_table;
 
-class Kmem : public Mem_layout
+EXTENSION class Kmem
 {
 public:
   static Mword *kernel_sp();
   static void kernel_sp(Mword *);
-
-  static Mword is_kmem_page_fault( Mword pfa, Mword error );
-  static Mword is_io_bitmap_page_fault( Mword pfa );
 
   static Address virt_to_phys(const void *addr);
 private:
@@ -24,8 +21,14 @@ IMPLEMENTATION [ppc32]:
 #include "paging.h"
 #include "panic.h"
 
-char kernel_page_directory[sizeof(Pdir)];
-Kpdir *Mem_layout::kdir = (Kpdir *)&kernel_page_directory;
+union {
+  Kpdir kpdir;
+  char storage[sizeof(Pdir)];
+} kernel_page_directory;
+
+DEFINE_GLOBAL_CONSTINIT
+Global_data<Kpdir *> Kmem::kdir(&kernel_page_directory.kpdir);
+
 Mword *Kmem::_sp = 0;
 
 IMPLEMENT inline
@@ -44,15 +47,9 @@ Address Kmem::virt_to_phys(const void *addr)
 }
 
 IMPLEMENT inline
-Mword Kmem::is_kmem_page_fault(Mword pfa, Mword /*error*/)
+bool Kmem::is_kmem_page_fault(Mword pfa, Mword /*error*/)
 {
   return in_kernel(pfa);
-}
-
-IMPLEMENT inline
-Mword Kmem::is_io_bitmap_page_fault( Mword /*pfa*/ )
-{
-  return 0;
 }
 
 PUBLIC static

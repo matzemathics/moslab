@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html" title="List of driver memory regions assigned to a single L4&#45;VIRTIO transport instance." alt="" coords="5,5,172,45"/>
+<area shape="rect" id="Node000000" href="$structL4virtio_1_1Svr_1_1Dev__features.html" title="Type for device feature bitmap." alt="" coords="5,5,140,45"/>
+<area shape="rect" id="Node000001" href="$structL4virtio_1_1Svr_1_1Console_1_1Features.html" title="Virtio console specific feature bits." alt="" coords="188,5,348,45"/>
+<area shape="poly" id="edge207_Node000000_Node000001" title=" " alt="" coords="154,23,188,23,188,28,154,28"/>
 </map>

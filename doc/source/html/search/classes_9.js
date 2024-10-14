@@ -18,11 +18,12 @@ var searchData=
   ['irq_5fhandler_5fobject_15',['Irq_handler_object',['../structL4_1_1Irq__handler__object.html',1,'L4']]],
   ['irq_5fmux_16',['Irq_mux',['../structL4_1_1Irq__mux.html',1,'L4']]],
   ['irqep_5ft_17',['Irqep_t',['../structL4_1_1Irqep__t.html',1,'L4']]],
-  ['irqep_5ft_3c_20irq_5fobject_20_3e_18',['Irqep_t&lt; Irq_object &gt;',['../structL4_1_1Irqep__t.html',1,'L4']]],
-  ['is_5fvalid_5frpc_5ftype_19',['Is_valid_rpc_type',['../structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html',1,'L4::Ipc::Msg']]],
-  ['is_5fvalid_5frpc_5ftype_3c_20a_20_2a_20_3e_20',['Is_valid_rpc_type&lt; A * &gt;',['../structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html',1,'L4::Ipc::Msg']]],
-  ['istream_21',['Istream',['../classL4_1_1Ipc_1_1Istream.html',1,'L4::Ipc']]],
-  ['item_5falloc_5fbase_22',['Item_alloc_base',['../classL4Re_1_1Util_1_1Item__alloc__base.html',1,'L4Re::Util']]],
-  ['iter_23',['iter',['../classcxx_1_1List__item_1_1Iter.html',1,'cxx::List_item::Iter'],['../classcxx_1_1List_1_1Iter.html',1,'cxx::List&lt; D, Alloc &gt;::Iter']]],
-  ['iterator_24',['Iterator',['../classL4_1_1Ipc_1_1Varg__list__ref_1_1Iterator.html',1,'L4::Ipc::Varg_list_ref']]]
+  ['irqep_5ft_3c_20host_5firq_20_3e_18',['Irqep_t&lt; Host_irq &gt;',['../structL4_1_1Irqep__t.html',1,'L4']]],
+  ['irqep_5ft_3c_20irq_5fobject_20_3e_19',['Irqep_t&lt; Irq_object &gt;',['../structL4_1_1Irqep__t.html',1,'L4']]],
+  ['is_5fvalid_5frpc_5ftype_20',['Is_valid_rpc_type',['../structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html',1,'L4::Ipc::Msg']]],
+  ['is_5fvalid_5frpc_5ftype_3c_20a_20_2a_20_3e_21',['Is_valid_rpc_type&lt; A * &gt;',['../structL4_1_1Ipc_1_1Msg_1_1Is__valid__rpc__type.html',1,'L4::Ipc::Msg']]],
+  ['istream_22',['Istream',['../classL4_1_1Ipc_1_1Istream.html',1,'L4::Ipc']]],
+  ['item_5falloc_5fbase_23',['Item_alloc_base',['../classL4Re_1_1Util_1_1Item__alloc__base.html',1,'L4Re::Util']]],
+  ['iter_24',['iter',['../classcxx_1_1List__item_1_1Iter.html',1,'cxx::List_item::Iter'],['../classcxx_1_1List_1_1Iter.html',1,'cxx::List&lt; D, Alloc &gt;::Iter']]],
+  ['iterator_25',['Iterator',['../classL4_1_1Ipc_1_1Varg__list__ref_1_1Iterator.html',1,'L4::Ipc::Varg_list_ref']]]
 ];

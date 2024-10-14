@@ -52,6 +52,7 @@ IMPLEMENTATION:
 #include "vkey.h"
 #include "irq.h"
 #include "irq_controller.h"
+#include "global_data.h"
 
 JDB_DEFINE_TYPENAME(Vlog, "Vlog");
 
@@ -61,7 +62,7 @@ Vlog::Vlog()
 {
   Vkey::irq(icu_irq_ptr(0));
   Vkey::set_echo(Vkey::Echo_crnl);
-  initial_kobjects.register_obj(this, Initial_kobjects::Log);
+  initial_kobjects->register_obj(this, Initial_kobjects::Log);
 }
 
 PUBLIC void
@@ -76,7 +77,7 @@ void
 Vlog::log_string(Utcb const *u)
 {
   unsigned len = u->values[1];
-  char const *str = (char const *)&u->values[2];
+  char const *str = reinterpret_cast<char const *>(&u->values[2]);
 
   if (len > sizeof(u->values) - sizeof(u->values[0]) * 2)
     return;
@@ -103,10 +104,8 @@ Vlog::log_string(Utcb const *u)
 
 PRIVATE inline NOEXPORT
 L4_msg_tag
-Vlog::get_input(L4_fpage::Rights rights, Syscall_frame *f, Utcb *u)
+Vlog::get_input(L4_fpage::Rights rights, Syscall_frame*, Utcb *u)
 {
-  (void)f;
-
   if (!have_receive(u))
     return commit_result(0);
 
@@ -175,12 +174,18 @@ L4_msg_tag
 Vlog::kinvoke(L4_obj_ref ref, L4_fpage::Rights rights, Syscall_frame *f,
               Utcb const *r_msg, Utcb *s_msg)
 {
-  L4_msg_tag const t = f->tag();
+  L4_msg_tag tag = f->tag();
 
-  if (t.proto() == L4_msg_tag::Label_irq)
-    return Icu_h<Vlog>::icu_invoke(ref, rights, f, r_msg, s_msg);
-  else if (t.proto() != L4_msg_tag::Label_log)
-    return commit_result(-L4_err::EBadproto);
+  if (tag.proto() == L4_msg_tag::Label_irq)
+    {
+      if (r_msg->values[0] == Op_bind && !Vkey::receive_enabled())
+        WARN("Without -esc / -serial_esc, Vlog will not generate input events!\n");
+
+      return Icu_h<Vlog>::icu_invoke(ref, rights, f, r_msg, s_msg);
+    }
+
+  if (!Ko::check_basics(&tag, L4_msg_tag::Label_log))
+    return tag;
 
   switch (r_msg->values[0])
     {
@@ -197,5 +202,5 @@ Vlog::kinvoke(L4_obj_ref ref, L4_fpage::Rights rights, Syscall_frame *f,
 }
 
 
-static Vlog __vlog;
+static DEFINE_GLOBAL Global_data<Vlog> __vlog;
 

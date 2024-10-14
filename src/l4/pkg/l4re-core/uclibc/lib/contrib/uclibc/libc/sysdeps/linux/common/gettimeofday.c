@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * gettimeofday() for uClibc
  *
@@ -9,6 +8,25 @@
 
 #include <sys/syscall.h>
 #include <sys/time.h>
+#include <time.h>
 
-_syscall2(int, gettimeofday, struct timeval *, tv, __timezone_ptr_t, tz)
+#ifdef __VDSO_SUPPORT__
+#include "ldso.h"
+#endif
+
+int gettimeofday(struct timeval * tv, __timezone_ptr_t tz) {
+    if (!tv)
+        return 0;
+#if defined(__VDSO_SUPPORT__) && defined(ARCH_VDSO_GETTIMEOFDAY)
+    return ARCH_VDSO_GETTIMEOFDAY(tv, tz);
+#else
+    struct timespec __ts;
+    int __ret = clock_gettime(CLOCK_REALTIME, &__ts);
+    tv->tv_sec = __ts.tv_sec;
+    tv->tv_usec = (suseconds_t)__ts.tv_nsec / 1000;
+    return __ret;
+#endif
+}
+
+
 libc_hidden_def(gettimeofday)

@@ -13,6 +13,10 @@ _L4DIR_MK_LIB_MK=y
 
 ROLE = lib.mk
 
+ifeq ($(CONFIG_MMU),)
+TARGET := $(filter-out %.so,$(TARGET))
+endif
+
 include $(L4DIR)/mk/Makeconf
 
 # define INSTALLDIRs prior to including install.inc, where the install-
@@ -80,7 +84,7 @@ TARGET	+= $(TARGET_PROFILE) $(TARGET_PROFILE_SHARED) $(TARGET_PROFILE_PIC)
 LDFLAGS += $(addprefix -L, $(PRIVATE_LIBDIR) $(PRIVATE_LIBDIR_$(OSYSTEM)) $(PRIVATE_LIBDIR_$@) $(PRIVATE_LIBDIR_$@_$(OSYSTEM)))
 LDFLAGS += $(addprefix -L, $(L4LIBDIR))
 LDFLAGS += $(LIBCLIBDIR)
-LDFLAGS_SO ?= -shared
+LDFLAGS_SO += -shared $(call BID_mode_var,LDFLAGS_SO)
 
 
 LDSCRIPT       = $(LDS_so)
@@ -95,14 +99,20 @@ PC_LIBS     ?= $(sort $(patsubst lib%.so,-l%,$(TARGET_SHARED) \
 
 PC_FILENAME  ?= $(PKGNAME)
 PC_FILENAMES ?= $(PC_FILENAME)
-PC_FILES     := $(foreach pcfile,$(PC_FILENAMES),$(OBJ_BASE)/pc/$(pcfile).pc)
+PC_FILES     := $(if $(filter std,$(VARIANT)),$(foreach pcfile,$(PC_FILENAMES),$(OBJ_BASE)/pc/$(pcfile).pc))
 
-PC_LIBS_pic = $(patsubst lib%.p.a,-l%.p,$(filter %.p.a,$(TARGET_PIC)))
-PC_EXTRA += $(if $(PC_LIBS_pic),$(newline)Libs_pic= $(PC_LIBS_pic))
+PC_LIBS_PIC ?= $(patsubst lib%.p.a,-l%.p,$(filter %.p.a,$(TARGET_PIC)))
 
 # 1: basename
 # 2: pcfilename
-get_cont = $(if $($(1)_$(2)),$($(1)_$(2)),$($(1)))
+# 3: optional prefix
+get_cont = $(if $($(1)_$(2)),$(3)$($(1)_$(2)),$(if $($(1)),$(3)$($(1))))
+
+# 1: pcfile
+get_extra = $(call get_cont,PC_EXTRA,$(1))$\
+            $(call get_cont,PC_LIBS_PIC,$(1),$(newline)Libs_pic= )$\
+            $(call get_cont,PC_LINK_LIBS,$(1),$(newline)Link_Libs= )$\
+            $(call get_cont,PC_LINK_LIBS_PIC,$(1),$(newline)Link_Libs_pic= )
 
 # Ths must contain all the contents of all possible PC files as used in
 # below generate_pcfile
@@ -110,7 +120,7 @@ PC_FILES_CONTENTS := $(strip $(foreach pcfile,$(PC_FILENAMES),\
   $(call get_cont,CONTRIB_INCDIR,$(pcfile)) \
   $(call get_cont,PC_LIBS,$(pcfile)) \
   $(call get_cont,REQUIRES_LIBS,$(pcfile)) \
-  $(call get_cont,PC_CFLAGS,$(pcfile)) $(call get_cont,PC_EXTRA,$(pcfile))))
+  $(call get_cont,PC_CFLAGS,$(pcfile)) $(call get_extra,$(pcfile))))
 
 ifneq ($(PC_FILES_CONTENTS),)
 
@@ -118,7 +128,7 @@ ifneq ($(PC_FILES_CONTENTS),)
 # PC_FILES_CONTENTS above, otherwise PC files may not be generated
 $(patsubst %,$(OBJ_BASE)/pc/%.pc,$(PC_FILENAMES)):$(OBJ_BASE)/pc/%.pc: $(GENERAL_D_LOC)
 	@$(call GEN_MESSAGE,$(@F))
-	$(VERBOSE)$(call generate_pcfile,$*,$@,$(call get_cont,CONTRIB_INCDIR,$*),$(call get_cont,PC_LIBS,$*),$(call get_cont,REQUIRES_LIBS,$*),$(call get_cont,PC_CFLAGS,$*),$(call get_cont,PC_EXTRA,$*))
+	$(VERBOSE)$(call generate_pcfile,$*,$@,$(call get_cont,CONTRIB_INCDIR,$*),$(call get_cont,PC_LIBS,$*),$(call get_cont,REQUIRES_LIBS,$*),$(call get_cont,PC_CFLAGS,$*),$(call get_extra,$*))
 
 all:: $(PC_FILES)
 
@@ -127,7 +137,7 @@ endif
 
 DEPS	+= $(foreach file,$(TARGET), $(call BID_LINK_DEPS,$(file)))
 
-$(filter-out $(LINK_INCR) %.so %.o.a %.o.pr.a, $(TARGET)):%.a: $(OBJS)
+$(filter-out $(LINK_INCR) %.so %.o.a %.o.pr.a, $(TARGET)):%.a: $(OBJS) $(GENERAL_D_LOC)
 	@$(AR_MESSAGE)
 	$(VERBOSE)$(call create_dir,$(@D))
 	$(VERBOSE)$(RM) $@
@@ -135,7 +145,7 @@ $(filter-out $(LINK_INCR) %.so %.o.a %.o.pr.a, $(TARGET)):%.a: $(OBJS)
 	@$(BUILT_MESSAGE)
 
 # shared lib
-$(filter %.so, $(TARGET)):%.so: $(OBJS) $(LIBDEPS)
+$(filter %.so, $(TARGET)):%.so: $(OBJS) $(LIBDEPS) $(GENERAL_D_LOC)
 	@$(LINK_SHARED_MESSAGE)
 	$(VERBOSE)$(call create_dir,$(@D))
 	$(VERBOSE)$(call MAKEDEP,$(LD)) $(BID_LINK) -MD -MF $(call BID_link_deps_file,$@) -o $@ $(LDFLAGS_SO) \

@@ -10,7 +10,7 @@
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="422,109,492,95,493,101,423,114"/>
 <area shape="rect" id="Node000005" href="$classcxx_1_1H__list.html#a6d51f7db1f61e1e2175e03ca8d034cfc" title="Insert an element before the iterator position." alt="" coords="504,120,639,160"/>
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="423,129,490,133,490,138,423,134"/>
-<area shape="rect" id="Node000007" href="$group__l4__timeout__api.html#ga3345aebfb9e55eccf20ff8b765197bae" title="Combine send and receive timeout in a timeout." alt="" coords="525,185,617,210"/>
+<area shape="rect" id="Node000007" href="$group__l4__timeout__api.html#ga7c5eebe8f0c4b5718ead96072886e7d2" title="Combine send and receive timeout in a timeout." alt="" coords="525,185,617,210"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="433,204,511,199,512,204,434,209"/>
 <area shape="rect" id="Node000008" href="$group__l4__timeout__api.html#gab3eeabba0542c7723fbd5628c6e4d6c3" title="Set an absolute timeout." alt="" coords="510,234,633,259"/>
 <area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="434,223,497,233,496,238,433,228"/>

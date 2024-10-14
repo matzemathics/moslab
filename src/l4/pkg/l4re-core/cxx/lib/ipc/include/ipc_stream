@@ -399,7 +399,7 @@ public:
    *
    * \return  The number of elements copied out.
    *
-   * See \ref Istream::operator>>()
+   * See \ref operator>>()
    */
   template< typename T >
   unsigned long get(T *buf, unsigned long elems)
@@ -444,7 +444,7 @@ public:
    * In contrast to a normal get, this version does actually not copy the data
    * but returns a pointer to the data.
    *
-   * See \ref Istream::operator>>()
+   * See \ref operator>>()
    */
   template< typename T >
   unsigned long get(Msg_ptr<T> const &buf, unsigned long elems = 1)
@@ -469,7 +469,7 @@ public:
    * \retval true   An element was successfully extracted.
    * \retval false  An element could not be extracted.
    *
-   * See \ref Istream::operator>>()
+   * See \ref operator>>()
    */
   template< typename T >
   bool get(T &v)
@@ -511,7 +511,7 @@ public:
    *
    * This is in particular useful for handling page faults or exceptions.
    *
-   * See \ref Istream::operator>>()
+   * See \ref operator>>()
    */
   l4_msgtag_t tag() const { return _tag; }
 
@@ -523,7 +523,7 @@ public:
    *
    * This is in particular useful for handling page faults or exceptions.
    *
-   * See \ref Istream::operator>>()
+   * See \ref operator>>()
    */
   l4_msgtag_t &tag() { return _tag; }
 
@@ -533,7 +533,7 @@ public:
    * \internal
    * Put a receive item into the stream's buffer registers.
    */
-  inline bool put(Buf_item const &);
+  inline bool put(Rcv_fpage const &);
 
   /**
    * \internal
@@ -608,7 +608,9 @@ public:
   Istream_copy(Istream const &o) : Istream(o), _mrs(*l4_utcb_mr_u(o.utcb()))
   {
     // do some reverse mr to utcb trickery
-    _utcb = (l4_utcb_t *)((l4_addr_t)&_mrs - (l4_addr_t)l4_utcb_mr_u((l4_utcb_t *)0));
+    _utcb = reinterpret_cast<l4_utcb_t *>
+      (reinterpret_cast<l4_addr_t>(&_mrs)
+       - reinterpret_cast<l4_addr_t>(l4_utcb_mr_u(nullptr)));
     _current_msg = reinterpret_cast<char*>(l4_utcb_mr_u(_utcb)->mr);
   }
 
@@ -727,7 +729,7 @@ public:
    * \internal
    * Put a send item into the stream's message buffer.
    */
-  inline bool put_snd_item(Snd_item const &);
+  inline bool put_snd_item(Snd_fpage const &);
 
 
   /**
@@ -758,16 +760,14 @@ public:
    */
   unsigned long tell() const
   {
-    unsigned w = (_pos + sizeof(l4_umword_t)-1) / sizeof(l4_umword_t);
-    w -= _current_item * 2;
+    unsigned w = l4_bytes_to_mwords(_pos) - _current_item * 2;
     _tag = l4_msgtag(0, w, _current_item, 0);
   }
 #endif
 public:
   l4_msgtag_t prepare_ipc(long proto = 0, unsigned flags = 0)
   {
-    unsigned w = (_pos + sizeof(l4_umword_t) - 1) / sizeof(l4_umword_t);
-    w -= _current_item * 2;
+    unsigned w = l4_bytes_to_mwords(_pos) - _current_item * 2;
     return l4_msgtag(proto, w, _current_item, flags);
   }
 
@@ -918,10 +918,10 @@ public:
 
 
 inline bool
-Ostream::put_snd_item(Snd_item const &v)
+Ostream::put_snd_item(Snd_fpage const &v)
 {
-  typedef Snd_item T;
-  _pos = cxx::Type_traits<Snd_item>::align(_pos);
+  typedef Snd_fpage T;
+  _pos = cxx::Type_traits<Snd_fpage>::align(_pos);
   if (Utcb_stream_check::check_utcb_data_offset(_pos + sizeof(T)))
     return false;
 
@@ -933,15 +933,21 @@ Ostream::put_snd_item(Snd_item const &v)
 
 
 inline bool
-Istream::put(Buf_item const &item)
+Istream::put(Rcv_fpage const &item)
 {
-  if (_current_buf >= L4_UTCB_GENERIC_BUFFERS_SIZE - 3)
+  unsigned words = item.is_compound() ? 3 : 2;
+  if (_current_buf >= L4_UTCB_GENERIC_BUFFERS_SIZE - words - 1)
     return false;
 
   l4_utcb_br_u(_utcb)->bdr &= ~L4_BDR_OFFSET_MASK;
 
-  reinterpret_cast<Buf_item&>(l4_utcb_br_u(_utcb)->br[_current_buf]) = item;
-  _current_buf += 2;
+  l4_umword_t *buf
+    = reinterpret_cast<l4_umword_t *>(&l4_utcb_br_u(_utcb)->br[_current_buf]);
+  *buf++ = item.base_x();
+  *buf++ = item.data();
+  if (item.is_compound())
+    *buf++ = item.rcv_task();
+  _current_buf += words;
   return true;
 }
 
@@ -1058,13 +1064,13 @@ inline L4::Ipc::Istream &operator >> (L4::Ipc::Istream &s, unsigned short int &v
 inline L4::Ipc::Istream &operator >> (L4::Ipc::Istream &s, char &v) { s.get(v); return s; }
 inline L4::Ipc::Istream &operator >> (L4::Ipc::Istream &s, unsigned char &v) { s.get(v); return s; }
 inline L4::Ipc::Istream &operator >> (L4::Ipc::Istream &s, signed char &v) { s.get(v); return s; }
-inline L4::Ipc::Istream &operator << (L4::Ipc::Istream &s, L4::Ipc::Buf_item const &v) { s.put(v); return s; }
+inline L4::Ipc::Istream &operator << (L4::Ipc::Istream &s, L4::Ipc::Rcv_fpage const &v) { s.put(v); return s; }
 inline L4::Ipc::Istream &operator << (L4::Ipc::Istream &s, L4::Ipc::Small_buf const &v) { s.put(v); return s; }
-inline L4::Ipc::Istream &operator >> (L4::Ipc::Istream &s, L4::Ipc::Snd_item &v)
+inline L4::Ipc::Istream &operator >> (L4::Ipc::Istream &s, L4::Ipc::Snd_fpage &v)
 {
   l4_umword_t b, d;
   s >> b >> d;
-  v = L4::Ipc::Snd_item(b, d);
+  v = L4::Ipc::Snd_fpage(b, d);
   return s;
 }
 inline L4::Ipc::Istream &operator >> (L4::Ipc::Istream &s, L4::Ipc::Varg &v)
@@ -1211,7 +1217,7 @@ inline L4::Ipc::Ostream &operator << (L4::Ipc::Ostream &s, unsigned short int v)
 inline L4::Ipc::Ostream &operator << (L4::Ipc::Ostream &s, char v) { s.put(v); return s; }
 inline L4::Ipc::Ostream &operator << (L4::Ipc::Ostream &s, unsigned char v) { s.put(v); return s; }
 inline L4::Ipc::Ostream &operator << (L4::Ipc::Ostream &s, signed char v) { s.put(v); return s; }
-inline L4::Ipc::Ostream &operator << (L4::Ipc::Ostream &s, L4::Ipc::Snd_item const &v) { s.put_snd_item(v); return s; }
+inline L4::Ipc::Ostream &operator << (L4::Ipc::Ostream &s, L4::Ipc::Snd_fpage const &v) { s.put_snd_item(v); return s; }
 template< typename T >
 inline L4::Ipc::Ostream &operator << (L4::Ipc::Ostream &s, L4::Cap<T> const &v)
 { s << L4::Ipc::Snd_fpage(v.fpage()); return s; }

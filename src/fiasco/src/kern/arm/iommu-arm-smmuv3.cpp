@@ -111,14 +111,14 @@ public:
     // Context descriptor, used for all bindings of this domain (across SMMUs
     // and across stream IDs). Allocated when the domain is bound for the first
     // time, freed only on destruction.
-    using Kmem_slab_cd = Kmem_slab_t<Cd, 64>;
+    static Kmem_slab_t<Cd, 64> _cd_allocator;
     Cd *_cd = nullptr;
 
     // Track on which SMMUs the domain was bound for which stream IDs. Might be
     // outdated in case a different domain was bound for the same SMMU-Stream ID
     // combination. Bindings are freed on unbind or destruction of the domain.
     struct Binding : cxx::S_list_item { unsigned stream_id; };
-    using Kmem_slab_binding = Kmem_slab_t<Binding>;
+    static Kmem_slab_t<Binding> _binding_allocator;
     using Binding_list = cxx::S_list<Binding>;
     using Bindings_array = cxx::array<Binding_list, unsigned, Num_iommus>;
     Bindings_array _bindings;
@@ -967,8 +967,7 @@ private:
 
 public:
   Iommu() :
-    _idx(this - iommus().begin()),
-    _lock(Spin_lock<>::Unlocked)
+    _idx(this - iommus().begin())
   {}
 };
 
@@ -982,6 +981,10 @@ IMPLEMENTATION [iommu]:
 Static_object<Iommu::Asid_alloc> Iommu::_asid_alloc;
 
 KIP_KERNEL_FEATURE("arm,smmu-v3");
+
+Kmem_slab_t<Iommu::Cd, 64> Iommu::Domain::_cd_allocator("Cd");
+Kmem_slab_t<Iommu::Domain::Binding>
+  Iommu::Domain::_binding_allocator("Binding");
 
 /**
  * Send a command to the SMMU and wait for its completion.
@@ -1373,8 +1376,6 @@ Iommu::setup(Address base_addr, unsigned eventq_irq, unsigned gerror_irq)
 
   unsigned cmdq_bits = min<unsigned>(Cmd_queue_max_bits, idr1.cmdqs().get());
   _cmd_queue.init(this, cmdq_bits);
-  _cmd_queue_lock.init();
-
 
   // Does the SMMU support broadcast TLB maintenance?
   if (idr0.btm())
@@ -1456,7 +1457,7 @@ Iommu::Domain::~Domain()
   _asid_alloc->free_asid_if_valid(&_asid);
 
   if (Cd *cd = atomic_exchange(&_cd, nullptr))
-    Kmem_slab_cd::q_del(_space->ram_quota(), cd);
+    _cd_allocator.q_del(_space->ram_quota(), cd);
 }
 
 IMPLEMENT
@@ -1473,7 +1474,7 @@ Iommu::Domain::get_cd(unsigned ias)
     // No ASID available.
     return nullptr;
 
-  Cd *new_cd = Kmem_slab_cd::q_new(_space->ram_quota());
+  Cd *new_cd = _cd_allocator.q_new(_space->ram_quota());
   if (!new_cd)
     return nullptr;
 
@@ -1514,7 +1515,7 @@ Iommu::Domain::get_cd(unsigned ias)
   if (!cas<Cd *>(&_cd, nullptr, new_cd))
     {
       // Already allocated by someone else.
-      Kmem_slab_cd::q_del(_space->ram_quota(), new_cd);
+      _cd_allocator.q_del(_space->ram_quota(), new_cd);
       return _cd;
     }
 
@@ -1547,7 +1548,7 @@ Iommu::Domain::add_binding(Iommu const *iommu, unsigned stream_id)
     if (binding->stream_id == stream_id)
       return true;
 
-  Binding *binding = Kmem_slab_binding::q_new(_space->ram_quota());
+  Binding *binding = _binding_allocator.q_new(_space->ram_quota());
   if (!binding)
     // Allocation failed!
     return false;
@@ -1567,7 +1568,7 @@ Iommu::Domain::del_binding(Iommu const *iommu, unsigned stream_id)
       {
         Binding *binding = *iter;
         bindings.erase(iter);
-        Kmem_slab_binding::q_del(_space->ram_quota(), binding);
+        _binding_allocator.q_del(_space->ram_quota(), binding);
         return true;
       }
   return false;
@@ -1578,7 +1579,7 @@ void
 Iommu::Domain::clear_bindings(Iommu const *iommu)
 {
   while (Binding *binding = _bindings[iommu->_idx].pop_front())
-    Kmem_slab_binding::q_del(_space->ram_quota(), binding);
+    _binding_allocator.q_del(_space->ram_quota(), binding);
 }
 
 PRIVATE

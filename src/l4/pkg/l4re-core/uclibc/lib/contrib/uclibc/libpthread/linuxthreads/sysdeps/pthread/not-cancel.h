@@ -19,14 +19,15 @@
 
 #include <sys/types.h>
 #include <sysdep.h>
+#include <time.h>
 
 /* Uncancelable open.  */
 #if defined __NR_openat && !defined __NR_open
 #define open_not_cancel(name, flags, mode) \
-	INLINE_SYSCALL (openat, 4, (int) (AT_FDCWD), (const char *) (name), \
+	INLINE_SYSCALL (openat, 4, AT_FDCWD, (const char *) (name), \
 		(flags), (mode))
 #define open_not_cancel_2(name, flags) \
-	INLINE_SYSCALL (openat, 3, (int) (AT_FDCWD), (const char *) (name), \
+	INLINE_SYSCALL (openat, 3, AT_FDCWD, (const char *) (name), \
 		(flags))
 #else
 #define open_not_cancel(name, flags, mode) \
@@ -104,6 +105,7 @@ extern int __openat64_nocancel (int fd, const char *fname, int oflag,
 # define nanosleep_not_cancel(requested_time, remaining) \
   INLINE_SYSCALL (nanosleep, 2, requested_time, remaining)
 #else
+extern int __nanosleep_nocancel (const struct timespec *requested_time, struct timespec *remaining);
 # define nanosleep_not_cancel(requested_time, remaining) \
   __nanosleep_nocancel (requested_time, remaining)
 #endif

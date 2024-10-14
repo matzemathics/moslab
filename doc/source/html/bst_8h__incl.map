@@ -1,12 +1,16 @@
 <map id="l4/cxx/bits/bst.h" name="l4/cxx/bits/bst.h">
-<area shape="rect" id="Node000001" title="AVL tree." alt="" coords="98,5,223,31"/>
-<area shape="rect" id="Node000002" href="$type__traits_source.html" title=" " alt="" coords="19,79,123,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,33,98,72,95,68,145,29"/>
-<area shape="rect" id="Node000004" href="$bst__base_8h.html" title="AVL tree." alt="" coords="177,152,269,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="166,31,174,64,188,103,209,139,205,142,184,105,169,65,161,32"/>
-<area shape="rect" id="Node000005" href="$bst__iter_8h.html" title="AVL tree." alt="" coords="198,79,281,104"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="175,29,218,68,215,71,172,33"/>
-<area shape="rect" id="Node000003" href="$type__traits_8h_source.html" title=" " alt="" coords="5,152,137,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="74,104,74,138,69,138,69,104"/>
-<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="239,105,231,139,226,138,234,104"/>
+<area shape="rect" id="Node000001" title="AVL tree." alt="" coords="246,5,371,31"/>
+<area shape="rect" id="Node000002" href="$type__traits_source.html" title=" " alt="" coords="167,79,271,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="296,33,246,72,243,68,293,29"/>
+<area shape="rect" id="Node000006" href="$bst__base_8h.html" title="AVL tree." alt="" coords="325,152,417,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="314,31,322,64,336,103,357,139,353,142,332,105,317,65,309,32"/>
+<area shape="rect" id="Node000007" href="$bst__iter_8h.html" title="AVL tree." alt="" coords="346,79,429,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="323,29,366,68,363,71,320,33"/>
+<area shape="rect" id="Node000003" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="5,152,137,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="197,106,109,148,107,144,194,102"/>
+<area shape="rect" id="Node000005" href="$type__traits_8h_source.html" title=" " alt="" coords="161,152,293,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="223,104,227,138,222,139,218,105"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="10,225,133,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="74,178,74,212,69,212,69,178"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="387,105,379,139,374,138,382,104"/>
 </map>

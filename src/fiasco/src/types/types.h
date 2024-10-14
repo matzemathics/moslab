@@ -8,6 +8,7 @@
 #ifdef __cplusplus
 
 #include <cassert>
+#include <cstdint>
 #include <cxx/cxx_int>
 #include <cxx/type_traits>
 #include <new>
@@ -21,9 +22,25 @@ T expect(T v, T expected)
 template< typename a, typename b > inline
 a nonull_static_cast( b p )
 {
-  Address d = reinterpret_cast<Address>
-                 (static_cast<a>(reinterpret_cast<b>(10))) - 10;
-  return reinterpret_cast<a>( reinterpret_cast<Address>(p) + d);
+  if (!p)
+    __builtin_unreachable();
+  return static_cast<a>(p);
+}
+
+/**
+ * Cast an object to a different type with an offset.
+ *
+ * \tparam T1      Target object type.
+ * \tparam T2      Source object type.
+ * \param  offset  Byte offset within the source object.
+ *
+ * \return Target object.
+ */
+template<typename T1, typename T2> inline
+T1 offset_cast(T2 ptr, uintptr_t offset)
+{
+  uintptr_t addr = reinterpret_cast<uintptr_t>(ptr) + offset;
+  return reinterpret_cast<T1>(addr);
 }
 
 /**
@@ -171,7 +188,7 @@ struct Order : cxx::int_base<unsigned, Order<SHIFT> >, cxx::int_diff_ops<Order<S
 {
   typedef cxx::int_base<unsigned, Order<SHIFT> > Base_class;
   Order() = default;
-  explicit constexpr Order<SHIFT>(typename Base_class::Value v) : Base_class(v) {}
+  explicit constexpr Order(typename Base_class::Value v) : Base_class(v) {}
 };
 
 
@@ -197,7 +214,7 @@ public:
 
   explicit constexpr Addr_val(Address a) : B(a) {}
 
-  //explicit Addr_val(::Order o) : B(Address(1) << (Order::val(o) - ARCH_PAGE_SHIFT + SHIFT)) {}
+  //explicit Addr_val(::Order o) : B(Address{1} << (Order::val(o) - ARCH_PAGE_SHIFT + SHIFT)) {}
 
   constexpr Addr_val(Addr_val const volatile &o) : B(o._v) {}
   Addr_val(Addr_val const &)  = default;
@@ -288,7 +305,7 @@ struct Simple_ptr_policy
   typedef T *Member_type;
   typedef T *Storage_type;
 
-  static void init(Storage_type const &) {}
+  static void init(Storage_type &d) { d = nullptr; }
   static void init(Storage_type &d, Storage_type const &s) { d = s; }
   static void copy(Storage_type &d, Storage_type const &s) { d = s; }
   static void destroy(Storage_type const &) {}
@@ -305,7 +322,7 @@ struct Simple_ptr_policy<void>
   typedef void Member_type;
   typedef void *Storage_type;
 
-  static void init(Storage_type const &) {}
+  static void init(Storage_type &d) { d = nullptr; }
   static void init(Storage_type &d, Storage_type const &s) { d = s; }
   static void copy(Storage_type &d, Storage_type const &s) { d = s; }
   static void destroy(Storage_type const &) {}
@@ -319,8 +336,6 @@ template<typename T, template<typename P> class Policy = Simple_ptr_policy,
          typename Discriminator = int>
 class Smart_ptr
 {
-private:
-  struct Null_check_type;
 public:
   typedef typename Policy<T>::Deref_type Deref_type;
   typedef typename Policy<T>::Ptr_type Ptr_type;
@@ -369,17 +384,14 @@ public:
   constexpr Ptr_type get() const
   { return Policy<T>::ptr(_p); }
 
-  constexpr operator Null_check_type const * () const
-  { return reinterpret_cast<Null_check_type const *>(Policy<T>::ptr(_p)); }
+  explicit constexpr operator bool () const
+  { return Policy<T>::ptr(_p) != nullptr; }
 };
 
 enum User_ptr_discr {};
 
 template<typename T>
-struct User
-{
-  typedef Smart_ptr<T, Simple_ptr_policy, User_ptr_discr> Ptr;
-};
+using User_ptr = Smart_ptr<T, Simple_ptr_policy, User_ptr_discr>;
 
 struct Cpu_number : cxx::int_type_order_base<unsigned, Cpu_number, Order>
 {
@@ -441,10 +453,10 @@ write_consistent(cxx::enable_if_t<(sizeof(T) > sizeof(Mword)), T> *t,
     d[0] = s[0];
   __asm__ __volatile__ ( "" : : "m"(d[0]));
 
-  __asm__ __volatile__ ( "" : "=m"((Words_array&)(*d)));
+  __asm__ __volatile__ ( "" : "=m"(reinterpret_cast<Words_array&>(*d)));
   for (unsigned i = 1; i < Words; ++i)
     d[i] = s[i];
-  __asm__ __volatile__ ( "" : : "m"((Words_array&)(*d)));
+  __asm__ __volatile__ ( "" : : "m"(reinterpret_cast<Words_array&>(*d)));
 
   if (v.present())
     {
@@ -475,4 +487,3 @@ size(const T(&)[N]) noexcept
 enum Address_type { ADDR_KERNEL = 0, ADDR_USER = 1, ADDR_UNKNOWN = 2 };
 
 #endif // TYPES_H__
-

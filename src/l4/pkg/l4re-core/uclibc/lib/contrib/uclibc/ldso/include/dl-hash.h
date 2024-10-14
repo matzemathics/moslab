@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Copyright (C) 2000-2006 by Erik Andersen <andersen@codepoet.org>
  *
@@ -72,6 +71,8 @@ struct elf_resolve {
   size_t l_tls_modid;
   /* Nonzero if _dl_init_static_tls should be called for this module */
   unsigned int l_need_tls_init:1;
+  /* Address of TLS descriptor hash table.  */
+  void *l_tlsdesc_table;
 #endif
 
   ElfW(Addr) mapaddr;
@@ -135,7 +136,7 @@ struct elf_resolve {
   unsigned long data_words;
 #endif
 
-#ifdef __FDPIC__
+#if defined(__FRV_FDPIC__) || defined(__BFIN_FDPIC__) || defined(__FDPIC__)
   /* Every loaded module holds a hashtable of function descriptors of
      functions defined in it, such that it's easy to release the
      memory when the module is dlclose()d.  */
@@ -154,7 +155,7 @@ struct elf_resolve {
 #define JMP_RELOCS_DONE	    0x000002
 #define INIT_FUNCS_CALLED   0x000004
 #define FINI_FUNCS_CALLED   0x000008
-#define DL_OPENED	    0x000010
+#define DL_OPENED2	    0x000010
 #define DL_RESERVED	    0x000020
 
 extern struct dyn_elf     * _dl_symbol_tables;

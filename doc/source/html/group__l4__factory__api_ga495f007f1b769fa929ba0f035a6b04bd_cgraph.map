@@ -1,0 +1,5 @@
+<map id="l4_factory_create_vcpu_context" name="l4_factory_create_vcpu_context">
+<area shape="rect" id="Node000001" title="Create a new hardware vCPU context." alt="" coords="5,5,179,45"/>
+<area shape="rect" id="Node000002" href="$group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address." alt="" coords="227,13,296,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
+</map>

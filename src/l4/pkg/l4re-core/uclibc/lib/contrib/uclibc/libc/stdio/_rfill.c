@@ -7,10 +7,6 @@
 
 #include "_stdio.h"
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: Do we really need a seperate rfill function?
-#endif
-
 #ifdef __STDIO_BUFFERS
 
 /* Read some data into the buffer.
@@ -24,7 +20,7 @@ size_t attribute_hidden __stdio_rfill(register FILE *__restrict stream)
 	size_t rv;
 
 	__STDIO_STREAM_VALIDATE(stream);
-	assert(stream->__filedes >= -1);
+	assert(stream->__filedes >= -2);
 	assert(__STDIO_STREAM_IS_READING(stream));
 	assert(!__STDIO_STREAM_BUFFER_RAVAIL(stream)); /* Buffer must be empty. */
 	assert(__STDIO_STREAM_BUFFER_SIZE(stream));	/* Must have a buffer. */

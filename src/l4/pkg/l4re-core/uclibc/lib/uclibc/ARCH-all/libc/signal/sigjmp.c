@@ -12,9 +12,8 @@
    Lesser General Public License for more details.
 
    You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, write to the Free
-   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307 USA.  */
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
 
 #include <stddef.h>
 #include <setjmp.h>
@@ -33,6 +32,8 @@ int __sigjmp_save (sigjmp_buf env, int savemask)
 #if 0
     env[0].__mask_was_saved = (savemask &&
 	    sigprocmask (SIG_BLOCK, NULL, &env[0].__saved_mask) == 0);
+#else
+    (void)env; (void)savemask;
 #endif
 
     return 0;

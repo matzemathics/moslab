@@ -1238,6 +1238,7 @@ Returns:
                 break;
             }
 
+#ifndef BID_VARIANT_FLAG_NOFPU
             case 'f':
                 FloatToString (
                     Item.Scratch,
@@ -1246,6 +1247,7 @@ Returns:
                     );
                 Item.Item.pw = Item.Scratch;
                 break;
+#endif
 
             case 't':
                 TimeToString (Item.Scratch, va_arg(ps->args, EFI_TIME *));
@@ -1391,6 +1393,7 @@ ValueToString (
     *p2 = 0;
 }
 
+#ifndef BID_VARIANT_FLAG_NOFPU
 VOID
 FloatToString (
     IN CHAR16   *Buffer,
@@ -1443,6 +1446,7 @@ FloatToString (
     ValueToString(Buffer + x, FALSE, (INTN)f);
     return;
 }
+#endif
 
 VOID
 TimeToString (

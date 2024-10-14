@@ -32,7 +32,7 @@ Region_list::find_free(Region const &search, unsigned long long _size,
         return 0;
 
       if (0)
-        printf("try start %p\n", (void *)start);
+        printf("try start %p\n", reinterpret_cast<void *>(start));
 
       Region *z = find(Region::start_size(start, _size));
       if (!z)
@@ -253,8 +253,8 @@ Region_list::optimize()
         return;
 
       if (n->type() == c->type() && n->sub_type() == c->sub_type()
-          && n->name() == c->name() &&
-          l4_round_page(c->end()) >= l4_trunc_page(n->begin()))
+          && n->name() == c->name() && n->eager() == c->eager()
+          && l4_round_page(c->end()) >= l4_trunc_page(n->begin()))
         {
           c->end(n->end());
           remove(n);

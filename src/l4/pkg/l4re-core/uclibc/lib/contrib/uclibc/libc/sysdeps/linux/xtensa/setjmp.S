@@ -88,6 +88,7 @@ END (setjmp)
 
 ENTRY (__sigsetjmp)
 1:
+#if defined(__XTENSA_WINDOWED_ABI__)
 	/* Flush registers.  */
 	movi	a4, __window_spill
 	callx4	a4
@@ -121,7 +122,7 @@ ENTRY (__sigsetjmp)
 	l32i	a4, a6, 12
 	s32i	a7, a5, 8
 	s32i	a4, a5, 12
-	addi	a5, a6, 16
+	addi	a5, a5, 16
 	addi	a6, a6, 16
 	blt	a6, a8, .Lsjloop
 .Lendsj:
@@ -146,6 +147,23 @@ ENTRY (__sigsetjmp)
 	callx4	a3
 	mov	a2, a6
 	retw
+#elif defined(__XTENSA_CALL0_ABI__)
+	s32i	a0, a2, 0
+	s32i	a1, a2, 4
+	s32i	a12, a2, 8
+	s32i	a13, a2, 12
+	s32i	a14, a2, 16
+	s32i	a15, a2, 20
+	mov	a12, a2
+	movi	a0, JUMPTARGET(__sigjmp_save)
+	FDPIC_LOAD_JUMPTARGET(a0, a11, a0)
+	callx0	a0
+	l32i	a0, a12, 0
+	l32i	a12, a12, 8
+	ret
+#else
+#error Unsupported Xtensa ABI
+#endif
 END(__sigsetjmp)
 
 weak_extern(_setjmp)

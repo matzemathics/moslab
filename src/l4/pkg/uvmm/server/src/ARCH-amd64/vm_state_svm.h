@@ -77,6 +77,7 @@ public:
     Hlt = 0x78, // Exec_halt
     Ioio = 0x7b, // Io_access
     Msr = 0x7c, // Exec_rdmsr and Exec_wrmsr
+    Shutdown = 0x7f, // Shutdown event
     Vmrun = 0x80,   // VMRUN instruction
     Vmmcall = 0x81, // Exec_vmcall
     Vmload = 0x82,  // VMLOAD instruction
@@ -92,7 +93,7 @@ public:
 
     Nested_page_fault = 0x400, // Ept_violation
 
-    // TODO: intercept FERR_FREEZE and shutdown events
+    // TODO: intercept FERR_FREEZE event
     // TODO: intercept INTR/NMI/SMI/INIT
     // TODO: intercept INVD
     // TODO: intercept task switch
@@ -252,6 +253,12 @@ public:
     return Injection_event(_vmcb->control_area.exitintinfo);
   }
 
+  void invalidate_pending_event()
+  {
+    _vmcb->control_area.exitintinfo &=
+      ~(1 << Injection_event::valid_bfm_t::Lsb);
+  }
+
   bool pf_write() const override
   { return Npf_info(_vmcb->control_area.exitinfo1).write(); }
 
@@ -263,6 +270,9 @@ public:
 
   l4_umword_t cr3() const override
   { return _vmcb->state_save_area.cr3; }
+
+  l4_uint64_t xcr0() const override
+  { return _vmcb->state_save_area.xcr0; }
 
   bool determine_next_ip_from_ip(l4_vcpu_regs_t *regs, unsigned char *inst_buf,
                                  unsigned inst_buf_len);
@@ -438,7 +448,7 @@ public:
   void advance_entry_ip(unsigned bytes) override
   { _vmcb->control_area.n_rip += bytes; }
 
-  void additional_failure_info() {}
+  void additional_failure_info(unsigned /* vcpu_id */) {}
 
 private:
   static Dbg warn()

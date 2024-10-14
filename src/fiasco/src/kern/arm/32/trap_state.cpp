@@ -40,9 +40,26 @@ struct Trex
 
 
 //-----------------------------------------------------------------
+IMPLEMENTATION [arm && !cpu_virt]:
+
+#include "processor.h"
+#include "mem.h"
+
+PUBLIC inline NEEDS["processor.h", "mem.h"]
+void
+Trap_state::copy_and_sanitize(Trap_state const *src)
+{
+  // copy pf_address, esr, r0..r12, usp, ulr / omit km_lr
+  Mem::memcpy_mwords(this, src, 17);
+  pc = src->pc;
+  psr = access_once(&src->psr);
+  psr &= ~(Proc::Status_mode_mask | Proc::Status_interrupts_mask);
+  psr |= Proc::Status_mode_user | Proc::Status_always_mask;
+}
+
+//-----------------------------------------------------------------
 IMPLEMENTATION:
 
-#include "mem.h"
 #include "mem_layout.h"
 
 #include <cstdio>
@@ -70,18 +87,6 @@ bool
 Trap_state::exception_is_undef_insn() const
 { return esr.ec() == 0; }
 
-PUBLIC inline NEEDS["mem.h"]
-void
-Trap_state::copy_and_sanitize(Trap_state const *src)
-{
-  // copy up to and including ulr
-  Mem::memcpy_mwords(this, src, 17);
-  // skip km_lr
-  pc = src->pc;
-  psr = access_once(&src->psr);
-  sanitize_user_state();
-}
-
 PUBLIC
 void
 Trap_state::dump()
@@ -105,8 +110,8 @@ Trap_state::dump()
      /* 3C */ 0, 0, "<TrExc>", "<IPC>"};
 
   printf("EXCEPTION: (%02x) %s pfa=%08lx, error=%08lx psr=%08lx\n",
-         (unsigned)esr.ec(), excpts[esr.ec()] ? excpts[esr.ec()] : "",
-         pf_address, error_code, psr);
+         esr.ec().get(), excpts[esr.ec()] ? excpts[esr.ec()] : "", pf_address,
+         error_code, psr);
 
   printf("R[0]: %08lx %08lx %08lx %08lx  %08lx %08lx %08lx %08lx\n"
          "R[8]: %08lx %08lx %08lx %08lx  %08lx %08lx %08lx %08lx\n",
@@ -114,8 +119,8 @@ Trap_state::dump()
 	 r[8], r[9], r[10], r[11], r[12], usp, ulr, pc);
 
   extern char virt_address[] asm ("virt_address");
-  Mword lower_limit = (Mword)&virt_address;
-  Mword upper_limit = (Mword)&Mem_layout::initcall_end;
+  Mword lower_limit = reinterpret_cast<Mword>(&virt_address);
+  Mword upper_limit = reinterpret_cast<Mword>(&Mem_layout::initcall_end);
   if (lower_limit <= pc && pc < upper_limit)
     {
       printf("Data around PC at 0x%lx:\n", pc);

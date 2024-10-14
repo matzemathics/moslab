@@ -1,11 +1,9 @@
 <map id="l4_ipc_sleep" name="l4_ipc_sleep">
-<area shape="rect" id="Node000001" title="Sleep for an amount of time." alt="" coords="184,80,287,105"/>
-<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#ga46347a153dfcc368ef76b022dc70a83d" title="Sleep for a certain amount of milliseconds." alt="" coords="6,5,135,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,76,135,44,107,33,109,28,137,40,200,71"/>
-<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga7c75873cd265368610e39db5aefabe43" title="Sleep for a certain amount of microseconds." alt="" coords="9,55,133,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,85,133,80,134,74,171,80"/>
-<area shape="rect" id="Node000004" href="$group__l4util__api.html#ga3a74b4dee439a339ed5a6368845cad37" title="Go sleep and never wake up." alt="" coords="5,104,136,129"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,105,136,110,136,105,170,99"/>
-<area shape="rect" id="Node000005" href="$group__l4util__api.html#ga88934d990c73f40eebe52998d894ff69" title="Suspend thread for a period of us microseconds." alt="" coords="29,153,113,179"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="198,114,137,143,107,156,105,151,135,138,196,109"/>
+<area shape="rect" id="Node000001" title="Sleep for an amount of time." alt="" coords="184,55,287,80"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#gaf7beb30ebd9a71fbafeda9d1be057d88" title="Sleep for a certain amount of milliseconds." alt="" coords="6,5,135,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,53,113,33,115,28,180,48"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga5a466a7ca3fa167baadbd824238ad7cc" title="Sleep for a certain amount of microseconds." alt="" coords="9,55,133,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,70,133,70,133,65,170,65"/>
+<area shape="rect" id="Node000004" href="$group__l4util__api.html#ga4842edcbe6e461bc083bb33ca870a762" title="Go sleep and never wake up." alt="" coords="5,104,136,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="180,87,115,106,113,101,179,81"/>
 </map>

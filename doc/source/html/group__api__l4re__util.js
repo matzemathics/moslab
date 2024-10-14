@@ -18,15 +18,15 @@ var group__api__l4re__util =
       [ "set_rcv_cap_flags", "classL4Re_1_1Util_1_1Br__manager.html#a5d19a46572e98d48455699001948981f", null ],
       [ "setup_wait", "classL4Re_1_1Util_1_1Br__manager.html#a9921eb68b599590eab08aaf503d7d3df", null ]
     ] ],
-    [ "L4Re::Util::Counting_cap_alloc< COUNTERTYPE >", "classL4Re_1_1Util_1_1Counting__cap__alloc.html", [
-      [ "Counting_cap_alloc", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a849f1a48f5f9f29d974b1d7bb000d1ef", null ],
-      [ "alloc", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a22e8f75cf332f8fddc6ac5eb56f3e19e", null ],
-      [ "alloc", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#aa662d38152af70cf0ba9ba160a54c338", null ],
-      [ "free", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a4f65c951a2cc3aae899c67e1ef325a8a", null ],
-      [ "last", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#aa1caa6e0b07fa3b34e5690825d2ed4bd", null ],
-      [ "release", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#aa27af115ce976a4073a5c53f09a88ee4", null ],
-      [ "setup", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a846a529e791401a6b301b40c4d7d9c71", null ],
-      [ "take", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a0139ab5116b54be7efe539f1d1e98741", null ]
+    [ "L4Re::Util::Counting_cap_alloc< COUNTERTYPE, Dbg >", "classL4Re_1_1Util_1_1Counting__cap__alloc.html", [
+      [ "Counting_cap_alloc", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#af2fe4673eb75d7badb49a3615673f169", null ],
+      [ "alloc", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#acbcdb89371502dd5bc820cd977176fe9", null ],
+      [ "alloc", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#ade1824504edcf74b1c8781128af995ec", null ],
+      [ "free", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a7aef62ca4affa236882604e4c774eb88", null ],
+      [ "last", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a5ee4809d1ce19f356d8294ae6905f1ea", null ],
+      [ "release", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a09fcc26693f7e41bb69b1a9b3aa4aa6d", null ],
+      [ "setup", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a0ad59cfc028e0e77e33182f2858cb1f1", null ],
+      [ "take", "classL4Re_1_1Util_1_1Counting__cap__alloc.html#a8d405da49fa938178a8188696d36b42b", null ]
     ] ],
     [ "L4Re::Util::Event_buffer_t< PAYLOAD >", "classL4Re_1_1Util_1_1Event__buffer__t.html", [
       [ "attach", "classL4Re_1_1Util_1_1Event__buffer__t.html#a7ccb828618951c13cd1ccd7ebe1959e2", null ],

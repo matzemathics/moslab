@@ -27,9 +27,16 @@ struct F : Factory
     int res = node.get_reg_val(0, &base, &cfgsz);
     if (res < 0)
       {
+#ifdef CONFIG_MMU
         Err().printf("Failed to read 'reg' from node %s: %s\n",
                      node.get_name(), node.strerror(res));
         throw L4::Runtime_error(-L4_EINVAL);
+#else
+        // This is not fatal. In case of no-MMU systems, all addresses are
+        // globally unique. We preferrbly use the address of the config DS.
+        base = ~0UL;
+        cfgsz = L4_PAGESIZE;
+#endif
       }
 
     int sz;
@@ -38,12 +45,31 @@ struct F : Factory
     if (prop && sz > 0)
       nnq_id = fdt32_to_cpu(*prop);
 
-    auto c = make_device<Virtio_proxy_mmio>(cap, (l4_size_t) cfgsz, nnq_id,
-                                            devs->ram().get());
+    auto c = make_device<Virtio_proxy_mmio>(cap, static_cast<l4_size_t>(cfgsz),
+                                            nnq_id, devs->ram().get());
     if (c->init_irqs(devs, node) < 0)
       return nullptr;
 
     c->register_irq(devs->vmm()->registry());
+#ifndef CONFIG_MMU
+    // No remapping possible: preferrably map to the physical address.
+    l4_addr_t cfg_ds_start;
+    l4_addr_t cfg_ds_end;
+    L4Re::chksys(c->mmio_ds()->map_info(&cfg_ds_start, &cfg_ds_end),
+                 "get config ds addr");
+
+    if (res < 0)
+        node.set_reg_val(cfg_ds_start, cfg_ds_end - cfg_ds_start + 1U);
+    else if (base != cfg_ds_start)
+      {
+        auto warn = Dbg(Dbg::Dev, Dbg::Warn, "Virtio_proxy_mmio");
+        warn.printf("Cannot map to requrested MMIO region"
+                    " (requested: 0x%llx, actual: 0x%lx)."
+                    " Guest performance will be impaired!\n",
+                    base, cfg_ds_start);
+      }
+#endif
+
     devs->vmm()->register_mmio_device(c, Vmm::Region_type::Virtual, node);
     return c;
   }

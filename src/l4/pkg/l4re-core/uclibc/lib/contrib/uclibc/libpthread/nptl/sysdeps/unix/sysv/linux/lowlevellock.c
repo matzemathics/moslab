@@ -22,8 +22,6 @@
 #include <lowlevellock.h>
 #include <sys/time.h>
 #include <tls.h>
-#include <tcb-offsets.h>
-
 
 void
 __lll_lock_wait_private (int *futex)

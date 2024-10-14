@@ -18,5 +18,4 @@ nm:
 #endif /* __ASSEMBLER __*/
 
 #include <common/sysdep.h>
-
 #endif

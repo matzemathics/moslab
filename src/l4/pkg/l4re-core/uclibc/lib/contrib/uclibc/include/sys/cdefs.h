@@ -37,20 +37,39 @@
 
 #ifdef __GNUC__
 
+/* All functions, except those with callbacks or those that
+   synchronize memory, are leaf functions.  */
+# if __GNUC_PREREQ (4, 6) && !defined _LIBC
+#  define __LEAF , __leaf__
+#  define __LEAF_ATTR __attribute__ ((__leaf__))
+# else
+#  define __LEAF
+#  define __LEAF_ATTR
+# endif
+
 /* GCC can always grok prototypes.  For C++ programs we add throw()
    to help it optimize the function calls.  But this works only with
    gcc 2.8.x and egcs.  For gcc 3.2 and up we even mark C functions
    as non-throwing using a function attribute since programs can use
    the -fexceptions options for C code as well.  */
 # if !defined __cplusplus && __GNUC_PREREQ (3, 3)
-#  define __THROW	__attribute__ ((__nothrow__))
-#  define __NTH(fct)	__attribute__ ((__nothrow__)) fct
+#  define __THROW	__attribute__ ((__nothrow__ __LEAF))
+#  define __THROWNL	__attribute__ ((__nothrow__))
+#  define __NTH(fct)	__attribute__ ((__nothrow__ __LEAF)) fct
 # else
 #  if defined __cplusplus && __GNUC_PREREQ (2,8)
-#   define __THROW	throw ()
-#   define __NTH(fct)	fct throw ()
+/* Dynamic exception specification is deprecated since C++11, so
+   we only use it when compiling for an earlier standard.  */
+#    if __cplusplus < 201103UL
+#     define __THROW	throw ()
+#    else
+#     define __THROW	noexcept
+#    endif
+#    define __THROWNL	__THROW
+#    define __NTH(fct)	__LEAF_ATTR fct __THROW
 #  else
 #   define __THROW
+#   define __THROWNL
 #   define __NTH(fct)	fct
 #  endif
 # endif
@@ -60,6 +79,7 @@
 # define __inline		/* No inline functions.  */
 
 # define __THROW
+# define __THROWNL
 # define __NTH(fct)	fct
 
 #endif	/* GCC.  */
@@ -115,10 +135,6 @@
 #endif
 
 
-/* Fortify support.  */
-#define __bos(ptr) __builtin_object_size (ptr, __USE_FORTIFY_LEVEL > 1)
-#define __bos0(ptr) __builtin_object_size (ptr, 0)
-
 #if __GNUC_PREREQ (4,3)
 # define __warndecl(name, msg) \
   extern void name (void) __attribute__((__warning__ (msg)))
@@ -165,9 +181,13 @@
 # ifdef __cplusplus
 #  define __REDIRECT_NTH(name, proto, alias) \
      name proto __THROW __asm__ (__ASMNAME (#alias))
+#  define __REDIRECT_NTHNL(name, proto, alias) \
+     name proto __THROWNL __asm__ (__ASMNAME (#alias))
 # else
 #  define __REDIRECT_NTH(name, proto, alias) \
      name proto __asm__ (__ASMNAME (#alias)) __THROW
+#  define __REDIRECT_NTHNL(name, proto, alias) \
+     name proto __asm__ (__ASMNAME (#alias)) __THROWNL
 # endif
 # define __ASMNAME(cname)  __ASMNAME2 (__USER_LABEL_PREFIX__, cname)
 # define __ASMNAME2(prefix, cname) __STRING (prefix) cname
@@ -204,6 +224,15 @@
 # define __attribute_malloc__ /* Ignore */
 #endif
 
+/* Tell the compiler which arguments to an allocation function
+   indicate the size of the allocation.  */
+#if __GNUC_PREREQ (4, 3)
+# define __attribute_alloc_size__(params) \
+  __attribute__ ((__alloc_size__ params))
+#else
+# define __attribute_alloc_size__(params) /* Ignore.  */
+#endif
+
 /* At some point during the gcc 2.96 development the `pure' attribute
    for functions was introduced.  We don't want to use it unconditionally
    (although this would be possible) since it generates warnings.  */
@@ -211,6 +240,12 @@
 # define __attribute_pure__ __attribute__ ((__pure__))
 #else
 # define __attribute_pure__ /* Ignore */
+#endif
+
+#if __GNUC_PREREQ (2,96)
+# define __attribute_const__ __attribute__((__const__))
+#else
+# define __attribute_const__     /* unimplemented */
 #endif
 
 /* At some point during the gcc 3.1 development the `used' attribute
@@ -267,9 +302,6 @@
 #if __GNUC_PREREQ (3,4)
 # define __attribute_warn_unused_result__ \
    __attribute__ ((__warn_unused_result__))
-# if __USE_FORTIFY_LEVEL > 0
-#  define __wur __attribute_warn_unused_result__
-# endif
 #else
 # define __attribute_warn_unused_result__ /* empty */
 #endif
@@ -308,6 +340,17 @@
 #  define __extern_always_inline extern __always_inline
 # endif
 #endif
+
+/* Undefine (also defined in libc-symbols.h).  */
+#undef __attribute_copy__
+#if __GNUC_PREREQ (9, 0)
+/* Copies attributes from the declaration or type referenced by
+   the argument.  */
+# define __attribute_copy__(arg) __attribute__ ((__copy__ (arg)))
+#else
+# define __attribute_copy__(arg)
+#endif
+
 
 /* GCC 4.3 and above allow passing all anonymous arguments of an
    __extern_always_inline function to some other vararg function.  */

@@ -234,7 +234,8 @@ Jdb_list::show_line(Jdb_list::Line_buf *b)
 
   // our modified printf ignores the length argument if used with
   // strings containing ESC-sequences
-  int s_len_visible = print_limit(b->begin(), Jdb_screen::width());
+  int s_len_visible = print_limit(b->begin(),
+                                  min<unsigned>(Jdb_screen::width(), b->length()));
   b->begin()[s_len_visible] = 0;
   printf("%s\033[K\n", b->begin());
 }
@@ -357,7 +358,7 @@ Jdb_thread_list::action(int cmd, void *&argbuf, char const *&fmt, int &)
 	  return EXTRA_INPUT;
 	}
 
-      Thread *t = Jdb::get_current_active();
+      Thread *t = Jdb::get_thread(Jdb::current_cpu);
       switch (subcmd)
 	{
 	case 'r': cpu = 0; list_threads(t, 'r'); break;
@@ -377,7 +378,7 @@ Jdb_thread_list::action(int cmd, void *&argbuf, char const *&fmt, int &)
       Console *gzip = Kconsole::console()->find_console(Console::GZIP);
       if (gzip)
 	{
-	  Thread *t = Jdb::get_current_active();
+	  Thread *t = Jdb::get_thread(Jdb::current_cpu);
 	  gzip->state(gzip->state() | Console::OUTENABLED);
 	  long_output = 1;
 	  Jdb_thread_list::init('p', t);
@@ -401,7 +402,7 @@ void
 Jdb_list::show_header()
 {
   Jdb::cursor();
-  printf("%.*s\033[K\n", (int)Jdb_screen::width(), show_head());
+  printf("%.*s\033[K\n", Jdb_screen::width(), show_head());
 }
 
 PUBLIC

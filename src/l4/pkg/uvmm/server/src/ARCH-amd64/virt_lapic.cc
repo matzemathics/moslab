@@ -29,7 +29,8 @@ Virt_lapic::Virt_lapic(unsigned id, cxx::Ref_ptr<Vmm::Cpu_dev> cpu)
   _lapic_version(Lapic_version),
   _x2apic_enabled(false),
   _nmi_pending(false),
-  _cpu(cpu)
+  _cpu(cpu),
+  _registry(cpu->vcpu().get_ipc_registry())
 {
   trace().printf("Virt_lapic ctor; ID 0x%x\n", id);
 
@@ -80,24 +81,62 @@ Virt_lapic::set(Vdev::Msix::Data_register_format data)
 }
 
 void
-Virt_lapic::bind_eoi_handler(unsigned irq, Eoi_handler *handler)
+Virt_lapic::init_ipi()
+{
+  // Only sleeping vCPUs must be rescheduled
+  if (_cpu->get_cpu_state() == Vmm::Cpu_dev::Sleeping)
+    _cpu->reschedule();
+
+  _cpu->send_init_ipi();
+  _sipi_cnt = 0;
+}
+
+void
+Virt_lapic::startup_ipi(Vdev::Msix::Data_register_format data)
+{
+  // only act on the first SIPI
+  if (_sipi_cnt++)
+    return;
+
+  enum : l4_uint32_t
+  {
+    Icr_startup_page_shift = 12
+  };
+
+  l4_addr_t start_eip = data.vector() << Icr_startup_page_shift;
+  start_cpu(start_eip);
+  _cpu->send_sipi();
+}
+
+void
+Virt_lapic::start_cpu(l4_addr_t entry)
+{
+  Vmm::Vcpu_ptr vcpu = _cpu->vcpu();
+  vcpu->r.sp = 0;
+  vcpu->r.ip = entry; // r.ip used to communicate entry to Vcpu_ptr.reset()
+
+  info().printf("Starting CPU %u on EIP 0x%lx\n", _lapic_x2_id, entry);
+}
+
+void
+Virt_lapic::bind_irq_src_handler(unsigned irq, Irq_src_handler *handler)
 {
   assert (irq < 256); // sources array length
   // linux writes the same RTE at IOAPIC twice; allow this behavior if the
   // handler stays the same.
   if(handler && _sources[irq] && handler != _sources[irq])
     {
-      Err().printf("[LAPIC 0x%x] EOI handler for IRQ %u already set to %p, new "
+      Err().printf("[LAPIC 0x%x] IRQ src handler for IRQ %u already set to %p, new "
                    "%p\n",
                    _lapic_x2_id, irq, _sources[irq], handler);
-      throw L4::Runtime_error(-L4_EEXIST, "Bind EOI handler at local APIC.");
+      throw L4::Runtime_error(-L4_EEXIST, "Bind IRQ src handler at local APIC.");
     }
 
   _sources[irq] = handler;
 }
 
-Eoi_handler *
-Virt_lapic::get_eoi_handler(unsigned irq) const
+Irq_src_handler *
+Virt_lapic::get_irq_src_handler(unsigned irq) const
 {
   assert (irq < 256); // sources array length
   return _sources[irq];

@@ -1,0 +1,27 @@
+<map id="L4virtio::Svr::Virtqueue::finish" name="L4virtio::Svr::Virtqueue::finish">
+<area shape="rect" id="Node000001" title="Add a descriptor to the used ring, and notify an observer." alt="" coords="988,69,1159,109"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#acf4b1bbf927d4d40b2532a7a18bf21bd" title="Read data from port." alt="" coords="767,5,927,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="988,68,917,48,919,43,989,63"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a5b906c9cec86e9cf30dff4fe1edf1b11" title="Write data to port." alt="" coords="767,69,927,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="974,92,927,92,927,87,974,87"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#ade546fa843dcfb4a0412757fee9834d7" title="Send control message to driver." alt="" coords="753,134,940,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="997,116,934,137,932,131,996,111"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#a88e370a9d1c9e029a8de04f68e380457" title="Send a DEVICE_ADD message and update the internal state." alt="" coords="532,77,692,117"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="739,135,685,120,687,115,741,130"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#a71decef04824571dd001527b9cff8ccb" title="Send a PORT_OPEN message and update the internal state." alt="" coords="528,141,696,181"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="740,164,696,164,696,159,740,159"/>
+<area shape="rect" id="Node000011" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#a8335db1f605263cb6ccf2109b8993944" title="Send a DEVICE_REMOVE message and update the internal state." alt="" coords="519,205,705,245"/>
+<area shape="poly" id="edge11_Node000004_Node000011" title=" " alt="" coords="741,193,687,208,685,203,739,188"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a7a27d977561bcd659d54644f91b3a307" title="Callback called on DEVICE_READY event." alt="" coords="244,37,471,77"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="518,85,471,78,471,73,519,80"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a5f8d5752548def0f7db1cbade7918d6a" title="Try to resend a stalled control message and update the port and global state accordingly." alt="" coords="268,102,447,157"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="519,112,447,121,447,115,518,106"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a7df13c65e5b01e4bd8140a1c9b6b3858" title="Receive new control messages and resend stalled ones." alt="" coords="5,109,196,149"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="254,132,196,132,196,127,254,127"/>
+<area shape="poly" id="edge10_Node000009_Node000007" title=" " alt="" coords="514,152,446,143,447,138,515,146"/>
+<area shape="rect" id="Node000010" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a718fd3f1885b00a1ac6f0d9d33e4b9f4" title="Callback called on PORT_OPEN event." alt="" coords="255,181,460,221"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="515,179,460,188,460,183,514,174"/>
+<area shape="poly" id="edge13_Node000011_Node000007" title=" " alt="" coords="536,203,518,196,470,172,438,159,440,154,472,167,520,191,538,198"/>
+<area shape="rect" id="Node000012" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a7dde9e63b6fb498c87b6c1ed9e60198f" title="Callback called on PORT_READY event." alt="" coords="252,245,463,285"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="506,245,463,251,462,246,505,239"/>
+</map>

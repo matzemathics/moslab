@@ -14,7 +14,7 @@
 
 #include <errno.h>
 
-#define INTERNAL_SYSCALL_NCS(name, err, nr, args...) \
+#define INTERNAL_SYSCALL_NCS_X86_UPTOFIVE(name, err, nr, args...) \
 (__extension__ \
  ({ \
 	register unsigned int resultvar; \
@@ -30,7 +30,20 @@
   }) \
 )
 
-#if 1 /* defined __PIC__ || defined __pic__ */
+#define INTERNAL_SYSCALL_NCS_X86_0 INTERNAL_SYSCALL_NCS_X86_UPTOFIVE
+#define INTERNAL_SYSCALL_NCS_X86_1 INTERNAL_SYSCALL_NCS_X86_UPTOFIVE
+#define INTERNAL_SYSCALL_NCS_X86_2 INTERNAL_SYSCALL_NCS_X86_UPTOFIVE
+#define INTERNAL_SYSCALL_NCS_X86_3 INTERNAL_SYSCALL_NCS_X86_UPTOFIVE
+#define INTERNAL_SYSCALL_NCS_X86_4 INTERNAL_SYSCALL_NCS_X86_UPTOFIVE
+#define INTERNAL_SYSCALL_NCS_X86_5 INTERNAL_SYSCALL_NCS_X86_UPTOFIVE
+
+extern long __libc_i386_syscall6(unsigned long, ...)
+    __attribute__((__cdecl__));
+#define INTERNAL_SYSCALL_NCS_X86_6(name, err, nr, args...) \
+	__libc_i386_syscall6((unsigned long)name, args)
+
+#define INTERNAL_SYSCALL_NCS(name, err, nr, args...) \
+	INTERNAL_SYSCALL_NCS_X86_##nr(name, err, nr, args)
 
 /* This code avoids pushing/popping ebx as much as possible.
  * I think the main reason was that older GCCs had problems
@@ -44,17 +57,9 @@
 
 /* We need some help from the assembler to generate optimal code.
  * We define some macros here which later will be used.  */
-/* gcc>=4.6 with LTO need the same guards as IMA (a.k.a --combine) did.
- * See gcc.gnu.org/PR47577  */
 /* FIXME: drop these b* macros! */
 
 __asm__ (
-#if defined __DOMULTI__ || __GNUC_PREREQ (4, 6)
-	/* Protect against asm macro redefinition (happens in __DOMULTI__ mode).
-	 * Unfortunately, it ends up visible in .o files. */
-	".ifndef _BITS_SYSCALLS_ASM\n\t"
-	".set _BITS_SYSCALLS_ASM,1\n\t"
-#endif
 	".L__X'%ebx = 1\n\t"
 	".L__X'%ecx = 2\n\t"
 	".L__X'%edx = 2\n\t"
@@ -95,10 +100,6 @@ __asm__ (
 	".endif\n\t"
 	".endif\n\t"
 	".endm\n\t"
-
-#if defined __DOMULTI__ || __GNUC_PREREQ (4, 6)
-	".endif\n\t" /* _BITS_SYSCALLS_ASM */
-#endif
 );
 
 #define LOADARGS_0
@@ -107,7 +108,6 @@ __asm__ (
 #define LOADARGS_3  LOADARGS_1
 #define LOADARGS_4  LOADARGS_1
 #define LOADARGS_5  LOADARGS_1
-#define LOADARGS_6  LOADARGS_1 "push %%ebp\n\t" "movl %7, %%ebp\n\t"
 
 #define RESTOREARGS_0
 #define RESTOREARGS_1  "bpopl .L__X'%k2, %k2\n\t"
@@ -115,7 +115,6 @@ __asm__ (
 #define RESTOREARGS_3  RESTOREARGS_1
 #define RESTOREARGS_4  RESTOREARGS_1
 #define RESTOREARGS_5  RESTOREARGS_1
-#define RESTOREARGS_6  "pop %%ebp\n\t" RESTOREARGS_1
 
 #define ASMFMT_0()
 /* "acdSD" constraint would work too, but "SD" would use esi/edi and cause
@@ -135,59 +134,6 @@ __asm__ (
 	, "a" (arg1), "c" (arg2), "d" (arg3), "S" (arg4)
 #define ASMFMT_5(arg1, arg2, arg3, arg4, arg5) \
 	, "a" (arg1), "c" (arg2), "d" (arg3), "S" (arg4), "D" (arg5)
-#define ASMFMT_6(arg1, arg2, arg3, arg4, arg5, arg6) \
-	, "a" (arg1), "c" (arg2), "d" (arg3), "S" (arg4), "D" (arg5), "g" (arg6)
-
-#else /* !PIC */
-
-/* Simpler code which just uses "b" constraint to load ebx.
- * Seems to work with gc 4.2.x, and generates slightly smaller,
- * but slightly slower code. Example (time syscall):
- *
- * -	8b 4c 24 04            mov    0x4(%esp),%ecx
- * -	87 cb                  xchg   %ecx,%ebx
- * +	53                     push   %ebx
- * +	8b 5c 24 08            mov    0x8(%esp),%ebx
- *	b8 0d 00 00 00         mov    $0xd,%eax
- *	cd 80                  int    $0x80
- * -	87 cb                  xchg   %ecx,%ebx
- * +	5b                     pop    %ebx
- *	c3                     ret
- *
- * 2 bytes smaller, but uses stack via "push/pop ebx"
- */
-
-#define LOADARGS_0
-#define LOADARGS_1
-#define LOADARGS_2
-#define LOADARGS_3
-#define LOADARGS_4
-#define LOADARGS_5
-#define LOADARGS_6  "push %%ebp\n\t" "movl %7, %%ebp\n\t"
-
-#define RESTOREARGS_0
-#define RESTOREARGS_1
-#define RESTOREARGS_2
-#define RESTOREARGS_3
-#define RESTOREARGS_4
-#define RESTOREARGS_5
-#define RESTOREARGS_6  "pop %%ebp\n\t"
-
-#define ASMFMT_0()
-#define ASMFMT_1(arg1) \
-	, "b" (arg1)
-#define ASMFMT_2(arg1, arg2) \
-	, "b" (arg1), "c" (arg2)
-#define ASMFMT_3(arg1, arg2, arg3) \
-	, "b" (arg1), "c" (arg2), "d" (arg3)
-#define ASMFMT_4(arg1, arg2, arg3, arg4) \
-	, "b" (arg1), "c" (arg2), "d" (arg3), "S" (arg4)
-#define ASMFMT_5(arg1, arg2, arg3, arg4, arg5) \
-	, "b" (arg1), "c" (arg2), "d" (arg3), "S" (arg4), "D" (arg5)
-#define ASMFMT_6(arg1, arg2, arg3, arg4, arg5, arg6) \
-	, "b" (arg1), "c" (arg2), "d" (arg3), "S" (arg4), "D" (arg5), "m" (arg6)
-
-#endif /* !PIC */
 
 #endif /* __ASSEMBLER__ */
 #endif /* _BITS_SYSCALLS_H */

@@ -1,0 +1,12 @@
+<map id="cxx::Bitfield::set_unshifted" name="cxx::Bitfield::set_unshifted">
+<area shape="rect" id="Node000001" title="Set the bits corresponding to val." alt="" coords="5,35,132,75"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Bitfield.html#a8e305e8c9e712e990c0c433563df6e9d" title="Set the bits corresponding to val." alt="" coords="180,5,307,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,41,166,36,167,41,133,47"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367" title="Get the shifted bits for val." alt="" coords="355,42,481,67"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="132,54,180,55,307,55,341,54,341,59,307,60,180,60,132,59"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="307,33,342,39,341,44,306,39"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="389,43,383,34,386,24,398,18,418,15,442,19,452,28,448,32,440,24,418,21,400,23,390,27,388,33,394,40"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Bitfield.html#a818da07b2e19e478f5deb4f30fed2b68" title="Get the shifted bits for val." alt="" coords="529,35,656,75"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="481,61,516,61,516,66,481,66"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="529,49,495,48,495,43,529,43"/>
+</map>

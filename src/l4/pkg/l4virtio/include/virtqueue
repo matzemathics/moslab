@@ -1,19 +1,7 @@
 // vi:set ft=cpp: -*- Mode: C++ -*-
+/* SPDX-License-Identifier: MIT */
 /*
  * (c) 2014 Alexander Warg <warg@os.inf.tu-dresden.de>
- *
- * This file is part of TUD:OS and distributed under the terms of the
- * GNU General Public License 2.
- * Please see the COPYING-GPL-2 file for details.
- *
- * As a special exception, you may use this file as part of a free software
- * library without restriction.  Specifically, if other files instantiate
- * templates or use macros or inline functions from this file, or you compile
- * this file and link it with other files to produce an executable, this
- * file does not by itself cause the resulting executable to be covered by
- * the GNU General Public License.  This exception does not however
- * invalidate any other reasons why the executable file might be covered by
- * the GNU General Public License.
  */
 
 #include <l4/re/util/debug>
@@ -46,6 +34,9 @@ static inline void rmb() { asm volatile ("sync" : : : "memory"); }
 #elif defined(__amd64__) || defined(__i386__) || defined(__i686__)
 static inline void wmb() { asm volatile ("sfence" : : : "memory"); }
 static inline void rmb() { asm volatile ("lfence" : : : "memory"); }
+#elif defined(__riscv)
+static inline void wmb() { asm volatile ("fence ow, ow" : : : "memory"); }
+static inline void rmb() { asm volatile ("fence ir, ir" : : : "memory"); }
 #else
 #warning Missing proper memory write barrier
 static inline void wmb() { asm volatile ("" : : : "memory"); }
@@ -74,10 +65,10 @@ public:
   /// Make a Ptr from a raw 64bit address
   explicit Ptr(l4_uint64_t vm_addr) : _p(vm_addr) {}
 
-  /// \return The raw 64bit address of the pointer.
+  /// \return The raw 64bit address of the stored pointer.
   l4_uint64_t get() const { return _p; }
 
-  /// \return true if the pointer is invalid (NULL).
+  /// \return true if the stored pointer is valid (not NULL).
   bool is_valid() const { return _p != ~0ULL; }
 
 private:
@@ -133,7 +124,8 @@ public:
     {
       L4Re::Util::Dbg().printf("D[%04x]: %08llx (%x) f=%04x n=%04x\n",
                                idx, addr.get(),
-                               len, (unsigned)flags.raw, (unsigned)next);
+                               len, static_cast<unsigned>(flags.raw),
+                               static_cast<unsigned>(next));
     }
   };
 
@@ -209,23 +201,24 @@ public:
   };
 
 protected:
-  Desc *_desc;   ///< pointer to descriptor table, NULL if queue is off.
-  Avail *_avail; ///< pointer to available ring.
-  Used *_used;         ///< pointer to used ring.
+  Desc *_desc = nullptr; ///< pointer to descriptor table, NULL if queue is off.
+  Avail *_avail = nullptr; ///< pointer to available ring.
+  Used *_used = nullptr;   ///< pointer to used ring.
 
   /** The life counter for the queue */
-  l4_uint16_t _current_avail;
+  l4_uint16_t _current_avail = 0;
 
   /**
    * mask used for indexing into the descriptor table
    * and the rings.
    */
-  l4_uint16_t _idx_mask;
+  l4_uint16_t _idx_mask = 0;
 
   /**
    * Create a disabled virtqueue.
    */
-  Virtqueue() : _desc(0), _idx_mask(0) {}
+  Virtqueue() = default;
+
   Virtqueue(Virtqueue const &) = delete;
 
 public:
@@ -326,7 +319,7 @@ public:
    */
   unsigned long total_size() const
   {
-    return ((char *) _used - (char *) _desc)
+    return (reinterpret_cast<char *>(_used) - reinterpret_cast<char *>(_desc))
             + used_size(num());
   }
 
@@ -334,13 +327,13 @@ public:
    * Get the offset of the available ring from the descriptor table.
    */
   unsigned long avail_offset() const
-  { return (char const *)_avail - (char const *)_desc; }
+  { return reinterpret_cast<char *>(_avail) - reinterpret_cast<char *>(_desc); }
 
   /**
    * Get the offset of the used ring from the descriptor table.
    */
   unsigned long used_offset() const
-  { return (char const *)_used - (char const *)_desc; }
+  { return reinterpret_cast<char *>(_used) - reinterpret_cast<char *>(_desc); }
 
   /**
    * Enable this queue.
@@ -365,9 +358,9 @@ public:
       throw L4::Runtime_error(-L4_EINVAL, "Queue too large.");
 
     _idx_mask = num - 1;
-    _desc = (Desc*)desc;
-    _avail = (Avail*)avail;
-    _used = (Used*)used;
+    _desc = static_cast<Desc*>(desc);
+    _avail = static_cast<Avail*>(avail);
+    _used = static_cast<Used*>(used);
 
     _current_avail = 0;
 
@@ -392,8 +385,9 @@ public:
   {
     l4_addr_t desc = reinterpret_cast<l4_addr_t>(ring);
     l4_addr_t avail = l4_round_size(desc + desc_size(num), Avail_align);
-    l4_addr_t used = l4_round_size(avail + avail_size(num), Used_align);
-    setup(num, (void *)desc, (void *)avail, (void *)used);
+    void *used = reinterpret_cast<void *>(
+      l4_round_size(avail + avail_size(num), Used_align));
+    setup(num, ring, reinterpret_cast<void *>(avail), used);
   }
 
   /**

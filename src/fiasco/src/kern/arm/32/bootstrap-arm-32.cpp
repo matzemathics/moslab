@@ -1,4 +1,4 @@
-IMPLEMENTATION [arm && arm_v6plus]:
+IMPLEMENTATION [arm && mmu && arm_v6plus]:
 
 #include "kmem_space.h"
 
@@ -17,7 +17,7 @@ Bootstrap::set_ttbcr()
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_lpae && !cpu_virt]:
+IMPLEMENTATION [arm && mmu && arm_lpae && !cpu_virt]:
 
 #include "cpu.h"
 
@@ -46,7 +46,7 @@ Bootstrap::enable_paging(Mword pdir)
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_lpae && cpu_virt]:
+IMPLEMENTATION [arm && mmu && arm_lpae && cpu_virt]:
 
 PUBLIC static inline void
 Bootstrap::enable_paging(Mword pdir)
@@ -68,7 +68,7 @@ Bootstrap::enable_paging(Mword pdir)
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_lpae]:
+IMPLEMENTATION [arm && mmu && arm_lpae]:
 
 static inline
 Bootstrap::Order
@@ -82,27 +82,27 @@ Bootstrap::init_paging()
   Phys_addr *const lpae = reinterpret_cast<Phys_addr*>(kern_to_boot(bs_info.pi.kernel_lpae_dir));
 
   for (unsigned i = 0; i < 4; ++i)
-    lpae[i] = Phys_addr(((Address)page_dir + 0x1000 * i) | 3);;
+    lpae[i] = Phys_addr((reinterpret_cast<Address>(page_dir) + 0x1000 * i) | 3);
 
   set_mair0(Page::Mair0_prrr_bits);
   create_initial_mappings();
 
-  return Phys_addr((Mword)lpae);
+  return Phys_addr(reinterpret_cast<Mword>(lpae));
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && !arm_lpae && !(arm_v7 || arm_v8 || arm_mpcore)]:
+IMPLEMENTATION [arm && mmu && !arm_lpae && !(arm_v7 || arm_v8 || arm_mpcore)]:
 
 PUBLIC static inline
 Bootstrap::Phys_addr
 Bootstrap::init_paging()
 {
   create_initial_mappings();
-  return Phys_addr((Mword)kern_to_boot(bs_info.pi.kernel_page_directory));
+  return Phys_addr(reinterpret_cast<Mword>(kern_to_boot(bs_info.pi.kernel_page_directory)));
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && !arm_lpae]:
+IMPLEMENTATION [arm && mmu && !arm_lpae]:
 
 #include "config.h"
 #include "cpu.h"
@@ -149,7 +149,7 @@ Bootstrap::do_arm_1176_cache_alias_workaround()
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && !arm_lpae && (arm_v7 || arm_v8 || arm_mpcore)]:
+IMPLEMENTATION [arm && mmu && !arm_lpae && (arm_v7 || arm_v8 || arm_mpcore)]:
 
 #include "paging.h"
 
@@ -161,13 +161,14 @@ Bootstrap::init_paging()
   asm volatile ("mcr p15, 0, %0, c10, c2, 1" : : "r"(Page::Mair1_nmrr_bits));
   create_initial_mappings();
 
-  return Phys_addr((Mword)kern_to_boot(bs_info.pi.kernel_page_directory));
+  return Phys_addr(reinterpret_cast<Mword>(kern_to_boot(bs_info.pi.kernel_page_directory)));
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && !cpu_virt]:
+IMPLEMENTATION [arm && mmu && !cpu_virt]:
 
 #include "mem_layout.h"
+#include "paging_bits.h"
 
 static void
 Bootstrap::leave_hyp_mode()
@@ -181,8 +182,13 @@ Bootstrap::leave_hyp_mode()
                     "   mov %[tmp2], lr  \n"
                     "   msr spsr, %[psr] \n"
                     "   adr r4, 1f       \n"
+#ifdef __thumb__
+                    "   .inst.w 0xf3848e30    @ msr elr_hyp, r4 \n"
+                    "   .inst.w 0xf3de8f00    @ eret \n"
+#else
                     "   .inst 0xe12ef300 | 4   @ msr elr_hyp, r4 \n"
                     "   .inst 0xe160006e       @ eret \n"
+#endif
                     "1: mov sp, %[tmp]   \n"
                     "   mov lr, %[tmp2]  \n"
                     : [tmp]"=&r"(tmp), [tmp2]"=&r"(tmp2)
@@ -190,7 +196,7 @@ Bootstrap::leave_hyp_mode()
     }
 }
 
-PUBLIC static inline NEEDS["mem_layout.h"]
+PUBLIC static inline NEEDS["mem_layout.h", "paging_bits.h"]
 void
 Bootstrap::create_initial_mappings()
 {
@@ -206,26 +212,27 @@ Bootstrap::create_initial_mappings()
 
   // map kernel to desired virtual address
   for (va = Virt_addr(Mem_layout::Map_base),
-       pa = Phys_addr(Mem_layout::trunc_superpage(bs_info.kernel_start_phys));
-       pa < Phys_addr(Mem_layout::round_superpage(bs_info.kernel_end_phys));
+       pa = Phys_addr(Super_pg::trunc(bs_info.kernel_start_phys));
+       pa < Phys_addr(Super_pg::round(bs_info.kernel_end_phys));
        va += Bootstrap::map_page_size(), pa += Bootstrap::map_page_size_phys())
     Bootstrap::map_memory(page_dir, va, pa, false);
 
   // Map kernel 1:1. Needed by Fiasco bootstrap and the mp trampoline after they
   // enable paging, and by add_initial_pmem().
-  for (pa = Phys_addr(Mem_layout::trunc_superpage(bs_info.kernel_start_phys));
-       pa < Phys_addr(Mem_layout::round_superpage(bs_info.kernel_end_phys));
+  for (pa = Phys_addr(Super_pg::trunc(bs_info.kernel_start_phys));
+       pa < Phys_addr(Super_pg::round(bs_info.kernel_end_phys));
        pa += Bootstrap::map_page_size_phys())
     Bootstrap::map_memory(page_dir, Virt_addr(cxx::int_value<Phys_addr>(pa)),
                           pa, true);
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && cpu_virt]:
+IMPLEMENTATION [arm && mmu && cpu_virt]:
 
 #include "kip.h"
+#include "paging_bits.h"
 
-PUBLIC static inline NEEDS["kip.h"]
+PUBLIC static inline NEEDS["kip.h", "paging_bits.h"]
 void
 Bootstrap::create_initial_mappings()
 {
@@ -265,11 +272,37 @@ Bootstrap::create_initial_mappings()
 
   // map kernel to desired virtual address
   for (va = Virt_addr(Mem_layout::Map_base),
-       pa = Phys_addr(Mem_layout::trunc_superpage(bs_info.kernel_start_phys));
-       pa < Phys_addr(Mem_layout::round_superpage(bs_info.kernel_end_phys));
+       pa = Phys_addr(Super_pg::trunc(bs_info.kernel_start_phys));
+       pa < Phys_addr(Super_pg::round(bs_info.kernel_end_phys));
        va += Bootstrap::map_page_size(), pa += Bootstrap::map_page_size_phys())
     Bootstrap::map_memory(page_dir, va, pa, false);
 }
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu]:
+
+PUBLIC static inline void
+Bootstrap::leave_hyp_mode()
+{
+  // Nothing to do. Already done by bootstrap on AArch32.
+}
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu && amp]:
+
+#include "global_data.h"
+
+PUBLIC static inline NEEDS["global_data.h"]
+void
+Bootstrap::init_node_data()
+{ Global_data_base::set_amp_offset(0); }
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu && !amp]:
+
+PUBLIC static inline void
+Bootstrap::init_node_data()
+{}
 
 //---------------------------------------------------------------------------
 IMPLEMENTATION [arm]:
@@ -281,6 +314,7 @@ Bootstrap::set_mair0(Mword v)
 asm
 (
 ".section .text.init,\"ax\"            \n"
+".p2align 2                            \n"
 ".type _start,#function                \n"
 ".global _start                        \n"
 "_start:                               \n"
@@ -307,6 +341,8 @@ asm
 ".previous                             \n"
 );
 
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && mmu]:
 
 struct Elf32_dyn
 {
@@ -326,7 +362,7 @@ struct Elf32_rel
 
   inline void apply(unsigned long load_addr)
   {
-    auto *addr = (unsigned long *)(load_addr + offset);
+    auto *addr = reinterpret_cast<unsigned long *>(load_addr + offset);
     *addr += load_addr;
   }
 };

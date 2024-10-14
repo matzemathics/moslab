@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/util/event_svr Source File</title>
+<title>L4Re Operating System Framework: l4/re/util/event_svr Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -175,7 +178,7 @@ $(document).ready(function(){initNavTree('event__svr_source.html',''); initResiz
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    info.length = 0;</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    Event_absinfo _info[naxes];</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    Event_absinfo _info[L4RE_ABS_MAX];</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">int</span> r = <span class="keyword">static_cast&lt;</span>SVR*<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;get_axis_info(<span class="keywordtype">id</span>, naxes, axes.<a class="code hl_variable" href="structL4_1_1Ipc_1_1Array__in__buf.html#ac89c9e32ec16a01ab1d04e6bebb0a802">data</a>, _info);</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordflow">if</span> (r &lt; 0)</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      <span class="keywordflow">return</span> r;</div>
@@ -208,12 +211,12 @@ $(document).ready(function(){initNavTree('event__svr_source.html',''); initResiz
 <div class="ttc" id="aclassL4Re_1_1Event_html"><div class="ttname"><a href="classL4Re_1_1Event.html">L4Re::Event</a></div><div class="ttdoc">Event class.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00148">event:150</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Util_1_1Event__svr_html"><div class="ttname"><a href="classL4Re_1_1Util_1_1Event__svr.html">L4Re::Util::Event_svr</a></div><div class="ttdoc">Convenience wrapper for implementing an event server.</div><div class="ttdef"><b>Definition</b> <a href="event__svr_source.html#l00039">event_svr:40</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Util_1_1Event__svr_html_a33d9f393da33d16a85528ed5a4312e47"><div class="ttname"><a href="classL4Re_1_1Util_1_1Event__svr.html#a33d9f393da33d16a85528ed5a4312e47">L4Re::Util::Event_svr::op_get_buffer</a></div><div class="ttdeci">long op_get_buffer(L4Re::Event::Rights, L4::Ipc::Cap&lt; L4Re::Dataspace &gt; &amp;ds)</div><div class="ttdoc">Handle L4Re::Event protocol.</div><div class="ttdef"><b>Definition</b> <a href="event__svr_source.html#l00055">event_svr:55</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
-<div class="ttc" id="aclassL4_1_1Ipc_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a></div><div class="ttdoc">Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00545">ipc_types:546</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a></div><div class="ttdoc">Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00562">ipc_types:563</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
-<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8">L4_EINVAL</a></div><div class="ttdeci">@ L4_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00056">err.h:56</a></div></div>
+<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8">L4_EINVAL</a></div><div class="ttdeci">@ L4_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00057">err.h:57</a></div></div>
 <div class="ttc" id="agroup__l4__fpage__api_html_ggaee60789a48cab2782f5a368237591b39a3cca0a716e3eb64c770567932460203f"><div class="ttname"><a href="group__l4__fpage__api.html#ggaee60789a48cab2782f5a368237591b39a3cca0a716e3eb64c770567932460203f">L4_CAP_FPAGE_RW</a></div><div class="ttdeci">@ L4_CAP_FPAGE_RW</div><div class="ttdoc">Read and interface specific 'W' right for capability flex-pages.</div><div class="ttdef"><b>Definition</b> <a href="____l4__fpage_8h_source.html#l00195">__l4_fpage.h:195</a></div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Array__in__buf_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Array__in__buf.html">L4::Ipc::Array_in_buf</a></div><div class="ttdoc">Server-side copy in buffer for Array.</div><div class="ttdef"><b>Definition</b> <a href="ipc__array_source.html#l00137">ipc_array:138</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Array__in__buf_html_a3607637dbef29454c851aae3718f06cf"><div class="ttname"><a href="structL4_1_1Ipc_1_1Array__in__buf.html#a3607637dbef29454c851aae3718f06cf">L4::Ipc::Array_in_buf::length</a></div><div class="ttdeci">LEN_TYPE length</div><div class="ttdoc">The length of the array.</div><div class="ttdef"><b>Definition</b> <a href="ipc__array_source.html#l00145">ipc_array:145</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Array__in__buf_html_ac89c9e32ec16a01ab1d04e6bebb0a802"><div class="ttname"><a href="structL4_1_1Ipc_1_1Array__in__buf.html#ac89c9e32ec16a01ab1d04e6bebb0a802">L4::Ipc::Array_in_buf::data</a></div><div class="ttdeci">ELEM_TYPE data[MAX]</div><div class="ttdoc">The data elements.</div><div class="ttdef"><b>Definition</b> <a href="ipc__array_source.html#l00143">ipc_array:143</a></div></div>
@@ -225,7 +228,7 @@ $(document).ready(function(){initNavTree('event__svr_source.html',''); initResiz
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="dir_57b23affb30111293db30b1adc1928ce.html">util</a></li><li class="navelem"><b>event_svr</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

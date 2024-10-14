@@ -66,7 +66,8 @@ namespace {
 class Mux_client : public Client
 {
 public:
-  Mux_client(Mux *mux) : Client("CONS", 0, 512, 512, Key()) { output_mux(mux); }
+  Mux_client(Mux *mux) : Client("CONS", 0, 512, 512, Key(), false, 0, nullptr)
+  { output_mux(mux); }
   void trigger() const {}
 };
 }
@@ -80,7 +81,7 @@ Mux_i::Mux_i(Controller *ctl, char const *name)
 }
 
 void
-Mux_i::do_client_output(Client *v, int taillines, bool add_nl)
+Mux_i::do_client_output(Client const *v, int taillines, bool add_nl)
 {
   Client::Buf const *b = v->wbuf();
   Client::Buf::Index p = b->tail();

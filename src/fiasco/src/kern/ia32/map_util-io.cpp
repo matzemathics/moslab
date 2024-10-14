@@ -12,7 +12,6 @@ extern Static_object<Mapdb> mapdb_io;
 IMPLEMENTATION[(ia32|amd64) & io]:
 
 #include "l4_types.h"
-#include "assert.h"
 #include "space.h"
 #include "io_space.h"
 
@@ -83,11 +82,9 @@ io_map(Space *from, L4_fpage const &fp_from,
 
   Mu::Auto_tlb_flush<Io_space> tlb;
 
-  return map<Io_space>(mapdb_io.get(), from, from, map_addr,
-                       map_size,
-                       to, to, map_addr,
-                       control.is_grant(), fp_from.rights(), tlb,
-                       (Io_space::Reap_list**)0);
+  return map<Io_space>(mapdb_io.get(), from, from, map_addr, map_size, to, to,
+                       map_addr, control.is_grant(), fp_from.rights(), tlb,
+                       nullptr);
 }
 
 /** Unmap IO mappings.
@@ -117,8 +114,8 @@ io_fpage_unmap(Space *space, L4_fpage fp, L4_map_mask mask)
   // current()->regs()->eflags &= ~EFLAGS_IOPL;
 
   Mu::Auto_tlb_flush<Io_space> tlb;
-  return unmap<Io_space>(mapdb_io.get(), space, space,
-               port, Io_space::V_pfc(1) << size,
-               fp.rights(), mask, tlb, (Io_space::Reap_list**)0);
+  return unmap<Io_space>(mapdb_io.get(), space, space, port,
+                         Io_space::V_pfc(1) << size, fp.rights(), mask, tlb,
+                         nullptr);
 }
 

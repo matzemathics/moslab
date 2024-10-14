@@ -37,7 +37,7 @@ IMPLEMENTATION[ux]:
 #include "regdefs.h"
 #include "trampoline.h"
 #include <cstring>
-#include "config.h"
+#include "paging_bits.h"
 #include "emulation.h"
 #include "logdefs.h"
 
@@ -76,7 +76,8 @@ Mem_space::page_map(Address phys, Address virt, Address size, Attr attr)
 {
   auto guard = lock_guard(cpu_lock);
 
-  Mword *trampoline = (Mword *)Mem_layout::kernel_trampoline_page;
+  Mword *trampoline =
+    reinterpret_cast<Mword *>(Mem_layout::kernel_trampoline_page);
 
   *(trampoline + 1) = virt;
   *(trampoline + 2) = size;
@@ -132,7 +133,7 @@ T *
 Mem_space::user_to_kernel(T const *addr, bool write)
 {
   Phys_addr phys;
-  Virt_addr virt = Virt_addr((Address) addr);
+  Virt_addr virt = Virt_addr(reinterpret_cast<Address>(addr));
   Attr attr;
   unsigned error = 0;
   Page_order size;
@@ -148,7 +149,8 @@ Mem_space::user_to_kernel(T const *addr, bool write)
           // See if we want to write and are not allowed to
           // Generic check because INTEL_PTE_WRITE == INTEL_PDE_WRITE
           if (!write || (attr.rights & Page::Rights::W()))
-            return (T*)Mem_layout::phys_to_pmem(cxx::int_value<Phys_addr>(phys));
+            return reinterpret_cast<T*>(Mem_layout::phys_to_pmem(
+                                          cxx::int_value<Phys_addr>(phys)));
 
           error |= PF_ERR_PRESENT;
         }
@@ -172,7 +174,7 @@ Mem_space::user_to_kernel(T const *addr, bool write)
     }
 }
 
-IMPLEMENT inline NEEDS ["config.h", "cpu_lock.h", "lock_guard.h"]
+IMPLEMENT inline NEEDS ["paging_bits.h", "cpu_lock.h", "lock_guard.h"]
 template< typename T >
 T
 Mem_space::peek_user(T const *addr)
@@ -180,8 +182,8 @@ Mem_space::peek_user(T const *addr)
   T value;
 
   // Check if we cross page boundaries
-  if (((Address)addr                   & Config::PAGE_MASK) ==
-     (((Address)addr + sizeof (T) - 1) & Config::PAGE_MASK))
+  if (Pg::trunc(reinterpret_cast<Address>(addr))
+      == Pg::trunc(reinterpret_cast<Address>(addr) + sizeof(T) - 1))
     {
       auto guard = lock_guard(cpu_lock);
       value = *user_to_kernel(addr, false);
@@ -192,14 +194,14 @@ Mem_space::peek_user(T const *addr)
   return value;
 }
 
-IMPLEMENT inline NEEDS ["config.h", "cpu_lock.h", "lock_guard.h"]
+IMPLEMENT inline NEEDS ["paging_bits.h", "cpu_lock.h", "lock_guard.h"]
 template< typename T >
 void
 Mem_space::poke_user(T *addr, T value)
 {
   // Check if we cross page boundaries
-  if (((Address)addr                   & Config::PAGE_MASK) ==
-     (((Address)addr + sizeof (T) - 1) & Config::PAGE_MASK))
+  if (Pg::trunc(reinterpret_cast<Address>(addr))
+      == Pg::trunc(reinterpret_cast<Address>(addr) + sizeof(T) - 1))
     {
       auto guard = lock_guard(cpu_lock);
       *user_to_kernel(addr, true) = value;
@@ -215,15 +217,15 @@ Mem_space::copy_from_user(T *kdst, T const *usrc, size_t n)
 {
   auto guard = lock_guard(cpu_lock);
 
-  char *ptr = (char *)usrc;
-  char *dst = (char *)kdst;
+  char *ptr = reinterpret_cast<char *>(usrc);
+  char *dst = reinterpret_cast<char *>(kdst);
   char *src = 0;
 
   n *= sizeof (T);
 
   while (n--)
     {
-      if (!src || ((Address)ptr & ~Config::PAGE_MASK) == 0)
+      if (!src || Pg::aligned(reinterpret_cast<Address>(ptr)))
         src = user_to_kernel(ptr, false);
 
       *dst++ = *src++;
@@ -231,26 +233,25 @@ Mem_space::copy_from_user(T *kdst, T const *usrc, size_t n)
     }
 }
 
-PRIVATE inline NEEDS ["config.h", "cpu_lock.h", "lock_guard.h"]
+PRIVATE inline NEEDS ["paging_bits.h", "cpu_lock.h", "lock_guard.h"]
 template< typename T >
 void
 Mem_space::copy_to_user(T *udst, T const *ksrc, size_t n)
 {
   auto guard = lock_guard(cpu_lock);
 
-  char *ptr = (char *)udst;
-  char *src = (char *)ksrc;
+  char *ptr = reinterpret_cast<char *>(udst);
+  char *src = reinterpret_cast<char *>(ksrc);
   char *dst = 0;
 
   n *= sizeof (T);
 
   while (n--)
     {
-      if (!dst || ((Address)ptr & ~Config::PAGE_MASK) == 0)
+      if (!dst || Pg::aligned(reinterpret_cast<Address>(ptr)))
         dst = user_to_kernel(ptr, true);
 
       *dst++ = *src++;
       ptr++;
     }
 }
-

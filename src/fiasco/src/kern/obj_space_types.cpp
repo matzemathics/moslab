@@ -19,7 +19,9 @@ namespace Obj {
   : cxx::int_type_base<unsigned char, Attr>,
     cxx::int_bit_ops<Attr>
   {
-    Attr() = default;
+    Attr()
+    : cxx::int_type_base<unsigned char, Attr>(0) {}
+
     explicit Attr(unsigned char r)
     : cxx::int_type_base<unsigned char, Attr>(r) {}
 
@@ -43,14 +45,15 @@ namespace Obj {
   class Capability
   {
   private:
-    Mword _obj;
+    Mword _obj = 0;
 
   public:
     Capability() = default;
     explicit Capability(Mword v) : _obj(v) {}
-    Kobject_iface *obj() const { return (Kobject_iface *)(_obj & ~3UL); }
+    Kobject_iface *obj() const
+    { return reinterpret_cast<Kobject_iface *>(_obj & ~3UL); }
     void set(Kobject_iface *obj, unsigned char rights)
-    { _obj = Mword(obj) | rights; }
+    { _obj = reinterpret_cast<Mword>(obj) | rights; }
     bool valid() const { return _obj; }
     void invalidate() { _obj = 0; }
     unsigned char rights() const { return _obj & 3; }
@@ -90,16 +93,16 @@ namespace Obj {
     // fake this really badly
     Mapping *parent() { return this; }
     Mword delete_rights() const { return _flags & Delete; }
-    Mword ref_cnt() const { return _flags & Ref_cnt; }
+    Mword is_ref_counted() const { return _flags & Ref_cnt; }
 
     void put_as_root() { _flags = Initial_flags; }
   };
 
 
-  class Entry : public Capability, public Mapping
+  class Entry : private Capability, public Mapping
   {
   public:
-    Entry() {}
+    Entry() : Capability(), Mapping() {}
     explicit Entry(Mword v) : Capability(v) {}
 
     Attr rights() const
@@ -121,6 +124,22 @@ namespace Obj {
       Capability::del_rights(r);
       _flags &= ~(cxx::int_value<L4_fpage::Rights>(r) & 0xf8);
     }
+
+    /**
+     * Explicit access to #Capability base class.
+     *
+     * #Entry and #Capability have some methods with identical names. Therefore
+     * #Entry inherits privately from #Capability in order to prevent an
+     * (implicit) upcast followed by an accidental usage of a wrong method.
+     *
+     * This function gives explicit access to the private #Capability base.
+     */
+    Capability const & capability() const
+    { return *this; }
+
+    using Capability::invalidate;
+    using Capability::obj;
+    using Capability::valid;
   };
 
   struct Cap_addr
@@ -183,7 +202,7 @@ namespace Obj
 
   inline void add_cap_page_dbg_info(void *p, Space *s, Address cap)
   {
-    Dbg_page_info *info = new Dbg_page_info(Virt_addr((Address)p));
+    Dbg_page_info *info = new Dbg_page_info(Virt_addr(p));
 
     if (EXPECT_FALSE(!info))
       {
@@ -198,7 +217,7 @@ namespace Obj
 
   inline void remove_cap_page_dbg_info(void *p)
   {
-    Dbg_page_info *info = Dbg_page_info::table().remove(Virt_addr((Address)p));
+    Dbg_page_info *info = Dbg_page_info::table().remove(Virt_addr(p));
     if (info)
       delete info;
     else

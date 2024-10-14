@@ -17,14 +17,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <paths.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <bits/uClibc_mutex.h>
-
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning "hmm... susv3 says Pipe streams are byte-oriented."
-#endif /* __UCLIBC_MJN3_ONLY__ */
 
 #ifndef VFORK_LOCK
 __UCLIBC_MUTEX_STATIC(mylock, PTHREAD_MUTEX_INITIALIZER);
@@ -91,7 +88,7 @@ FILE *popen(const char *command, const char *modes)
 			close(po->f->__filedes);
 		}
 
-		execl("/bin/sh", "sh", "-c", command, (char *)0);
+		execl(_PATH_BSHELL, "sh", "-c", command, (char *)0);
 
 		/* SUSv3 mandates an exit code of 127 for the child if the
 		 * command interpreter can not be invoked. */

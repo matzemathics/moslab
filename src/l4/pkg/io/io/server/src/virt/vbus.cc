@@ -8,6 +8,7 @@
  * Please see the COPYING-GPL-2 file for details.
  */
 
+#include <l4/bid_config.h>
 #include <l4/re/env>
 #include <l4/re/namespace>
 
@@ -390,7 +391,7 @@ System_bus::assign_dma_domain(L4::Ipc::Iostream &ios)
 
   L4::Ipc::Snd_fpage spc;
   int r = L4::Ipc::Msg::msg_get(
-      (char *)&l4_utcb_mr_u(ios.utcb())->mr[tag.words()],
+      reinterpret_cast<char *>(&l4_utcb_mr_u(ios.utcb())->mr[tag.words()]),
       0, L4::Ipc::Msg::Item_bytes, spc);
 
   if (r < 0)
@@ -526,6 +527,22 @@ System_bus::op_map(L4Re::Dataspace::Rights,
   return L4_EOK;
 };
 
+long
+System_bus::op_map_info(L4Re::Dataspace::Rights,
+                        [[maybe_unused]] l4_addr_t &start_addr,
+                        [[maybe_unused]] l4_addr_t &end_addr)
+{
+#ifdef CONFIG_MMU
+  // No constraints on MMU systems.
+  return 0;
+#else
+  // The virtual IO dataspace spans the whole address range. Return the full
+  // range so that resources are mapped 1:1.
+  start_addr = 0;
+  end_addr = ~static_cast<l4_addr_t>(0);
+  return 1;
+#endif
+}
 
 long
 System_bus::op_acquire(L4Re::Inhibitor::Rights, l4_umword_t id, L4::Ipc::String<> reason)
@@ -604,7 +621,7 @@ rpc_get_dev_adr(Device *dev, L4::Ipc::Iostream &ios)
 Device *
 System_bus::dev_from_id(l4vbus_device_handle_t dev, int err) const
 {
-  if (dev >= 0 && dev < (int)_devices_by_id.size())
+  if (dev >= 0 && dev < static_cast<int>(_devices_by_id.size()))
     if (Device *d = _devices_by_id[dev])
       return d;
 
@@ -682,7 +699,7 @@ System_bus::dispatch_generic(L4vbus::Vbus::Rights obj, Device *dev,
   switch (l4vbus_subinterface(func))
     {
     case L4VBUS_INTERFACE_GENERIC:
-      switch ((L4vbus_vdevice_op)func)
+      switch (static_cast<L4vbus_vdevice_op>(func))
         {
         case L4vbus_vdevice_hid:
         case L4vbus_vdevice_get_hid:
@@ -697,7 +714,7 @@ System_bus::dispatch_generic(L4vbus::Vbus::Rights obj, Device *dev,
           return rpc_device_get(dev, ios);
 
         case L4vbus_vdevice_get_resource:
-          ios.put(dev->get_resource_info(rpc_get<int>(ios)));
+          ios.put(dev->get_resource_info(rpc_get<unsigned>(ios)));
           return L4_EOK;
 
         case L4vbus_vdevice_is_compatible:

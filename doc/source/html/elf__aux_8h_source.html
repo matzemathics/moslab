@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/elf_aux.h Source File</title>
+<title>L4Re Operating System Framework: l4/re/elf_aux.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -131,54 +134,57 @@ $(document).ready(function(){initNavTree('elf__aux_8h_source.html',''); initResi
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">enum</span></div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>{</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7ade70fe6081b8fa866ad8007f9d3dc9c1">   75</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7ade70fe6081b8fa866ad8007f9d3dc9c1">L4RE_ELF_AUX_T_NONE</a> = 0,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6ade70fe6081b8fa866ad8007f9d3dc9c1">   75</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6ade70fe6081b8fa866ad8007f9d3dc9c1">L4RE_ELF_AUX_T_NONE</a> = 0,</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7ae443a95a70b9c77b9dc0cbf4b51341b4">   80</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7ae443a95a70b9c77b9dc0cbf4b51341b4">L4RE_ELF_AUX_T_VMA</a>,</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6ae443a95a70b9c77b9dc0cbf4b51341b4">   80</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6ae443a95a70b9c77b9dc0cbf4b51341b4">L4RE_ELF_AUX_T_VMA</a>,</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7aade645e911d95695f41ab8ac90fbf635">   86</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7aade645e911d95695f41ab8ac90fbf635">L4RE_ELF_AUX_T_STACK_SIZE</a>,</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6aade645e911d95695f41ab8ac90fbf635">   86</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6aade645e911d95695f41ab8ac90fbf635">L4RE_ELF_AUX_T_STACK_SIZE</a>,</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7a2dc6787457362ed48cf68de11a121479">   92</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7a2dc6787457362ed48cf68de11a121479">L4RE_ELF_AUX_T_STACK_ADDR</a>,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a2dc6787457362ed48cf68de11a121479">   92</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a2dc6787457362ed48cf68de11a121479">L4RE_ELF_AUX_T_STACK_ADDR</a>,</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7a653b74e1441387ecec1fab8f123e6174">   98</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7a653b74e1441387ecec1fab8f123e6174">L4RE_ELF_AUX_T_KIP_ADDR</a>,</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>};</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="foldopen" id="foldopen00104" data-start="{" data-end="};">
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="structl4re__elf__aux__t.html">  104</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4re__elf__aux__t.html">l4re_elf_aux_t</a></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>{</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> type;</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> length;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ga41f9ebfc96e36cb8a75522ed4e88c755">  108</a></span>} <a class="code hl_struct" href="structl4re__elf__aux__t.html">l4re_elf_aux_t</a>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a653b74e1441387ecec1fab8f123e6174">   98</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a653b74e1441387ecec1fab8f123e6174">L4RE_ELF_AUX_T_KIP_ADDR</a>,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a1dbf7c86dcda8b268ff72443b3710ff4">  103</a></span>  <a class="code hl_enumvalue" href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a1dbf7c86dcda8b268ff72443b3710ff4">L4RE_ELF_AUX_T_EX_REGS_FLAGS</a>,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>};</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="foldopen" id="foldopen00109" data-start="{" data-end="};">
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="structl4re__elf__aux__t.html">  109</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4re__elf__aux__t.html">l4re_elf_aux_t</a></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>{</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> type;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> length;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ga41f9ebfc96e36cb8a75522ed4e88c755">  113</a></span>} <a class="code hl_struct" href="structl4re__elf__aux__t.html">l4re_elf_aux_t</a>;</div>
 </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="foldopen" id="foldopen00113" data-start="{" data-end="};">
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="structl4re__elf__aux__vma__t.html">  113</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4re__elf__aux__vma__t.html">l4re_elf_aux_vma_t</a></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>{</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> type;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> length;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> start;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> end;</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ga576fe48d6af561bf84babc93c3188820">  119</a></span>} <a class="code hl_struct" href="structl4re__elf__aux__vma__t.html">l4re_elf_aux_vma_t</a>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="foldopen" id="foldopen00118" data-start="{" data-end="};">
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="structl4re__elf__aux__vma__t.html">  118</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4re__elf__aux__vma__t.html">l4re_elf_aux_vma_t</a></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>{</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> type;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> length;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> start;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> end;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#ga576fe48d6af561bf84babc93c3188820">  124</a></span>} <a class="code hl_struct" href="structl4re__elf__aux__vma__t.html">l4re_elf_aux_vma_t</a>;</div>
 </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="foldopen" id="foldopen00124" data-start="{" data-end="};">
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="structl4re__elf__aux__mword__t.html">  124</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4re__elf__aux__mword__t.html">l4re_elf_aux_mword_t</a></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>{</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> type;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> length;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> value;</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#gac647d3f0069707ad5c090effcaa25740">  129</a></span>} <a class="code hl_struct" href="structl4re__elf__aux__mword__t.html">l4re_elf_aux_mword_t</a>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="foldopen" id="foldopen00129" data-start="{" data-end="};">
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="structl4re__elf__aux__mword__t.html">  129</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4re__elf__aux__mword__t.html">l4re_elf_aux_mword_t</a></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>{</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> type;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> length;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> value;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="group__api__l4re__elf__aux.html#gac647d3f0069707ad5c090effcaa25740">  134</a></span>} <a class="code hl_struct" href="structl4re__elf__aux__mword__t.html">l4re_elf_aux_mword_t</a>;</div>
 </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="ttc" id="agroup__api__l4re__elf__aux_html_gga3d01b665f7e924f5f97fa41f5879c7f7a2dc6787457362ed48cf68de11a121479"><div class="ttname"><a href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7a2dc6787457362ed48cf68de11a121479">L4RE_ELF_AUX_T_STACK_ADDR</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_STACK_ADDR</div><div class="ttdoc">Tag for descriptor that defines the stack address for the first application thread.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00092">elf_aux.h:92</a></div></div>
-<div class="ttc" id="agroup__api__l4re__elf__aux_html_gga3d01b665f7e924f5f97fa41f5879c7f7a653b74e1441387ecec1fab8f123e6174"><div class="ttname"><a href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7a653b74e1441387ecec1fab8f123e6174">L4RE_ELF_AUX_T_KIP_ADDR</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_KIP_ADDR</div><div class="ttdoc">Tag for descriptor that defines the KIP address for the binaries address space.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00098">elf_aux.h:98</a></div></div>
-<div class="ttc" id="agroup__api__l4re__elf__aux_html_gga3d01b665f7e924f5f97fa41f5879c7f7aade645e911d95695f41ab8ac90fbf635"><div class="ttname"><a href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7aade645e911d95695f41ab8ac90fbf635">L4RE_ELF_AUX_T_STACK_SIZE</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_STACK_SIZE</div><div class="ttdoc">Tag for descriptor that defines the stack size for the first application thread.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00086">elf_aux.h:86</a></div></div>
-<div class="ttc" id="agroup__api__l4re__elf__aux_html_gga3d01b665f7e924f5f97fa41f5879c7f7ade70fe6081b8fa866ad8007f9d3dc9c1"><div class="ttname"><a href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7ade70fe6081b8fa866ad8007f9d3dc9c1">L4RE_ELF_AUX_T_NONE</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_NONE</div><div class="ttdoc">Tag for an invalid element in the auxiliary vector.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00075">elf_aux.h:75</a></div></div>
-<div class="ttc" id="agroup__api__l4re__elf__aux_html_gga3d01b665f7e924f5f97fa41f5879c7f7ae443a95a70b9c77b9dc0cbf4b51341b4"><div class="ttname"><a href="group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7ae443a95a70b9c77b9dc0cbf4b51341b4">L4RE_ELF_AUX_T_VMA</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_VMA</div><div class="ttdoc">Tag for descriptor for a reserved virtual memory area.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00080">elf_aux.h:80</a></div></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="ttc" id="agroup__api__l4re__elf__aux_html_ggae6dceca96ec2c7a1b4aa211264a87ef6a1dbf7c86dcda8b268ff72443b3710ff4"><div class="ttname"><a href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a1dbf7c86dcda8b268ff72443b3710ff4">L4RE_ELF_AUX_T_EX_REGS_FLAGS</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_EX_REGS_FLAGS</div><div class="ttdoc">Tag for descriptor to override ex_regs() flags.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00103">elf_aux.h:103</a></div></div>
+<div class="ttc" id="agroup__api__l4re__elf__aux_html_ggae6dceca96ec2c7a1b4aa211264a87ef6a2dc6787457362ed48cf68de11a121479"><div class="ttname"><a href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a2dc6787457362ed48cf68de11a121479">L4RE_ELF_AUX_T_STACK_ADDR</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_STACK_ADDR</div><div class="ttdoc">Tag for descriptor that defines the stack address for the first application thread.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00092">elf_aux.h:92</a></div></div>
+<div class="ttc" id="agroup__api__l4re__elf__aux_html_ggae6dceca96ec2c7a1b4aa211264a87ef6a653b74e1441387ecec1fab8f123e6174"><div class="ttname"><a href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a653b74e1441387ecec1fab8f123e6174">L4RE_ELF_AUX_T_KIP_ADDR</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_KIP_ADDR</div><div class="ttdoc">Tag for descriptor that defines the KIP address for the binaries address space.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00098">elf_aux.h:98</a></div></div>
+<div class="ttc" id="agroup__api__l4re__elf__aux_html_ggae6dceca96ec2c7a1b4aa211264a87ef6aade645e911d95695f41ab8ac90fbf635"><div class="ttname"><a href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6aade645e911d95695f41ab8ac90fbf635">L4RE_ELF_AUX_T_STACK_SIZE</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_STACK_SIZE</div><div class="ttdoc">Tag for descriptor that defines the stack size for the first application thread.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00086">elf_aux.h:86</a></div></div>
+<div class="ttc" id="agroup__api__l4re__elf__aux_html_ggae6dceca96ec2c7a1b4aa211264a87ef6ade70fe6081b8fa866ad8007f9d3dc9c1"><div class="ttname"><a href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6ade70fe6081b8fa866ad8007f9d3dc9c1">L4RE_ELF_AUX_T_NONE</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_NONE</div><div class="ttdoc">Tag for an invalid element in the auxiliary vector.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00075">elf_aux.h:75</a></div></div>
+<div class="ttc" id="agroup__api__l4re__elf__aux_html_ggae6dceca96ec2c7a1b4aa211264a87ef6ae443a95a70b9c77b9dc0cbf4b51341b4"><div class="ttname"><a href="group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6ae443a95a70b9c77b9dc0cbf4b51341b4">L4RE_ELF_AUX_T_VMA</a></div><div class="ttdeci">@ L4RE_ELF_AUX_T_VMA</div><div class="ttdoc">Tag for descriptor for a reserved virtual memory area.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00080">elf_aux.h:80</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
 <div class="ttc" id="al4_2sys_2types_8h_html"><div class="ttname"><a href="l4_2sys_2types_8h.html">types.h</a></div><div class="ttdoc">Common L4 ABI Data Types.</div></div>
-<div class="ttc" id="astructl4re__elf__aux__mword__t_html"><div class="ttname"><a href="structl4re__elf__aux__mword__t.html">l4re_elf_aux_mword_t</a></div><div class="ttdoc">Auxiliary vector element for a single unsigned data word.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00124">elf_aux.h:125</a></div></div>
-<div class="ttc" id="astructl4re__elf__aux__t_html"><div class="ttname"><a href="structl4re__elf__aux__t.html">l4re_elf_aux_t</a></div><div class="ttdoc">Generic header for each auxiliary vector element.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00104">elf_aux.h:105</a></div></div>
-<div class="ttc" id="astructl4re__elf__aux__vma__t_html"><div class="ttname"><a href="structl4re__elf__aux__vma__t.html">l4re_elf_aux_vma_t</a></div><div class="ttdoc">Auxiliary vector element for a reserved virtual memory area.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00113">elf_aux.h:114</a></div></div>
+<div class="ttc" id="astructl4re__elf__aux__mword__t_html"><div class="ttname"><a href="structl4re__elf__aux__mword__t.html">l4re_elf_aux_mword_t</a></div><div class="ttdoc">Auxiliary vector element for a single unsigned data word.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00129">elf_aux.h:130</a></div></div>
+<div class="ttc" id="astructl4re__elf__aux__t_html"><div class="ttname"><a href="structl4re__elf__aux__t.html">l4re_elf_aux_t</a></div><div class="ttdoc">Generic header for each auxiliary vector element.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00109">elf_aux.h:110</a></div></div>
+<div class="ttc" id="astructl4re__elf__aux__vma__t_html"><div class="ttname"><a href="structl4re__elf__aux__vma__t.html">l4re_elf_aux_vma_t</a></div><div class="ttdoc">Auxiliary vector element for a reserved virtual memory area.</div><div class="ttdef"><b>Definition</b> <a href="elf__aux_8h_source.html#l00118">elf_aux.h:119</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -186,7 +192,7 @@ $(document).ready(function(){initNavTree('elf__aux_8h_source.html',''); initResi
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="elf__aux_8h.html">elf_aux.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

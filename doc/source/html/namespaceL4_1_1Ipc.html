@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Ipc Namespace Reference</title>
+<title>L4Re Operating System Framework: L4::Ipc Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -123,9 +126,6 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4_1_1Ipc_1_1As__value.html">As_value</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pass the argument as plain data value.  <a href="structL4_1_1Ipc_1_1As__value.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Ipc_1_1Buf__item.html">Buf_item</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RPC warpper for a receive item.  <a href="classL4_1_1Ipc_1_1Buf__item.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4_1_1Ipc_1_1Call.html">Call</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RPC attribute for a standard RPC call.  <a href="structL4_1_1Ipc_1_1Call.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,7 +139,7 @@ Data Structures</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capability type for RPC interfaces (see <code><a class="el" href="classL4_1_1Cap.html" title="C++ interface for capabilities.">L4::Cap</a>&lt;T&gt;</code>).  <a href="classL4_1_1Ipc_1_1Cap.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Ipc_1_1Gen__fpage.html">Gen_fpage</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic RPC wrapper for <a class="el" href="namespaceL4.html" title="L4 low-level kernel interface.">L4</a> flex-pages.  <a href="classL4_1_1Ipc_1_1Gen__fpage.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic RPC base for <a class="el" href="namespaceL4.html" title="L4 low-level kernel interface.">L4</a> flex-pages.  <a href="classL4_1_1Ipc_1_1Gen__fpage.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4_1_1Ipc_1_1In__out.html">In_out</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark an argument as in-out argument.  <a href="structL4_1_1Ipc_1_1In__out.html#details">More...</a><br /></td></tr>
@@ -162,6 +162,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4_1_1Ipc_1_1Out.html">Out</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark an argument as a output value in an RPC signature.  <a href="structL4_1_1Ipc_1_1Out.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Ipc_1_1Rcv__fpage.html">Rcv_fpage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rcv flex-page.  <a href="classL4_1_1Ipc_1_1Rcv__fpage.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4_1_1Ipc_1_1Ret__array.html">Ret_array</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dynamically sized output array of type T.  <a href="structL4_1_1Ipc_1_1Ret__array.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,8 +174,8 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Ipc_1_1Small__buf.html">Small_buf</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A receive item for receiving a single object capability.  <a href="classL4_1_1Ipc_1_1Small__buf.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Ipc_1_1Snd__item.html">Snd_item</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RPC wrapper for a send item.  <a href="classL4_1_1Ipc_1_1Snd__item.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Ipc_1_1Snd__fpage.html">Snd_fpage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send flex-page.  <a href="classL4_1_1Ipc_1_1Snd__fpage.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Ipc_1_1Str__cp__in.html">Str_cp_in</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstraction for extracting a zero-terminated string from an <a class="el" href="classL4_1_1Ipc_1_1Istream.html" title="Input stream for IPC unmarshalling.">Ipc::Istream</a>.  <a href="classL4_1_1Ipc_1_1Str__cp__in.html#details">More...</a><br /></td></tr>
@@ -193,33 +196,9 @@ Typedefs</h2></td></tr>
 typedef unsigned short&#160;</td><td class="memItemRight" valign="bottom"><b>Array_len_default</b></td></tr>
 <tr class="memdesc:ac16356508a887dcf1f64574d6ca34af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default type for passing length of an array. <br /></td></tr>
 <tr class="separator:ac16356508a887dcf1f64574d6ca34af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56d906845bd62ce43e53bd7f52b64569" id="r_a56d906845bd62ce43e53bd7f52b64569"><td class="memItemLeft" align="right" valign="top"><a id="a56d906845bd62ce43e53bd7f52b64569" name="a56d906845bd62ce43e53bd7f52b64569"></a>
-typedef <a class="el" href="classL4_1_1Ipc_1_1Gen__fpage.html">Gen_fpage</a>&lt; <a class="el" href="classL4_1_1Ipc_1_1Snd__item.html">Snd_item</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Snd_fpage</b></td></tr>
-<tr class="memdesc:a56d906845bd62ce43e53bd7f52b64569"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send flex-page. <br /></td></tr>
-<tr class="separator:a56d906845bd62ce43e53bd7f52b64569"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6452f912e9d39ed9e47bb7709280e528" id="r_a6452f912e9d39ed9e47bb7709280e528"><td class="memItemLeft" align="right" valign="top"><a id="a6452f912e9d39ed9e47bb7709280e528" name="a6452f912e9d39ed9e47bb7709280e528"></a>
-typedef <a class="el" href="classL4_1_1Ipc_1_1Gen__fpage.html">Gen_fpage</a>&lt; <a class="el" href="classL4_1_1Ipc_1_1Buf__item.html">Buf_item</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Rcv_fpage</b></td></tr>
-<tr class="memdesc:a6452f912e9d39ed9e47bb7709280e528"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rcv flex-page. <br /></td></tr>
-<tr class="separator:a6452f912e9d39ed9e47bb7709280e528"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2bad64d85342191b358597cd08e55574" id="r_a2bad64d85342191b358597cd08e55574"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2bad64d85342191b358597cd08e55574"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Ipc_1_1Cap.html">Cap</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#a2bad64d85342191b358597cd08e55574">make_cap</a> (<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt; cap, unsigned rights) noexcept</td></tr>
-<tr class="memdesc:a2bad64d85342191b358597cd08e55574"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make an L4::Ipc::Cap&lt;T&gt; for the given capability and rights.  <br /></td></tr>
-<tr class="separator:a2bad64d85342191b358597cd08e55574"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6b9422f850eb175240c9d18c5cc708c" id="r_aa6b9422f850eb175240c9d18c5cc708c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aa6b9422f850eb175240c9d18c5cc708c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Ipc_1_1Cap.html">Cap</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c">make_cap_rw</a> (<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt; cap) noexcept</td></tr>
-<tr class="memdesc:aa6b9422f850eb175240c9d18c5cc708c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make an L4::Ipc::Cap&lt;T&gt; for the given capability with <a class="el" href="group__l4__fpage__api.html#ggaee60789a48cab2782f5a368237591b39a3cca0a716e3eb64c770567932460203f" title="Read and interface specific &#39;W&#39; right for capability flex-pages.">L4_CAP_FPAGE_RW</a> rights.  <br /></td></tr>
-<tr class="separator:aa6b9422f850eb175240c9d18c5cc708c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb1cb70be897c876772d7f15ba545839" id="r_aeb1cb70be897c876772d7f15ba545839"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aeb1cb70be897c876772d7f15ba545839"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Ipc_1_1Cap.html">Cap</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#aeb1cb70be897c876772d7f15ba545839">make_cap_rws</a> (<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt; cap) noexcept</td></tr>
-<tr class="memdesc:aeb1cb70be897c876772d7f15ba545839"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make an L4::Ipc::Cap&lt;T&gt; for the given capability with <a class="el" href="group__l4__fpage__api.html#ggaee60789a48cab2782f5a368237591b39abf42b05aa006bc62a22f1be1aa760020" title="Read, interface specific &#39;W&#39;, and &#39;S&#39; rights for capability flex-pages.">L4_CAP_FPAGE_RWS</a> rights.  <br /></td></tr>
-<tr class="separator:aeb1cb70be897c876772d7f15ba545839"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f3e35f220d7a35dd2ca3d012ef05008" id="r_a3f3e35f220d7a35dd2ca3d012ef05008"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a3f3e35f220d7a35dd2ca3d012ef05008"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Ipc_1_1Cap.html">Cap</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#a3f3e35f220d7a35dd2ca3d012ef05008">make_cap_full</a> (<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt; cap) noexcept</td></tr>
-<tr class="memdesc:a3f3e35f220d7a35dd2ca3d012ef05008"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make an L4::IPC::Cap&lt;T&gt; for the given capability with full fpage and object-specific rights.  <br /></td></tr>
-<tr class="separator:a3f3e35f220d7a35dd2ca3d012ef05008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57f3a70c8396ed77fd006b84f44023e4" id="r_a57f3a70c8396ed77fd006b84f44023e4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a57f3a70c8396ed77fd006b84f44023e4"><td class="memTemplItemLeft" align="right" valign="top">Internal::Buf_cp_out&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#a57f3a70c8396ed77fd006b84f44023e4">buf_cp_out</a> (T const *v, unsigned long size)</td></tr>
 <tr class="memdesc:a57f3a70c8396ed77fd006b84f44023e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an array into an <a class="el" href="classL4_1_1Ipc_1_1Ostream.html" title="Output stream for IPC marshalling.">Ipc::Ostream</a>.  <br /></td></tr>
@@ -244,6 +223,22 @@ Functions</h2></td></tr>
 <tr class="memitem:acc2cd40991fdf32a8259649933609fd1"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#acc2cd40991fdf32a8259649933609fd1">read</a> (<a class="el" href="classL4_1_1Ipc_1_1Istream.html">Istream</a> &amp;s)</td></tr>
 <tr class="memdesc:acc2cd40991fdf32a8259649933609fd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a value out of a stream.  <br /></td></tr>
 <tr class="separator:acc2cd40991fdf32a8259649933609fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bad64d85342191b358597cd08e55574" id="r_a2bad64d85342191b358597cd08e55574"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2bad64d85342191b358597cd08e55574"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Ipc_1_1Cap.html">Cap</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#a2bad64d85342191b358597cd08e55574">make_cap</a> (<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt; cap, unsigned rights) noexcept</td></tr>
+<tr class="memdesc:a2bad64d85342191b358597cd08e55574"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make an L4::Ipc::Cap&lt;T&gt; for the given capability and rights.  <br /></td></tr>
+<tr class="separator:a2bad64d85342191b358597cd08e55574"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6b9422f850eb175240c9d18c5cc708c" id="r_aa6b9422f850eb175240c9d18c5cc708c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa6b9422f850eb175240c9d18c5cc708c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Ipc_1_1Cap.html">Cap</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c">make_cap_rw</a> (<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt; cap) noexcept</td></tr>
+<tr class="memdesc:aa6b9422f850eb175240c9d18c5cc708c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make an L4::Ipc::Cap&lt;T&gt; for the given capability with <a class="el" href="group__l4__fpage__api.html#ggaee60789a48cab2782f5a368237591b39a3cca0a716e3eb64c770567932460203f" title="Read and interface specific &#39;W&#39; right for capability flex-pages.">L4_CAP_FPAGE_RW</a> rights.  <br /></td></tr>
+<tr class="separator:aa6b9422f850eb175240c9d18c5cc708c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb1cb70be897c876772d7f15ba545839" id="r_aeb1cb70be897c876772d7f15ba545839"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aeb1cb70be897c876772d7f15ba545839"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Ipc_1_1Cap.html">Cap</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#aeb1cb70be897c876772d7f15ba545839">make_cap_rws</a> (<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt; cap) noexcept</td></tr>
+<tr class="memdesc:aeb1cb70be897c876772d7f15ba545839"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make an L4::Ipc::Cap&lt;T&gt; for the given capability with <a class="el" href="group__l4__fpage__api.html#ggaee60789a48cab2782f5a368237591b39abf42b05aa006bc62a22f1be1aa760020" title="Read, interface specific &#39;W&#39;, and &#39;S&#39; rights for capability flex-pages.">L4_CAP_FPAGE_RWS</a> rights.  <br /></td></tr>
+<tr class="separator:aeb1cb70be897c876772d7f15ba545839"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f3e35f220d7a35dd2ca3d012ef05008" id="r_a3f3e35f220d7a35dd2ca3d012ef05008"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3f3e35f220d7a35dd2ca3d012ef05008"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Ipc_1_1Cap.html">Cap</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceL4_1_1Ipc.html#a3f3e35f220d7a35dd2ca3d012ef05008">make_cap_full</a> (<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt; cap) noexcept</td></tr>
+<tr class="memdesc:a3f3e35f220d7a35dd2ca3d012ef05008"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make an L4::IPC::Cap&lt;T&gt; for the given capability with full fpage and object-specific rights.  <br /></td></tr>
+<tr class="separator:a3f3e35f220d7a35dd2ca3d012ef05008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPC related functionality. </p>
@@ -430,9 +425,9 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ipc__types_source.html#l00628">628</a> of file <a class="el" href="ipc__types_source.html">ipc_types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ipc__types_source.html#l00649">649</a> of file <a class="el" href="ipc__types_source.html">ipc_types</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00478">L4virtio::Svr::Driver_mem_region_t&lt; DATA &gt;::Driver_mem_region_t()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00498">L4virtio::Svr::Driver_mem_region_t&lt; DATA &gt;::Driver_mem_region_t()</a>.</p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -487,7 +482,7 @@ template&lt;typename T &gt; </div>
 <a class="el" href="group__l4__fpage__api.html#gad142e99a533af52d358f9940fa00966a" title="Flex-page map control for capabilities (snd_base)">L4_obj_fpage_ctl</a></dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Full rights (including object-specific rights) are required when mapping an IPC gate where the receiver should become the server, i.e. where the receiver wants to call <a class="el" href="classL4_1_1Rcv__endpoint.html#a44d288dd670226f6845b5bd8c973b15e" title="Bind a thread to an IPC receive endpoint.">L4::Ipc_gate::bind_thread()</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ipc__types_source.html#l00666">666</a> of file <a class="el" href="ipc__types_source.html">ipc_types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ipc__types_source.html#l00687">687</a> of file <a class="el" href="ipc__types_source.html">ipc_types</a>.</p>
 
 <p class="reference">References <a class="el" href="____l4__fpage_8h_source.html#l00215">L4_CAP_FPAGE_RWSD</a>, and <a class="el" href="____l4__fpage_8h_source.html#l00271">L4_FPAGE_C_OBJ_RIGHTS</a>.</p>
 
@@ -532,14 +527,14 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2libs_2l4re_2c_09_09_2mem_alloc_2ma_09rm_8cc-example.html#a9">examples/libs/l4re/c++/mem_alloc/ma+rm.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_clnt_8cc-example.html#a10">examples/libs/l4re/c++/shared_ds/ds_clnt.cc</a>, and <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_srv_8cc-example.html#a16">examples/libs/l4re/c++/shared_ds/ds_srv.cc</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2libs_2l4re_2c_09_09_2mem_alloc_2ma_09rm_8cc-example.html#a9">examples/libs/l4re/c++/mem_alloc/ma+rm.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_clnt_8cc-example.html#a10">examples/libs/l4re/c++/shared_ds/ds_clnt.cc</a>, and <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_srv_8cc-example.html#a15">examples/libs/l4re/c++/shared_ds/ds_srv.cc</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ipc__types_source.html#l00638">638</a> of file <a class="el" href="ipc__types_source.html">ipc_types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ipc__types_source.html#l00659">659</a> of file <a class="el" href="ipc__types_source.html">ipc_types</a>.</p>
 
 <p class="reference">References <a class="el" href="____l4__fpage_8h_source.html#l00195">L4_CAP_FPAGE_RW</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="event__buffer_source.html#l00056">L4Re::Util::Event_buffer_t&lt; PAYLOAD &gt;::attach()</a>, <a class="el" href="client_2l4virtio_source.html#l00056">L4virtio::Driver::Device::driver_connect()</a>, <a class="el" href="util_2event_source.html#l00070">L4Re::Util::Event_t&lt; PAYLOAD &gt;::init()</a>, <a class="el" href="util_2event_source.html#l00123">L4Re::Util::Event_t&lt; PAYLOAD &gt;::init_poll()</a>, <a class="el" href="client_2l4virtio_source.html#l00196">L4virtio::Driver::Device::register_ds()</a>, <a class="el" href="virtio-net_source.html#l00066">L4virtio::Driver::Virtio_net_device::setup_device()</a>, and <a class="el" href="client_2virtio-block_source.html#l00091">L4virtio::Driver::Block_device::setup_device()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="event__buffer_source.html#l00056">L4Re::Util::Event_buffer_t&lt; PAYLOAD &gt;::attach()</a>, <a class="el" href="client_2l4virtio_source.html#l00056">L4virtio::Driver::Device::driver_connect()</a>, <a class="el" href="util_2event_source.html#l00070">L4Re::Util::Event_t&lt; PAYLOAD &gt;::init()</a>, <a class="el" href="util_2event_source.html#l00123">L4Re::Util::Event_t&lt; PAYLOAD &gt;::init_poll()</a>, <a class="el" href="client_2l4virtio_source.html#l00196">L4virtio::Driver::Device::register_ds()</a>, <a class="el" href="virtio-net_source.html#l00066">L4virtio::Driver::Virtio_net_device::setup_device()</a>, and <a class="el" href="client_2virtio-block_source.html#l00092">L4virtio::Driver::Block_device::setup_device()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -590,7 +585,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ipc__types_source.html#l00648">648</a> of file <a class="el" href="ipc__types_source.html">ipc_types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ipc__types_source.html#l00669">669</a> of file <a class="el" href="ipc__types_source.html">ipc_types</a>.</p>
 
 <p class="reference">References <a class="el" href="____l4__fpage_8h_source.html#l00209">L4_CAP_FPAGE_RWS</a>.</p>
 
@@ -657,7 +652,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The value of type <code>T</code>.</dd></dl>
 <p>The stream position is progressed accordingly. </p>
 
-<p class="definition">Definition at line <a class="el" href="ipc__stream_source.html#l01294">1294</a> of file <a class="el" href="ipc__stream_source.html">ipc_stream</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ipc__stream_source.html#l01300">1300</a> of file <a class="el" href="ipc__stream_source.html">ipc_stream</a>.</p>
 
 </div>
 </div>
@@ -711,7 +706,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="namespaceL4_1_1Ipc.html">Ipc</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

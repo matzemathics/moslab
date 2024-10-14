@@ -2,18 +2,19 @@
 <area shape="rect" id="Node000001" title="Common L4 ABI Data Types." alt="" coords="193,5,305,31"/>
 <area shape="rect" id="Node000002" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="41,152,147,177"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,28,87,47,41,62,24,71,13,80,9,89,8,97,17,114,35,130,57,143,54,148,32,134,13,117,3,98,4,87,9,77,21,66,39,57,86,42,192,23"/>
-<area shape="rect" id="Node000003" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="280,152,412,177"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="269,29,296,49,321,77,336,108,344,138,339,139,331,109,317,80,292,53,266,33"/>
+<area shape="rect" id="Node000003" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="261,152,393,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="305,22,414,41,463,57,481,66,493,77,501,91,501,105,494,116,482,126,448,142,407,153,406,148,446,137,479,122,490,113,496,103,496,93,489,80,478,71,461,62,413,47,304,28"/>
 <area shape="rect" id="Node000005" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="189,79,308,104"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="251,31,251,65,246,65,246,31"/>
-<area shape="rect" id="Node000006" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="383,79,530,104"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="283,28,411,72,409,77,281,33"/>
+<area shape="rect" id="Node000006" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="333,79,479,104"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="275,28,369,71,367,75,273,33"/>
 <area shape="rect" id="Node000007" href="$____timeout_8h_source.html" title=" " alt="" coords="23,79,165,104"/>
 <area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="225,33,133,75,131,70,223,28"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="285,225,407,251"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="349,178,349,212,343,212,343,178"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="266,225,389,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="330,178,330,212,325,212,325,178"/>
 <area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="225,106,133,149,131,144,223,102"/>
-<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="266,102,320,141,317,146,263,106"/>
-<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="440,106,377,147,374,142,437,102"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="263,102,306,141,303,145,259,106"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="395,106,352,145,348,141,392,102"/>
 <area shape="poly" id="edge10_Node000007_Node000002" title=" " alt="" coords="97,104,97,138,91,138,91,104"/>
+<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="132,101,277,145,276,151,131,107"/>
 </map>

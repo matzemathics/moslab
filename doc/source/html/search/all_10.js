@@ -10,5 +10,7 @@ var searchData=
   ['queue_7',['queue',['../classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#aedb498336d49a3407de48084ce24f029',1,'L4::Ipc_svr::Timeout_queue_hooks']]],
   ['queue_5frx_8',['queue_rx',['../classL4virtio_1_1Driver_1_1Virtio__net__device.html#af9f1a58dc4366d2fd3cc72b36d25d6b0',1,'L4virtio::Driver::Virtio_net_device']]],
   ['queue_5fstopped_9',['queue_stopped',['../classL4virtio_1_1Svr_1_1Block__dev__base.html#a3e911bba0fa756a1c2eb014dc0bd6b0a',1,'L4virtio::Svr::Block_dev_base']]],
-  ['queues_5foffset_10',['queues_offset',['../structl4virtio__config__hdr__t.html#a4da93c2cef05149a4fb6b4bd06a768d8',1,'l4virtio_config_hdr_t']]]
+  ['queues_5foffset_10',['queues_offset',['../structl4virtio__config__hdr__t.html#a4da93c2cef05149a4fb6b4bd06a768d8',1,'l4virtio_config_hdr_t']]],
+  ['queues_5fready_11',['queues_ready',['../structL4virtio_1_1Svr_1_1Console_1_1Port.html#ab2dc3b90ca7f997234ac1db8f2a4d760',1,'L4virtio::Svr::Console::Port']]],
+  ['queues_5fstopped_12',['queues_stopped',['../classL4virtio_1_1Svr_1_1Console_1_1Device.html#aa300eaf1d383817e2c68f6e8c0c0486e',1,'L4virtio::Svr::Console::Device']]]
 ];

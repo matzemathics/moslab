@@ -1,5 +1,6 @@
 var classL4_1_1Debugger =
 [
+    [ "add_image_info", "classL4_1_1Debugger.html#a0243becea2865769bd869c0cb6165f52", null ],
     [ "get_object_name", "classL4_1_1Debugger.html#a3971a4965501d6557ee44fbef97ede7d", null ],
     [ "global_id", "classL4_1_1Debugger.html#a3ee2faa3af880a05df406e9e6a48b45e", null ],
     [ "kobj_to_id", "classL4_1_1Debugger.html#ac7c3534030cb16125329f97e2ebcda72", null ],

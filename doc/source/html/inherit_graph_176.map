@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structL4_1_1Types_1_1Int__for__type.html" title="Metafunction to get an integral type of the same size as T." alt="" coords="5,5,137,45"/>
+<area shape="rect" id="Node000000" href="$classL4_1_1Uart.html" title="Uart driver abstraction." alt="" coords="5,5,79,31"/>
+<area shape="rect" id="Node000001" href="$classL4_1_1Uart__apb.html" title="Driver for the Advanced Peripheral Bus (APB) UART from the Cortex&#45;M System Design Kit (apb)." alt="" coords="127,5,231,31"/>
+<area shape="poly" id="edge183_Node000000_Node000001" title=" " alt="" coords="92,15,126,15,126,21,92,21"/>
 </map>

@@ -36,13 +36,13 @@ namespace KIP_namespace
     char mem_descs[Size_mem_descs];
   };
 
-  KIP ppc32_kernel_info_page asm("ppc32_kernel_info_page") __attribute__((section(".kernel_info_page"))) =
+  KIP my_kernel_info_page asm("my_kernel_info_page") __attribute__((section(".kernel_info_page"))) =
     {
       {
 	/* 00/00  */ L4_KERNEL_INFO_MAGIC,
 	             Config::Kernel_version_id,
 	             (Size_mem_descs + sizeof(Kip)) >> 4,
-	             {}, 0, {},
+	             {}, 0, 0, {},
 	/* 10/20  */ 0, {},
 	/* 20/40  */ 0, 0, {},
 	/* 30/60  */ 0, 0, {},
@@ -50,9 +50,9 @@ namespace KIP_namespace
 	/* 50/A0  */ 0, (sizeof(Kip) << (sizeof(Mword)*4)) | Num_mem_descs, {},
 	/* 60/C0  */ {},
 	/* A0/140 */ 0, 0, 0, 0,
-	/* B8/160 */ {},
+	/* B8/160 */ 0, {},
 	/* E0/1C0 */ 0, 0, {},
-	/* F0/1D0 */ {"", 0}, {},
+	/* F0/1E0 */ {"", 0}, {0},
       },
       {}
     };
@@ -62,7 +62,7 @@ namespace KIP_namespace
 IMPLEMENT
 void Kip_init::init()
 {
-  Kip *kinfo = reinterpret_cast<Kip*>(&KIP_namespace::ppc32_kernel_info_page);
+  Kip *kinfo = reinterpret_cast<Kip*>(&KIP_namespace::my_kernel_info_page);
   Kip::init_global_kip(kinfo);
 
   /* add kernel image */

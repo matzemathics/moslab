@@ -109,6 +109,7 @@ extern unsigned apic_error_cnt;
 
 //----------------------------------------------------------------------------
 IMPLEMENTATION:
+
 #include "cpu.h"
 
 DEFINE_PER_CPU Per_cpu<Static_object<Apic> >  Apic::apic;
@@ -116,22 +117,12 @@ DEFINE_PER_CPU Per_cpu<Static_object<Apic> >  Apic::apic;
 PUBLIC inline
 Apic::Apic(Cpu_number cpu) : _id(get_id()) { register_pm(cpu); }
 
-
-// FIXME: workaround for missing lambdas in gcc < 4.5
-namespace {
-struct By_id
-{
-  Unsigned32 p;
-  By_id(Unsigned32 p) : p(p) {}
-  bool operator () (Apic const *a) const { return a && a->apic_id() == p; }
-};
-}
-
 PUBLIC static
 Cpu_number
 Apic::find_cpu(Unsigned32 phys_id)
 {
-  return apic.find_cpu(By_id(phys_id));
+  return apic.find_cpu([phys_id](Apic const *a)
+                       { return a && a->apic_id() == phys_id; });
 }
 
 PUBLIC void
@@ -180,12 +171,13 @@ Apic::us_to_apic(Unsigned64 us)
        "addl  %%ecx, %%eax		\n\t"
        "shll  $11, %%eax		\n\t"
       :"=a" (apic), "=d" (dummy1), "=&c" (dummy2)
-      : "A" (us),   "g" ((Unsigned32)scaler_us_to_apic)
+      : "A" (us),   "g" (static_cast<Unsigned32>(scaler_us_to_apic))
         // scaler_us_to_apic is actually 32-bit
        );
   return apic;
 }
 
+//----------------------------------------------------------------------------
 IMPLEMENTATION[amd64]:
 
 PUBLIC static inline
@@ -201,6 +193,7 @@ Apic::us_to_apic(Unsigned64 us)
   return apic;
 }
 
+//----------------------------------------------------------------------------
 IMPLEMENTATION[ia32,amd64]:
 
 #include <cassert>
@@ -298,7 +291,7 @@ Apic::reg_read(unsigned reg)
 {
   if (use_x2)
     return Cpu::rdmsr(APIC_msr_base + (reg >> 4));
-  return *((volatile Unsigned32*)(io_base + reg));
+  return *reinterpret_cast<volatile Unsigned32*>(io_base + reg);
 }
 
 PUBLIC static inline
@@ -308,7 +301,7 @@ Apic::reg_write(unsigned reg, Unsigned32 val)
   if (use_x2)
     Cpu::wrmsr(val, 0, APIC_msr_base + (reg >> 4));
   else
-    *((volatile Unsigned32*)(io_base + reg)) = val;
+    *reinterpret_cast<volatile Unsigned32*>(io_base + reg) = val;
 }
 
 PUBLIC static inline NEEDS[<cassert>]
@@ -688,32 +681,6 @@ Apic::activate_by_msr()
   Cpu::wrmsr(msr, APIC_base_msr);
 
   // later we have to call update_feature_info() as the flags may have changed
-}
-
-// check if we still receive interrupts after we changed the IRQ routing
-PUBLIC static FIASCO_INIT_CPU
-int
-Apic::check_still_getting_interrupts()
-{
-  if (!Config::apic)
-    return 0;
-
-  Unsigned64 tsc_until;
-  Cpu_time clock_start = Kip::k()->clock();
-
-  tsc_until = Cpu::rdtsc();
-  tsc_until += 0x01000000; // > 10 Mio cycles should be sufficient until
-                           // we have processors with more than 10 GHz
-  do
-    {
-      // kernel clock by timer interrupt updated?
-      if (Kip::k()->clock() != clock_start)
-	// yes, successful
-	return 1;
-    } while (Cpu::rdtsc() < tsc_until);
-
-  // timeout
-  return 0;
 }
 
 PUBLIC static

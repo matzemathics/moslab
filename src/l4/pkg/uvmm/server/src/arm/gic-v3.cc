@@ -158,6 +158,11 @@ public:
   {
   }
 
+  Redist_cpu *cpu(unsigned cpu_id)
+  {
+    return cpu_id < _redist_cpu.size() ? &_redist_cpu[cpu_id] : nullptr;
+  }
+
   Redist_cpu const *cpu(unsigned cpu_id) const
   {
     return cpu_id < _redist_cpu.size() ? &_redist_cpu[cpu_id] : nullptr;
@@ -205,6 +210,8 @@ public:
           break;
       }
   }
+
+  char const *dev_name() const override { return "Redist"; }
 };
 
 class Sgir_sysreg : public Vmm::Arm::Sys_reg
@@ -266,6 +273,7 @@ Dist_v3::Dist_v3(unsigned tnlines)
 : Dist(tnlines, Num_cpus),
   _router(cxx::make_unique<l4_uint64_t[]>(32 * tnlines)),
   _redist(new Redist(this)),
+  _redist_size(0),
   _sgir(new Sgir_sysreg(this))
 {
   ctlr = Gicd_ctlr_must_set;
@@ -287,6 +295,8 @@ Dist_v3::setup_cpu(Vmm::Vcpu_ptr vcpu)
 
   for (unsigned i = 0; i < Cpu::Num_local; ++i)
     c->local_irq(i).target(0, c);
+
+  redist(vcpu.get_vcpu_id())->ipc_registry(vcpu.get_ipc_registry());
 }
 
 l4_uint32_t
@@ -312,6 +322,12 @@ Dist_v3::get_typer() const
       type |= (9 << 19);
     }
   return type;
+}
+
+Redist_cpu *
+Dist_v3::redist(unsigned cpu_id)
+{
+  return static_cast<Redist *>(_redist.get())->cpu(cpu_id);
 }
 
 Redist_cpu const *

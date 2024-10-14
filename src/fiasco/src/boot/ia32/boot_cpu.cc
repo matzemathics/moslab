@@ -129,9 +129,9 @@ static struct x86_tss dbf_tss =
     0/*back_link*/, 
     0/*esp0*/, 0/*ss0*/, 0/*esp1*/, 0/*ss1*/, 0/*esp2*/, 0/*ss2*/, 
     0/*cr3*/,
-    (Unsigned32)handle_dbf/*eip*/, 0x00000082/*eflags*/,
+    reinterpret_cast<Unsigned32>(handle_dbf)/*eip*/, 0x00000082/*eflags*/,
     0/*eax*/, 0/*ecx*/, 0/*edx*/, 0/*ebx*/,
-    (Unsigned32)dbf_stack + sizeof(dbf_stack)/*esp*/,
+    reinterpret_cast<Unsigned32>(dbf_stack) + sizeof(dbf_stack)/*esp*/,
     0/*ebp*/, 0/*esi*/, 0/*edi*/,
     KERNEL_DS/*es*/, KERNEL_CS/*cs*/, KERNEL_DS/*ss*/,
     KERNEL_DS/*ds*/, KERNEL_DS/*fs*/, KERNEL_DS/*gs*/,
@@ -139,10 +139,10 @@ static struct x86_tss dbf_tss =
   };
 
 static inline Address* pdir_find_pde(Address pdir_pa, Address la)
-{ return (&((Address*)pdir_pa)[(la >> PDESHIFT) & PDEMASK]); }
+{ return &reinterpret_cast<Address*>(pdir_pa)[(la >> PDESHIFT) & PDEMASK]; }
 
 static inline Address* ptab_find_pte(Address ptab_pa, Address la)
-{ return (&((Address*)ptab_pa)[(la >> PTESHIFT) & PTEMASK]); }
+{ return &reinterpret_cast<Address*>(ptab_pa)[(la >> PTESHIFT) & PTEMASK]; }
 
 extern inline Unsigned32 get_eflags()
 { Unsigned32 efl; asm volatile("pushf ; popl %0" : "=r" (efl)); return efl; }
@@ -168,38 +168,33 @@ extern inline void set_ss(Unsigned16 ss)
 extern inline Unsigned16 get_ss()
 { Unsigned16 ss; asm volatile("movw %%ss,%w0" : "=r" (ss)); return ss; }
 
-#define set_idt(pseudo_desc) \
- asm volatile("lidt %0" : : "m"((pseudo_desc)->limit), "m"(*pseudo_desc))
+extern inline void set_idt(pseudo_descriptor *pdesc)
+{ asm volatile("lidt %0" : : "m"((pdesc)->limit), "m"(*pdesc)); }
 
-#define set_gdt(pseudo_desc) \
- asm volatile("lgdt %0" : : "m"((pseudo_desc)->limit), "m"(*pseudo_desc))
+extern inline void set_gdt(pseudo_descriptor *pdesc)
+{ asm volatile("lgdt %0" : : "m"((pdesc)->limit), "m"(*pdesc)); }
 
-#define	set_tr(seg) \
- asm volatile("ltr %0" : : "rm"((Unsigned16)(seg)))
+extern inline void set_tr(Unsigned16 seg)
+{ asm volatile("ltr %0" : : "rm" (seg)); }
 
-#define get_esp() \
- ({ Unsigned32 _temp__; \
-    asm("movl %%esp, %0" : "=r" (_temp__)); _temp__; })
+extern inline Unsigned32 get_esp()
+{ Unsigned32 esp; asm("mov %%esp, %0" : "=r" (esp)); return esp; }
 
-#define	get_cr0() \
- ({ Unsigned32 _temp__; \
-    asm volatile("mov %%cr0, %0" : "=r" (_temp__)); _temp__; })
+extern inline Unsigned32 get_cr0()
+{ Unsigned32 cr0; asm volatile("mov %%cr0, %0" : "=r" (cr0)); return cr0; }
 
-#define	get_cr2() \
- ({ Unsigned32 _temp__; \
-    asm volatile("mov %%cr2, %0" : "=r" (_temp__)); _temp__; })
+extern inline Unsigned32 get_cr2()
+{ Unsigned32 cr2; asm volatile("mov %%cr2, %0" : "=r" (cr2)); return cr2; }
 
-#define	set_cr3(value) \
- ({ Unsigned32 _temp__ = (value); \
-    asm volatile("mov %0, %%cr3" : : "r" (_temp__)); })
+extern inline void set_cr3(Unsigned32 cr3)
+{ asm volatile("mov %0, %%cr3" : : "r" (cr3)); }
 
-#define get_cr4() \
- ({ Unsigned32 _temp__; \
-    asm volatile("mov %%cr4, %0" : "=r" (_temp__)); _temp__; })
+extern inline Unsigned32 get_cr4()
+{ Unsigned32 cr4; asm volatile("mov %%cr4, %0" : "=r" (cr4)); return cr4; }
 
-#define set_cr4(value) \
- ({ Unsigned32 _temp__ = (value); \
-    asm volatile("mov %0, %%cr4" : : "r" (_temp__)); })
+extern inline void set_cr4(Unsigned32 cr4)
+{ asm volatile("mov %0, %%cr4" : : "r" (cr4)); }
+
 
 static inline void
 fill_descriptor(struct x86_desc *desc, Unsigned32 base, Unsigned32 limit,
@@ -295,11 +290,11 @@ base_gdt_init(void)
 {
   /* Initialize the base TSS descriptor.  */
   fill_descriptor(&base_gdt[BASE_TSS / 8],
-		  (Address)&base_tss, sizeof(base_tss) - 1,
+		  reinterpret_cast<Address>(&base_tss), sizeof(base_tss) - 1,
 	  	  ACC_PL_K | ACC_TSS, 0);
   /* Initialize the TSS descriptor for the double fault handler */
   fill_descriptor(&base_gdt[DBF_TSS / 8],
-		  (Address)&dbf_tss, sizeof(dbf_tss) - 1,
+		  reinterpret_cast<Address>(&dbf_tss), sizeof(dbf_tss) - 1,
 		  ACC_PL_K | ACC_TSS, 0);
   /* Initialize the 32-bit kernel code and data segment descriptors
      to point to the base of the kernel linear space region.  */
@@ -324,7 +319,7 @@ base_gdt_load(void)
 
   /* Create a pseudo-descriptor describing the GDT.  */
   pdesc.limit = sizeof(base_gdt) - 1;
-  pdesc.linear_base = (Address)&base_gdt;
+  pdesc.linear_base = reinterpret_cast<Address>(&base_gdt);
 
   /* Load it into the CPU.  */
   set_gdt(&pdesc);
@@ -345,7 +340,7 @@ base_idt_load(void)
 
   /* Create a pseudo-descriptor describing the GDT.  */
   pdesc.limit = sizeof(base_idt) - 1;
-  pdesc.linear_base = (Address)&base_idt;
+  pdesc.linear_base = reinterpret_cast<Address>(&base_idt);
   set_idt(&pdesc);
 }
 
@@ -382,10 +377,10 @@ ptab_alloc(Address *out_ptab_pa)
     {
       initialized = 1;
       memset(pool, 0, sizeof(pool));
-      pdirs = round_page((Address)pool);
+      pdirs = round_page(reinterpret_cast<Address>(pool));
     }
 
-  if (pdirs >= (Address)pool + sizeof(pool))
+  if (pdirs >= reinterpret_cast<Address>(pool) + sizeof(pool))
     panic("Cannot allocate page table -- increase ptab_alloc::pool");
 
   *out_ptab_pa = pdirs;
@@ -519,10 +514,11 @@ trap_dump_panic(const struct trap_state *st)
 
   printf(base_regs,
          st->eax, st->ebx, st->ecx, st->edx,
-       	 st->esi, st->edi, st->ebp, from_user ? st->esp : (Unsigned32)&st->esp,
-	 st->eip, st->eflags,
-	 st->cs & 0xffff, from_user ? st->ss & 0xffff : get_ss(),
-	 st->ds & 0xffff, st->es & 0xffff, st->fs & 0xffff, st->gs & 0xffff);
+         st->esi, st->edi, st->ebp,
+         from_user ? st->esp : reinterpret_cast<Unsigned32>(&st->esp),
+         st->eip, st->eflags,
+         st->cs & 0xffff, from_user ? st->ss & 0xffff : get_ss(),
+         st->ds & 0xffff, st->es & 0xffff, st->fs & 0xffff, st->gs & 0xffff);
   printf("trapno %u, error %08x, from %s mode\n",
          st->trapno, st->err, from_user ? "user" : "kernel");
   if (st->trapno == 0x0d)

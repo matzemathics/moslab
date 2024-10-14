@@ -126,7 +126,7 @@ Io_proxy::bind_irq(Vmm::Guest *vmm, Vmm::Virt_bus *vbus,
   info.printf("IO device '%s' - registering irq 0x%x -> 0x%x\n",
       dev_name, io_irq, dt_irq);
 
-  auto *irq_source = ic->get_eoi_handler(dt_irq);
+  auto *irq_source = ic->get_irq_src_handler(dt_irq);
   if (!irq_source)
     {
       auto irq_svr =
@@ -298,8 +298,9 @@ struct F : Factory
                       dtaddr, dtaddr + (dtsize - 1));
 
             auto handler = Vdev::make_device<Ds_handler>(
-                cxx::make_ref_obj<Vmm::Ds_manager>(vbus->io_ds(),
-                                                   res.start, dtsize)
+                cxx::make_ref_obj<Vmm::Ds_manager>("Io_proxy: vbus",
+                                                   vbus->io_ds(), res.start,
+                                                   dtsize)
               );
 
             auto region = Vmm::Region::ss(Vmm::Guest_addr(dtaddr), dtsize,

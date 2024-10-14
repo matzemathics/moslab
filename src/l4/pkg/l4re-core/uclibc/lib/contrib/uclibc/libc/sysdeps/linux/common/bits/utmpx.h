@@ -66,7 +66,7 @@ struct utmpx
 /* The fields ut_session and ut_tv must be the same size when compiled
    32- and 64-bit.  This allows files and shared memory to be shared
    between 32- and 64-bit applications.  */
-#if __WORDSIZE == 64 && defined __WORDSIZE_COMPAT32
+#ifdef __WORDSIZE_TIME64_COMPAT32
   __int32_t ut_session;		/* Session ID, used for windowing.  */
   struct
   {
@@ -78,7 +78,7 @@ struct utmpx
   struct timeval ut_tv;		/* Time entry was made.  */
 #endif
   __int32_t ut_addr_v6[4];	/* Internet address of remote host.  */
-  char __unused[20];		/* Reserved for future use.  */
+  char __uclibc_unused[20];	/* Reserved for future use.  */
 };
 
 

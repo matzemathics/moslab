@@ -19,8 +19,8 @@ var classL4Re_1_1Rm =
     [ "Region_flag_shifts", "classL4Re_1_1Rm.html#a6c519437e7be883723e43f80ea42ce87", [
       [ "Caching_shift", "classL4Re_1_1Rm.html#a6c519437e7be883723e43f80ea42ce87aac2055075c855e3496dfcaa5060358e9", null ]
     ] ],
-    [ "attach", "classL4Re_1_1Rm.html#a81c3edf15190139911ab69211c0a4bc4", null ],
-    [ "attach", "classL4Re_1_1Rm.html#a8d3d85a7c9359a9051869115cb5e08d6", null ],
+    [ "attach", "classL4Re_1_1Rm.html#ae6462f6c707de0108afceab8665ad256", null ],
+    [ "attach", "classL4Re_1_1Rm.html#a74cb628505ac67ce45aeb6abd5af7eec", null ],
     [ "detach", "classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9", null ],
     [ "detach", "classL4Re_1_1Rm.html#a74ba3fe648cf135cb99bd9dcecbb21f2", null ],
     [ "detach", "classL4Re_1_1Rm.html#ac293fbe09183b2ac352bd1665b003cb0", null ],

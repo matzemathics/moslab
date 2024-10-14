@@ -43,29 +43,16 @@
    incomplete stabs information.  Fake some entries here which specify
    the current source file.  */
 #define	ENTRY(name)							      \
-  ASM_GLOBAL_DIRECTIVE C_SYMBOL_NAME(name);				      \
+  .globl C_SYMBOL_NAME(name);				      \
   ASM_TYPE_DIRECTIVE (C_SYMBOL_NAME(name),@function)			      \
   .align ALIGNARG(4);							      \
   C_LABEL(name)								      \
-  cfi_startproc;							      \
-  CALL_MCOUNT
+  cfi_startproc;
 
 #undef	END
 #define END(name)							      \
   cfi_endproc;								      \
   ASM_SIZE_DIRECTIVE(name)						      \
-
-/* If compiled for profiling, call `mcount' at the start of each function.  */
-#ifdef	PROF
-/* The mcount code relies on a normal frame pointer being on the stack
-   to locate our caller, so push one just for its benefit.  */
-#define CALL_MCOUNT \
-  pushl %ebp; cfi_adjust_cfa_offset (4); movl %esp, %ebp; \
-  cfi_def_cfa_register (ebp); call JUMPTARGET(mcount); \
-  popl %ebp; cfi_def_cfa (esp, 4);
-#else
-#define CALL_MCOUNT		/* Do nothing.  */
-#endif
 
 #ifdef	NO_UNDERSCORES
 /* Since C identifiers are not normally prefixed with an underscore
@@ -199,24 +186,10 @@ __x86.get_pc_thunk.reg:						      \
 # define SYSCALL_ERROR_HANDLER	/* Nothing here; code in sysdep.S is used.  */
 #else
 
-# ifdef RTLD_PRIVATE_ERRNO
-#  define SYSCALL_ERROR_HANDLER						      \
-0:SETUP_PIC_REG(cx);							      \
-  addl $_GLOBAL_OFFSET_TABLE_, %ecx;					      \
-  xorl %edx, %edx;							      \
-  subl %eax, %edx;							      \
-  movl %edx, rtld_errno@GOTOFF(%ecx);					      \
-  orl $-1, %eax;							      \
-  jmp L(pseudo_end);
-
-# elif defined _LIBC_REENTRANT
+# if defined _LIBC_REENTRANT
 
 #  if defined USE___THREAD
-#   ifndef NOT_IN_libc
-#    define SYSCALL_ERROR_ERRNO __libc_errno
-#   else
 #    define SYSCALL_ERROR_ERRNO errno
-#   endif
 #   define SYSCALL_ERROR_HANDLER					      \
 0:SETUP_PIC_REG (cx);							      \
   addl $_GLOBAL_OFFSET_TABLE_, %ecx;					      \
@@ -396,34 +369,4 @@ __x86.get_pc_thunk.reg:						      \
 			cfi_restore (ebp); L(POPBP1):
 
 #endif	/* __ASSEMBLER__ */
-
-
-/* Pointer mangling support.  */
-#if defined NOT_IN_libc && defined IS_IN_rtld
-/* We cannot use the thread descriptor because in ld.so we use setjmp
-   earlier than the descriptor is initialized.  Using a global variable
-   is too complicated here since we have no PC-relative addressing mode.  */
-#else
-# ifdef __ASSEMBLER__
-#  define PTR_MANGLE(reg)	xorl %gs:POINTER_GUARD, reg;		      \
-				roll $9, reg
-#  define PTR_DEMANGLE(reg)	rorl $9, reg;				      \
-				xorl %gs:POINTER_GUARD, reg
-# else
-#  include <stddef.h>
-#  define PTR_MANGLE(var)	__asm__ ("xorl %%gs:%c2, %0\n"		      \
-				     "roll $9, %0"			      \
-				     : "=r" (var)			      \
-				     : "0" (var),			      \
-				       "i" (offsetof (tcbhead_t,	      \
-						      pointer_guard)))
-#  define PTR_DEMANGLE(var)	__asm__ ("rorl $9, %0\n"			      \
-				     "xorl %%gs:%c2, %0"		      \
-				     : "=r" (var)			      \
-				     : "0" (var),			      \
-				       "i" (offsetof (tcbhead_t,	      \
-						      pointer_guard)))
-# endif
-#endif
-
 #endif /* linux/i386/sysdep.h */

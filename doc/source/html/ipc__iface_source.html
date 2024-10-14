@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/cxx/ipc_iface Source File</title>
+<title>L4Re Operating System Framework: l4/sys/cxx/ipc_iface Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -390,219 +393,221 @@ $(document).ready(function(){initNavTree('ipc__iface_source.html',''); initResiz
 <div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>  <span class="keyword">static</span> <span class="keywordtype">int</span> write(<span class="keywordtype">void</span> *b, <span class="keywordtype">int</span> offset, <span class="keywordtype">int</span> limit,</div>
 <div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>                        <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...m) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>  {</div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>    <span class="keywordtype">int</span> r = Data::template write&lt;DIR&gt;((<span class="keywordtype">char</span> *)b, offset, limit, m...);</div>
-<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a>(r &gt;= offset))</div>
-<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>      <span class="keywordflow">return</span> r - offset;</div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>    <span class="keywordflow">return</span> r;</div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>  }</div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span> </div>
-<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> DIR&gt;</div>
-<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>  <span class="keyword">static</span> <span class="keywordtype">int</span> read(<span class="keywordtype">void</span> *b, <span class="keywordtype">int</span> offset, <span class="keywordtype">int</span> limit, <span class="keywordtype">long</span> ret,</div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>                       <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...m) <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>  {</div>
-<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>    <span class="keywordtype">int</span> r = Data::template read&lt;DIR&gt;((<span class="keywordtype">char</span> *)b, offset, limit, ret, m...);</div>
-<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a>(r &gt;= offset))</div>
-<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>      <span class="keywordflow">return</span> r - offset;</div>
-<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>    <span class="keywordflow">return</span> r;</div>
-<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>  }</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>};</div>
-<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span> </div>
-<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IPC_TYPE, <span class="keyword">typename</span> OPCODE = <span class="keywordtype">void</span>&gt;</div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span><span class="keyword">struct </span>Part;</div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span> </div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span><span class="comment">// The version without an op-code</span></div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> ...ARGS&gt;</div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span><span class="keyword">struct </span>Part&lt;R (ARGS...), void&gt; : _Part&lt;ARGS...&gt;</div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>{</div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>  <span class="keyword">typedef</span> Buf&lt;ARGS...&gt; Data;</div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span> </div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>  <span class="comment">// write arguments, skipping the dummy opcode</span></div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> DIR&gt;</div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>  <span class="keyword">static</span> <span class="keywordtype">int</span> write_op(<span class="keywordtype">void</span> *b, <span class="keywordtype">int</span> offset, <span class="keywordtype">int</span> limit,</div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>                      <span class="keywordtype">int</span> <span class="comment">/*placeholder for op*/</span>,</div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>                      <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...m) <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>  {</div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>    <span class="keywordtype">int</span> r = Data::template write&lt;DIR&gt;((<span class="keywordtype">char</span> *)b, offset, limit, m...);</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a>(r &gt;= offset))</div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>      <span class="keywordflow">return</span> r - offset;</div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>    <span class="keywordflow">return</span> r;</div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>  }</div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>};</div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span> </div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span><span class="comment">// Message part with additional opcode</span></div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> OPCODE, <span class="keyword">typename</span> R, <span class="keyword">typename</span> ...ARGS&gt;</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span><span class="keyword">struct </span>Part&lt;R (ARGS...), OPCODE&gt; : _Part&lt;ARGS...&gt;</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>{</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>  <span class="keyword">typedef</span> OPCODE opcode_type;</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>  <span class="keyword">typedef</span> Buf&lt;opcode_type, ARGS...&gt; Data;</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span> </div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>  <span class="comment">// write arguments, including the opcode</span></div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> DIR&gt;</div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>  <span class="keyword">static</span> <span class="keywordtype">int</span> write_op(<span class="keywordtype">void</span> *b, <span class="keywordtype">int</span> offset, <span class="keywordtype">int</span> limit,</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>                      opcode_type op, <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...m) <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>  {</div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>    <span class="keywordtype">int</span> r = Data::template write&lt;DIR&gt;((<span class="keywordtype">char</span> *)b, offset, limit, op, m...);</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a>(r &gt;= offset))</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>      <span class="keywordflow">return</span> r - offset;</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>    <span class="keywordflow">return</span> r;</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>  }</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>};</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span> </div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span> </div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>} <span class="comment">// namespace Detail</span></div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span> </div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span><span class="comment">//----------------------------------------------------</span></div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span><span class="comment">// Implementation of the RPC call</span></div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span><span class="comment">// TODO: Add support for timeout via special RPC argument</span></div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span><span class="comment">// TODO: Add support for passing the UTCB pointer as argument</span></div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span><span class="comment">//</span></div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> OP, <span class="keyword">typename</span> CLASS, <span class="keyword">typename</span> FLAGS, <span class="keyword">typename</span> R,</div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>         <span class="keyword">typename</span> ...ARGS&gt;</div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span><span class="keyword">inline</span> R</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>Rpc_inline_call&lt;OP, CLASS, R (ARGS...), FLAGS&gt;::</div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>  call(<a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;CLASS&gt;</a> cap,</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>       <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...a,</div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>       <a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb) <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>{</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>  <span class="keyword">using namespace </span>Ipc::Msg;</div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span> </div>
-<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> Kobject_typeid&lt;CLASS&gt;::Iface::Rpcs Rpcs;</div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> Rpcs::template Rpc&lt;OP&gt; Opt;</div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>  <span class="keyword">typedef</span> Detail::Part&lt;ipc_type, typename Rpcs::opcode_type&gt; Args;</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>    <span class="keywordtype">char</span> *buf = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span>(b);</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>    <span class="keywordtype">int</span> r = Data::template write&lt;DIR&gt;(buf, offset, limit, m...);</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a>(r &gt;= offset))</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>      <span class="keywordflow">return</span> r - offset;</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>    <span class="keywordflow">return</span> r;</div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>  }</div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span> </div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> DIR&gt;</div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>  <span class="keyword">static</span> <span class="keywordtype">int</span> read(<span class="keywordtype">void</span> *b, <span class="keywordtype">int</span> offset, <span class="keywordtype">int</span> limit, <span class="keywordtype">long</span> ret,</div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>                       <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...m) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>  {</div>
+<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>    <span class="keywordtype">char</span> *buf = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span>(b);</div>
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>    <span class="keywordtype">int</span> r = Data::template read&lt;DIR&gt;(buf, offset, limit, ret, m...);</div>
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a>(r &gt;= offset))</div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>      <span class="keywordflow">return</span> r - offset;</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>    <span class="keywordflow">return</span> r;</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>  }</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>};</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span> </div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IPC_TYPE, <span class="keyword">typename</span> OPCODE = <span class="keywordtype">void</span>&gt;</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span><span class="keyword">struct </span>Part;</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span> </div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span><span class="comment">// The version without an op-code</span></div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> ...ARGS&gt;</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span><span class="keyword">struct </span>Part&lt;R (ARGS...), void&gt; : _Part&lt;ARGS...&gt;</div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>{</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>  <span class="keyword">typedef</span> Buf&lt;ARGS...&gt; Data;</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span> </div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>  <span class="comment">// write arguments, skipping the dummy opcode</span></div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> DIR&gt;</div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>  <span class="keyword">static</span> <span class="keywordtype">int</span> write_op(<span class="keywordtype">void</span> *b, <span class="keywordtype">int</span> offset, <span class="keywordtype">int</span> limit,</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>                      <span class="keywordtype">int</span> <span class="comment">/*placeholder for op*/</span>,</div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>                      <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...m) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>  {</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>    <span class="keywordtype">char</span> *buf = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span>(b);</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>    <span class="keywordtype">int</span> r = Data::template write&lt;DIR&gt;(buf, offset, limit, m...);</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a>(r &gt;= offset))</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>      <span class="keywordflow">return</span> r - offset;</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>    <span class="keywordflow">return</span> r;</div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>  }</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>};</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span> </div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span><span class="comment">// Message part with additional opcode</span></div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> OPCODE, <span class="keyword">typename</span> R, <span class="keyword">typename</span> ...ARGS&gt;</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span><span class="keyword">struct </span>Part&lt;R (ARGS...), OPCODE&gt; : _Part&lt;ARGS...&gt;</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>{</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>  <span class="keyword">typedef</span> OPCODE opcode_type;</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>  <span class="keyword">typedef</span> Buf&lt;opcode_type, ARGS...&gt; Data;</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span> </div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>  <span class="comment">// write arguments, including the opcode</span></div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> DIR&gt;</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>  <span class="keyword">static</span> <span class="keywordtype">int</span> write_op(<span class="keywordtype">void</span> *b, <span class="keywordtype">int</span> offset, <span class="keywordtype">int</span> limit,</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>                      opcode_type op, <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...m) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>  {</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>    <span class="keywordtype">char</span> *buf = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span>(b);</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>    <span class="keywordtype">int</span> r = Data::template write&lt;DIR&gt;(buf, offset, limit, op, m...);</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a>(r &gt;= offset))</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>      <span class="keywordflow">return</span> r - offset;</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>    <span class="keywordflow">return</span> r;</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>  }</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>};</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span> </div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span> </div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>} <span class="comment">// namespace Detail</span></div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span> </div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span><span class="comment">//----------------------------------------------------</span></div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span><span class="comment">// Implementation of the RPC call</span></div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span><span class="comment">// TODO: Add support for timeout via special RPC argument</span></div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span><span class="comment">// TODO: Add support for passing the UTCB pointer as argument</span></div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span><span class="comment">//</span></div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> OP, <span class="keyword">typename</span> CLASS, <span class="keyword">typename</span> FLAGS, <span class="keyword">typename</span> R,</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>         <span class="keyword">typename</span> ...ARGS&gt;</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span><span class="keyword">inline</span> R</div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>Rpc_inline_call&lt;OP, CLASS, R (ARGS...), FLAGS&gt;::</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>  call(<a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;CLASS&gt;</a> cap,</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>       <span class="keyword">typename</span> _Elem&lt;ARGS&gt;::arg_type ...a,</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>       <a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>{</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>  <span class="keyword">using namespace </span>Ipc::Msg;</div>
 <div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span> </div>
-<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>  <a class="code hl_union" href="unionl4__msg__regs__t.html">l4_msg_regs_t</a> *mrs = l4_utcb_mr_u(utcb);</div>
-<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span> </div>
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>  <span class="comment">// handle in-data part of the arguments</span></div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>  <span class="keywordtype">int</span> send_bytes =</div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>    Args::template write_op&lt;Do_in_data&gt;(mrs-&gt;<a class="code hl_variable" href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">mr</a>, 0, Mr_bytes,</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>                                        Opt::Opcode, a...);</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span> </div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(send_bytes &lt; 0))</div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(send_bytes);</div>
-<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span> </div>
-<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>  send_bytes = align_to&lt;l4_umword_t&gt;(send_bytes);</div>
-<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>  <span class="keywordtype">int</span> <span class="keyword">const</span> send_words = send_bytes / <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a1d4878c74f772bfe4c4dbe0a9bdfb5ceab909157795890260363573ff7587d68d">Word_bytes</a>;</div>
-<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>  <span class="comment">// write the in-items part of the message if there is one</span></div>
-<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>  <span class="keywordtype">int</span> item_bytes =</div>
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>    Args::template write&lt;Do_in_items&gt;(&amp;mrs-&gt;<a class="code hl_variable" href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">mr</a>[send_words], 0,</div>
-<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>                                      Mr_bytes - send_bytes, a...);</div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span> </div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(item_bytes &lt; 0))</div>
-<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(item_bytes);</div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span> </div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>  <span class="keywordtype">int</span> send_items = item_bytes / <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a1d4878c74f772bfe4c4dbe0a9bdfb5ceab0b521544e0087a9c30951d1c426a01f">Item_bytes</a>;</div>
-<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span> </div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>    {</div>
-<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>      <span class="comment">// setup the receive buffers for the RPC call</span></div>
-<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>      <a class="code hl_struct" href="structl4__buf__regs__t.html">l4_buf_regs_t</a> *brs = l4_utcb_br_u(utcb);</div>
-<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>      <span class="comment">// XXX: we currently support only one type of receive buffers per call</span></div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>      brs-&gt;<a class="code hl_variable" href="structl4__buf__regs__t.html#a852ae37fbb64d4a2f71cbd4c0ba905d1">bdr</a> = 0; <span class="comment">// we always start at br[0]</span></div>
-<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span> </div>
-<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>      <span class="comment">// the limit leaves us at least one register for the zero terminator</span></div>
-<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>      <span class="comment">// add the buffers given as arguments to the buffer registers</span></div>
-<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>      <span class="keywordtype">int</span> bytes =</div>
-<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>        Args::template write&lt;Do_rcv_buffers&gt;(brs-&gt;<a class="code hl_variable" href="structl4__buf__regs__t.html#a716f3f2090e6d861415e3386bfa3037d">br</a>, 0, Br_bytes - Word_bytes,</div>
-<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>                                             a...);</div>
-<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span> </div>
-<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>      <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(bytes &lt; 0))</div>
-<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>        <span class="keywordflow">return</span> return_err&lt;R&gt;(bytes);</div>
-<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span> </div>
-<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>      brs-&gt;<a class="code hl_variable" href="structl4__buf__regs__t.html#a716f3f2090e6d861415e3386bfa3037d">br</a>[bytes / <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a1d4878c74f772bfe4c4dbe0a9bdfb5ceab909157795890260363573ff7587d68d">Word_bytes</a>] = 0;</div>
-<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>    }</div>
-<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span> </div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> Kobject_typeid&lt;CLASS&gt;::Iface::Rpcs Rpcs;</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> Rpcs::template Rpc&lt;OP&gt; Opt;</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>  <span class="keyword">typedef</span> Detail::Part&lt;ipc_type, typename Rpcs::opcode_type&gt; Args;</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span> </div>
+<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>  <a class="code hl_union" href="unionl4__msg__regs__t.html">l4_msg_regs_t</a> *mrs = l4_utcb_mr_u(utcb);</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span> </div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>  <span class="comment">// handle in-data part of the arguments</span></div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>  <span class="keywordtype">int</span> send_bytes =</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>    Args::template write_op&lt;Do_in_data&gt;(mrs-&gt;<a class="code hl_variable" href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">mr</a>, 0, Mr_bytes,</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>                                        Opt::Opcode, a...);</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span> </div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(send_bytes &lt; 0))</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(send_bytes);</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span> </div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>  send_bytes = align_to&lt;l4_umword_t&gt;(send_bytes);</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>  <span class="keywordtype">int</span> <span class="keyword">const</span> send_words = send_bytes / <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a82716d35bb0b3d88f7ee76d2e779b95fab909157795890260363573ff7587d68d">Word_bytes</a>;</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>  <span class="comment">// write the in-items part of the message if there is one</span></div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>  <span class="keywordtype">int</span> item_bytes =</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>    Args::template write&lt;Do_in_items&gt;(&amp;mrs-&gt;<a class="code hl_variable" href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">mr</a>[send_words], 0,</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>                                      Mr_bytes - send_bytes, a...);</div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span> </div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(item_bytes &lt; 0))</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(item_bytes);</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span> </div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>  <span class="keywordtype">int</span> send_items = item_bytes / <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a82716d35bb0b3d88f7ee76d2e779b95fab0b521544e0087a9c30951d1c426a01f">Item_bytes</a>;</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span> </div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    {</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>      <span class="comment">// setup the receive buffers for the RPC call</span></div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>      <a class="code hl_struct" href="structl4__buf__regs__t.html">l4_buf_regs_t</a> *brs = l4_utcb_br_u(utcb);</div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>      <span class="comment">// XXX: we currently support only one type of receive buffers per call</span></div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>      brs-&gt;<a class="code hl_variable" href="structl4__buf__regs__t.html#a852ae37fbb64d4a2f71cbd4c0ba905d1">bdr</a> = 0; <span class="comment">// we always start at br[0]</span></div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span> </div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>      <span class="comment">// the limit leaves us at least one register for the zero terminator</span></div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>      <span class="comment">// add the buffers given as arguments to the buffer registers</span></div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>      <span class="keywordtype">int</span> bytes =</div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>        Args::template write&lt;Do_rcv_buffers&gt;(brs-&gt;<a class="code hl_variable" href="structl4__buf__regs__t.html#a716f3f2090e6d861415e3386bfa3037d">br</a>, 0, Br_bytes - Word_bytes,</div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>                                             a...);</div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span> </div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>      <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(bytes &lt; 0))</div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>        <span class="keywordflow">return</span> return_err&lt;R&gt;(bytes);</div>
 <div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span> </div>
-<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>  <span class="comment">// here we do the actual IPC ---------------------------------</span></div>
-<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> t;</div>
-<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>  t = <a class="code hl_function" href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a>(CLASS::Protocol, send_words, send_items, 0);</div>
-<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>  <span class="comment">// do the call (Q: do we need support for timeouts?)</span></div>
-<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>  <span class="keywordflow">if</span> (flags_type::Is_call)</div>
-<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>    t = <a class="code hl_function" href="group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6">l4_ipc_call</a>(cap.<a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>(), utcb, t, flags_type::timeout());</div>
-<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>  <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>    {</div>
-<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>      t = <a class="code hl_function" href="group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e">l4_ipc_send</a>(cap.<a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>(), utcb, t, flags_type::timeout());</div>
-<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>      <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(t.<a class="code hl_function" href="structl4__msgtag__t.html#a09c8212b870e6c144fd072dbde5b5262">has_error</a>()))</div>
-<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>        <span class="keywordflow">return</span> return_ipc_err&lt;R&gt;(t, utcb);</div>
-<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span> </div>
-<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>      <span class="keywordflow">return</span> return_code&lt;R&gt;(<a class="code hl_function" href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a>(0, 0, 0, t.<a class="code hl_function" href="structl4__msgtag__t.html#af6b9564a9a16427cec0e81a4628996b8">flags</a>()));</div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>    }</div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span> </div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>  <span class="comment">// unmarshalling starts here ---------------------------------</span></div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span> </div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>  <span class="comment">// bail out early in the case of an IPC error</span></div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(t.<a class="code hl_function" href="structl4__msgtag__t.html#a09c8212b870e6c144fd072dbde5b5262">has_error</a>()))</div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>    <span class="keywordflow">return</span> return_ipc_err&lt;R&gt;(t, utcb);</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>      brs-&gt;<a class="code hl_variable" href="structl4__buf__regs__t.html#a716f3f2090e6d861415e3386bfa3037d">br</a>[bytes / <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a82716d35bb0b3d88f7ee76d2e779b95fab909157795890260363573ff7587d68d">Word_bytes</a>] = 0;</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>    }</div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span> </div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span> </div>
+<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>  <span class="comment">// here we do the actual IPC ---------------------------------</span></div>
+<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> t;</div>
+<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>  t = <a class="code hl_function" href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a>(CLASS::Protocol, send_words, send_items, 0);</div>
+<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>  <span class="comment">// do the call (Q: do we need support for timeouts?)</span></div>
+<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>  <span class="keywordflow">if</span> (flags_type::Is_call)</div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>    t = <a class="code hl_function" href="group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6">l4_ipc_call</a>(cap.<a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>(), utcb, t, flags_type::timeout());</div>
+<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>    {</div>
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>      t = <a class="code hl_function" href="group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e">l4_ipc_send</a>(cap.<a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>(), utcb, t, flags_type::timeout());</div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>      <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(t.<a class="code hl_function" href="structl4__msgtag__t.html#a09c8212b870e6c144fd072dbde5b5262">has_error</a>()))</div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>        <span class="keywordflow">return</span> return_ipc_err&lt;R&gt;(t, utcb);</div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span> </div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>      <span class="keywordflow">return</span> return_code&lt;R&gt;(<a class="code hl_function" href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a>(0, 0, 0, t.<a class="code hl_function" href="structl4__msgtag__t.html#af6b9564a9a16427cec0e81a4628996b8">flags</a>()));</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>    }</div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span> </div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>  <span class="comment">// unmarshalling starts here ---------------------------------</span></div>
 <div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span> </div>
-<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>  <span class="comment">// take the label as return value</span></div>
-<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>  <span class="keywordtype">long</span> r = t.<a class="code hl_function" href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">label</a>();</div>
-<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span> </div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>  <span class="comment">// bail out on negative error codes too</span></div>
-<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(r &lt; 0))</div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(r);</div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>  <span class="comment">// bail out early in the case of an IPC error</span></div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(t.<a class="code hl_function" href="structl4__msgtag__t.html#a09c8212b870e6c144fd072dbde5b5262">has_error</a>()))</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>    <span class="keywordflow">return</span> return_ipc_err&lt;R&gt;(t, utcb);</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span> </div>
+<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>  <span class="comment">// take the label as return value</span></div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>  <span class="keywordtype">long</span> r = t.<a class="code hl_function" href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">label</a>();</div>
 <div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span> </div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>  <span class="keywordtype">int</span> <span class="keyword">const</span> rcv_bytes = t.<a class="code hl_function" href="structl4__msgtag__t.html#a98577ea730d9abcd938b89d5c7adb18c">words</a>() * <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a1d4878c74f772bfe4c4dbe0a9bdfb5ceab909157795890260363573ff7587d68d">Word_bytes</a>;</div>
-<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span> </div>
-<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>  <span class="comment">// read the static out-data values to the arguments</span></div>
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>  <span class="keywordtype">int</span> err = Args::template read&lt;Do_out_data&gt;(mrs-&gt;<a class="code hl_variable" href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">mr</a>, 0, rcv_bytes, r, a...);</div>
-<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span> </div>
-<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>  <span class="keywordtype">int</span> <span class="keyword">const</span> item_limit = t.<a class="code hl_function" href="structl4__msgtag__t.html#ad014e4a9f4509b068ddda678f6f8d568">items</a>() * <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a1d4878c74f772bfe4c4dbe0a9bdfb5ceab0b521544e0087a9c30951d1c426a01f">Item_bytes</a>;</div>
-<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span> </div>
-<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(err &lt; 0 || item_limit &gt; Mr_bytes))</div>
-<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(-<a class="code hl_enumvalue" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698">L4_EMSGTOOSHORT</a>);</div>
-<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span> </div>
-<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>  <span class="comment">// read the static out-items to the arguments</span></div>
-<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>  err = Args::template read&lt;Do_out_items&gt;(&amp;mrs-&gt;<a class="code hl_variable" href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">mr</a>[t.<a class="code hl_function" href="structl4__msgtag__t.html#a98577ea730d9abcd938b89d5c7adb18c">words</a>()], 0, item_limit,</div>
-<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>                                          r, a...);</div>
+<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>  <span class="comment">// bail out on negative error codes too</span></div>
+<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(r &lt; 0))</div>
+<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(r);</div>
+<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span> </div>
+<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>  <span class="keywordtype">int</span> <span class="keyword">const</span> rcv_bytes = t.<a class="code hl_function" href="structl4__msgtag__t.html#a98577ea730d9abcd938b89d5c7adb18c">words</a>() * <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a82716d35bb0b3d88f7ee76d2e779b95fab909157795890260363573ff7587d68d">Word_bytes</a>;</div>
+<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span> </div>
+<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>  <span class="comment">// read the static out-data values to the arguments</span></div>
+<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>  <span class="keywordtype">int</span> err = Args::template read&lt;Do_out_data&gt;(mrs-&gt;<a class="code hl_variable" href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">mr</a>, 0, rcv_bytes, r, a...);</div>
+<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span> </div>
+<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>  <span class="keywordtype">int</span> <span class="keyword">const</span> item_limit = t.<a class="code hl_function" href="structl4__msgtag__t.html#ad014e4a9f4509b068ddda678f6f8d568">items</a>() * <a class="code hl_enumvalue" href="namespaceL4_1_1Ipc_1_1Msg.html#a82716d35bb0b3d88f7ee76d2e779b95fab0b521544e0087a9c30951d1c426a01f">Item_bytes</a>;</div>
+<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span> </div>
+<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(err &lt; 0 || item_limit &gt; Mr_bytes))</div>
+<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(-<a class="code hl_enumvalue" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698">L4_EMSGTOOSHORT</a>);</div>
 <div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span> </div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(err &lt; 0))</div>
-<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(-<a class="code hl_enumvalue" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698">L4_EMSGTOOSHORT</a>);</div>
-<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span> </div>
-<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>  <span class="keywordflow">return</span> return_code&lt;R&gt;(t);</div>
-<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>}</div>
-<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span> </div>
-<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>} <span class="comment">// namespace Msg</span></div>
-<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>} <span class="comment">// namespace Ipc</span></div>
-<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>} <span class="comment">// namespace L4</span></div>
+<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>  <span class="comment">// read the static out-items to the arguments</span></div>
+<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>  err = Args::template read&lt;Do_out_items&gt;(&amp;mrs-&gt;<a class="code hl_variable" href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">mr</a>[t.<a class="code hl_function" href="structl4__msgtag__t.html#a98577ea730d9abcd938b89d5c7adb18c">words</a>()], 0, item_limit,</div>
+<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>                                          r, a...);</div>
+<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span> </div>
+<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(err &lt; 0))</div>
+<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>    <span class="keywordflow">return</span> return_err&lt;R&gt;(-<a class="code hl_enumvalue" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698">L4_EMSGTOOSHORT</a>);</div>
+<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span> </div>
+<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>  <span class="keywordflow">return</span> return_code&lt;R&gt;(t);</div>
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>}</div>
 <div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span> </div>
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span> </div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>} <span class="comment">// namespace Msg</span></div>
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>} <span class="comment">// namespace Ipc</span></div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>} <span class="comment">// namespace L4</span></div>
 <div class="ttc" id="a____typeinfo_8h_html"><div class="ttname"><a href="____typeinfo_8h.html">__typeinfo.h</a></div><div class="ttdoc">Type information handling.</div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00052">capability.h:52</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00049">capability.h:49</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4__cap__api_html_ggafee0421c2fe0e5cfc59f17f16ea10879aba3e1dbcc462d842d56df9fc928e796b"><div class="ttname"><a href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aba3e1dbcc462d842d56df9fc928e796b">L4_CAP_MASK</a></div><div class="ttdeci">@ L4_CAP_MASK</div><div class="ttdoc">Mask to get only the relevant bits of an l4_cap_idx_t.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00166">consts.h:166</a></div></div>
-<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698">L4_EMSGTOOSHORT</a></div><div class="ttdeci">@ L4_EMSGTOOSHORT</div><div class="ttdoc">Message too short.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00066">err.h:66</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__api_html_ga7de45eb59ce852466362ea85da00299e"><div class="ttname"><a href="group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e">l4_ipc_send</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_send(l4_cap_idx_t dest, l4_utcb_t *utcb, l4_msgtag_t tag, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Send a message to an object (do not wait for a reply).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00575">ipc.h:575</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__api_html_gab96d1669dcd54657237ee27b7f6862c6"><div class="ttname"><a href="group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6">l4_ipc_call</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_call(l4_cap_idx_t object, l4_utcb_t *utcb, l4_msgtag_t tag, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Object call (usual invocation).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00550">ipc.h:550</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__err__api_html_ga3b77d0d9d3794278bf464824e076c6b8"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga3b77d0d9d3794278bf464824e076c6b8">l4_ipc_error_code</a></div><div class="ttdeci">int l4_ipc_error_code(l4_utcb_t *utcb) L4_NOTHROW</div><div class="ttdoc">Get the error condition of the last invocation from the TCR.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00648">ipc.h:648</a></div></div>
-<div class="ttc" id="agroup__l4__msgtag__api_html_ga661d71acad9d096fa990f7c94943bc78"><div class="ttname"><a href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a></div><div class="ttdeci">l4_msgtag_t l4_msgtag(long label, unsigned words, unsigned items, unsigned flags) L4_NOTHROW</div><div class="ttdoc">Create a message tag from the specified values.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00427">types.h:427</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_ga22a6a662679f6baaa0ae931d8bb443ea"><div class="ttname"><a href="group__l4__timeout__api.html#ga22a6a662679f6baaa0ae931d8bb443ea">L4_IPC_SEND_TIMEOUT_0</a></div><div class="ttdeci">#define L4_IPC_SEND_TIMEOUT_0</div><div class="ttdoc">0 send timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00084">__timeout.h:84</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_gaf01c5e1475efc4f33bc7d1985f7320d3"><div class="ttname"><a href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a></div><div class="ttdeci">#define L4_IPC_NEVER</div><div class="ttdoc">never timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00082">__timeout.h:82</a></div></div>
+<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698">L4_EMSGTOOSHORT</a></div><div class="ttdeci">@ L4_EMSGTOOSHORT</div><div class="ttdoc">Message too short.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00067">err.h:67</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__api_html_ga7de45eb59ce852466362ea85da00299e"><div class="ttname"><a href="group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e">l4_ipc_send</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_send(l4_cap_idx_t dest, l4_utcb_t *utcb, l4_msgtag_t tag, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Send a message to an object (do not wait for a reply).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00597">ipc.h:597</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__api_html_gab96d1669dcd54657237ee27b7f6862c6"><div class="ttname"><a href="group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6">l4_ipc_call</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_call(l4_cap_idx_t object, l4_utcb_t *utcb, l4_msgtag_t tag, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Object call (usual invocation).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00576">ipc.h:576</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__err__api_html_ga3b77d0d9d3794278bf464824e076c6b8"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga3b77d0d9d3794278bf464824e076c6b8">l4_ipc_error_code</a></div><div class="ttdeci">int l4_ipc_error_code(l4_utcb_t *utcb) L4_NOTHROW</div><div class="ttdoc">Get the error condition of the last invocation from the TCR.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00669">ipc.h:669</a></div></div>
+<div class="ttc" id="agroup__l4__msgtag__api_html_ga661d71acad9d096fa990f7c94943bc78"><div class="ttname"><a href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a></div><div class="ttdeci">l4_msgtag_t l4_msgtag(long label, unsigned words, unsigned items, unsigned flags) L4_NOTHROW</div><div class="ttdoc">Create a message tag from the specified values.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00428">types.h:428</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_ga22a6a662679f6baaa0ae931d8bb443ea"><div class="ttname"><a href="group__l4__timeout__api.html#ga22a6a662679f6baaa0ae931d8bb443ea">L4_IPC_SEND_TIMEOUT_0</a></div><div class="ttdeci">#define L4_IPC_SEND_TIMEOUT_0</div><div class="ttdoc">0 send timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00086">__timeout.h:86</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_gaf01c5e1475efc4f33bc7d1985f7320d3"><div class="ttname"><a href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a></div><div class="ttdeci">#define L4_IPC_NEVER</div><div class="ttdoc">never timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00084">__timeout.h:84</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_gadc099b4a59e1d99638c72c11a8c8b644"><div class="ttname"><a href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a></div><div class="ttdeci">l4_utcb_t * l4_utcb(void) L4_NOTHROW L4_PURE</div><div class="ttdoc">Get the UTCB address.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00340">utcb.h:340</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga3df4200910f2664b97397c23693beeb0"><div class="ttname"><a href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a></div><div class="ttdeci">#define L4_UNLIKELY(x)</div><div class="ttdoc">Expression is unlikely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00285">compiler.h:285</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00221">compiler.h:221</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_gac76599eba5afa89a12c44176cbfa90cb"><div class="ttname"><a href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a></div><div class="ttdeci">#define L4_LIKELY(x)</div><div class="ttdoc">Expression is likely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00284">compiler.h:284</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga3df4200910f2664b97397c23693beeb0"><div class="ttname"><a href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a></div><div class="ttdeci">#define L4_UNLIKELY(x)</div><div class="ttdoc">Expression is unlikely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00296">compiler.h:296</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00231">compiler.h:231</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_gac76599eba5afa89a12c44176cbfa90cb"><div class="ttname"><a href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a></div><div class="ttdeci">#define L4_LIKELY(x)</div><div class="ttdoc">Expression is likely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00295">compiler.h:295</a></div></div>
 <div class="ttc" id="aipc__types_html"><div class="ttname"><a href="ipc__types.html">ipc_types</a></div></div>
-<div class="ttc" id="al4_2sys_2ipc_8h_html_a92b8e935d6fa1222f0358a477f539367"><div class="ttname"><a href="l4_2sys_2ipc_8h.html#a92b8e935d6fa1222f0358a477f539367">l4_ipc_to_errno</a></div><div class="ttdeci">long l4_ipc_to_errno(unsigned long ipc_error_code) L4_NOTHROW</div><div class="ttdoc">Get a negative error code for the given IPC error code.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00546">ipc.h:546</a></div></div>
-<div class="ttc" id="anamespaceL4_1_1Ipc_1_1Msg_html_a1d4878c74f772bfe4c4dbe0a9bdfb5ceab0b521544e0087a9c30951d1c426a01f"><div class="ttname"><a href="namespaceL4_1_1Ipc_1_1Msg.html#a1d4878c74f772bfe4c4dbe0a9bdfb5ceab0b521544e0087a9c30951d1c426a01f">L4::Ipc::Msg::Item_bytes</a></div><div class="ttdeci">@ Item_bytes</div><div class="ttdoc">number of bytes for one message item</div><div class="ttdef"><b>Definition</b> <a href="ipc__basics_source.html#l00103">ipc_basics:103</a></div></div>
-<div class="ttc" id="anamespaceL4_1_1Ipc_1_1Msg_html_a1d4878c74f772bfe4c4dbe0a9bdfb5ceab909157795890260363573ff7587d68d"><div class="ttname"><a href="namespaceL4_1_1Ipc_1_1Msg.html#a1d4878c74f772bfe4c4dbe0a9bdfb5ceab909157795890260363573ff7587d68d">L4::Ipc::Msg::Word_bytes</a></div><div class="ttdeci">@ Word_bytes</div><div class="ttdoc">number of bytes for one message word</div><div class="ttdef"><b>Definition</b> <a href="ipc__basics_source.html#l00099">ipc_basics:99</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
+<div class="ttc" id="al4_2sys_2ipc_8h_html_a92b8e935d6fa1222f0358a477f539367"><div class="ttname"><a href="l4_2sys_2ipc_8h.html#a92b8e935d6fa1222f0358a477f539367">l4_ipc_to_errno</a></div><div class="ttdeci">long l4_ipc_to_errno(unsigned long ipc_error_code) L4_NOTHROW</div><div class="ttdoc">Get a negative error code for the given IPC error code.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00572">ipc.h:572</a></div></div>
+<div class="ttc" id="anamespaceL4_1_1Ipc_1_1Msg_html_a82716d35bb0b3d88f7ee76d2e779b95fab0b521544e0087a9c30951d1c426a01f"><div class="ttname"><a href="namespaceL4_1_1Ipc_1_1Msg.html#a82716d35bb0b3d88f7ee76d2e779b95fab0b521544e0087a9c30951d1c426a01f">L4::Ipc::Msg::Item_bytes</a></div><div class="ttdeci">@ Item_bytes</div><div class="ttdoc">number of bytes for one message item</div><div class="ttdef"><b>Definition</b> <a href="ipc__basics_source.html#l00103">ipc_basics:103</a></div></div>
+<div class="ttc" id="anamespaceL4_1_1Ipc_1_1Msg_html_a82716d35bb0b3d88f7ee76d2e779b95fab909157795890260363573ff7587d68d"><div class="ttname"><a href="namespaceL4_1_1Ipc_1_1Msg.html#a82716d35bb0b3d88f7ee76d2e779b95fab909157795890260363573ff7587d68d">L4::Ipc::Msg::Word_bytes</a></div><div class="ttdeci">@ Word_bytes</div><div class="ttdoc">number of bytes for one message word</div><div class="ttdef"><b>Definition</b> <a href="ipc__basics_source.html#l00099">ipc_basics:99</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Call__t_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Call__t.html">L4::Ipc::Call_t</a></div><div class="ttdoc">RPC attribute for an RPC call with required rights.</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00257">ipc_iface:258</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Call__zero__send__timeout_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Call__zero__send__timeout.html">L4::Ipc::Call_zero_send_timeout</a></div><div class="ttdoc">RPC attribute for an RPC call, with zero send timeout.</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00236">ipc_iface:237</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Call_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Call.html">L4::Ipc::Call</a></div><div class="ttdoc">RPC attribute for a standard RPC call.</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00226">ipc_iface:227</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Send__only_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Send__only.html">L4::Ipc::Send_only</a></div><div class="ttdoc">RPC attribute for a send-only RPC.</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00274">ipc_iface:275</a></div></div>
-<div class="ttc" id="astructL4_1_1Types_1_1Same_html"><div class="ttname"><a href="structL4_1_1Types_1_1Same.html">L4::Types::Same</a></div><div class="ttdoc">Compare two data types for equality.</div><div class="ttdef"><b>Definition</b> <a href="types_source.html#l00324">types:324</a></div></div>
+<div class="ttc" id="astructL4_1_1Types_1_1Same_html"><div class="ttname"><a href="structL4_1_1Types_1_1Same.html">L4::Types::Same</a></div><div class="ttdoc">Compare two data types for equality.</div><div class="ttdef"><b>Definition</b> <a href="types_source.html#l00323">types:323</a></div></div>
 <div class="ttc" id="astructl4__buf__regs__t_html"><div class="ttname"><a href="structl4__buf__regs__t.html">l4_buf_regs_t</a></div><div class="ttdoc">Encapsulation of the buffer-registers block in the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00093">utcb.h:94</a></div></div>
 <div class="ttc" id="astructl4__buf__regs__t_html_a716f3f2090e6d861415e3386bfa3037d"><div class="ttname"><a href="structl4__buf__regs__t.html#a716f3f2090e6d861415e3386bfa3037d">l4_buf_regs_t::br</a></div><div class="ttdeci">l4_umword_t br[L4_UTCB_GENERIC_BUFFERS_SIZE]</div><div class="ttdoc">Buffer registers.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00099">utcb.h:99</a></div></div>
 <div class="ttc" id="astructl4__buf__regs__t_html_a852ae37fbb64d4a2f71cbd4c0ba905d1"><div class="ttname"><a href="structl4__buf__regs__t.html#a852ae37fbb64d4a2f71cbd4c0ba905d1">l4_buf_regs_t::bdr</a></div><div class="ttdeci">l4_umword_t bdr</div><div class="ttdoc">Buffer descriptor.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00096">utcb.h:96</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_a002076380a3f6e4f29a1f6b50ce2bde2"><div class="ttname"><a href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">l4_msgtag_t::label</a></div><div class="ttdeci">long label() const L4_NOTHROW</div><div class="ttdoc">Get the protocol value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00167">types.h:167</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_a09c8212b870e6c144fd072dbde5b5262"><div class="ttname"><a href="structl4__msgtag__t.html#a09c8212b870e6c144fd072dbde5b5262">l4_msgtag_t::has_error</a></div><div class="ttdeci">unsigned has_error() const L4_NOTHROW</div><div class="ttdoc">Test if flags indicate an error.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00194">types.h:194</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_a98577ea730d9abcd938b89d5c7adb18c"><div class="ttname"><a href="structl4__msgtag__t.html#a98577ea730d9abcd938b89d5c7adb18c">l4_msgtag_t::words</a></div><div class="ttdeci">unsigned words() const L4_NOTHROW</div><div class="ttdoc">Get the number of untyped words.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00171">types.h:171</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_ad014e4a9f4509b068ddda678f6f8d568"><div class="ttname"><a href="structl4__msgtag__t.html#ad014e4a9f4509b068ddda678f6f8d568">l4_msgtag_t::items</a></div><div class="ttdeci">unsigned items() const L4_NOTHROW</div><div class="ttdoc">Get the number of typed items.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00173">types.h:173</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_af6b9564a9a16427cec0e81a4628996b8"><div class="ttname"><a href="structl4__msgtag__t.html#af6b9564a9a16427cec0e81a4628996b8">l4_msgtag_t::flags</a></div><div class="ttdeci">unsigned flags() const L4_NOTHROW</div><div class="ttdoc">Get the flags value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00180">types.h:180</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_a002076380a3f6e4f29a1f6b50ce2bde2"><div class="ttname"><a href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">l4_msgtag_t::label</a></div><div class="ttdeci">long label() const L4_NOTHROW</div><div class="ttdoc">Get the protocol value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00168">types.h:168</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_a09c8212b870e6c144fd072dbde5b5262"><div class="ttname"><a href="structl4__msgtag__t.html#a09c8212b870e6c144fd072dbde5b5262">l4_msgtag_t::has_error</a></div><div class="ttdeci">unsigned has_error() const L4_NOTHROW</div><div class="ttdoc">Test if flags indicate an error.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00195">types.h:195</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_a98577ea730d9abcd938b89d5c7adb18c"><div class="ttname"><a href="structl4__msgtag__t.html#a98577ea730d9abcd938b89d5c7adb18c">l4_msgtag_t::words</a></div><div class="ttdeci">unsigned words() const L4_NOTHROW</div><div class="ttdoc">Get the number of untyped words.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00172">types.h:172</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_ad014e4a9f4509b068ddda678f6f8d568"><div class="ttname"><a href="structl4__msgtag__t.html#ad014e4a9f4509b068ddda678f6f8d568">l4_msgtag_t::items</a></div><div class="ttdeci">unsigned items() const L4_NOTHROW</div><div class="ttdoc">Get the number of typed items.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00174">types.h:174</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_af6b9564a9a16427cec0e81a4628996b8"><div class="ttname"><a href="structl4__msgtag__t.html#af6b9564a9a16427cec0e81a4628996b8">l4_msgtag_t::flags</a></div><div class="ttdeci">unsigned flags() const L4_NOTHROW</div><div class="ttdoc">Get the flags value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00181">types.h:181</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html"><div class="ttname"><a href="unionl4__msg__regs__t.html">l4_msg_regs_t</a></div><div class="ttdoc">Encapsulation of the message-register block in the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00078">utcb.h:79</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html_ad7d601b3b3808afaefe4c09d42de8b99"><div class="ttname"><a href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">l4_msg_regs_t::mr</a></div><div class="ttdeci">l4_umword_t mr[L4_UTCB_GENERIC_DATA_SIZE]</div><div class="ttdoc">Message registers.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00080">utcb.h:80</a></div></div>
-<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00059">__timeout.h:59</a></div></div>
+<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00060">__timeout.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -610,7 +615,7 @@ $(document).ready(function(){initNavTree('ipc__iface_source.html',''); initResiz
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="dir_b5e85b2e6f5fea110cbdaa2fa3e12366.html">cxx</a></li><li class="navelem"><a class="el" href="ipc__iface.html">ipc_iface</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

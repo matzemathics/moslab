@@ -26,7 +26,9 @@ Platform_arm::setup_kernel_config(l4_kernel_info_t *kip)
   asm("mrc p15, 0, %0, c0, c0, 0" : "=r" (ia->cpuinfo.MIDR));
   asm("mrc p15, 0, %0, c0, c0, 1" : "=r" (ia->cpuinfo.CTR));
   asm("mrc p15, 0, %0, c0, c0, 2" : "=r" (ia->cpuinfo.TCMTR));
+#ifdef CONFIG_MMU
   asm("mrc p15, 0, %0, c0, c0, 3" : "=r" (ia->cpuinfo.TLBTR));
+#endif
   asm("mrc p15, 0, %0, c0, c0, 5" : "=r" (ia->cpuinfo.MPIDR));
   asm("mrc p15, 0, %0, c0, c0, 6" : "=r" (ia->cpuinfo.REVIDR));
 
@@ -83,8 +85,3 @@ Platform_arm::setup_kernel_config(l4_kernel_info_t *kip)
     }
 }
 
-void Platform_arm::module_load_hook(l4_addr_t, l4_umword_t, l4_umword_t,
-                                    char const*)
-{
-  //TODO implement HYP userland check here
-}

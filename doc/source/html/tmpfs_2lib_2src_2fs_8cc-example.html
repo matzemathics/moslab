@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: tmpfs/lib/src/fs.cc</title>
+<title>L4Re Operating System Framework: tmpfs/lib/src/fs.cc</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -225,7 +228,7 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="line"><span class="keyword">  </span>{ <span class="keywordflow">return</span> strcmp(l, r) &lt; 0; }</div>
 <div class="line">  <span class="keywordtype">bool</span> operator () (<span class="keyword">const</span> <a class="code hl_class" href="classcxx_1_1String.html">cxx::String</a> l, <span class="keyword">const</span> <a class="code hl_class" href="classcxx_1_1String.html">cxx::String</a> r)<span class="keyword"> const</span></div>
 <div class="line"><span class="keyword">  </span>{</div>
-<div class="line">    <span class="keywordtype">int</span> v = strncmp(l.start(), r.<a id="a3" name="a3"></a><a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>(), <a id="a4" name="a4"></a><a class="code hl_function" href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">cxx::min</a>(l.len(), r.<a id="a5" name="a5"></a><a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a>()));</div>
+<div class="line">    <span class="keywordtype">int</span> v = strncmp(l.start(), r.<a id="a3" name="a3"></a><a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>(), cxx::min(l.len(), r.<a id="a4" name="a4"></a><a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a>()));</div>
 <div class="line">    <span class="keywordflow">return</span> v &lt; 0 || (v == 0 &amp;&amp; l.len() &lt; r.<a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a>());</div>
 <div class="line">  }</div>
 <div class="line">};</div>
@@ -244,7 +247,7 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="line"><span class="keyword">class </span>Pers_dir : <span class="keyword">public</span> Node</div>
 <div class="line">{</div>
 <div class="line"><span class="keyword">private</span>:</div>
-<div class="line">  <span class="keyword">typedef</span> <a id="_a6" name="_a6"></a><a class="code hl_class" href="classcxx_1_1Avl__tree.html">cxx::Avl_tree&lt;Node, Node_get_key, Path_avl_tree_compare&gt;</a> Tree;</div>
+<div class="line">  <span class="keyword">typedef</span> <a id="_a5" name="_a5"></a><a class="code hl_class" href="classcxx_1_1Avl__tree.html">cxx::Avl_tree&lt;Node, Node_get_key, Path_avl_tree_compare&gt;</a> Tree;</div>
 <div class="line">  Tree _tree;</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">public</span>:</div>
@@ -271,7 +274,7 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="line">  <span class="keywordflow">return</span> e;</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">class </span>Tmpfs_dir : <span class="keyword">public</span> <a id="_a7" name="_a7"></a><a class="code hl_class" href="classL4Re_1_1Vfs_1_1Be__file.html">Be_file</a></div>
+<div class="line"><span class="keyword">class </span>Tmpfs_dir : <span class="keyword">public</span> <a id="_a6" name="_a6"></a><a class="code hl_class" href="classL4Re_1_1Vfs_1_1Be__file.html">Be_file</a></div>
 <div class="line">{</div>
 <div class="line"><span class="keyword">public</span>:</div>
 <div class="line">  <span class="keyword">explicit</span> Tmpfs_dir(Ref_ptr&lt;Pers_dir&gt; <span class="keyword">const</span> &amp;d) <span class="keywordflow">throw</span>()</div>
@@ -541,15 +544,15 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="line">          <span class="keywordflow">return</span> 0;</div>
 <div class="line">        }</div>
 <div class="line"> </div>
-<div class="line">      <a class="code hl_typedef" href="classcxx_1_1String.html#aaa82be3d198c9d251fa7a19bf4312c02">cxx::String::Index</a> sep = s.<a id="a8" name="a8"></a><a class="code hl_function" href="classcxx_1_1String.html#a539e3b3931789d610a016a969e0a0b6b">find</a>(<span class="stringliteral">&quot;/&quot;</span>);</div>
+<div class="line">      <a class="code hl_typedef" href="classcxx_1_1String.html#aaa82be3d198c9d251fa7a19bf4312c02">cxx::String::Index</a> sep = s.<a id="a7" name="a7"></a><a class="code hl_function" href="classcxx_1_1String.html#a539e3b3931789d610a016a969e0a0b6b">find</a>(<span class="stringliteral">&quot;/&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">      <span class="keywordflow">if</span> (sep - s.<a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>() == 1 &amp;&amp; *s.<a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>() == <span class="charliteral">&#39;.&#39;</span>)</div>
 <div class="line">        {</div>
-<div class="line">          s = s.<a id="a9" name="a9"></a><a class="code hl_function" href="classcxx_1_1String.html#a6f501d9ccb1c93cf26db6c33c847b5a3">substr</a>(s.<a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>() + 2);</div>
+<div class="line">          s = s.<a id="a8" name="a8"></a><a class="code hl_function" href="classcxx_1_1String.html#a6f501d9ccb1c93cf26db6c33c847b5a3">substr</a>(s.<a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>() + 2);</div>
 <div class="line">          <span class="keywordflow">continue</span>;</div>
 <div class="line">        }</div>
 <div class="line"> </div>
-<div class="line">      n = p-&gt;find_path(s.<a id="a10" name="a10"></a><a class="code hl_function" href="classcxx_1_1String.html#a9f934027aff4124f03aafc4a480cadac">head</a>(sep - s.<a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>()));</div>
+<div class="line">      n = p-&gt;find_path(s.<a id="a9" name="a9"></a><a class="code hl_function" href="classcxx_1_1String.html#a9f934027aff4124f03aafc4a480cadac">head</a>(sep - s.<a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>()));</div>
 <div class="line"> </div>
 <div class="line">      <span class="keywordflow">if</span> (!n)</div>
 <div class="line">        {</div>
@@ -560,7 +563,7 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="line">        }</div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="line">      <span class="keywordflow">if</span> (sep == s.<a id="a11" name="a11"></a><a class="code hl_function" href="classcxx_1_1String.html#a21ab9dc0ee0f3971d9f858c54dcec286">end</a>())</div>
+<div class="line">      <span class="keywordflow">if</span> (sep == s.<a id="a10" name="a10"></a><a class="code hl_function" href="classcxx_1_1String.html#a21ab9dc0ee0f3971d9f858c54dcec286">end</a>())</div>
 <div class="line">        {</div>
 <div class="line">          *ret = n;</div>
 <div class="line">          <span class="keywordflow">return</span> 0;</div>
@@ -585,7 +588,7 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="line">  Ref_ptr&lt;Node&gt; node = _dir;</div>
 <div class="line">  <a class="code hl_class" href="classcxx_1_1String.html">cxx::String</a> p = <a class="code hl_class" href="classcxx_1_1String.html">cxx::String</a>(name);</div>
 <div class="line">  <a class="code hl_class" href="classcxx_1_1String.html">cxx::String</a> path, last = p;</div>
-<div class="line">  <a class="code hl_typedef" href="classcxx_1_1String.html#aaa82be3d198c9d251fa7a19bf4312c02">cxx::String::Index</a> s = p.<a id="a12" name="a12"></a><a class="code hl_function" href="classcxx_1_1String.html#ada1e2dd87bc20cb5bb893735e4db1849">rfind</a>(<span class="stringliteral">&quot;/&quot;</span>);</div>
+<div class="line">  <a class="code hl_typedef" href="classcxx_1_1String.html#aaa82be3d198c9d251fa7a19bf4312c02">cxx::String::Index</a> s = p.<a id="a11" name="a11"></a><a class="code hl_function" href="classcxx_1_1String.html#ada1e2dd87bc20cb5bb893735e4db1849">rfind</a>(<span class="stringliteral">&quot;/&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// trim /&#39;s at the end</span></div>
 <div class="line">  <span class="keywordflow">while</span> (p.<a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a>() &amp;&amp; s == p.<a class="code hl_function" href="classcxx_1_1String.html#a21ab9dc0ee0f3971d9f858c54dcec286">end</a>() - 1)</div>
@@ -641,7 +644,7 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="line"> </div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">class </span>Tmpfs_fs : <span class="keyword">public</span> <a id="_a13" name="_a13"></a><a class="code hl_class" href="classL4Re_1_1Vfs_1_1Be__file__system.html">Be_file_system</a></div>
+<div class="line"><span class="keyword">class </span>Tmpfs_fs : <span class="keyword">public</span> <a id="_a12" name="_a12"></a><a class="code hl_class" href="classL4Re_1_1Vfs_1_1Be__file__system.html">Be_file_system</a></div>
 <div class="line">{</div>
 <div class="line"><span class="keyword">public</span>:</div>
 <div class="line">  Tmpfs_fs() : <a class="code hl_class" href="classL4Re_1_1Vfs_1_1Be__file__system.html">Be_file_system</a>(<span class="stringliteral">&quot;tmpfs&quot;</span>) {}</div>
@@ -662,10 +665,10 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="line"> </div>
 <div class="line">}</div>
 <div class="ttc" id="aavl__tree_html"><div class="ttname"><a href="avl__tree.html">avl_tree</a></div><div class="ttdoc">AVL tree.</div></div>
-<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html">L4Re::Vfs::Be_file_system</a></div><div class="ttdoc">Boilerplate class for implementing a L4Re::Vfs::File_system.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00308">backend:309</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file__system_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file__system.html">L4Re::Vfs::Be_file_system</a></div><div class="ttdoc">Boilerplate class for implementing a L4Re::Vfs::File_system.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00311">backend:312</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Vfs_1_1Be__file_html"><div class="ttname"><a href="classL4Re_1_1Vfs_1_1Be__file.html">L4Re::Vfs::Be_file</a></div><div class="ttdoc">Boiler plate class for implementing an open file for L4Re::Vfs.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00039">backend:40</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Avl__tree__node_html"><div class="ttname"><a href="classcxx_1_1Avl__tree__node.html">cxx::Avl_tree_node</a></div><div class="ttdoc">Node of an AVL tree.</div><div class="ttdef"><b>Definition</b> <a href="avl__tree_source.html#l00038">avl_tree:39</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Avl__tree_html"><div class="ttname"><a href="classcxx_1_1Avl__tree.html">cxx::Avl_tree</a></div><div class="ttdoc">A generic AVL tree.</div><div class="ttdef"><b>Definition</b> <a href="avl__tree_source.html#l00107">avl_tree:108</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Avl__tree__node_html"><div class="ttname"><a href="classcxx_1_1Avl__tree__node.html">cxx::Avl_tree_node</a></div><div class="ttdoc">Node of an AVL tree.</div><div class="ttdef"><b>Definition</b> <a href="avl__tree_source.html#l00040">avl_tree:41</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Avl__tree_html"><div class="ttname"><a href="classcxx_1_1Avl__tree.html">cxx::Avl_tree</a></div><div class="ttdoc">A generic AVL tree.</div><div class="ttdef"><b>Definition</b> <a href="avl__tree_source.html#l00111">avl_tree:112</a></div></div>
 <div class="ttc" id="aclasscxx_1_1Ref__ptr_html"><div class="ttname"><a href="classcxx_1_1Ref__ptr.html">cxx::Ref_ptr</a></div><div class="ttdoc">A reference-counting pointer with automatic cleanup.</div><div class="ttdef"><b>Definition</b> <a href="ref__ptr_source.html#l00081">ref_ptr:82</a></div></div>
 <div class="ttc" id="aclasscxx_1_1String_html"><div class="ttname"><a href="classcxx_1_1String.html">cxx::String</a></div><div class="ttdoc">Allocation free string class with explicit length field.</div><div class="ttdef"><b>Definition</b> <a href="string_source.html#l00041">string:42</a></div></div>
 <div class="ttc" id="aclasscxx_1_1String_html_a101fd26cc3e799be32f027cd52a5da90"><div class="ttname"><a href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">cxx::String::start</a></div><div class="ttdeci">Index start() const</div><div class="ttdoc">Pointer to first character.</div><div class="ttdef"><b>Definition</b> <a href="string_source.html#l00065">string:65</a></div></div>
@@ -676,7 +679,6 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <div class="ttc" id="aclasscxx_1_1String_html_aaa82be3d198c9d251fa7a19bf4312c02"><div class="ttname"><a href="classcxx_1_1String.html#aaa82be3d198c9d251fa7a19bf4312c02">cxx::String::Index</a></div><div class="ttdeci">char const  * Index</div><div class="ttdoc">Character index type.</div><div class="ttdef"><b>Definition</b> <a href="string_source.html#l00046">string:46</a></div></div>
 <div class="ttc" id="aclasscxx_1_1String_html_ada1e2dd87bc20cb5bb893735e4db1849"><div class="ttname"><a href="classcxx_1_1String.html#ada1e2dd87bc20cb5bb893735e4db1849">cxx::String::rfind</a></div><div class="ttdeci">char const * rfind(char const *c) const</div><div class="ttdoc">Find right-most character. Return end() if not found.</div><div class="ttdef"><b>Definition</b> <a href="string_source.html#l00143">string:143</a></div></div>
 <div class="ttc" id="aclasscxx_1_1String_html_ae9a00f2167b423168cfa89e318d2c67f"><div class="ttname"><a href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">cxx::String::len</a></div><div class="ttdeci">int len() const</div><div class="ttdoc">Length.</div><div class="ttdef"><b>Definition</b> <a href="string_source.html#l00069">string:69</a></div></div>
-<div class="ttc" id="agroup__cxx__api_html_ga0bd9662898a7499fcd3feefe594a699b"><div class="ttname"><a href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">cxx::min</a></div><div class="ttdeci">T1 min(T1 a, T1 b)</div><div class="ttdoc">Get the minimum of a and b.</div><div class="ttdef"><b>Definition</b> <a href="minmax_source.html#l00035">minmax:35</a></div></div>
 <div class="ttc" id="anamespaceL4Re_1_1Vfs_html"><div class="ttname"><a href="namespaceL4Re_1_1Vfs.html">L4Re::Vfs</a></div><div class="ttdoc">Virtual file system for interfaces in POSIX libc.</div><div class="ttdef"><b>Definition</b> <a href="backend_source.html#l00025">backend:25</a></div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
@@ -684,7 +686,7 @@ $(document).ready(function(){initNavTree('tmpfs_2lib_2src_2fs_8cc-example.html',
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

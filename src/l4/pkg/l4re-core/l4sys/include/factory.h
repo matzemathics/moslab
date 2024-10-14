@@ -68,12 +68,17 @@
 /**
  * \ingroup l4_factory_api
  * \copybrief L4::Factory::create_task
- * \param      factory     Capability selector for factory to use for creation.
- * \param[out] target_cap  The kernel stores the new task's capability into
- *                         this slot.
- * \param      utcb_area   Flexpage that describes an area of kernel-user
- *                         memory that can be used for UTCBs and vCPU
- *                         state-save-areas of the new task.
+ * \param         factory     Capability selector for factory to use for
+ *                            creation.
+ * \param[out]    target_cap  The kernel stores the new task's capability into
+ *                            this slot.
+ * \param[in,out] utcb_area   Pointer to flexpage that describes an area of
+ *                            kernel-user memory that can be used for UTCBs and
+ *                            vCPU state-save-areas of the new task.
+ *
+ *                            On systems without MMU, the flexpage is adjusted
+ *                            to reflect the acually allocated physical
+ *                            address.
  *
  * \return Syscall return tag.
  *
@@ -89,8 +94,8 @@
  * \see \ref l4_task_api
  */
 L4_INLINE l4_msgtag_t
-l4_factory_create_task(l4_cap_idx_t factory,
-                       l4_cap_idx_t target_cap, l4_fpage_t utcb_area) L4_NOTHROW;
+l4_factory_create_task(l4_cap_idx_t factory, l4_cap_idx_t target_cap,
+                       l4_fpage_t *utcb_area) L4_NOTHROW;
 
 /**
  * \internal
@@ -98,7 +103,7 @@ l4_factory_create_task(l4_cap_idx_t factory,
  */
 L4_INLINE l4_msgtag_t
 l4_factory_create_task_u(l4_cap_idx_t factory, l4_cap_idx_t target_cap,
-                         l4_fpage_t utcb_area, l4_utcb_t *utcb) L4_NOTHROW;
+                         l4_fpage_t *utcb_area, l4_utcb_t *utcb) L4_NOTHROW;
 
 /**
  * \ingroup l4_factory_api
@@ -254,12 +259,43 @@ l4_factory_create_vm(l4_cap_idx_t factory,
                      l4_cap_idx_t target_cap) L4_NOTHROW;
 
 /**
+ * \ingroup l4_factory_api
+ * Create a new hardware vCPU context. A hardware vCPU context typically
+ * represents a hardware vCPU control structure (e.g. VMX VMCS).
+ *
+ * \param      factory     Capability selector for factory to use for creation.
+ * \param[out] target_cap  The kernel stores the new hardware vCPU context's
+ *                         capability into this slot.
+ *
+ * \return Syscall return tag
+ *
+ * \retval L4_EOK     No error occurred.
+ * \retval -L4_EPERM  The factory instance requires #L4_CAP_FPAGE_S rights on
+ *                    `factory` and #L4_CAP_FPAGE_S is not present.
+ * \retval <0         Error code.
+ *
+ * \see \ref l4_vm_api
+ */
+L4_INLINE l4_msgtag_t
+l4_factory_create_vcpu_context(l4_cap_idx_t factory,
+                               l4_cap_idx_t target_cap) L4_NOTHROW;
+
+/**
  * \internal
  * \ingroup l4_factory_api
  */
 L4_INLINE l4_msgtag_t
 l4_factory_create_vm_u(l4_cap_idx_t factory,
                        l4_cap_idx_t target_cap, l4_utcb_t *utcb) L4_NOTHROW;
+
+/**
+ * \internal
+ * \ingroup l4_factory_api
+ */
+L4_INLINE l4_msgtag_t
+l4_factory_create_vcpu_context_u(l4_cap_idx_t factory,
+                                 l4_cap_idx_t target_cap,
+                                 l4_utcb_t *utcb) L4_NOTHROW;
 
 /**
  * \internal
@@ -359,13 +395,19 @@ l4_factory_create(l4_cap_idx_t factory, long obj,
 
 L4_INLINE l4_msgtag_t
 l4_factory_create_task_u(l4_cap_idx_t factory,
-                         l4_cap_idx_t target_cap, l4_fpage_t utcb_area,
+                         l4_cap_idx_t target_cap, l4_fpage_t *utcb_area,
                          l4_utcb_t *u) L4_NOTHROW
 {
   l4_msgtag_t t;
   t = l4_factory_create_start_u(L4_PROTO_TASK, target_cap, u);
-  l4_factory_create_add_fpage_u(utcb_area, &t, u);
-  return l4_factory_create_commit_u(factory, t, u);
+  l4_factory_create_add_fpage_u(*utcb_area, &t, u);
+  t = l4_factory_create_commit_u(factory, t, u);
+  if (!l4_msgtag_has_error(t))
+    {
+      l4_msg_regs_t *v = l4_utcb_mr_u(u);
+      utcb_area->raw = v->mr[0];
+    }
+  return t;
 }
 
 L4_INLINE l4_msgtag_t
@@ -423,13 +465,21 @@ l4_factory_create_vm_u(l4_cap_idx_t factory,
   return l4_factory_create_u(factory, L4_PROTO_VM, target_cap, u);
 }
 
+L4_INLINE l4_msgtag_t
+l4_factory_create_vcpu_context_u(l4_cap_idx_t factory,
+                                 l4_cap_idx_t target_cap,
+                                 l4_utcb_t *u) L4_NOTHROW
+{
+  return l4_factory_create_u(factory, L4_PROTO_VCPU_CONTEXT, target_cap, u);
+}
+
 
 
 
 
 L4_INLINE l4_msgtag_t
 l4_factory_create_task(l4_cap_idx_t factory,
-                       l4_cap_idx_t target_cap, l4_fpage_t utcb_area) L4_NOTHROW
+                       l4_cap_idx_t target_cap, l4_fpage_t *utcb_area) L4_NOTHROW
 {
   return l4_factory_create_task_u(factory, target_cap, utcb_area, l4_utcb());
 }
@@ -469,6 +519,13 @@ l4_factory_create_vm(l4_cap_idx_t factory,
                      l4_cap_idx_t target_cap) L4_NOTHROW
 {
   return l4_factory_create_vm_u(factory, target_cap, l4_utcb());
+}
+
+L4_INLINE l4_msgtag_t
+l4_factory_create_vcpu_context(l4_cap_idx_t factory,
+                               l4_cap_idx_t target_cap) L4_NOTHROW
+{
+  return l4_factory_create_vcpu_context_u(factory, target_cap, l4_utcb());
 }
 
 L4_INLINE l4_msgtag_t

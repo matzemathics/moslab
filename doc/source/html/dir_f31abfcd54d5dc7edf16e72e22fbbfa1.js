@@ -9,6 +9,5 @@ var dir_f31abfcd54d5dc7edf16e72e22fbbfa1 =
     [ "perform.h", "x86_2l4_2util_2perform_8h.html", null ],
     [ "port_io.h", "x86_2l4_2util_2port__io_8h.html", "x86_2l4_2util_2port__io_8h" ],
     [ "rdtsc.h", "x86_2l4_2util_2rdtsc_8h.html", "x86_2l4_2util_2rdtsc_8h" ],
-    [ "spin.h", "x86_2l4_2util_2spin_8h.html", null ],
-    [ "util.h", "x86_2l4_2util_2util_8h.html", "x86_2l4_2util_2util_8h" ]
+    [ "spin.h", "x86_2l4_2util_2spin_8h.html", null ]
 ];

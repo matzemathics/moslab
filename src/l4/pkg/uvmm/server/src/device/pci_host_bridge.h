@@ -16,10 +16,12 @@
 #include "irq_svr.h"
 #include "guest.h"
 #include "pci_device.h"
+#include "virt_pci_device.h"
 #include "msi.h"
 #include "msi_controller.h"
 #include "msi_memory.h"
 #include "ds_mmio_handling.h"
+#include "pci_bridge_windows.h"
 
 namespace Vdev { namespace Pci {
 
@@ -144,12 +146,14 @@ public:
   /**
    * Create a PCI host bridge for the given PCI bus number.
    */
-  Pci_host_bridge(Device_lookup *devs, unsigned char bus_num,
+  Pci_host_bridge(Device_lookup *devs, Dt_node const &node,
+                  unsigned char bus_num,
                   cxx::Ref_ptr<Gic::Msix_controller> msix_ctrl)
   : _vmm(devs->vmm()),
     _vbus(devs->vbus()),
     _bus(bus_num),
-    _msix_ctrl(msix_ctrl)
+    _msix_ctrl(msix_ctrl),
+    _windows(node)
   {
     if (msix_ctrl)
       _msi_src_factory = make_device<
@@ -160,6 +164,11 @@ public:
 
   /// provide access to the bus
   Pci_bus *bus() { return &_bus; }
+
+  /// access to bridge window management
+  Pci_bridge_windows *bridge_windows() { return &_windows; }
+  /// access to bridge window management
+  Pci_bridge_windows const *bridge_windows() const { return &_windows; }
 
   /**
    * A hardware PCI device present on the vBus.
@@ -215,6 +224,9 @@ public:
       if (has_msi && msi_cap_read(reg, value, width))
         return;
 
+      if (has_sriov && sriov_cap_read(reg, value, width))
+        return;
+
       L4Re::chksys(dev.cfg_read(reg, value, mem_access_to_bits(width)),
                    "PCI config space access: read\n");
     }
@@ -230,10 +242,10 @@ public:
                                         L4::Cap<L4Re::Dataspace> io_ds);
 
     /**
-     * Check if the read access in in the range of the MSI cap and needs to be
+     * Check if the read access is in the range of the MSI cap and needs to be
      * emulated.
      *
-     * \return true, iff read was to the MSI cap and is served.
+     * \return true, iff read was to the MSI cap and is emulated.
      */
     bool msi_cap_read(unsigned reg, l4_uint32_t *value,
                        Vmm::Mem_access::Width width);
@@ -255,6 +267,52 @@ public:
 
     /// Setup virtual MSI-X table and map vbus resources as needed.
     void setup_msix_table();
+
+    /**
+     * Check if the read access is in the range of the SR-IOV cap and needs to
+     * be emulated.
+     *
+     * \return true, iff read was to the SR-IOV cap and is emulated.
+     */
+    bool sriov_cap_read(unsigned reg, l4_uint32_t *value,
+                        Vmm::Mem_access::Width width);
+
+    /**
+     * Allocate BAR memory from the bridge windows.
+     *
+     * \pre BAR size already read from hardware device.
+     */
+    void alloc_bars_in_windows()
+    {
+      for (int i = 0; i < Bar_num_max_type0; ++i)
+        {
+          Pci_cfg_bar &bar = bars[i];
+
+          if (bar.type >= Pci_cfg_bar::MMIO32 && bar.type <= Pci_cfg_bar::IO)
+            bar.map_addr =
+              parent->bridge_windows()->alloc_bar_resource(bar.size, bar.type);
+          else
+            continue;
+
+          info().printf("  bar[%u] hw_addr=0x%llx map_addr=0x%llx size=0x%llx "
+                        "type=%s\n",
+                        i, bar.io_addr, bar.map_addr, bar.size,
+                        bar.to_string());
+        }
+
+      // check if IO supports the expansion ROM, if so set it up.
+      if (exp_rom.io_addr > 0 && exp_rom.size > 0)
+        {
+          exp_rom.map_addr =
+            parent->bridge_windows()
+              ->alloc_bar_resource(exp_rom.size, Pci_cfg_bar::Type::MMIO32);
+
+          info().printf("  exp_rom hw_addr=0x%llx map_addr=0x%llx size=0x%llx "
+                        "type=%s\n",
+                        exp_rom.io_addr, exp_rom.map_addr, exp_rom.size,
+                        "MMIO32");
+        }
+    }
 
     Pci_host_bridge *parent;             /// Parent host bridge of device
     unsigned dev_id;                     /// Virtual device id
@@ -287,7 +345,7 @@ public:
     static Dbg info() { return Dbg(Dbg::Dev, Dbg::Info, "HW PCI dev"); }
 
     std::mutex _mutex;                   /// Protect MSI cap reads/writes
-  };
+  }; // struct Hw_pci_device
 
   /**
    * Handle incoming config space read
@@ -379,10 +437,12 @@ protected:
                       dinfo.name, vendor_device & 0xffff, vendor_device >> 16);
 
         h->parse_device_bars();
+        h->alloc_bars_in_windows();
         h->parse_device_exp_rom();
         h->parse_msix_cap();
         h->parse_msi_cap();
         h->setup_msix_table();
+        h->parse_sriov_cap();
         h->map_additional_iomem_resources(_vmm, _vbus->io_ds());
         init_dev_resources(h);
 
@@ -437,6 +497,7 @@ protected:
   /// MSI-X controller responsible for the devices of this PCIe host bridge,
   /// may be nullptr since MSI-X support is an optional feature.
   cxx::Ref_ptr<Gic::Msix_controller> _msix_ctrl;
+  Pci_bridge_windows _windows;
 
   cxx::Ref_ptr<Vdev::Msi::Msi_src_factory> _msi_src_factory;
 };

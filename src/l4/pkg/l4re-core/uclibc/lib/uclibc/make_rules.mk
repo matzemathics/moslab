@@ -7,16 +7,57 @@ CFLAGS          += -DUCLIBC_INTERNAL
 CXXFLAGS        += -fno-builtin $(GCCNOSTACKPROTOPT)
 # CFLAGS	+= -std=iso9899:199901
 DEFINES		+= -DNDEBUG -D_LIBC -D__UCLIBC_CTOR_DTOR__
-WARNINGS	= -Wall -Wstrict-prototypes
+WARNINGS	= -Wall -Wstrict-prototypes $(call bid_flag_variants,WARNINGS)
 ifeq ($(BID_COMPILER_TYPE),clang)
- WARNINGS	+= -Wno-gnu-designator \
-		   -Wno-tautological-pointer-compare \
-		   -Wno-pointer-bool-conversion
- # The Clang warning makes sense but we don't want to change the contrib code.
- $(foreach s,S s.S,$(foreach f,bzero memcpy mempcpy memset strcspn strpbrk,\
-   $(eval ASFLAGS_libc/string/x86_64/$(f).$(s) += -Wno-expansion-to-defined)))
+  # WARNING EXCEPTION: only warnings are about checking parameters marked with
+  # the nonnull attribute for NULL, but this is defensive programming.
+  WARNINGS += -Wno-tautological-pointer-compare
+  # WARNING EXCEPTION: only warnings are that converting a nonnull pointer to
+  # bool always evaluates to true, but checking again is defensive programming.
+  WARNINGS += -Wno-pointer-bool-conversion
+  # WARNING EXCEPTION: only warnings are about function aliases that resolve
+  # to the original function, when this original function is overridden, but
+  # this concerns functions which are not being replaced outside of the library.
+  $(foreach f,strchr strrchr strcmp memcmp mempcpy,\
+    $(eval WARNINGS_$(f).c += -Wno-ignored-attributes))
+  # WARNING EXCEPTION: only warnings concern possibly reduced performance due to
+  # usage of wrong floating point types, where in fact suitable functions are
+  # chosen according to type sizes.
+  $(foreach f, e_lgamma_r e_scalb s_fdim s_fmax s_fmin s_ldexp, \
+    $(eval WARNINGS_$(f).c += -Wno-double-promotion))
+  # WARNING EXCEPTION: the float equality checks are necessary during the
+  # computation of floating point arithmetic.
+  $(foreach f,e_lgamma_r e_log e_log2 e_rem_pio2 k_rem_pio2 e_scalb s_log1p\
+    s_nextafterf s_nextafter __strtofpmax __fp_range_check _fpmaxtostr,\
+    $(eval WARNINGS_$(f).c += -Wno-float-equal))
+  # WARNING EXCEPTION: warnings about comparisons of variables with differently
+  # signed types are left in the math library: the variables are also used
+  # with bitwise arithmetic, so the concrete bitwise layout is important.
+  $(foreach f,e_pow e_sqrt s_ceil s_floor,\
+    $(eval WARNINGS_$(f).c += -Wno-sign-compare))
+  # WARNING EXCEPTION: only warning is due to a macro expansion where zero
+  # is added to a null-pointer.
+  WARNINGS__stdio.c += -Wno-null-pointer-arithmetic
+  # WARNING EXCEPTION: The warning is useful but the generated code works
+  # anyway as intended
+  $(foreach s,S s.S,$(foreach f,bzero memcpy mempcpy memset strcspn strpbrk,\
+    $(eval ASFLAGS_libc/string/x86_64/$(f).$(s) += -Wno-expansion-to-defined)))
 else
- WARNINGS	+= -Wno-nonnull-compare
+  # WARNING EXCEPTION: checking a parameter marked with the nonnull attribute
+  # for NULL is defensive programming.
+  WARNINGS	+= -Wno-nonnull-compare
+  # WARNING EXCEPTION: the function is only ever invoked with prec = 2 and thus
+  # the values of jk (and by extension jz) are always positive. If that is the
+  # case then the loops will initialize fq and iq and there will never be an
+  # unitialized access to element 0 of fq.
+  WARNINGS_k_rem_pio2.c += -Wno-maybe-uninitialized
+  # WARNING EXCEPTION: the only two instances where the warning triggers are
+  # well documented intentional uses of aliasing to convey library internal
+  # information. The pointers are used for signaling a special condition and one
+  # of them is replaced in the called function, so no aliasing use of the
+  # pointers occurs.
+  $(foreach f,_vfprintf _vfprintf_internal _vfwprintf_internal,\
+    $(eval WARNINGS_$(f).c += -Wno-restrict))
 endif
 
 # for building the C library we access internal headers

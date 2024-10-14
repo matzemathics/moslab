@@ -6,7 +6,9 @@ INTERFACE:
 
 #include <globalconfig.h>
 #include "config_tcbsize.h"
+#include "initcalls.h"
 #include "l4_types.h"
+#include "global_data.h"
 
 // special magic to allow old compilers to inline constants
 
@@ -94,7 +96,7 @@ public:
 #else
     Jdb_accounting = 0,
 #endif
-#ifdef CONFIG_MP
+#if defined(CONFIG_MP) || defined(CONFIG_AMP)
     Max_num_cpus = CONFIG_MP_MAX_CPUS,
 #else
     Max_num_cpus = 1,
@@ -104,84 +106,57 @@ public:
 #else
     Big_endian = false,
 #endif
+#ifdef CONFIG_MMU
+    Have_mmu = 1,
+    Have_mpu = 0,
+#else
+    Have_mmu = 0,
+    Have_mpu = 1,
+#endif
   };
 
   static Cpu_number max_num_cpus() { return Cpu_number(Max_num_cpus); }
 
-  static bool getchar_does_hlt_works_ok;
-  static bool esc_hack;
-  static unsigned tbuf_entries;
+  static Global_data<bool> getchar_does_hlt_works_ok;
+  static Global_data<bool> esc_hack;
+  static Global_data<unsigned> tbuf_entries;
 
   static constexpr Order page_order()
   { return Order(PAGE_SHIFT); }
 
   static constexpr Bytes page_size()
   { return Bytes(PAGE_SIZE); }
+
+  static constexpr unsigned kmem_per_cent();
+  static constexpr unsigned long kmem_max();
+
+  static constexpr unsigned long ext_vcpu_size();
 };
 
 #define GREETING_COLOR_ANSI_TITLE  "\033[1;32m"
 #define GREETING_COLOR_ANSI_INFO   "\033[0;32m"
 
-INTERFACE[ia32]:
-#define TARGET_NAME "x86-32"
+INTERFACE[ia32 || amd64]:
+#define DISPLAY_ARCH "x86"
 
-INTERFACE[ux]:
-#define TARGET_NAME "ux-x86-32"
+INTERFACE[!(ia32 || amd64)]:
+#define DISPLAY_ARCH CONFIG_XARCH
 
-INTERFACE[amd64]:
-#define TARGET_NAME "x86-64"
+INTERFACE[bit64]:
+#define TARGET_WORD_LEN "64"
+
+INTERFACE[!bit64]:
+#define TARGET_WORD_LEN "32"
 
 INTERFACE:
 
 #define CONFIG_KERNEL_VERSION_STRING \
-  GREETING_COLOR_ANSI_TITLE "Welcome to L4/Fiasco.OC!\\n"                      \
-  GREETING_COLOR_ANSI_INFO "L4/Fiasco.OC microkernel on " CONFIG_XARCH "\\n"      \
+  GREETING_COLOR_ANSI_TITLE "Welcome to the L4Re Microkernel!\\n"         \
+  GREETING_COLOR_ANSI_INFO "L4Re Microkernel on " DISPLAY_ARCH "-" TARGET_WORD_LEN "\\n"      \
                            "Rev: " CODE_VERSION " compiled with " COMPILER \
                            TARGET_NAME_PHRASE "    [" CONFIG_LABEL "]\\n"    \
                            "Build: #" BUILD_NR " " BUILD_DATE "\\n"            \
   GREETING_COLOR_ANSI_OFF
-
-//---------------------------------------------------------------------------
-INTERFACE [ux]:
-
-EXTENSION class Config
-{
-public:
-  // 8 percent of total RAM, >=800MB RAM => 64MB kmem
-  static const unsigned kernel_mem_per_cent = 8;
-  enum
-  {
-    kernel_mem_max      = 64 << 20
-  };
-};
-
-//---------------------------------------------------------------------------
-INTERFACE [!ux && !64bit]:
-
-EXTENSION class Config
-{
-public:
-  // 8 percent of total RAM, >=750MB RAM => 60MB kmem
-  static const unsigned kernel_mem_per_cent = 8;
-  enum
-  {
-    kernel_mem_max      = 60 << 20
-  };
-};
-
-//---------------------------------------------------------------------------
-INTERFACE [!ux && 64bit]:
-
-EXTENSION class Config
-{
-public:
-  // 6 percent of total RAM, >=55466MB RAM => 3328MB kmem
-  static const unsigned kernel_mem_per_cent = 6;
-  enum
-  {
-    kernel_mem_max      = 3328UL << 20
-  };
-};
 
 //---------------------------------------------------------------------------
 INTERFACE [serial]:
@@ -189,7 +164,7 @@ INTERFACE [serial]:
 EXTENSION class Config
 {
 public:
-  static int  serial_esc;
+  static Global_data<int>  serial_esc;
 };
 
 //---------------------------------------------------------------------------
@@ -201,6 +176,19 @@ public:
   static const int serial_esc = 0;
 };
 
+//---------------------------------------------------------------------------
+INTERFACE [!arm]:
+
+EXTENSION class Config
+{
+public:
+  // Attention: this enum is used by the Lauterbach Trace32 OS awareness.
+  enum Ext_vcpu_info : Mword
+  {
+    Ext_vcpu_infos_offset = 0x200,
+    Ext_vcpu_state_offset = 0x400,
+  };
+};
 
 //---------------------------------------------------------------------------
 INTERFACE [!virtual_space_iface]:
@@ -229,7 +217,6 @@ IMPLEMENTATION:
 #include <cstring>
 #include <cstdlib>
 #include "feature.h"
-#include "initcalls.h"
 #include "koptions.h"
 #include "panic.h"
 #include "std_macros.h"
@@ -237,16 +224,29 @@ IMPLEMENTATION:
 KIP_KERNEL_ABI_VERSION(FIASCO_STRINGIFY(FIASCO_KERNEL_SUBVERSION));
 
 // class variables
-bool Config::esc_hack = false;
+DEFINE_GLOBAL Global_data<bool> Config::esc_hack;
 #ifdef CONFIG_SERIAL
-int  Config::serial_esc = Config::SERIAL_NO_ESC;
+DEFINE_GLOBAL_CONSTINIT
+Global_data<int>  Config::serial_esc(Config::SERIAL_NO_ESC);
 #endif
 
-unsigned Config::tbuf_entries = 0x20000 / sizeof(Mword); //1024;
-bool Config::getchar_does_hlt_works_ok = false;
+#ifdef CONFIG_MMU
+DEFINE_GLOBAL_CONSTINIT
+Global_data<unsigned> Config::tbuf_entries(0x20000 / sizeof(Mword)); //1024;
+#else
+// The Buddy_alloc can only allocate up to 128KiB. So far only Arm is no-MMU
+// capable and we know the size of each tbuf entry.
+DEFINE_GLOBAL_CONSTINIT
+Global_data<unsigned> Config::tbuf_entries((1U << 17) / (sizeof(Mword) * 16));
+#endif
+
+DEFINE_GLOBAL Global_data<bool> Config::getchar_does_hlt_works_ok;
 
 #ifdef CONFIG_FINE_GRAINED_CPUTIME
 KIP_KERNEL_FEATURE("fi_gr_cputime");
+#endif
+#ifdef CONFIG_MAPDB
+KIP_KERNEL_FEATURE("mapdb");
 #endif
 
 //-----------------------------------------------------------------------------
@@ -271,3 +271,39 @@ void Config::init()
     }
 #endif
 }
+
+PUBLIC static
+unsigned long
+Config::kmem_size([[maybe_unused]] unsigned long available_size)
+{
+#ifdef CONFIG_KMEM_SIZE_AUTO
+  static_assert(kmem_per_cent() < 100, "Sanitize kmem_per_cent");
+  unsigned long alloc_size = available_size / 100U * kmem_per_cent();
+  if (alloc_size > kmem_max())
+    alloc_size = kmem_max();
+  return alloc_size;
+#else
+  return static_cast<unsigned long>(CONFIG_KMEM_SIZE_KB) << 10;
+#endif
+}
+
+IMPLEMENT_DEFAULT
+constexpr unsigned long Config::ext_vcpu_size() { return PAGE_SIZE; }
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [!64bit]:
+
+IMPLEMENT_DEFAULT inline ALWAYS_INLINE
+constexpr unsigned Config::kmem_per_cent() { return 8; }
+
+IMPLEMENT_DEFAULT inline ALWAYS_INLINE
+constexpr unsigned long Config::kmem_max() { return 60UL << 20; }
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [64bit]:
+
+IMPLEMENT_DEFAULT inline ALWAYS_INLINE
+constexpr unsigned Config::kmem_per_cent() { return 6; }
+
+IMPLEMENT_DEFAULT inline ALWAYS_INLINE
+constexpr unsigned long Config::kmem_max() { return 3328UL << 20; }

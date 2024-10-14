@@ -21,14 +21,14 @@ char *tmpnam(char *s)
 
 #include <sys/vfs.h>
 
-int statfs(const char *path, struct statfs *buf)
+int fstatfs(int fd, struct statfs *buf)
 {
-  printf("%s(%s, %p): unimplemented\n", __func__, path, buf);
+  printf("%s(%d, %p): unimplemented\n", __func__, fd, buf);
   errno = ENOENT;
   return -1;
 }
 
-int fstatfs(int fd, struct statfs *buf)
+int fstatfs64(int fd, struct statfs64 *buf)
 {
   printf("%s(%d, %p): unimplemented\n", __func__, fd, buf);
   errno = ENOENT;

@@ -19,6 +19,7 @@
 #include "dataspace_util.h"
 #include "region.h"
 
+#include <l4/bid_config.h>
 #include <l4/cxx/unique_ptr>
 #include <l4/cxx/iostream>
 #include <l4/cxx/l4iostream>
@@ -60,7 +61,15 @@ __alloc_app_stack(Allocator *a, Moe::Stack *_stack, unsigned long size)
 {
   cxx::unique_ptr<Moe::Dataspace> stack(a->alloc(size));
 
-  _stack->set_local_top(stack->address(size - L4_PAGESIZE).adr<char*>() + L4_PAGESIZE);
+#ifdef CONFIG_MMU
+  _stack->set_local_top(stack->address(size - L4_PAGESIZE).adr<char *>()
+                        + L4_PAGESIZE);
+#else
+  char *base = stack->address(0).adr<char *>();
+  _stack->set_target_stack(reinterpret_cast<l4_addr_t>(base), size);
+  _stack->set_local_top(base + size);
+#endif
+
   return stack.release();
 }
 
@@ -79,6 +88,16 @@ Moe_app_model::Dataspace
 Moe_app_model::alloc_ds(unsigned long size) const
 {
   Dataspace mem =_task->allocator()->alloc(size);
+  if (!mem)
+    chksys(-L4_ENOMEM, "ELF loader could not allocate memory");
+  return mem;
+}
+
+Moe_app_model::Dataspace
+Moe_app_model::alloc_ds(unsigned long size, l4_addr_t paddr) const
+{
+  Single_page_alloc_base::Config cfg{paddr, paddr+size-1U};
+  Dataspace mem =_task->allocator()->alloc(size, 0, 0, cfg);
   if (!mem)
     chksys(-L4_ENOMEM, "ELF loader could not allocate memory");
   return mem;
@@ -117,12 +136,27 @@ Moe_app_model::prog_attach_ds(l4_addr_t addr, unsigned long size,
                               Const_dataspace ds, unsigned long offset,
                               L4Re::Rm::Flags flags, char const *what)
 {
-  void *x = _task->rm()->attach((void*)addr, size,
+  void *x = _task->rm()->attach(reinterpret_cast<void*>(addr), size,
                                 Region_handler(ds, L4_INVALID_CAP,
                                                offset, flags.region_flags()),
                                 flags);
+
   if (x == L4_INVALID_PTR)
     chksys(-L4_ENOMEM, what);
+
+#ifndef CONFIG_MMU
+  // Eagerly map region on systems without MMU to prevent MPU region
+  // fragmentation.
+  if (ds)
+    {
+      size = l4_round_page(size);
+      size >>= L4_PAGESHIFT;
+      auto rights = map_flags(flags).fpage_rights();
+      for (l4_addr_t a = l4_trunc_page(addr); size; size--, a += L4_PAGESIZE)
+        _task->task_cap()->map(L4Re::This_task,
+                               l4_fpage(a, L4_PAGESHIFT, rights), a);
+    }
+#endif
 }
 
 int
@@ -150,7 +184,7 @@ l4_addr_t
 Moe_app_model::local_attach_ds(Const_dataspace ds, unsigned long /*size*/,
                                unsigned long offset) const
 {
-  return (l4_addr_t)ds->address(offset).adr();
+  return reinterpret_cast<l4_addr_t>(ds->address(offset).adr());
 }
 
 void
@@ -170,7 +204,7 @@ Moe_app_model::Moe_app_model(App_task *t, cxx::String const &prog,
 #else
     Utcb_area_start        = 0xb3000000,
 #endif
-    Default_max_threads    = 16,
+    Default_max_threads    = 8,
   };
   // set default values for utcb area, values may be changed by loader
   _info.utcbs_start = Utcb_area_start;
@@ -181,7 +215,7 @@ Moe_app_model::Moe_app_model(App_task *t, cxx::String const &prog,
     _info.utcbs_log2size  = L4_PAGESHIFT;
 
   // set default values for the application stack
-  _info.kip = (l4_addr_t)l4re_kip();
+  _info.kip = reinterpret_cast<l4_addr_t>(l4re_kip());
 }
 
 
@@ -221,7 +255,7 @@ Moe_app_model::get_task_caps(L4::Cap<L4::Factory> *factory,
                              L4::Cap<L4::Task> *task,
                              L4::Cap<L4::Thread> *thread)
 {
-  object_pool.cap_alloc()->alloc(_task);
+  object_pool.cap_alloc()->alloc(_task, "task");
   _task->task_cap(object_pool.cap_alloc()->alloc<L4::Task>());
   _task->thread_cap(object_pool.cap_alloc()->alloc<L4::Thread>());
 

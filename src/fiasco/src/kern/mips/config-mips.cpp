@@ -11,10 +11,9 @@ public:
 
     PAGE_SHIFT = ARCH_PAGE_SHIFT,
     PAGE_SIZE  = 1 << PAGE_SHIFT,
-    PAGE_MASK  = ~(PAGE_SIZE - 1),
+
     SUPERPAGE_SHIFT = 21, // MUST be a odd number!
     SUPERPAGE_SIZE  = 1 << SUPERPAGE_SHIFT,
-    SUPERPAGE_MASK  = ~(SUPERPAGE_SIZE -1),
 
     // XXXKYMA: No large pages/TLBs yet, update paging-mips32 when enabled
     have_superpages = 0,
@@ -24,15 +23,9 @@ public:
 
   enum
   {
-    Kmem_per_cent = 6,
-    Kmem_max_mb   = 32,
-  };
-
-  enum
-  {
     Scheduler_one_shot		= 0,
-    Scheduler_granularity	= 1000UL,
-    Default_time_slice	        = 10 * Scheduler_granularity,
+    Scheduler_granularity	= CONFIG_SCHED_GRANULARITY,
+    Default_time_slice	        = CONFIG_SCHED_DEF_TIME_SLICE * Scheduler_granularity,
     Cpu_frequency               = CONFIG_MIPS_CPU_FREQUENCY,
   };
 
@@ -49,6 +42,9 @@ IMPLEMENTATION [mips]:
 
 const char *const Config::kernel_warn_config_string = 0;
 
+IMPLEMENT_OVERRIDE inline ALWAYS_INLINE
+constexpr unsigned long Config::kmem_max() { return 32UL << 20; }
+
 IMPLEMENT FIASCO_INIT
 void
 Config::init_arch()
@@ -56,4 +52,3 @@ Config::init_arch()
   // set a smaller default for JDB trace buffers
   Config::tbuf_entries = 1024;
 }
-

@@ -19,13 +19,42 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <l4/util/util.h>
 #include <l4/re/env>
+#include <l4/re/util/cap_alloc>
+#include <l4/sys/factory>
 #include <l4/sys/vm.h>
 #include <l4/util/cpu.h>
 #include <l4/sys/thread.h>
 #include <l4/sys/kdebug.h>
 
 static bool verbose = false;
+
+Vmx::Vmx()
+{
+  setup_vm();
+
+  printf("# Allocating a hardware VMCS capability: ");
+  vmcs_cap = L4Re::Util::cap_alloc.alloc<L4::Vcpu_context>();
+  if (!vmcs_cap.is_valid())
+    {
+      printf("Failure.\n");
+      exit(1);
+    }
+  printf("Success.\n");
+
+  printf("# Creating a hardware VMCS kernel object: ");
+  l4_msgtag_t msg = L4Re::Env::env()->factory()->create(vmcs_cap);
+  if (l4_error(msg))
+    {
+      printf("Failure.\n");
+      exit(1);
+    }
+  printf("Success.\n");
+
+  l4_vm_vmx_set_hw_vmcs(vmcb, vmcs_cap.cap());
+  is_vmx = 1;
+}
 
 bool
 Vmx::cpu_virt_capable()
@@ -116,17 +145,14 @@ Vmx::initialize_vmcb(unsigned long_mode)
   vmwrite(VMX_PF_ERROR_CODE_MATCH, 0);
   vmwrite(VMX_PF_ERROR_CODE_MASK, 0);
 
+  vmwrite(VMX_ENTRY_CTRL, vmread(VMX_ENTRY_CTRL) | (1 << 15)); // load efer
+  vmwrite(VMX_EXIT_CTRL, vmread(VMX_EXIT_CTRL) | (1 << 20)); // save guest efer
+  vmwrite(VMX_EXIT_CTRL, vmread(VMX_EXIT_CTRL) | (1 << 21)); // load host efer
   vmwrite(VMX_ENTRY_CTRL,
-          l4_vm_vmx_read(vmcb, VMX_ENTRY_CTRL) | (1 << 15)); // load efer
-  vmwrite(VMX_EXIT_CTRL,
-          l4_vm_vmx_read(vmcb, VMX_EXIT_CTRL) | (1 << 20)); // save guest efer
-  vmwrite(VMX_EXIT_CTRL,
-          l4_vm_vmx_read(vmcb, VMX_EXIT_CTRL) | (1 << 21)); // load host efer
-  vmwrite(VMX_ENTRY_CTRL,
-          l4_vm_vmx_read(vmcb, VMX_ENTRY_CTRL) &~ (1 << 9)); // enable long mode
+          vmread(VMX_ENTRY_CTRL) &~ (1 << 9)); // enable long mode
 
   vmwrite(VMX_PRIMARY_EXEC_CTRL,
-          l4_vm_vmx_read(vmcb, VMX_PRIMARY_EXEC_CTRL) &~ (1 << 23)); // do not intercept dr reads/writes
+          vmread(VMX_PRIMARY_EXEC_CTRL) &~ (1 << 23)); // do not intercept dr reads/writes
 }
 
 void
@@ -198,7 +224,7 @@ Vmx::set_efer(l4_umword_t efer)
   vmwrite(VMX_GUEST_IA32_EFER, efer & 0xF01);
   if (efer & 0x100) // do we want long mode?
     vmwrite(VMX_ENTRY_CTRL,
-            l4_vm_vmx_read(vmcb, VMX_ENTRY_CTRL) | (1 << 9)); // enable long mode
+            vmread(VMX_ENTRY_CTRL) | (1 << 9)); // enable long mode
   // Apparently vmx needs the enable long mode entry control set if the vmm
   // switches the guest to long mode.  We need to know if the entry_control
   // needs to be set if the guest switches to long mode on its own.
@@ -207,11 +233,10 @@ Vmx::set_efer(l4_umword_t efer)
 void
 Vmx::jump_over_current_insn(unsigned bytes)
 {
-  l4_umword_t l = l4_vm_vmx_read_32(vmcb,
-                                    VMX_EXIT_INSTRUCTION_LENGTH);
+  l4_umword_t l = vmread_32(VMX_EXIT_INSTRUCTION_LENGTH);
   if (bytes)
     l = bytes;
-  l4_umword_t ip = l4_vm_vmx_read_nat(vmcb, VMX_GUEST_RIP);
+  l4_umword_t ip = vmread_nat(VMX_GUEST_RIP);
   vmwrite(VMX_GUEST_RIP, ip + l);
 }
 
@@ -221,22 +246,20 @@ Vmx::handle_vmexit()
   l4_msgtag_t tag;
   l4_uint32_t interrupt_info;
 
-  l4_uint32_t exit_reason = l4_vm_vmx_read_32(vmcb, VMX_EXIT_REASON);
+  l4_uint32_t exit_reason = vmread_32(VMX_EXIT_REASON);
 
   printf("# exit_code=%d rip = 0x%lx rsp = 0x%lx cs = %x ds = %x ss = %x\n",
-         exit_reason, l4_vm_vmx_read_nat(vmcb, VMX_GUEST_RIP), l4_vm_vmx_read_nat(vmcb, VMX_GUEST_RSP),
-         l4_vm_vmx_read_16(vmcb, VMX_GUEST_CS_SEL),
-         l4_vm_vmx_read_16(vmcb, VMX_GUEST_DS_SEL),
-         l4_vm_vmx_read_16(vmcb, VMX_GUEST_SS_SEL)
-         );
+         exit_reason, vmread_nat(VMX_GUEST_RIP), vmread_nat(VMX_GUEST_RSP),
+         vmread_16(VMX_GUEST_CS_SEL), vmread_16(VMX_GUEST_DS_SEL),
+         vmread_16(VMX_GUEST_SS_SEL));
 
   switch (exit_reason & 0xffff)
     {
     case 0:
       if (verbose)
         printf("# Exception or NMI at guest IP 0x%lx, checking interrupt info\n",
-               l4_vm_vmx_read_nat(vmcb, VMX_GUEST_RIP));
-      interrupt_info = l4_vm_vmx_read_32(vmcb, VMX_EXIT_INTERRUPT_INFO);
+               vmread_nat(VMX_GUEST_RIP));
+      interrupt_info = vmread_32(VMX_EXIT_INTERRUPT_INFO);
       // check valid bit
       if (!(interrupt_info & (1 << 31)))
         printf("# Interrupt info not valid\n");
@@ -245,10 +268,12 @@ Vmx::handle_vmexit()
                (interrupt_info & 0xFF), ((interrupt_info & 0x700) >> 8),
                ((interrupt_info & 0x800) >> 11));
       if ((interrupt_info & 0x800) >> 11) {
-        unsigned long error = l4_vm_vmx_read_32(vmcb, VMX_EXIT_INTERRUPT_ERROR);
-        printf ("# error code: %lx\n", error);
-        printf ("# idt vectoring info field: %x\n", l4_vm_vmx_read_32(vmcb, VMX_IDT_VECTORING_INFO_FIELD));
-        printf ("# idt vectoring error code: %x\n", l4_vm_vmx_read_32(vmcb, VMX_IDT_VECTORING_ERROR));
+        unsigned long error = vmread_32(VMX_EXIT_INTERRUPT_ERROR);
+        printf("# error code: %lx\n", error);
+        printf("# idt vectoring info field: %x\n",
+               vmread_32(VMX_IDT_VECTORING_INFO_FIELD));
+        printf("# idt vectoring error code: %x\n",
+               vmread_32(VMX_IDT_VECTORING_ERROR));
       }
 
       switch ((interrupt_info & 0x700) >> 8)
@@ -268,8 +293,7 @@ Vmx::handle_vmexit()
           else if ((interrupt_info & 0xff) == 0xe)
             {
               printf("# Pagefault\n");
-              printf("# EFER = %llx\n", l4_vm_vmx_read_64(vmcb,
-                                                        VMX_GUEST_IA32_EFER));
+              printf("# EFER = %llx\n", vmread_64(VMX_GUEST_IA32_EFER));
               return 0;
             }
           else if ((interrupt_info & 0xff) == 0x8)
@@ -282,7 +306,7 @@ Vmx::handle_vmexit()
               // this is expected
               // make the stack aligned again and restart insn
               printf("# Fetched an alignment check exception.\n");
-              vmwrite(VMX_GUEST_RSP, l4_vm_vmx_read_nat(vmcb, VMX_GUEST_RSP) + 3);
+              vmwrite(VMX_GUEST_RSP, vmread_nat(VMX_GUEST_RSP) + 3);
               return Alignment_check_intercept;
             }
           break;
@@ -297,15 +321,14 @@ Vmx::handle_vmexit()
       if ((interrupt_info & (1 << 11))) // interrupt error code valid?
         if (verbose)
           printf("# interrupt error=0x%x\n",
-                 l4_vm_vmx_read_32(vmcb, VMX_EXIT_INTERRUPT_ERROR));
+                 vmread_32(VMX_EXIT_INTERRUPT_ERROR));
 
       if (((interrupt_info & 0x700) >> 8) == 3
           && (interrupt_info & 0xff) == 14)
         {
           if (0)
             {
-              l4_umword_t fault_addr = l4_vm_vmx_read_nat(vmcb,
-                                                          VMX_EXIT_QUALIFICATION);
+              l4_umword_t fault_addr = vmread_nat(VMX_EXIT_QUALIFICATION);
               tag = vm_cap->map(L4Re::Env::env()->task(),
                                 l4_fpage(fault_addr & L4_PAGEMASK, L4_PAGESHIFT,
                                          L4_FPAGE_RW),
@@ -348,7 +371,7 @@ Vmx::handle_vmexit()
       jump_over_current_insn(0);
       return 1;
     case 29:
-      printf("# mov dr procbased_ctls=%llx\n", l4_vm_vmx_read(vmcb, VMX_PRIMARY_EXEC_CTRL));
+      printf("# mov dr procbased_ctls=%llx\n", vmread(VMX_PRIMARY_EXEC_CTRL));
       jump_over_current_insn(0);
       return 1;
     case 31:
@@ -360,16 +383,16 @@ Vmx::handle_vmexit()
     case 48: // EPT violation
         {
           printf("# EPT violation\n");
-          l4_umword_t q = l4_vm_vmx_read_nat(vmcb, VMX_EXIT_QUALIFICATION);
+          l4_umword_t q = vmread_nat(VMX_EXIT_QUALIFICATION);
           printf("#   exit qualification: %lx\n", q);
           printf("#   guest phys = %llx,  guest linear: %lx\n",
-                 l4_vm_vmx_read_64(vmcb, 0x2400), l4_vm_vmx_read_nat(vmcb, 0x640a));
+                 vmread_64(0x2400), vmread_nat(0x640a));
           printf("#   guest cr0 = %lx\n",
-                 l4_vm_vmx_read_nat(vmcb, VMX_GUEST_CR0));
+                 vmread_nat(VMX_GUEST_CR0));
 
           if (0)
             {
-              l4_umword_t fault_addr = l4_vm_vmx_read_64(vmcb, 0x2400);
+              l4_umword_t fault_addr = vmread_64(0x2400);
               printf("# detected pagefault @ %lx\n", fault_addr);
               tag = vm_cap->map(L4Re::Env::env()->task(),
                                 l4_fpage(fault_addr & L4_PAGEMASK,

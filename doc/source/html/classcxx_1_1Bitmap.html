@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: cxx::Bitmap&lt; BITS &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: cxx::Bitmap&lt; BITS &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -93,11 +96,11 @@ $(document).ready(function(){initNavTree('classcxx_1_1Bitmap.html',''); initResi
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a>  </div>
-  <div class="headertitle"><div class="title">cxx::Bitmap&lt; BITS &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__cxx__api.html">Small C++ Template Library</a></div></div></div>
+  <div class="headertitle"><div class="title">cxx::Bitmap&lt; BITS &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>A static bit map.  
+<p>A static bitmap.  
  <a href="classcxx_1_1Bitmap.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="bitmap_source.html">bitmap</a>&gt;</code></p>
@@ -106,43 +109,55 @@ $(document).ready(function(){initNavTree('classcxx_1_1Bitmap.html',''); initResi
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitmap__inherit__graph.svg" width="162" height="410"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitmap__inherit__graph.svg" width="192" height="490"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for cxx::Bitmap&lt; BITS &gt;:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitmap__coll__graph.svg" width="162" height="410"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitmap__coll__graph.svg" width="192" height="490"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a07f0078fc1f39561f37baa8088be277b" id="r_a07f0078fc1f39561f37baa8088be277b"><td class="memItemLeft" align="right" valign="top"><a id="a07f0078fc1f39561f37baa8088be277b" name="a07f0078fc1f39561f37baa8088be277b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Bitmap</b> () noexcept</td></tr>
-<tr class="memdesc:a07f0078fc1f39561f37baa8088be277b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a bitmap with <em>BITS</em> bits. <br /></td></tr>
+<tr class="memdesc:a07f0078fc1f39561f37baa8088be277b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a bitmap with <code>BITS</code> bits. <br /></td></tr>
 <tr class="separator:a07f0078fc1f39561f37baa8088be277b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd1d0a68785a963562837ba0cdc12a19" id="r_acd1d0a68785a963562837ba0cdc12a19"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap.html#acd1d0a68785a963562837ba0cdc12a19">scan_zero</a> (long start_bit=0) const noexcept</td></tr>
 <tr class="memdesc:acd1d0a68785a963562837ba0cdc12a19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scan for the first zero bit.  <br /></td></tr>
 <tr class="separator:acd1d0a68785a963562837ba0cdc12a19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcxx_1_1Bitmap__base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcxx_1_1Bitmap__base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcxx_1_1Bitmap__base.html">cxx::Bitmap_base</a></td></tr>
 <tr class="memitem:af0660ff3f3e9b7a7774c9e1102f949f1 inherit pub_methods_classcxx_1_1Bitmap__base" id="r_af0660ff3f3e9b7a7774c9e1102f949f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a> (long bit, bool on) noexcept</td></tr>
-<tr class="memdesc:af0660ff3f3e9b7a7774c9e1102f949f1 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of bit <em>bit</em> to <em>on</em>.  <br /></td></tr>
+<tr class="memdesc:af0660ff3f3e9b7a7774c9e1102f949f1 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of bit <code>bit</code> to <code>on</code>.  <br /></td></tr>
 <tr class="separator:af0660ff3f3e9b7a7774c9e1102f949f1 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa45d3ffd33e0040624919f3c250683fb inherit pub_methods_classcxx_1_1Bitmap__base" id="r_aa45d3ffd33e0040624919f3c250683fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#aa45d3ffd33e0040624919f3c250683fb">clear_bit</a> (long <a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a>) noexcept</td></tr>
-<tr class="memdesc:aa45d3ffd33e0040624919f3c250683fb inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bit <em>bit</em>.  <br /></td></tr>
+<tr class="memdesc:aa45d3ffd33e0040624919f3c250683fb inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bit <code>bit</code>.  <br /></td></tr>
 <tr class="separator:aa45d3ffd33e0040624919f3c250683fb inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3891066d3fdaf28d3f674a16f44f9274 inherit pub_methods_classcxx_1_1Bitmap__base" id="r_a3891066d3fdaf28d3f674a16f44f9274"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#a3891066d3fdaf28d3f674a16f44f9274">atomic_clear_bit</a> (long <a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a>) noexcept</td></tr>
+<tr class="memdesc:a3891066d3fdaf28d3f674a16f44f9274 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bit <code>bit</code> atomically.  <br /></td></tr>
+<tr class="separator:a3891066d3fdaf28d3f674a16f44f9274 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38a80ebafed8c3b900e317817aaf25c7 inherit pub_methods_classcxx_1_1Bitmap__base" id="r_a38a80ebafed8c3b900e317817aaf25c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcxx_1_1Bitmap__base.html#a6f52a1661a4cbd0738d8975db7ec0eb7">word_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#a38a80ebafed8c3b900e317817aaf25c7">atomic_get_and_clear</a> (long <a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a>) noexcept</td></tr>
+<tr class="memdesc:a38a80ebafed8c3b900e317817aaf25c7 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bit <code>bit</code> atomically and return old state.  <br /></td></tr>
+<tr class="separator:a38a80ebafed8c3b900e317817aaf25c7 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5fb13ff9bdcd49aa2a171ffae6aa694 inherit pub_methods_classcxx_1_1Bitmap__base" id="r_aa5fb13ff9bdcd49aa2a171ffae6aa694"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#aa5fb13ff9bdcd49aa2a171ffae6aa694">set_bit</a> (long <a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a>) noexcept</td></tr>
-<tr class="memdesc:aa5fb13ff9bdcd49aa2a171ffae6aa694 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set bit <em>bit</em>.  <br /></td></tr>
+<tr class="memdesc:aa5fb13ff9bdcd49aa2a171ffae6aa694 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set bit <code>bit</code>.  <br /></td></tr>
 <tr class="separator:aa5fb13ff9bdcd49aa2a171ffae6aa694 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fba99cf13b893cfacc3f2fdbfffae31 inherit pub_methods_classcxx_1_1Bitmap__base" id="r_a5fba99cf13b893cfacc3f2fdbfffae31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#a5fba99cf13b893cfacc3f2fdbfffae31">atomic_set_bit</a> (long <a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a>) noexcept</td></tr>
+<tr class="memdesc:a5fba99cf13b893cfacc3f2fdbfffae31 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set bit <code>bit</code> atomically.  <br /></td></tr>
+<tr class="separator:a5fba99cf13b893cfacc3f2fdbfffae31 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7bebf07c9d4622d90694693daa7c706 inherit pub_methods_classcxx_1_1Bitmap__base" id="r_aa7bebf07c9d4622d90694693daa7c706"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcxx_1_1Bitmap__base.html#a6f52a1661a4cbd0738d8975db7ec0eb7">word_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#aa7bebf07c9d4622d90694693daa7c706">atomic_get_and_set</a> (long <a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a>) noexcept</td></tr>
+<tr class="memdesc:aa7bebf07c9d4622d90694693daa7c706 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set bit <code>bit</code> atomically and return old state.  <br /></td></tr>
+<tr class="separator:aa7bebf07c9d4622d90694693daa7c706 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ababa66c5a9717321221d17ec5519d02b inherit pub_methods_classcxx_1_1Bitmap__base" id="r_ababa66c5a9717321221d17ec5519d02b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcxx_1_1Bitmap__base.html#a6f52a1661a4cbd0738d8975db7ec0eb7">word_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#ababa66c5a9717321221d17ec5519d02b">bit</a> (long bit) const noexcept</td></tr>
 <tr class="memdesc:ababa66c5a9717321221d17ec5519d02b inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the truth value of a bit.  <br /></td></tr>
 <tr class="separator:ababa66c5a9717321221d17ec5519d02b inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab1d18dba8fdcf06a5a9d773fc63410b inherit pub_methods_classcxx_1_1Bitmap__base" id="r_aab1d18dba8fdcf06a5a9d773fc63410b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcxx_1_1Bitmap__base.html#a6f52a1661a4cbd0738d8975db7ec0eb7">word_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#aab1d18dba8fdcf06a5a9d773fc63410b">operator[]</a> (long <a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a>) const noexcept</td></tr>
-<tr class="memdesc:aab1d18dba8fdcf06a5a9d773fc63410b inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the bit at index <em>bit</em>.  <br /></td></tr>
+<tr class="memdesc:aab1d18dba8fdcf06a5a9d773fc63410b inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the bit at index <code>bit</code>.  <br /></td></tr>
 <tr class="separator:aab1d18dba8fdcf06a5a9d773fc63410b inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d30ecb86acc81a4f160b6e7f30a6b39 inherit pub_methods_classcxx_1_1Bitmap__base" id="r_a6d30ecb86acc81a4f160b6e7f30a6b39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcxx_1_1Bitmap__base_1_1Bit.html">Bit</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#a6d30ecb86acc81a4f160b6e7f30a6b39">operator[]</a> (long <a class="el" href="classcxx_1_1Bitmap__base.html#af0660ff3f3e9b7a7774c9e1102f949f1">bit</a>) noexcept</td></tr>
-<tr class="memdesc:a6d30ecb86acc81a4f160b6e7f30a6b39 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the lvalue for the bit at index <em>bit</em>.  <br /></td></tr>
+<tr class="memdesc:a6d30ecb86acc81a4f160b6e7f30a6b39 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the lvalue for the bit at index <code>bit</code>.  <br /></td></tr>
 <tr class="separator:a6d30ecb86acc81a4f160b6e7f30a6b39 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27f72c4f1ee10eb85dca947289b23920 inherit pub_methods_classcxx_1_1Bitmap__base" id="r_a27f72c4f1ee10eb85dca947289b23920"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitmap__base.html#a27f72c4f1ee10eb85dca947289b23920">scan_zero</a> (long max_bit, long start_bit=0) const noexcept</td></tr>
 <tr class="memdesc:a27f72c4f1ee10eb85dca947289b23920 inherit pub_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scan for the first zero bit.  <br /></td></tr>
@@ -153,17 +168,17 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_static_methods_classcxx_1_1Bitmap__base"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classcxx_1_1Bitmap__base')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classcxx_1_1Bitmap__base.html">cxx::Bitmap_base</a></td></tr>
 <tr class="memitem:a7114742b05b724dfe4620ab3face31b2 inherit pub_static_methods_classcxx_1_1Bitmap__base" id="r_a7114742b05b724dfe4620ab3face31b2"><td class="memItemLeft" align="right" valign="top">
 static long&#160;</td><td class="memItemRight" valign="bottom"><b>words</b> (long bits) noexcept</td></tr>
-<tr class="memdesc:a7114742b05b724dfe4620ab3face31b2 inherit pub_static_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of <em>Words</em> that are used for the bitmap. <br /></td></tr>
+<tr class="memdesc:a7114742b05b724dfe4620ab3face31b2 inherit pub_static_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of <code>Words</code> that are used for the bitmap. <br /></td></tr>
 <tr class="separator:a7114742b05b724dfe4620ab3face31b2 inherit pub_static_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf649ea6a1bfff60b0a6daf497288dfc inherit pub_static_methods_classcxx_1_1Bitmap__base" id="r_adf649ea6a1bfff60b0a6daf497288dfc"><td class="memItemLeft" align="right" valign="top">
-static long&#160;</td><td class="memItemRight" valign="bottom"><b>chars</b> (long bits)  throw ()</td></tr>
-<tr class="memdesc:adf649ea6a1bfff60b0a6daf497288dfc inherit pub_static_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of chars that are used for the bitmap. <br /></td></tr>
-<tr class="separator:adf649ea6a1bfff60b0a6daf497288dfc inherit pub_static_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21e69a026c39cc3eb3855f765dc896d9 inherit pub_static_methods_classcxx_1_1Bitmap__base" id="r_a21e69a026c39cc3eb3855f765dc896d9"><td class="memItemLeft" align="right" valign="top">
+static long&#160;</td><td class="memItemRight" valign="bottom"><b>chars</b> (long bits) noexcept</td></tr>
+<tr class="memdesc:a21e69a026c39cc3eb3855f765dc896d9 inherit pub_static_methods_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of chars that are used for the bitmap. <br /></td></tr>
+<tr class="separator:a21e69a026c39cc3eb3855f765dc896d9 inherit pub_static_methods_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_types_classcxx_1_1Bitmap__base"><td colspan="2" onclick="javascript:toggleInherit('pro_types_classcxx_1_1Bitmap__base')"><img src="closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="classcxx_1_1Bitmap__base.html">cxx::Bitmap_base</a></td></tr>
-<tr class="memitem:a51539a759a344ff3a76499d5806cb4fa inherit pro_types_classcxx_1_1Bitmap__base" id="r_a51539a759a344ff3a76499d5806cb4fa"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Bitmap__base.html#a51539a759a344ff3a76499d5806cb4faa7b0fa9b852475888c170f2b377d78578">W_bits</a> = sizeof(word_type) * 8
-, <a class="el" href="classcxx_1_1Bitmap__base.html#a51539a759a344ff3a76499d5806cb4faad2de31016bb1c41cd56e4c9bbac30dde">C_bits</a> = 8
+<tr class="memitem:a8b60356dbf37e7123520a40cc1399d9e inherit pro_types_classcxx_1_1Bitmap__base" id="r_a8b60356dbf37e7123520a40cc1399d9e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Bitmap__base.html#a8b60356dbf37e7123520a40cc1399d9ea7b0fa9b852475888c170f2b377d78578">W_bits</a> = sizeof(word_type) * 8
+, <a class="el" href="classcxx_1_1Bitmap__base.html#a8b60356dbf37e7123520a40cc1399d9ead2de31016bb1c41cd56e4c9bbac30dde">C_bits</a> = 8
  }</td></tr>
-<tr class="separator:a51539a759a344ff3a76499d5806cb4fa inherit pro_types_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a8b60356dbf37e7123520a40cc1399d9e inherit pro_types_classcxx_1_1Bitmap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f52a1661a4cbd0738d8975db7ec0eb7 inherit pro_types_classcxx_1_1Bitmap__base" id="r_a6f52a1661a4cbd0738d8975db7ec0eb7"><td class="memItemLeft" align="right" valign="top">
 typedef unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>word_type</b></td></tr>
 <tr class="memdesc:a6f52a1661a4cbd0738d8975db7ec0eb7 inherit pro_types_classcxx_1_1Bitmap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data type for each element of the bit buffer. <br /></td></tr>
@@ -183,15 +198,15 @@ typedef unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>word
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int BITS&gt;<br />
-class cxx::Bitmap&lt; BITS &gt;</div><p>A static bit map. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">BITS</td><td>the number of bits that shall be in the bitmap. </td></tr>
+class cxx::Bitmap&lt; BITS &gt;</div><p>A static bitmap. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">BITS</td><td>The number of bits that shall be in the bitmap. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="bitmap_source.html#l00180">180</a> of file <a class="el" href="bitmap_source.html">bitmap</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitmap_source.html#l00231">231</a> of file <a class="el" href="bitmap_source.html">bitmap</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="acd1d0a68785a963562837ba0cdc12a19" name="acd1d0a68785a963562837ba0cdc12a19"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd1d0a68785a963562837ba0cdc12a19">&#9670;&#160;</a></span>scan_zero()</h2>
@@ -235,9 +250,9 @@ template&lt;int BITS&gt; </div>
 </dl>
 <p>Compared to <a class="el" href="classcxx_1_1Bitmap__base.html#a27f72c4f1ee10eb85dca947289b23920" title="Scan for the first zero bit.">Bitmap_base::scan_zero()</a>, the upper bound is set to BITS. </p>
 
-<p class="definition">Definition at line <a class="el" href="bitmap_source.html#l00285">285</a> of file <a class="el" href="bitmap_source.html">bitmap</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitmap_source.html#l00376">376</a> of file <a class="el" href="bitmap_source.html">bitmap</a>.</p>
 
-<p class="reference">References <a class="el" href="bitmap_source.html#l00259">cxx::Bitmap_base::scan_zero()</a>.</p>
+<p class="reference">References <a class="el" href="bitmap_source.html#l00350">cxx::Bitmap_base::scan_zero()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -258,7 +273,7 @@ template&lt;int BITS&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecxx.html">cxx</a></li><li class="navelem"><a class="el" href="classcxx_1_1Bitmap.html">Bitmap</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -12,24 +12,11 @@ EXTENSION class Jdb_tcb
   };
 };
 
-PRIVATE static
-void
-Jdb_tcb::print_regs_invalid_tid()
-{
-  //const Mword mask
-  //  = (Context::Size * Mem_layout::max_threads()) - 1;
-  //const Mword tsksz = Context::Size * L4_uid::threads_per_task();
-
- // LThread_num task = ((Address)Jdb::get_thread(Jdb::current_cpu) & mask) / tsksz;
-  putchar('\n');
-  //print_entry_frame_regs (task);
-}
-
 IMPLEMENT
 void
 Jdb_tcb::print_entry_frame_regs(Thread *t)
 {
-  Jdb_entry_frame *ef = Jdb::get_entry_frame(Jdb::current_cpu);
+  Jdb_entry_frame *ef = Jdb::get_entry_frame(t->get_current_cpu());
   char pfa[32] = "";
 
   if (ef->_trapno == 14)
@@ -68,7 +55,7 @@ void
 Jdb_tcb::info_thread_state(Thread *t)
 {
   Jdb::Guessed_thread_state state = Jdb::guess_thread_state(t);
-  Jdb_tcb_ptr p((Address)t->get_kernel_sp());
+  Jdb_tcb_ptr p(reinterpret_cast<Address>(t->get_kernel_sp()));
   int sub = 0;
 
   switch (state)
@@ -188,67 +175,12 @@ Jdb_tcb::info_thread_state(Thread *t)
     }
 }
 
-#if 0
-PUBLIC
-bool
-Jdb_tcb_ptr::in_backtrace(Address bt_start, Address tcb)
-{
-  if (bt_start)
-    {
-      if (!Config::Have_frame_ptr)
-	return Mem_layout::in_kernel_code(value());
-
-      Jdb_tcb_ptr ebp(bt_start);
-
-      for (;;)
-	{
-	  Jdb_tcb_ptr eip(ebp.addr()+4);
-
-	  if (!Mem_layout::in_kernel_code(eip.value()))
-	    return false;
-	  if (ebp.addr()+4 == addr())
-	    return true;
-	  if (ebp.addr() == 0 || !Jdb_tcb_ptr(ebp.value()).valid())
-	    return false;
-
-	  ebp = ebp.value();
-	}
-    }
-  return false;
-}
-
-
-static
-Address
-Jdb_tcb::search_bt_start(Address tcb, Mword *ksp, bool is_current_thread)
-{
-  if (!Config::Have_frame_ptr)
-    return 1;
-
-  if (is_current_thread)
-    return (Address)__builtin_frame_address(6);
-
-  Address tcb_next = tcb + Context::size;
-
-  for (int i=0; (Address)(ksp+i+1)<tcb_next-20; i++)
-    {
-      if (Mem_layout::in_kernel_code(ksp[i+1]) &&
-	  ksp[i] >= tcb + 0x180 &&
-	  ksp[i] <  tcb_next-20 &&
-	  ksp[i] >  (Address)(ksp+i))
-	return (Address)(ksp+i);
-    }
-
-  return 0;
-}
-#endif
-
 IMPLEMENT_OVERRIDE
 bool
 Jdb_stack_view::edit_registers()
 {
   Mword value;
-  char reg = char(-1);
+  char reg = char{-1};
   Mword *reg_ptr = 0;
   unsigned x=0, y=0;
 

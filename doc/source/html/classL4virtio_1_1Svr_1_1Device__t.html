@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4virtio::Svr::Device_t&lt; DATA &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: L4virtio::Svr::Device_t&lt; DATA &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -107,14 +110,14 @@ $(document).ready(function(){initNavTree('classL4virtio_1_1Svr_1_1Device__t.html
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Device__t__inherit__graph.svg" width="202" height="1142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Device__t__inherit__graph.svg" width="562" height="1142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for L4virtio::Svr::Device_t&lt; DATA &gt;:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Device__t__coll__graph.svg" width="202" height="320"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Device__t__coll__graph.svg" width="180" height="320"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -135,14 +138,18 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>check_queues<
 virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>reconfig_queue</b> (unsigned idx)=0</td></tr>
 <tr class="memdesc:acd473f71ee4f34883a6da43b5eb27106"><td class="mdescLeft">&#160;</td><td class="mdescRight">callback for client queue-config request <br /></td></tr>
 <tr class="separator:acd473f71ee4f34883a6da43b5eb27106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c191fe0524b519a6262f557ebf9f2be" id="r_a2c191fe0524b519a6262f557ebf9f2be"><td class="memItemLeft" align="right" valign="top"><a id="a2c191fe0524b519a6262f557ebf9f2be" name="a2c191fe0524b519a6262f557ebf9f2be"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>cfg_changed</b> (unsigned)</td></tr>
+<tr class="memdesc:a2c191fe0524b519a6262f557ebf9f2be"><td class="mdescLeft">&#160;</td><td class="mdescRight">callback for client device configuration changes <br /></td></tr>
+<tr class="separator:a2c191fe0524b519a6262f557ebf9f2be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8047b37ac63d6b5f84bcb1886a06f1b2" id="r_a8047b37ac63d6b5f84bcb1886a06f1b2"><td class="memItemLeft" align="right" valign="top"><a id="a8047b37ac63d6b5f84bcb1886a06f1b2" name="a8047b37ac63d6b5f84bcb1886a06f1b2"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>register_single_driver_irq</b> ()</td></tr>
 <tr class="memdesc:a8047b37ac63d6b5f84bcb1886a06f1b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">callback for registering a single guest IRQ for all queues (old-style) <br /></td></tr>
 <tr class="separator:a8047b37ac63d6b5f84bcb1886a06f1b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52d70a46453eb678e8656dbf790835e8" id="r_a52d70a46453eb678e8656dbf790835e8"><td class="memItemLeft" align="right" valign="top"><a id="a52d70a46453eb678e8656dbf790835e8" name="a52d70a46453eb678e8656dbf790835e8"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>trigger_driver_config_irq</b> () const =0</td></tr>
-<tr class="memdesc:a52d70a46453eb678e8656dbf790835e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">callback for triggering configuration change notification IRQ <br /></td></tr>
-<tr class="separator:a52d70a46453eb678e8656dbf790835e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4555e9697f41bc44c313496af829d215" id="r_a4555e9697f41bc44c313496af829d215"><td class="memItemLeft" align="right" valign="top"><a id="a4555e9697f41bc44c313496af829d215" name="a4555e9697f41bc44c313496af829d215"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>trigger_driver_config_irq</b> ()=0</td></tr>
+<tr class="memdesc:a4555e9697f41bc44c313496af829d215"><td class="mdescLeft">&#160;</td><td class="mdescRight">callback for triggering configuration change notification IRQ <br /></td></tr>
+<tr class="separator:a4555e9697f41bc44c313496af829d215"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae96ab79bacd9bb862b0cf2aa4d3d18ac" id="r_ae96ab79bacd9bb862b0cf2aa4d3d18ac"><td class="memItemLeft" align="right" valign="top"><a id="ae96ab79bacd9bb862b0cf2aa4d3d18ac" name="ae96ab79bacd9bb862b0cf2aa4d3d18ac"></a>
 virtual <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4_1_1Irq.html">L4::Irq</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>device_notify_irq</b> () const</td></tr>
 <tr class="memdesc:ae96ab79bacd9bb862b0cf2aa4d3d18ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">callback to gather the device notification IRQ (old-style) <br /></td></tr>
@@ -200,7 +207,7 @@ Mem_list&#160;</td><td class="memItemRight" valign="bottom"><b>_mem_info</b></td
 class L4virtio::Svr::Device_t&lt; DATA &gt;</div><p>Server-side L4-VIRTIO device stub. </p>
 <p>This stub supports new-style multi-event registration (using get_device_config(), bind() and get_device_notification_irq()). </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00775">775</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00795">795</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a38406c5353e2f96de8c667a6d5c5f5f1" name="a38406c5353e2f96de8c667a6d5c5f5f1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a38406c5353e2f96de8c667a6d5c5f5f1">&#9670;&#160;</a></span>add_trusted_dataspaces()</h2>
@@ -236,7 +243,7 @@ template&lt;typename DATA &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l01169">1169</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l01192">1192</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
 </div>
 </div>
@@ -268,9 +275,9 @@ template&lt;typename DATA &gt; </div>
 <p>Transition device into DEVICE_NEEDS_RESET state. </p>
 <p>This function does a full reset, sets the DEVICE_NEEDS_RESET bit in the device status register, triggering a guest config IRQ if necessary. The driver still needs to perform its own reset and initialization sequence. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00995">995</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l01018">1018</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="virtio_source.html#l00042">L4virtio::Svr::Dev_status::driver_ok()</a>, <a class="el" href="classL4virtio_1_1Svr_1_1Device__t.html#a4350f6e35f43df84584ec30740f5a7aa">L4virtio::Svr::Device_t&lt; DATA &gt;::reset()</a>, <a class="el" href="server_2l4virtio_source.html#l00259">L4virtio::Svr::Dev_config::set_device_needs_reset()</a>, <a class="el" href="server_2l4virtio_source.html#l00216">L4virtio::Svr::Dev_config::status()</a>, and <a class="el" href="classL4virtio_1_1Svr_1_1Device__t.html#a52d70a46453eb678e8656dbf790835e8">L4virtio::Svr::Device_t&lt; DATA &gt;::trigger_driver_config_irq()</a>.</p>
+<p class="reference">References <a class="el" href="virtio_source.html#l00042">L4virtio::Svr::Dev_status::driver_ok()</a>, <a class="el" href="classL4virtio_1_1Svr_1_1Device__t.html#a4350f6e35f43df84584ec30740f5a7aa">L4virtio::Svr::Device_t&lt; DATA &gt;::reset()</a>, <a class="el" href="server_2l4virtio_source.html#l00276">L4virtio::Svr::Dev_config::set_device_needs_reset()</a>, <a class="el" href="server_2l4virtio_source.html#l00222">L4virtio::Svr::Dev_config::status()</a>, and <a class="el" href="classL4virtio_1_1Svr_1_1Device__t.html#a4555e9697f41bc44c313496af829d215">L4virtio::Svr::Device_t&lt; DATA &gt;::trigger_driver_config_irq()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -310,9 +317,9 @@ template&lt;typename DATA &gt; </div>
 <p>Callback to gather the device notification IRQ (multi IRQ). </p>
 <p>The default implementation maps to the implementation for single IRQ notification points. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00845">845</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00868">868</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="error__helper_source.html#l00068">L4Re::chksys()</a>, <a class="el" href="server_2l4virtio_source.html#l00819">L4virtio::Svr::Device_t&lt; DATA &gt;::device_notify_irq()</a>, and <a class="el" href="err_8h_source.html#l00060">L4_ENOSYS</a>.</p>
+<p class="reference">References <a class="el" href="error__helper_source.html#l00068">L4Re::chksys()</a>, <a class="el" href="server_2l4virtio_source.html#l00842">L4virtio::Svr::Device_t&lt; DATA &gt;::device_notify_irq()</a>, and <a class="el" href="err_8h_source.html#l00061">L4_ENOSYS</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -352,15 +359,15 @@ template&lt;typename DATA &gt; </div>
 <p>This function checks for a value in the <code>cmd</code> register and executes the command if there is any, or returns false if there was no command.</p>
 <p>Execution of the command is signaled by a zero in the <code>cmd</code> register. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l01129">1129</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l01148">1148</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00224">L4virtio::Svr::Dev_config::get_cmd()</a>, <a class="el" href="compiler_8h_source.html#l00284">L4_LIKELY</a>, <a class="el" href="virtio_8h_source.html#l00118">L4VIRTIO_CMD_CFG_QUEUE</a>, <a class="el" href="virtio_8h_source.html#l00119">L4VIRTIO_CMD_MASK</a>, <a class="el" href="virtio_8h_source.html#l00117">L4VIRTIO_CMD_SET_STATUS</a>, <a class="el" href="classL4virtio_1_1Svr_1_1Device__t.html#acd473f71ee4f34883a6da43b5eb27106">L4virtio::Svr::Device_t&lt; DATA &gt;::reconfig_queue()</a>, and <a class="el" href="server_2l4virtio_source.html#l00235">L4virtio::Svr::Dev_config::reset_cmd()</a>.</p>
+<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00832">L4virtio::Svr::Device_t&lt; DATA &gt;::cfg_changed()</a>, <a class="el" href="server_2l4virtio_source.html#l00230">L4virtio::Svr::Dev_config::get_cmd()</a>, <a class="el" href="compiler_8h_source.html#l00295">L4_LIKELY</a>, <a class="el" href="virtio_8h_source.html#l00121">L4VIRTIO_CMD_CFG_CHANGED</a>, <a class="el" href="virtio_8h_source.html#l00120">L4VIRTIO_CMD_CFG_QUEUE</a>, <a class="el" href="virtio_8h_source.html#l00123">L4VIRTIO_CMD_MASK</a>, <a class="el" href="virtio_8h_source.html#l00119">L4VIRTIO_CMD_SET_STATUS</a>, <a class="el" href="classL4virtio_1_1Svr_1_1Device__t.html#acd473f71ee4f34883a6da43b5eb27106">L4virtio::Svr::Device_t&lt; DATA &gt;::reconfig_queue()</a>, and <a class="el" href="server_2l4virtio_source.html#l00241">L4virtio::Svr::Dev_config::reset_cmd()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Device__t_a460f5dc2b32e33a616eb822ffd2f88f0_cgraph.svg" width="860" height="179"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Device__t_a460f5dc2b32e33a616eb822ffd2f88f0_cgraph.svg" width="860" height="243"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -399,9 +406,9 @@ template&lt;typename DATA &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00983">983</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l01006">1006</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00781">L4virtio::Svr::Device_t&lt; DATA &gt;::_mem_info</a>.</p>
+<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00801">L4virtio::Svr::Device_t&lt; DATA &gt;::_mem_info</a>.</p>
 
 </div>
 </div>
@@ -434,9 +441,9 @@ template&lt;typename DATA &gt; </div>
 <p>Callback for registering an notification IRQ (multi IRQ). </p>
 <p>The default implementation maps to the implementation for single IRQ notification points. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00831">831</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00854">854</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="error__helper_source.html#l00068">L4Re::chksys()</a>, <a class="el" href="err_8h_source.html#l00060">L4_ENOSYS</a>, and <a class="el" href="server_2l4virtio_source.html#l00812">L4virtio::Svr::Device_t&lt; DATA &gt;::register_single_driver_irq()</a>.</p>
+<p class="reference">References <a class="el" href="error__helper_source.html#l00068">L4Re::chksys()</a>, <a class="el" href="err_8h_source.html#l00061">L4_ENOSYS</a>, and <a class="el" href="server_2l4virtio_source.html#l00835">L4virtio::Svr::Device_t&lt; DATA &gt;::register_single_driver_irq()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -500,9 +507,9 @@ template&lt;typename DATA &gt; </div>
 </dl>
 <p>This function resets the driver-readable configuration space for the queue with the given index. The queue configuration is reset to all 0, and the maximum number of entries in the queue is set to <em>num_max</em>. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00973">973</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00996">996</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00328">L4virtio::Svr::Dev_config::reset_queue()</a>.</p>
+<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00345">L4virtio::Svr::Dev_config::reset_queue()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -569,15 +576,24 @@ template&lt;typename DATA &gt; </div>
 </ul>
 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l01022">1022</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l01041">1041</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00781">L4virtio::Svr::Device_t&lt; DATA &gt;::_mem_info</a>, <a class="el" href="virtio_8h_source.html#l00220">l4virtio_config_queue_t::avail_addr</a>, <a class="el" href="virtqueue_source.html#l00292">L4virtio::Virtqueue::avail_size()</a>, <a class="el" href="virtio_8h_source.html#l00219">l4virtio_config_queue_t::desc_addr</a>, <a class="el" href="virtqueue_source.html#l00274">L4virtio::Virtqueue::desc_size()</a>, <a class="el" href="virtqueue_source.html#l00237">L4virtio::Virtqueue::disable()</a>, <a class="el" href="compiler_8h_source.html#l00285">L4_UNLIKELY</a>, <a class="el" href="virtio_8h_source.html#l00211">l4virtio_config_queue_t::num</a>, <a class="el" href="server_2l4virtio_source.html#l00286">L4virtio::Svr::Dev_config::qconfig()</a>, <a class="el" href="virtio_8h_source.html#l00214">l4virtio_config_queue_t::ready</a>, <a class="el" href="virtqueue_source.html#l00362">L4virtio::Virtqueue::setup()</a>, <a class="el" href="virtio_8h_source.html#l00221">l4virtio_config_queue_t::used_addr</a>, and <a class="el" href="virtqueue_source.html#l00311">L4virtio::Virtqueue::used_size()</a>.</p>
+<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00801">L4virtio::Svr::Device_t&lt; DATA &gt;::_mem_info</a>, <a class="el" href="virtio_8h_source.html#l00234">l4virtio_config_queue_t::avail_addr</a>, <a class="el" href="virtqueue_source.html#l00285">L4virtio::Virtqueue::avail_size()</a>, <a class="el" href="virtio_8h_source.html#l00233">l4virtio_config_queue_t::desc_addr</a>, <a class="el" href="virtqueue_source.html#l00267">L4virtio::Virtqueue::desc_size()</a>, <a class="el" href="virtqueue_source.html#l00230">L4virtio::Virtqueue::disable()</a>, <a class="el" href="compiler_8h_source.html#l00296">L4_UNLIKELY</a>, <a class="el" href="virtio_8h_source.html#l00225">l4virtio_config_queue_t::num</a>, <a class="el" href="server_2l4virtio_source.html#l00303">L4virtio::Svr::Dev_config::qconfig()</a>, <a class="el" href="virtio_8h_source.html#l00228">l4virtio_config_queue_t::ready</a>, <a class="el" href="virtqueue_source.html#l00355">L4virtio::Virtqueue::setup()</a>, <a class="el" href="virtio_8h_source.html#l00235">l4virtio_config_queue_t::used_addr</a>, and <a class="el" href="virtqueue_source.html#l00304">L4virtio::Virtqueue::used_size()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="virtio-console_source.html#l00237">L4virtio::Svr::Console::Virtio_con::reconfig_queue()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-7-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-7-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Device__t_ab906b4cc61026fd815a8056f07bef10e_cgraph.svg" width="618" height="371"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Device__t_ab906b4cc61026fd815a8056f07bef10e_icgraph.svg" width="415" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -592,7 +608,7 @@ template&lt;typename DATA &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4virtio.html">L4virtio</a></li><li class="navelem"><b>Svr</b></li><li class="navelem"><a class="el" href="classL4virtio_1_1Svr_1_1Device__t.html">Device_t</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

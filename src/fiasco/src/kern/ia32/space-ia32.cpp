@@ -9,7 +9,7 @@ protected:
   {
   public:
     Ldt() : _addr(0), _size(0) {}
-    Address addr() const { return (Address)_addr; }
+    Address addr() const { return reinterpret_cast<Address>(_addr); }
     Mword   size() const { return _size; }
 
     void size(Mword);
@@ -26,6 +26,17 @@ protected:
 
   Ldt _ldt;
 };
+
+// ---------------------------------------------------------------
+IMPLEMENTATION [(ia32 || amd64) && no_ldt]:
+
+IMPLEMENT_OVERRIDE inline
+void
+Space::switchin_context(Space *from, Mem_space::Switchin_flags flags)
+{
+  Mem_space::switchin_context(from, flags);
+  Io_space::switchin_context(from);
+}
 
 // ---------------------------------------------------------------
 IMPLEMENTATION [(ia32 || amd64) && !no_ldt]:
@@ -64,6 +75,7 @@ Space::switchin_context(Space *from, Mem_space::Switchin_flags flags)
   if (this != from)
     {
       Mem_space::switchin_context(from, flags);
+      Io_space::switchin_context(from);
       Cpu::cpus.cpu(current_cpu()).enable_ldt(_ldt.addr(), _ldt.size());
     }
 }

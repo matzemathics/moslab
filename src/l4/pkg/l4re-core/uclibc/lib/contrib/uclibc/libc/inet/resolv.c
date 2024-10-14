@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* resolv.c: DNS Resolver
  *
  * Copyright (C) 1998  Kenneth Albanowski <kjahds@kjahds.com>,
@@ -12,6 +11,7 @@
 /*
  * Portions Copyright (c) 1985, 1993
  *    The Regents of the University of California.  All rights reserved.
+ * Portions Copyright © 2021 mirabilos <m@mirbsd.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -71,69 +71,6 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
  * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  * SOFTWARE.
- */
-/*
- *  5-Oct-2000 W. Greathouse  wgreathouse@smva.com
- *   Fix memory leak and memory corruption.
- *   -- Every name resolution resulted in
- *      a new parse of resolv.conf and new
- *      copy of nameservers allocated by
- *      strdup.
- *   -- Every name resolution resulted in
- *      a new read of resolv.conf without
- *      resetting index from prior read...
- *      resulting in exceeding array bounds.
- *
- *   Limit nameservers read from resolv.conf.
- *   Add "search" domains from resolv.conf.
- *   Some systems will return a security
- *   signature along with query answer for
- *   dynamic DNS entries -- skip/ignore this answer.
- *   Include arpa/nameser.h for defines.
- *   General cleanup.
- *
- * 20-Jun-2001 Michal Moskal <malekith@pld.org.pl>
- *   partial IPv6 support (i.e. gethostbyname2() and resolve_address2()
- *   functions added), IPv6 nameservers are also supported.
- *
- * 6-Oct-2001 Jari Korva <jari.korva@iki.fi>
- *   more IPv6 support (IPv6 support for gethostbyaddr();
- *   address family parameter and improved IPv6 support for get_hosts_byname
- *   and read_etc_hosts; getnameinfo() port from glibc; defined
- *   defined ip6addr_any and in6addr_loopback)
- *
- * 2-Feb-2002 Erik Andersen <andersen@codepoet.org>
- *   Added gethostent(), sethostent(), and endhostent()
- *
- * 17-Aug-2002 Manuel Novoa III <mjn3@codepoet.org>
- *   Fixed __read_etc_hosts_r to return alias list, and modified buffer
- *   allocation accordingly.  See MAX_ALIASES and ALIAS_DIM below.
- *   This fixes the segfault in the Python 2.2.1 socket test.
- *
- * 04-Jan-2003 Jay Kulpinski <jskulpin@berkshire.rr.com>
- *   Fixed __decode_dotted to count the terminating null character
- *   in a host name.
- *
- * 02-Oct-2003 Tony J. White <tjw@tjw.org>
- *   Lifted dn_expand() and dependent ns_name_uncompress(), ns_name_unpack(),
- *   and ns_name_ntop() from glibc 2.3.2 for compatibility with ipsec-tools
- *   and openldap.
- *
- * 7-Sep-2004 Erik Andersen <andersen@codepoet.org>
- *   Added gethostent_r()
- *
- * 2008, 2009 Denys Vlasenko <vda.linux@googlemail.com>
- *   Cleanups, fixes, readability, more cleanups and more fixes.
- *
- * March 2010 Bernhard Reutner-Fischer
- *   Switch to common config parser
- */
-/* Nota bene:
- * The whole resolver code has several (severe) problems:
- * - it doesn't even build without IPv4, i.e. !UCLIBC_HAS_IPV4 but only IPv6
- * - it is way too big
- *
- * Both points above are considered bugs, patches/reimplementations welcome.
  */
 /* RFC 1035
 ...
@@ -297,6 +234,7 @@ Domain name in a message can be represented as either:
 #include <stdio.h>
 #include <stdio_ext.h>
 #include <signal.h>
+#include <malloc.h>
 #include <errno.h>
 #include <sys/poll.h>
 #include <sys/socket.h>
@@ -310,6 +248,7 @@ Domain name in a message can be represented as either:
 #include <netdb.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <time.h>
 #include <arpa/nameser.h>
 #include <sys/utsname.h>
@@ -317,6 +256,7 @@ Domain name in a message can be represented as either:
 #include <sys/stat.h>
 #include <sys/param.h>
 #include <bits/uClibc_mutex.h>
+#include <fcntl.h>
 #include "internal/parse_config.h"
 
 /* poll() is not supported in kernel <= 2.0, therefore if __NR_poll is
@@ -336,6 +276,8 @@ Domain name in a message can be represented as either:
 
 #define MAX_RECURSE    5
 #define MAXALIASES  (4)
+/* 1:ip + 1:full + MAX_ALIASES:aliases + 1:NULL */
+#define ALIAS_DIM   (2 + MAXALIASES + 1)
 #define BUFSZ       (80) /* one line */
 
 #define NS_TYPE_ELT					0x40 /*%< EDNS0 extended label type */
@@ -456,14 +398,6 @@ extern int __dns_lookup(const char *name,
 		int type,
 		unsigned char **outpacket,
 		struct resolv_answer *a) attribute_hidden;
-extern int __encode_dotted(const char *dotted,
-		unsigned char *dest,
-		int maxlen) attribute_hidden;
-extern int __decode_dotted(const unsigned char *packet,
-		int offset,
-		int packet_len,
-		char *dest,
-		int dest_len) attribute_hidden;
 extern int __encode_header(struct resolv_header *h,
 		unsigned char *dest,
 		int maxlen) attribute_hidden;
@@ -477,6 +411,13 @@ extern int __encode_answer(struct resolv_answer *a,
 		int maxlen) attribute_hidden;
 extern void __open_nameservers(void) attribute_hidden;
 extern void __close_nameservers(void) attribute_hidden;
+extern int __hnbad(const char *dotted) attribute_hidden;
+
+#define __encode_dotted(dotted,dest,maxlen) \
+	dn_comp((dotted), (dest), (maxlen), NULL, NULL)
+#define __decode_dotted(packet,offset,packet_len,dest,dest_len) \
+	dn_expand((packet), (packet) + (packet_len), (packet) + (offset), \
+	    (dest), (dest_len))
 
 /*
  * Theory of operation.
@@ -611,112 +552,6 @@ void __decode_header(unsigned char *data,
 	h->arcount = (data[10] << 8) | data[11];
 }
 #endif /* L_decodeh */
-
-
-#ifdef L_encoded
-
-/* Encode a dotted string into nameserver transport-level encoding.
-   This routine is fairly dumb, and doesn't attempt to compress
-   the data */
-int __encode_dotted(const char *dotted, unsigned char *dest, int maxlen)
-{
-	unsigned used = 0;
-
-	while (dotted && *dotted) {
-		char *c = strchr(dotted, '.');
-		int l = c ? c - dotted : strlen(dotted);
-
-		/* two consecutive dots are not valid */
-		if (l == 0)
-			return -1;
-
-		if (l >= (maxlen - used - 1))
-			return -1;
-
-		dest[used++] = l;
-		memcpy(dest + used, dotted, l);
-		used += l;
-
-		if (!c)
-			break;
-		dotted = c + 1;
-	}
-
-	if (maxlen < 1)
-		return -1;
-
-	dest[used++] = 0;
-
-	return used;
-}
-#endif /* L_encoded */
-
-
-#ifdef L_decoded
-
-/* Decode a dotted string from nameserver transport-level encoding.
-   This routine understands compressed data. */
-int __decode_dotted(const unsigned char *packet,
-		int offset,
-		int packet_len,
-		char *dest,
-		int dest_len)
-{
-	unsigned b;
-	bool measure = 1;
-	unsigned total = 0;
-	unsigned used = 0;
-
-	if (!packet)
-		return -1;
-
-	while (1) {
-		if (offset >= packet_len)
-			return -1;
-		b = packet[offset++];
-		if (b == 0)
-			break;
-
-		if (measure)
-			total++;
-
-		if ((b & 0xc0) == 0xc0) {
-			if (offset >= packet_len)
-				return -1;
-			if (measure)
-				total++;
-			/* compressed item, redirect */
-			offset = ((b & 0x3f) << 8) | packet[offset];
-			measure = 0;
-			continue;
-		}
-
-		if (used + b + 1 >= dest_len)
-			return -1;
-		if (offset + b >= packet_len)
-			return -1;
-		memcpy(dest + used, packet + offset, b);
-		offset += b;
-		used += b;
-
-		if (measure)
-			total += b;
-
-		if (packet[offset] != 0)
-			dest[used++] = '.';
-		else
-			dest[used++] = '\0';
-	}
-
-	/* The null byte must be counted too */
-	if (measure)
-		total++;
-
-	DPRINTF("Total decode len = %d\n", total);
-
-	return total;
-}
-#endif /* L_decoded */
 
 
 #ifdef L_encodeq
@@ -967,7 +802,7 @@ void __open_nameservers(void)
 	if (!__res_sync) {
 		/* Reread /etc/resolv.conf if it was modified.  */
 		struct stat sb;
-		if (stat("/etc/resolv.conf", &sb) != 0)
+		if (stat(_PATH_RESCONF, &sb) != 0)
 			sb.st_mtime = 0;
 		if (resolv_conf_mtime != (uint32_t)sb.st_mtime) {
 			resolv_conf_mtime = sb.st_mtime;
@@ -981,7 +816,7 @@ void __open_nameservers(void)
 	__resolv_timeout = RES_TIMEOUT;
 	__resolv_attempts = RES_DFLRETRY;
 
-	fp = fopen("/etc/resolv.conf", "r");
+	fp = fopen(_PATH_RESCONF, "r");
 #ifdef FALLBACK_TO_CONFIG_RESOLVCONF
 	if (!fp) {
 		/* If we do not have a pre-populated /etc/resolv.conf then
@@ -1212,6 +1047,263 @@ static int __decode_answer(const unsigned char *message, /* packet */
 	return i + RRFIXEDSZ + a->rdlength;
 }
 
+
+#if defined __UCLIBC_DNSRAND_MODE_URANDOM__ || defined __UCLIBC_DNSRAND_MODE_PRNGPLUS__
+
+/*
+ * Get a random int from urandom.
+ * Return 0 on success and -1 on failure.
+ *
+ * This will dip into the entropy pool maintaind by the system.
+ */
+int _dnsrand_getrandom_urandom(int *rand_value) {
+	static int urand_fd = -1;
+	static int errCnt = 0;
+	if (urand_fd == -1) {
+		urand_fd = open("/dev/urandom", O_RDONLY);
+		if (urand_fd == -1) {
+			if ((errCnt % 16) == 0) {
+				DPRINTF("uCLibC:WARN:DnsRandGetRand: urandom is unavailable...\n");
+			}
+			errCnt += 1;
+			return -1;
+		}
+	}
+	if (read(urand_fd, rand_value, sizeof(int)) == sizeof(int)) { /* small reads like few bytes here should be safe in general. */
+		DPRINTF("uCLibC:DBUG:DnsRandGetRand: URandom:0x%lx\n", *rand_value);
+		return 0;
+	}
+	return -1;
+}
+
+#endif
+
+#if defined __UCLIBC_DNSRAND_MODE_CLOCK__ || defined __UCLIBC_DNSRAND_MODE_PRNGPLUS__
+
+/*
+ * Try get a sort of random int by looking at current time in system realtime clock.
+ * Return 0 on success and -1 on failure.
+ *
+ * This requries the realtime related uclibc feature to be enabled and also
+ * the system should have a clock source with nanosec resolution to be mapped
+ * to CLOCK_REALTIME, for this to generate values that appear random plausibly.
+ */
+int _dnsrand_getrandom_clock(int *rand_value) {
+#if defined __USE_POSIX199309 && defined __UCLIBC_HAS_REALTIME__
+	struct timespec ts;
+	if (clock_gettime(CLOCK_REALTIME, &ts) == 0) {
+		*rand_value = (ts.tv_sec + ts.tv_nsec) % INT_MAX;
+		DPRINTF("uCLibC:DBUG:DnsRandGetRand: Clock:0x%lx\n", *rand_value);
+		return 0;
+	}
+#endif
+	return -1;
+}
+
+#endif
+
+#ifdef __UCLIBC_DNSRAND_MODE_PRNGPLUS__
+
+/*
+ * Try get a random int by first checking at urandom and then at realtime clock.
+ * Return 0 on success and -1 on failure.
+ *
+ * Chances are most embedded targets using linux/bsd/... could have urandom and
+ * also it can potentially give better random values, so try urandom first.
+ * However if there is failure wrt urandom, then try realtime clock based helper.
+ */
+int _dnsrand_getrandom_urcl(int *rand_value) {
+	if (_dnsrand_getrandom_urandom(rand_value) == 0) {
+		return 0;
+	}
+	if (_dnsrand_getrandom_clock(rand_value) == 0) {
+		return 0;
+	}
+	DPRINTF("uCLibC:DBUG:DnsRandGetRand: URCL:Nothing:0x%lx\n", *rand_value);
+	return -1;
+}
+
+#define DNSRAND_PRNGSTATE_INT32LEN 32
+#undef DNSRAND_PRNGRUN_SHORT
+#ifdef DNSRAND_PRNGRUN_SHORT
+#define DNSRAND_RESEED_OP1 (DNSRAND_PRNGSTATE_INT32LEN/2)
+#define DNSRAND_RESEED_OP2 (DNSRAND_PRNGSTATE_INT32LEN/4)
+#else
+#define DNSRAND_RESEED_OP1 (DNSRAND_PRNGSTATE_INT32LEN*6)
+#define DNSRAND_RESEED_OP2 DNSRAND_PRNGSTATE_INT32LEN
+#endif
+
+#define DNSRAND_TIMEFORCED_RESEED_CHECKMOD (DNSRAND_PRNGSTATE_INT32LEN/8)
+#define DNSRAND_TIMEFORCED_RESEED_SECS 120
+
+time_t clock_getcursec(void) {
+	static time_t dummyTime = 0;
+#if defined __USE_POSIX199309 && defined __UCLIBC_HAS_REALTIME__
+	struct timespec ts;
+	if (clock_gettime(CLOCK_REALTIME, &ts) == 0) {
+		return ts.tv_sec;
+	}
+#endif
+	dummyTime += DNSRAND_TIMEFORCED_RESEED_SECS;
+	return dummyTime;
+}
+
+/*
+ * This logic uses uclibc's random PRNG to generate random int. This keeps the
+ * logic fast by not depending on a more involved CPRNG kind of logic nor on a
+ * kernel to user space handshake at the core.
+ *
+ * However to ensure that pseudo random sequences based on a given seeding of the
+ * PRNG logic, is not generated for too long so as to allow a advarsary to try guess
+ * the internal states of the prng logic and inturn the next number, srandom is
+ * used periodically to reseed PRNG logic, when and where possible.
+ *
+ * To help with this periodic reseeding, by default the logic will first try to
+ * see if it can get some relatively random number using /dev/urandom. If not it
+ * will try use the current time to generate plausibly random value as substitute.
+ * If neither of these sources are available, then the prng itself is used to seed
+ * a new state, so that the pseudo random sequence can continue, which is better
+ * than the fallback simple counter.
+ *
+ * Also to add bit more of variance wrt this periodic reseeding, the period interval
+ * at which this reseeding occurs keeps changing within a predefined window. The
+ * window is controlled based on how often this logic is called (which currently
+ * will depend on how often requests for dns query (and inturn dnsrand_next) occurs,
+ * as well as a self driven periodically changing request count boundry.
+ *
+ * The internally generated random values are not directly exposed, instead result
+ * of adjacent values large mult with mod is used to greatly reduce the possibility
+ * of trying to infer the internal values from externally exposed random values.
+ * This should also make longer run of prng ok to an extent.
+ *
+ * NOTE: The Random PRNG used here maintains its own internal state data, so that
+ * it doesnt impact any other users of random prng calls in the system/program
+ * compiled against uclibc.
+ *
+ * NOTE: If your target doesnt support int64_t, then the code uses XOR instead of
+ * mult with mod based transform on the internal random sequence, to generate the
+ * random number that is returned. However as XOR is not a one way transform, this
+ * is supported only in DNSRAND_PRNGRUN_SHORT mode by default, which needs to be
+ * explicitly enabled by the platform developer, by defining the same.
+ *
+ */
+int _dnsrand_getrandom_prng(int *rand_value) {
+	static time_t reSeededSec = 0;
+	time_t curSec = 0;
+	bool bTimeForcedReSeed = 0;
+	static int cnt = -1;
+	static int nextReSeedWindow = DNSRAND_RESEED_OP1;
+	static int32_t prngState[DNSRAND_PRNGSTATE_INT32LEN]; /* prng logic internally assumes int32_t wrt state array, so to help align if required */
+	static struct random_data prngData;
+	int32_t val, val2;
+	int calc;
+	int prngSeed = 0x19481869;
+
+	if (cnt == -1) {
+		_dnsrand_getrandom_urcl(&prngSeed);
+		memset(&prngData, 0, sizeof(prngData));
+		initstate_r(prngSeed, (char*)&prngState, DNSRAND_PRNGSTATE_INT32LEN*4, &prngData);
+	}
+	cnt += 1;
+	if ((cnt % DNSRAND_TIMEFORCED_RESEED_CHECKMOD) == 0) {
+		curSec = clock_getcursec();
+		if ((curSec - reSeededSec) >= DNSRAND_TIMEFORCED_RESEED_SECS) {
+			bTimeForcedReSeed = 1;
+		}
+	}
+	if (((cnt % nextReSeedWindow) == 0) || bTimeForcedReSeed) {
+		if (curSec == 0) curSec = clock_getcursec();
+		reSeededSec = curSec;
+		if (_dnsrand_getrandom_urcl(&prngSeed) != 0) {
+			random_r(&prngData, &prngSeed);
+		}
+		srandom_r(prngSeed, &prngData);
+		random_r(&prngData, &val);
+		nextReSeedWindow = DNSRAND_RESEED_OP1 + (val % DNSRAND_RESEED_OP2);
+		DPRINTF("uCLibC:DBUG:DnsRandNext: PRNGWindow:%d\n", nextReSeedWindow);
+		cnt = 0;
+	}
+	random_r(&prngData, &val);
+	random_r(&prngData, &val2);
+#ifdef INT64_MAX
+	calc = ((int64_t)val * (int64_t)val2) % INT_MAX;
+#else
+# ifdef DNSRAND_PRNGRUN_SHORT
+	calc = val ^ val2;
+# warning "[No int64] using xor based random number transform logic in short prng run mode, bcas int64_t not supported on this target"
+# else
+# error "[No int64] using xor based random number transform logic only supported with short prng runs, you may want to define DNSRAND_PRNGRUN_SHORT"
+# endif
+#endif
+	*rand_value = calc;
+	DPRINTF("uCLibC:DBUG:DnsRandGetRand: PRNGPlus: %d, 0x%lx 0x%lx 0x%lx\n", cnt, val, val2, *rand_value);
+	return 0;
+}
+
+#endif
+
+/**
+ * If DNS query's id etal is generated using a simple counter, then it can be
+ * subjected to dns poisoning relatively easily, so adding some randomness can
+ * increase the difficulty wrt dns poisoning and is thus desirable.
+ *
+ * However given that embedded targets may or may not have different sources available
+ * with them to try generate random values, this logic tries to provides flexibility
+ * to the platform developer to decide, how they may want to handle this.
+ *
+ * If a given target doesnt support urandom nor realtime clock OR for some reason
+ * if the platform developer doesnt want to use random dns query id etal, then
+ * they can define __UCLIBC_DNSRAND_MODE_SIMPLECOUNTER__ so that a simple incrementing
+ * counter is used.
+ *
+ * However if the target has support for urandom or realtime clock, then the prngplus
+ * based random generation tries to give a good balance between randomness and performance.
+ * This is the default and is enabled when no other mode is defined. It is also indirectly
+ * enabled by defining __UCLIBC_DNSRAND_MODE_PRNGPLUS__ instead of the other modes.
+ *
+ * If urandom is available on the target and one wants to keep things simple and use
+ * it directly, then one can define __UCLIBC_DNSRAND_MODE_URANDOM__. Do note that this
+ * will be relatively slower compared to other options. But it can normally generate
+ * good random values/ids by dipping into the entropy pool available in the system.
+ *
+ * If system realtime clock is available on target and enabled, then if one wants to
+ * keep things simple and use it directly, then define __UCLIBC_DNSRAND_MODE_CLOCK__.
+ * Do note that this requires nanosecond resolution / granularity wrt the realtime
+ * clock source to generate plausibly random values/ids. As processor &/ io performance
+ * improves, the effectiveness of this strategy can be impacted in some cases.
+ *
+ * If either the URandom or Clock based get random fails, then the logic is setup to
+ * try fallback to the simple counter mode, with the help of the def_value, which is
+ * setup to be the next increment wrt the previously generated / used value, by the
+ * caller of dnsrand_next.
+ *
+ */
+int dnsrand_next(int def_value) {
+	int val = def_value;
+#if defined __UCLIBC_DNSRAND_MODE_SIMPLECOUNTER__
+	return val;
+#elif defined __UCLIBC_DNSRAND_MODE_URANDOM__
+	if (_dnsrand_getrandom_urandom(&val) == 0) {
+		return val;
+	}
+	return def_value;
+#elif defined __UCLIBC_DNSRAND_MODE_CLOCK__
+	if (_dnsrand_getrandom_clock(&val) == 0) {
+		return val;
+	}
+	return def_value;
+#else
+	if (_dnsrand_getrandom_prng(&val) == 0) {
+		return val;
+	}
+	return def_value;
+#endif
+}
+
+int dnsrand_setup(int def_value) {
+	return def_value;
+}
+
 /* On entry:
  *  a.buf(len) = auxiliary buffer for IP addresses after first one
  *  a.add_count = how many additional addresses are there already
@@ -1257,9 +1349,11 @@ int __dns_lookup(const char *name,
 	int variant = -1;  /* search domain to append, -1: none */
 	int local_ns_num = -1; /* Nth server to use */
 	int local_id = local_id; /* for compiler */
-	int sdomains;
+	int sdomains = 0;
 	bool ends_with_dot;
+	bool contains_dot;
 	sockaddr46_t sa;
+	int num_answers;
 
 	fd = -1;
 	lookup = NULL;
@@ -1270,12 +1364,14 @@ int __dns_lookup(const char *name,
 	if (!packet || !lookup || !name[0])
 		goto fail;
 	ends_with_dot = (name[name_len - 1] == '.');
+	contains_dot = strchr(name, '.') != NULL;
 	/* no strcpy! paranoia, user might change name[] under us */
 	memcpy(lookup, name, name_len);
 
 	DPRINTF("Looking up type %d answer for '%s'\n", type, name);
 	retries_left = 0; /* for compiler */
 	do {
+		unsigned act_variant;
 		int pos;
 		unsigned reply_timeout;
 
@@ -1295,17 +1391,24 @@ int __dns_lookup(const char *name,
 		 * or do other Really Bad Things. */
 		__UCLIBC_MUTEX_LOCK(__resolv_lock);
 		__open_nameservers();
-		sdomains = __searchdomains;
+		if (type != T_PTR) {
+			sdomains = __searchdomains;
+		}
 		lookup[name_len] = '\0';
-		if ((unsigned)variant < sdomains) {
+		/* For qualified names, act_variant = MAX_UINT, 0, .., sdomains-1
+		 *  => Try original name first, then append search domains
+		 * For names without domain, act_variant = 0, 1, .., sdomains
+		 *  => Try search domains first, original name last */
+		act_variant = contains_dot ? variant : variant + 1;
+		if (act_variant < (unsigned int)sdomains) {
 			/* lookup is name_len + 1 + MAXLEN_searchdomain + 1 long */
 			/* __searchdomain[] is not bigger than MAXLEN_searchdomain */
 			lookup[name_len] = '.';
-			strcpy(&lookup[name_len + 1], __searchdomain[variant]);
+			strcpy(&lookup[name_len + 1], __searchdomain[act_variant]);
 		}
 		/* first time? pick starting server etc */
 		if (local_ns_num < 0) {
-			local_id = last_id;
+			local_id = dnsrand_setup(last_id);
 /*TODO: implement /etc/resolv.conf's "options rotate"
  (a.k.a. RES_ROTATE bit in _res.options)
 			local_ns_num = 0;
@@ -1313,10 +1416,9 @@ int __dns_lookup(const char *name,
 				local_ns_num = last_ns_num;
 			retries_left = __nameservers * __resolv_attempts;
 		}
-		retries_left--;
-		if (local_ns_num >= __nameservers)
+		if ((unsigned int)local_ns_num >= __nameservers)
 			local_ns_num = 0;
-		local_id++;
+		local_id = dnsrand_next(++local_id);
 		local_id &= 0xffff;
 		/* write new values back while still under lock */
 		last_id = local_id;
@@ -1410,6 +1512,10 @@ int __dns_lookup(const char *name,
 			 * to next nameserver */
 			goto try_next_server;
 		}
+		if (fds.revents & (POLLERR | POLLHUP | POLLNVAL)) {
+			DPRINTF("Bad event\n");
+			goto try_next_server;
+		}
 /*TODO: better timeout accounting?*/
 		reply_timeout -= 1000;
 #endif /* USE_SELECT */
@@ -1490,6 +1596,7 @@ int __dns_lookup(const char *name,
 			goto fail1;
 		}
 		pos = HFIXEDSZ;
+		/*XXX TODO: check that question matches query (and qdcount==1?) */
 		for (j = 0; j < h.qdcount; j++) {
 			DPRINTF("Skipping question %d at %d\n", j, pos);
 			i = __length_question(packet + pos, packet_len - pos);
@@ -1504,6 +1611,7 @@ int __dns_lookup(const char *name,
 		DPRINTF("Decoding answer at pos %d\n", pos);
 
 		first_answer = 1;
+		num_answers = 0;
 		a->dotted = NULL;
 		for (j = 0; j < h.ancount; j++) {
 			i = __decode_answer(packet, pos, packet_len, &ma);
@@ -1511,12 +1619,15 @@ int __dns_lookup(const char *name,
 				DPRINTF("failed decode %d\n", i);
 				/* If the message was truncated but we have
 				 * decoded some answers, pretend it's OK */
-				if (j && h.tc)
+				if (num_answers && h.tc)
 					break;
 				goto try_next_server;
 			}
 			pos += i;
 
+			if (__hnbad(ma.dotted))
+				break;
+			++num_answers;
 			if (first_answer) {
 				ma.buf = a->buf;
 				ma.buflen = a->buflen;
@@ -1546,6 +1657,10 @@ int __dns_lookup(const char *name,
 				++a->add_count;
 			}
 		}
+		if (!num_answers) {
+			h_errno = NO_RECOVERY;
+			goto fail1;
+		}
 
 		/* Success! */
 		DPRINTF("Answer name = |%s|\n", a->dotted);
@@ -1561,6 +1676,7 @@ int __dns_lookup(const char *name,
 
  try_next_server:
 		/* Try next nameserver */
+		retries_left--;
 		local_ns_num++;
 		variant = -1;
 	} while (retries_left > 0);
@@ -1592,7 +1708,7 @@ parser_t * __open_etc_hosts(void)
 
 #define MINTOKENS 2 /* ip address + canonical name */
 #define MAXTOKENS (MINTOKENS + MAXALIASES)
-#define HALISTOFF (sizeof(char*) * MAXTOKENS)
+#define HALISTOFF (sizeof(char*) * (MAXTOKENS + 1))	/* reserve space for list terminator */
 #define INADDROFF (HALISTOFF + 2 * sizeof(char*))
 
 int __read_etc_hosts_r(
@@ -1615,9 +1731,13 @@ int __read_etc_hosts_r(
 #endif
 							;
 	int ret = HOST_NOT_FOUND;
+	/* make sure pointer is aligned */
+	int i = ALIGN_BUFFER_OFFSET(buf);
+	buf += i;
+	buflen -= i;
 
 	*h_errnop = NETDB_INTERNAL;
-	if (buflen < aliaslen
+	if (/* (ssize_t)buflen < 0 || */ buflen < aliaslen
 		|| (buflen - aliaslen) < BUFSZ + 1)
 		return ERANGE;
 	if (parser == NULL)
@@ -1641,9 +1761,8 @@ int __read_etc_hosts_r(
 		result_buf->h_aliases = tok+1;
 		if (action == GETHOSTENT) {
 			/* Return whatever the next entry happens to be. */
-			break;
-		}
-		if (action == GET_HOSTS_BYADDR) {
+			;
+		} else if (action == GET_HOSTS_BYADDR) {
 			if (strcmp(name, *tok) != 0)
 				continue;
 		} else { /* GET_HOSTS_BYNAME */
@@ -1659,7 +1778,7 @@ int __read_etc_hosts_r(
 found:
 		result_buf->h_name = *(result_buf->h_aliases++);
 		result_buf->h_addr_list = (char**)(buf + HALISTOFF);
-		*(result_buf->h_addr_list + 1) = '\0';
+		*(result_buf->h_addr_list + 1) = 0;
 		h_addr0 = (struct in_addr*)(buf + INADDROFF);
 		result_buf->h_addr = (char*)h_addr0;
 		if (0) /* nothing */;
@@ -1785,6 +1904,9 @@ int getnameinfo(const struct sockaddr *sa,
 
 	if (sa == NULL || addrlen < sizeof(sa_family_t))
 		return EAI_FAMILY;
+
+	if ((flags & NI_NAMEREQD) && host == NULL && serv == NULL)
+		return EAI_NONAME;
 
 	if (sa->sa_family == AF_LOCAL) /* valid */;
 #ifdef __UCLIBC_HAS_IPV4__
@@ -2066,9 +2188,6 @@ int gethostbyname_r(const char *name,
 		return ERANGE;
 
 	/* we store only one "alias" - the name itself */
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO -- generate the full list
-#endif
 	alias[0] = alias0;
 	alias[1] = NULL;
 
@@ -2138,7 +2257,7 @@ int gethostbyname_r(const char *name,
 		memcpy(buf, a.rdata, sizeof(struct in_addr));
 
 		/* fill addr_list[] */
-		for (i = 0; i <= a.add_count; i++) {
+		for (i = 0; (unsigned int)i <= a.add_count; i++) {
 			addr_list[i] = (struct in_addr*)buf;
 			buf += sizeof(struct in_addr);
 		}
@@ -2174,7 +2293,6 @@ int gethostbyname_r(const char *name,
 	return i;
 }
 libc_hidden_def(gethostbyname_r)
-link_warning(gethostbyname_r, "gethostbyname_r is obsolescent, use getnameinfo() instead.");
 #endif /* L_gethostbyname_r */
 
 
@@ -2193,12 +2311,13 @@ int gethostbyname2_r(const char *name,
 		? gethostbyname_r(name, result_buf, buf, buflen, result, h_errnop)
 		: HOST_NOT_FOUND;
 #else
-	struct in6_addr *in;
 	struct in6_addr **addr_list;
+	char **alias;
+	char *alias0;
 	unsigned char *packet;
 	struct resolv_answer a;
 	int i;
-	int nest = 0;
+	int packet_len;
 	int wrong_af = 0;
 
 	if (family == AF_INET)
@@ -2213,9 +2332,8 @@ int gethostbyname2_r(const char *name,
 
 	/* do /etc/hosts first */
 	{
-		int old_errno = errno;	/* Save the old errno and reset errno */
-		__set_errno(0);			/* to check for missing /etc/hosts. */
-
+		int old_errno = errno;  /* save the old errno and reset errno */
+		__set_errno(0);         /* to check for missing /etc/hosts. */
 		i = __get_hosts_byname_r(name, AF_INET6 /*family*/, result_buf,
 				buf, buflen, result, h_errnop);
 		if (i == NETDB_SUCCESS) {
@@ -2237,42 +2355,55 @@ int gethostbyname2_r(const char *name,
 		}
 		__set_errno(old_errno);
 	}
+
 	DPRINTF("Nothing found in /etc/hosts\n");
 
 	*h_errnop = NETDB_INTERNAL;
 
+	/* prepare future h_aliases[0] */
+	i = strlen(name) + 1;
+	if ((ssize_t)buflen <= i)
+		return ERANGE;
+	memcpy(buf, name, i); /* paranoia: name might change */
+	alias0 = buf;
+	buf += i;
+	buflen -= i;
 	/* make sure pointer is aligned */
 	i = ALIGN_BUFFER_OFFSET(buf);
 	buf += i;
 	buflen -= i;
 	/* Layout in buf:
-	 * struct in6_addr* in;
-	 * struct in6_addr* addr_list[2];
-	 * char scratch_buf[256];
+	 * char *alias[2];
+	 * struct in6_addr* addr_list[NN+1];
+	 * struct in6_addr* in[NN];
 	 */
-	in = (struct in6_addr*)buf;
-	buf += sizeof(*in);
-	buflen -= sizeof(*in);
-	addr_list = (struct in6_addr**)buf;
-	buf += sizeof(*addr_list) * 2;
-	buflen -= sizeof(*addr_list) * 2;
+	alias = (char **)buf;
+	buf += sizeof(alias[0]) * 2;
+	buflen -= sizeof(alias[0]) * 2;
+	addr_list = (struct in6_addr **)buf;
+	/* buflen may be < 0, must do signed compare */
 	if ((ssize_t)buflen < 256)
 		return ERANGE;
-	addr_list[0] = in;
-	addr_list[1] = NULL;
-	strncpy(buf, name, buflen);
-	buf[buflen] = '\0';
+
+	/* we store only one "alias" - the name itself */
+	alias[0] = alias0;
+	alias[1] = NULL;
 
 	/* maybe it is already an address? */
-	if (inet_pton(AF_INET6, name, in)) {
-		result_buf->h_name = buf;
-		result_buf->h_addrtype = AF_INET6;
-		result_buf->h_length = sizeof(*in);
-		result_buf->h_addr_list = (char **) addr_list;
-		/* result_buf->h_aliases = ??? */
-		*result = result_buf;
-		*h_errnop = NETDB_SUCCESS;
-		return NETDB_SUCCESS;
+	{
+		struct in6_addr *in = (struct in6_addr *)(buf + sizeof(addr_list[0]) * 2);
+		if (inet_pton(AF_INET6, name, in)) {
+			addr_list[0] = in;
+			addr_list[1] = NULL;
+			result_buf->h_name = alias0;
+			result_buf->h_aliases = alias;
+			result_buf->h_addrtype = AF_INET6;
+			result_buf->h_length = sizeof(struct in6_addr);
+			result_buf->h_addr_list = (char **) addr_list;
+			*result = result_buf;
+			*h_errnop = NETDB_SUCCESS;
+			return NETDB_SUCCESS;
+		}
 	}
 
 	/* what if /etc/hosts has it but it's not IPv6?
@@ -2284,51 +2415,80 @@ int gethostbyname2_r(const char *name,
 	}
 
 	/* talk to DNS servers */
-/* TODO: why it's so different from gethostbyname_r (IPv4 case)? */
-	memset(&a, '\0', sizeof(a));
-	for (;;) {
-		int packet_len;
-
-/* Hmm why we memset(a) to zeros only once? */
-		packet_len = __dns_lookup(buf, T_AAAA, &packet, &a);
-		if (packet_len < 0) {
-			*h_errnop = HOST_NOT_FOUND;
-			return TRY_AGAIN;
-		}
-		strncpy(buf, a.dotted, buflen);
-		free(a.dotted);
-
-		if (a.atype != T_CNAME)
-			break;
-
-		DPRINTF("Got a CNAME in gethostbyname()\n");
-		if (++nest > MAX_RECURSE) {
-			*h_errnop = NO_RECOVERY;
-			return -1;
-		}
-		i = __decode_dotted(packet, a.rdoffset, packet_len, buf, buflen);
-		free(packet);
-		if (i < 0) {
-			*h_errnop = NO_RECOVERY;
-			return -1;
-		}
+	a.buf = buf;
+	/* take into account that at least one address will be there,
+	 * we'll need space of one in6_addr + two addr_list[] elems */
+	a.buflen = buflen - ((sizeof(addr_list[0]) * 2 + sizeof(struct in6_addr)));
+	a.add_count = 0;
+	packet_len = __dns_lookup(name, T_AAAA, &packet, &a);
+	if (packet_len < 0) {
+		*h_errnop = HOST_NOT_FOUND;
+		DPRINTF("__dns_lookup returned < 0\n");
+		return TRY_AGAIN;
 	}
-	if (a.atype == T_AAAA) {	/* ADDRESS */
-		memcpy(in, a.rdata, sizeof(*in));
-		result_buf->h_name = buf;
+
+	if (a.atype == T_AAAA) { /* ADDRESS */
+		/* we need space for addr_list[] and one IPv6 address */
+		/* + 1 accounting for 1st addr (it's in a.rdata),
+		 * another + 1 for NULL in last addr_list[]: */
+		int need_bytes = sizeof(addr_list[0]) * (a.add_count + 1 + 1)
+				/* for 1st addr (it's in a.rdata): */
+				+ sizeof(struct in6_addr);
+		/* how many bytes will 2nd and following addresses take? */
+		int ips_len = a.add_count * a.rdlength;
+
+		buflen -= (need_bytes + ips_len);
+		if ((ssize_t)buflen < 0) {
+			DPRINTF("buffer too small for all addresses\n");
+			/* *h_errnop = NETDB_INTERNAL; - already is */
+			i = ERANGE;
+			goto free_and_ret;
+		}
+
+		/* if there are additional addresses in buf,
+		 * move them forward so that they are not destroyed */
+		DPRINTF("a.add_count:%d a.rdlength:%d a.rdata:%p\n", a.add_count, a.rdlength, a.rdata);
+		memmove(buf + need_bytes, buf, ips_len);
+
+		/* 1st address is in a.rdata, insert it  */
+		buf += need_bytes - sizeof(struct in6_addr);
+		memcpy(buf, a.rdata, sizeof(struct in6_addr));
+
+		/* fill addr_list[] */
+		for (i = 0; (unsigned int)i <= a.add_count; i++) {
+			addr_list[i] = (struct in6_addr*)buf;
+			buf += sizeof(struct in6_addr);
+		}
+		addr_list[i] = NULL;
+
+		/* if we have enough space, we can report "better" name
+		 * (it may contain search domains attached by __dns_lookup,
+		 * or CNAME of the host if it is different from the name
+		 * we used to find it) */
+		if (a.dotted && buflen > strlen(a.dotted)) {
+			strcpy(buf, a.dotted);
+			alias0 = buf;
+		}
+
+		result_buf->h_name = alias0;
+		result_buf->h_aliases = alias;
 		result_buf->h_addrtype = AF_INET6;
-		result_buf->h_length = sizeof(*in);
+		result_buf->h_length = sizeof(struct in6_addr);
 		result_buf->h_addr_list = (char **) addr_list;
-		/* result_buf->h_aliases = ??? */
-		free(packet);
 		*result = result_buf;
 		*h_errnop = NETDB_SUCCESS;
-		return NETDB_SUCCESS;
+		i = NETDB_SUCCESS;
+		goto free_and_ret;
 	}
-	free(packet);
-	*h_errnop = HOST_NOT_FOUND;
-	return TRY_AGAIN;
 
+	*h_errnop = HOST_NOT_FOUND;
+	__set_h_errno(HOST_NOT_FOUND);
+	i = TRY_AGAIN;
+
+ free_and_ret:
+	free(a.dotted);
+	free(packet);
+	return i;
 #endif /* __UCLIBC_HAS_IPV6__ */
 }
 libc_hidden_def(gethostbyname2_r)
@@ -2467,7 +2627,7 @@ int gethostbyaddr_r(const void *addr, socklen_t addrlen,
 		/* Decode CNAME into buf, feed it to __dns_lookup() again */
 		i = __decode_dotted(packet, a.rdoffset, packet_len, buf, buflen);
 		free(packet);
-		if (i < 0) {
+		if (i < 0 || __hnbad(buf)) {
 			*h_errnop = NO_RECOVERY;
 			return -1;
 		}
@@ -2476,6 +2636,10 @@ int gethostbyaddr_r(const void *addr, socklen_t addrlen,
 	if (a.atype == T_PTR) {	/* ADDRESS */
 		i = __decode_dotted(packet, a.rdoffset, packet_len, buf, buflen);
 		free(packet);
+		if (__hnbad(buf)) {
+			*h_errnop = NO_RECOVERY;
+			return -1;
+		}
 		result_buf->h_name = buf;
 		result_buf->h_addrtype = type;
 		result_buf->h_length = addrlen;
@@ -2492,7 +2656,6 @@ int gethostbyaddr_r(const void *addr, socklen_t addrlen,
 #undef in6
 }
 libc_hidden_def(gethostbyaddr_r)
-link_warning(gethostbyaddr_r, "gethostbyaddr_r is obsolescent, use getaddrinfo() instead.");
 #endif /* L_gethostbyaddr_r */
 
 
@@ -2553,23 +2716,38 @@ libc_hidden_def(gethostent_r)
 #endif /* L_gethostent_r */
 
 
+#ifndef __UCLIBC_HAS_IPV6__
+ #define GETXX_BUFSZ 	(sizeof(struct in_addr) + sizeof(struct in_addr *) * 2 + \
+			/*sizeof(char *)*ALIAS_DIM */+ 384/*namebuffer*/ + 32/* margin */)
+#else
+ #define GETXX_BUFSZ 	(sizeof(struct in6_addr) + sizeof(struct in6_addr *) * 2 + \
+			/*sizeof(char *)*ALIAS_DIM */+ 384/*namebuffer*/ + 32/* margin */)
+#endif /* __UCLIBC_HAS_IPV6__ */
+
+#define __INIT_GETXX_BUF(sz)					\
+	if (buf == NULL)					\
+		buf = (char *)__uc_malloc((sz));
+
 #ifdef L_gethostent
 
 struct hostent *gethostent(void)
 {
 	static struct hostent hoste;
-	static char buf[
+	static char *buf = NULL;
+	struct hostent *host = NULL;
 #ifndef __UCLIBC_HAS_IPV6__
-			sizeof(struct in_addr) + sizeof(struct in_addr *) * 2 +
+ #define HOSTENT_BUFSZ	(sizeof(struct in_addr) + sizeof(struct in_addr *) * 2 + \
+			sizeof(char *)*ALIAS_DIM + BUFSZ /*namebuffer*/ + 2 /* margin */)
 #else
-			sizeof(struct in6_addr) + sizeof(struct in6_addr *) * 2 +
+ #define HOSTENT_BUFSZ	(sizeof(struct in6_addr) + sizeof(struct in6_addr *) * 2 + \
+			sizeof(char *)*ALIAS_DIM + BUFSZ /*namebuffer*/ + 2 /* margin */)
 #endif /* __UCLIBC_HAS_IPV6__ */
-			BUFSZ /*namebuffer*/ + 2 /* margin */];
-	struct hostent *host;
 
-	gethostent_r(&hoste, buf, sizeof(buf), &host, &h_errno);
+	__INIT_GETXX_BUF(HOSTENT_BUFSZ);
+	gethostent_r(&hoste, buf, HOSTENT_BUFSZ, &host, &h_errno);
 	return host;
 }
+#undef HOSTENT_BUFSZ
 #endif /* L_gethostent */
 
 
@@ -2577,18 +2755,20 @@ struct hostent *gethostent(void)
 
 struct hostent *gethostbyname2(const char *name, int family)
 {
-#ifndef __UCLIBC_HAS_IPV6__
-	return family == AF_INET ? gethostbyname(name) : (struct hostent*)NULL;
-#else
 	static struct hostent hoste;
-	static char buf[sizeof(struct in6_addr) +
-			sizeof(struct in6_addr *) * 2 +
-			/*sizeof(char *)*ALIAS_DIM +*/ 384/*namebuffer*/ + 32/* margin */];
+	static char *buf = NULL;
 	struct hostent *hp;
 
-	gethostbyname2_r(name, family, &hoste, buf, sizeof(buf), &hp, &h_errno);
+	__INIT_GETXX_BUF(GETXX_BUFSZ);
+#ifndef __UCLIBC_HAS_IPV6__
+	if (family != AF_INET)
+		return (struct hostent*)NULL;
+	gethostbyname_r(name, &hoste, buf, GETXX_BUFSZ, &hp, &h_errno);
+#else
+	gethostbyname2_r(name, family, &hoste, buf, GETXX_BUFSZ, &hp, &h_errno);
+#endif /* __UCLIBC_HAS_IPV6__ */
+
 	return hp;
-#endif
 }
 libc_hidden_def(gethostbyname2)
 #endif /* L_gethostbyname2 */
@@ -2598,21 +2778,9 @@ libc_hidden_def(gethostbyname2)
 
 struct hostent *gethostbyname(const char *name)
 {
-#ifndef __UCLIBC_HAS_IPV6__
-	static struct hostent hoste;
-	static char buf[sizeof(struct in_addr) +
-			sizeof(struct in_addr *) * 2 +
-			/*sizeof(char *)*ALIAS_DIM +*/ 384/*namebuffer*/ + 32/* margin */];
-	struct hostent *hp;
-
-	gethostbyname_r(name, &hoste, buf, sizeof(buf), &hp, &h_errno);
-	return hp;
-#else
 	return gethostbyname2(name, AF_INET);
-#endif
 }
 libc_hidden_def(gethostbyname)
-link_warning(gethostbyname, "gethostbyname is obsolescent, use getnameinfo() instead.");
 #endif /* L_gethostbyname */
 
 
@@ -2621,20 +2789,14 @@ link_warning(gethostbyname, "gethostbyname is obsolescent, use getnameinfo() ins
 struct hostent *gethostbyaddr(const void *addr, socklen_t len, int type)
 {
 	static struct hostent hoste;
-	static char buf[
-#ifndef __UCLIBC_HAS_IPV6__
-			sizeof(struct in_addr) + sizeof(struct in_addr *)*2 +
-#else
-			sizeof(struct in6_addr) + sizeof(struct in6_addr *)*2 +
-#endif /* __UCLIBC_HAS_IPV6__ */
-			/*sizeof(char *)*ALIAS_DIM +*/ 384 /*namebuffer*/ + 32 /* margin */];
+	static char *buf = NULL;
 	struct hostent *hp;
 
-	gethostbyaddr_r(addr, len, type, &hoste, buf, sizeof(buf), &hp, &h_errno);
+	__INIT_GETXX_BUF(GETXX_BUFSZ);
+	gethostbyaddr_r(addr, len, type, &hoste, buf, GETXX_BUFSZ, &hp, &h_errno);
 	return hp;
 }
 libc_hidden_def(gethostbyaddr)
-link_warning(gethostbyaddr, "gethostbyaddr is obsolescent, use getaddrinfo() instead.");
 #endif /* L_gethostbyaddr */
 
 
@@ -2647,7 +2809,7 @@ link_warning(gethostbyaddr, "gethostbyaddr is obsolescent, use getaddrinfo() ins
  * 'exp_dn' is a pointer to a buffer of size 'length' for the result.
  * Return size of compressed name or -1 if there was an error.
  */
-int dn_expand(const u_char *msg, const u_char *eom, const u_char *src,
+int weak_function dn_expand(const u_char *msg, const u_char *eom, const u_char *src,
 				char *dst, int dstsiz)
 {
 	int n = ns_name_uncompress(msg, eom, src, dst, (size_t)dstsiz);
@@ -2656,14 +2818,14 @@ int dn_expand(const u_char *msg, const u_char *eom, const u_char *src,
 		dst[0] = '\0';
 	return n;
 }
-libc_hidden_def(dn_expand)
+libc_hidden_weak(dn_expand)
 
 /*
  * Pack domain name 'exp_dn' in presentation form into 'comp_dn'.
  * Return the size of the compressed name or -1.
  * 'length' is the size of the array pointed to by 'comp_dn'.
  */
-int
+int weak_function
 dn_comp(const char *src, u_char *dst, int dstsiz,
 		u_char **dnptrs, u_char **lastdnptr)
 {
@@ -2671,7 +2833,7 @@ dn_comp(const char *src, u_char *dst, int dstsiz,
 			(const u_char **) dnptrs,
 			(const u_char **) lastdnptr);
 }
-libc_hidden_def(dn_comp)
+libc_hidden_weak(dn_comp)
 #endif /* L_res_comp */
 
 
@@ -2711,7 +2873,7 @@ static int special(int ch)
  * note:
  *      Root domain returns as "." not "".
  */
-int ns_name_uncompress(const u_char *msg, const u_char *eom,
+int weak_function ns_name_uncompress(const u_char *msg, const u_char *eom,
 		const u_char *src, char *dst, size_t dstsiz)
 {
 	u_char tmp[NS_MAXCDNAME];
@@ -2724,7 +2886,7 @@ int ns_name_uncompress(const u_char *msg, const u_char *eom,
 		return -1;
 	return n;
 }
-libc_hidden_def(ns_name_uncompress)
+libc_hidden_weak(ns_name_uncompress)
 
 /*
  * ns_name_ntop(src, dst, dstsiz)
@@ -2735,7 +2897,7 @@ libc_hidden_def(ns_name_uncompress)
  *      The root is returned as "."
  *      All other domains are returned in non absolute form
  */
-int ns_name_ntop(const u_char *src, char *dst, size_t dstsiz)
+int weak_function ns_name_ntop(const u_char *src, char *dst, size_t dstsiz)
 {
 	const u_char *cp;
 	char *dn, *eom;
@@ -2805,7 +2967,7 @@ int ns_name_ntop(const u_char *src, char *dst, size_t dstsiz)
 	*dn++ = '\0';
 	return (dn - dst);
 }
-libc_hidden_def(ns_name_ntop)
+libc_hidden_weak(ns_name_ntop)
 
 static int encode_bitstring(const char **bp, const char *end,
 							unsigned char **labelp,
@@ -2919,7 +3081,7 @@ static int encode_bitstring(const char **bp, const char *end,
 	return 0;
 }
 
-int ns_name_pton(const char *src, u_char *dst, size_t dstsiz)
+int weak_function ns_name_pton(const char *src, u_char *dst, size_t dstsiz)
 {
 	static const char digits[] = "0123456789";
 	u_char *label, *bp, *eom;
@@ -3040,7 +3202,52 @@ int ns_name_pton(const char *src, u_char *dst, size_t dstsiz)
 	errno = EMSGSIZE;
 	return -1;
 }
-libc_hidden_def(ns_name_pton)
+libc_hidden_weak(ns_name_pton)
+
+/*
+ * __hnbad(dotted)
+ *	Check whether a name is valid enough for DNS. The rules, as
+ *	laid down by glibc, are:
+ *	- printable input string
+ *	- converts to label notation
+ *	- each label only contains [0-9a-zA-Z_-], up to 63 octets
+ *	- first label doesn’t begin with ‘-’
+ *	This both is weaker than Unix hostnames (e.g. it allows
+ *	underscores and leading/trailing hyphen-minus) and stronger
+ *	than general (e.g. a leading “*.” is valid sometimes), take care.
+ * return:
+ *	0 if the name is ok
+ */
+int weak_function __hnbad(const char *dotted)
+{
+	unsigned char c, n, *cp;
+	unsigned char buf[NS_MAXCDNAME];
+
+	cp = (unsigned char *)dotted;
+	while ((c = *cp++))
+		if (c < 0x21 || c > 0x7E)
+			return (1);
+	if (ns_name_pton(dotted, buf, sizeof(buf)) < 0)
+		return (2);
+	if (buf[0] > 0 && buf[1] == '-')
+		return (3);
+	cp = buf;
+	while ((n = *cp++)) {
+		if (n > 63)
+			return (4);
+		while (n--) {
+			c = *cp++;
+			if (c < '-' ||
+			    (c > '-' && c < '0') ||
+			    (c > '9' && c < 'A') ||
+			    (c > 'Z' && c < '_') ||
+			    (c > '_' && c < 'a') ||
+			    c > 'z')
+				return (5);
+		}
+	}
+	return (0);
+}
 
 /*
  * ns_name_unpack(msg, eom, src, dst, dstsiz)
@@ -3048,7 +3255,7 @@ libc_hidden_def(ns_name_pton)
  * return:
  *      -1 if it fails, or consumed octets if it succeeds.
  */
-int ns_name_unpack(const u_char *msg, const u_char *eom, const u_char *src,
+int weak_function ns_name_unpack(const u_char *msg, const u_char *eom, const u_char *src,
                u_char *dst, size_t dstsiz)
 {
 	const u_char *srcp, *dstlim;
@@ -3115,7 +3322,7 @@ int ns_name_unpack(const u_char *msg, const u_char *eom, const u_char *src,
 		len = srcp - src;
 	return len;
 }
-libc_hidden_def(ns_name_unpack)
+libc_hidden_weak(ns_name_unpack)
 
 static int labellen(const unsigned char *lp)
 {
@@ -3209,7 +3416,7 @@ next:
 	return -1;
 }
 
-int ns_name_pack(const unsigned char *src,
+int weak_function ns_name_pack(const unsigned char *src,
 				 unsigned char *dst, int dstsiz,
 				 const unsigned char **dnptrs,
 				 const unsigned char **lastdnptr)
@@ -3318,9 +3525,9 @@ cleanup:
 
 	return dstp - dst;
 }
-libc_hidden_def(ns_name_pack)
+libc_hidden_weak(ns_name_pack)
 
-int ns_name_compress(const char *src,
+int weak_function ns_name_compress(const char *src,
 					 unsigned char *dst, size_t dstsiz,
 					 const unsigned char **dnptrs,
 					 const unsigned char **lastdnptr)
@@ -3332,9 +3539,9 @@ int ns_name_compress(const char *src,
 
 	return ns_name_pack(tmp, dst, dstsiz, dnptrs, lastdnptr);
 }
-libc_hidden_def(ns_name_compress)
+libc_hidden_weak(ns_name_compress)
 
-int ns_name_skip(const unsigned char **ptrptr,
+int weak_function ns_name_skip(const unsigned char **ptrptr,
 				 const unsigned char *eom)
 {
 	const unsigned char *cp;
@@ -3376,9 +3583,9 @@ int ns_name_skip(const unsigned char **ptrptr,
 
 	return 0;
 }
-libc_hidden_def(ns_name_skip)
+libc_hidden_weak(ns_name_skip)
 
-int dn_skipname(const unsigned char *ptr, const unsigned char *eom)
+int weak_function dn_skipname(const unsigned char *ptr, const unsigned char *eom)
 {
 	const unsigned char *saveptr = ptr;
 
@@ -3387,7 +3594,7 @@ int dn_skipname(const unsigned char *ptr, const unsigned char *eom)
 
 	return ptr - saveptr;
 }
-libc_hidden_def(dn_skipname)
+libc_hidden_weak(dn_skipname)
 #endif /* L_ns_name */
 
 
@@ -3396,7 +3603,7 @@ libc_hidden_def(dn_skipname)
 /* Will be called under __resolv_lock. */
 static void res_sync_func(void)
 {
-	struct __res_state *rp = &(_res);
+	struct __res_state *rp = __res_state();
 	int n;
 
 	/* If we didn't get malloc failure earlier... */
@@ -3474,7 +3681,7 @@ __res_vinit(res_state rp, int preinit)
 #endif
 
 	n = __searchdomains;
-	if (n > ARRAY_SIZE(rp->dnsrch))
+	if ((unsigned int)n > ARRAY_SIZE(rp->dnsrch))
 		n = ARRAY_SIZE(rp->dnsrch);
 	for (i = 0; i < n; i++)
 		rp->dnsrch[i] = __searchdomain[i];
@@ -3483,11 +3690,12 @@ __res_vinit(res_state rp, int preinit)
 	i = 0;
 #ifdef __UCLIBC_HAS_IPV4__
 	n = 0;
-	while (n < ARRAY_SIZE(rp->nsaddr_list) && i < __nameservers) {
+        while ((unsigned int)n < ARRAY_SIZE(rp->nsaddr_list)
+               && (unsigned int)i < __nameservers) {
 		if (__nameserver[i].sa.sa_family == AF_INET) {
 			rp->nsaddr_list[n] = __nameserver[i].sa4; /* struct copy */
 #ifdef __UCLIBC_HAS_IPV6__
-			if (m < ARRAY_SIZE(rp->_u._ext.nsaddrs)) {
+			if ((unsigned int)m < ARRAY_SIZE(rp->_u._ext.nsaddrs)) {
 				rp->_u._ext.nsaddrs[m] = (void*) &rp->nsaddr_list[n];
 				m++;
 			}
@@ -3496,7 +3704,7 @@ __res_vinit(res_state rp, int preinit)
 		}
 #ifdef __UCLIBC_HAS_IPV6__
 		if (__nameserver[i].sa.sa_family == AF_INET6
-		 && m < ARRAY_SIZE(rp->_u._ext.nsaddrs)
+		 && (unsigned int)m < ARRAY_SIZE(rp->_u._ext.nsaddrs)
 		) {
 			struct sockaddr_in6 *sa6 = malloc(sizeof(*sa6));
 			if (sa6) {
@@ -3633,6 +3841,263 @@ void res_close(void)
 }
 #endif
 
+#ifdef __UCLIBC_HAS_BSD_B64_NTOP_B64_PTON__
+#define Assert(Cond) if (!(Cond)) abort()
+
+static const char Base64[] =
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+static const char Pad64 = '=';
+
+/* (From RFC1521 and draft-ietf-dnssec-secext-03.txt)
+   The following encoding technique is taken from RFC 1521 by Borenstein
+   and Freed.  It is reproduced here in a slightly edited form for
+   convenience.
+
+   A 65-character subset of US-ASCII is used, enabling 6 bits to be
+   represented per printable character. (The extra 65th character, "=",
+   is used to signify a special processing function.)
+
+   The encoding process represents 24-bit groups of input bits as output
+   strings of 4 encoded characters. Proceeding from left to right, a
+   24-bit input group is formed by concatenating 3 8-bit input groups.
+   These 24 bits are then treated as 4 concatenated 6-bit groups, each
+   of which is translated into a single digit in the base64 alphabet.
+
+   Each 6-bit group is used as an index into an array of 64 printable
+   characters. The character referenced by the index is placed in the
+   output string.
+
+                         Table 1: The Base64 Alphabet
+
+      Value Encoding  Value Encoding  Value Encoding  Value Encoding
+          0 A            17 R            34 i            51 z
+          1 B            18 S            35 j            52 0
+          2 C            19 T            36 k            53 1
+          3 D            20 U            37 l            54 2
+          4 E            21 V            38 m            55 3
+          5 F            22 W            39 n            56 4
+          6 G            23 X            40 o            57 5
+          7 H            24 Y            41 p            58 6
+          8 I            25 Z            42 q            59 7
+          9 J            26 a            43 r            60 8
+         10 K            27 b            44 s            61 9
+         11 L            28 c            45 t            62 +
+         12 M            29 d            46 u            63 /
+         13 N            30 e            47 v
+         14 O            31 f            48 w         (pad) =
+         15 P            32 g            49 x
+         16 Q            33 h            50 y
+
+   Special processing is performed if fewer than 24 bits are available
+   at the end of the data being encoded.  A full encoding quantum is
+   always completed at the end of a quantity.  When fewer than 24 input
+   bits are available in an input group, zero bits are added (on the
+   right) to form an integral number of 6-bit groups.  Padding at the
+   end of the data is performed using the '=' character.
+
+   Since all base64 input is an integral number of octets, only the
+         -------------------------------------------------
+   following cases can arise:
+
+       (1) the final quantum of encoding input is an integral
+           multiple of 24 bits; here, the final unit of encoded
+	   output will be an integral multiple of 4 characters
+	   with no "=" padding,
+       (2) the final quantum of encoding input is exactly 8 bits;
+           here, the final unit of encoded output will be two
+	   characters followed by two "=" padding characters, or
+       (3) the final quantum of encoding input is exactly 16 bits;
+           here, the final unit of encoded output will be three
+	   characters followed by one "=" padding character.
+   */
+
+int
+b64_ntop(u_char const *src, size_t srclength, char *target, size_t targsize) {
+	size_t datalength = 0;
+	u_char input[3];
+	u_char output[4];
+	size_t i;
+
+	while (2 < srclength) {
+		input[0] = *src++;
+		input[1] = *src++;
+		input[2] = *src++;
+		srclength -= 3;
+
+		output[0] = input[0] >> 2;
+		output[1] = ((input[0] & 0x03) << 4) + (input[1] >> 4);
+		output[2] = ((input[1] & 0x0f) << 2) + (input[2] >> 6);
+		output[3] = input[2] & 0x3f;
+		Assert(output[0] < 64);
+		Assert(output[1] < 64);
+		Assert(output[2] < 64);
+		Assert(output[3] < 64);
+
+		if (datalength + 4 > targsize)
+			return (-1);
+		target[datalength++] = Base64[output[0]];
+		target[datalength++] = Base64[output[1]];
+		target[datalength++] = Base64[output[2]];
+		target[datalength++] = Base64[output[3]];
+	}
+
+	/* Now we worry about padding. */
+	if (0 != srclength) {
+		/* Get what's left. */
+		input[0] = input[1] = input[2] = '\0';
+		for (i = 0; i < srclength; i++)
+			input[i] = *src++;
+
+		output[0] = input[0] >> 2;
+		output[1] = ((input[0] & 0x03) << 4) + (input[1] >> 4);
+		output[2] = ((input[1] & 0x0f) << 2) + (input[2] >> 6);
+		Assert(output[0] < 64);
+		Assert(output[1] < 64);
+		Assert(output[2] < 64);
+
+		if (datalength + 4 > targsize)
+			return (-1);
+		target[datalength++] = Base64[output[0]];
+		target[datalength++] = Base64[output[1]];
+		if (srclength == 1)
+			target[datalength++] = Pad64;
+		else
+			target[datalength++] = Base64[output[2]];
+		target[datalength++] = Pad64;
+	}
+	if (datalength >= targsize)
+		return (-1);
+	target[datalength] = '\0';	/* Returned value doesn't count \0. */
+	return (datalength);
+}
+/* libc_hidden_def (b64_ntop) */
+
+/* skips all whitespace anywhere.
+   converts characters, four at a time, starting at (or after)
+   src from base - 64 numbers into three 8 bit bytes in the target area.
+   it returns the number of data bytes stored at the target, or -1 on error.
+ */
+
+int
+b64_pton (char const *src, u_char *target, size_t targsize)
+{
+	int tarindex, state, ch;
+	char *pos;
+
+	state = 0;
+	tarindex = 0;
+
+	while ((ch = *src++) != '\0') {
+		if (isspace(ch))	/* Skip whitespace anywhere. */
+			continue;
+
+		if (ch == Pad64)
+			break;
+
+		pos = strchr(Base64, ch);
+		if (pos == 0) 		/* A non-base64 character. */
+			return (-1);
+
+		switch (state) {
+		case 0:
+			if (target) {
+				if ((size_t)tarindex >= targsize)
+					return (-1);
+				target[tarindex] = (pos - Base64) << 2;
+			}
+			state = 1;
+			break;
+		case 1:
+			if (target) {
+				if ((size_t)tarindex + 1 >= targsize)
+					return (-1);
+				target[tarindex]   |=  (pos - Base64) >> 4;
+				target[tarindex+1]  = ((pos - Base64) & 0x0f)
+							<< 4 ;
+			}
+			tarindex++;
+			state = 2;
+			break;
+		case 2:
+			if (target) {
+				if ((size_t)tarindex + 1 >= targsize)
+					return (-1);
+				target[tarindex]   |=  (pos - Base64) >> 2;
+				target[tarindex+1]  = ((pos - Base64) & 0x03)
+							<< 6;
+			}
+			tarindex++;
+			state = 3;
+			break;
+		case 3:
+			if (target) {
+				if ((size_t)tarindex >= targsize)
+					return (-1);
+				target[tarindex] |= (pos - Base64);
+			}
+			tarindex++;
+			state = 0;
+			break;
+		default:
+			abort();
+		}
+	}
+
+	/*
+	 * We are done decoding Base-64 chars.  Let's see if we ended
+	 * on a byte boundary, and/or with erroneous trailing characters.
+	 */
+
+	if (ch == Pad64) {		/* We got a pad char. */
+		ch = *src++;		/* Skip it, get next. */
+		switch (state) {
+		case 0:		/* Invalid = in first position */
+		case 1:		/* Invalid = in second position */
+			return (-1);
+
+		case 2:		/* Valid, means one byte of info */
+			/* Skip any number of spaces. */
+			for ((void)NULL; ch != '\0'; ch = *src++)
+				if (!isspace(ch))
+					break;
+			/* Make sure there is another trailing = sign. */
+			if (ch != Pad64)
+				return (-1);
+			ch = *src++;		/* Skip the = */
+			/* Fall through to "single trailing =" case. */
+			/* FALLTHROUGH */
+
+		case 3:		/* Valid, means two bytes of info */
+			/*
+			 * We know this char is an =.  Is there anything but
+			 * whitespace after it?
+			 */
+			for ((void)NULL; ch != '\0'; ch = *src++)
+				if (!isspace(ch))
+					return (-1);
+
+			/*
+			 * Now make sure for cases 2 and 3 that the "extra"
+			 * bits that slopped past the last full byte were
+			 * zeros.  If we don't check them, they become a
+			 * subliminal channel.
+			 */
+			if (target && target[tarindex] != 0)
+				return (-1);
+		}
+	} else {
+		/*
+		 * We ended by seeing the end of the string.  Make sure we
+		 * have no partial bytes lying around.
+		 */
+		if (state != 0)
+			return (-1);
+	}
+
+	return (tarindex);
+}
+#endif
+
 /* This needs to be after the use of _res in res_init, above.  */
 #undef _res
 
@@ -3691,7 +4156,8 @@ res_ninit(res_state statp)
 #endif /* L_res_init */
 
 #ifdef L_res_state
-# if defined __UCLIBC_HAS_TLS__
+# if !defined __UCLIBC_HAS_TLS__
+extern struct __res_state *__resp;
 struct __res_state *
 __res_state (void)
 {

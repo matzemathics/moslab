@@ -1,9 +1,0 @@
-<map id="cxx::Bitfield::set_unshifted_dirty" name="cxx::Bitfield::set_unshifted_dirty">
-<area shape="rect" id="Node000001" title="Set the bits corresponding to val." alt="" coords="5,22,132,62"/>
-<area shape="rect" id="Node000002" href="$classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26" title="Get the shifted bits for val." alt="" coords="180,29,307,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,39,167,39,167,45,132,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="214,31,208,21,212,11,224,5,243,3,267,6,277,15,274,19,265,11,243,8,225,10,216,15,214,20,219,28"/>
-<area shape="rect" id="Node000003" href="$classcxx_1_1Bitfield.html#a8180660e03ca6acf85047dba64bb77a3" title="Get the shifted bits for val." alt="" coords="355,22,481,62"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="307,48,341,48,341,54,307,53"/>
-<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="355,36,320,36,320,30,355,31"/>
-</map>

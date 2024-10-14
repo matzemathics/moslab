@@ -28,6 +28,7 @@ public:
 IMPLEMENTATION [arm]:
 
 #include <cstdio>
+#include "processor.h"
 
 IMPLEMENT
 void Syscall_frame::dump()
@@ -39,6 +40,13 @@ void Syscall_frame::dump()
   printf(" R8: %08lx  R9: %08lx R10: %08lx R11: %08lx\n",
          r[8], r[9], r[10], r[11]);
   printf("R12: %08lx\n", r[12]);
+}
+
+PUBLIC inline NEEDS["processor.h"]
+void
+Return_frame::psr_set_mode(unsigned char m)
+{
+  psr = (psr & ~Proc::Status_mode_mask) | m;
 }
 
 IMPLEMENT inline
@@ -105,67 +113,16 @@ void Syscall_frame::tag(L4_msg_tag const &tag)
 //------------------------------------------------------------------
 IMPLEMENTATION [arm && !cpu_virt]:
 
-#include "processor.h"
-
-PUBLIC inline NEEDS["processor.h"]
+PUBLIC inline
 bool
 Return_frame::check_valid_user_psr() const
 { return (psr & Proc::Status_mode_mask) == Proc::PSR_m_usr; }
 
-PUBLIC static inline NEEDS["processor.h"]
-Mword
-Entry_frame::initial_user_psr(Mword psr)
-{
-  return (psr & ~Proc::Status_interrupts_mask) | Proc::Status_always_mask;
-}
-
-PUBLIC inline NEEDS["processor.h"]
-void
-Return_frame::set_base_user_state()
-{
-  psr &= ~(Proc::Status_mode_mask | Proc::Status_interrupts_mask);
-  psr |= Proc::Status_mode_user | Proc::Status_always_mask;
-}
-
-PUBLIC inline
-void
-Return_frame::sanitize_user_state()
-{ set_base_user_state(); }
-
-//-----------------------------------------------------------------
+//------------------------------------------------------------------
 IMPLEMENTATION [arm && cpu_virt]:
 
-#include "processor.h"
-
-PUBLIC inline NEEDS["processor.h"]
+PUBLIC inline
 bool
 Return_frame::check_valid_user_psr() const
 { return (psr & Proc::Status_mode_mask) != Proc::PSR_m_hyp; }
 
-PUBLIC static inline NEEDS["processor.h"]
-Mword
-Entry_frame::initial_user_psr(Mword psr)
-{
-  return psr | Proc::Status_interrupts_mask;
-}
-
-PUBLIC inline NEEDS["processor.h"]
-void
-Return_frame::set_base_user_state()
-{
-  psr &= ~(Proc::Status_mode_mask | Proc::Status_interrupts_mask);
-  psr |=   Proc::Status_mode_user | Proc::Status_interrupts_mask
-         | Proc::Status_always_mask;
-}
-
-PUBLIC inline NEEDS["processor.h"]
-void
-Return_frame::sanitize_user_state()
-{
-  // TODO: if (_hyp.hcr & Cpu::Hcr_tgt) 
-  //  dst->psr = (dst->psr & ~Proc::Status_mode_mask) | Proc::PSR_m_usr;
-  //  see other sanitze user state
-  Unsigned32 const forbidden = ~0x888f0000U;  // allow all but hyp mode
-  if ((1UL << (psr & Proc::Status_mode_mask)) & forbidden)
-    psr = (psr & ~Proc::Status_mode_mask) | Proc::PSR_m_sys;
-}

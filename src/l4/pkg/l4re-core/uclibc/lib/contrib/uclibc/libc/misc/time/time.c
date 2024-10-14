@@ -146,8 +146,24 @@
 #include <bits/uClibc_uintmaxtostr.h>
 #include <bits/uClibc_mutex.h>
 
-#ifdef __UCLIBC_HAS_WCHAR__
+#if defined __UCLIBC_HAS_WCHAR__ && (defined L_wcsftime || defined L_wcsftime_l)
 #include <wchar.h>
+# define CHAR_T wchar_t
+# define UCHAR_T unsigned int
+# ifdef L_wcsftime
+#  define strftime wcsftime
+#  define L_strftime
+#  if defined(__UCLIBC_HAS_XLOCALE__) && !defined(__UCLIBC_DO_XLOCALE)
+#   define strftime_l wcsftime_l
+#  endif
+# endif
+# ifdef L_wcsftime_l
+#  define strftime_l wcsftime_l
+#  define L_strftime_l
+# endif
+#else
+# define CHAR_T char
+# define UCHAR_T unsigned char
 #endif
 
 #ifndef __isleap
@@ -787,12 +803,13 @@ time_t timegm(struct tm *timeptr)
 
 #endif
 /**********************************************************************/
-#if defined(L_strftime) || defined(L_strftime_l)
+#if defined(L_strftime) || defined(L_strftime_l) \
+	|| defined(L_wcsftime) || defined(L_wcsftime_l)
 
 #if defined(__UCLIBC_HAS_XLOCALE__) && !defined(__UCLIBC_DO_XLOCALE)
 
-size_t strftime(char *__restrict s, size_t maxsize,
-				const char *__restrict format,
+size_t strftime(CHAR_T *__restrict s, size_t maxsize,
+				const CHAR_T *__restrict format,
 				const struct tm *__restrict timeptr)
 {
 	return strftime_l(s, maxsize, format, timeptr, __UCLIBC_CURLOCALE);
@@ -983,36 +1000,61 @@ static int load_field(int k, const struct tm *__restrict timeptr)
 		r_max = 9999;
 	}
 
-	if ((((unsigned int) r) > r_max) || ((k == 3) && !r)) {
+	if ((r > r_max) || ((k == 3) && !r)) {
 		r = -1;
 	}
 
 	return r;
 }
 
-#define MAX_PUSH 4
-
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Check multibyte format string validity.
+#if defined __UCLIBC_HAS_WCHAR__ && (defined L_wcsftime || defined L_wcsftime_l)
+static wchar_t* fmt_to_wc_1(const char *src)
+{
+	mbstate_t mbstate;
+	size_t src_len = strlen(src);
+	wchar_t *dest = (wchar_t *)malloc((src_len + 1) * sizeof(wchar_t));
+	if (dest == NULL)
+		return NULL;
+	mbstate.__mask = 0;
+	if (mbsrtowcs(dest, &src, src_len + 1, &mbstate) == (size_t) -1) {
+		free(dest);
+		return NULL;
+	}
+	return dest;
+}
+# define fmt_to_wc(dest, src) \
+	dest = alloc[++allocno] = fmt_to_wc_1(src)
+# define to_wc(dest, src) \
+	dest = fmt_to_wc_1(src)
+#else
+# define fmt_to_wc(dest, src) (dest) = (src)
+# define to_wc(dest, src) (dest) = (src)
 #endif
 
-size_t __XL_NPP(strftime)(char *__restrict s, size_t maxsize,
-					  const char *__restrict format,
+#define MAX_PUSH 4
+
+size_t __XL_NPP(strftime)(CHAR_T *__restrict s, size_t maxsize,
+					  const CHAR_T *__restrict format,
 					  const struct tm *__restrict timeptr   __LOCALE_PARAM )
 {
 	long tzo;
-	register const char *p;
-	register const char *o;
+	register const CHAR_T *p;
+	const CHAR_T *o;
+	const char *ccp;
 #ifndef __UCLIBC_HAS_TM_EXTENSIONS__
 	const rule_struct *rsp;
 #endif
-	const char *stack[MAX_PUSH];
+	const CHAR_T *stack[MAX_PUSH];
+#if defined __UCLIBC_HAS_WCHAR__ && (defined L_wcsftime || defined L_wcsftime_l)
+	const CHAR_T *alloc[MAX_PUSH];
+	int allocno = -1;
+#endif
 	size_t count;
 	size_t o_count;
 	int field_val = 0, i = 0, j, lvl;
 	int x[3];			/* wday, yday, year */
 	int isofm, days;
-	char buf[__UIM_BUFLEN_LONG];
+	char buf[__UIM_BUFLEN_LONG] = {0,};
 	unsigned char mod;
 	unsigned char code;
 
@@ -1037,8 +1079,26 @@ LOOP:
 	}
 
 	o_count = 1;
-	if ((*(o = p) == '%') && (*++p != '%')) {
+	if ((*(o = (CHAR_T *)p) == '%') && (*++p != '%')) {
+#if 0 /* TODO, same for strptime */
+		/* POSIX.1-2008 allows %0xY %+nY %-nY etc. for certain formats.
+		 * Just accept these for all (for now) */
+		const int plus = *p == '+';
+		CHAR_T *q = (CHAR_T *)p;
+		long int o_width = __XL_NPP(strtol)(p, &q, 0 __LOCALE_ARG);
+		if (o_width > 0 && o_width < 256) { /* arbitrary upper limit */
+			o_count = o_width;
+			if (plus) {
+				*s++ = '+';
+				--count;
+			}
+			p = q;
+		} else {
+			o_count = 2;
+		}
+#else
 		o_count = 2;
+#endif
 		mod = ILLEGAL_SPEC;
 		if ((*p == 'O') || (*p == 'E')) { /* modifier */
 			mod |= ((*p == 'O') ? NO_O_MOD : NO_E_MOD);
@@ -1062,31 +1122,33 @@ LOOP:
 			}
 			stack[lvl++] = ++p;
 			if ((code &= 0xf) < 8) {
-				p = ((const char *) spec) + STACKED_STRINGS_START + code;
-				p += *((unsigned char *)p);
+				ccp = (const char *)(spec + STACKED_STRINGS_START + code);
+				ccp += *ccp;
+				fmt_to_wc(p, ccp);
 				goto LOOP;
 			}
-			p = ((const char *) spec) + STACKED_STRINGS_NL_ITEM_START
-				+ (code & 7);
+			ccp = (const char *)spec + STACKED_STRINGS_NL_ITEM_START + (code & 7);
+			fmt_to_wc(p, ccp);
 #ifdef ENABLE_ERA_CODE
 			if ((mod & NO_E_MOD) /* Actually, this means E modifier present. */
-				&& (*(o = __XL_NPP(nl_langinfo)(_NL_ITEM(LC_TIME,
+				&& (*(ccp = __XL_NPP(nl_langinfo)(_NL_ITEM(LC_TIME,
 							(int)(((unsigned char *)p)[4]))
 							__LOCALE_ARG
 							)))
 				) {
-				p = o;
+				fmt_to_wc(p, ccp);
 				goto LOOP;
 			}
 #endif
-			p = __XL_NPP(nl_langinfo)(_NL_ITEM(LC_TIME,
+			ccp = __XL_NPP(nl_langinfo)(_NL_ITEM(LC_TIME,
 							(int)(*((unsigned char *)p)))
 							__LOCALE_ARG
 							);
+			fmt_to_wc(p, ccp);
 			goto LOOP;
 		}
 
-		o = ((const char *) spec) + 26;	/* set to "????" */
+		ccp = (const char *)(spec + 26);	/* set to "????" */
 		if ((code & MASK_SPEC) == CALC_SPEC) {
 
 			if (*p == 's') {
@@ -1101,15 +1163,16 @@ LOOP:
 					goto OUTPUT;
 				}
 #ifdef TIME_T_IS_UNSIGNED
-				o = _uintmaxtostr(buf + sizeof(buf) - 1,
+				ccp = _uintmaxtostr(buf + sizeof(buf) - 1,
 								  (uintmax_t) t,
 								  10, __UIM_DECIMAL);
 #else
-				o = _uintmaxtostr(buf + sizeof(buf) - 1,
+				ccp = _uintmaxtostr(buf + sizeof(buf) - 1,
 								  (uintmax_t) t,
 								  -10, __UIM_DECIMAL);
 #endif
 				o_count = sizeof(buf);
+				fmt_to_wc(o, ccp);
 				goto OUTPUT;
 			} else if (((*p) | 0x20) == 'z') { /* 'z' or 'Z' */
 
@@ -1144,7 +1207,7 @@ LOOP:
 #endif
 
 				if (*p == 'Z') {
-					o = RSP_TZNAME;
+					ccp = RSP_TZNAME;
 #ifdef __UCLIBC_HAS_TM_EXTENSIONS__
 					/* Sigh... blasted glibc extensions.  Of course we can't
 					 * count on the pointer being valid.  Best we can do is
@@ -1155,17 +1218,18 @@ LOOP:
 					 * case... although it always seems to use the embedded
 					 * tm_gmtoff value.  What we'll do instead is treat the
 					 * timezone name as unknown/invalid and return "???". */
-					if (!o) {
-						o = "???";
+					if (!ccp) {
+						ccp = (const char *)(spec + 27); /* "???" */
 					}
 #endif
-					assert(o != NULL);
+					assert(ccp != NULL);
 #if 0
-					if (!o) {	/* PARANOIA */
-						o = spec+30; /* empty string */
+					if (!ccp) {	/* PARANOIA */
+						ccp = spec+30; /* empty string */
 					}
 #endif
 					o_count = SIZE_MAX;
+					fmt_to_wc(o, ccp);
 #ifdef __UCLIBC_HAS_TM_EXTENSIONS__
 					goto OUTPUT;
 #endif
@@ -1247,7 +1311,7 @@ ISO_LOOP:
 
 			j = (i & 128) ? 100: 12;
 			if (i & 64) {
-				field_val /= j;;
+				field_val /= j;
 			}
 			if (i & 32) {
 				field_val %= j;
@@ -1264,17 +1328,25 @@ ISO_LOOP:
 		if ((code & MASK_SPEC) == STRING_SPEC) {
 			o_count = SIZE_MAX;
 			field_val += spec[STRINGS_NL_ITEM_START + (code & 0xf)];
-			o = __XL_NPP(nl_langinfo)(_NL_ITEM(LC_TIME, field_val)  __LOCALE_ARG);
+			ccp = __XL_NPP(nl_langinfo)(_NL_ITEM(LC_TIME, field_val)  __LOCALE_ARG);
+			fmt_to_wc(o, ccp);
 		} else {
+#if 0 /* TODO, same for strptime */
+			size_t min_count = ((i >> 1) & 3) + 1;
+			if (o_count < min_count)
+				o_count = min_count;
+#else
 			o_count = ((i >> 1) & 3) + 1;
-			o = buf + o_count;
+#endif
+			ccp = buf + o_count;
 			do {
-				*(char *)(--o) = '0' + (field_val % 10);
+				*(char *)(--ccp) = '0' + (field_val % 10);
 				field_val /= 10;
-			} while (o > buf);
+			} while (ccp > buf);
 			if (*buf == '0') {
 				*buf = ' ' + (i & 16);
 			}
+			fmt_to_wc(o, ccp);
 		}
 	}
 
@@ -1285,6 +1357,10 @@ OUTPUT:
 		--o_count;
 		--count;
 	}
+#if defined __UCLIBC_HAS_WCHAR__ && (defined L_wcsftime || defined L_wcsftime_l)
+	if (allocno >= 0)
+		free((void *)alloc[allocno--]);
+#endif
 	goto LOOP;
 }
 # ifdef L_strftime_l
@@ -1791,10 +1867,6 @@ static const char *getnumber(register const char *e, int *pn)
 }
 
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: Should we preserve errno from open/read/close errors re TZ file?
-#endif
-
 #ifdef __UCLIBC_HAS_TZ_FILE__
 
 #ifndef __UCLIBC_HAS_TZ_FILE_READ_MANY__
@@ -2059,7 +2131,7 @@ SKIP_OFFSET:
 				++s;
 				e = getnumber(e, &f);
 				if (!e
-				 || ((unsigned int)(f - s[1]) > n)
+				 || ((f - s[1]) > n)
 				 || (*s && (*e++ != *s))
 				) {
 					goto ILLEGAL;
@@ -2406,9 +2478,16 @@ DST_CORRECT:
 							+ p[3]) + p[7])));
 
 DST_CORRECT:
+#if defined(__UCLIBC_USE_TIME64__)
+	if (((unsigned long long)(secs - LLONG_MIN))
+		> (((unsigned long long)LLONG_MAX) - LLONG_MIN)
+		)
+#else
 	if (((unsigned long long)(secs - LONG_MIN))
 		> (((unsigned long long)LONG_MAX) - LONG_MIN)
-		) {
+		)
+#endif
+	{
 		t = ((time_t)(-1));
 		goto DONE;
 	}
@@ -2444,31 +2523,9 @@ DONE:
 
 #endif
 /**********************************************************************/
-#if defined(L_wcsftime) || defined(L_wcsftime_l)
+#if (defined(L_wcsftime) || defined(L_wcsftime_l))
 
-#if defined(__UCLIBC_HAS_XLOCALE__) && !defined(__UCLIBC_DO_XLOCALE)
-
-size_t wcsftime(wchar_t *__restrict s, size_t maxsize,
-				const wchar_t *__restrict format,
-				const struct tm *__restrict timeptr)
-{
-	return wcsftime_l(s, maxsize, format, timeptr, __UCLIBC_CURLOCALE);
-}
-
-#else  /* defined(__UCLIBC_HAS_XLOCALE__) && !defined(__UCLIBC_DO_XLOCALE) */
-
-size_t __XL_NPP(wcsftime)(wchar_t *__restrict s, size_t maxsize,
-					  const wchar_t *__restrict format,
-					  const struct tm *__restrict timeptr   __LOCALE_PARAM )
-{
-	/* TODO: Implement wcsftime */
-	return 0;					/* always fail */
-}
-#ifdef L_wcsftime_l
-libc_hidden_def(wcsftime_l)
-#endif
-
-#endif /* defined(__UCLIBC_HAS_XLOCALE__) && !defined(__UCLIBC_DO_XLOCALE) */
+/* Implemented via strftime / strftime_l wchar_t variants */
 
 #endif
 /**********************************************************************/

@@ -10,10 +10,11 @@ PC_EXTRA = Link_DynLinker= rom/libld-l4.so
 DIR_amd64 := x86_64
 DIR_x86   := i386
 DIR_arm   := arm
-DIR_arm64 := arm64
+DIR_arm64 := aarch64
 DIR_ppc32 := powerpc
 DIR_sparc := sparc
 DIR_mips  := mips
+DIR_riscv := riscv
 
 
 vpath %.c $(CON_DIR)/ldso
@@ -23,7 +24,8 @@ vpath aeabi_read_tp_generic.c $(UCC_DIR)/ARCH-arm
 vpath ssp-l4.c                $(UCC_DIR)
 
 PRIVATE_INCDIR-x86 := $(CON_DIR)/../libc
-PRIVATE_INCDIR := $(PRIVATE_INCDIR-$(ARCH)) \
+PRIVATE_INCDIR  = $(PRIVATE_INCDIR-$(ARCH)) \
+                  $(OBJ_BASE)/include/uclibc \
                   $(CON_DIR)/ldso/$(DIR_$(ARCH)) \
 		  $(SRC_DIR)           \
 		  $(CON_DIR)/include \
@@ -32,7 +34,7 @@ PRIVATE_INCDIR := $(PRIVATE_INCDIR-$(ARCH)) \
 
 
 TARGET := libld-l4.so
-SRC_C  := ldso.c fixup.c string.c
+SRC_C  := ldso.c dl-vdso.c fixup.c string.c
 SRC_CC := syscalls.cc vfs.cc
 #SRC_S_arm-l4f  += aeabi_read_tp-v6p.S
 SRC_C_arm-l4f   += aeabi_read_tp_generic.c
@@ -55,12 +57,13 @@ DEFINES_arm-l4f   += -DUSE_TLS=1 -DUSE___THREAD=1
 DEFINES_arm64-l4f += -DUSE_TLS=1 -DUSE___THREAD=1
 DEFINES_sparc-l4f += -DUSE_TLS=1 -DUSE___THREAD=1
 DEFINES_mips-l4f  += -DUSE_TLS=1 -DUSE___THREAD=1
+DEFINES_riscv-l4f += -DUSE_TLS=1 -DUSE___THREAD=1
 
 LDFLAGS  =  -nocrt1 -Bsymbolic -Bstatic --warn-common --sort-common \
             --no-undefined -e _start -z defs -z now \
             --discard-locals --discard-all   \
             --gc-sections --whole-archive -ll4sys-direct --no-whole-archive \
-            $(GCCLIB)
+            -static-libgcc
 
 include $(L4DIR)/mk/Makeconf
 
@@ -77,13 +80,8 @@ ldso.1.o: ldso.o
 
 CXXFLAGS := $(filter-out -fno-omit-frame-pointer, $(CXXFLAGS))
 CXXFLAGS := $(filter-out -fno-strict-aliasing, $(CXXFLAGS))
-CXXFLAGS := $(filter-out -Wmissing-declarations, $(CXXFLAGS))
 CXXFLAGS += -DL4_NO_RTTI -fno-rtti -fno-exceptions -fvisibility=hidden \
             -fno-threadsafe-statics -O3
-
-ifeq ($(BID_COMPILER_TYPE),clang)
-WARNINGS += -Wno-gnu-designator
-endif
 
 CPPFLAGS := $(filter-out -DL4SYS_USE_UTCB_WRAP=1, $(CPPFLAGS))
 

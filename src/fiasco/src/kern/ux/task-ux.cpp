@@ -37,13 +37,14 @@ Task::invoke_arch(L4_msg_tag &tag, Utcb *utcb)
 
           unsigned entry_number  = utcb->values[1];
           unsigned idx           = 2;
-          Mword *trampoline_page = (Mword *)Kmem::kernel_trampoline_page;
+          Mword *trampoline_page =
+            reinterpret_cast<Mword *>(Kmem::kernel_trampoline_page);
 
           for (; idx < tag.words()
               ; idx += Utcb_values_per_ldt_entry,
               ++entry_number)
             {
-              Gdt_entry *d = (Gdt_entry *)&utcb->values[idx];
+              Gdt_entry *d = reinterpret_cast<Gdt_entry *>(&utcb->values[idx]);
               if (!d->limit())
                 continue;
 
@@ -61,7 +62,7 @@ Task::invoke_arch(L4_msg_tag &tag, Utcb *utcb)
 
               // Set up data on trampoline
               for (unsigned i = 0; i < sizeof(info) / sizeof(Mword); i++)
-                *(trampoline_page + i + 1) = *(((Mword *)&info) + i);
+                *(trampoline_page + i + 1) = *(reinterpret_cast<Mword *>(&info) + i);
 
               // Call modify_ldt for given user process
               Trampoline::syscall(pid(), __NR_modify_ldt,
@@ -88,7 +89,7 @@ Task::invoke_arch(L4_msg_tag &tag, Utcb *utcb)
 PUBLIC
 Task::~Task()
 {
-  free_ku_mem();
+  free_ku_mem(false, false);
 
   auto guard = lock_guard(cpu_lock);
 
@@ -113,6 +114,6 @@ Task::map_utcb_ptr_page()
 	    Mem_space::Phys_addr(Mem_layout::Utcb_ptr_frame),
 	    Virt_addr(Mem_layout::Utcb_ptr_page_user),
 	    Mem_space::Page_order(Config::PAGE_SHIFT),
-	    Mem_space::Attr(Page::Rights::URW()));
+	    Mem_space::Attr::space_local(Page::Rights::URW()));
 }
 

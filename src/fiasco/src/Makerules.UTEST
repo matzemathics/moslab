@@ -9,7 +9,8 @@
 # All binaries are created in the utest/ directory.
 
 # select all test_* files to generate a build target for each.
-UTEST_TESTS-$(CONFIG_SCHED_FIXED_PRIO) = $(filter test_%,$(INTERFACES_UTEST))
+UTEST_TESTS-$(CONFIG_SCHED_FIXED_PRIO) = $(sort \
+	                                   $(filter test_%,$(INTERFACES_UTEST)))
 UTEST_TESTS += $(UTEST_TESTS-y)
 
 # the final binaries go into the utest/ folder.
@@ -26,10 +27,10 @@ utest_subsys: $(UTEST_BINARIES)
 utest_suppl: $(addprefix utest/,$(UTEST_SUPPL))
 
 # Ensure the utest folder exists before the target is build
-$(UTEST_BINARIES): | utest
+$(UTEST_BINARIES): | utest/
 
 # create utest folder
-utest:
+utest/:
 	@mkdir -p utest
 
 # Generate link rules for each unit test binary.
@@ -37,12 +38,13 @@ $(foreach tname,$(UTEST_TESTS),\
 	$(eval $(call gen_kernel_rules,\
 		utest/$(tname),\
 		$(tname).debug,\
-		$$(UTEST_FRAMEWORK) $$(filter $(tname)%,$$(OBJ_UTEST))\
+		$$(UTEST_FRAMEWORK) $$(filter $(tname).o,$$(OBJ_UTEST))\
+		$$(filter $(tname)-%.o,$$(OBJ_UTEST))\
 		$$(foreach m,$$(UTEST_REQUIRES-$(tname)),\
 			$$(addsuffix .o,$$(call eval_impl,$$(m)))))))
 
 define gen_utest_suppl_rule
-$(1): $(2) globalconfig.out
+$(1): $(2) globalconfig.out | $(dir $(1))
 	$$(COMP_MESSAGE)
 	$$(VERBOSE)ln -snf $$< $$@
 endef
@@ -67,10 +69,10 @@ $(foreach tname,$(UTEST_SUPPL),\
 # Generate checksum rules for each unit test binary.
 ifneq ($(filter CHECKSUM,$(SUBSYSTEMS)),)
 $(foreach tname,$(UTEST_TESTS),\
-	$(eval $(call all_checksum_rules,\
+	$(eval $(call all_checksum_rules,$\
 		utest/$(tname),$(tname).debug,-$(tname))))
 endif
 
 clean-UTEST:
-	$(RM) $(OBJ_UTEST) $(addprefix utest/,$(UTEST_TESTS) $(UTEST_SUPPL)) \
-		$(patsubst %,%.debug,$(UTEST_TESTS))
+	$(VERBOSE)$(RM) $(addprefix utest/,\
+		$(UTEST_TESTS) $(UTEST_SUPPL)) $(patsubst %,%.debug,$(UTEST_TESTS))

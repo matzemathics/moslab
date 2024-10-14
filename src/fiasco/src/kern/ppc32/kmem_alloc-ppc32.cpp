@@ -41,20 +41,11 @@ Kmem_alloc::Kmem_alloc()
     }
 }
 
-PUBLIC inline //NEEDS["kmem_space.h"]
+IMPLEMENT_OVERRIDE inline //NEEDS["kmem_space.h"]
 Address
 Kmem_alloc::to_phys(void *v) const
 {
   (void)v;
   //return Kmem_space::kdir()->virt_to_phys((Address)v);
   return ~0UL;
-}
-
-//----------------------------------------------------------------------------
-IMPLEMENTATION [ppc32 && debug]:
-
-PUBLIC
-void Kmem_alloc::debug_dump()
-{
-  a->dump();
 }

@@ -17,7 +17,8 @@ var l4_2sys_2thread_8h =
     ] ],
     [ "L4_thread_ex_regs_flags", "group__l4__thread__api.html#ga288a4500e4be2587d2f16d754d1a2e16", [
       [ "L4_THREAD_EX_REGS_CANCEL", "group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16aa13ff4d1b899982508b9ad36c61fe47a", null ],
-      [ "L4_THREAD_EX_REGS_TRIGGER_EXCEPTION", "group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35", null ]
+      [ "L4_THREAD_EX_REGS_TRIGGER_EXCEPTION", "group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35", null ],
+      [ "L4_THREAD_EX_REGS_ARCH_MASK", "group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16ab083c24a18872362e491050d43b5cdf3", null ]
     ] ],
     [ "L4_thread_ops", "group__l4__protocol__ops.html#ga2f876d49c3d78a1c0d62722c0546aa81", [
       [ "L4_THREAD_CONTROL_OP", "group__l4__protocol__ops.html#gga2f876d49c3d78a1c0d62722c0546aa81aacb3f3ae289e1f8caf576881c290be86", null ],

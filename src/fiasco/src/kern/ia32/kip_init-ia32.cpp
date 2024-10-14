@@ -62,7 +62,7 @@ namespace KIP_namespace
 	/* 00/00  */ L4_KERNEL_INFO_MAGIC,
 	             Config::Kernel_version_id,
 	             (Size_mem_descs + sizeof(Kip)) >> 4,
-	             {}, 0, {},
+	             {}, 0, 0, {},
 	/* 10/20  */ 0, {},
 	/* 20/40  */ 0, 0, {},
 	/* 30/60  */ 0, 0, {},
@@ -70,7 +70,7 @@ namespace KIP_namespace
 	/* 50/A0  */ 0, (sizeof(Kip) << (sizeof(Mword)*4)) | Num_mem_descs, {},
 	/* 60/C0  */ {},
 	/* A0/140 */ 0, 0, 0, 0,
-	/* B8/160 */ {},
+	/* B8/160 */ 0, {},
 	/* E0/1C0 */ 0, 0, {},
 	/* F0/1E0 */ {"", 0}, {},
       },
@@ -100,18 +100,18 @@ void Kip_init::init()
   for (auto &md: kinfo->mem_descs_a())
     {
       if (md.type() != Mem_desc::Reserved || md.is_virtual())
-	continue;
+        continue;
 
-      if (md.start() == (Address)_boot_sys_start
-	  && md.end() == (Address)_boot_sys_end - 1)
-	md.type(Mem_desc::Undefined);
+      if (md.start() == reinterpret_cast<Address>(_boot_sys_start)
+          && md.end() == reinterpret_cast<Address>(_boot_sys_end) - 1)
+        md.type(Mem_desc::Undefined);
 
       if (md.contains(Kmem::kernel_image_start())
-	  && md.contains(Kmem::kcode_end()-1))
-	{
-	  md = Mem_desc(Kmem::kernel_image_start(), Kmem::kcode_end() -1,
-	                Mem_desc::Reserved);
-	}
+          && md.contains(Kmem::kcode_end() - 1))
+        {
+          md = Mem_desc(Kmem::kernel_image_start(), Kmem::kcode_end() - 1,
+                        Mem_desc::Reserved);
+        }
     }
 }
 
@@ -132,8 +132,8 @@ Kip_init::init_kip_clock()
   K *k = reinterpret_cast<K *>(Kip::k());
 
   Cpu cpu = Cpu::cpus.cpu(Cpu_number::boot_cpu());
-  *(Mword*)(k->b + 0x9f0) = cpu.get_scaler_tsc_to_us();
-  *(Mword*)(k->b + 0x9f8) = cpu.get_scaler_tsc_to_ns();
+  *reinterpret_cast<Mword*>(k->b + 0x9f0) = cpu.get_scaler_tsc_to_us();
+  *reinterpret_cast<Mword*>(k->b + 0x9f8) = cpu.get_scaler_tsc_to_ns();
 
   memcpy(k->b + 0x900, kip_time_fn_read_us,
          kip_time_fn_read_us_end - kip_time_fn_read_us);

@@ -13,8 +13,6 @@
 #include <l4/re/util/unique_cap>
 #include <l4/util/util.h>
 
-#include <l4/l4virtio/virtqueue>
-
 #include <cstdio>
 
 #include "device.h"
@@ -42,7 +40,7 @@ public:
   Ram_ds(L4Re::Util::Ref_cap<L4Re::Dataspace>::Cap ds,
          l4_size_t size, l4_addr_t offset,
          L4Re::Rm::Region_flags flags = L4Re::Rm::F::RWX)
-  : Ds_manager(ds, offset, size, flags,
+  : Ds_manager("Ram", ds, offset, size, flags,
                sizeof(l4_umword_t) == 8 && size >= Ram_hugepagesize
                ? Ram_hugepageshift : L4_SUPERPAGESHIFT),
     _phys_size(0U)

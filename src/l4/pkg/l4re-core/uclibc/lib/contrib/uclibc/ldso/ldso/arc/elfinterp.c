@@ -11,7 +11,11 @@
  */
 #include "ldso.h"
 
+#ifdef __A7__
 #define ARC_PLT_SIZE	12
+#else
+#define ARC_PLT_SIZE	16
+#endif
 
 unsigned long
 _dl_linux_resolver(struct elf_resolve *tpnt, unsigned int plt_pc)
@@ -60,7 +64,7 @@ _dl_linux_resolver(struct elf_resolve *tpnt, unsigned int plt_pc)
 	if (_dl_debug_bindings) {
 		_dl_dprintf(_dl_debug_file, "\nresolve function: %s", symname);
 		if (_dl_debug_detail)
-			_dl_dprintf(_dl_debug_file, "\n\tpatched %x ==> %pc @ %pl\n",
+			_dl_dprintf(_dl_debug_file, "\n\tpatched %x ==> %pc @ %p\n",
 					*got_addr, new_addr, got_addr);
 	}
 
@@ -92,6 +96,7 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 	unsigned long old_val = 0;
 #endif
 	struct symbol_ref sym_ref;
+	struct elf_resolve *tls_tpnt = NULL;
 
 	reloc_addr   = (unsigned long *)(tpnt->loadaddr + rpnt->r_offset);
 	reloc_type   = ELF_R_TYPE(rpnt->r_info);
@@ -118,16 +123,29 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 		 */
 
 		if (unlikely(!symbol_addr
-		    && ELF_ST_BIND(symtab[symtab_index].st_info) != STB_WEAK)) {
+		    && ELF_ST_BIND(symtab[symtab_index].st_info) != STB_WEAK
+		    && ELF_ST_TYPE(symtab[symtab_index].st_info) != STT_TLS)) {
 			/* Non-fatal if called from dlopen, hence different ret code */
 			return 1;
 		}
+
+		tls_tpnt = sym_ref.tpnt;
 	} else if (reloc_type == R_ARC_RELATIVE ) {
 		*reloc_addr += tpnt->loadaddr;
 		goto log_entry;
 	}
 
+#if defined USE_TLS && USE_TLS
+	/* In case of a TLS reloc, tls_tpnt NULL means we have an 'anonymous'
+	   symbol.  This is the case for a static tls variable, so the lookup
+	   module is just that one is referencing the tls variable. */
+	if (!tls_tpnt)
+		tls_tpnt = tpnt;
+#endif
+
 	switch (reloc_type) {
+	case R_ARC_NONE:
+		break;
 	case R_ARC_32:
 		*reloc_addr += symbol_addr + rpnt->r_addend;
 		break;
@@ -142,15 +160,27 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 		_dl_memcpy((void *) reloc_addr,(void *) symbol_addr,
 				symtab[symtab_index].st_size);
 		break;
+#if defined USE_TLS && USE_TLS
+	case R_ARC_TLS_DTPMOD:
+		*reloc_addr = tls_tpnt->l_tls_modid;
+		break;
+	case R_ARC_TLS_DTPOFF:
+		*reloc_addr += symbol_addr;
+		break;
+	case R_ARC_TLS_TPOFF:
+		CHECK_STATIC_TLS ((struct link_map *) tls_tpnt);
+		*reloc_addr = tls_tpnt->l_tls_offset + symbol_addr + rpnt->r_addend;
+		break;
+#endif
 	default:
 		return -1;
 	}
 
 log_entry:
 #if defined __SUPPORT_LD_DEBUG__
-	if (_dl_debug_detail)
-		_dl_dprintf(_dl_debug_file,"\tpatched: %lx ==> %lx @ %pl: addend %x ",
-				old_val, *reloc_addr, reloc_addr, rpnt->r_addend);
+	if (_dl_debug_detail && (reloc_type != R_ARC_NONE))
+		_dl_dprintf(_dl_debug_file,"\tpatched: %x ==> %x @ %x",
+				old_val, *reloc_addr, reloc_addr);
 #endif
 
 	return 0;
@@ -174,6 +204,8 @@ _dl_do_lazy_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 #endif
 
 	switch (reloc_type) {
+	case R_ARC_NONE:
+		break;
 	case R_ARC_JMP_SLOT:
 		*reloc_addr += tpnt->loadaddr;
 		break;
@@ -182,8 +214,8 @@ _dl_do_lazy_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 	}
 
 #if defined __SUPPORT_LD_DEBUG__
-	if (_dl_debug_reloc && _dl_debug_detail)
-		_dl_dprintf(_dl_debug_file, "\tpatched: %lx ==> %lx @ %pl\n",
+	if (_dl_debug_reloc && _dl_debug_detail && (reloc_type != R_ARC_NONE))
+		_dl_dprintf(_dl_debug_file, "\tpatched: %x ==> %x @ %x\n",
 				old_val, *reloc_addr, reloc_addr);
 #endif
 
@@ -230,13 +262,8 @@ static int _dl_parse(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 	if (unlikely(res != 0)) {
 		if (res < 0) {
 			int reloc_type = ELF_R_TYPE(rpnt->r_info);
-#if defined __SUPPORT_LD_DEBUG__
-			_dl_dprintf(2, "can't handle reloc type %s\n ",
-				    _dl_reltypes(reloc_type));
-#else
 			_dl_dprintf(2, "can't handle reloc type %x\n",
 				    reloc_type);
-#endif
 			_dl_exit(-res);
 		} else {
 			_dl_dprintf(2, "can't resolve symbol\n");

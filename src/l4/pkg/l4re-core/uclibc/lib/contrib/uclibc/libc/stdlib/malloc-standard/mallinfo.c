@@ -49,7 +49,8 @@ struct mallinfo mallinfo(void)
     fastavail = 0;
 
     for (i = 0; i < NFASTBINS; ++i) {
-	for (p = av->fastbins[i]; p != 0; p = p->fd) {
+	for (p = av->fastbins[i]; p != 0; p = REVEAL_PTR(&p->fd, p->fd)) {
+	    CHECK_PTR(p);
 	    ++nfastblocks;
 	    fastavail += chunksize(p);
 	}
@@ -81,16 +82,12 @@ struct mallinfo mallinfo(void)
 }
 libc_hidden_def(mallinfo)
 
-void malloc_stats(FILE *file)
+void malloc_stats(void)
 {
     struct mallinfo mi;
 
-    if (file==NULL) {
-	file = stderr;
-    }
-
     mi = mallinfo();
-    fprintf(file,
+    fprintf(stderr,
 	    "total bytes allocated             = %10u\n"
 	    "total bytes in use bytes          = %10u\n"
 	    "total non-mmapped bytes allocated = %10d\n"

@@ -40,13 +40,10 @@ public:
   using Bitmap_elem_type
     = cxx::remove_pointer_t<cxx::remove_all_extents_t<STORAGE_TYPE>>;
 
-  enum : size_t
-  {
-    /**
-     * Number of bits per bitmap element.
-     */
-    Bpl = sizeof(Bitmap_elem_type) * 8
-  };
+  /**
+   * Number of bits per bitmap element.
+   */
+  static constexpr size_t Bpl = sizeof(Bitmap_elem_type) * 8;
 
   /**
    * Get the number of bitmap elements that hold the given number of bits.
@@ -179,23 +176,21 @@ public:
    */
   using Bitmap_elem_type = typename Bitmap_storage_size<BITS>::Bitmap_elem_type;
 
-  enum : size_t
-  {
-    /**
-     * Number of bits per bitmap element.
-     */
-    Bpl = Bitmap_storage_size<BITS>::Bpl,
+  /**
+   * Number of bits per bitmap element.
+   */
+  static constexpr size_t Bpl = Bitmap_storage_size<BITS>::Bpl;
 
-    /**
-     * Number of bitmap elements.
-     */
-    Nr_elems = Bitmap_storage_size<BITS>::nr_elems(BITS),
+  /**
+   * Number of bitmap elements.
+   */
+  static constexpr size_t Nr_elems = Bitmap_storage_size<BITS>::nr_elems(BITS);
 
-    /**
-     * Size of the bitmap in bytes.
-     */
-    Size_in_bytes = Bitmap_storage_size<BITS>::size_in_bytes(BITS),
-  };
+  /**
+   * Size of the bitmap in bytes.
+   */
+  static constexpr size_t Size_in_bytes
+    = Bitmap_storage_size<BITS>::size_in_bytes(BITS);
 
   /**
    * Atomically access and clear a bit in the bitmap.
@@ -322,7 +317,7 @@ public:
    *
    * \param bit  Bit index to clear.
    */
-  void atomic_clear_bit(unsigned long bit)
+  void atomic_clear_bit(size_t bit)
   {
     size_t idx = bit / Bpl;
     size_t pos = bit % Bpl;
@@ -345,6 +340,15 @@ public:
     Bitmap_elem_type mask = static_cast<Bitmap_elem_type>(1U) << pos;
 
     ::atomic_or(&this->_bits[idx], mask);
+  }
+
+  /**
+   * Invert all bits.
+   */
+  void invert()
+  {
+    for (size_t i = 0; i < Nr_elems; ++i)
+      this->_bits[i] = ~this->_bits[i];
   }
 
   /**
@@ -425,6 +429,14 @@ public:
     return 0;
   }
 
+  /**
+   * Provide raw access to underlying storage.
+   */
+  unsigned long const *raw() const
+  {
+    return this->_bits;
+  }
+
 protected:
   template<bool LARGE, size_t BTS> friend class Bitmap_base;
 
@@ -497,6 +509,16 @@ template<size_t BITS>
 class Bitmap_base<false, BITS>
 {
 public:
+  /**
+   * Number of bits per bitmap element.
+   */
+  static constexpr size_t Bpl = sizeof(unsigned long) * 8;
+
+  /**
+   * Number bitmap elements (1).
+   */
+  static constexpr size_t Nr_elems = 1;
+
   /**
    * Assign a bit in the bitmap.
    *
@@ -711,6 +733,14 @@ public:
   }
 
   /**
+   * Invert all bits.
+   */
+  void invert()
+  {
+    _bits = ~_bits;
+  }
+
+  /**
    * Clear all bits in the bitmap.
    *
    * This is an optimized version for the single scalar unsigned long storage
@@ -766,7 +796,7 @@ public:
    * \return 1 plus the index of the least significant set bit in the bitmap
    *         (starting at the given bit index).
    */
-  unsigned ffs(size_t bit) const
+  size_t ffs(size_t bit) const
   {
     unsigned long elem = _bits;
     elem >>= bit;
@@ -778,21 +808,16 @@ public:
     return 0;
   }
 
+  /**
+   * Provide raw access to underlying storage.
+   */
+  unsigned long const *raw() const
+  {
+    return &_bits;
+  }
+
 protected:
   template<bool LARGE, size_t BTS> friend class Bitmap_base;
-
-  enum : size_t
-  {
-    /**
-     * Number of bits per bitmap element.
-     */
-    Bpl = sizeof(unsigned long) * 8,
-
-    /**
-     * Number bitmap elements (1).
-     */
-    Nr_elems = 1,
-  };
 
   /**
    * Actual bitmap data.
@@ -901,6 +926,12 @@ public:
   {
     this->_copy(o);
   }
+
+  /**
+   * Get the number of bits the bitmap can store.
+   */
+  static constexpr size_t size()
+  { return BITS; }
 
   /**
    * Assignment operator.

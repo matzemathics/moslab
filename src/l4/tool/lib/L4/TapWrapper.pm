@@ -40,16 +40,31 @@ sub __load_module
   return $c;
 }
 
+sub get_plugin
+{
+  my $name = shift;
+  my $arg = shift;
+  my $class = "L4::TapWrapper::Plugin::$name";
+  return __load_module($class, $arg);
+}
+
 sub load_plugin
 {
   my $name = shift;
   my $arg = shift;
   return if defined $_have_plugins{$name}; # Do not load twice
   print "Loading Plugin '$name' with args: " . Dumper($arg). "\n";
-  my $class = "L4::TapWrapper::Plugin::$name";
-  my $plugin = __load_module($class, $arg);
+  my $plugin = get_plugin($name, $arg);
   push @_plugins, $plugin;
   $_have_plugins{$name} = $plugin;
+}
+
+sub parse_plugin
+{
+  my ($name, $arg) = split(/:/, shift, 2);
+  $arg = "" unless defined $arg;
+  my %harg = map { split(/=/, $_, 2) } (split (/,/, $arg));
+  return ($name, \%harg);
 }
 
 sub load_filter
@@ -96,10 +111,10 @@ sub process_input
   for my $line ( @data )
     {
       my $no_exit = 0;
-      for (@_plugins)
+      for my $plugin (@_plugins)
         {
-          $_->process_any($line);
-          $no_exit ||= $_->{inhibit_exit};
+          $plugin->process_any($line);
+          $no_exit ||= $plugin->{inhibit_exit};
         }
       return 1 unless $no_exit;
     }
@@ -112,6 +127,7 @@ sub finalize {
   kill_ps_tree($pid);
   $pid = -1; # clean behaviour on multiple calling
 
+  my $plan_found = 0;
   my $taplines = 0;
   foreach (@_plugins, @_filters)
     {
@@ -120,6 +136,7 @@ sub finalize {
           if (/^1\.\.([0-9]+)/)
             {
               $taplines += $1;
+              $plan_found = 1;
             }
           else
             {
@@ -130,7 +147,7 @@ sub finalize {
             }
         }
     }
-  print $TAP_FD "1..$taplines\n" if $print_to_tap_fd;
+  print $TAP_FD "1..$taplines\n" if $print_to_tap_fd && $plan_found;
 }
 
 sub fail_test
@@ -142,6 +159,7 @@ sub fail_test
   print $TAP_FD <<EOT;
 1..1
 not ok 1 - execution - exit code $exit_code - $L4::TapWrapper::test_description
+# Test-uuid: 00000000-0000-0000-0000-000000000000
   ---
   message: $long_msg
   severity: fail
@@ -154,6 +172,11 @@ EOT
 sub exit_test
 {
   my ($exit_code) = @_;
+
+  # tell test runner to finish up
+  # signals aren't passed to whole children tree - kill explicit
+  kill_ps_tree($pid);
+  $pid = -1; # clean behaviour on multiple calling
 
   # graceful exit override
   $exit_code = 0
@@ -265,4 +288,3 @@ Defaults to 0.
 
 
 =cut
-

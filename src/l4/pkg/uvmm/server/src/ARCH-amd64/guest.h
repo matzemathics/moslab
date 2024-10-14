@@ -28,13 +28,12 @@
 #include "vm_ram.h"
 #include "binary_loader.h"
 #include "event_recorder.h"
+#include "pm_device_if.h"
 
 namespace Vmm {
 
 class Guest : public Generic_guest
 {
-  enum : unsigned { Max_cpus = Cpu_dev::Max_cpus };
-
 public:
   enum { Default_rambase = 0, Boot_offset = 0 };
 
@@ -106,8 +105,6 @@ public:
   void register_timer_device(cxx::Ref_ptr<Vdev::Timer> const &dev,
                              unsigned vcpu_no = 0)
   {
-    assert(vcpu_no < Max_cpus);
-
     _clocks[vcpu_no].add_timer(dev);
   }
 
@@ -124,24 +121,31 @@ public:
 
   void suspend(l4_addr_t wake_vector)
   {
+    Vdev::Pm_device_registry::suspend_devices();
+
     if (!_pm->suspend())
       {
         warn().printf("System suspend not possible. Waking up immediately.\n");
+        Vdev::Pm_device_registry::resume_devices();
         return;
       }
 
     auto vcpu = _cpus->cpu(0)->vcpu();
     /* Go to sleep */
     vcpu.wait_for_ipc(l4_utcb(), L4_IPC_NEVER);
+
     /* Back alive */
     _pm->resume();
+    Vdev::Pm_device_registry::resume_devices();
 
     vcpu.vm_state()->init_state();
     vcpu.vm_state()->setup_real_mode(wake_vector);
-    vcpu->r.sp = 0;
-    vcpu->r.ip = wake_vector;
-    Dbg().printf("Starting CPU %u on EIP 0x%lx\n", 0, wake_vector);
+    info().printf("Waking CPU %u on EIP 0x%lx\n", 0, wake_vector);
   }
+
+  void sync_all_other_cores_off() const override;
+  // returns the number of running cores
+  unsigned cores_running() const;
 
   void handle_entry(Vcpu_ptr vcpu);
 
@@ -151,12 +155,47 @@ public:
   cxx::Ref_ptr<Gic::Lapic_array> apic_array() { return _apics; }
   cxx::Ref_ptr<Gic::Icr_handler> icr_handler() { return _icr_handler; }
 
-  int handle_cpuid(l4_vcpu_regs_t *regs);
+  int handle_cpuid(Vcpu_ptr vcpu);
   int handle_vm_call(l4_vcpu_regs_t *regs);
+
+  /**
+   * Access IO port and load/store the value to RAX.
+   *
+   * In case the given IO port is not handled by any device on read, the value
+   * of all ones is stored to RAX. Write errors are silently ignored.
+   *
+   * \param[in]     port      IO port to access.
+   * \param[in]     is_in     True if this is the IN (read) access.
+   * \param[in]     op_width  Width of the access (1/2/4 bytes).
+   * \param[in,out] regs      Register file. The value read/written is
+   *                          stored/loaded into RAX.
+   *
+   * \retval Jump_instr  Success, all errors are silently ignored.
+   */
   int handle_io_access(unsigned port, bool is_in, Mem_access::Width op_width,
                        l4_vcpu_regs_t *regs);
 
+  /**
+   * Access IO port (core implementation).
+   *
+   * Core implementation of accessing an IO port. The method looks up the
+   * device that handles the IO port and does the access.
+   *
+   * \param[in]     port      IO port to access.
+   * \param[in]     is_in     True if this is the IN (read) access.
+   * \param[in]     op_width  Width of the access (1/2/4 bytes).
+   * \param[in,out] value     Value to read/write.
+   *
+   * \retval true   The IO access was successful.
+   * \retval false  No device handles the given IO port.
+   */
+  bool handle_io_access_ptr(unsigned port, bool is_in,
+                            Mem_access::Width op_width, l4_uint32_t *value);
+
   void run_vm(Vcpu_ptr vcpu) L4_NORETURN;
+
+  Boot::Binary_type guest_type() const
+  { return _guest_t; }
 
 private:
   enum : unsigned
@@ -164,14 +203,49 @@ private:
     Max_phys_addr_bits_mask = 0xff,
   };
 
+  struct Xsave_state_area
+  {
+    struct Size_off { l4_uint64_t size = 0, offset = 0; };
+
+    enum
+    {
+      // Some indices are valid in xcr0, some is xss.
+      x87 = 0,      // XCR0
+      sse,          // XCR0
+      avx,          // XCR0
+      mpx1,         // XCR0
+      mpx2,         // XCR0
+      avx512_1,     // XCR0
+      avx512_2,     // XCR0
+      avx512_3,     // XCR0
+      pts,          // XSS
+      pkru,         // XCR0,
+      pasid,        // XSS
+      cetu,         // XSS
+      cets,         // XSS
+      hdc,          // XSS
+      uintr,        // XSS
+      lbr,          // XSS
+      hwp,          // XSS
+      tilecfg,      // XCR0
+      tiledata,     // XCR0
+
+      Num_fields = 31,
+    };
+
+    bool valid = false;
+    // first two fields are legacy area, so always (size=0, offset=0);
+    Size_off feat[Num_fields];
+  };
+
   template<typename VMS>
   void run_vm_t(Vcpu_ptr vcpu, VMS *vm) L4_NORETURN;
 
   template <typename VMS>
-  void event_injection_t(Vcpu_ptr vcpu, VMS *vm);
+  bool event_injection_t(Vcpu_ptr vcpu, VMS *vm);
 
   template <typename VMS>
-  int handle_exit(Vcpu_ptr vcpu, VMS *vm);
+  int handle_exit(Cpu_dev *cpu, VMS *vm);
 
   unsigned get_max_physical_address_bit() const
   {
@@ -211,10 +285,49 @@ private:
   bool handle_cpuid_devices(l4_vcpu_regs_t const *regs, unsigned *a,
                             unsigned *b, unsigned *c, unsigned *d);
 
-
   Event_recorder *recorder(unsigned num)
   { return _event_recorders.recorder(num); }
 
+  /**
+   * Perform actions necessary when changing from one Cpu_dev state to another.
+   *
+   * \tparam VMS       SVM or VMX state type
+   * \param current    Current CPU state
+   * \param new_state  CPU state to transition into
+   * \param lapic      local APIC of the current vCPU
+   * \param vm         SVM or VMX state
+   * \param cpu        current CPU device
+   */
+  template <typename VMS>
+  bool state_transition_effects(Cpu_dev::Cpu_state const current,
+                                Cpu_dev::Cpu_state const new_state,
+                                Gic::Virt_lapic *lapic, VMS *vm, Cpu_dev *cpu);
+
+  /**
+   * Perform actions of the state the Cpu_dev just transitioned into.
+   *
+   * \tparam VMS      SVM or VMX state type
+   * \param state     New CPU state after state transition
+   * \param halt_req  true, if `state` is the halt state and events are pending
+   * \param cpu       current CPU device
+   * \param vm        SVM or VMX state
+   */
+  template <typename VMS>
+  bool new_state_action(Cpu_dev::Cpu_state state, bool halt_req, Cpu_dev *cpu,
+                        VMS *vm);
+
+  void iomap_dump(Dbg::Verbosity l)
+  {
+    Dbg d(Dbg::Dev, l, "vmmap");
+    if (d.is_active())
+      {
+        d.printf("IOport map:\n");
+        std::lock_guard<std::mutex> lock(_iomap_lock);
+        for (auto const &r : _iomap)
+          d.printf(" [%4lx:%4lx]: %s\n", r.first.start, r.first.end,
+                   r.second->dev_name());
+      }
+  }
   std::mutex _iomap_lock;
   Io_mem _iomap;
 
@@ -222,7 +335,7 @@ private:
   std::vector<cxx::Ref_ptr<Cpuid_device>> _cpuid_devices;
 
   // devices
-  Vdev::Clock_source _clocks[Max_cpus];
+  std::map<unsigned, Vdev::Clock_source> _clocks;
   Guest_print_buffer _hypcall_print;
   cxx::Ref_ptr<Pt_walker> _ptw;
   cxx::Ref_ptr<Gic::Lapic_array> _apics;
@@ -230,7 +343,8 @@ private:
   cxx::Ref_ptr<Gic::Lapic_access_handler> _lapic_access_handler;
   Boot::Binary_type _guest_t;
   cxx::Ref_ptr<Vmm::Cpu_dev_array> _cpus;
-  Vmm::Event_recorder_array<Max_cpus> _event_recorders;
+  Vmm::Event_recorder_array _event_recorders;
+  Xsave_state_area _xsave_layout;
 };
 
 /**
@@ -261,5 +375,92 @@ private:
   Cpu_dev_array *_cpus;
   Event_recorders *_ev_rec;
 };
+
+/**
+ * Handler for MSR access to all MTRR registeres.
+ *
+ * MTRR are architectural registers and do not differ between AMD and Intel.
+ * MTRRs are core specific and must be kept in sync.
+ * Since all writes are ignored and reads just show the static state, we do
+ * no core specific handling for these registers.
+ */
+class Mtrr_msr_handler : public Msr_device
+{
+public:
+  Mtrr_msr_handler() = default;
+
+  bool read_msr(unsigned msr, l4_uint64_t *value, unsigned) const override
+  {
+    switch(msr)
+      {
+      case 0xfe:           // IA32_MTRRCAP, RO
+        *value = 1U << 10; // WriteCombining support bit.
+        break;
+      case 0x2ff:          // IA32_MTRR_DEF_TYPE
+        *value = 1U << 11; // E/MTRR enable bit
+        break;
+
+      // MTRRphysMask/Base[0-9]; only present if IA32_MTRRCAP[7:0] > 0
+      case 0x200: case 0x201: case 0x202: case 0x203: case 0x204: case 0x205:
+      case 0x206: case 0x207: case 0x208: case 0x209: case 0x20a: case 0x20b:
+      case 0x20c: case 0x20d: case 0x20e: case 0x20f: case 0x210: case 0x211:
+      case 0x212: case 0x213:
+        *value = 0;
+        break;
+
+      case 0x250:  // MTRRfix64K_0000
+          // fall-through
+      case 0x258:  // MTRRfix16K
+          // fall-through
+      case 0x259:  // MTRRfix16K
+          // fall-through
+      // MTRRfix_4K_*
+      case 0x268: case 0x269: case 0x26a: case 0x26b: case 0x26c: case 0x26d:
+      case 0x26e: case 0x26f:
+        *value = 0;
+        break;
+
+      default:
+        return false;
+      }
+
+    return true;
+  }
+
+  bool write_msr(unsigned msr, l4_uint64_t, unsigned) override
+  {
+    switch(msr)
+      {
+      case 0x2ff: // MTRRdefType
+        // We report no MTRRs in the MTRRdefType MSR. Thus we ignore writes here.
+        // MTRRs might also be disabled temporarily by the guest.
+        break;
+
+      // Ignore all writes to MTRR registers, we flagged all of them as unsupported
+      // MTRRphysMask/Base[0-9]; only present if MTRRcap[7:0] > 0
+      case 0x200: case 0x201: case 0x202: case 0x203: case 0x204: case 0x205:
+      case 0x206: case 0x207: case 0x208: case 0x209: case 0x20a: case 0x20b:
+      case 0x20c: case 0x20d: case 0x20e: case 0x20f: case 0x210: case 0x211:
+      case 0x212: case 0x213:
+        break;
+
+      case 0x250:  // MTRRfix64K_0000
+          // fall-through
+      case 0x258:  // MTRRfix16K
+          // fall-through
+      case 0x259:  // MTRRfix16K
+          // fall-through
+      // MTRRfix_4K_*
+      case 0x268: case 0x269: case 0x26a: case 0x26b: case 0x26c: case 0x26d:
+      case 0x26e: case 0x26f:
+        break;
+
+      default:
+        return false;
+      }
+
+    return true;
+  }
+}; // class Mtrr_msr_handler
 
 } // namespace Vmm

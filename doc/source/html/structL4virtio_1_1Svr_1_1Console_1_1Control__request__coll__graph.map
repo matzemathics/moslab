@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Console::Control_request" name="L4virtio::Svr::Console::Control_request">
+<area shape="rect" id="Node000001" title="Specialised Virtqueue::Request providing access to control message payload." alt="" coords="100,368,252,448"/>
+<area shape="rect" id="Node000002" href="$structL4virtio_1_1Svr_1_1Console_1_1Control__message.html" title="Virtio console control message." alt="" coords="5,95,157,215"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,215,158,352,153,353,101,217"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html" title="Region of driver memory, that shall be managed locally." alt="" coords="182,5,362,305"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,306,199,354,194,352,212,304"/>
+</map>

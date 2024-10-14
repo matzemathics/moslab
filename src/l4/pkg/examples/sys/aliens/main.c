@@ -96,6 +96,20 @@ _print_exc_state(l4_exc_regs_t const *exc)
          is_alien_after_call(exc) ? " after" : "before");
 }
 
+#elif defined(ARCH_riscv)
+
+static int
+is_alien_after_call(l4_exc_regs_t const *exc)
+{ return exc->cause == L4_riscv_ec_l4_alien_after_syscall; }
+
+static inline void
+_print_exc_state(l4_exc_regs_t const *exc)
+{
+  printf("PC=%08lx SP=%08lx Cause=%lx, %s syscall\n",
+         l4_utcb_exc_pc(exc), exc->sp, exc->cause,
+         is_alien_after_call(exc) ? " after" : "before");
+}
+
 #else
 
 static int

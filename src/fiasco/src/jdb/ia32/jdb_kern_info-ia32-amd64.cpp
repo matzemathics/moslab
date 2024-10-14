@@ -38,8 +38,8 @@ Jdb_kern_info_idt::show() override
 
   printf("idt base=" L4_PTR_FMT "  limit=%04x (%04x bytes)\n",
          idt_pseudo.base(),
-         (unsigned)((idt_pseudo.limit() + 1) / sizeof(Idt_entry)),
-         (unsigned)idt_pseudo.limit() + 1);
+         static_cast<unsigned>((idt_pseudo.limit() + 1) / sizeof(Idt_entry)),
+         static_cast<unsigned>(idt_pseudo.limit()) + 1);
   if (!Jdb_core::new_line(line))
     return;
 
@@ -161,7 +161,7 @@ void
 Jdb_kern_info_misc::show() override
 {
   Cpu_time clock = Kip::k()->clock();
-  printf("clck: %08x.%08x\n", (unsigned)(clock >> 32), (unsigned)clock);
+  printf("clck: %08llx.%08llx\n", clock >> 32, clock & 0xffffffffU);
 
   show_pdir();
 
@@ -170,11 +170,11 @@ Jdb_kern_info_misc::show() override
   Idt::get (&idt_pseudo);
   printf("idt : base=" L4_PTR_FMT "  limit=%04x\n"
          "gdt : base=" L4_PTR_FMT "  limit=%04x\n",
-         idt_pseudo.base(), (unsigned)(idt_pseudo.limit() + 1) / 8,
-         gdt_pseudo.base(), (unsigned)(gdt_pseudo.limit() + 1) / 8);
+         idt_pseudo.base(), (idt_pseudo.limit() + 1) / 8,
+         gdt_pseudo.base(), (gdt_pseudo.limit() + 1) / 8);
 
   // print LDT
-  printf("ldt : %04x", (unsigned)Cpu::get_ldt());
+  printf("ldt : %04x", Cpu::get_ldt());
   if (Cpu::get_ldt() != 0)
     {
       Gdt_entry *e = Cpu::boot_cpu()->get_gdt()->entries()
@@ -185,7 +185,7 @@ Jdb_kern_info_misc::show() override
 
   // print TSS
   printf("\n"
-         "tr  : %04x", (unsigned)Cpu::boot_cpu()->get_tr());
+         "tr  : %04x", Cpu::boot_cpu()->get_tr());
 
   if (Cpu::get_tr() != 0)
     {
@@ -193,7 +193,7 @@ Jdb_kern_info_misc::show() override
                      + (Cpu::boot_cpu()->get_tr() >> 3);
       printf(": " L4_PTR_FMT "-" L4_PTR_FMT ", iobitmap at " L4_PTR_FMT,
              e->base(), e->base() + e->size(),
-             e->base() + (reinterpret_cast<Tss *>(e->base())->_io_bit_map_offset));
+             e->base() + (reinterpret_cast<Tss *>(e->base())->_hw.ctx.iopb));
     }
 
   printf("\n"
@@ -240,6 +240,7 @@ Jdb_kern_info_cpu::show() override
           Config::found_vmware ? "vmware" : "native");
   Cpu::boot_cpu()->show_cache_tlb_info("     ");
   show_features();
+  show_feature_ia32_tsc_adjust();
 
   if (Cpu::boot_cpu()->tsc())
     {
@@ -274,6 +275,35 @@ Jdb_kern_info_cpu::show() override
 	 );
 }
 
+PRIVATE
+void
+Jdb_kern_info_cpu::show_feature_ia32_tsc_adjust()
+{
+  if (Cpu::cpuid_eax(0) >= 7 && (Cpu::cpuid_ebx(7) & 2))
+    {
+      printf("\nIA32_TSC_ADJUST values:\n");
+      for (Cpu_number u = Cpu_number::first(); u < Config::max_num_cpus(); ++u)
+        if (Cpu::online(u))
+          {
+            printf("     CPU[%2u]: ", cxx::int_value<Cpu_number>(u));
+
+            auto get_tsc_adj = [](Cpu_number)
+              {
+                Unsigned64 v = ~0ULL;
+                Jdb::rdmsr(MSR_IA32_TSC_ADJUST, &v);
+                printf("%lld\n", v);
+              };
+
+            if (u == Cpu_number::boot_cpu())
+              get_tsc_adj(u);
+            else
+              Jdb::remote_work(u, get_tsc_adj, true);
+
+            Mem::barrier();
+          }
+    }
+}
+
 class Jdb_kern_info_gdt : public Jdb_kern_info_module
 {
 private:
@@ -300,11 +330,11 @@ Jdb_kern_info_gdt::show_gdt(Cpu_number cpu)
 
   if (Config::Max_num_cpus > 1)
     printf("CPU%u: GDT base=" L4_PTR_FMT "  limit=%04x (%04x bytes)\n",
-           cxx::int_value<Cpu_number>(cpu), (Mword)gdt, entries,
-           (unsigned)Gdt::gdt_max);
+           cxx::int_value<Cpu_number>(cpu), reinterpret_cast<Mword>(gdt),
+           entries, Gdt::gdt_max);
   else
     printf("GDT base=" L4_PTR_FMT "  limit=%04x (%04x bytes)\n",
-           (Mword)gdt, entries, (unsigned)Gdt::gdt_max);
+           reinterpret_cast<Mword>(gdt), entries, Gdt::gdt_max);
 
   if (!Jdb_core::new_line(line))
     return;

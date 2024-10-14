@@ -34,7 +34,7 @@
 #define _GLIBCXX_RELEASE 12
 
 // The datestamp of the C++ library in compressed ISO date format.
-#define __GLIBCXX__ 20230917
+#define __GLIBCXX__ 20240714
 
 // Macros for various attributes.
 //   _GLIBCXX_PURE
@@ -345,13 +345,16 @@ namespace __gnu_cxx
 # define _GLIBCXX_DEFAULT_ABI_TAG
 #endif
 
-// Defined if inline namespaces are used for versioning.
+// Non-zero if inline namespaces are used for versioning the entire library.
 # define _GLIBCXX_INLINE_VERSION 0 
 
-// Inline namespace for symbol versioning.
 #if _GLIBCXX_INLINE_VERSION
+// Inline namespace for symbol versioning of (nearly) everything in std.
 # define _GLIBCXX_BEGIN_NAMESPACE_VERSION namespace __8 {
 # define _GLIBCXX_END_NAMESPACE_VERSION }
+// Unused when everything in std is versioned anyway.
+# define _GLIBCXX_BEGIN_INLINE_ABI_NAMESPACE(X)
+# define _GLIBCXX_END_INLINE_ABI_NAMESPACE(X)
 
 namespace std
 {
@@ -376,8 +379,12 @@ _GLIBCXX_END_NAMESPACE_VERSION
 }
 
 #else
+// Unused.
 # define _GLIBCXX_BEGIN_NAMESPACE_VERSION
 # define _GLIBCXX_END_NAMESPACE_VERSION
+// Used to version individual components, e.g. std::_V2::error_category.
+# define _GLIBCXX_BEGIN_INLINE_ABI_NAMESPACE(X) inline namespace X {
+# define _GLIBCXX_END_INLINE_ABI_NAMESPACE(X)   } // inline namespace X
 #endif
 
 // Inline namespaces for special modes: debug, parallel.
@@ -815,6 +822,9 @@ namespace std
 #endif
 
 #undef _GLIBCXX_HAS_BUILTIN
+
+// Mark code that should be ignored by the compiler, but seen by Doxygen.
+#define _GLIBCXX_DOXYGEN_ONLY(X)
 
 // PSTL configuration
 
@@ -1374,7 +1384,9 @@ namespace std
 #define _GLIBCXX_HAVE_WCHAR_H 1
 
 /* Defined if wcstof exists. */
+#ifndef BID_VARIANT_FLAG_NOFPU
 #define _GLIBCXX_HAVE_WCSTOF 1
+#endif /* BID_VARIANT_FLAG_NOFPU */
 
 /* Define to 1 if you have the <wctype.h> header file. */
 #define _GLIBCXX_HAVE_WCTYPE_H 1
@@ -1776,7 +1788,11 @@ namespace std
 
 /* Define if C99 functions in <fenv.h> should be imported in <tr1/cfenv> in
    namespace std::tr1. */
-#define _GLIBCXX_USE_C99_FENV_TR1 1
+#if defined(__x86_64) || defined(i386)
+  #define _GLIBCXX_USE_C99_FENV_TR1 1
+#else
+  #undef _GLIBCXX_USE_C99_FENV_TR1
+#endif
 
 /* Define if C99 functions in <inttypes.h> should be imported in
    <tr1/cinttypes> in namespace std::tr1. */
@@ -1795,6 +1811,12 @@ namespace std
 /* Define if C99 types in <stdint.h> should be imported in <tr1/cstdint> in
    namespace std::tr1. */
 #define _GLIBCXX_USE_C99_STDINT_TR1 1
+
+/* Define if usable chdir is available in <unistd.h>. */
+/* #undef _GLIBCXX_USE_CHDIR */
+
+/* Define if usable chmod is available in <sys/stat.h>. */
+/* #undef _GLIBCXX_USE_CHMOD 1 */
 
 /* Defined if clock_gettime syscall has monotonic and realtime clock support.
    */
@@ -1820,12 +1842,14 @@ namespace std
 /* Define if fchmodat is available in <sys/stat.h>. */
 #define _GLIBCXX_USE_FCHMODAT 1
 
+/* Define if usable getcwd is available in <unistd.h>. */
+/* #undef _GLIBCXX_USE_GETCWD 1 */
+
 /* Defined if gettimeofday is available. */
 #define _GLIBCXX_USE_GETTIMEOFDAY 1
 
 /* Define if get_nprocs is available in <sys/sysinfo.h>. */
 //l4/#define _GLIBCXX_USE_GET_NPROCS 1
-
 
 /* Define if LFS support is available. */
 #if !defined(L4_MINIMAL_LIBC)
@@ -1837,6 +1861,9 @@ namespace std
 
 /* Define if lstat is available in <sys/stat.h>. */
 #define _GLIBCXX_USE_LSTAT 1
+
+/* Define if usable mkdir is available in <sys/stat.h>. */
+/* #undef _GLIBCXX_USE_MKDIR 1 */
 
 /* Defined if nanosleep is available. */
 #define _GLIBCXX_USE_NANOSLEEP 1

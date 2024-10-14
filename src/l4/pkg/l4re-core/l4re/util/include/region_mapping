@@ -122,6 +122,11 @@ public:
     return Ops::map(this, addr, r, writable, result);
   }
 
+  int map_info(l4_addr_t *start_addr, l4_addr_t *end_addr) const
+  {
+    return Ops::map_info(this, start_addr, end_addr);
+  }
+
 };
 
 
@@ -257,16 +262,43 @@ public:
     if (size < 2)
       return L4_INVALID_PTR;
 
-    l4_addr_t end = max_addr();
-    l4_addr_t beg = (l4_addr_t)addr;
+    l4_addr_t beg, end;
+    int err = hdlr.map_info(&beg, &end);
+    if (err > 0)
+      {
+        // Mapping address determined by underlying dataspace. Make sure we
+        // prevent any additional alignment. We already know the place!
+        beg += hdlr.offset();
+        end = beg + size - 1U;
+        align = L4_PAGESHIFT;
+
+        // In case of exact mappings, the supplied address must match because
+        // we cannot remap.
+        if (!(flags & L4Re::Rm::F::Search_addr)
+            && reinterpret_cast<l4_addr_t>(addr) != beg)
+          return L4_INVALID_PTR;
+
+        // When searching for a suitable address, the start must cover the
+        // dataspace beginning to "find" the right spot.
+        if ((flags & L4Re::Rm::F::Search_addr)
+            && reinterpret_cast<l4_addr_t>(addr) > beg)
+          return L4_INVALID_PTR;
+      }
+    else if (err == 0)
+      {
+        beg = reinterpret_cast<l4_addr_t>(addr);
+        end = max_addr();
+      }
+    else if (err < 0)
+      return L4_INVALID_PTR;
 
     if (flags & L4Re::Rm::F::In_area)
       {
-	Node r = _am.find_node(Region(beg, beg + size - 1));
-	if (!r || (r->second.flags() & L4Re::Rm::F::Reserved))
-	  return L4_INVALID_PTR;
+        Node r = _am.find_node(Region(beg, beg + size - 1));
+        if (!r || (r->second.flags() & L4Re::Rm::F::Reserved))
+          return L4_INVALID_PTR;
 
-	end = r->first.end();
+        end = r->first.end();
       }
 
     if (flags & L4Re::Rm::F::Search_addr)
@@ -280,11 +312,11 @@ public:
         && _am.find_node(Region(beg, beg + size - 1)))
       return L4_INVALID_PTR;
 
-    if (beg < min_addr() || beg + size -1 > end)
+    if (beg < min_addr() || beg + size - 1 > end)
       return L4_INVALID_PTR;
 
-    if (_rm.insert(Region(beg, beg + size -1), hdlr).second == 0)
-      return (void*)beg;
+    if (_rm.insert(Region(beg, beg + size - 1), hdlr).second == 0)
+      return reinterpret_cast<void*>(beg);
 
     return L4_INVALID_PTR;
   }
@@ -292,8 +324,9 @@ public:
   int detach(void *addr, unsigned long sz, unsigned flags,
              Region *reg, Hdlr *hdlr) noexcept
   {
-    Region dr((l4_addr_t)addr, (l4_addr_t)addr + sz - 1);
-    Region res(~0UL,0);
+    l4_addr_t a = reinterpret_cast<l4_addr_t>(addr);
+    Region dr(a, a + sz - 1);
+    Region res(~0UL, 0);
 
     Node r = find(dr);
     if (!r)
@@ -304,77 +337,91 @@ public:
 
     if (flags & L4Re::Rm::Detach_overlap || dr.contains(g))
       {
-	if (_rm.remove(g))
-	  return -L4_ENOENT;
+        // successful removal of the AVL tree item also frees the node
+        Hdlr h_copy = h;
 
-	if (!(flags & L4Re::Rm::Detach_keep) && (h.flags() & L4Re::Rm::F::Detach_free))
-	  h.free(0, g.size());
+        if (_rm.remove(g))
+          return -L4_ENOENT;
 
-	if (hdlr) *hdlr = h;
-	if (reg) *reg = g;
+        if (!(flags & L4Re::Rm::Detach_keep) && (h_copy.flags() & L4Re::Rm::F::Detach_free))
+          h_copy.free(0, g.size());
 
-	if (find(dr))
-	  return Rm::Detached_ds | Rm::Detach_again;
-	else
-	  return Rm::Detached_ds;
+        if (hdlr)
+          *hdlr = h_copy;
+        if (reg)
+          *reg = g;
+
+        if (find(dr))
+          return Rm::Detached_ds | Rm::Detach_again;
+        else
+          return Rm::Detached_ds;
       }
     else if (dr.start() <= g.start())
       {
-	// move the start of a region
+        // move the start of a region
 
-	if (!(flags & L4Re::Rm::Detach_keep) && (h.flags() & L4Re::Rm::F::Detach_free))
-	  h.free(0, dr.end() + 1 - g.start());
+        if (!(flags & L4Re::Rm::Detach_keep) && (h.flags() & L4Re::Rm::F::Detach_free))
+          h.free(0, dr.end() + 1 - g.start());
 
-	unsigned long sz = dr.end() + 1 - g.start();
-	Item *cn = const_cast<Item*>((Item const *)r);
-	cn->first = Region(dr.end() + 1, g.end());
-	cn->second = cn->second + sz;
-	if (hdlr) *hdlr = Hdlr();
-	if (reg) *reg = Region(g.start(), dr.end());
-	if (find(dr))
-	  return Rm::Kept_ds | Rm::Detach_again;
-	else
-	  return Rm::Kept_ds;
+        unsigned long sz = dr.end() + 1 - g.start();
+        Item &cn = const_cast<Item &>(*r);
+        cn.first = Region(dr.end() + 1, g.end());
+        cn.second = cn.second + sz;
+        if (hdlr)
+          *hdlr = Hdlr();
+        if (reg)
+          *reg = Region(g.start(), dr.end());
+        if (find(dr))
+          return Rm::Kept_ds | Rm::Detach_again;
+        else
+          return Rm::Kept_ds;
       }
     else if (dr.end() >= g.end())
       {
-	// move the end of a region
+        // move the end of a region
 
-	if (!(flags & L4Re::Rm::Detach_keep) && (h.flags() & L4Re::Rm::F::Detach_free))
-	  h.free(dr.start() - g.start(), g.end() + 1 - dr.start());
+        if (!(flags & L4Re::Rm::Detach_keep)
+            && (h.flags() & L4Re::Rm::F::Detach_free))
+          h.free(dr.start() - g.start(), g.end() + 1 - dr.start());
 
-	Item *cn = const_cast<Item*>((Item const*)r);
-	cn->first = Region(g.start(), dr.start() -1);
-	if (hdlr) *hdlr = Hdlr();
-	if (reg) *reg = Region(dr.start(), g.end());
+        Item &cn = const_cast<Item &>(*r);
+        cn.first = Region(g.start(), dr.start() - 1);
+        if (hdlr)
+          *hdlr = Hdlr();
+        if (reg)
+          *reg = Region(dr.start(), g.end());
 
-	if (find(dr))
-	  return Rm::Kept_ds | Rm::Detach_again;
-	else
-	  return Rm::Kept_ds;
+        if (find(dr))
+          return Rm::Kept_ds | Rm::Detach_again;
+        else
+          return Rm::Kept_ds;
       }
     else if (g.contains(dr))
       {
-	// split a single region that contains the new region
+        // split a single region that contains the new region
 
-	if (!(flags & L4Re::Rm::Detach_keep) && (h.flags() & L4Re::Rm::F::Detach_free))
-	  h.free(dr.start() - g.start(), dr.size());
+        if (!(flags & L4Re::Rm::Detach_keep) && (h.flags() & L4Re::Rm::F::Detach_free))
+          h.free(dr.start() - g.start(), dr.size());
 
-	// first move the end off the existing region before the new one
-	const_cast<Item*>((Item const *)r)->first = Region(g.start(), dr.start()-1);
+        // first move the end off the existing region before the new one
+        Item &cn = const_cast<Item &>(*r);
+        cn.first = Region(g.start(), dr.start()-1);
 
-	int err;
+        int err;
 
-	// insert a second region for the remaining tail of
-	// the old existing region
-	err = _rm.insert(Region(dr.end() + 1, g.end()), h + (dr.end() + 1 - g.start())).second;
+        // insert a second region for the remaining tail of
+        // the old existing region
+        err = _rm.insert(Region(dr.end() + 1, g.end()),
+                         h + (dr.end() + 1 - g.start())).second;
 
-	if (err)
-	  return err;
+        if (err)
+          return err;
 
-	if (hdlr) *hdlr = h;
-	if (reg) *reg = dr;
-	return Rm::Split_ds;
+        if (hdlr)
+          *hdlr = h;
+        if (reg)
+          *reg = dr;
+        return Rm::Split_ds;
       }
     return -L4_ENOENT;
   }

@@ -18,6 +18,7 @@
 
 #include <l4/re/env>
 #include <l4/sys/factory>
+#include <l4/cxx/minmax>
 
 #include "vcon_stream.h"
 
@@ -31,13 +32,17 @@ Vcon_stream::Vcon_stream(L4::Cap<L4::Vcon> s) noexcept
 : Be_file_stream(),
   _s(s), _irq(L4Re::virt_cap_alloc->alloc<L4::Semaphore>()), _irq_bound(false)
 {
-  int res = l4_error(L4Re::Env::env()->factory()->create(_irq));
-  (void)res; // handle errors!
+  // [[maybe_unused]] int res =
+  l4_error(L4Re::Env::env()->factory()->create(_irq));
+  // (void)res; // handle errors!
 }
 
 ssize_t
 Vcon_stream::readv(const struct iovec *iovec, int iovcnt) noexcept
 {
+  if (iovcnt < 0)
+    return -EINVAL;
+
   if (!_irq_bound)
     {
       bool was_bound = __atomic_exchange_n(&_irq_bound, true, __ATOMIC_SEQ_CST);
@@ -49,44 +54,44 @@ Vcon_stream::readv(const struct iovec *iovec, int iovcnt) noexcept
   ssize_t bytes = 0;
   for (; iovcnt > 0; --iovcnt, ++iovec)
     {
-      if (iovec->iov_len == 0)
-	continue;
+      size_t len = cxx::min<size_t>(iovec->iov_len, SSIZE_MAX - bytes);
+      if (len == 0)
+        continue;
 
-      char *buf = (char *)iovec->iov_base;
-      size_t len = iovec->iov_len;
+      char *buf = static_cast<char *>(iovec->iov_base);
 
       while (1)
-	{
-	  int ret = _s->read(buf, len);
+        {
+          size_t l = cxx::min<size_t>(L4_VCON_READ_SIZE, len);
+          int ret = _s->read(buf, l);
 
-	  // BS: what is this ??
-	  if (ret > (int)len)
-	    ret = len;
+          if (ret > static_cast<int>(l))
+            ret = l;
 
-	  if (ret < 0)
-	    return ret;
-	  else if (ret == 0)
-	    {
-	      if (bytes)
-		return bytes;
+          if (ret < 0)
+            return ret;
+          else if (ret == 0)
+            {
+              if (bytes)
+                return bytes;
 
-	      ret = _s->read(buf, len);
-	      if (ret < 0)
-		return ret;
-	      else if (ret == 0)
-		{
-		  _irq->down();
-		  continue;
-		}
-	    }
+              ret = _s->read(buf, l);
+              if (ret < 0)
+                return ret;
+              else if (ret == 0)
+                {
+                  _irq->down();
+                  continue;
+                }
+            }
 
-	  bytes += ret;
-	  len   -= ret;
-	  buf   += ret;
+          bytes += ret;
+          len   -= ret;
+          buf   += ret;
 
-	  if (len == 0)
-	    break;
-	}
+          if (len == 0)
+            break;
+        }
     }
 
   return bytes;
@@ -98,21 +103,25 @@ Vcon_stream::writev(const struct iovec *iovec, int iovcnt) noexcept
   l4_msg_regs_t store;
   l4_msg_regs_t *mr = l4_utcb_mr();
 
+  if (iovcnt < 0)
+    return -EINVAL;
+
   Vfs_config::memcpy(&store, mr, sizeof(store));
 
   ssize_t written = 0;
   while (iovcnt)
     {
-      size_t sl = iovec->iov_len;
-      char const *b = (char const *)iovec->iov_base;
+      size_t sl = cxx::min<size_t>(iovec->iov_len, SSIZE_MAX - written);
+      char const *b = static_cast<char const *>(iovec->iov_base);
 
       for (; sl > L4_VCON_WRITE_SIZE
-           ; sl -= L4_VCON_WRITE_SIZE, b += L4_VCON_WRITE_SIZE)
+           ; sl -= L4_VCON_WRITE_SIZE, b += L4_VCON_WRITE_SIZE,
+             written += L4_VCON_WRITE_SIZE)
         _s->send(b, L4_VCON_WRITE_SIZE);
 
       _s->send(b, sl);
 
-      written += iovec->iov_len;
+      written += sl;
 
       ++iovec;
       --iovcnt;
@@ -136,13 +145,13 @@ Vcon_stream::ioctl(unsigned long request, va_list args) noexcept
 {
   switch (request) {
     case TCGETS:
-	{
-	  //vt100_tcgetattr(term, (struct termios *)argp);
+        {
+          //vt100_tcgetattr(term, (struct termios *)argp);
 
-	  struct termios *t = va_arg(args, struct termios *);
+          struct termios *t = va_arg(args, struct termios *);
 
-	  l4_vcon_attr_t l4a;
-	  if (!l4_error(_s->get_attr(&l4a)))
+          l4_vcon_attr_t l4a;
+          if (!l4_error(_s->get_attr(&l4a)))
             {
               t->c_iflag = l4a.i_flags;
               t->c_oflag = l4a.o_flags; // output flags
@@ -152,52 +161,52 @@ Vcon_stream::ioctl(unsigned long request, va_list args) noexcept
           else
             t->c_iflag = t->c_oflag = t->c_cflag = t->c_lflag = 0;
 #if 0
-	  //t->c_lflag |= ECHO; // if term->echo
-	  t->c_lflag |= ICANON; // if term->term_mode == VT100MODE_COOKED
+          //t->c_lflag |= ECHO; // if term->echo
+          t->c_lflag |= ICANON; // if term->term_mode == VT100MODE_COOKED
 #endif
 
-	  t->c_cc[VEOF]   = CEOF;
-	  t->c_cc[VEOL]   = _POSIX_VDISABLE;
-	  t->c_cc[VEOL2]  = _POSIX_VDISABLE;
-	  t->c_cc[VERASE] = CERASE;
-	  t->c_cc[VWERASE]= CWERASE;
-	  t->c_cc[VKILL]  = CKILL;
-	  t->c_cc[VREPRINT]=CREPRINT;
-	  t->c_cc[VINTR]  = CINTR;
-	  t->c_cc[VQUIT]  = _POSIX_VDISABLE;
-	  t->c_cc[VSUSP]  = CSUSP;
-	  t->c_cc[VSTART] = CSTART;
-	  t->c_cc[VSTOP] = CSTOP;
-	  t->c_cc[VLNEXT] = CLNEXT;
-	  t->c_cc[VDISCARD]=CDISCARD;
-	  t->c_cc[VMIN] = CMIN;
-	  t->c_cc[VTIME] = 0;
+          t->c_cc[VEOF]     = CEOF;
+          t->c_cc[VEOL]     = _POSIX_VDISABLE;
+          t->c_cc[VEOL2]    = _POSIX_VDISABLE;
+          t->c_cc[VERASE]   = CERASE;
+          t->c_cc[VWERASE]  = CWERASE;
+          t->c_cc[VKILL]    = CKILL;
+          t->c_cc[VREPRINT] = CREPRINT;
+          t->c_cc[VINTR]    = CINTR;
+          t->c_cc[VQUIT]    = _POSIX_VDISABLE;
+          t->c_cc[VSUSP]    = CSUSP;
+          t->c_cc[VSTART]   = CSTART;
+          t->c_cc[VSTOP]    = CSTOP;
+          t->c_cc[VLNEXT]   = CLNEXT;
+          t->c_cc[VDISCARD] = CDISCARD;
+          t->c_cc[VMIN]     = CMIN;
+          t->c_cc[VTIME]    = 0;
 
-	}
+        }
 
       return 0;
 
     case TCSETS:
     case TCSETSW:
     case TCSETSF:
-	{
-	  //vt100_tcsetattr(term, (struct termios *)argp);
-	  struct termios const *t = va_arg(args, struct termios const *);
+        {
+          //vt100_tcsetattr(term, (struct termios *)argp);
+          struct termios const *t = va_arg(args, struct termios const *);
 
-	  // XXX: well, we're cheating, get this from the other side!
+          // XXX: well, we're cheating, get this from the other side!
 
-	  l4_vcon_attr_t l4a;
-	  l4a.i_flags = t->c_iflag;
-	  l4a.o_flags = t->c_oflag; // output flags
-	  l4a.l_flags = t->c_lflag; // local flags
-	  _s->set_attr(&l4a);
-	}
+          l4_vcon_attr_t l4a;
+          l4a.i_flags = t->c_iflag;
+          l4a.o_flags = t->c_oflag; // output flags
+          l4a.l_flags = t->c_lflag; // local flags
+          _s->set_attr(&l4a);
+        }
       return 0;
 
     default:
       break;
   };
-  return -EINVAL;
+  return -ENOTTY;
 }
 
 }}

@@ -19,12 +19,15 @@ class Context;
  * it is locked (see clear_no_switch_dirty() and switch_dirty()), even if it is
  * under contention. When the lock no longer exists, valid() returns false.
  *
- * The operations lock(), lock_dirty(), test(), test_and_set(), and
- * test_and_set_dirty() may return #Invalid if the lock does no longer exist.
+ * The operations lock(), test(), test_and_set(), and test_and_set_dirty() may
+ * return #Invalid if the lock does no longer exist.
  *
  * The validity checker is used while acquiring the lock to test if the lock
  * itself exists. We assume that a lock may disappear while we are blocked on
  * it.
+ *
+ * \warning Acquiring a Switch_lock is a potential preemption point!
+ *          (see Switch_lock::lock() for details)
  */
 class Switch_lock
 {
@@ -43,7 +46,7 @@ public:
   /**
    * The result type of lock operations.
    */
-  enum Status 
+  enum Status
   {
     Not_locked, ///< The lock was formerly not acquired and -- we got it
     Locked,     ///< The lock was already acquired by ourselves
@@ -61,9 +64,9 @@ public:
 };
 
 #undef NO_INSTRUMENT
-#define NO_INSTRUMENT 
+#define NO_INSTRUMENT
 
-
+// ----------------------------------------------------------------------
 IMPLEMENTATION:
 
 #include <cassert>
@@ -116,7 +119,7 @@ Context * NO_INSTRUMENT
 Switch_lock::lock_owner() const
 {
   auto guard = lock_guard(cpu_lock);
-  return (Context*)(_lock_owner & ~1UL);
+  return reinterpret_cast<Context*>(_lock_owner & ~1UL);
 }
 
 /**
@@ -138,24 +141,6 @@ Switch_lock::test() const
   return o ? Locked : Not_locked;
 }
 
-/**
- * Acquire the lock with priority inheritance.
- *
- * If the lock is occupied, lend the CPU to current lock owner until we are the
- * lock owner.
- *
- * \retval #Locked      The lock was already locked by the current context.
- * \retval #Not_locked  The current context got the lock (the usual case).
- * \retval #Invalid     The lock does not exist (see valid()).
- */
-PUBLIC
-Switch_lock::Status NO_INSTRUMENT
-Switch_lock::lock()
-{
-  auto guard = lock_guard(cpu_lock);
-  return lock_dirty();
-}
-
 PRIVATE
 void NO_INSTRUMENT
 Switch_lock::help(Context *curr, Context *owner, Address owner_id)
@@ -170,23 +155,32 @@ Switch_lock::help(Context *curr, Context *owner, Address owner_id)
 }
 
 /**
- * \copydoc Switch_lock::lock()
+ * Acquire the lock with priority inheritance.
  *
- * \pre caller holds cpu lock
+ * If the lock is occupied, lend the CPU to current lock owner until we are the
+ * lock owner.
+ *
+ * \pre Must be assumed to be a potential preemption point, the caller has to
+ *      ensure that Switch_lock cannot be deleted, for example by holding a
+ *      counted reference to it (or rather the kernel object it belongs to).
+ *
+ * \retval #Locked      The lock was already locked by the current context.
+ * \retval #Not_locked  The current context got the lock (the usual case).
+ * \retval #Invalid     The lock does not exist (see valid()).
  */
 PUBLIC
 inline NEEDS["context.h", "processor.h", Switch_lock::set_lock_owner]
 Switch_lock::Status NO_INSTRUMENT
-Switch_lock::lock_dirty()
+Switch_lock::lock()
 {
-  assert(cpu_lock.test());
+  auto guard = lock_guard(cpu_lock);
 
   Mword o = access_once(&_lock_owner);
   if (EXPECT_FALSE(o & 1))
     return Invalid;
 
   Context *c = current();
-  if (o == Address(c))
+  if (o == reinterpret_cast<Address>(c))
     return Locked;
 
   do
@@ -200,7 +194,7 @@ Switch_lock::lock_dirty()
           if (!o)
             break;
 
-          help(c, (Context *)o, o);
+          help(c, reinterpret_cast<Context *>(o), o);
         }
     }
   while (!set_lock_owner(c));
@@ -221,17 +215,7 @@ Switch_lock::test_and_set()
   return lock();
 }
 
-/**
- * \copydoc Switch_lock::lock_dirty()
- */
-PUBLIC
-inline NEEDS["globals.h"]
-Switch_lock::Status NO_INSTRUMENT
-Switch_lock::test_and_set_dirty()
-{
-  return lock_dirty();
-}
-
+// ----------------------------------------------------------------------
 IMPLEMENTATION [!mp]:
 
 PRIVATE inline
@@ -250,7 +234,7 @@ PRIVATE inline
 bool NO_INSTRUMENT
 Switch_lock::set_lock_owner(Context *o)
 {
-  _lock_owner = Address(o) | (_lock_owner & 1);
+  _lock_owner = reinterpret_cast<Address>(o) | (_lock_owner & 1);
   return true;
 }
 
@@ -259,7 +243,7 @@ void
 Switch_lock::schedule(Context *curr)
 { curr->schedule(); }
 
-
+// ----------------------------------------------------------------------
 IMPLEMENTATION [mp]:
 
 PRIVATE inline
@@ -286,7 +270,7 @@ Switch_lock::set_lock_owner(Context *o)
 
   Mem::mp_wmb();
 
-  if (EXPECT_FALSE(!cas(&_lock_owner, Mword(0), Address(o))))
+  if (EXPECT_FALSE(!cas(&_lock_owner, Address{0}, reinterpret_cast<Address>(o))))
     {
       if (have_no_locks)
         {
@@ -318,7 +302,7 @@ Switch_lock::schedule(Context *curr)
     curr->_running_under_lock.preempt();
 }
 
-
+// ----------------------------------------------------------------------
 IMPLEMENTATION:
 
 /**
@@ -375,7 +359,8 @@ Switch_lock::switch_dirty(Lock_context const &c)
 
   if (h != curr)
     if (   EXPECT_FALSE(h->home_cpu() != current_cpu())
-        || EXPECT_FALSE((long)curr->switch_exec_locked(h, Context::Ignore_Helping)))
+        || EXPECT_FALSE(curr->switch_exec_locked(h, Context::Ignore_Helping)
+                        != Context::Switch::Ok))
       need_sched = true;
 
   if (!need_sched)
@@ -411,27 +396,6 @@ Switch_lock::set(Status s)
     clear();
 }
 
-/**
- * Free the lock.
- *
- * Return the CPU to helper if there is one, since it had to have a
- * higher priority to be able to help (priority may be its own, it
- * may run on a donated timeslice or round robin scheduling may have
- * selected a thread on the same priority level as me).
- * If _lock_owner is 0, then this is a no op
- *
- * \pre caller holds cpu lock
- */
-PUBLIC
-inline
-void NO_INSTRUMENT
-Switch_lock::clear_dirty()
-{
-  assert(cpu_lock.test());
-
-  switch_dirty(clear_no_switch_dirty());
-}
-
 PUBLIC inline
 void NO_INSTRUMENT
 Switch_lock::invalidate()
@@ -449,7 +413,7 @@ Switch_lock::wait_free()
 
   assert (!valid());
 
-  if ((_lock_owner & ~1UL) == (Address)c)
+  if ((_lock_owner & ~1UL) == reinterpret_cast<Address>(c))
     {
       clear_lock_owner();
       c->dec_lock_cnt();
@@ -461,7 +425,7 @@ Switch_lock::wait_free()
       assert(cpu_lock.test());
 
       Address _owner = access_once(&_lock_owner);
-      Context *owner = (Context *)(_owner & ~1UL);
+      Context *owner = reinterpret_cast<Context *>(_owner & ~1UL);
       if (!owner)
         break;
 

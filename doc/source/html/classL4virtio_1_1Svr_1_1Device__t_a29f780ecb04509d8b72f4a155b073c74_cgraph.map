@@ -1,6 +1,6 @@
 <map id="L4virtio::Svr::Device_t::device_error" name="L4virtio::Svr::Device_t::device_error">
 <area shape="rect" id="Node000001" title="Transition device into DEVICE_NEEDS_RESET state." alt="" coords="5,141,159,181"/>
-<area shape="rect" id="Node000002" href="$structL4virtio_1_1Svr_1_1Dev__status.html#a5b56e89190f111e843f56c8f55c29fd8" title="Get the driver_ok bits ( 2 to 2 ) of raw." alt="" coords="237,5,376,45"/>
+<area shape="rect" id="Node000002" href="$structL4virtio_1_1Svr_1_1Dev__status.html#a7a8555825acd0b2c42febe37f00b8333" title="Get the driver_ok bits ( 2 to 2 ) of raw." alt="" coords="237,5,376,45"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,139,146,97,205,55,223,46,226,51,208,60,149,101,104,143"/>
 <area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Device__t.html#a4350f6e35f43df84584ec30740f5a7aa" title="reset callback, called for doing a device reset" alt="" coords="230,69,383,109"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="144,139,230,111,231,116,146,144"/>
@@ -8,9 +8,9 @@
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="159,159,220,159,220,164,159,164"/>
 <area shape="rect" id="Node000008" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a96ad6d40f04894e7a0ef8ce33a4f8416" title="Get current device status (trusted)." alt="" coords="239,213,374,253"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="146,179,231,207,230,212,144,184"/>
-<area shape="rect" id="Node000009" href="$classL4virtio_1_1Svr_1_1Device__t.html#a52d70a46453eb678e8656dbf790835e8" title="callback for triggering configuration change notification IRQ" alt="" coords="207,277,407,317"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Svr_1_1Device__t.html#a4555e9697f41bc44c313496af829d215" title="callback for triggering configuration change notification IRQ" alt="" coords="207,277,407,317"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="104,180,149,222,208,263,221,270,219,274,205,268,146,226,101,184"/>
-<area shape="rect" id="Node000005" href="$structL4virtio_1_1Svr_1_1Dev__status.html#a00de1af41a5731259d899bb58cf56212" title="Get the device_needs_reset bits ( 6 to 6 ) of raw." alt="" coords="455,109,661,149"/>
+<area shape="rect" id="Node000005" href="$structL4virtio_1_1Svr_1_1Dev__status.html#a3748090616313eb1e9fa86c0e406cbf9" title="Get the device_needs_reset bits ( 6 to 6 ) of raw." alt="" coords="455,109,661,149"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="380,149,441,142,441,147,381,155"/>
 <area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a35714a3ebce252eb16a40033cf97d0fe" title="Get a read&#45;only pointer to the config header." alt="" coords="491,173,625,213"/>
 <area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="381,168,477,180,477,186,380,173"/>

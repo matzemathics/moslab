@@ -36,7 +36,7 @@ size_t attribute_hidden __stdio_WRITE(register FILE *stream,
 	ssize_t rv, stodo;
 
 	__STDIO_STREAM_VALIDATE(stream);
-	assert(stream->__filedes >= -1);
+	assert(stream->__filedes >= -2);
 	assert(__STDIO_STREAM_IS_WRITING(stream));
 	assert(!__STDIO_STREAM_BUFFER_WUSED(stream)); /* Buffer must be empty. */
 
@@ -46,9 +46,6 @@ size_t attribute_hidden __stdio_WRITE(register FILE *stream,
 		stodo = (todo <= SSIZE_MAX) ? todo : SSIZE_MAX;
 		rv = __WRITE(stream, (char *) buf, stodo);
 		if (rv >= 0) {
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Make custom stream write return check optional.
-#endif
 #ifdef __UCLIBC_HAS_GLIBC_CUSTOM_STREAMS__
 			assert(rv <= stodo);
 			if (rv > stodo) {	/* Wrote more than stodo! */
@@ -79,6 +76,7 @@ size_t attribute_hidden __stdio_WRITE(register FILE *stream,
 			 */
 			if (errno != EINTR && errno != EAGAIN) {
 				/* do we have other "soft" errors? */
+				bufsize -= todo;
 				break;
 			}
 #ifdef __STDIO_BUFFERS
@@ -86,7 +84,7 @@ size_t attribute_hidden __stdio_WRITE(register FILE *stream,
 			if (stodo != 0) {
 				unsigned char *s;
 
-				if (stodo > todo) {
+				if ((size_t)stodo > todo) {
 					stodo = todo;
 				}
 

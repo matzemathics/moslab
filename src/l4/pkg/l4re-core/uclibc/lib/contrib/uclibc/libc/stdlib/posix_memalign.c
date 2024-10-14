@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* posix_memalign for uClibc
  *
  * Copyright (C) 1996-2002, 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -34,8 +33,10 @@ int posix_memalign(void **memptr, size_t alignment, size_t size)
 	     || alignment == 0
 	     */
 		return EINVAL;
-
-	*memptr = memalign(alignment, size);
-
-	return (*memptr != NULL ? 0 : ENOMEM);
+	void *mem = memalign(alignment, size);
+	if (mem != NULL) {
+		*memptr = mem;
+		return 0;
+	} else
+		return ENOMEM;
 }

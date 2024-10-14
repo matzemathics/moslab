@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4 IPC Opcodes</title>
+<title>L4Re Operating System Framework: L4 IPC Opcodes</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -127,6 +130,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5a18dd3723e48f44a9b8d07070b01e076b">L4_PLATFORM_CTL_CPU_ENABLE_OP</a> = 3UL
 , <br />
 &#160;&#160;<a class="el" href="group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5adedffb6cc8f06840347891e11ed5920a">L4_PLATFORM_CTL_CPU_DISABLE_OP</a> = 4UL
+, <a class="el" href="group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5ab39e52ddda48700c212737927011e6cc">L4_PLATFORM_CTL_SET_TASK_ASID_OP</a> = 0x10UL
 <br />
  }</td></tr>
 <tr class="memdesc:ga23eef0a63655492f17c8b4aff576ebf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operations on platform-control objects.  <a href="group__l4__protocol__ops.html#ga23eef0a63655492f17c8b4aff576ebf5">More...</a><br /></td></tr>
@@ -266,9 +270,11 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="gga23eef0a63655492f17c8b4aff576ebf5adedffb6cc8f06840347891e11ed5920a" name="gga23eef0a63655492f17c8b4aff576ebf5adedffb6cc8f06840347891e11ed5920a"></a>L4_PLATFORM_CTL_CPU_DISABLE_OP&#160;</td><td class="fielddoc"><p>disable an online CPU </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga23eef0a63655492f17c8b4aff576ebf5ab39e52ddda48700c212737927011e6cc" name="gga23eef0a63655492f17c8b4aff576ebf5ab39e52ddda48700c212737927011e6cc"></a>L4_PLATFORM_CTL_SET_TASK_ASID_OP&#160;</td><td class="fielddoc"><p>Arm: set task ASID. </p>
+</td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="platform__control_8h_source.html#l00166">166</a> of file <a class="el" href="platform__control_8h_source.html">platform_control.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2platform__control_8h_source.html#l00170">170</a> of file <a class="el" href="l4_2sys_2platform__control_8h_source.html">platform_control.h</a>.</p>
 
 </div>
 </div>
@@ -300,7 +306,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00310">310</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00312">312</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 </div>
 </div>
@@ -346,7 +352,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00690">690</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00693">693</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 </div>
 </div>
@@ -384,7 +390,7 @@ Enumerations</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

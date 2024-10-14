@@ -16,7 +16,18 @@
 .section .text.init,"ax"
 .type _start,#function
 .globl _start
+
+#ifdef CONFIG_BOOTSTRAP_THUMB_ENTRY
+.thumb
 _start:
+	adr r4, 1f
+	bx  r4
+1:
+.arm
+#else
+_start:
+#endif
+
 /* Some bootloaders like it this way, for others it won't harm */
 /* Only works on non-PIE builds because it leaves behind relocations in text
  * segment. */
@@ -35,6 +46,11 @@ _start:
 	.word _module_data_end
 10:
 #endif
+
+	// IRQs, FIQs off
+	mrs r4, cpsr
+	orr r4, #0xc0
+	msr cpsr_c, r4
 
 	/*
 	 * It might be the case that we're not run at the position where we
@@ -57,6 +73,8 @@ _start:
 
 	/* Figure how to move */
         ldr     r7, crt_end_bin_lsb
+	add     r7, r7, #3	/* Round up to word size for ldr and str... */
+	bic     r7, r7, #3	/* ...below */
 	subs	r8, r5, r4	/* r8 is the distance between the blocks */
 	bpl	move_behind
 
@@ -100,119 +118,15 @@ crt_end_bin_lsb: .word _module_data_end;
 
 run:
 #endif
-	.global cpu_bootup_code_start
-cpu_bootup_code_start:
-	mov	r5, #0x1000
-	sub	r5, r5, #1                 /* r5 == 0xfff */
-	mrc	p15, 0, r6, c0, c0, 0      /* Main ID */
-	lsr	r6, #4
-	and	r6, r6, r5
+	b	platform_cpu_bootup
 
-	/* Check for processors that understand CPU ID */
-	mov	r9, #0xb00
-	orr 	r9, #0x002
-	cmp	r6, r9
-	beq	do_cpuid
+.type platform_cpu_bootup, #function
+.weak platform_cpu_bootup
+platform_cpu_bootup:
+	/* Can be overridden by platform for special MP boot */
 
-	mov	r5, #0xf00
-	and	r6, r5
-
-	mov	r9, #0xc00
-	cmp	r6, r9
-	beq	do_cpuid
-
-	mov	r9, #0xd00
-	cmp	r6, r9
-	bne	do_bootstrap               /* None matched, normal startup */
-
-do_cpuid:
-	mrc	p15, 0, r4, c0, c0, 5      /* CPU ID */
-	and     r4, r4, #0xf               /* CPU id */
-	cmp	r4, #0                     /* CPU0 continues with bootstrap */
-	beq	do_bootstrap	
-
-/* CPU1+ wait for bootup */
-
-	// I-cache on
-	mrc p15, 0, r4, c1, c0, 0
-	orr r4, r4, #(1 << 12)
-	mcr p15, 0, r4, c1, c0, 0
-
-	// IRQs off, SVC
-	mrs r4, cpsr
-	orr r4, #0xd3
-	msr cpsr_c, r4
-
-#if defined(PLATFORM_TYPE_rv) || defined(PLATFORM_TYPE_rv_pbx) || \
-    defined(PLATFORM_TYPE_rv_vexpress) || defined(PLATFORM_TYPE_rv_vexpress_a15)
-
-	// enable GIC CPU interface + prio mask for IRQs
-	mrc	p15, 0, r8, c0, c0, 0    // r8: cpu-id
-	and	r8, r8, #0x70
-	cmp	r8, #0x70
-
-	// get board ID and retrieve MPCore-base from table
-	movne	r7, #0x10000000
-	moveq	r7, #0x00010000
-	orreq	r7, #0x1c000000
-	ldr	r5, [r7]
-	bic	r5, #0xff
-
-	adr	r6, .Lboard_data_table
-2:
-	ldr	r4, [r6]
-	cmp	r4, #0
-	beq	3f
-	cmp	r4, r5
-	bne	4f
-
-	ldr	r9, [r6, #4]
-	cmp	r8, r9
-	beq	3f
-	cmp	r9, #0
-	beq	3f
-4:	add	r6, #12
-	b	2b
-
-3:
-	ldr	r4, [r6, #8]
-	mov	r8, #0x1
-	str	r8, [r4, #0]
-	mov	r8, #0xf0
-	str	r8, [r4, #4]
-
-1:
-	ldr	r6, [r7, #0x30]
-	cmp	r6, #0
-	movne	pc, r6
-	.inst	0xe320f003 /* wfi */
-	ldr	r8, [r4, #12]
-	str	r8, [r4, #16]
-	b	1b
-
-.Lboard_data_table:
-	/* VExpress */
-	.word	0x1190f500 /* Board ID */
-	.word	0x00000070 /* CPU ID */
-	.word	0x2c002000 /* MPCore base */
-
-	.word	0x1190f500 /* Board ID */
-	.word	0x00000000 /* CPU ID */
-	.word	0x1e000100 /* MPCore base */
-
-	/* Default value (with #0) must come last! */
-	/* Realview */
-	.word	0
-	.word	0
-	.word	0x1f000100
-
-#else
-1:	.word 0xe320f003 /* wfi */
-	b	1b
-#endif
-	.global cpu_bootup_code_end
-cpu_bootup_code_end:
-
+.global do_bootstrap
+.type do_bootstrap, #function
 do_bootstrap:
 #ifdef __ARM_FP
 .fpu vfp
@@ -243,6 +157,7 @@ no_fpu:
 	adr a4, _start          /* Get address of _start after relocation (changes to pc - ~30 or so) */
 	add a1, a1, a2          /* Calculate where the GOT is */
 	ldr a2, [a1, a3]        /* GOT + _start(GOT) = offset of _start from begin of file */
+	bic a2, a2, #1          /* Clear potential thumb mode indicator */
 	sub a1, a4, a2          /* Current addr of _start - offset from beginning of file = load addr */
 	bl reloc_static_pie
 #endif

@@ -129,7 +129,8 @@ Mem_space::initialize()
   if (EXPECT_FALSE(!q))
     return false;
 
-  _dir = (Dir_type*)Kmem_alloc::allocator()->alloc(Bytes(sizeof(Dir_type)));
+  _dir = static_cast<Dir_type*>(Kmem_alloc::allocator()
+                                  ->alloc(Bytes(sizeof(Dir_type))));
   if (!_dir)
     return false;
 
@@ -152,7 +153,7 @@ PUBLIC static inline
 bool
 Mem_space::is_full_flush(L4_fpage::Rights rights)
 {
-  return (bool)(rights & L4_fpage::Rights::R());
+  return static_cast<bool>(rights & L4_fpage::Rights::R());
 }
 
 IMPLEMENT inline
@@ -173,7 +174,7 @@ void Mem_space::kernel_space(Mem_space *_k_space)
 IMPLEMENT
 Mem_space::Status
 Mem_space::v_insert(Phys_addr phys, Vaddr virt, Page_order size,
-                    Attr page_attribs)
+                    Attr page_attribs, bool)
 {
   assert (cxx::is_zero(cxx::get_lsb(phys, size)));
   assert (cxx::is_zero(cxx::get_lsb(Virt_addr(virt), size)));
@@ -234,19 +235,6 @@ Mem_space::virt_to_phys(Address virt) const
   return ~0UL;
 }
 
-/**
- * Simple page-table lookup.
- *
- * @param virt Virtual address.  This address does not need to be page-aligned.
- * @return Physical address corresponding to a.
- */
-PUBLIC inline NEEDS ["mem_layout.h"]
-Address
-Mem_space::pmem_to_phys(Address virt) const
-{
-  return Mem_layout::pmem_to_phys(virt);
-}
-
 IMPLEMENT
 bool
 Mem_space::v_lookup(Vaddr const virt, Phys_addr *phys,
@@ -266,10 +254,9 @@ Mem_space::v_lookup(Vaddr const virt, Phys_addr *phys,
 
 IMPLEMENT
 L4_fpage::Rights
-Mem_space::v_delete(Vaddr virt, Page_order size,
+Mem_space::v_delete(Vaddr virt, [[maybe_unused]] Page_order size,
                     L4_fpage::Rights page_attribs)
 {
-  (void)size;
   assert (cxx::is_zero(cxx::get_lsb(Virt_addr(virt), size)));
   auto i = _dir->walk(virt);
 
@@ -422,7 +409,7 @@ Mem_space::asid(unsigned long a)
 }
 
 PUBLIC inline
-unsigned long
+unsigned long FIASCO_PURE
 Mem_space::c_asid() const
 { return _asid[current_cpu()]; }
 
@@ -470,13 +457,10 @@ void Mem_space::switchin_context(Mem_space *, Switchin_flags flags)
 
 IMPLEMENT inline NEEDS["mem_unit.h"]
 void
-Mem_space::tlb_flush(bool force = false)
+Mem_space::tlb_flush_current_cpu()
 {
-  if (force)
-    {
-      Mem_unit::tlb_flush(c_asid(), 0);
-      tlb_mark_unused_if_non_current();
-    }
+  Mem_unit::tlb_flush(c_asid(), 0);
+  tlb_mark_unused_if_non_current();
 }
 
 
@@ -516,13 +500,13 @@ private:
 
     static void set_id(Mem_space *o, Cpu_number cpu, int id)
     {
-      write_now(&o->_guest_id[cpu], (unsigned char)id);
+      write_now(&o->_guest_id[cpu], static_cast<unsigned char>(id));
       Mem_unit::tlb_flush(-1, id);
       Mem_unit::vz_guest_tlb_flush(id);
     }
 
     static void reset_id(Mem_space *o, Cpu_number cpu)
-    { write_now(&o->_guest_id[cpu], (unsigned char)0); }
+    { write_now(&o->_guest_id[cpu], 0U); }
   };
 
   struct Guest_id_alloc : Id_alloc<unsigned char, Mem_space, Guest_id_ops>
@@ -588,11 +572,8 @@ Mem_space::guest_id_init()
 
 IMPLEMENT inline NEEDS["mem_unit.h"]
 void
-Mem_space::tlb_flush(bool force = false)
+Mem_space::tlb_flush_current_cpu()
 {
-  if (!force)
-    return;
-
   Cpu_number cpu = current_cpu();
   Mem_unit::tlb_flush(Asid_ops::get_id(this, cpu),
                       Guest_id_ops::get_id(this, cpu));

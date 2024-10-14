@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Task</title>
+<title>L4Re Operating System Framework: Task</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -143,9 +146,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga0cadc0abbf54ac249bae17239c9cfb81" id="r_ga0cadc0abbf54ac249bae17239c9cfb81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__task__api.html#ga0cadc0abbf54ac249bae17239c9cfb81">l4_task_cap_equal</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> task, <a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> cap_a, <a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> cap_b) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
 <tr class="memdesc:ga0cadc0abbf54ac249bae17239c9cfb81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test whether two capabilities point to the same object with the same rights.  <br /></td></tr>
 <tr class="separator:ga0cadc0abbf54ac249bae17239c9cfb81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga616af00101b9c34b428836715a90409d" id="r_ga616af00101b9c34b428836715a90409d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__task__api.html#ga616af00101b9c34b428836715a90409d">l4_task_add_ku_mem</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> task, <a class="el" href="unionl4__fpage__t.html">l4_fpage_t</a> ku_mem) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:ga616af00101b9c34b428836715a90409d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add kernel-user memory.  <br /></td></tr>
-<tr class="separator:ga616af00101b9c34b428836715a90409d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga433356d17f678aa259c6b616aeb476ef" id="r_ga433356d17f678aa259c6b616aeb476ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__task__api.html#ga433356d17f678aa259c6b616aeb476ef">l4_task_add_ku_mem</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> task, <a class="el" href="unionl4__fpage__t.html">l4_fpage_t</a> *ku_mem) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga433356d17f678aa259c6b616aeb476ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add kernel-user memory.  <br /></td></tr>
+<tr class="separator:ga433356d17f678aa259c6b616aeb476ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>C interface of the Task kernel object, see <a class="el" href="classL4_1_1Task.html" title="C++ interface of the Task kernel object, see Task for the C interface.">L4::Task</a> for the C++ interface. </p>
@@ -187,8 +190,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga616af00101b9c34b428836715a90409d" name="ga616af00101b9c34b428836715a90409d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga616af00101b9c34b428836715a90409d">&#9670;&#160;</a></span>l4_task_add_ku_mem()</h2>
+<a id="ga433356d17f678aa259c6b616aeb476ef" name="ga433356d17f678aa259c6b616aeb476ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga433356d17f678aa259c6b616aeb476ef">&#9670;&#160;</a></span>l4_task_add_ku_mem()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -205,7 +208,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="unionl4__fpage__t.html">l4_fpage_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="unionl4__fpage__t.html">l4_fpage_t</a> *&#160;</td>
           <td class="paramname"><em>ku_mem</em>&#160;</td>
         </tr>
         <tr>
@@ -224,8 +227,8 @@ Functions</h2></td></tr>
 <p>Add kernel-user memory. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">task</td><td>Capability selector of the task to add the memory to. </td></tr>
-    <tr><td class="paramname">ku_mem</td><td>Flexpage describing the virtual area the memory goes to.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">task</td><td>Capability selector of the task to add the memory to. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">ku_mem</td><td>Flexpage describing the virtual area the memory goes to. On systems without MMU, the flexpage is adjusted to reflect the acually allocated physical address.</td></tr>
   </table>
   </dd>
 </dl>
@@ -235,7 +238,7 @@ Functions</h2></td></tr>
 <dd>
 This function is only guaranteed to work on <a class="el" href="classL4_1_1Task.html" title="C++ interface of the Task kernel object, see Task for the C interface.">L4::Task</a> objects. It might or might not work on <a class="el" href="classL4_1_1Vm.html" title="Virtual machine host address space.">L4::Vm</a> objects or on <a class="el" href="classL4Re_1_1Dma__space.html" title="Managed DMA Address Space.">L4Re::Dma_space</a> objects but there is no practical use for adding kernel-user memory to <a class="el" href="classL4_1_1Vm.html" title="Virtual machine host address space.">L4::Vm</a> objects or to <a class="el" href="classL4Re_1_1Dma__space.html" title="Managed DMA Address Space.">L4Re::Dma_space</a> objects. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00459">459</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00468">468</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -243,7 +246,7 @@ This function is only guaranteed to work on <a class="el" href="classL4_1_1Task.
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__task__api_ga616af00101b9c34b428836715a90409d_cgraph.svg" width="291" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__task__api_ga433356d17f678aa259c6b616aeb476ef_cgraph.svg" width="291" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -299,7 +302,7 @@ This function is only guaranteed to work on <a class="el" href="classL4_1_1Task.
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>label contains 1 if equal, 0 if not equal </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00452">452</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00461">461</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -364,7 +367,7 @@ This function is only guaranteed to work on <a class="el" href="classL4_1_1Task.
 <p>A capability is considered present when it refers to an existing kernel object.</p>
 <dl class="section pre"><dt>Precondition</dt><dd><code>cap</code> must be a valid capability index (i.e. not L4_INVALID_CAP or the like). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00446">446</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00455">455</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -424,7 +427,7 @@ This function is only guaranteed to work on <a class="el" href="classL4_1_1Task.
 <p>If <code>obj</code> does not have the delete permission, no error will be reported and only the capability <code>obj</code> is removed. (Note that, depending on the object’s reference counter, this might still imply initiation of deletion.)</p>
 <p>This operation is equivalent to <a class="el" href="group__l4__task__api.html#gaa5558855716b35c1790b61249cf2974b" title="Revoke rights from the task.">l4_task_unmap()</a> with <a class="el" href="group__l4__task__api.html#gga3c24e67b976870a3e911c43c83382f66a49114f3e6952b9448fe776f2ab18813f" title="Flag that indicates that an unmap operation on object capabilities shall try to delete the correspond...">L4_FP_DELETE_OBJ</a> flag. </p>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00425">425</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00434">434</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -510,11 +513,11 @@ Even with <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa94
 <p>For more information on spaces and mappings, see <a class="el" href="l4re_concepts_mapping.html">Spaces and Mappings</a>. The flexpage API is described in more detail at <a class="el" href="group__l4__fpage__api.html">Flex pages</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>For peculiarities when using grant, see <a class="el" href="group__l4__msgitem__api.html#gga94ecfe2908867c4ed0c13a7a97337f6aa390d5fd9efeb212bfbed501498387c9e" title="Flag as grant instead of map operation.">L4_MAP_ITEM_GRANT</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00395">395</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00404">404</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="capability_8h_source.html#l00190">L4::Cap_base::copy()</a>, and <a class="el" href="capability_8h_source.html#l00174">L4::Cap_base::move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="capability_8h_source.html#l00187">L4::Cap_base::copy()</a>, and <a class="el" href="capability_8h_source.html#l00171">L4::Cap_base::move()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -578,7 +581,7 @@ Even with <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa94
 <p>This operation unmaps the capability from the specified task.</p>
 <dl class="section note"><dt>Note</dt><dd>If the reference counter of the kernel object referenced by <code>cap</code> goes down to zero, deletion of the object is initiated. Objects are not destroyed until all other kernel objects holding a reference to it drop the reference. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00440">440</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00449">449</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -646,11 +649,11 @@ Even with <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa94
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a30">examples/sys/utcb-ipc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00402">402</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00411">411</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="bitmap__cap__alloc_source.html#l00082">L4Re::Util::Cap_alloc_base::free()</a>, <a class="el" href="counting__cap__alloc_source.html#l00252">L4Re::Util::Counting_cap_alloc&lt; COUNTERTYPE &gt;::free()</a>, and <a class="el" href="counting__cap__alloc_source.html#l00290">L4Re::Util::Counting_cap_alloc&lt; COUNTERTYPE &gt;::release()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="bitmap__cap__alloc_source.html#l00092">L4Re::Util::Cap_alloc_base::free()</a>, <a class="el" href="counting__cap__alloc_source.html#l00333">L4Re::Util::Counting_cap_alloc&lt; COUNTERTYPE, Dbg &gt;::free()</a>, and <a class="el" href="counting__cap__alloc_source.html#l00371">L4Re::Util::Counting_cap_alloc&lt; COUNTERTYPE, Dbg &gt;::release()</a>.</p>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
@@ -728,7 +731,7 @@ Even with <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa94
 <p>Revoke rights specified in an array of flexpages, see <a class="el" href="group__l4__task__api.html#gaa5558855716b35c1790b61249cf2974b" title="Revoke rights from the task.">l4_task_unmap</a> for details.</p>
 <dl class="section pre"><dt>Precondition</dt><dd>The caller needs to take care that num_fpages is not bigger than L4_UTCB_GENERIC_DATA_SIZE - 2. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00409">409</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2task_8h_source.html#l00418">418</a> of file <a class="el" href="l4_2sys_2task_8h_source.html">task.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -804,7 +807,7 @@ Even with <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa94
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

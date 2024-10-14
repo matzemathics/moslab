@@ -24,6 +24,8 @@
 #include <sys/stat.h>
 #include <sys/statfs.h>
 
+#define STAT stat64
+#define FSTAT fstat64
 
 #ifndef __USE_FILE_OFFSET64
 extern int fstatfs (int __fildes, struct statfs *__buf)
@@ -202,12 +204,12 @@ long int fpathconf(int fd, int name)
 #endif
 
 	case _PC_ASYNC_IO:
-#if defined _POSIX_ASYNC_IO && defined __UCLIBC_HAS_LFS__
+#if defined _POSIX_ASYNC_IO
 	    {
 		/* AIO is only allowed on regular files and block devices.  */
-		struct stat st;
+		struct STAT st;
 
-		if (fstat (fd, &st) < 0 || (! S_ISREG (st.st_mode) && ! S_ISBLK (st.st_mode)))
+		if (FSTAT (fd, &st) < 0 || (! S_ISREG (st.st_mode) && ! S_ISBLK (st.st_mode)))
 		    return -1;
 		else
 		    return 1;

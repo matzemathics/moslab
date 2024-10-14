@@ -185,7 +185,7 @@ struct atkbd {
 
 	/* Written only during init */
 	char name[64];
-	char phys[32];
+	char phys[40];
 	struct input_dev dev;
 
 	unsigned short id;
@@ -526,7 +526,7 @@ static int atkbd_probe(struct atkbd *atkbd)
 
 		/* Some crappy BIOSes (hello DELL!) do not implement CMD_GETID */
 		if (param[0]==0xa5 && param[1]==0xa5) {
-			if (!ps2dev->serio || !ps2dev->serio->name ||
+			if (!ps2dev->serio ||
 			    !strstr(ps2dev->serio->name, "Kbd"))
 				return -1;
 			atkbd->id = 0;

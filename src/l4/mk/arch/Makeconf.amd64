@@ -1,6 +1,8 @@
+# vim:se ft=make:
+
 CROSS_COMPILE_amd64         = x86_64-linux-gnu-
 CARCHFLAGS_amd64            = -mno-red-zone
-ASFLAGS_amd64               = -m64
+ASFLAGS_amd64               = -m64 -Wa,--noexecstack
 LDFLAGS_amd64              += -m elf_x86_64 -z max-page-size=0x1000 -z common-page-size=0x1000 \
                               -z noexecstack
 LD_EMULATION_CHOICE_amd64   = elf_x86_64
@@ -13,14 +15,10 @@ CARCHFLAGS_amd64_K8         = -march=k8
 CARCHFLAGS_amd64_K10        = -march=k10
 CARCHFLAGS_amd64_opteron    = -march=opteron
 
-CCXX_FLAGS_amd64 += -m64
-
-CC_amd64        = $(CROSS_COMPILE)gcc
-CXX_amd64       = $(CROSS_COMPILE)g++
-FC_amd64        = $(CROSS_COMPILE)gfortran
+CARCHFLAGS_amd64 += -m64
 
 SYSTEMS_ABI    += amd64-l4f
-SYSTEMS_PLAIN  += amd64
+SYSTEMS_PLAIN  += amd64-plain
 
 GCCNOFPU_amd64_f = $(call checkcc,-mno-mmx) $(call checkcc,-mno-3dnow) \
                    $(call checkcc,-mno-sse) $(call checkcc,-mno-sse2)  \
@@ -28,5 +26,5 @@ GCCNOFPU_amd64_f = $(call checkcc,-mno-mmx) $(call checkcc,-mno-3dnow) \
                    $(call checkcc,-mno-sse4a) $(call checkcc,-mno-avx) \
                    $(call checkcc,-mno-avx2)
 
-QEMU_ARCH_MAP_amd64   = qemu-system-x86_64 -m 512 -M q35
-
+QEMU_ARCH_MAP_amd64 = qemu-system-x86_64
+QEMU_OPTIONS_amd64  = -m 512 -M q35

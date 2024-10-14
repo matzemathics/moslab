@@ -31,15 +31,16 @@
 extern void restore_rt(void) __asm__ ("__restore_rt") attribute_hidden;
 extern void restore(void) __asm__ ("__restore") attribute_hidden;
 
-/* If ACT is not NULL, change the action for SIG to *ACT.
+/* If ACT is not NULL, change mask, handler and flags for SIG to ACT's
    If OACT is not NULL, put the old action for SIG in *OACT.  */
 int __libc_sigaction(int sig, const struct sigaction *act, struct sigaction *oact)
 {
 	struct sigaction kact;
 
 	if (act) {
-		memcpy(&kact, act, sizeof(kact));
-		kact.sa_flags |= SA_RESTORER;
+		memcpy(&kact.sa_mask, &act->sa_mask, sizeof(sigset_t));
+		kact.sa_handler = act->sa_handler;
+		kact.sa_flags = act->sa_flags;
 		kact.sa_restorer = (act->sa_flags & SA_SIGINFO) ? &restore_rt : &restore;
 		act = &kact;
 	}
@@ -115,6 +116,7 @@ libc_hidden_weak(sigaction)
 /* The return code for realtime-signals.  */
 # define RESTORE2(name, syscall) \
 __asm__	(						\
+	"nop\n"						\
 	".text\n"					\
 	"__" #name ":\n"				\
 	"	movl	$" #syscall ", %eax\n"		\
@@ -128,6 +130,7 @@ RESTORE(restore_rt, __NR_rt_sigreturn)
 # undef RESTORE2
 # define RESTORE2(name, syscall) \
 __asm__ (						\
+	"nop\n"						\
 	".text\n"					\
 	"__" #name ":\n"				\
 	"	popl	%eax\n"				\

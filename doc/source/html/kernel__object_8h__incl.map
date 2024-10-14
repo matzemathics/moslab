@@ -1,37 +1,38 @@
 <map id="l4/sys/kernel_object.h" name="l4/sys/kernel_object.h">
-<area shape="rect" id="Node000001" title="Kernel object system calls." alt="" coords="491,5,654,31"/>
-<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="358,313,470,339"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="533,33,495,52,477,65,461,80,445,107,432,135,418,196,413,254,414,299,409,300,408,254,413,196,427,134,440,104,457,77,473,60,492,47,531,28"/>
-<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="493,460,625,485"/>
-<area shape="poly" id="edge12_Node000001_Node000004" title=" " alt="" coords="609,28,650,48,690,77,714,100,732,121,742,145,746,178,746,328,742,352,733,374,718,394,699,411,656,439,612,458,610,453,654,434,696,407,714,390,728,372,737,351,741,327,741,178,737,147,727,124,711,104,687,81,647,52,606,33"/>
-<area shape="rect" id="Node000009" href="$l4_2sys_2utcb_8h.html" title="UTCB definitions." alt="" coords="435,240,539,265"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="540,33,507,52,492,64,480,80,468,117,467,157,472,195,481,226,476,228,467,196,461,157,463,116,476,77,488,61,504,47,537,28"/>
-<area shape="rect" id="Node000010" href="$____kernel__object__impl_8h.html" title="Low&#45;level kernel debugger functions." alt="" coords="490,79,655,119"/>
-<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="575,31,575,65,570,65,570,31"/>
-<area shape="rect" id="Node000011" href="$l4_2sys_2ipc_8h.html" title="Common IPC interface." alt="" coords="529,167,624,192"/>
-<area shape="poly" id="edge23_Node000001_Node000011" title=" " alt="" coords="608,28,642,47,657,61,670,77,676,99,670,120,649,145,622,163,619,158,645,141,665,117,671,99,665,80,654,64,639,52,605,33"/>
-<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="5,460,111,485"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="358,330,272,333,173,342,85,360,52,373,31,388,25,402,26,417,41,447,37,450,21,418,19,401,27,385,50,368,83,355,172,337,272,328,358,325"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="440,336,475,357,511,385,534,415,551,446,546,449,530,418,507,389,472,361,437,341"/>
-<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="207,387,325,412"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="391,341,304,383,301,378,389,336"/>
-<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="350,387,497,412"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="418,339,423,373,417,374,413,339"/>
-<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="41,387,182,412"/>
-<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="366,341,174,386,173,381,365,336"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="498,533,621,559"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="562,486,562,520,557,520,557,486"/>
-<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="233,415,106,458,104,453,232,409"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="314,409,499,454,498,459,313,415"/>
-<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="446,410,526,451,524,456,444,414"/>
-<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="105,414,77,451,73,448,100,411"/>
-<area shape="poly" id="edge14_Node000009_Node000002" title=" " alt="" coords="477,268,438,306,434,302,473,264"/>
-<area shape="poly" id="edge16_Node000009_Node000003" title=" " alt="" coords="436,263,330,280,204,307,143,324,89,343,46,365,19,388,14,403,17,418,37,449,33,452,12,420,8,402,14,385,43,360,87,338,141,319,203,302,330,275,435,258"/>
-<area shape="poly" id="edge15_Node000009_Node000004" title=" " alt="" coords="495,265,539,386,556,446,551,447,534,387,490,267"/>
-<area shape="poly" id="edge18_Node000010_Node000011" title=" " alt="" coords="576,119,578,153,573,153,571,119"/>
-<area shape="poly" id="edge19_Node000011_Node000002" title=" " alt="" coords="579,193,573,229,565,249,553,267,519,294,481,312,479,307,517,289,549,264,560,246,568,227,574,192"/>
-<area shape="poly" id="edge20_Node000011_Node000009" title=" " alt="" coords="564,194,514,233,511,229,561,190"/>
-<area shape="rect" id="Node000012" href="$err_8h.html" title="Error codes." alt="" coords="613,313,706,339"/>
-<area shape="poly" id="edge21_Node000011_Node000012" title=" " alt="" coords="586,191,648,300,644,303,581,194"/>
-<area shape="poly" id="edge22_Node000012_Node000004" title=" " alt="" coords="654,340,606,414,579,450,574,447,601,410,650,337"/>
+<area shape="rect" id="Node000001" title="Kernel object system calls." alt="" coords="166,5,328,31"/>
+<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="295,313,407,339"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,30,299,115,324,175,344,239,353,299,347,300,339,241,319,177,294,117,251,32"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="150,460,282,485"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="166,25,131,31,96,42,63,58,34,81,17,103,10,124,10,178,10,327,13,352,23,373,39,393,58,409,104,436,153,454,151,459,102,441,55,414,35,396,19,376,8,353,4,328,4,178,5,123,13,100,30,77,60,54,94,37,130,26,165,20"/>
+<area shape="rect" id="Node000009" href="$l4_2sys_2utcb_8h.html" title="UTCB definitions." alt="" coords="226,240,330,265"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="251,31,277,226,272,227,246,32"/>
+<area shape="rect" id="Node000010" href="$____kernel__object__impl_8h.html" title="Low&#45;level kernel debugger functions." alt="" coords="44,79,210,119"/>
+<area shape="poly" id="edge18_Node000001_Node000010" title=" " alt="" coords="231,33,169,73,166,69,228,29"/>
+<area shape="rect" id="Node000011" href="$l4_2sys_2ipc_8h.html" title="Common IPC interface." alt="" coords="141,167,236,192"/>
+<area shape="poly" id="edge24_Node000001_Node000011" title=" " alt="" coords="248,32,239,71,224,120,205,156,201,154,219,118,234,70,242,31"/>
+<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="645,460,750,485"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="407,325,490,329,585,338,670,356,702,369,724,385,731,400,731,417,717,449,712,447,725,416,726,401,720,388,699,373,668,361,584,343,490,334,407,330"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="316,341,278,360,259,373,244,388,229,417,221,447,216,445,224,415,239,385,256,369,275,355,314,336"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="590,387,709,412"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="400,336,589,381,587,386,398,341"/>
+<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="254,387,400,412"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="350,340,338,374,333,373,344,338"/>
+<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="424,387,566,412"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="375,336,460,378,458,383,373,341"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="155,533,278,559"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="219,486,219,520,214,520,214,486"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="660,411,685,447,680,450,655,414"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="591,413,296,461,295,456,590,408"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="311,414,248,455,245,450,308,410"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="528,410,653,453,651,458,527,415"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="451,415,275,459,274,454,450,409"/>
+<area shape="poly" id="edge15_Node000009_Node000002" title=" " alt="" coords="292,264,331,302,327,306,288,268"/>
+<area shape="poly" id="edge17_Node000009_Node000003" title=" " alt="" coords="330,258,435,275,560,302,620,319,674,339,717,361,745,385,751,402,747,420,724,452,720,449,742,418,746,403,741,388,714,365,672,344,619,324,558,307,434,281,329,264"/>
+<area shape="poly" id="edge16_Node000009_Node000004" title=" " alt="" coords="274,267,248,318,224,387,218,446,213,446,219,386,243,316,269,264"/>
+<area shape="poly" id="edge19_Node000010_Node000011" title=" " alt="" coords="144,117,173,154,169,157,140,121"/>
+<area shape="poly" id="edge20_Node000011_Node000002" title=" " alt="" coords="191,192,197,227,204,246,216,264,248,289,286,307,284,312,245,294,212,267,200,249,192,229,186,193"/>
+<area shape="poly" id="edge21_Node000011_Node000009" title=" " alt="" coords="204,190,254,229,251,233,201,194"/>
+<area shape="rect" id="Node000012" href="$err_8h.html" title="Error codes." alt="" coords="44,313,138,339"/>
+<area shape="poly" id="edge22_Node000011_Node000012" title=" " alt="" coords="183,194,109,303,104,300,178,191"/>
+<area shape="poly" id="edge23_Node000012_Node000004" title=" " alt="" coords="100,338,120,371,149,410,191,449,188,453,145,414,116,374,95,340"/>
 </map>

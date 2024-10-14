@@ -1,20 +1,20 @@
 <map id="L4virtio::Driver::Block_device" name="L4virtio::Driver::Block_device">
-<area shape="rect" id="Node000001" title="Simple class for accessing a virtio block device synchronously." alt="" coords="274,1515,447,1715"/>
-<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Device.html" title="Client&#45;side implementation for a general virtio device." alt="" coords="169,1180,339,1465"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="313,1478,327,1513,322,1515,308,1479"/>
-<area shape="rect" id="Node000003" href="$classL4_1_1Cap.html" title=" " alt="" coords="5,840,140,1060"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="127,1059,155,1116,179,1164,174,1166,150,1119,123,1062"/>
-<area shape="rect" id="Node000004" href="$classL4_1_1Cap__base.html" title="Base class for all kinds of capabilities." alt="" coords="369,5,485,351"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="357,202,284,229,202,271,162,297,125,328,92,362,66,401,42,454,26,510,18,568,15,627,18,685,24,741,43,839,38,840,19,741,12,685,10,627,12,568,21,509,37,452,61,399,88,359,121,324,159,293,199,266,281,224,355,197"/>
-<area shape="rect" id="Node000005" href="$classL4_1_1Cap.html" title="C++ interface for capabilities." alt="" coords="373,450,482,655"/>
-<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="430,365,430,450,425,450,425,365"/>
-<area shape="rect" id="Node000008" href="$classL4_1_1Cap.html" title=" " alt="" coords="385,847,587,1053"/>
-<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="493,327,526,416,560,516,589,622,611,729,612,760,606,791,595,821,580,848,575,846,590,819,601,790,607,760,606,730,584,623,555,518,521,418,488,329"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="367,655,322,723,290,761,271,770,253,774,220,772,188,771,171,775,154,785,129,810,109,841,105,838,125,807,151,781,169,770,187,765,220,767,252,769,269,765,287,757,317,720,363,652"/>
-<area shape="poly" id="edge10_Node000008_Node000005" title=" " alt="" coords="450,668,459,729,476,847,470,847,454,730,444,669"/>
-<area shape="rect" id="Node000006" href="$classL4Re_1_1Rm_1_1Unique__region.html" title=" " alt="" coords="164,783,344,1117"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="257,1117,257,1163,251,1163,251,1117"/>
-<area shape="rect" id="Node000007" href="$classL4Re_1_1Rm_1_1Unique__region.html" title="Unique region." alt="" coords="75,400,291,705"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="165,719,170,758,176,782,171,783,165,759,159,719"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="469,1053,385,1499,380,1498,464,1052"/>
+<area shape="rect" id="Node000001" title="Simple class for accessing a virtio block device synchronously." alt="" coords="340,1515,513,1715"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Device.html" title="Client&#45;side implementation for a general virtio device." alt="" coords="229,1180,400,1465"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="377,1477,391,1513,386,1515,372,1479"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Cap.html" title=" " alt="" coords="5,820,200,1080"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="179,1079,228,1164,223,1167,174,1082"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Cap__base.html" title="Base class for all kinds of capabilities." alt="" coords="441,5,557,351"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="428,199,350,225,261,266,218,293,177,324,141,360,112,401,88,451,71,503,61,558,56,614,59,722,73,819,67,820,53,723,50,613,55,557,66,502,83,449,107,399,137,357,174,320,215,289,259,262,348,220,427,194"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Cap.html" title="C++ interface for capabilities." alt="" coords="401,430,596,675"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="501,365,501,430,496,430,496,365"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Cap.html" title=" " alt="" coords="438,827,639,1073"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="565,293,590,345,611,399,638,490,653,562,671,729,673,744,671,759,657,795,639,828,634,826,652,792,665,758,667,744,665,730,648,562,633,491,605,401,585,347,561,295"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="410,688,374,733,343,761,324,770,307,773,276,773,246,772,230,776,213,785,192,802,173,822,170,818,189,798,211,780,229,771,245,767,276,767,307,768,323,765,340,756,370,729,406,685"/>
+<area shape="poly" id="edge10_Node000008_Node000005" title=" " alt="" coords="515,689,529,827,524,827,510,690"/>
+<area shape="rect" id="Node000006" href="$classL4Re_1_1Rm_1_1Unique__region.html" title=" " alt="" coords="225,783,405,1117"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="317,1117,317,1163,312,1163,312,1117"/>
+<area shape="rect" id="Node000007" href="$classL4Re_1_1Rm_1_1Unique__region.html" title="Unique region." alt="" coords="121,400,337,705"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="217,719,223,758,229,782,224,783,217,759,211,720"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="521,1073,449,1499,444,1498,515,1072"/>
 </map>

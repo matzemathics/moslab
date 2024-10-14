@@ -1,9 +1,11 @@
 <map id="l4_kip_clock" name="l4_kip_clock">
-<area shape="rect" id="Node000001" title="Return clock value from the KIP." alt="" coords="505,42,608,67"/>
-<area shape="rect" id="Node000002" href="$classL4_1_1Poll__timeout__kipclock.html#a5a981174ea6408e39c3a80b8cdb92831" title="(Re&#45;)Set relative timeout in microseconds" alt="" coords="241,13,457,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="491,48,439,41,440,35,492,43"/>
-<area shape="rect" id="Node000004" href="$classL4_1_1Poll__timeout__kipclock.html#a5901a2c8eefa9640939fd91cb57e4bf2" title="Test whether timeout has expired." alt="" coords="255,63,443,103"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="492,66,444,73,443,67,491,61"/>
-<area shape="rect" id="Node000003" href="$classL4_1_1Poll__timeout__kipclock.html#a0b0d86579969353be5308ef67c875576" title="Initialise relative timeout in microseconds." alt="" coords="5,5,193,45"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="228,28,193,28,193,23,228,23"/>
+<area shape="rect" id="Node000001" title="Return clock value from the KIP." alt="" coords="505,55,608,80"/>
+<area shape="rect" id="Node000002" href="$group__l4__kip__api.html#ga1faebf3577d24a6ad580ab2bd1398222" title="Return least significant machine word of clock value from the KIP." alt="" coords="287,5,411,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="494,54,457,45,408,33,409,28,458,39,495,49"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Poll__timeout__kipclock.html#a5a981174ea6408e39c3a80b8cdb92831" title="(Re&#45;)Set relative timeout in microseconds" alt="" coords="241,55,457,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="492,70,458,70,458,65,492,65"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Poll__timeout__kipclock.html#a5901a2c8eefa9640939fd91cb57e4bf2" title="Test whether timeout has expired." alt="" coords="255,105,443,145"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="497,86,423,107,421,102,496,81"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Poll__timeout__kipclock.html#a0b0d86579969353be5308ef67c875576" title="Initialise relative timeout in microseconds." alt="" coords="5,47,193,87"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="228,70,193,70,193,65,228,65"/>
 </map>

@@ -4,6 +4,7 @@ INTERFACE:
 #include "irq_chip.h"
 #include "l4_types.h"
 #include <cxx/type_traits>
+#include "global_data.h"
 
 /**
  * Interface used to manage hardware IRQs on a platform.
@@ -62,13 +63,13 @@ public:
   /** Get the message to use for a given MSI.
    * \pre The IRQ pin needs to be already allocated before using this function.
    */
-  virtual int msg(Mword irqnum, Unsigned64, Msi_info *) const
-  { (void)irqnum; return -L4_err::ENosys; }
+  virtual int msg(Mword /* irqnum */, Unsigned64, Msi_info *) const
+  { return -L4_err::ENosys; }
 
   virtual void set_cpu(Mword irqnum, Cpu_number cpu) const;
 
   /// The pointer to the single global instance of the actual IRQ manager.
-  static Irq_mgr *mgr;
+  static Global_data<Irq_mgr *> mgr;
 
   /// Prevent generation of a real virtual delete function
   virtual ~Irq_mgr() = 0;
@@ -94,7 +95,7 @@ IMPLEMENTATION:
 
 #include "warn.h"
 
-Irq_mgr *Irq_mgr::mgr;
+DEFINE_GLOBAL Global_data<Irq_mgr *> Irq_mgr::mgr;
 
 IMPLEMENT inline Irq_mgr::~Irq_mgr() {}
 
@@ -106,13 +107,13 @@ Irq_mgr::alloc(Irq_base *irq, Mword global_irq, bool init = true)
   if (!i.chip)
     return false;
 
-  if (i.chip->alloc(irq, i.pin, init))
-    {
-      if (init)
-        i.chip->set_cpu(i.pin, Cpu_number::boot_cpu());
-      return true;
-    }
-  return false;
+  if (!i.chip->alloc(irq, i.pin, init))
+    return false;
+
+  if (init)
+    i.chip->set_cpu(i.pin, Cpu_number::boot_cpu());
+
+  return true;
 }
 
 PUBLIC inline

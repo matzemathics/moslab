@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* daemon implementation for uClibc
  *
  * Copyright (c) 1990, 1993
@@ -53,13 +52,8 @@
 #include <sys/stat.h>
 #endif
 
-#ifdef __UCLIBC_HAS_LFS__
 #define STAT stat64
 #define FSTAT fstat64
-#else
-#define STAT stat
-#define FSTAT fstat
-#endif
 
 #if defined __USE_BSD || (defined __USE_XOPEN && !defined __USE_UNIX98)
 
@@ -69,8 +63,7 @@
 /* use clone() to get fork() like behavior here -- we just want to disassociate
  * from the controlling terminal
  */
-static inline attribute_optimize("O3")
-pid_t _fork_parent(void)
+static inline pid_t _fork_parent(void)
 {
 	INTERNAL_SYSCALL_DECL(err);
 	register long ret = INTERNAL_SYSCALL(clone, err, 2, CLONE_VM, 0);

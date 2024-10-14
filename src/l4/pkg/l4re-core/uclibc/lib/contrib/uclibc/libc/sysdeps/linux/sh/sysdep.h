@@ -38,37 +38,16 @@
 
 /* Define an entry point visible from C.  */
 #define	ENTRY(name)							      \
-  ASM_GLOBAL_DIRECTIVE C_SYMBOL_NAME(name);				      \
+  .globl C_SYMBOL_NAME(name);				      \
   ASM_TYPE_DIRECTIVE (C_SYMBOL_NAME(name),function)			      \
   .align ALIGNARG(5);							      \
   C_LABEL(name)								      \
-  cfi_startproc;							      \
-  CALL_MCOUNT
+  cfi_startproc;
 
 #undef	END
 #define END(name)							      \
   cfi_endproc;								      \
   ASM_SIZE_DIRECTIVE(C_SYMBOL_NAME(name))
-
-/* If compiled for profiling, call `mcount' at the start of each function.  */
-#ifdef	PROF
-#define CALL_MCOUNT					\
-	mov.l	1f,r1;					\
-	sts.l	pr,@-r15;				\
-	cfi_adjust_cfa_offset (4);			\
-	cfi_rel_offset (pr, 0);				\
-	mova	2f,r0;					\
-	jmp	@r1;					\
-	 lds	r0,pr;					\
-	.align	2;					\
-1:	.long	mcount;					\
-2:	lds.l	@r15+,pr;				\
-	cfi_adjust_cfa_offset (-4);			\
-	cfi_restore (pr)
-
-#else
-#define CALL_MCOUNT		/* Do nothing.  */
-#endif
 
 #ifdef	__UCLIBC_UNDERSCORES__
 /* Since C identifiers are not normally prefixed with an underscore
@@ -151,30 +130,11 @@
 
 #include <libc/sysdeps/linux/sh/syscall_error.S>
 #else
-# ifdef RTLD_PRIVATE_ERRNO
-
-#  define SYSCALL_ERROR_HANDLER	\
-	neg r0,r1; \
-	mov.l 0f,r12; \
-	mova 0f,r0; \
-	add r0,r12; \
-	mov.l 1f,r0; \
-	mov.l r1,@(r0,r12)
-	bra .Lpseudo_end; \
-	 mov _IMM1,r0; \
-	.align 2; \
-     0: .long _GLOBAL_OFFSET_TABLE_; \
-     1: .long rtld_errno@GOTOFF
-
-# elif defined _LIBC_REENTRANT
+# if defined _LIBC_REENTRANT
 
 #  if defined USE___THREAD
 
-#   ifndef NOT_IN_libc
-#    define SYSCALL_ERROR_ERRNO __libc_errno
-#   else
 #    define SYSCALL_ERROR_ERRNO errno
-#   endif
 #   define SYSCALL_ERROR_HANDLER \
 	neg r0,r1; \
 	mov r12,r2; \
@@ -271,23 +231,3 @@
  1: .long SYS_ify (syscall_name);	\
  2:
 #endif	/* __ASSEMBLER__ */
-
-/* Pointer mangling support.  */
-#if defined NOT_IN_libc && defined IS_IN_rtld
-/* We cannot use the thread descriptor because in ld.so we use setjmp
-   earlier than the descriptor is initialized.  Using a global variable
-   is too complicated here since we have no PC-relative addressing mode.  */
-#else
-# ifdef __ASSEMBLER__
-#  define PTR_MANGLE(reg, tmp) \
-     stc gbr,tmp; mov.l @(POINTER_GUARD,tmp),tmp; xor tmp,reg
-#  define PTR_MANGLE2(reg, tmp)	xor tmp,reg
-#  define PTR_DEMANGLE(reg, tmp)	PTR_MANGLE (reg, tmp)
-#  define PTR_DEMANGLE2(reg, tmp)	PTR_MANGLE2 (reg, tmp)
-# else
-#  define PTR_MANGLE(var) \
-     (var) = (void *) ((uintptr_t) (var) ^ THREAD_GET_POINTER_GUARD ())
-#  define PTR_DEMANGLE(var)	PTR_MANGLE (var)
-# endif
-#endif
-

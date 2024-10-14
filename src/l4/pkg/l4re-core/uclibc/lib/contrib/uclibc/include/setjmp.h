@@ -29,21 +29,7 @@
 __BEGIN_DECLS
 
 #include <bits/setjmp.h>		/* Get `__jmp_buf'.  */
-#include <bits/sigset.h>		/* Get `__sigset_t'.  */
-
-
-/* Calling environment, plus possibly a saved signal mask.  */
-struct __jmp_buf_tag
-  {
-    /* NOTE: The machine-dependent definitions of `__sigsetjmp'
-       assume that a `jmp_buf' begins with a `__jmp_buf' and that
-       `__mask_was_saved' follows it.  Do not move these members
-       or add others before it.  */
-    __jmp_buf __jmpbuf;		/* Calling environment.  */
-    int __mask_was_saved;	/* Saved the signal mask?  */
-    __sigset_t __saved_mask;	/* Saved signal mask.  */
-  };
-
+#include <bits/jmp_buf_tag.h>
 
 __BEGIN_NAMESPACE_STD
 
@@ -51,37 +37,30 @@ typedef struct __jmp_buf_tag jmp_buf[1];
 
 /* Store the calling environment in ENV, also saving the signal mask.
    Return 0.  */
-extern int setjmp (jmp_buf __env) __THROW;
+extern int setjmp (jmp_buf __env) __THROWNL;
 
 __END_NAMESPACE_STD
 
 /* Store the calling environment in ENV, also saving the
    signal mask if SAVEMASK is nonzero.  Return 0.
    This is the internal name for `sigsetjmp'.  */
-extern int __sigsetjmp (struct __jmp_buf_tag __env[1], int __savemask) __THROW;
+extern int __sigsetjmp (struct __jmp_buf_tag __env[1], int __savemask)
+    __THROWNL;
 
-#ifndef	__FAVOR_BSD
 /* Store the calling environment in ENV, not saving the signal mask.
    Return 0.  */
-extern int _setjmp (struct __jmp_buf_tag __env[1]) __THROW;
+extern int _setjmp (struct __jmp_buf_tag __env[1]) __THROWNL;
 
 /* Do not save the signal mask.  This is equivalent to the `_setjmp'
    BSD function.  */
-# define setjmp(env)	_setjmp (env)
-#else
-/* We are in 4.3 BSD-compatibility mode in which `setjmp'
-   saves the signal mask like `sigsetjmp (ENV, 1)'.  We have to
-   define a macro since ISO C says `setjmp' is one.  */
-# define setjmp(env)	setjmp (env)
-#endif /* Favor BSD.  */
-
+#define setjmp(env)	_setjmp (env)
 
 __BEGIN_NAMESPACE_STD
 
 /* Jump to the environment saved in ENV, making the
    `setjmp' call there return VAL, or 1 if VAL is 0.  */
 extern void longjmp (struct __jmp_buf_tag __env[1], int __val)
-     __THROW __attribute__ ((__noreturn__));
+     __THROWNL __attribute__ ((__noreturn__));
 
 __END_NAMESPACE_STD
 
@@ -90,7 +69,7 @@ __END_NAMESPACE_STD
    the signal mask.  But it is how ENV was saved that determines whether
    `longjmp' restores the mask; `_longjmp' is just an alias.  */
 extern void _longjmp (struct __jmp_buf_tag __env[1], int __val)
-     __THROW __attribute__ ((__noreturn__));
+     __THROWNL __attribute__ ((__noreturn__));
 #endif
 
 
@@ -109,16 +88,18 @@ typedef struct __jmp_buf_tag sigjmp_buf[1];
    Restore the signal mask if that sigsetjmp call saved it.
    This is just an alias `longjmp'.  */
 extern void siglongjmp (sigjmp_buf __env, int __val)
-     __THROW __attribute__ ((__noreturn__));
+     __THROWNL __attribute__ ((__noreturn__));
 #endif /* Use POSIX.  */
 
 __END_DECLS
 
 #ifdef _LIBC
-extern void __longjmp(__jmp_buf __env, int __val) attribute_noreturn;
+extern void __longjmp(__jmp_buf __env, int __val) __THROWNL attribute_noreturn;
 libc_hidden_proto(__longjmp)
-extern __typeof(longjmp) __libc_longjmp attribute_noreturn;
-extern __typeof(siglongjmp) __libc_siglongjmp attribute_noreturn;
+extern void __libc_longjmp(struct __jmp_buf_tag __env[1], int __val)
+  __THROWNL attribute_noreturn;
+extern void __libc_siglongjmp(sigjmp_buf __env, int __val)
+  __THROWNL attribute_noreturn;
 extern void _longjmp_unwind(jmp_buf __env, int __val);
 libc_hidden_proto(_longjmp_unwind)
 extern int __sigjmp_save(sigjmp_buf __env, int __savemask) attribute_hidden;

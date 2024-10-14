@@ -43,6 +43,7 @@
 #include <debug.h>
 #include <checksum.h>
 
+#include <terminate_handler-l4>
 
 //#define CONFIG_STATS 1
 //#define CONFIG_BENCHMARK 1
@@ -78,6 +79,32 @@ struct Virtqueue : L4virtio::Svr::Virtqueue
     o->notify_queue(this);
   }
 
+  bool kick_queue()
+  {
+    if (no_notify_guest())
+      return false;
+
+    if (_do_kick)
+      return true;
+
+    _kick_pending = true;
+    return false;
+  }
+
+  bool kick_enable_get_pending()
+  {
+    _do_kick = true;
+    return _kick_pending;
+  }
+
+  void kick_disable_and_remember()
+  {
+    _do_kick = false;
+    _kick_pending = false;
+  }
+
+  bool _do_kick = true;
+  bool _kick_pending = false;
 };
 
 enum
@@ -163,6 +190,11 @@ public:
   unsigned long num_rx;
   unsigned long num_dropped;
   unsigned long num_irqs;
+
+  void inc_num_irqs()
+  { num_irqs++ }
+#else
+  void inc_num_irqs() {}
 #endif
 
   struct Net_config_space
@@ -225,7 +257,7 @@ public:
     _dev_config.reset_hdr();
   }
 
-  void register_single_driver_irq()
+  void register_single_driver_irq() override
   {
     _kick_guest_irq = L4Re::Util::Unique_cap<L4::Irq>(
        L4Re::chkcap(server_iface()->template rcv_cap<L4::Irq>(0)));
@@ -233,18 +265,19 @@ public:
     L4Re::chksys(server_iface()->realloc_rcv_cap(0));
   }
 
-  void trigger_driver_config_irq() const override
+  void trigger_driver_config_irq() override
   {
+    _dev_config.add_irq_status(L4VIRTIO_IRQ_STATUS_CONFIG);
     _kick_guest_irq->trigger();
   }
 
-  Server_iface *server_iface() const
+  Server_iface *server_iface() const override
   { return L4::Epiface::server_iface(); }
 
-  L4::Cap<L4::Irq> device_notify_irq() const
+  L4::Cap<L4::Irq> device_notify_irq() const override
   { return _host_irq; }
 
-  void reset()
+  void reset() override
   {
     for (Virtqueue &q: _q)
       q.disable();
@@ -267,7 +300,7 @@ public:
   template<typename T, unsigned N >
   static unsigned array_length(T (&)[N]) { return N; }
 
-  int reconfig_queue(unsigned index)
+  int reconfig_queue(unsigned index) override
   {
     if (index >= array_length(_q))
       return -L4_ERANGE;
@@ -282,7 +315,7 @@ public:
     return -L4_EINVAL;
   }
 
-  bool check_queues()
+  bool check_queues() override
   {
     for (Virtqueue &q: _q)
       if (!q.ready())
@@ -313,17 +346,34 @@ public:
 
   void notify_queue(L4virtio::Virtqueue *queue)
   {
-    //printf("%s\n", __func__);
-    if (queue->no_notify_guest())
-      return;
+    Virtqueue *q = static_cast<Virtqueue*>(queue);
+    if (q->kick_queue())
+      {
+        _dev_config.add_irq_status(L4VIRTIO_IRQ_STATUS_VRING);
+        _kick_guest_irq->trigger();
+        inc_num_irqs();
+      }
+  }
 
-    // we do not care about this anywhere, so skip
-    // _device_config->irq_status |= 1;
+  void kick_emit_and_enable()
+  {
+    bool kick_pending = false;
 
-    _kick_guest_irq->trigger();
-#ifdef CONFIG_STATS
-    ++num_irqs;
-#endif
+    for (auto &q : _q)
+      kick_pending |= q.kick_enable_get_pending();
+
+    if (kick_pending)
+      {
+        _dev_config.add_irq_status(L4VIRTIO_IRQ_STATUS_VRING);
+        _kick_guest_irq->trigger();
+        inc_num_irqs();
+      }
+  }
+
+  void kick_disable_and_remember()
+  {
+    for (auto &q : _q)
+      q.kick_disable_and_remember();
   }
 
   void enable_poll_mode()
@@ -337,7 +387,7 @@ public:
       q.disable_notify();
   }
 
-  char const *name;
+  char const *name = nullptr;
 
   template<typename REG>
   void register_client(REG *registry, L4::Cap<L4::Irq> host_irq,
@@ -443,13 +493,9 @@ private:
     for (Virtio_net *p: port)
       p->handle_mem_cmd_write();
 
-    for (bool more = true; more; )
-      {
-        more = false;
-        for (auto p: pipe)
-          if (L4_LIKELY(p->ready()))
-            more |= p->copy();
-      }
+    for (auto p: pipe)
+      if (L4_LIKELY(p->ready()))
+        p->copy();
 
     _poll_next += _poll_interval;
     server_iface()->add_timeout(this, _poll_next);
@@ -490,7 +536,7 @@ private:
   Host_irq _host_irq;
   Del_cap_irq _del_cap_irq;
   unsigned _poll_interval;
-  l4_kernel_clock_t _poll_next;
+  l4_kernel_clock_t _poll_next = 0;
 
 public:
   void enable_timer(unsigned poll_interval)
@@ -531,7 +577,7 @@ public:
   {
     Virtqueue::Head_desc head;
     Buffer pkt;
-    Virtio_net::Hdr *hdr;
+    Virtio_net::Hdr *hdr = nullptr;
 
     /// Pointer to the device the end point belongs to
     Virtio_net *dev;
@@ -758,7 +804,7 @@ public:
 
   struct Pipe
   {
-    l4_uint32_t total;
+    l4_uint32_t total = 0;
     End_point tx;
     End_point rx;
 
@@ -804,9 +850,9 @@ public:
       return rx.start_packet(false, &total, nmerge);
     }
 
-    unsigned nmerge;
+    unsigned nmerge = 0;
 
-    bool copy()
+    void copy()
     {
       try
         {
@@ -815,11 +861,11 @@ public:
             {
               nmerge = 0;
               if (L4_UNLIKELY(!start_tx_packet()))
-                return false;
+                return;
             }
 
           if (!rx.head && L4_UNLIKELY(!start_rx_packet()))
-            return false;
+            return;
 
           Checksum_computer csum(&tx, &rx);
 
@@ -855,10 +901,10 @@ public:
 
                   nmerge = 0;
                   if (L4_UNLIKELY(!start_tx_packet()))
-                    return false;
+                    return;
 
                   if (L4_UNLIKELY(!start_rx_packet()))
-                    return false;
+                    return;
 
                   continue;
                 }
@@ -879,7 +925,7 @@ public:
                            this, nmerge, total);
 
                   if (L4_UNLIKELY(!start_rx_packet()))
-                    return false;
+                    return;
 
                   continue;
                 }
@@ -911,7 +957,7 @@ public:
                      e.error, rx.dev, rx.q);
             }
 
-          return false;
+          return;
         }
     }
   };
@@ -1045,13 +1091,15 @@ public:
         for (auto *p: pipe)
           p->disable_notify();
 
-        for (bool more = true; more; )
-          {
-            more = false;
-            for (auto *p: pipe)
-              if (L4_LIKELY(p->ready()))
-                more |= p->copy();
-          }
+        for (auto *p: port)
+          p->kick_disable_and_remember();
+
+        for (auto *p: pipe)
+          while (p->work_pending())
+            p->copy();
+
+        for (auto *p: port)
+          p->kick_emit_and_enable();
 
         for (auto *p: pipe)
           p->enable_notify();
@@ -1093,8 +1141,7 @@ static void *stats_thread_loop(void *data)
 };
 #endif
 
-static int
-run(int argc, char *const *argv)
+int main(int argc, char *const *argv)
 {
   Dbg info;
   Dbg warn(Dbg::Warn);
@@ -1106,6 +1153,8 @@ run(int argc, char *const *argv)
   int poll_interval = 0;
 
   printf("Hello from l4vio_net_p2p\n");
+
+  trusted_dataspaces = std::make_shared<Ds_vector>();
 
   while( (opt = getopt_long(argc, argv, "s:p:d:", options, &index)) != -1)
     {
@@ -1160,29 +1209,4 @@ run(int argc, char *const *argv)
 
   server.loop();
   return 0;
-}
-
-
-int
-main(int argc, char *const *argv)
-{
-  trusted_dataspaces = std::make_shared<Ds_vector>();
-  try
-    {
-      return run(argc, argv);
-    }
-  catch (L4::Runtime_error const &e)
-    {
-      Err().printf("%s: %s\n", e.str(), e.extra_str());
-    }
-  catch (L4::Base_exception const &e)
-    {
-      Err().printf("Error: %s\n", e.str());
-    }
-  catch (std::exception const &e)
-    {
-      Err().printf("Error: %s\n", e.what());
-    }
-
-  return 2;
 }

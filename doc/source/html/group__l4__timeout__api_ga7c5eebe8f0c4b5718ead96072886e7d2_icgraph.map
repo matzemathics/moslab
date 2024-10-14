@@ -1,0 +1,15 @@
+<map id="l4_timeout" name="l4_timeout">
+<area shape="rect" id="Node000001" title="Combine send and receive timeout in a timeout." alt="" coords="481,80,573,105"/>
+<area shape="rect" id="Node000002" href="$group__l4__ipc__api.html#gaf7beb30ebd9a71fbafeda9d1be057d88" title="Sleep for a certain amount of milliseconds." alt="" coords="281,5,411,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="493,75,432,44,399,33,401,28,434,40,495,70"/>
+<area shape="rect" id="Node000003" href="$group__l4__ipc__api.html#ga5a466a7ca3fa167baadbd824238ad7cc" title="Sleep for a certain amount of microseconds." alt="" coords="284,55,408,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="467,87,408,79,409,73,468,82"/>
+<area shape="rect" id="Node000004" href="$group__l4__timeout__api.html#ga4f2ccd6c8ff6672a6bb22803a1009126" title="Convert explicit timeout values to l4_timeout_t type." alt="" coords="287,104,405,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="468,103,406,111,406,106,467,98"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#ae4a6bd9781bf97a37dbff039db58d47d" title="get the time for the next timeout" alt="" coords="259,154,433,194"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="493,114,434,143,403,156,401,151,432,138,490,109"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a07277e39d7a77e66fbd6556f00e3e8aa" title="Add a timeout to the queue for time time." alt="" coords="5,118,211,158"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="245,161,210,156,211,151,246,156"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a559c5881cc36b16338904749c4578ae9" title="Remove timeout from the queue." alt="" coords="21,183,195,237"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="246,192,195,200,194,194,245,187"/>
+</map>

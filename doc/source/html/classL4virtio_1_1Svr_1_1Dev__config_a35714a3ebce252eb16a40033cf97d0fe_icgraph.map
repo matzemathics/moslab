@@ -1,16 +1,18 @@
 <map id="L4virtio::Svr::Dev_config::hdr" name="L4virtio::Svr::Dev_config::hdr">
-<area shape="rect" id="Node000001" title="Get a read&#45;only pointer to the config header." alt="" coords="451,105,585,145"/>
-<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a64313e8e41c209f12bd104442751753d" title="Get the value from the cmd register." alt="" coords="262,5,397,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="472,100,401,60,377,48,379,43,404,55,475,96"/>
-<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a988f5859320f66b6479d338c5b15660f" title="Reset the cmd register after execution of a command." alt="" coords="257,69,401,109"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="437,113,401,106,402,100,438,107"/>
-<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Dev__config.html#afc2b3a6d213dc5fbaf7e500f784b5076" title="Set DEVICE_NEEDS_RESET bit in device status register." alt="" coords="256,134,403,189"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="438,143,403,150,402,145,437,138"/>
-<area shape="rect" id="Node000007" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a01556f856334cea1ab98ef40559a5ead" title="Set device status register." alt="" coords="258,213,401,253"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="479,156,404,204,380,216,378,211,401,199,477,151"/>
-<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Device__t.html#a460f5dc2b32e33a616eb822ffd2f88f0" title="Check for a value in the cmd register and handle a write." alt="" coords="5,37,208,77"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="249,40,209,45,208,40,248,34"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="243,80,208,75,209,69,244,74"/>
-<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Device__t.html#a29f780ecb04509d8b72f4a155b073c74" title="Transition device into DEVICE_NEEDS_RESET state." alt="" coords="30,141,183,181"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="242,164,184,164,184,159,242,159"/>
+<area shape="rect" id="Node000001" title="Get a read&#45;only pointer to the config header." alt="" coords="475,133,609,173"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a7fb7334fc078f7c26c036ea1f5fbdbf3" title="Adds irq status bit." alt="" coords="256,5,427,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="509,125,471,92,425,60,402,48,404,43,428,55,474,87,513,121"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a64313e8e41c209f12bd104442751753d" title="Get the value from the cmd register." alt="" coords="274,69,409,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="465,132,404,112,405,107,466,127"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a988f5859320f66b6479d338c5b15660f" title="Reset the cmd register after execution of a command." alt="" coords="269,133,413,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="461,156,413,156,413,151,461,151"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Dev__config.html#afc2b3a6d213dc5fbaf7e500f784b5076" title="Set DEVICE_NEEDS_RESET bit in device status register." alt="" coords="268,198,415,253"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="474,180,416,202,414,197,472,175"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a01556f856334cea1ab98ef40559a5ead" title="Set device status register." alt="" coords="270,277,413,317"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="518,186,478,228,428,268,405,280,403,275,425,263,474,224,514,182"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Device__t.html#a460f5dc2b32e33a616eb822ffd2f88f0" title="Check for a value in the cmd register and handle a write." alt="" coords="5,101,208,141"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="260,103,209,110,208,105,259,98"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="255,144,208,138,209,133,256,139"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Svr_1_1Device__t.html#a29f780ecb04509d8b72f4a155b073c74" title="Transition device into DEVICE_NEEDS_RESET state." alt="" coords="30,205,183,245"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="254,228,184,228,184,223,254,223"/>
 </map>

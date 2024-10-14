@@ -2,8 +2,8 @@ var classL4virtio_1_1Svr_1_1Block__dev__base =
 [
     [ "Block_dev_base", "classL4virtio_1_1Svr_1_1Block__dev__base.html#a71594b4dbd7adcf9772e48dac00a98c7", null ],
     [ "finalize_request", "classL4virtio_1_1Svr_1_1Block__dev__base.html#afd81130f9e38af771d43aabafa05e043", null ],
+    [ "get_request", "classL4virtio_1_1Svr_1_1Block__dev__base.html#a42aba4636006c5ba197cd385613ef221", null ],
     [ "get_writeback", "classL4virtio_1_1Svr_1_1Block__dev__base.html#a41ce247545113631dc5a3bcac7a70abc", null ],
-    [ "process_request", "classL4virtio_1_1Svr_1_1Block__dev__base.html#a0ef8ce46edfefb6406f8c261a0b55d36", null ],
     [ "queue_stopped", "classL4virtio_1_1Svr_1_1Block__dev__base.html#a3e911bba0fa756a1c2eb014dc0bd6b0a", null ],
     [ "reconfig_queue", "classL4virtio_1_1Svr_1_1Block__dev__base.html#afdae77ce3367dbe19f52c1ce8a708a2b", null ],
     [ "reset", "classL4virtio_1_1Svr_1_1Block__dev__base.html#abccf7d85ecfd3e21953761bedf52ad79", null ],

@@ -39,16 +39,28 @@ INTERFACE [!mp]:
 
 #define DEFINE_PER_CPU_CTOR_DATA(id)
 
+INTERFACE [!amp]:
+
+#define DEFINE_PER_CPU_P(p) \
+  DEFINE_PER_CPU_CTOR_DATA(__COUNTER__) \
+  __attribute__((section(".per_cpu.data"),init_priority(0xfffe - p)))
+
+
+INTERFACE [amp && !mp]:
+
+// So far, each AMP node only has a single CPU. Just piggyback on the
+// Global_data infrastructure...
+#define DEFINE_PER_CPU_P(p) \
+  DEFINE_PER_CPU_CTOR_DATA(__COUNTER__) \
+  __attribute__((section(".global_data"),init_priority(0xfffe - p)))
+
 INTERFACE:
 
 #include "static_init.h"
 #include "config.h"
 #include "context_base.h"
+#include "global_data.h"
 #include <cxx/type_traits>
-
-#define DEFINE_PER_CPU_P(p) \
-  DEFINE_PER_CPU_CTOR_DATA(__COUNTER__) \
-  __attribute__((section(".per_cpu.data"),init_priority(0xfffe - p)))
 
 #define DEFINE_PER_CPU      DEFINE_PER_CPU_P(9)
 #define DEFINE_PER_CPU_LATE DEFINE_PER_CPU_P(19)
@@ -93,7 +105,7 @@ public:
   }
 
 private:
-  T _d;
+  Global_data<T> _d;
 };
 
 template< typename T >
@@ -106,10 +118,10 @@ public:
     Per_cpu<cxx::remove_cv_t<T>> > Per_cpu_type;
 
   Per_cpu_ptr() {}
-  Per_cpu_ptr(Per_cpu_type *o) : _p(&o->_d) {}
+  Per_cpu_ptr(Per_cpu_type *o) : _p(&o->_d.unwrap()) {}
   Per_cpu_ptr &operator = (Per_cpu_type *o)
   {
-    _p = &o->_d;
+    _p = &o->_d.unwrap();
     return *this;
   }
 
@@ -117,7 +129,7 @@ public:
   T &current() { return cpu(current_cpu()); }
 
 private:
-  T *_p;
+  T *_p = nullptr;
 };
 
 
@@ -128,10 +140,9 @@ IMPLEMENTATION [!mp]:
 
 IMPLEMENT inline
 bool
-Per_cpu_data::valid(Cpu_number cpu)
+Per_cpu_data::valid([[maybe_unused]] Cpu_number cpu)
 {
 #if defined NDEBUG
-  (void)cpu;
   return 1;
 #else
   return cpu == Cpu_number::boot_cpu();
@@ -140,11 +151,11 @@ Per_cpu_data::valid(Cpu_number cpu)
 
 IMPLEMENT inline
 template< typename T >
-T const &Per_cpu<T>::cpu(Cpu_number) const { return _d; }
+T const &Per_cpu<T>::cpu(Cpu_number) const { return _d.unwrap(); }
 
 IMPLEMENT inline
 template< typename T >
-T &Per_cpu<T>::cpu(Cpu_number) { return _d; }
+T &Per_cpu<T>::cpu(Cpu_number) { return _d.unwrap(); }
 
 IMPLEMENT
 template< typename T >
@@ -169,8 +180,14 @@ Per_cpu_data::init_ctors()
 
 IMPLEMENT inline
 void
-Per_cpu_data::run_ctors(Cpu_number)
+Per_cpu_data::run_ctors(Cpu_number cpu)
 {
+  // The run_ctors function is invoked twice, once for the boot CPU and
+  // once for the invalid CPU, although in uniprocessor mode there is no
+  // separate instance for the latter.
+  if (cpu != Cpu_number::boot_cpu())
+    return;
+
   extern ctor_function_t __PER_CPU_INIT_ARRAY_START__[];
   extern ctor_function_t __PER_CPU_INIT_ARRAY_END__[];
   run_ctor_functions(__PER_CPU_INIT_ARRAY_START__, __PER_CPU_INIT_ARRAY_END__);
@@ -182,8 +199,14 @@ Per_cpu_data::run_ctors(Cpu_number)
 
 IMPLEMENT inline
 void
-Per_cpu_data::run_late_ctors(Cpu_number)
+Per_cpu_data::run_late_ctors(Cpu_number cpu)
 {
+  // The run_late_ctors function is invoked twice, once for the boot CPU and
+  // once for the invalid CPU, although in uniprocessor mode there is no
+  // separate instance for the latter.
+  if (cpu != Cpu_number::boot_cpu())
+    return;
+
   extern ctor_function_t __PER_CPU_LATE_INIT_ARRAY_START__[];
   extern ctor_function_t __PER_CPU_LATE_INIT_ARRAY_END__[];
   run_ctor_functions(__PER_CPU_LATE_INIT_ARRAY_START__,
@@ -265,11 +288,11 @@ Per_cpu_data::valid(Cpu_number cpu)
 
 IMPLEMENT inline template< typename T >
 T const &Per_cpu<T>::cpu(Cpu_number cpu) const
-{ return *reinterpret_cast<T const *>((char  const *)&_d + _offsets[cpu]); }
+{ return *offset_cast<T const *>(&_d, _offsets[cpu]); }
 
 IMPLEMENT inline template< typename T >
 T &Per_cpu<T>::cpu(Cpu_number cpu)
-{ return *reinterpret_cast<T*>((char *)&_d + _offsets[cpu]); }
+{ return *offset_cast<T *>(&_d, _offsets[cpu]); }
 
 IMPLEMENT
 template< typename T >
@@ -306,7 +329,7 @@ void Per_cpu<T>::ctor_w_arg(void *obj, Cpu_number cpu)
 IMPLEMENT inline
 template< typename T >
 T &Per_cpu_ptr<T>::cpu(Cpu_number cpu)
-{ return *reinterpret_cast<T *>(reinterpret_cast<Address>(_p) + _offsets[cpu]); }
+{ return *offset_cast<T *>(_p, _offsets[cpu]); }
 
 IMPLEMENT
 void

@@ -18,9 +18,10 @@ EXTENSION class Proc
 public:
   enum : unsigned
   {
-    // user threads on a hyp kernel run in system mode
-    Status_mode_user      = 0x04, // EL1t
-    Status_mode_always_on = 0x300,
+    Status_mode_user_el0  = 0x00,
+    Status_mode_user_el1  = 0x04, // EL1t
+    Status_mode_user      = Status_mode_user_el0,
+    Status_mode_always_on = 0x100,
   };
 };
 
@@ -82,7 +83,7 @@ Cpu_phys_id Proc::cpu_id()
 IMPLEMENTATION [arm && 64bit && cpu_virt]:
 
 PUBLIC static inline
-Unsigned32
+Mword
 Proc::sctlr_el1()
 {
   Mword v;
@@ -91,7 +92,7 @@ Proc::sctlr_el1()
 }
 
 PUBLIC static inline
-Unsigned32
+Mword
 Proc::sctlr()
 {
   Mword v;
@@ -103,7 +104,7 @@ Proc::sctlr()
 IMPLEMENTATION [arm && 64bit && !cpu_virt]:
 
 PUBLIC static inline
-Unsigned32
+Mword
 Proc::sctlr()
 {
   Mword v;

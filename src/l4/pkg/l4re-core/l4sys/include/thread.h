@@ -667,6 +667,9 @@ l4_thread_modify_sender_add_u(l4_umword_t match_mask,
  * directly or by IPC gate) that are already in flight, that is that the sender
  * is already blocking on.
  *
+ * \note Modifying the senders of a thread running on a different CPU core is
+ *       not supported.
+ *
  * \see l4_thread_modify_sender_start
  * \see l4_thread_modify_sender_add
  */
@@ -757,6 +760,8 @@ enum L4_thread_ex_regs_flags
 {
   L4_THREAD_EX_REGS_CANCEL            = 0x10000UL, /**< Cancel ongoing IPC in the thread. */
   L4_THREAD_EX_REGS_TRIGGER_EXCEPTION = 0x20000UL, /**< Trigger artificial exception in thread. */
+
+  L4_THREAD_EX_REGS_ARCH_MASK         = 0xff000000UL, /**< Arch specific flags */
 };
 
 

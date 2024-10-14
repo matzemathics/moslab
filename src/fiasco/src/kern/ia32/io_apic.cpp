@@ -91,6 +91,7 @@ IMPLEMENTATION:
 #include "assert.h"
 #include "kmem.h"
 #include "kip.h"
+#include "mem.h"
 #include "pic.h"
 #include "lock_guard.h"
 #include "boot_alloc.h"
@@ -131,51 +132,49 @@ Io_apic_mgr::legacy_override(Mword i) override
 { return Io_apic::legacy_override(i); }
 
 PUBLIC void
-Io_apic_mgr::pm_on_suspend(Cpu_number cpu) override
+Io_apic_mgr::pm_on_suspend([[maybe_unused]] Cpu_number cpu) override
 {
-  (void)cpu;
   assert (cpu == Cpu_number::boot_cpu());
   Io_apic::save_state();
 }
 
 PUBLIC void
-Io_apic_mgr::pm_on_resume(Cpu_number cpu) override
+Io_apic_mgr::pm_on_resume([[maybe_unused]] Cpu_number cpu) override
 {
-  (void)cpu;
   assert (cpu == Cpu_number::boot_cpu());
   Pic::disable_all_save();
   Io_apic::restore_state(true);
 }
 
 
-IMPLEMENT inline
+IMPLEMENT inline NEEDS["mem.h"]
 Mword
 Io_apic::Apic::read(int reg)
 {
   adr = reg;
-  asm volatile ("": : :"memory");
+  Mem::barrier();
   return data;
 }
 
-IMPLEMENT inline
+IMPLEMENT inline NEEDS["mem.h"]
 void
 Io_apic::Apic::modify(int reg, Mword set_bits, Mword del_bits)
 {
   Mword tmp;
   adr = reg;
-  asm volatile ("": : :"memory");
+  Mem::barrier();
   tmp = data;
   tmp &= ~del_bits;
   tmp |= set_bits;
   data = tmp;
 }
 
-IMPLEMENT inline
+IMPLEMENT inline NEEDS["mem.h"]
 void
 Io_apic::Apic::write(int reg, Mword value)
 {
   adr = reg;
-  asm volatile ("": : :"memory");
+  Mem::barrier();
   data = value;
 }
 
@@ -188,22 +187,21 @@ Io_apic::Apic::num_entries()
 
 PUBLIC explicit
 Io_apic::Io_apic(Unsigned64 phys, unsigned gsi_base)
-: Irq_chip_ia32(0), _l(Spin_lock<>::Unlocked),
-  _offset(gsi_base), _next(0)
+: Irq_chip_ia32(0), _offset(gsi_base), _next(0)
 {
   if (Print_info)
-    printf("IO-APIC: addr=%lx\n", (Mword)phys);
+    printf("IO-APIC: addr=%llx\n", phys);
 
   Address va = Kmem::mmio_remap(phys, Config::PAGE_SIZE);
 
   Kip::k()->add_mem_region(Mem_desc(phys, phys + Config::PAGE_SIZE -1, Mem_desc::Reserved));
 
-  Io_apic::Apic *a = (Io_apic::Apic *)va;
+  Io_apic::Apic *a = reinterpret_cast<Io_apic::Apic *>(va);
   a->write(0, 0);
 
   _apic = a;
   _irqs = a->num_entries() + 1;
-  _vec = (unsigned char *)Boot_alloced::alloc(_irqs);
+  _vec = Boot_alloced::allocate<unsigned char>(_irqs);
 
   if ((_offset + nr_irqs()) > _nr_irqs)
     _nr_irqs = _offset + nr_irqs();
@@ -235,7 +233,7 @@ Io_apic::read_entry(unsigned i) const
   auto g = lock_guard(_l);
   Io_apic_entry e;
   //assert(i <= num_entries());
-  e._e = (Unsigned64)_apic->read(0x10+2*i) | (((Unsigned64)_apic->read(0x11+2*i)) << 32);
+  e._e = _apic->read(0x10+2*i) | (Unsigned64{_apic->read(0x11+2*i)} << 32);
   return e;
 }
 
@@ -263,12 +261,12 @@ Io_apic::read_overrides()
 
       if (Print_info)
         printf("IO-APIC: ovr[%2u] %02x -> %x %x\n",
-               tmp, (unsigned)irq->src, irq->irq, (unsigned)irq->flags);
+               tmp, irq->src, irq->irq, irq->flags);
 
       if (irq->irq >= _nr_irqs)
         {
-          WARN("IO-APIC: warning override %02x -> %x (flags=%x) points to invalid GSI\n",
-               (unsigned)irq->src, irq->irq, (unsigned)irq->flags);
+          WARN("IO-APIC: warning override %02x -> %x (flags=%x) "
+               "points to invalid GSI\n", irq->src, irq->irq, irq->flags);
           continue;
         }
 
@@ -334,7 +332,6 @@ Io_apic::init_scan_apics()
        ++n_apics)
     {
       Io_apic *apic = new Boot_object<Io_apic>(ioapic->adr, ioapic->irq_base);
-      (void)apic;
 
       if (Print_info)
         {
@@ -433,11 +430,9 @@ Io_apic::dump()
     {
       Io_apic_entry e = read_entry(i);
       printf("  PIN[%2u%c]: vector=%2x, del=%u, dm=%s, dest=%u (%s, %s)\n",
-	     i, e.mask() ? 'm' : '.',
-	     (unsigned)e.vector(), (unsigned)e.delivery(), e.dest_mode() ? "logical" : "physical",
-	     (unsigned)e.dest(),
-	     e.polarity() ? "low" : "high",
-	     e.trigger() ? "level" : "edge");
+             i, e.mask() ? 'm' : '.', e.vector().get(), e.delivery().get(),
+             e.dest_mode() ? "logical" : "physical", e.dest().get(),
+             e.polarity() ? "low" : "high", e.trigger() ? "level" : "edge");
     }
 
 }
@@ -477,7 +472,7 @@ PUBLIC inline
 void
 Io_apic::sync()
 {
-  (void)_apic->data;
+  _apic->data; // read volatile data
 }
 
 PUBLIC inline NEEDS["assert.h", "lock_guard.h"]

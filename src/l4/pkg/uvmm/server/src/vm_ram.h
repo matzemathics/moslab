@@ -18,8 +18,6 @@
 #include <cassert>
 #include <vector>
 
-#include <l4/l4virtio/virtqueue>
-
 #include "device.h"
 #include "ds_mmio_mapper.h"
 #include "host_dt.h"
@@ -49,7 +47,8 @@ public:
 
   bool reserve_fixed(Vmm::Guest_addr start, l4_size_t size);
   bool reserve_back(l4_size_t size, Vmm::Guest_addr *start,
-                    unsigned char page_shift = L4_PAGESHIFT);
+                    unsigned char page_shift = L4_PAGESHIFT,
+                    Vmm::Guest_addr upper_limit = Vmm::Guest_addr(~0UL));
 
   long load_file_to_back(Vm_ram *ram, char const *name,
                          Vmm::Guest_addr *start, l4_size_t *size);
@@ -101,7 +100,7 @@ public:
   {
     auto r = find_region(p, 0);
     if (!r)
-      L4Re::chksys(-L4_ENOENT, "Guest address found");
+      L4Re::chksys(-L4_ENOENT, "Guest address outside RAM");
 
     return reinterpret_cast<T>(r->guest2host(p));
   }

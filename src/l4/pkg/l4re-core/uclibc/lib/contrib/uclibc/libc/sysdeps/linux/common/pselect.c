@@ -26,10 +26,46 @@
 #include <signal.h>
 #include <cancel.h>
 
+#if defined(__UCLIBC_USE_TIME64__)
+#include "internal/time64_helpers.h"
+#endif
+
 static int __NC(pselect)(int nfds, fd_set *readfds, fd_set *writefds,
 			 fd_set *exceptfds, const struct timespec *timeout,
 			 const sigset_t *sigmask)
 {
+#if defined(__NR_pselect6) || defined(__NR_pselect6_time64)
+	/* The Linux kernel can in some situations update the timeout value.
+	 * We do not want that so use a local variable.
+	 */
+	struct timespec _ts;
+
+	/* Note: the system call expects 7 values but on most architectures
+	   we can only pass in 6 directly.  If there is an architecture with
+	   support for more parameters a new version of this file needs to
+	   be created.  */
+	struct {
+		__kernel_ulong_t ss;
+		__kernel_size_t  ss_len;
+	} data;
+
+	if (timeout != NULL) {
+		_ts = *timeout;
+		timeout = &_ts;
+	}
+
+	if (sigmask != NULL) {
+		data.ss = (__kernel_ulong_t) sigmask;
+		data.ss_len = __SYSCALL_SIGSET_T_SIZE;
+
+		sigmask = (void *)&data;
+	}
+#if defined(__UCLIBC_USE_TIME64__) && defined(__NR_pselect6_time64)
+	return INLINE_SYSCALL(pselect6_time64, 6, nfds, readfds, writefds, exceptfds, TO_TS64_P(timeout), sigmask);
+#else
+	return INLINE_SYSCALL(pselect6, 6, nfds, readfds, writefds, exceptfds, timeout, sigmask);
+#endif
+#else
 	struct timeval tval;
 	int retval;
 	sigset_t savemask;
@@ -57,7 +93,9 @@ static int __NC(pselect)(int nfds, fd_set *readfds, fd_set *writefds,
 		sigprocmask (SIG_SETMASK, &savemask, NULL);
 
 	return retval;
+#endif
 }
+
 CANCELLABLE_SYSCALL(int, pselect, (int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 				   const struct timespec *timeout, const sigset_t *sigmask),
 		    (nfds, readfds, writefds, exceptfds, timeout, sigmask))

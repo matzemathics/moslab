@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/vbus/vbus.h File Reference</title>
+<title>L4Re Operating System Framework: l4/vbus/vbus.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -108,7 +111,7 @@ $(document).ready(function(){initNavTree('vbus_8h.html',''); initResizable(); })
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="vbus_8h__incl.svg" width="566" height="403"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="vbus_8h__incl.svg" width="567" height="403"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> This graph shows which files directly or indirectly include this file:</div>
@@ -122,11 +125,11 @@ $(document).ready(function(){initNavTree('vbus_8h.html',''); initResizable(); })
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:aa6db2c38ebc194c80d154d53851a4d5d" id="r_aa6db2c38ebc194c80d154d53851a4d5d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0">L4VBUS_NULL</a> = (l4_mword_t)-1
-, <a class="el" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5dad83203ea1310cc0d5be38f1df326acdd">L4VBUS_ROOT_BUS</a> = 0
+<tr class="memitem:adf764cbdea00d65edcd07bb9953ad2b7" id="r_adf764cbdea00d65edcd07bb9953ad2b7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0">L4VBUS_NULL</a> = -1L
+, <a class="el" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ad83203ea1310cc0d5be38f1df326acdd">L4VBUS_ROOT_BUS</a> = 0
  }</td></tr>
-<tr class="memdesc:aa6db2c38ebc194c80d154d53851a4d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants for device nodes.  <a href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5d">More...</a><br /></td></tr>
-<tr class="separator:aa6db2c38ebc194c80d154d53851a4d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:adf764cbdea00d65edcd07bb9953ad2b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants for device nodes.  <a href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7">More...</a><br /></td></tr>
+<tr class="separator:adf764cbdea00d65edcd07bb9953ad2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3c3f8bbab387942f996d7627873c002" id="r_ad3c3f8bbab387942f996d7627873c002"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vbus_8h.html#ad3c3f8bbab387942f996d7627873c002">l4vbus_icu_src_types</a> { <a class="el" href="vbus_8h.html#ad3c3f8bbab387942f996d7627873c002a360bd82c1506c846659e88c4320552a5">L4VBUS_ICU_SRC_DEV_HANDLE</a> = 1ULL &lt;&lt; 63
  }</td></tr>
 <tr class="memdesc:ad3c3f8bbab387942f996d7627873c002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags that can be used with the ICU on a vbus device.  <a href="vbus_8h.html#ad3c3f8bbab387942f996d7627873c002">More...</a><br /></td></tr>
@@ -150,9 +153,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga51a6613ae6f11cc29269bf9623782e1d" id="r_ga51a6613ae6f11cc29269bf9623782e1d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4vbus__module.html#ga51a6613ae6f11cc29269bf9623782e1d">l4vbus_get_device</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="el" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev, <a class="el" href="structl4vbus__device__t.html">l4vbus_device_t</a> *devinfo)</td></tr>
 <tr class="memdesc:ga51a6613ae6f11cc29269bf9623782e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain detailed information about a Vbus device.    <br /></td></tr>
 <tr class="separator:ga51a6613ae6f11cc29269bf9623782e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac60ae2d46f8158a887ce4b8a1bf447bd" id="r_gac60ae2d46f8158a887ce4b8a1bf447bd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4vbus__module.html#gac60ae2d46f8158a887ce4b8a1bf447bd">l4vbus_get_resource</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="el" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev, int res_idx, <a class="el" href="structl4vbus__resource__t.html">l4vbus_resource_t</a> *res)</td></tr>
-<tr class="memdesc:gac60ae2d46f8158a887ce4b8a1bf447bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain the resource description of an individual device resource.    <br /></td></tr>
-<tr class="separator:gac60ae2d46f8158a887ce4b8a1bf447bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga73c4138ed1d2d56edb5eabdbcc5da65d" id="r_ga73c4138ed1d2d56edb5eabdbcc5da65d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4vbus__module.html#ga73c4138ed1d2d56edb5eabdbcc5da65d">l4vbus_get_resource</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="el" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev, unsigned res_idx, <a class="el" href="structl4vbus__resource__t.html">l4vbus_resource_t</a> *res)</td></tr>
+<tr class="memdesc:ga73c4138ed1d2d56edb5eabdbcc5da65d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain the resource description of an individual device resource.    <br /></td></tr>
+<tr class="separator:ga73c4138ed1d2d56edb5eabdbcc5da65d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gada51cecbba0d25a6d05e810b737f3df5" id="r_gada51cecbba0d25a6d05e810b737f3df5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4vbus__module.html#gada51cecbba0d25a6d05e810b737f3df5">l4vbus_is_compatible</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="el" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev, char const *cid)</td></tr>
 <tr class="memdesc:gada51cecbba0d25a6d05e810b737f3df5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given device has a compatibility ID (CID) or HID that matches <em>cid</em>.    <br /></td></tr>
 <tr class="separator:gada51cecbba0d25a6d05e810b737f3df5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,8 +183,8 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="vbus_8h_source.html">vbus.h</a>.</p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="aa6db2c38ebc194c80d154d53851a4d5d" name="aa6db2c38ebc194c80d154d53851a4d5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6db2c38ebc194c80d154d53851a4d5d">&#9670;&#160;</a></span>anonymous enum</h2>
+<a id="adf764cbdea00d65edcd07bb9953ad2b7" name="adf764cbdea00d65edcd07bb9953ad2b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf764cbdea00d65edcd07bb9953ad2b7">&#9670;&#160;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -194,9 +197,9 @@ Functions</h2></td></tr>
 
 <p>Constants for device nodes. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0" name="aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0"></a>L4VBUS_NULL&#160;</td><td class="fielddoc"><p>NULL device. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0" name="adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0"></a>L4VBUS_NULL&#160;</td><td class="fielddoc"><p>NULL device. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aa6db2c38ebc194c80d154d53851a4d5dad83203ea1310cc0d5be38f1df326acdd" name="aa6db2c38ebc194c80d154d53851a4d5dad83203ea1310cc0d5be38f1df326acdd"></a>L4VBUS_ROOT_BUS&#160;</td><td class="fielddoc"><p>Root device on the vbus. </p>
+<tr><td class="fieldname"><a id="adf764cbdea00d65edcd07bb9953ad2b7ad83203ea1310cc0d5be38f1df326acdd" name="adf764cbdea00d65edcd07bb9953ad2b7ad83203ea1310cc0d5be38f1df326acdd"></a>L4VBUS_ROOT_BUS&#160;</td><td class="fielddoc"><p>Root device on the vbus. </p>
 </td></tr>
 </table>
 
@@ -234,7 +237,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_364af192430b60ca4d316aa6a7cd95d2.html">vbus</a></li><li class="navelem"><a class="el" href="vbus_8h.html">vbus.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

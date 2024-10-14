@@ -5,7 +5,7 @@ var group__l4__task__api =
       [ "L4_FP_DELETE_OBJ", "group__l4__task__api.html#gga3c24e67b976870a3e911c43c83382f66a49114f3e6952b9448fe776f2ab18813f", null ],
       [ "L4_FP_OTHER_SPACES", "group__l4__task__api.html#gga3c24e67b976870a3e911c43c83382f66af5f4ec77edcf5a85ecd79b0ae24e31f0", null ]
     ] ],
-    [ "l4_task_add_ku_mem", "group__l4__task__api.html#ga616af00101b9c34b428836715a90409d", null ],
+    [ "l4_task_add_ku_mem", "group__l4__task__api.html#ga433356d17f678aa259c6b616aeb476ef", null ],
     [ "l4_task_cap_equal", "group__l4__task__api.html#ga0cadc0abbf54ac249bae17239c9cfb81", null ],
     [ "l4_task_cap_valid", "group__l4__task__api.html#ga829a1b5cb4d5dba33ffee57534a505af", null ],
     [ "l4_task_delete_obj", "group__l4__task__api.html#gaf0ce40ee0426a016cb344370d20d2fcd", null ],

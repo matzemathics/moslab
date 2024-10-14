@@ -88,7 +88,8 @@ public:
   /// Default constructor creates a pointer with no managed object.
   Ref_ptr() noexcept : _p(0) {}
 
-  Ref_ptr(Ref_ptr_base::Default_value v) : _p((T*)v) {}
+  Ref_ptr(Ref_ptr_base::Default_value v)
+  : _p(reinterpret_cast<T*>(static_cast<unsigned long>(v))) {}
 
   /**
    * Create a shared pointer from a weak pointer.
@@ -121,20 +122,20 @@ public:
    *
    * This is the counterpart to release().
    */
-  Ref_ptr(T *o, bool d) noexcept : _p(o) { (void)d; }
+  Ref_ptr(T *o, [[maybe_unused]] bool d) noexcept : _p(o) { }
 
   /**
    * Return a raw pointer to the object this shared pointer points to.
    *
    * This does not release the pointer or decrease the reference count.
    */
-  T *get() const noexcept
+  T *get() const noexcept __attribute__((pure))
   {
     return _p;
   }
 
   /** \copydoc get() */
-  T *ptr() const noexcept
+  T *ptr() const noexcept __attribute__((pure))
   {
     return _p;
   }

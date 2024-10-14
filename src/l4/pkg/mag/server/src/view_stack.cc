@@ -27,18 +27,19 @@ public:
   {
     for (unsigned i = last; i > 0; --i)
       for (unsigned j = 0; j < last; ++j)
-	{
-	  if (i - 1 == j)
-	    continue;
+        {
+          if (i - 1 == j)
+            continue;
 
-	  if ((_q[j] & _q[i-1]).valid())
-	    {
-	      _q[j] = _q[j] | _q[i-1];
-	      memmove(_q + i - 1, _q + i, (last - i) * sizeof(Rect));
-	      --last;
-	      break;
-	    }
-	}
+          if ((_q[j] & _q[i - 1]).valid())
+            {
+              _q[j] = _q[j] | _q[i - 1];
+              for (unsigned m = 0; m < last - i; m++)
+                _q[i - 1 + m] = _q[i + m];
+              --last;
+              break;
+            }
+        }
   }
 
   void q(Rect const &r)
@@ -48,22 +49,22 @@ public:
     //printf("q[%d,%d - %d,%d]\n", r.x1(), r.y1(), r.x2(), r.y2());
     for (unsigned i = 0; i < last; ++i)
       {
-	if ((_q[i] & r).valid())
-	  {
-	    // merge with overlapping rect
-	    _q[i] = _q[i] | r;
-	    merge();
-	    return;
-	  }
+        if ((_q[i] & r).valid())
+          {
+            // merge with overlapping rect
+            _q[i] = _q[i] | r;
+            merge();
+            return;
+          }
       }
 
     if (last < Num_entries)
       _q[last++] = r; // add new entry
     else
       {
-	// queue is full, just merge with the last entry
-        _q[last-1] = _q[last - 1] | r;
-	merge();
+        // queue is full, just merge with the last entry
+        _q[last - 1] = _q[last - 1] | r;
+        merge();
       }
   }
 
@@ -89,20 +90,20 @@ View_stack::next_view(View const *_v, View const *bg) const
     {
       ++v;
       if (v == _top.end())
-	return 0;
+        return 0;
 
       unsigned sf = 0;
       if (v->session())
         sf = v->session()->flags();
 
       if (sf & Session::F_ignore)
-	continue;
+        continue;
 
       if (!v->background())
-	return *v;
+        return *v;
 
       if (v == _top.iter(_background) || v == _top.iter(bg))
-	return *v;
+        return *v;
 
       if (!bg && (sf & Session::F_default_background))
         return *v;
@@ -148,8 +149,8 @@ View_stack::draw_frame(View const *v) const
   Rgb32::Color color = v->session()->color();
   Rgb32::Color outline = v->focused() ? Rgb32::White : Rgb32::Black;
 
-  int w = v->frame_width()-1;
-  _canvas->draw_rect(v->offset(-1-w, -1-w, 1+w, 1+w), outline);
+  int w = v->frame_width() - 1;
+  _canvas->draw_rect(v->offset(-1 - w, -1 - w, 1 + w, 1 + w), outline);
   _canvas->draw_rect(*v, color, -w);
 }
 
@@ -199,13 +200,13 @@ View_stack::set_focused(View *v)
   for (View_iter t = _top.begin(); t != _top.end(); ++t)
     {
       if (!t->above())
-	continue;
+        continue;
 
       if (t->session() == s)
-	{
-	  stack(*t, *top, true);
-	  top = t;
-	}
+        {
+          stack(*t, *top, true);
+          top = t;
+        }
     }
 
   // if the view is not a background than raise the view relative to
@@ -291,7 +292,7 @@ View_stack::flush()
       //printf("redraw[%d] %d,%d-%d,%d\n", cnt++, i->x1(), i->y1(), i->x2(), i->y2());
       draw_recursive(top(), 0, *i);
       if (_canvas_view)
-	_canvas_view->refresh(i->x1(), i->y1(), i->w(), i->h());
+        _canvas_view->refresh(i->x1(), i->y1(), i->w(), i->h());
     }
 
   rdq.clear();
@@ -354,12 +355,12 @@ View_stack::optimize_label_rec(View *cv, View *lv, Rect const &rect, Rect *optim
     {
       /* cut current view from rectangle and go into sub rectangles */
       Rect r[4] =
-	{ Rect(rect.p1(), Point(rect.x2(), clipped.y1() - 1)),
-	  Rect(rect.p1(), Point(clipped.x1() - 1, rect.y2())),
-	  Rect(Point(clipped.x2() + 1, rect.y1()), rect.p2()),
-	  Rect(Point(rect.x1(), clipped.y2() + 1), rect.p2()) };
+        { Rect(rect.p1(), Point(rect.x2(), clipped.y1() - 1)),
+          Rect(rect.p1(), Point(clipped.x1() - 1, rect.y2())),
+          Rect(Point(clipped.x2() + 1, rect.y1()), rect.p2()),
+          Rect(Point(rect.x1(), clipped.y2() + 1), rect.p2()) };
       for (int i = 0; i < 4; i++)
-	optimize_label_rec(next_view(cv, bg), lv, r[i], optimal, bg);
+        optimize_label_rec(next_view(cv, bg), lv, r[i], optimal, bg);
 
       return;
     }
@@ -390,27 +391,27 @@ View_stack::do_place_labels(Rect const &rect) const
   for (View *view = start; view && next_view(view); view = next_view(view, bg))
     if ((*view & rect).valid())
       {
-	Rect old(view->label_pos(), view->label_sz());
+        Rect old(view->label_pos(), view->label_sz());
 
-	/* calculate best visible label position */
-	Rect rect = Rect(Point(0, 0), _canvas->size()) & *view;
-	Rect best;
-	optimize_label_rec(start, view, rect, &best, bg);
+        /* calculate best visible label position */
+        Rect rect = Rect(Point(0, 0), _canvas->size()) & *view;
+        Rect best;
+        optimize_label_rec(start, view, rect, &best, bg);
 
-	/*
-	 * If label is not fully visible, we ensure to display the first
-	 * (most important) part. Otherwise, we center the label horizontally.
-	 */
-	int x = best.x1();
-	if (best.fits(view->label_sz()))
-	  x += (best.w() - view->label_sz().w()) / 2;
+        /*
+         * If label is not fully visible, we ensure to display the first
+         * (most important) part. Otherwise, we center the label horizontally.
+         */
+        int x = best.x1();
+        if (best.fits(view->label_sz()))
+          x += (best.w() - view->label_sz().w()) / 2;
 
-	view->label_pos(Point(x, best.y1()));
+        view->label_pos(Point(x, best.y1()));
 
-	/* refresh old and new label positions */
-	refresh_view(view, view, old);
-	Rect n = Rect(view->label_pos(), view->label_sz());
-	refresh_view(view, view, n);
+        /* refresh old and new label positions */
+        refresh_view(view, view, old);
+        Rect n = Rect(view->label_pos(), view->label_sz());
+        refresh_view(view, view, n);
       }
 }
 

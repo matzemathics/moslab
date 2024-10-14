@@ -13,8 +13,6 @@
 #include "app_task.h"
 #include "globals.h"
 
-using L4Re::Dataspace;
-
 
 long
 App_task::op_signal(L4Re::Parent::Rights, unsigned long sig, unsigned long val)
@@ -44,7 +42,7 @@ App_task::App_task()
     _alloc(Allocator::root_allocator()),
     _rm(_alloc->make_obj<Region_map>())
 {
-  auto c = object_pool.cap_alloc()->alloc(_rm.get());
+  auto c = object_pool.cap_alloc()->alloc(_rm.get(), "moe-rm");
   c->dec_refcnt(1);
 }
 

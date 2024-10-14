@@ -53,7 +53,7 @@ public:
       return -L4_err::EInval;
 
     bind(irq, pin);
-    if (cas(&_irqs[pin], (Irq_base *)nullptr, irq))
+    if (cas<Irq_base *>(&_irqs[pin], nullptr, irq))
       return 0;
 
     irq->unbind();
@@ -83,7 +83,7 @@ public:
     if (_irqs[pin] != irq)
       return;
 
-    if (cas(&_irqs[pin], irq, (Irq_base *)nullptr))
+    if (cas<Irq_base *>(&_irqs[pin], irq, nullptr))
       Irq_chip_soft::unbind(irq);
   }
 
@@ -105,7 +105,7 @@ public:
     Op_unbind     = 1,
     Op_info       = 2,
     Op_msi_info   = 3,
-    Op_eoi        = Irq::Op_eoi_2, // 4
+    Op_eoi        = Irq::Op_eoi, // 4
     Op_unmask     = Op_eoi,
     Op_mask       = 5,
     Op_set_mode   = 6,
@@ -236,6 +236,10 @@ Icu_h<REAL_ICU>::icu_invoke(L4_obj_ref, L4_fpage::Rights /*rights*/,
 {
   L4_msg_tag tag = f->tag();
 
+  // Ko::check_basics()
+  if (EXPECT_FALSE(tag.words() < 1))
+    return Kobject_iface::commit_result(-L4_err::EMsgtooshort);
+
   switch (utcb->values[0])
     {
     case Op_bind:
@@ -266,6 +270,8 @@ Icu_h<REAL_ICU>::icu_invoke(L4_obj_ref, L4_fpage::Rights /*rights*/,
     }
 }
 
+// This function is actually never used because all users of Icu_h implement
+// their own kinvoke() method.
 PUBLIC
 template< typename REAL_ICU >
 L4_msg_tag

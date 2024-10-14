@@ -33,15 +33,11 @@ __BEGIN_DECLS
    value to COUNT.  */
 extern int eventfd (int __count, int __flags) __THROW;
 
-#if 0 /* not (yet) implemented in uClibc */
-
 /* Read event counter and possibly wait for events.  */
 extern int eventfd_read (int __fd, eventfd_t *__value);
 
 /* Increment event counter.  */
 extern int eventfd_write (int __fd, eventfd_t __value);
-
-#endif
 
 __END_DECLS
 

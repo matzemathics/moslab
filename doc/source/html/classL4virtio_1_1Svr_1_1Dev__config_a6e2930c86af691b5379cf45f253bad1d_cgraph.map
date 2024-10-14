@@ -1,5 +1,7 @@
 <map id="L4virtio::Svr::Dev_config::change_queue_config" name="L4virtio::Svr::Dev_config::change_queue_config">
-<area shape="rect" id="Node000001" title="Setup new queue configuration." alt="" coords="5,5,176,60"/>
-<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Dev__config.html#abfda82e19ccfbd5d40a0d8336c0d1815" title="Reset the config header to the initial contents." alt="" coords="224,13,361,53"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,30,210,30,210,35,177,35"/>
+<area shape="rect" id="Node000001" title="Setup new queue configuration." alt="" coords="5,30,176,85"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a9c4009f53b93a29f3e19d676085d99dd" title="Return the number of queues currently usable." alt="" coords="224,5,383,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,42,210,37,211,42,177,47"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Dev__config.html#abfda82e19ccfbd5d40a0d8336c0d1815" title="Reset the config header to the initial contents." alt="" coords="235,69,372,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,68,222,74,221,80,176,73"/>
 </map>

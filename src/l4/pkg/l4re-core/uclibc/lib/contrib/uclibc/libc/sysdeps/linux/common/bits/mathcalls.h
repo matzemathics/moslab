@@ -74,8 +74,22 @@ __MATHCALLI (atan2,, (_Mdouble_ __y, _Mdouble_ __x))
 
 /* Cosine of X.  */
 __MATHCALLI (cos,, (_Mdouble_ __x))
+# if defined _LIBC && defined _Mlong_double_
+libm_hidden_proto(cosl)
+# endif
+# if defined _LIBC && defined _Mfloat_
+libm_hidden_proto(cosf)
+# endif
+
 /* Sine of X.  */
 __MATHCALLI (sin,, (_Mdouble_ __x))
+# if defined _LIBC && defined _Mlong_double_
+libm_hidden_proto(sinl)
+# endif
+# if defined _LIBC && defined _Mfloat_
+libm_hidden_proto(sinf)
+# endif
+
 /* Tangent of X.  */
 __MATHCALLI (tan,, (_Mdouble_ __x))
 
@@ -111,6 +125,9 @@ __END_NAMESPACE_C99
 _Mdouble_BEGIN_NAMESPACE
 /* Exponential function of X.  */
 __MATHCALLI (exp,, (_Mdouble_ __x))
+# if defined _LIBC && defined _Mlong_double_
+libm_hidden_proto(expl)
+# endif
 
 /* Break VALUE into a normalized fraction and an integral power of 2.  */
 __MATHCALLI (frexp,, (_Mdouble_ __x, int *__exponent))
@@ -128,11 +145,11 @@ __MATHCALLI (log10,, (_Mdouble_ __x))
 __MATHCALLI (modf,, (_Mdouble_ __x, _Mdouble_ *__iptr))
 _Mdouble_END_NAMESPACE
 
-#if 0 /*def __USE_GNU*/
+#if defined __USE_GNU
 /* A function missing in all standards: compute exponent to base ten.  */
-__MATHCALL (exp10,, (_Mdouble_ __x))
+__MATHCALLI (exp10,, (_Mdouble_ __x))
 /* Another name occasionally used.  */
-__MATHCALL (pow10,, (_Mdouble_ __x))
+__MATHCALLI (pow10,, (_Mdouble_ __x))
 #endif
 
 #if defined __USE_MISC || defined __USE_XOPEN_EXTENDED || defined __USE_ISOC99
@@ -173,6 +190,9 @@ _Mdouble_END_NAMESPACE
 __BEGIN_NAMESPACE_C99
 /* Return `sqrt(X*X + Y*Y)'.  */
 __MATHCALLI (hypot,, (_Mdouble_ __x, _Mdouble_ __y))
+# if defined _LIBC && defined _Mlong_double_
+libm_hidden_proto(hypotl)
+# endif
 __END_NAMESPACE_C99
 #endif
 
@@ -280,14 +300,17 @@ __END_NAMESPACE_C99
 __MATHCALLI (gamma,, (_Mdouble_))
 #endif
 
-#ifdef __USE_MISC
+//#ifdef __USE_MISC
+/* To provide compatibility with finite-math-only in C99 and C11 
+ * standerts function lgamma_r should be declared, when defined __USE_MISC.
+ */
 /* Reentrant version of lgamma.  This function uses the global variable
    `signgam'.  The reentrant version instead takes a pointer and stores
    the value through it.  */
 __MATHCALL (lgamma,_r, (_Mdouble_, int *__signgamp))
 /* __MATHCALLI does not work here, probably due to ,_r, */
 libm_hidden_proto(lgamma_r)
-#endif
+//#endif
 
 
 #if defined __USE_MISC || defined __USE_XOPEN_EXTENDED || defined __USE_ISOC99
@@ -298,6 +321,9 @@ __MATHCALLI (rint,, (_Mdouble_ __x))
 
 /* Return X + epsilon if X < Y, X - epsilon if X > Y.  */
 __MATHCALLX (nextafter,, (_Mdouble_ __x, _Mdouble_ __y), (__const__))
+# if defined _LIBC && defined _Mlong_double_
+libm_hidden_proto(nextafterl)
+# endif
 # if defined __USE_ISOC99 && !defined __LDBL_COMPAT
 __MATHCALLX (nexttoward,, (_Mdouble_ __x, long double __y), (__const__))
 # endif

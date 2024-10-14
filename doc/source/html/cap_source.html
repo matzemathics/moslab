@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/util/cap Source File</title>
+<title>L4Re Operating System Framework: l4/re/util/cap Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -133,16 +136,16 @@ $(document).ready(function(){initNavTree('cap_source.html',''); initResizable();
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}}</div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00052">capability.h:52</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00049">capability.h:49</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="agroup__l4__cap__api_html_ggaa7801b63edba351bad9ea8026432b5c4ac5b1e4586c9063ba5680aa1f8149b83d"><div class="ttname"><a href="group__l4__cap__api.html#ggaa7801b63edba351bad9ea8026432b5c4ac5b1e4586c9063ba5680aa1f8149b83d">L4_BASE_TASK_CAP</a></div><div class="ttdeci">@ L4_BASE_TASK_CAP</div><div class="ttdoc">Capability selector for the current task.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00316">consts.h:316</a></div></div>
 <div class="ttc" id="agroup__l4__fpage__api_html_ga3eaf59757a63812044e2b3a1cdf09d54"><div class="ttname"><a href="group__l4__fpage__api.html#ga3eaf59757a63812044e2b3a1cdf09d54">l4_obj_fpage</a></div><div class="ttdeci">l4_fpage_t l4_obj_fpage(l4_cap_idx_t obj, unsigned int order, unsigned char rights) L4_NOTHROW</div><div class="ttdoc">Create a kernel-object flex page.</div><div class="ttdef"><b>Definition</b> <a href="____l4__fpage_8h_source.html#l00680">__l4_fpage.h:680</a></div></div>
 <div class="ttc" id="agroup__l4__fpage__api_html_gga5d4f4972d58f72b2a33b6c139b5950a8a371a1fb2c09f17c7eb32ac296b87cf38"><div class="ttname"><a href="group__l4__fpage__api.html#gga5d4f4972d58f72b2a33b6c139b5950a8a371a1fb2c09f17c7eb32ac296b87cf38">L4_FPAGE_RWX</a></div><div class="ttdeci">@ L4_FPAGE_RWX</div><div class="ttdoc">Read-write-execute flex page.</div><div class="ttdef"><b>Definition</b> <a href="____l4__fpage_8h_source.html#l00131">__l4_fpage.h:131</a></div></div>
-<div class="ttc" id="agroup__l4__task__api_html_gaa5558855716b35c1790b61249cf2974b"><div class="ttname"><a href="group__l4__task__api.html#gaa5558855716b35c1790b61249cf2974b">l4_task_unmap</a></div><div class="ttdeci">l4_msgtag_t l4_task_unmap(l4_cap_idx_t task, l4_fpage_t fpage, l4_umword_t map_mask) L4_NOTHROW</div><div class="ttdoc">Revoke rights from the task.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2task_8h_source.html#l00402">task.h:402</a></div></div>
+<div class="ttc" id="agroup__l4__task__api_html_gaa5558855716b35c1790b61249cf2974b"><div class="ttname"><a href="group__l4__task__api.html#gaa5558855716b35c1790b61249cf2974b">l4_task_unmap</a></div><div class="ttdeci">l4_msgtag_t l4_task_unmap(l4_cap_idx_t task, l4_fpage_t fpage, l4_umword_t map_mask) L4_NOTHROW</div><div class="ttdoc">Revoke rights from the task.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2task_8h_source.html#l00411">task.h:411</a></div></div>
 <div class="ttc" id="agroup__l4__task__api_html_gga3c24e67b976870a3e911c43c83382f66aa85d4766b182308e5847d543e7d59055"><div class="ttname"><a href="group__l4__task__api.html#gga3c24e67b976870a3e911c43c83382f66aa85d4766b182308e5847d543e7d59055">L4_FP_ALL_SPACES</a></div><div class="ttdeci">@ L4_FP_ALL_SPACES</div><div class="ttdoc">Flag to tell the unmap operation to revoke permissions from all child mappings including the mapping ...</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00198">consts.h:198</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga2469cd44710705e9f0a5832e060ec48a"><div class="ttname"><a href="group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a">L4_CV</a></div><div class="ttdeci">#define L4_CV</div><div class="ttdoc">Define calling convention.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2linkage_8h_source.html#l00044">linkage.h:44</a></div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
 <div class="ttc" id="atask_html"><div class="ttname"><a href="task.html">task</a></div><div class="ttdoc">Common task related definitions.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -151,7 +154,7 @@ $(document).ready(function(){initNavTree('cap_source.html',''); initResizable();
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="dir_57b23affb30111293db30b1adc1928ce.html">util</a></li><li class="navelem"><a class="el" href="cap.html">cap</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

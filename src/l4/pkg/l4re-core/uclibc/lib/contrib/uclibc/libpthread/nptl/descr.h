@@ -24,7 +24,6 @@
 #include <setjmp.h>
 #include <stdbool.h>
 #include <sys/types.h>
-#include <hp-timing.h>
 #include <list.h>
 #include <lowlevellock.h>
 #include <pthreaddef.h>
@@ -151,9 +150,6 @@ struct pthread
   /* Thread ID - which is also a 'is this thread descriptor (and
      therefore stack) used' flag.  */
   pid_t tid;
-
-  /* Process ID - thread group ID in kernel speak.  */
-  pid_t pid;
 
   /* List of robust mutexes the thread is holding.  */
 #ifdef __PTHREAD_MUTEX_HAVE_PREV
@@ -312,11 +308,6 @@ struct pthread
 
   /* Lock for synchronizing setxid calls.  */
   int setxid_futex;
-
-#if HP_TIMING_AVAIL
-  /* Offset of the CPU clock at start thread start time.  */
-  hp_timing_t cpuclock_offset;
-#endif
 
   /* If the thread waits to join another one the ID of the latter is
      stored here.

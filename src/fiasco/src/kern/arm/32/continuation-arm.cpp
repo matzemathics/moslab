@@ -21,8 +21,22 @@ public:
   bool valid(void const *) const
   { return _ip != ~0UL; }
 
-  Address ip() const { return _ip; }
-  void ip(Address ip) { _ip = ip; }
+  Address ip() const
+  {
+    Mword ret = _ip;
+    if (_psr & Proc::Status_thumb)
+      ret |= 1U;
+    return ret;
+  }
+
+  void ip(Address ip)
+  {
+    _ip = ip & ~1UL;
+    if (ip & 1U)
+      _psr |= Proc::Status_thumb;
+    else
+      _psr &= ~static_cast<Mword>(Proc::Status_thumb);
+  }
 
   Mword flags(Return_frame const *) const { return _psr; }
   void flags(Return_frame *, Mword psr) { _psr = psr; }
@@ -39,7 +53,8 @@ public:
   void activate(Return_frame *regs, void *cont_func)
   {
     save(regs);
-    regs->pc = Mword(cont_func);
+    // We do *not* support cont_func to be a thumb function.
+    regs->pc = reinterpret_cast<Mword>(cont_func);
     regs->psr &= ~(Proc::Status_mode_mask | Proc::Status_thumb); // clear mode
     regs->psr |= Proc::Status_mode_supervisor | Proc::Status_interrupts_disabled;
   }

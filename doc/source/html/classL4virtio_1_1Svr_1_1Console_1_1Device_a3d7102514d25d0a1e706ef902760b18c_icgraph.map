@@ -1,0 +1,9 @@
+<map id="L4virtio::Svr::Console::Device::port" name="L4virtio::Svr::Console::Device::port">
+<area shape="rect" id="Node000001" title="Return the specified port." alt="" coords="264,69,424,109"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#acf4b1bbf927d4d40b2532a7a18bf21bd" title="Read data from port." alt="" coords="31,5,191,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,68,183,48,185,43,258,63"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a5b906c9cec86e9cf30dff4fe1edf1b11" title="Write data to port." alt="" coords="31,69,191,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,92,191,92,191,87,250,87"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a7dde9e63b6fb498c87b6c1ed9e60198f" title="Callback called on PORT_READY event." alt="" coords="5,133,216,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="258,116,185,136,183,131,256,110"/>
+</map>

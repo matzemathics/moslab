@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * __rt_sigtimedwait() for uClibc
  *
@@ -10,7 +9,7 @@
 
 #include <sys/syscall.h>
 
-#ifdef __NR_rt_sigtimedwait
+#if defined(__NR_rt_sigtimedwait) || (defined(__NR_rt_sigtimedwait_time64) && defined(__UCLIBC_USE_TIME64__))
 # include <signal.h>
 # include <cancel.h>
 # ifdef __UCLIBC_HAS_THREADS_NATIVE__
@@ -22,9 +21,16 @@
 #  include <string.h>
 # endif
 
+#if defined(__UCLIBC_USE_TIME64__)
+#include "internal/time64_helpers.h"
+#endif
+
 int __NC(sigtimedwait)(const sigset_t *set, siginfo_t *info,
 		       const struct timespec *timeout)
 {
+# if defined SI_TKILL && defined SI_USER
+	int result;
+# endif
 # ifdef SIGCANCEL
 	sigset_t tmpset;
 
@@ -50,8 +56,13 @@ int __NC(sigtimedwait)(const sigset_t *set, siginfo_t *info,
 	/* XXX The size argument hopefully will have to be changed to the
 	   real size of the user-level sigset_t.  */
 	/* on uClibc we use the kernel sigset_t size */
-	int result = INLINE_SYSCALL(rt_sigtimedwait, 4, set, info,
+# if defined(__UCLIBC_USE_TIME64__) && defined(__NR_rt_sigtimedwait_time64)
+	result = INLINE_SYSCALL(rt_sigtimedwait_time64, 4, set, info,
+				    TO_TS64_P(timeout), __SYSCALL_SIGSET_T_SIZE);
+# else
+	result = INLINE_SYSCALL(rt_sigtimedwait, 4, set, info,
 				    timeout, __SYSCALL_SIGSET_T_SIZE);
+# endif
 
 	/* The kernel generates a SI_TKILL code in si_code in case tkill is
 	   used.  tkill is transparently used in raise().  Since having
@@ -63,8 +74,13 @@ int __NC(sigtimedwait)(const sigset_t *set, siginfo_t *info,
 	return result;
 # else
 	/* on uClibc we use the kernel sigset_t size */
+# if defined(__UCLIBC_USE_TIME64__) && defined(__NR_rt_sigtimedwait_time64)
+	return INLINE_SYSCALL(rt_sigtimedwait_time64, 4, set, info,
+			      TO_TS64_P(timeout), __SYSCALL_SIGSET_T_SIZE);
+# else
 	return INLINE_SYSCALL(rt_sigtimedwait, 4, set, info,
 			      timeout, __SYSCALL_SIGSET_T_SIZE);
+# endif
 # endif
 }
 CANCELLABLE_SYSCALL(int, sigtimedwait,

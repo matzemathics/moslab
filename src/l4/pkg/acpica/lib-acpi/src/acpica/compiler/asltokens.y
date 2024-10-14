@@ -9,7 +9,7 @@ NoEcho('
  *
  * 1. Copyright Notice
  *
- * Some or all of this work - Copyright (c) 1999 - 2021, Intel Corp.
+ * Some or all of this work - Copyright (c) 1999 - 2024, Intel Corp.
  * All rights reserved.
  *
  * 2. License
@@ -256,6 +256,7 @@ NoEcho('
 %token <i> PARSEOP_DWORDCONST
 %token <i> PARSEOP_DWORDIO
 %token <i> PARSEOP_DWORDMEMORY
+%token <i> PARSEOP_DWORDPCC
 %token <i> PARSEOP_DWORDSPACE
 %token <i> PARSEOP_EISAID
 %token <i> PARSEOP_ELSE
@@ -399,6 +400,12 @@ NoEcho('
 %token <i> PARSEOP_PIN_PULLDEFAULT
 %token <i> PARSEOP_PIN_PULLDOWN
 %token <i> PARSEOP_PIN_PULLUP
+%token <i> PARSEOP_CLOCKINPUT
+%token <i> PARSEOP_CLOCK_HZ
+%token <i> PARSEOP_CLOCK_KHZ
+%token <i> PARSEOP_CLOCK_MHZ
+%token <i> PARSEOP_CLOCK_FIXED
+%token <i> PARSEOP_CLOCK_VARIABLE
 %token <i> PARSEOP_POWERRESOURCE
 %token <i> PARSEOP_PROCESSOR
 %token <i> PARSEOP_QWORDCONST

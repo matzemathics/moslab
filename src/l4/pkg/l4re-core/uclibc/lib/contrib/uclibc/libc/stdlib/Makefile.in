@@ -13,16 +13,15 @@ include $(top_srcdir)libc/stdlib/malloc-standard/Makefile.in
 
 CSRC-y := \
 	abort.c getenv.c mkdtemp.c realpath.c canonicalize.c mkstemp.c mkostemp.c \
-	rand.c random.c random_r.c setenv.c div.c ldiv.c lldiv.c \
-	getpt.c drand48-iter.c jrand48.c \
+	mkstemps.c mkostemps.c rand.c random.c random_r.c setenv.c div.c ldiv.c \
+	lldiv.c getpt.c drand48-iter.c jrand48.c \
 	jrand48_r.c lcong48.c lrand48.c lrand48_r.c mrand48.c mrand48_r.c nrand48.c \
 	nrand48_r.c rand_r.c srand48.c srand48_r.c seed48.c seed48_r.c \
-	a64l.c l64a.c __uc_malloc.c
+	a64l.c l64a.c __uc_malloc.c secure_getenv.c
 CSRC-$(UCLIBC_SUSV2_LEGACY) += valloc.c
 CSRC-$(UCLIBC_HAS_ADVANCED_REALTIME) += posix_memalign.c
 CSRC-$(UCLIBC_HAS_PTY) += grantpt.c unlockpt.c ptsname.c
-CSRC-$(UCLIBC_HAS_ARC4RANDOM) += arc4random.c
-CSRC-$(UCLIBC_HAS_LFS) += mkstemp64.c mkostemp64.c
+CSRC-y += mkstemp64.c mkostemp64.c mkstemps64.c mkostemps64.c
 CSRC-$(UCLIBC_HAS_FLOATS) += drand48.c drand48_r.c erand48.c erand48_r.c
 CSRC-$(if $(findstring yy,$(UCLIBC_HAS_FLOATS)$(UCLIBC_SUSV3_LEGACY)),y) += \
 	gcvt.c
@@ -61,7 +60,6 @@ CSRC-$(if $(findstring yyy,$(UCLIBC_HAS_FLOATS)$(UCLIBC_HAS_WCHAR)$(UCLIBC_HAS_X
 
 # multi source _atexit.c
 CSRC-y += __cxa_atexit.c __cxa_finalize.c __exit_handler.c exit.c on_exit.c
-CSRC-$(COMPAT_ATEXIT) += old_atexit.c
 
 STDLIB_DIR := $(top_srcdir)libc/stdlib
 STDLIB_OUT := $(top_builddir)libc/stdlib
@@ -75,7 +73,6 @@ libc-shared-y += $(STDLIB_OUT)/system.oS
 
 # this should always be the PIC version, because it could be used in shared libs
 libc-nonshared-y += $(STDLIB_OUT)/atexit.os
-
 libc-nomulti-y += $(STDLIB_OUT)/labs.o $(STDLIB_OUT)/atol.o $(STDLIB_OUT)/_stdlib_strto_l.o $(STDLIB_OUT)/_stdlib_strto_ll.o
 libc-nomulti-$(UCLIBC_HAS_XLOCALE) += $(STDLIB_OUT)/_stdlib_strto_l_l.o $(STDLIB_OUT)/_stdlib_strto_ll_l.o
 

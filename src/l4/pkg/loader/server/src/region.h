@@ -40,6 +40,8 @@ public:
 
   static void take(Region_handler const *h);
   static void release(Region_handler const *h);
+  static int map_info(Region_handler const *h, l4_addr_t *start_addr,
+                      l4_addr_t *end_addr);
 };
 
 

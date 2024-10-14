@@ -23,7 +23,8 @@ set_fast_entry(Cpu_number, void (*func)())
   auto ofs = syscall_entry_reloc - syscall_entry_code + 3;
   auto reloc = reinterpret_cast<Signed32 *>(
     Mem_layout::Mem_layout::Kentry_cpu_syscall_entry + ofs);
-  check(Jdb::poke(Jdb_addr<Signed32>::kmem_addr(reloc), (Signed32)(Signed64)func));
+  check(Jdb::poke(Jdb_addr<Signed32>::kmem_addr(reloc),
+                  static_cast<Signed32>(reinterpret_cast<Signed64>(func))));
 }
 
 //--------------------------------------------------------------------------
@@ -38,10 +39,11 @@ set_fast_entry(Cpu_number cpu, void (*func)())
 {
   extern Per_cpu_array<Syscall_entry_text> syscall_entry_text;
 
-  Address entry = (Address)&syscall_entry_text[cpu];
+  Address entry = reinterpret_cast<Address>(&syscall_entry_text[cpu]);
   Address reloc = entry + 0x1b;
-  Signed32 ofs = (Address)func - (reloc + sizeof(Signed32));
-  check(Jdb::poke(Jdb_addr<Signed32>::kmem_addr((Signed32 *) reloc), ofs));
+  Signed32 ofs = reinterpret_cast<Address>(func) - (reloc + sizeof(Signed32));
+  check(Jdb::poke(Jdb_addr<Signed32>::kmem_addr(
+                    reinterpret_cast<Signed32 *>(reloc)), ofs));
 }
 
 //--------------------------------------------------------------------------
@@ -50,12 +52,12 @@ IMPLEMENTATION:
 #include "syscalls.h"
 #include "jdb.h"
 #include "pm.h"
+#include "entry-ia32.h"
 
 extern "C" void sys_ipc_wrapper (void);
 extern "C" void sys_ipc_log_wrapper (void);
 
 extern "C" void entry_sys_fast_ipc_log (void);
-extern "C" void entry_sys_fast_ipc_c (void);
 
 static
 void
@@ -148,7 +150,7 @@ Jdb_set_trace::set_ipc_vector_int()
   else
     int30_entry = entry_sys_ipc_c;
 
-  Idt::set_entry(0x30, (Address) int30_entry, true);
+  Idt::set_entry(0x30, reinterpret_cast<Address>(int30_entry), true);
 }
 
 IMPLEMENTATION [amd64]:

@@ -16,8 +16,6 @@
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-/* Code taken from glibc2.2.2/sysdeps/unix/sysv/linux/sparc/vfork.S */
-
 #include <sys/syscall.h>
 
 #ifndef __NR_vfork
@@ -37,7 +35,7 @@ __vfork:
 	bcc,a	9000f
 	nop
 	save    %sp,-96,%sp
-	call HIDDEN_JUMPTARGET(__errno_location)
+	call __errno_location
 	nop
 	st	%i0,[%o0]
 	jmpl	%i7+8,%g0

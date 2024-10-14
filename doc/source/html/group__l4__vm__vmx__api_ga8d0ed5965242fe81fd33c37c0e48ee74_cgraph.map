@@ -1,11 +1,11 @@
 <map id="l4_vm_vmx_write" name="l4_vm_vmx_write">
-<area shape="rect" id="Node000001" title="Write to an arbitrary VMCS field." alt="" coords="5,80,144,105"/>
-<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#gae32bd0cc1cf4a980f43ff1c0a6405c18" title="Write to a 16bit VMCS field." alt="" coords="195,5,356,31"/>
+<area shape="rect" id="Node000001" title="Write to an arbitrary software VMCS field." alt="" coords="5,80,144,105"/>
+<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#gae32bd0cc1cf4a980f43ff1c0a6405c18" title="Write to a 16&#45;bit software VMCS field." alt="" coords="195,5,356,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,77,191,40,213,32,215,37,193,44,104,82"/>
-<area shape="rect" id="Node000003" href="$group__l4__vm__vmx__api.html#ga334d673fbbbae474a5d15f97eb584e67" title="Write to a 32bit VMCS field." alt="" coords="195,55,356,80"/>
+<area shape="rect" id="Node000003" href="$group__l4__vm__vmx__api.html#ga334d673fbbbae474a5d15f97eb584e67" title="Write to a 32&#45;bit software VMCS field." alt="" coords="195,55,356,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="144,81,181,77,181,82,144,87"/>
-<area shape="rect" id="Node000004" href="$group__l4__vm__vmx__api.html#ga95fe266751c622d7e7f142b87236028e" title="Write to a 64bit VMCS field." alt="" coords="195,104,356,129"/>
+<area shape="rect" id="Node000004" href="$group__l4__vm__vmx__api.html#ga95fe266751c622d7e7f142b87236028e" title="Write to a 64&#45;bit software VMCS field." alt="" coords="195,104,356,129"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="144,98,181,103,181,108,144,104"/>
-<area shape="rect" id="Node000005" href="$group__l4__vm__vmx__api.html#ga02df2cccd7e75a57359e4f562079e1d6" title="Write to a natural width VMCS field." alt="" coords="192,153,359,179"/>
+<area shape="rect" id="Node000005" href="$group__l4__vm__vmx__api.html#ga02df2cccd7e75a57359e4f562079e1d6" title="Write to a natural&#45;width software VMCS field." alt="" coords="192,153,359,179"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="106,103,193,138,218,147,216,152,191,143,104,108"/>
 </map>

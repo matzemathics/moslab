@@ -13,7 +13,7 @@ public:
   static Mword kern_ds() { return _kern_ds; }
   static Mword kern_es() { return _kern_es; }
 private:
-  static Tss *tss asm ("CPU_TSS");
+  static Tss *_tss asm ("CPU_TSS");
   static int msr_dev;
   static unsigned long _gs asm ("CPU_GS");
   static unsigned long _fs asm ("CPU_FS");
@@ -40,7 +40,7 @@ IMPLEMENTATION[ux]:
 #include "tss.h"
 
 Proc::Status volatile Proc::virtual_processor_state = 0;
-Tss *Cpu::tss;
+Tss *Cpu::_tss;
 int Cpu::msr_dev = -1;
 unsigned long Cpu::_gs; // for mp: percpu
 unsigned long Cpu::_fs; // for mp: percpu
@@ -74,7 +74,7 @@ Cpu::init()
       while (fgets (buffer, sizeof (buffer), fp))
 	if (sscanf (buffer, "cpu MHz%*[^:]: %f", &val) == 1)
 	  {
-	    _frequency    = (Unsigned64)(val * 1000) * 1000;
+	    _frequency = static_cast<Unsigned64>(val * 1000) * 1000;
 	    scaler_tsc_to_ns = muldiv (1 << 27, 1000000000,    _frequency);
 	    scaler_tsc_to_us = muldiv (1 << 27, 32 * 1000000,  _frequency);
 	    scaler_ns_to_tsc = muldiv (1 << 27, _frequency, 1000000000);
@@ -118,16 +118,16 @@ Cpu::set_fast_entry (void (*)(void))
 
 PUBLIC static FIASCO_INIT
 void
-Cpu::init_tss (Address tss_mem)
+Cpu::init_tss(Tss *tss)
 {
-  tss = reinterpret_cast<Tss*>(tss_mem);
-  tss->_ss0 = Gdt::gdt_data_kernel;
+  _tss = tss;
+  _tss->_hw.ctx.ss0 = Gdt::gdt_data_kernel;
 }
 
 PUBLIC static inline
-Tss*
-Cpu::get_tss ()
-{ return tss; }
+Tss *
+Cpu::get_tss()
+{ return _tss; }
 
 PUBLIC static inline
 void
@@ -173,7 +173,7 @@ PUBLIC static inline
 void
 Cpu::wrmsr (Unsigned32 low, Unsigned32 high, Unsigned32 reg)
 {
-  Unsigned64 msr = ((Unsigned64)high << 32) | low;
+  Unsigned64 msr = (Unsigned64{high} << 32) | low;
   wrmsr(msr, reg);
 }
 
@@ -206,6 +206,11 @@ PUBLIC static inline
 Unsigned32
 Cpu::get_gs()
 { return _gs; }
+
+PUBLIC inline
+void
+Cpu::reset_io_bitmap()
+{}
 
 // ------------------------------------------------------------------------
 IMPLEMENTATION[ux && !mp]:

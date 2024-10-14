@@ -1,6 +1,7 @@
 INTERFACE [arm]:
 
 #include "irq_chip.h"
+#include "global_data.h"
 
 EXTENSION class Timer
 {
@@ -16,10 +17,10 @@ public:
 private:
   static inline void update_one_shot(Unsigned64 wakeup);
   static Unsigned64 time_stamp();
-  static Unsigned32 _scaler_ts_to_ns;
-  static Unsigned32 _scaler_ts_to_us;
-  static Unsigned32 _shift_ts_to_ns;
-  static Unsigned32 _shift_ts_to_us;
+  static Global_data<Unsigned32> _scaler_ts_to_ns;
+  static Global_data<Unsigned32> _scaler_ts_to_us;
+  static Global_data<Unsigned32> _shift_ts_to_ns;
+  static Global_data<Unsigned32> _shift_ts_to_us;
 };
 
 // ------------------------------------------------------------------------
@@ -31,7 +32,7 @@ PRIVATE static inline NEEDS["mem_unit.h"]
 void
 Timer::kipclock_cache()
 {
-  Mem_unit::clean_dcache((void *)&Kip::k()->_clock);
+  Mem_unit::clean_dcache(static_cast<void *>(const_cast<Cpu_time *>(&Kip::k()->_clock)));
 }
 
 // ------------------------------------------------------------------------
@@ -47,15 +48,14 @@ IMPLEMENTATION [arm]:
 
 #include "config.h"
 #include "context_base.h"
-#include "globals.h"
 #include "kip.h"
 #include "watchdog.h"
 #include "warn.h"
 
-Unsigned32 Timer::_scaler_ts_to_ns;
-Unsigned32 Timer::_scaler_ts_to_us;
-Unsigned32 Timer::_shift_ts_to_ns;
-Unsigned32 Timer::_shift_ts_to_us;
+DEFINE_GLOBAL Global_data<Unsigned32> Timer::_scaler_ts_to_ns;
+DEFINE_GLOBAL Global_data<Unsigned32> Timer::_scaler_ts_to_us;
+DEFINE_GLOBAL Global_data<Unsigned32> Timer::_shift_ts_to_ns;
+DEFINE_GLOBAL Global_data<Unsigned32> Timer::_shift_ts_to_us;
 
 IMPLEMENT_DEFAULT
 Unsigned64
@@ -94,7 +94,7 @@ Timer::init_system_clock_ap(Cpu_number cpu)
     }
 }
 
-IMPLEMENT inline NEEDS["config.h", "globals.h", "kip.h", "watchdog.h", Timer::kipclock_cache]
+IMPLEMENT inline NEEDS["config.h", "kip.h", "watchdog.h", Timer::kipclock_cache]
 void
 Timer::update_system_clock(Cpu_number cpu)
 {
@@ -118,8 +118,6 @@ IMPLEMENT_DEFAULT inline NEEDS["config.h", "context_base.h", "kip.h"]
 Unsigned64
 Timer::system_clock()
 {
-  if (Config::Scheduler_one_shot)
-    return 0;
   if (current_cpu() == Cpu_number::boot_cpu()
       && Config::Kip_clock_uses_timer)
     {
@@ -201,15 +199,24 @@ Timer::timer_value_to_time(Unsigned64 v, Mword scaler, Mword shift)
        "adc     %2, %5, #0              \n\t"
        "mov     %3, #32                 \n\t"
        "sub     %3, %3, %[shift]        \n\t"
+#ifdef __thumb__
+       "lsl     %4, %1, %[shift]        \n\t"
+       "lsl     %5, %2, %[shift]        \n\t"
+       "lsr     %0, %0, %3              \n\t"
+       "orr     %0, %0, %4              \n\t"
+       "lsr     %1, %1, %3              \n\t"
+       "orr     %1, %1, %5              \n\t"
+#else
        "lsr     %0, %0, %3              \n\t"
        "orr     %0, %0, %1, LSL %[shift]\n\t"
        "lsr     %1, %1, %3              \n\t"
        "orr     %1, %1, %2, LSL %[shift]\n\t"
+#endif
        : "+r"(lo), "+r"(hi),
          "=&r"(dummy1), "=&r"(dummy2), "=&r"(dummy3), "=&r"(dummy4)
        : [scaler]"r"(scaler), [shift]"r"(shift)
        : "cc");
-  return ((Unsigned64)hi << 32) | lo;
+  return (Unsigned64{hi} << 32) | lo;
 }
 
 // ------------------------------------------------------------------------

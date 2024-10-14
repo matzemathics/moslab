@@ -18,6 +18,7 @@
 #include <errno.h>
 #include <sched.h>
 #include <stddef.h>
+#include <string.h>
 #include <sys/time.h>
 #include "pthread.h"
 #include "internals.h"
@@ -25,28 +26,28 @@
 #include "queue.h"
 #include "restart.h"
 
-int __pthread_cond_init(pthread_cond_t *cond,
-                        const pthread_condattr_t *cond_attr)
+int pthread_cond_init(pthread_cond_t *cond,
+                      const pthread_condattr_t *cond_attr attribute_unused)
 {
   __pthread_init_lock(&cond->__c_lock);
   cond->__c_waiting = NULL;
   return 0;
 }
-strong_alias (__pthread_cond_init, pthread_cond_init)
+libpthread_hidden_def(pthread_cond_init)
 
-int __pthread_cond_destroy(pthread_cond_t *cond)
+int pthread_cond_destroy(pthread_cond_t *cond)
 {
   if (cond->__c_waiting != NULL) return EBUSY;
   return 0;
 }
-strong_alias (__pthread_cond_destroy, pthread_cond_destroy)
+libpthread_hidden_def(pthread_cond_destroy)
 
 /* Function called by pthread_cancel to remove the thread from
    waiting on a condition variable queue. */
 
 static int cond_extricate_func(void *obj, pthread_descr th)
 {
-  __volatile__ pthread_descr self = thread_self();
+  volatile pthread_descr self = thread_self();
   pthread_cond_t *cond = obj;
   int did_remove = 0;
 
@@ -57,9 +58,9 @@ static int cond_extricate_func(void *obj, pthread_descr th)
   return did_remove;
 }
 
-int __pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
+int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
 {
-  __volatile__ pthread_descr self = thread_self();
+  volatile pthread_descr self = thread_self();
   pthread_extricate_if extr;
   int already_canceled = 0;
   int spurious_wakeup_count;
@@ -98,7 +99,7 @@ int __pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
     __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
   }
 
-  pthread_mutex_unlock(mutex);
+  __pthread_mutex_unlock(mutex);
 
   spurious_wakeup_count = 0;
   while (1)
@@ -123,7 +124,7 @@ int __pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
   if (THREAD_GETMEM(self, p_woken_by_cancel)
       && THREAD_GETMEM(self, p_cancelstate) == PTHREAD_CANCEL_ENABLE) {
     THREAD_SETMEM(self, p_woken_by_cancel, 0);
-    pthread_mutex_lock(mutex);
+    __pthread_mutex_lock(mutex);
     __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
   }
 
@@ -131,17 +132,17 @@ int __pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
   while (spurious_wakeup_count--)
     restart(self);
 
-  pthread_mutex_lock(mutex);
+  __pthread_mutex_lock(mutex);
   return 0;
 }
-strong_alias (__pthread_cond_wait, pthread_cond_wait)
+libpthread_hidden_def(pthread_cond_wait)
 
 static int
 pthread_cond_timedwait_relative(pthread_cond_t *cond,
 				pthread_mutex_t *mutex,
 				const struct timespec * abstime)
 {
-  __volatile__ pthread_descr self = thread_self();
+  volatile pthread_descr self = thread_self();
   int already_canceled = 0;
   pthread_extricate_if extr;
   int spurious_wakeup_count;
@@ -174,7 +175,7 @@ pthread_cond_timedwait_relative(pthread_cond_t *cond,
     __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
   }
 
-  pthread_mutex_unlock(mutex);
+  __pthread_mutex_unlock(mutex);
 
   spurious_wakeup_count = 0;
   while (1)
@@ -191,7 +192,7 @@ pthread_cond_timedwait_relative(pthread_cond_t *cond,
 
 	if (was_on_queue) {
 	  __pthread_set_own_extricate_if(self, 0);
-	  pthread_mutex_lock(mutex);
+	  __pthread_mutex_lock(mutex);
 	  return ETIMEDOUT;
 	}
 
@@ -218,7 +219,7 @@ pthread_cond_timedwait_relative(pthread_cond_t *cond,
   if (THREAD_GETMEM(self, p_woken_by_cancel)
       && THREAD_GETMEM(self, p_cancelstate) == PTHREAD_CANCEL_ENABLE) {
     THREAD_SETMEM(self, p_woken_by_cancel, 0);
-    pthread_mutex_lock(mutex);
+    __pthread_mutex_lock(mutex);
     __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
   }
 
@@ -226,19 +227,19 @@ pthread_cond_timedwait_relative(pthread_cond_t *cond,
   while (spurious_wakeup_count--)
     restart(self);
 
-  pthread_mutex_lock(mutex);
+  __pthread_mutex_lock(mutex);
   return 0;
 }
 
-int __pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *mutex,
-			     const struct timespec * abstime)
+int pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *mutex,
+                           const struct timespec * abstime)
 {
   /* Indirect call through pointer! */
   return pthread_cond_timedwait_relative(cond, mutex, abstime);
 }
-strong_alias (__pthread_cond_timedwait, pthread_cond_timedwait)
+libpthread_hidden_def(pthread_cond_timedwait)
 
-int __pthread_cond_signal(pthread_cond_t *cond)
+int pthread_cond_signal(pthread_cond_t *cond)
 {
   pthread_descr th;
 
@@ -252,9 +253,9 @@ int __pthread_cond_signal(pthread_cond_t *cond)
   }
   return 0;
 }
-strong_alias (__pthread_cond_signal, pthread_cond_signal)
+libpthread_hidden_def(pthread_cond_signal)
 
-int __pthread_cond_broadcast(pthread_cond_t *cond)
+int pthread_cond_broadcast(pthread_cond_t *cond)
 {
   pthread_descr tosignal, th;
 
@@ -271,27 +272,28 @@ int __pthread_cond_broadcast(pthread_cond_t *cond)
   }
   return 0;
 }
-strong_alias (__pthread_cond_broadcast, pthread_cond_broadcast)
+libpthread_hidden_def(pthread_cond_broadcast)
 
-int __pthread_condattr_init(pthread_condattr_t *attr)
+int pthread_condattr_init(pthread_condattr_t *attr)
+{
+  memset (attr, '\0', sizeof (*attr));
+  return 0;
+}
+libpthread_hidden_def(pthread_condattr_init)
+
+int pthread_condattr_destroy(pthread_condattr_t *attr attribute_unused)
 {
   return 0;
 }
-strong_alias (__pthread_condattr_init, pthread_condattr_init)
+libpthread_hidden_def(pthread_condattr_destroy)
 
-int __pthread_condattr_destroy(pthread_condattr_t *attr)
-{
-  return 0;
-}
-strong_alias (__pthread_condattr_destroy, pthread_condattr_destroy)
-
-int pthread_condattr_getpshared (const pthread_condattr_t *attr, int *pshared)
+int pthread_condattr_getpshared (const pthread_condattr_t *attr attribute_unused, int *pshared)
 {
   *pshared = PTHREAD_PROCESS_PRIVATE;
   return 0;
 }
 
-int pthread_condattr_setpshared (pthread_condattr_t *attr, int pshared)
+int pthread_condattr_setpshared (pthread_condattr_t *attr attribute_unused, int pshared)
 {
   if (pshared != PTHREAD_PROCESS_PRIVATE && pshared != PTHREAD_PROCESS_SHARED)
     return EINVAL;
@@ -299,6 +301,57 @@ int pthread_condattr_setpshared (pthread_condattr_t *attr, int pshared)
   /* For now it is not possible to shared a conditional variable.  */
   if (pshared != PTHREAD_PROCESS_PRIVATE)
     return ENOSYS;
+
+  return 0;
+}
+
+int pthread_condattr_getclock (const pthread_condattr_t *attr, clockid_t *clock_id)
+{
+  *clock_id = (((((const struct pthread_condattr *) attr)->value) >> 1)
+	       & ((1 << COND_NWAITERS_SHIFT) - 1));
+  return 0;
+}
+
+int pthread_condattr_setclock (pthread_condattr_t *attr, clockid_t clock_id)
+{
+  /* Only a few clocks are allowed.  CLOCK_REALTIME is always allowed.
+     CLOCK_MONOTONIC only if the kernel has the necessary support.  */
+  if (clock_id == CLOCK_MONOTONIC)
+    {
+#ifndef __ASSUME_POSIX_TIMERS
+# ifdef __NR_clock_getres
+      /* Check whether the clock is available.  */
+      static int avail;
+
+      if (avail == 0)
+	{
+	  struct timespec ts;
+
+	  INTERNAL_SYSCALL_DECL (err);
+	  int val;
+#if defined(__UCLIBC_USE_TIME64__) && defined(__NR_clock_getres_time64)
+	  val = INTERNAL_SYSCALL (clock_getres_time64, err, 2, CLOCK_MONOTONIC, &ts);
+#else
+	  val = INTERNAL_SYSCALL (clock_getres, err, 2, CLOCK_MONOTONIC, &ts);
+#endif
+	  avail = INTERNAL_SYSCALL_ERROR_P (val, err) ? -1 : 1;
+	}
+
+      if (avail < 0)
+# endif
+	/* Not available.  */
+	return EINVAL;
+#endif
+    }
+  else if (clock_id != CLOCK_REALTIME)
+    /* If more clocks are allowed some day the storing of the clock ID
+       in the pthread_cond_t structure needs to be adjusted.  */
+    return EINVAL;
+
+  int *valuep = &((struct pthread_condattr *) attr)->value;
+
+  *valuep = ((*valuep & ~(((1 << COND_NWAITERS_SHIFT) - 1) << 1))
+	     | (clock_id << 1));
 
   return 0;
 }

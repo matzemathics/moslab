@@ -1,4 +1,4 @@
-INTERFACE:
+INTERFACE[mapdb]:
 
 #include "slab_cache.h"
 #include "l4_types.h"
@@ -6,6 +6,7 @@ INTERFACE:
 #include "mapping.h"
 #include "mapping_tree.h"
 #include "auto_quota.h"
+#include "unique_ptr.h"
 
 class Space;
 
@@ -130,6 +131,7 @@ public:
 private:
   friend class Jdb_mapdb;
   friend class Treemap_ops;
+  friend class Mem_mapdb_test;
 
   // DATA
   Page _key_end;		///< Number of Physframe entries
@@ -208,11 +210,8 @@ public:
   using Order =   Treemap::Order;
   using Frame =   Treemap::Frame;
 
-  ~Mapdb()
-  { delete _treemap; }
-
   Treemap *dbg_treemap() const
-  { return _treemap; }
+  { return _treemap.get(); }
 
   bool valid_address(Pfn phys) const
   {
@@ -223,10 +222,35 @@ public:
 
 private:
   // DATA
-  Treemap *const _treemap;
+  cxx::unique_ptr<Treemap> const _treemap;
 };
 
-IMPLEMENTATION:
+//--------------------------------------------------------------------
+INTERFACE[!mapdb]:
+
+#include "l4_types.h"
+#include "mapping.h"
+
+class Mapdb
+{
+public:
+  using Mapping = ::Mapping;
+  using Pfn =     Mapping::Pfn;
+  using Pcnt =    Mapping::Pcnt;
+  using Order =   Mdb_types::Order;
+
+  class Frame
+  {
+  public:
+    static constexpr void *frame = nullptr;
+    bool same_lock(Frame const &) const { return false; }
+    void clear() {}
+    void might_clear() {}
+  };
+};
+
+//--------------------------------------------------------------------
+IMPLEMENTATION[mapdb]:
 
 /* The mapping database.
 
@@ -338,6 +362,7 @@ IMPLEMENTATION:
 #include "ram_quota.h"
 #include "std_macros.h"
 #include <new>
+#include "global_data.h"
 
 #if 0 // Optimization: do this using memset in Physframe::alloc()
 inline
@@ -358,7 +383,7 @@ Physframe::alloc(size_t size)
   void *mem = Kmem_alloc::allocator()->alloc(mem_bytes(size));
   if (mem)
     memset(mem, 0, size * sizeof(Physframe));
-  return (Physframe *)mem;
+  return static_cast<Physframe *>(mem);
 #else
   Physframe* block
     = (Physframe *)Kmem_alloc::allocator()->alloc(mem_bytes(size));
@@ -552,7 +577,7 @@ Treemap::create(Order parent_page_shift, Space *owner_id,
   if (EXPECT_FALSE(!pf))
     return 0;
 
-  void *m = allocator()->alloc();
+  void *m = alloc();
   if (EXPECT_FALSE(!m))
     {
       Physframe::free(pf, cxx::int_value<Page>(key_end), owner_id);
@@ -564,23 +589,29 @@ Treemap::create(Order parent_page_shift, Space *owner_id,
                          shifts_num - 1, pf);
 }
 
-static Kmem_slab_t<Treemap> _treemap_allocator("Treemap");
+static DEFINE_GLOBAL
+Global_data<Kmem_slab_t<Treemap>> _treemap_allocator("Treemap");
 
 static
-Slab_cache *
-Treemap::allocator()
-{ return _treemap_allocator.slab(); }
+void *
+Treemap::alloc()
+{ return _treemap_allocator->alloc(); }
+
+static
+void
+Treemap::free(void *e)
+{ _treemap_allocator->free(e); }
 
 
 PUBLIC inline
 void
 Treemap::operator delete (void *block)
 {
-  Treemap *t = reinterpret_cast<Treemap*>(block);
+  Treemap *t = static_cast<Treemap *>(block);
   Space *id = t->_owner_id;
   auto end = t->_key_end;
   asm ("" : "=m"(t->_owner_id), "=m"(t->_key_end));
-  allocator()->free(block);
+  free(block);
   Mapping_tree::quota(id)->free(Treemap::quota_size(end));
 }
 
@@ -789,7 +820,7 @@ Treemap::lookup_src_dst(Space const *src, Pcnt src_key, Pfn src_va,
       if (!m->submap())
         {
           // same mapping size
-          if (r_depth < (int)f->min_depth() - 1)
+          if (r_depth < static_cast<int>(f->min_depth()) - 1)
             return 1; // in another subtree -> unmap + map
 
           return 2; // in the same subtree -> unmap + no map
@@ -798,7 +829,7 @@ Treemap::lookup_src_dst(Space const *src, Pcnt src_key, Pfn src_va,
       // smaller mapping in submap found...
       if (r_depth == c_depth)
         {
-          // src is in subtree of dst -> unmap dst and noting to map then
+          // src is in subtree of dst -> unmap dst and nothing to map then
           src_frame->clear();
           return 2; // unmap + no map
         }
@@ -1004,7 +1035,7 @@ Mapdb::Mapdb(Space *owner, Order parent_page_shift, size_t const *page_shifts,
                            Pfn(0), page_shifts, page_shifts_num))
 {
   // assert (boot_time);
-  assert (_treemap);
+  assert (_treemap.get());
 } // Mapdb()
 
 /** Insert a new mapping entry with the given values as child of
@@ -1100,3 +1131,57 @@ Mapdb::lookup_src_dst(Space const *src, Pfn src_phys, Pfn src_va,
                                   dst, dst_phys - Pfn(0), dst_va,
                                   src_frame, dst_frame);
 }
+
+//--------------------------------------------------------------------
+IMPLEMENTATION[!mapdb]:
+
+PUBLIC
+Mapdb::Mapdb(Space *, Order, size_t const *, unsigned)
+{}
+
+PUBLIC inline
+Mapping *
+Mapdb::insert(Frame const &, Space *, Pfn, Pfn, Pcnt)
+{
+  return reinterpret_cast<Mapping *>(1);
+}
+
+PUBLIC inline
+bool
+Mapdb::lookup(Space const *, Pfn, Pfn, Frame *)
+{
+  return true;
+}
+
+PUBLIC static inline
+void
+Mapdb::flush(Frame const &, L4_map_mask, Pfn, Pfn)
+{}
+
+PUBLIC inline
+bool
+Mapdb::grant(Frame const &, Space *, Pfn)
+{
+  return true;
+}
+
+PUBLIC inline
+int
+Mapdb::lookup_src_dst(Space const *, Pfn, Pfn,
+                      Space const *, Pfn, Pfn,
+                      Frame *, Frame *)
+{
+  return 0;
+}
+
+PUBLIC inline
+bool
+Mapdb::valid_address(Pfn)
+{
+  return true;
+}
+
+PUBLIC template<typename F> static inline
+void
+Mapdb::foreach_mapping(Frame const &, Mapdb::Pfn, Mapdb::Pfn, F &&)
+{}

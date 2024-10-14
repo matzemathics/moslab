@@ -5,17 +5,18 @@
  * This file is distributed under the terms of the GNU General Public
  * License, version 2.  Please see the COPYING-GPL-2 file for details.
  */
+
 #pragma once
+
+#include <l4/sys/capability>
+#include <l4/sys/types.h>
+#include <l4/sys/vcpu_context>
 #include "vm.h"
 
 class Vmx: public Vm
 {
 public:
-  Vmx()
-  {
-    setup_vm();
-    is_vmx = 1;
-  }
+  Vmx();
 
 protected:
   bool npt_available() { return true; }
@@ -36,10 +37,37 @@ protected:
   void disable_npt();
 
 private:
-  void vmwrite(unsigned field, l4_uint64_t val)
+  void vmwrite(unsigned int field, l4_uint64_t val)
   {
     l4_vm_vmx_write(vmcb, field, val);
   }
-  void jump_over_current_insn(unsigned bytes);
-};
 
+  l4_uint64_t vmread(unsigned int field)
+  {
+    return l4_vm_vmx_read(vmcb, field);
+  }
+
+  l4_uint16_t vmread_16(unsigned int field)
+  {
+    return l4_vm_vmx_read_16(vmcb, field);
+  }
+
+  l4_uint64_t vmread_64(unsigned int field)
+  {
+    return l4_vm_vmx_read_64(vmcb, field);
+  }
+
+  l4_uint32_t vmread_32(unsigned int field)
+  {
+    return l4_vm_vmx_read_32(vmcb, field);
+  }
+
+  l4_umword_t vmread_nat(unsigned int field)
+  {
+    return l4_vm_vmx_read_nat(vmcb, field);
+  }
+
+  void jump_over_current_insn(unsigned bytes);
+
+  L4::Cap<L4::Vcpu_context> vmcs_cap;
+};

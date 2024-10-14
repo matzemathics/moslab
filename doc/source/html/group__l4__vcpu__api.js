@@ -64,6 +64,14 @@ var group__l4__vcpu__api =
       [ "L4_VCPU_OFFSET_EXT_STATE", "group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3", null ],
       [ "L4_VCPU_OFFSET_EXT_INFOS", "group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5", null ]
     ] ],
+    [ "L4_vcpu_state_offset", "group__l4__vcpu__api.html#gaa9c9426f606dfa123ace57a1081e4e1b", [
+      [ "L4_VCPU_OFFSET_EXT_STATE", "group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3", null ],
+      [ "L4_VCPU_OFFSET_EXT_INFOS", "group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5", null ]
+    ] ],
+    [ "L4_vcpu_state_offset", "group__l4__vcpu__api.html#gaa9c9426f606dfa123ace57a1081e4e1b", [
+      [ "L4_VCPU_OFFSET_EXT_STATE", "group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3", null ],
+      [ "L4_VCPU_OFFSET_EXT_INFOS", "group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5", null ]
+    ] ],
     [ "L4_vcpu_sticky_flags", "group__l4__vcpu__api.html#ga4a26ee99aaf5f75087c6918f57c3d4d5", [
       [ "L4_VCPU_SF_IRQ_PENDING", "group__l4__vcpu__api.html#gga4a26ee99aaf5f75087c6918f57c3d4d5afdc98b96983362771316581981ded160", null ]
     ] ]

@@ -18,7 +18,8 @@ var group__l4__protocol__ops =
       [ "L4_PLATFORM_CTL_SYS_SHUTDOWN_OP", "group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5a1ebad06dfeeb8577330bce36261104b5", null ],
       [ "L4_PLATFORM_CTL_CPU_ALLOW_SHUTDOWN_OP", "group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5abbf72c522cbcc969ab2e60709a21e24c", null ],
       [ "L4_PLATFORM_CTL_CPU_ENABLE_OP", "group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5a18dd3723e48f44a9b8d07070b01e076b", null ],
-      [ "L4_PLATFORM_CTL_CPU_DISABLE_OP", "group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5adedffb6cc8f06840347891e11ed5920a", null ]
+      [ "L4_PLATFORM_CTL_CPU_DISABLE_OP", "group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5adedffb6cc8f06840347891e11ed5920a", null ],
+      [ "L4_PLATFORM_CTL_SET_TASK_ASID_OP", "group__l4__protocol__ops.html#gga23eef0a63655492f17c8b4aff576ebf5ab39e52ddda48700c212737927011e6cc", null ]
     ] ],
     [ "L4_task_ops", "group__l4__protocol__ops.html#ga23a759356490c4b1feffc9f36440a82d", [
       [ "L4_TASK_MAP_OP", "group__l4__protocol__ops.html#gga23a759356490c4b1feffc9f36440a82daa704ed64f23f28237d3889170e835a8b", null ],

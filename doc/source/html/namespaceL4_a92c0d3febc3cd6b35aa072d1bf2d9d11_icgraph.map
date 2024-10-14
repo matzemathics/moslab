@@ -1,5 +1,5 @@
 <map id="L4::round_order" name="L4::round_order">
 <area shape="rect" id="Node000001" title="Round a value up so the given number of lsb is zero." alt="" coords="221,13,344,38"/>
-<area shape="rect" id="Node000002" href="$classL4Re_1_1Dataspace.html#a7caf317574ca8fa0f43bcd333f7bb860" title="Map a part of a dataspace into a local memory area." alt="" coords="5,5,173,45"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Dataspace.html#a6a7fd6af9bf3c1aebf57da8a3f09de75" title="Map a part of a dataspace into a local memory area." alt="" coords="5,5,173,45"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,28,174,28,174,23,208,23"/>
 </map>

@@ -99,7 +99,10 @@ typedef struct l4_sched_cpu_set_t
    * \param offset       Offset. Must be a multiple of 2^granularity.
    */
   void set(unsigned char granularity, unsigned offset)
-  { gran_offset = ((l4_umword_t)granularity << 24) | (offset & 0x00ffffff); }
+  {
+    gran_offset = (static_cast<l4_umword_t>(granularity) << 24)
+      | (offset & 0x00ffffff);
+  }
 #endif
 } l4_sched_cpu_set_t;
 
@@ -126,8 +129,8 @@ l4_sched_cpu_set(l4_umword_t offset, unsigned char granularity,
  *                           can be NULL.
  * \param[in,out] cpus       \a cpus.offset is first CPU of interest.
  *                           \a cpus.granularity (see l4_sched_cpu_set_t).
- *                           \a cpus.map Bitmap of online CPUs.
- *                           Pass NULL if this information is not required.
+ *                           \a cpus.map Bitmap of online CPUs. Must not be
+ *                           NULL.
  *
  * \retval 0           Success.
  * \retval -L4_ERANGE  The given CPU offset is larger than the maximum number
@@ -135,7 +138,8 @@ l4_sched_cpu_set(l4_umword_t offset, unsigned char granularity,
  */
 L4_INLINE l4_msgtag_t
 l4_scheduler_info(l4_cap_idx_t scheduler, l4_umword_t *cpu_max,
-                  l4_sched_cpu_set_t *cpus) L4_NOTHROW;
+                  l4_sched_cpu_set_t *cpus)
+                 L4_NOTHROW __attribute__((nonnull (3)));
 
 /**
  * \ingroup l4_scheduler_api
@@ -146,8 +150,8 @@ l4_scheduler_info(l4_cap_idx_t scheduler, l4_umword_t *cpu_max,
  *                           can be NULL.
  * \param[in,out] cpus       \a cpus.offset is first CPU of interest.
  *                           \a cpus.granularity (see l4_sched_cpu_set_t).
- *                           \a cpus.map Bitmap of online CPUs.
- *                           Pass NULL if this information is not required.
+ *                           \a cpus.map Bitmap of online CPUs. Must not be
+ *                           NULL.
  * \param[out]    sched_classes  A bitmap of available scheduling classes (see
  *                               L4_scheduler_classes). Optional, can be NULL.
  *
@@ -161,7 +165,8 @@ l4_scheduler_info(l4_cap_idx_t scheduler, l4_umword_t *cpu_max,
 L4_INLINE l4_msgtag_t
 l4_scheduler_info_with_classes(l4_cap_idx_t scheduler, l4_umword_t *cpu_max,
                                l4_sched_cpu_set_t *cpus,
-                               l4_umword_t *sched_classes) L4_NOTHROW;
+                               l4_umword_t *sched_classes)
+                              L4_NOTHROW __attribute__((nonnull (3)));
 
 /**
  * \internal
@@ -169,7 +174,7 @@ l4_scheduler_info_with_classes(l4_cap_idx_t scheduler, l4_umword_t *cpu_max,
 L4_INLINE l4_msgtag_t
 l4_scheduler_info_u(l4_cap_idx_t scheduler, l4_umword_t *cpu_max,
                     l4_sched_cpu_set_t *cpus, l4_umword_t *sched_classes,
-                    l4_utcb_t *utcb) L4_NOTHROW;
+                    l4_utcb_t *utcb) L4_NOTHROW __attribute__((nonnull (3, 5)));
 
 
 /**
@@ -202,14 +207,16 @@ l4_sched_param(unsigned prio,
  */
 L4_INLINE l4_msgtag_t
 l4_scheduler_run_thread(l4_cap_idx_t scheduler,
-                        l4_cap_idx_t thread, l4_sched_param_t const *sp) L4_NOTHROW;
+                        l4_cap_idx_t thread, l4_sched_param_t const *sp)
+                       L4_NOTHROW __attribute__((nonnull));
 
 /**
  * \internal
  */
 L4_INLINE l4_msgtag_t
 l4_scheduler_run_thread_u(l4_cap_idx_t scheduler, l4_cap_idx_t thread,
-                          l4_sched_param_t const *sp, l4_utcb_t *utcb) L4_NOTHROW;
+                          l4_sched_param_t const *sp, l4_utcb_t *utcb)
+                         L4_NOTHROW __attribute__((nonnull));
 
 /**
  * \ingroup l4_scheduler_api
@@ -220,14 +227,16 @@ l4_scheduler_run_thread_u(l4_cap_idx_t scheduler, l4_cap_idx_t thread,
  */
 L4_INLINE l4_msgtag_t
 l4_scheduler_idle_time(l4_cap_idx_t scheduler, l4_sched_cpu_set_t const *cpus,
-                       l4_kernel_clock_t *us) L4_NOTHROW;
+                       l4_kernel_clock_t *us)
+                      L4_NOTHROW __attribute__((nonnull));
 
 /**
  * \internal
  */
 L4_INLINE l4_msgtag_t
 l4_scheduler_idle_time_u(l4_cap_idx_t scheduler, l4_sched_cpu_set_t const *cpus,
-                         l4_kernel_clock_t *us, l4_utcb_t *utcb) L4_NOTHROW;
+                         l4_kernel_clock_t *us, l4_utcb_t *utcb)
+                        L4_NOTHROW __attribute__((nonnull));
 
 
 
@@ -249,7 +258,7 @@ l4_scheduler_is_online(l4_cap_idx_t scheduler, l4_umword_t cpu) L4_NOTHROW;
  */
 L4_INLINE int
 l4_scheduler_is_online_u(l4_cap_idx_t scheduler, l4_umword_t cpu,
-                         l4_utcb_t *utcb) L4_NOTHROW;
+                         l4_utcb_t *utcb) L4_NOTHROW __attribute__((nonnull));
 
 
 

@@ -9,6 +9,7 @@ IMPLEMENTATION [mips]:
 #include "trap_state.h"
 #include "processor.h"
 #include "types.h"
+#include "paging_bits.h"
 
 PROTECTED inline
 int
@@ -106,7 +107,7 @@ Thread::Thread(Ram_quota *q)
   _space.space(Kernel_task::kernel_task());
 
   if (Config::Stack_depth)
-    std::memset((char*)this + sizeof(Thread), '5',
+    std::memset(reinterpret_cast<char*>(this) + sizeof(Thread), '5',
                 Thread::Size - sizeof(Thread) - 64);
 
   // set a magic value -- we use it later to verify the stack hasn't
@@ -152,8 +153,10 @@ Thread::user_invoke()
   do
     {
       extern char ret_from_user_invoke[];
-      Mword register a0 __asm__("a0") = (Mword)ts;
-      Mword register ra __asm__("ra") = (Mword)ret_from_user_invoke;
+      Mword register a0 __asm__("a0") = reinterpret_cast<Mword>(ts);
+      Mword register ra __asm__("ra") =
+        reinterpret_cast<Mword>(ret_from_user_invoke);
+
       __asm__ __volatile__ (
           ASM_ADDIU "  $sp, %[ts], -%[cfs]   \n"
           "jr          %[ra]                 \n"
@@ -169,14 +172,14 @@ Thread::user_invoke()
   // never returns
 }
 
-IMPLEMENT inline NEEDS["space.h", "types.h", "config.h"]
+IMPLEMENT inline NEEDS["space.h", "types.h", "config.h", "paging_bits.h"]
 bool Thread::handle_sigma0_page_fault(Address pfa)
 {
   return mem_space()
-    ->v_insert(Mem_space::Phys_addr((pfa & Config::SUPERPAGE_MASK)),
-               Virt_addr(pfa & Config::SUPERPAGE_MASK),
+    ->v_insert(Mem_space::Phys_addr(Super_pg::trunc(pfa)),
+               Virt_addr(Super_pg::trunc(pfa)),
                Virt_order(Config::SUPERPAGE_SHIFT) /*mem_space()->largest_page_size()*/,
-               Mem_space::Attr(L4_fpage::Rights::URWX()))
+               Mem_space::Attr::space_local(L4_fpage::Rights::URWX()))
     != Mem_space::Insert_err_nomem;
 }
 
@@ -324,8 +327,8 @@ Thread::vcpu_return_to_kernel(Mword ip, Mword sp, void *arg)
   assert (current() == this);
 
   {
-    Mword register a0 __asm__("a0") = (Mword)arg;
-    Mword register t9 __asm__("t9") = (Mword)ip;
+    Mword register a0 __asm__("a0") = reinterpret_cast<Mword>(arg);
+    Mword register t9 __asm__("t9") = static_cast<Mword>(ip);
     asm volatile
       (".set push                     \n"
        ".set noat                     \n"
@@ -351,13 +354,8 @@ extern "C" void leave_by_vcpu_upcall()
   c->regs()->r[0] = 0; // reset continuation
   Vcpu_state *vcpu = c->vcpu_state().access();
   vcpu->_regs.s = *nonull_static_cast<Trap_state*>(c->regs());
-  c->vcpu_return_to_kernel(vcpu->_entry_ip, vcpu->_entry_sp, c->vcpu_state().usr().get());
+  c->vcpu_return_to_kernel(vcpu->_entry_ip, vcpu->_sp, c->vcpu_state().usr().get());
 }
-
-PRIVATE static inline
-void
-Thread::save_fpu_state_to_utcb(Trap_state *, Utcb *)
-{}
 
 PRIVATE static inline
 bool FIASCO_WARN_RESULT
@@ -368,7 +366,7 @@ Thread::copy_utcb_to_ts(L4_msg_tag const &tag, Thread *snd, Thread *rcv,
   if (EXPECT_FALSE(tag.words() < (sizeof(Trex) / sizeof(Mword))))
     return true;
 
-  Trap_state *ts = (Trap_state*)rcv->_utcb_handler;
+  Trap_state *ts = static_cast<Trap_state*>(rcv->_utcb_handler);
   Utcb *snd_utcb = snd->utcb().access();
 
   Trex const *r = reinterpret_cast<Trex const *>(snd_utcb->values);
@@ -387,12 +385,12 @@ Thread::copy_utcb_to_ts(L4_msg_tag const &tag, Thread *snd, Thread *rcv,
   return ret;
 }
 
-PRIVATE static inline NEEDS[Thread::save_fpu_state_to_utcb, "trap_state.h"]
+PRIVATE static inline NEEDS["trap_state.h"]
 bool FIASCO_WARN_RESULT
 Thread::copy_ts_to_utcb(L4_msg_tag const &, Thread *snd, Thread *rcv,
                         L4_fpage::Rights rights)
 {
-  Trap_state *ts = (Trap_state*)snd->_utcb_handler;
+  Trap_state *ts = static_cast<Trap_state*>(snd->_utcb_handler);
 
   {
     auto guard = lock_guard(cpu_lock);
@@ -684,11 +682,8 @@ public:
     auto ipi = Ipi::ipis(c);
     Ipi::hw->ack_ipi(c);
 
-    if (ipi->atomic_reset(Ipi::Request))
-      Thread::handle_remote_requests_irq();
-
     if (ipi->atomic_reset(Ipi::Global_request))
-      Thread::handle_global_remote_requests_irq();
+      Thread::handle_global_remote_requests_irq(); // must not call schedule()!
 
     if (ipi->atomic_reset(Ipi::Debug))
       {
@@ -699,6 +694,9 @@ public:
         cause->exc_code() = 9;
         Thread::call_nested_trap_handler(&ts);
       }
+
+    if (ipi->atomic_reset(Ipi::Request))
+      Thread::handle_remote_requests_irq(); // might call schedule
   }
 
   Thread_remote_irq()

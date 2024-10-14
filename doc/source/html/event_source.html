@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/event Source File</title>
+<title>L4Re Operating System Framework: l4/re/event Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -314,8 +317,8 @@ $(document).ready(function(){initNavTree('event_source.html',''); initResizable(
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
 <div class="foldopen" id="foldopen00303" data-start="{" data-end="}">
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno"><a class="line" href="classL4Re_1_1Event__buffer__t.html#a6641a7fb2467a04b29f9d0c836d9e1fe">  303</a></span>  <a class="code hl_function" href="classL4Re_1_1Event__buffer__t.html#a6641a7fb2467a04b29f9d0c836d9e1fe">Event_buffer_t</a>(<span class="keywordtype">void</span> *buffer, <a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> size)</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    : _current((<a class="code hl_struct" href="structL4Re_1_1Event__buffer__t_1_1Event.html">Event</a>*)buffer), _begin(_current),</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>      _end(_begin + size / sizeof(<a class="code hl_struct" href="structL4Re_1_1Event__buffer__t_1_1Event.html">Event</a>))</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>  : _current(static_cast&lt;<a class="code hl_struct" href="structL4Re_1_1Event__buffer__t_1_1Event.html">Event</a>*&gt;(buffer)), _begin(_current),</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>    _end(_begin + size / sizeof(<a class="code hl_struct" href="structL4Re_1_1Event__buffer__t_1_1Event.html">Event</a>))</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>  { reset(); }</div>
 </div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
@@ -352,8 +355,6 @@ $(document).ready(function(){initNavTree('event_source.html',''); initResizable(
 <div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span><span class="keyword">typedef</span> Event_buffer_t&lt;Default_event_payload&gt; Event_buffer;</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span> </div>
 <div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>}</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
 <div class="ttc" id="acapability_html"><div class="ttname"><a href="capability.html">capability</a></div><div class="ttdoc">L4::Cap related definitions.</div></div>
 <div class="ttc" id="aclassL4Re_1_1Event__buffer__t_html"><div class="ttname"><a href="classL4Re_1_1Event__buffer__t.html">L4Re::Event_buffer_t</a></div><div class="ttdoc">Event buffer class.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00256">event:257</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Event__buffer__t_html_a6641a7fb2467a04b29f9d0c836d9e1fe"><div class="ttname"><a href="classL4Re_1_1Event__buffer__t.html#a6641a7fb2467a04b29f9d0c836d9e1fe">L4Re::Event_buffer_t::Event_buffer_t</a></div><div class="ttdeci">Event_buffer_t(void *buffer, l4_addr_t size)</div><div class="ttdoc">Initialize event buffer.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00303">event:303</a></div></div>
@@ -361,20 +362,20 @@ $(document).ready(function(){initNavTree('event_source.html',''); initResizable(
 <div class="ttc" id="aclassL4Re_1_1Event__buffer__t_html_ab202a6f9a710d7c0ec505af0ba0d90ab"><div class="ttname"><a href="classL4Re_1_1Event__buffer__t.html#ab202a6f9a710d7c0ec505af0ba0d90ab">L4Re::Event_buffer_t::put</a></div><div class="ttdeci">bool put(Event const &amp;ev) noexcept</div><div class="ttdoc">Put event into buffer at current position.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00330">event:330</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Event_html"><div class="ttname"><a href="classL4Re_1_1Event.html">L4Re::Event</a></div><div class="ttdoc">Event class.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00148">event:150</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Event_html_a53566c8a2fd1976d0ff5ef0a0878faaa"><div class="ttname"><a href="classL4Re_1_1Event.html#a53566c8a2fd1976d0ff5ef0a0878faaa">L4Re::Event::get_axis_info</a></div><div class="ttdeci">long get_axis_info(l4_umword_t stream_id, unsigned naxes, unsigned const *axis, Event_absinfo *info) const noexcept</div><div class="ttdoc">Get event stream axis infos.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00208">event:208</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
-<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00759">__typeinfo.h:760</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
+<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00760">__typeinfo.h:761</a></div></div>
 <div class="ttc" id="adataspace_html"><div class="ttname"><a href="dataspace.html">dataspace</a></div><div class="ttdoc">Dataspace interface.</div></div>
 <div class="ttc" id="aevent_8h_html"><div class="ttname"><a href="event_8h.html">event.h</a></div><div class="ttdoc">Events.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga4087b991c40c0d2fcde9ca331049a4d4"><div class="ttname"><a href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a></div><div class="ttdeci">unsigned long l4_addr_t</div><div class="ttdoc">Address type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00045">l4int.h:45</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga095f2ab26de8289771dae829f4637fc0"><div class="ttname"><a href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">l4_wmb</a></div><div class="ttdeci">void l4_wmb(void)</div><div class="ttdoc">Write memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00337">compiler.h:337</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga5d5bbbe36a0d144d1f465dbca715718e"><div class="ttname"><a href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">l4_mb</a></div><div class="ttdeci">void l4_mb(void)</div><div class="ttdoc">Memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00332">compiler.h:332</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00221">compiler.h:221</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga095f2ab26de8289771dae829f4637fc0"><div class="ttname"><a href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">l4_wmb</a></div><div class="ttdeci">void l4_wmb(void)</div><div class="ttdoc">Write memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00354">compiler.h:354</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga5d5bbbe36a0d144d1f465dbca715718e"><div class="ttname"><a href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">l4_mb</a></div><div class="ttdeci">void l4_mb(void)</div><div class="ttdoc">Memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00349">compiler.h:349</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00231">compiler.h:231</a></div></div>
 <div class="ttc" id="aipc__iface_html"><div class="ttname"><a href="ipc__iface.html">ipc_iface</a></div><div class="ttdoc">Interface Definition Language.</div></div>
 <div class="ttc" id="aipc__iface_html_a5e5588cacb2659f18f48ae49c2beb800"><div class="ttname"><a href="ipc__iface.html#a5e5588cacb2659f18f48ae49c2beb800">L4_RPC</a></div><div class="ttdeci">#define L4_RPC(res, name, args, attr...)</div><div class="ttdoc">Define an RPC call (type and callable).</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00528">ipc_iface:528</a></div></div>
 <div class="ttc" id="aipc__iface_html_ada755c1db9f58471fc483ccfbed1f518"><div class="ttname"><a href="ipc__iface.html#ada755c1db9f58471fc483ccfbed1f518">L4_RPC_NF</a></div><div class="ttdeci">#define L4_RPC_NF(res, name, args...)</div><div class="ttdoc">Define an RPC call type (the type only, no callable).</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00497">ipc_iface:497</a></div></div>
 <div class="ttc" id="airq_html"><div class="ttname"><a href="irq.html">irq</a></div><div class="ttdoc">C++ Irq interface.</div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
 <div class="ttc" id="astructL4Re_1_1Default__event__payload_html"><div class="ttname"><a href="structL4Re_1_1Default__event__payload.html">L4Re::Default_event_payload</a></div><div class="ttdoc">Default event stream payload.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00242">event:243</a></div></div>
 <div class="ttc" id="astructL4Re_1_1Default__event__payload_html_a202df3b9c36403002f9dc7405e3ca7c7"><div class="ttname"><a href="structL4Re_1_1Default__event__payload.html#a202df3b9c36403002f9dc7405e3ca7c7">L4Re::Default_event_payload::stream_id</a></div><div class="ttdeci">l4_umword_t stream_id</div><div class="ttdoc">Stream ID.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00247">event:247</a></div></div>
 <div class="ttc" id="astructL4Re_1_1Default__event__payload_html_a4cb58d4be634e3fc2ae246fa2becc120"><div class="ttname"><a href="structL4Re_1_1Default__event__payload.html#a4cb58d4be634e3fc2ae246fa2becc120">L4Re::Default_event_payload::value</a></div><div class="ttdeci">int value</div><div class="ttdoc">Value of event.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00246">event:246</a></div></div>
@@ -385,7 +386,7 @@ $(document).ready(function(){initNavTree('event_source.html',''); initResizable(
 <div class="ttc" id="astructL4Re_1_1Event__buffer__t_1_1Event_html_ac046ebaa5043ee2e6037bf69c997fd6f"><div class="ttname"><a href="structL4Re_1_1Event__buffer__t_1_1Event.html#ac046ebaa5043ee2e6037bf69c997fd6f">L4Re::Event_buffer_t::Event::time</a></div><div class="ttdeci">long long time</div><div class="ttdoc">Event time stamp.</div><div class="ttdef"><b>Definition</b> <a href="event_source.html#l00265">event:265</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Array_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Array.html">L4::Ipc::Array</a></div><div class="ttdoc">Array data type for dynamically sized arrays in RPCs.</div><div class="ttdef"><b>Definition</b> <a href="ipc__array_source.html#l00092">ipc_array:93</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Out_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Out.html">L4::Ipc::Out</a></div><div class="ttdoc">Mark an argument as a output value in an RPC signature.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00042">ipc_types:42</a></div></div>
-<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs.html">L4::Typeid::Rpcs</a></div><div class="ttdoc">Standard list of RPCs of an interface.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00438">__typeinfo.h:438</a></div></div>
+<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs.html">L4::Typeid::Rpcs</a></div><div class="ttdoc">Standard list of RPCs of an interface.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00439">__typeinfo.h:439</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -393,7 +394,7 @@ $(document).ready(function(){initNavTree('event_source.html',''); initResizable(
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><b>event</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -11,5 +11,6 @@ var dir_9cacc43b47fb52c27eca04eb55cc6fe9 =
     [ "log.h", "log_8h.html", "log_8h" ],
     [ "mem_alloc.h", "mem__alloc_8h.html", "mem__alloc_8h" ],
     [ "namespace.h", "namespace_8h.html", "namespace_8h" ],
+    [ "parent.h", "parent_8h.html", "parent_8h" ],
     [ "rm.h", "rm_8h.html", "rm_8h" ]
 ];

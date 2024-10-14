@@ -1,7 +1,11 @@
 <map id="L4virtio::Svr::Block_dev_base::finalize_request" name="L4virtio::Svr::Block_dev_base::finalize_request">
-<area shape="rect" id="Node000001" title="Releases resources related to a request and notifies the client." alt="" coords="5,37,208,77"/>
+<area shape="rect" id="Node000001" title="Releases resources related to a request and notifies the client." alt="" coords="5,69,208,109"/>
 <area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Device__t.html#a29f780ecb04509d8b72f4a155b073c74" title="Transition device into DEVICE_NEEDS_RESET state." alt="" coords="256,5,463,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,42,242,37,243,43,209,47"/>
-<area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue.html#aa242e930433e8705c4ee00afaf58f686" title="Test if this queue is in working state." alt="" coords="288,69,431,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,68,274,76,274,81,208,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,67,266,46,267,51,187,72"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue.html#a2aa2efa2e5f6ee73423ec9beab40232a" title="Get the no IRQ flag of this queue." alt="" coords="288,69,431,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,87,274,87,274,92,208,92"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Virtqueue.html#aa242e930433e8705c4ee00afaf58f686" title="Test if this queue is in working state." alt="" coords="288,133,431,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="187,107,275,129,274,135,186,112"/>
+<area shape="rect" id="Node000004" href="$structL4virtio_1_1Virtqueue_1_1Avail_1_1Flags.html#a6d8ba20a2475c4e3b965d2994e071774" title="Get the no_irq bits ( 0 to 0 ) of raw." alt="" coords="511,69,664,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="431,87,497,87,497,92,431,92"/>
 </map>

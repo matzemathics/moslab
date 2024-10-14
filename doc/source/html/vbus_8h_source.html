@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/vbus/vbus.h Source File</title>
+<title>L4Re Operating System Framework: l4/vbus/vbus.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -116,8 +119,8 @@ $(document).ready(function(){initNavTree('vbus_8h_source.html',''); initResizabl
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;<a class="code" href="l4_2sys_2types_8h.html">l4/sys/types.h</a>&gt;</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">enum</span> {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0">   23</a></span>  <a class="code hl_enumvalue" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0">L4VBUS_NULL</a> = (<a class="code hl_typedef" href="group__l4__basic__types.html#ga51d9492e7700d70ed35838154ca9b279">l4_mword_t</a>)-1,    </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5dad83203ea1310cc0d5be38f1df326acdd">   24</a></span>  <a class="code hl_enumvalue" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5dad83203ea1310cc0d5be38f1df326acdd">L4VBUS_ROOT_BUS</a> = 0,             </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0">   23</a></span>  <a class="code hl_enumvalue" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0">L4VBUS_NULL</a> = -1L,            </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ad83203ea1310cc0d5be38f1df326acdd">   24</a></span>  <a class="code hl_enumvalue" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ad83203ea1310cc0d5be38f1df326acdd">L4VBUS_ROOT_BUS</a> = 0,          </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>};</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="foldopen" id="foldopen00028" data-start="{" data-end="};">
@@ -143,8 +146,8 @@ $(document).ready(function(){initNavTree('vbus_8h_source.html',''); initResizabl
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                  <a class="code hl_struct" href="structl4vbus__device__t.html">l4vbus_device_t</a> *devinfo);</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keywordtype">int</span> <a class="code hl_define" href="group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a">L4_CV</a></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="group__l4vbus__module.html#gac60ae2d46f8158a887ce4b8a1bf447bd">  116</a></span><a class="code hl_function" href="group__l4vbus__module.html#gac60ae2d46f8158a887ce4b8a1bf447bd">l4vbus_get_resource</a>(<a class="code hl_typedef" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="code hl_typedef" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev,</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                    <span class="keywordtype">int</span> res_idx, <a class="code hl_struct" href="structl4vbus__resource__t.html">l4vbus_resource_t</a> *res);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="group__l4vbus__module.html#ga73c4138ed1d2d56edb5eabdbcc5da65d">  116</a></span><a class="code hl_function" href="group__l4vbus__module.html#ga73c4138ed1d2d56edb5eabdbcc5da65d">l4vbus_get_resource</a>(<a class="code hl_typedef" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="code hl_typedef" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev,</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                    <span class="keywordtype">unsigned</span> res_idx, <a class="code hl_struct" href="structl4vbus__resource__t.html">l4vbus_resource_t</a> *res);</div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keywordtype">int</span> <a class="code hl_define" href="group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a">L4_CV</a></div>
@@ -185,9 +188,8 @@ $(document).ready(function(){initNavTree('vbus_8h_source.html',''); initResizabl
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><a class="code hl_define" href="group__l4sys__defines.html#ga115472f6d0d1035f1885658ce0821537">__END_DECLS</a></div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
 <div class="ttc" id="acompiler_8h_html"><div class="ttname"><a href="compiler_8h.html">compiler.h</a></div><div class="ttdoc">L4 compiler related defines.</div></div>
-<div class="ttc" id="agroup__l4__basic__types_html_ga51d9492e7700d70ed35838154ca9b279"><div class="ttname"><a href="group__l4__basic__types.html#ga51d9492e7700d70ed35838154ca9b279">l4_mword_t</a></div><div class="ttdeci">signed long l4_mword_t</div><div class="ttdoc">Signed machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00048">l4int.h:48</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_gac1d09f3e382e711b776931f10e6e1e5a"><div class="ttname"><a href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a></div><div class="ttdeci">unsigned int l4_uint32_t</div><div class="ttdoc">Unsigned 32bit value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00040">l4int.h:40</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga115472f6d0d1035f1885658ce0821537"><div class="ttname"><a href="group__l4sys__defines.html#ga115472f6d0d1035f1885658ce0821537">__END_DECLS</a></div><div class="ttdeci">#define __END_DECLS</div><div class="ttdoc">End section with C types and functions.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00199">compiler.h:199</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga2469cd44710705e9f0a5832e060ec48a"><div class="ttname"><a href="group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a">L4_CV</a></div><div class="ttdeci">#define L4_CV</div><div class="ttdoc">Define calling convention.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2linkage_8h_source.html#l00044">linkage.h:44</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga568e6bde99652b7fd271ad206cfe38f5"><div class="ttname"><a href="group__l4sys__defines.html#ga568e6bde99652b7fd271ad206cfe38f5">__BEGIN_DECLS</a></div><div class="ttdeci">#define __BEGIN_DECLS</div><div class="ttdoc">Start section with C types and functions.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00196">compiler.h:196</a></div></div>
@@ -196,9 +198,9 @@ $(document).ready(function(){initNavTree('vbus_8h_source.html',''); initResizabl
 <div class="ttc" id="agroup__l4vbus__module_html_ga2daf9887e40aed27c500e4fc01afc7c9"><div class="ttname"><a href="group__l4vbus__module.html#ga2daf9887e40aed27c500e4fc01afc7c9">l4vbus_get_adr</a></div><div class="ttdeci">int l4vbus_get_adr(l4_cap_idx_t vbus, l4vbus_device_handle_t dev, l4_uint32_t *adr)</div><div class="ttdoc">Get the bus-specific address of a device.</div></div>
 <div class="ttc" id="agroup__l4vbus__module_html_ga49e5eea787382be584322a537f3e0bdd"><div class="ttname"><a href="group__l4vbus__module.html#ga49e5eea787382be584322a537f3e0bdd">l4vbus_get_hid</a></div><div class="ttdeci">int l4vbus_get_hid(l4_cap_idx_t vbus, l4vbus_device_handle_t dev, char *hid, unsigned long max_len)</div><div class="ttdoc">Get the HID (hardware identifier) of a device.</div></div>
 <div class="ttc" id="agroup__l4vbus__module_html_ga51a6613ae6f11cc29269bf9623782e1d"><div class="ttname"><a href="group__l4vbus__module.html#ga51a6613ae6f11cc29269bf9623782e1d">l4vbus_get_device</a></div><div class="ttdeci">int l4vbus_get_device(l4_cap_idx_t vbus, l4vbus_device_handle_t dev, l4vbus_device_t *devinfo)</div><div class="ttdoc">Obtain detailed information about a Vbus device.</div></div>
+<div class="ttc" id="agroup__l4vbus__module_html_ga73c4138ed1d2d56edb5eabdbcc5da65d"><div class="ttname"><a href="group__l4vbus__module.html#ga73c4138ed1d2d56edb5eabdbcc5da65d">l4vbus_get_resource</a></div><div class="ttdeci">int l4vbus_get_resource(l4_cap_idx_t vbus, l4vbus_device_handle_t dev, unsigned res_idx, l4vbus_resource_t *res)</div><div class="ttdoc">Obtain the resource description of an individual device resource.</div></div>
 <div class="ttc" id="agroup__l4vbus__module_html_ga7cafdd96c957a08f9e84b197ecfb956f"><div class="ttname"><a href="group__l4vbus__module.html#ga7cafdd96c957a08f9e84b197ecfb956f">l4vbus_request_ioport</a></div><div class="ttdeci">int l4vbus_request_ioport(l4_cap_idx_t vbus, l4vbus_resource_t const *res)</div><div class="ttdoc">Request an IO port resource.</div></div>
 <div class="ttc" id="agroup__l4vbus__module_html_gaaa3fba66d2a82d325d8882e52586b33b"><div class="ttname"><a href="group__l4vbus__module.html#gaaa3fba66d2a82d325d8882e52586b33b">L4vbus_dma_domain_assign_flags</a></div><div class="ttdeci">L4vbus_dma_domain_assign_flags</div><div class="ttdoc">Flags for l4vbus_assign_dma_domain().</div><div class="ttdef"><b>Definition</b> <a href="vbus_8h_source.html#l00176">vbus.h:177</a></div></div>
-<div class="ttc" id="agroup__l4vbus__module_html_gac60ae2d46f8158a887ce4b8a1bf447bd"><div class="ttname"><a href="group__l4vbus__module.html#gac60ae2d46f8158a887ce4b8a1bf447bd">l4vbus_get_resource</a></div><div class="ttdeci">int l4vbus_get_resource(l4_cap_idx_t vbus, l4vbus_device_handle_t dev, int res_idx, l4vbus_resource_t *res)</div><div class="ttdoc">Obtain the resource description of an individual device resource.</div></div>
 <div class="ttc" id="agroup__l4vbus__module_html_gacbe93125b6db6b5dbfb7cb5352ee9013"><div class="ttname"><a href="group__l4vbus__module.html#gacbe93125b6db6b5dbfb7cb5352ee9013">l4vbus_get_device_by_hid</a></div><div class="ttdeci">int l4vbus_get_device_by_hid(l4_cap_idx_t vbus, l4vbus_device_handle_t parent, l4vbus_device_handle_t *child, char const *hid, int depth, l4vbus_device_t *devinfo)</div><div class="ttdoc">Find a device by the hardware interface identifier (HID).</div></div>
 <div class="ttc" id="agroup__l4vbus__module_html_gada51cecbba0d25a6d05e810b737f3df5"><div class="ttname"><a href="group__l4vbus__module.html#gada51cecbba0d25a6d05e810b737f3df5">l4vbus_is_compatible</a></div><div class="ttdeci">int l4vbus_is_compatible(l4_cap_idx_t vbus, l4vbus_device_handle_t dev, char const *cid)</div><div class="ttdoc">Check if the given device has a compatibility ID (CID) or HID that matches cid.</div></div>
 <div class="ttc" id="agroup__l4vbus__module_html_gaefeb0d86979de1ef1aa53951cc3764fd"><div class="ttname"><a href="group__l4vbus__module.html#gaefeb0d86979de1ef1aa53951cc3764fd">l4vbus_vicu_get_cap</a></div><div class="ttdeci">int l4vbus_vicu_get_cap(l4_cap_idx_t vbus, l4vbus_device_handle_t icu, l4_cap_idx_t cap)</div><div class="ttdoc">Get capability of ICU.</div></div>
@@ -210,10 +212,10 @@ $(document).ready(function(){initNavTree('vbus_8h_source.html',''); initResizabl
 <div class="ttc" id="al4_2sys_2types_8h_html"><div class="ttname"><a href="l4_2sys_2types_8h.html">types.h</a></div><div class="ttdoc">Common L4 ABI Data Types.</div></div>
 <div class="ttc" id="astructl4vbus__device__t_html"><div class="ttname"><a href="structl4vbus__device__t.html">l4vbus_device_t</a></div><div class="ttdoc">Detailed information about a vbus device.</div><div class="ttdef"><b>Definition</b> <a href="vbus__types_8h_source.html#l00070">vbus_types.h:70</a></div></div>
 <div class="ttc" id="astructl4vbus__resource__t_html"><div class="ttname"><a href="structl4vbus__resource__t.html">l4vbus_resource_t</a></div><div class="ttdoc">Description of a single vbus resource.</div><div class="ttdef"><b>Definition</b> <a href="vbus__types_8h_source.html#l00025">vbus_types.h:25</a></div></div>
-<div class="ttc" id="avbus_8h_html_aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0"><div class="ttname"><a href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0">L4VBUS_NULL</a></div><div class="ttdeci">@ L4VBUS_NULL</div><div class="ttdoc">NULL device.</div><div class="ttdef"><b>Definition</b> <a href="vbus_8h_source.html#l00023">vbus.h:23</a></div></div>
-<div class="ttc" id="avbus_8h_html_aa6db2c38ebc194c80d154d53851a4d5dad83203ea1310cc0d5be38f1df326acdd"><div class="ttname"><a href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5dad83203ea1310cc0d5be38f1df326acdd">L4VBUS_ROOT_BUS</a></div><div class="ttdeci">@ L4VBUS_ROOT_BUS</div><div class="ttdoc">Root device on the vbus.</div><div class="ttdef"><b>Definition</b> <a href="vbus_8h_source.html#l00024">vbus.h:24</a></div></div>
 <div class="ttc" id="avbus_8h_html_ad3c3f8bbab387942f996d7627873c002"><div class="ttname"><a href="vbus_8h.html#ad3c3f8bbab387942f996d7627873c002">l4vbus_icu_src_types</a></div><div class="ttdeci">l4vbus_icu_src_types</div><div class="ttdoc">Flags that can be used with the ICU on a vbus device.</div><div class="ttdef"><b>Definition</b> <a href="vbus_8h_source.html#l00028">vbus.h:28</a></div></div>
 <div class="ttc" id="avbus_8h_html_ad3c3f8bbab387942f996d7627873c002a360bd82c1506c846659e88c4320552a5"><div class="ttname"><a href="vbus_8h.html#ad3c3f8bbab387942f996d7627873c002a360bd82c1506c846659e88c4320552a5">L4VBUS_ICU_SRC_DEV_HANDLE</a></div><div class="ttdeci">@ L4VBUS_ICU_SRC_DEV_HANDLE</div><div class="ttdoc">Flag to denote that the value should be interpreted as a device handle.</div><div class="ttdef"><b>Definition</b> <a href="vbus_8h_source.html#l00036">vbus.h:35</a></div></div>
+<div class="ttc" id="avbus_8h_html_adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0"><div class="ttname"><a href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0">L4VBUS_NULL</a></div><div class="ttdeci">@ L4VBUS_NULL</div><div class="ttdoc">NULL device.</div><div class="ttdef"><b>Definition</b> <a href="vbus_8h_source.html#l00023">vbus.h:23</a></div></div>
+<div class="ttc" id="avbus_8h_html_adf764cbdea00d65edcd07bb9953ad2b7ad83203ea1310cc0d5be38f1df326acdd"><div class="ttname"><a href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ad83203ea1310cc0d5be38f1df326acdd">L4VBUS_ROOT_BUS</a></div><div class="ttdeci">@ L4VBUS_ROOT_BUS</div><div class="ttdoc">Root device on the vbus.</div><div class="ttdef"><b>Definition</b> <a href="vbus_8h_source.html#l00024">vbus.h:24</a></div></div>
 <div class="ttc" id="avbus__types_8h_html"><div class="ttname"><a href="vbus__types_8h.html">vbus_types.h</a></div><div class="ttdoc">This header file contains descriptions of vbus related data types and constants.</div></div>
 <div class="ttc" id="avbus__types_8h_html_a3d2ee122c9c592d768eee886d36b31cf"><div class="ttname"><a href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a></div><div class="ttdeci">l4_mword_t l4vbus_device_handle_t</div><div class="ttdoc">Device handle for a device on the vbus.</div><div class="ttdef"><b>Definition</b> <a href="vbus__types_8h_source.html#l00020">vbus_types.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -223,7 +225,7 @@ $(document).ready(function(){initNavTree('vbus_8h_source.html',''); initResizabl
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_364af192430b60ca4d316aa6a7cd95d2.html">vbus</a></li><li class="navelem"><a class="el" href="vbus_8h.html">vbus.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

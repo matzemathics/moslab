@@ -1,19 +1,24 @@
 <map id="l4/cxx/avl_tree" name="l4/cxx/avl_tree">
-<area shape="rect" id="Node000001" title="AVL tree." alt="" coords="110,5,229,31"/>
-<area shape="rect" id="Node000002" href="$std__ops_source.html" title=" " alt="" coords="5,79,77,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,33,76,74,73,69,147,28"/>
-<area shape="rect" id="Node000003" href="$pair.html" title="Pair implementation." alt="" coords="102,79,149,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,32,142,68,137,66,160,30"/>
-<area shape="rect" id="Node000004" href="$bst_8h.html" title="AVL tree." alt="" coords="173,79,256,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="179,30,202,66,198,69,175,32"/>
-<area shape="rect" id="Node000008" href="$bst__iter_8h.html" title="AVL tree." alt="" coords="252,152,335,177"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="202,28,237,48,270,77,286,107,293,138,288,139,281,109,266,80,234,52,199,33"/>
-<area shape="rect" id="Node000005" href="$type__traits_source.html" title=" " alt="" coords="73,152,177,177"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="202,106,152,145,149,141,199,102"/>
-<area shape="rect" id="Node000007" href="$bst__base_8h.html" title="AVL tree." alt="" coords="231,225,323,251"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="220,104,228,137,242,176,263,212,259,215,238,178,223,139,215,105"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="229,102,272,141,269,145,226,106"/>
-<area shape="rect" id="Node000006" href="$type__traits_8h_source.html" title=" " alt="" coords="59,225,191,251"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="128,178,128,212,123,212,123,178"/>
-<area shape="poly" id="edge8_Node000008_Node000007" title=" " alt="" coords="293,178,285,213,280,212,288,177"/>
+<area shape="rect" id="Node000001" title="AVL tree." alt="" coords="216,5,335,31"/>
+<area shape="rect" id="Node000002" href="$std__ops_source.html" title=" " alt="" coords="111,79,183,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,33,182,74,179,69,253,28"/>
+<area shape="rect" id="Node000003" href="$pair.html" title="Pair implementation." alt="" coords="208,79,255,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="270,32,248,68,243,66,266,30"/>
+<area shape="rect" id="Node000008" href="$bst_8h.html" title="AVL tree." alt="" coords="279,79,362,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="285,30,308,66,304,69,281,32"/>
+<area shape="rect" id="Node000010" href="$bst__iter_8h.html" title="AVL tree." alt="" coords="358,152,441,177"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="308,28,343,48,376,77,392,107,399,138,394,139,387,109,372,80,340,52,305,33"/>
+<area shape="rect" id="Node000004" href="$type__traits_source.html" title=" " alt="" coords="148,152,283,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="231,105,223,139,218,138,226,104"/>
+<area shape="rect" id="Node000005" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="5,225,137,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="193,180,108,221,106,217,191,175"/>
+<area shape="rect" id="Node000007" href="$type__traits_8h_source.html" title=" " alt="" coords="161,225,293,251"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="220,177,226,211,220,212,215,178"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="10,299,133,324"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="74,251,74,285,69,285,69,251"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="305,106,245,147,242,142,302,102"/>
+<area shape="rect" id="Node000009" href="$bst__base_8h.html" title="AVL tree." alt="" coords="341,225,433,251"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="325,103,334,137,348,176,371,213,367,216,344,179,329,138,320,105"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="335,102,378,141,375,145,332,106"/>
+<area shape="poly" id="edge11_Node000010_Node000009" title=" " alt="" coords="400,178,394,212,389,211,395,177"/>
 </map>

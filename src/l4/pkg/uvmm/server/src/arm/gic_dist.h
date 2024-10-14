@@ -42,6 +42,7 @@ public:
   : ctlr(0), tnlines(tnlines),
     _cpu(max_cpus),
     _spis(tnlines * 32, Cpu::Num_local),
+    _prio_mask(0),
     _lpis(nullptr)
   {
   }
@@ -89,18 +90,18 @@ public:
   /// \{
   void clear(unsigned) override {}
 
-  void bind_eoi_handler(unsigned irq, Eoi_handler *handler) override
+  void bind_irq_src_handler(unsigned irq, Irq_src_handler *handler) override
   {
     Irq &pin = spi(irq - Cpu::Num_local);
 
-    if (handler && pin.get_eoi_handler())
-      L4Re::chksys(-L4_EEXIST, "Assigning EOI handler to GIC");
+    if (handler && pin.get_irq_src_handler())
+      L4Re::chksys(-L4_EEXIST, "Assigning IRQ src handler to GIC");
 
-    pin.set_eoi(handler);
+    pin.set_irq_src(handler);
   }
 
-  Eoi_handler *get_eoi_handler(unsigned irq) const override
-  { return spi(irq - Cpu::Num_local).get_eoi_handler(); }
+  Irq_src_handler *get_irq_src_handler(unsigned irq) const override
+  { return spi(irq - Cpu::Num_local).get_irq_src_handler(); }
 
   int dt_get_interrupt(fdt32_t const *prop, int propsz, int *read) const override
   {
@@ -185,7 +186,7 @@ public:
   /// read to the GICD_TYPER.
   virtual l4_uint32_t get_typer() const
   {
-    return tnlines | ((l4_uint32_t)(_cpu.size() - 1) << 5);
+    return tnlines | (static_cast<l4_uint32_t>(_cpu.size() - 1) << 5);
   }
 
   /// read to the CoreSight IIDRs.
@@ -293,7 +294,10 @@ private:
               dest_cpu->notify_irq();
           }
           return;
-      case R_icenable: if (value) irq.enable(false);   return;
+      case R_icenable:
+        if (value)
+          irq.enable(false);
+        return;
       case R_ispend:
         if (value)
           {
@@ -302,9 +306,18 @@ private:
               dest_cpu->notify_irq();
           }
           return;
-      case R_icpend:   if (value) irq.pending(false);  return;
-      case R_isactive: if (value) irq.active(true);    return;
-      case R_icactive: if (value) irq.active(false);   return;
+      case R_icpend:
+        if (value)
+          irq.pending(false);
+        return;
+      case R_isactive:
+        if (value)
+          irq.active(true);
+        return;
+      case R_icactive:
+        if (value)
+          irq.active(false);
+        return;
       case R_prio:     irq.prio(value & _prio_mask);   return;
       case R_target:
         if (!AFF_ROUTING && irq.id() >= Cpu::Num_local)

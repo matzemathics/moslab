@@ -12,7 +12,7 @@
  * for reference.
  */
 
-IMPLEMENTATION [debug || cov]:
+IMPLEMENTATION [rt_dbg || cov]:
 
 #include "globals.h"
 #include "kobject_helper.h"
@@ -24,7 +24,7 @@ private:
 public:
   Jdb_object()
   {
-    initial_kobjects.register_obj(this, Initial_kobjects::Jdb);
+    initial_kobjects->register_obj(this, Initial_kobjects::Jdb);
   }
 
   L4_msg_tag
@@ -42,11 +42,12 @@ Jdb_object::kinvoke(L4_obj_ref, L4_fpage::Rights, Syscall_frame *,
 
 
 //----------------------------------------------------------------------------
-IMPLEMENTATION [debug]:
+IMPLEMENTATION [rt_dbg]:
 
-#include "jdb.h"
+#include "kdb_ke.h"
 #include "kobject_rpc.h"
 #include "minmax.h"
+#include "global_data.h"
 
 EXTENSION class Jdb_object
 {
@@ -74,18 +75,17 @@ public:
 
 JDB_DEFINE_TYPENAME(Jdb_object, "Jdb");
 
-static Jdb_object __jdb_kobject;
+static DEFINE_GLOBAL Global_data<Jdb_object> __jdb_kobject;
 
 extern "C" void sys_invoke_debug(Kobject_iface *o, Syscall_frame *f) __attribute__((weak));
 
 PRIVATE inline NOEXPORT
 L4_msg_tag
-Jdb_object::sys_kobject_debug(L4_msg_tag tag, unsigned op,
+Jdb_object::sys_kobject_debug(L4_msg_tag tag, unsigned /* op */,
                               L4_fpage::Rights rights,
                               Syscall_frame *f,
                               Utcb const *r_msg, Utcb *)
 {
-  (void)op;
   if (sys_invoke_debug)
     {
       Kobject_iface *i = Ko::deref<Kobject_iface>(&tag, r_msg, &rights);
@@ -97,6 +97,9 @@ Jdb_object::sys_kobject_debug(L4_msg_tag tag, unsigned op,
     }
   return commit_result(0);
 }
+
+//----------------------------------------------------------------------------
+IMPLEMENTATION [rt_dbg && debug]:
 
 PRIVATE inline NOEXPORT
 L4_msg_tag
@@ -268,6 +271,53 @@ Jdb_object::sys_jdb(L4_msg_tag tag, unsigned op,
     }
 }
 
+PRIVATE inline NOEXPORT
+L4_msg_tag
+Jdb_object::sys_debugger(L4_msg_tag,
+                         L4_fpage::Rights,
+                         Syscall_frame *,
+                         Utcb const *, Utcb *)
+{
+  kdb_ke("user");
+  return commit_result(0);
+}
+
+//----------------------------------------------------------------------------
+IMPLEMENTATION [rt_dbg && !debug]:
+
+PRIVATE inline NOEXPORT
+L4_msg_tag
+Jdb_object::sys_tbuf(L4_msg_tag, unsigned,
+                     L4_fpage::Rights,
+                     Syscall_frame *,
+                     Utcb const *, Utcb *)
+{
+  return commit_result(-L4_err::ENosys);
+}
+
+PRIVATE inline NOEXPORT
+L4_msg_tag
+Jdb_object::sys_jdb(L4_msg_tag, unsigned,
+                    L4_fpage::Rights,
+                    Syscall_frame *,
+                    Utcb const *, Utcb *)
+{
+  return commit_result(-L4_err::ENosys);
+}
+
+PRIVATE inline NOEXPORT
+L4_msg_tag
+Jdb_object::sys_debugger(L4_msg_tag,
+                         L4_fpage::Rights,
+                         Syscall_frame *,
+                         Utcb const *, Utcb *)
+{
+  return commit_result(-L4_err::ENosys);
+}
+
+//----------------------------------------------------------------------------
+IMPLEMENTATION [rt_dbg]:
+
 IMPLEMENT_OVERRIDE
 L4_msg_tag
 Jdb_object::kinvoke(L4_obj_ref, L4_fpage::Rights rights, Syscall_frame *f,
@@ -276,10 +326,7 @@ Jdb_object::kinvoke(L4_obj_ref, L4_fpage::Rights rights, Syscall_frame *f,
   L4_msg_tag tag = f->tag();
   if ((tag.words() == 0) && (tag.items() == 0)
       && (tag.proto() == L4_msg_tag::Label_debugger))
-    {
-      kdb_ke("user");
-      return commit_result(0);
-    }
+    return sys_debugger(tag, rights, f, r_msg, s_msg);
 
   if (!Ko::check_basics(&tag, L4_msg_tag::Label_debugger))
     return tag;
@@ -318,7 +365,7 @@ Jdb_object::sys_print_cov_data()
 }
 
 //------------------------------------------------------------------
-IMPLEMENTATION [debug && !cov]:
+IMPLEMENTATION [rt_dbg && !cov]:
 
 IMPLEMENT
 L4_msg_tag
@@ -329,7 +376,7 @@ Jdb_object::sys_print_cov_data()
 
 
 //------------------------------------------------------------------
-IMPLEMENTATION [!debug && cov]:
+IMPLEMENTATION [!rt_dbg && cov]:
 
 #include "kobject_rpc.h"
 

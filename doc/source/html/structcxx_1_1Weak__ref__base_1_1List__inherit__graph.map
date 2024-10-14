@@ -1,0 +1,18 @@
+<map id="cxx::Weak_ref_base::List" name="cxx::Weak_ref_base::List">
+<area shape="rect" id="Node000001" title="The list type for keeping all weak references to an object." alt="" coords="42,1455,186,1535"/>
+<area shape="rect" id="Node000002" href="$structcxx_1_1H__list__t.html" title=" " alt="" coords="41,1325,187,1405"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,1419,117,1454,111,1454,111,1419"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1H__list.html" title="General double&#45;linked list of unspecified cxx::H_list_item elements." alt="" coords="5,564,180,829"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="100,843,115,1325,110,1325,95,843"/>
+<area shape="rect" id="Node000004" href="$classcxx_1_1Bits_1_1Basic__list.html" title="Internal: Common functions for all head&#45;based list implementations." alt="" coords="39,5,179,225"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="108,239,99,564,94,564,103,239"/>
+<area shape="rect" id="Node000008" href="$classcxx_1_1H__list.html" title="General double&#45;linked list of unspecified cxx::H_list_item elements." alt="" coords="131,275,305,540"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="157,237,171,273,166,275,152,239"/>
+<area shape="rect" id="Node000005" href="$structcxx_1_1H__list__t.html" title="Double&#45;linked list of typed H_list_item_t elements." alt="" coords="144,1197,276,1263"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="181,1275,144,1327,140,1324,177,1272"/>
+<area shape="rect" id="Node000006" href="$classcxx_1_1H__list.html" title=" " alt="" coords="131,853,319,1148"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="217,1162,215,1197,209,1197,212,1161"/>
+<area shape="rect" id="Node000007" href="$classcxx_1_1Bits_1_1Basic__list.html" title="Internal: Common functions for all head&#45;based list implementations." alt="" coords="329,297,469,517"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="418,531,421,601,418,678,406,756,383,830,356,879,321,921,317,918,352,876,378,828,401,754,413,677,416,601,413,531"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="222,554,226,853,220,853,217,554"/>
+</map>

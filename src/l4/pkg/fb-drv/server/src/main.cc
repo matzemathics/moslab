@@ -30,15 +30,16 @@ Phys_fb::setup_ds(char const *name)
   _ds_start = _vidmem_start;
   _ds_size = _vidmem_size;
   _rw_flags = L4Re::Dataspace::F::RW;
-  _cache_flags = L4::Ipc::Gen_fpage<L4::Ipc::Snd_item>::Buffered;
+  _cache_flags = L4::Ipc::Snd_fpage::Buffered;
 }
 
 int
-Phys_fb::map_hook(l4_addr_t offs, unsigned long flags,
-                  l4_addr_t min, l4_addr_t max)
+Phys_fb::map_hook(L4Re::Dataspace::Offset /* offs */, unsigned /* order */,
+                  L4Re::Dataspace::Flags /* flags */,
+                  L4Re::Dataspace::Map_addr * /* base */,
+                  unsigned * /* send_order */)
 {
   // map everything at once, a framebuffer will usually used fully
-  (void)offs; (void)flags; (void)min; (void)max;
   if (_map_done)
     return 0;
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/impl/rm_impl.h Source File</title>
+<title>L4Re Operating System Framework: l4/re/impl/rm_impl.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -118,115 +121,121 @@ $(document).ready(function(){initNavTree('rm__impl_8h_source.html',''); initResi
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * invalidate any other reasons why the executable file might be covered by</span></div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * the GNU General Public License.</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;<a class="code" href="rm.html">l4/re/rm</a>&gt;</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;<a class="code" href="dataspace.html">l4/re/dataspace</a>&gt;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &lt;<a class="code" href="ipc__client.html">l4/sys/cxx/ipc_client</a>&gt;</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &lt;<a class="code" href="task.html">l4/sys/task</a>&gt;</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#include &lt;<a class="code" href="err_8h.html">l4/sys/err.h</a>&gt;</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#ad1a4be565f4767dfce5e16d7d5e855c3">L4Re::Rm::reserve_area</a>);</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#a3165a1f7521b5ec58cd710654575f6bb">L4Re::Rm::free_area</a>);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#a81c3edf15190139911ab69211c0a4bc4">L4Re::Rm::attach</a>);</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9">L4Re::Rm::detach</a>);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#a41421ee05a078fb931cc623a475db241">L4Re::Rm::get_regions</a>);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#a1d0b957253cf81e531443d38cf0a6b7d">L4Re::Rm::get_areas</a>);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#ae05bcd7f0c2215129701b029075d2f30">L4Re::Rm::find</a>);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceL4Re.html">L4Re</a></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>{</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keywordtype">long</span></div>
-<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classL4Re_1_1Rm.html#a81c3edf15190139911ab69211c0a4bc4">   43</a></span><a class="code hl_function" href="classL4Re_1_1Rm.html#a81c3edf15190139911ab69211c0a4bc4">Rm::attach</a>(<a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> *start, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> size, Rm::Flags flags,</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>           <a class="code hl_class" href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap&lt;Dataspace&gt;</a> mem, Rm::Offset offs,</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>           <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> align) <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>{</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordflow">if</span> (((flags &amp; F::Rights_mask) == Flags(0)) || (flags &amp; F::Reserved))</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    mem = <a class="code hl_class" href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap&lt;L4Re::Dataspace&gt;</a>();</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keywordtype">long</span> e = attach_t::call(c(), start, size, flags, mem, offs, align, mem.cap().cap());</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="keywordflow">if</span> (e &lt; 0)</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">return</span> e;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keywordflow">if</span> (flags &amp; F::Eager_map)</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    e = mem.cap()-&gt;map_region(offs, map_flags(flags), *start, *start + size);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="keywordflow">return</span> e;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;l4/bid_config.h&gt;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;<a class="code" href="rm.html">l4/re/rm</a>&gt;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &lt;<a class="code" href="dataspace.html">l4/re/dataspace</a>&gt;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &lt;<a class="code" href="ipc__client.html">l4/sys/cxx/ipc_client</a>&gt;</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#include &lt;<a class="code" href="task.html">l4/sys/task</a>&gt;</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#include &lt;<a class="code" href="err_8h.html">l4/sys/err.h</a>&gt;</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#ad1a4be565f4767dfce5e16d7d5e855c3">L4Re::Rm::reserve_area</a>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#a3165a1f7521b5ec58cd710654575f6bb">L4Re::Rm::free_area</a>);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#ae6462f6c707de0108afceab8665ad256">L4Re::Rm::attach</a>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9">L4Re::Rm::detach</a>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#a41421ee05a078fb931cc623a475db241">L4Re::Rm::get_regions</a>);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#a1d0b957253cf81e531443d38cf0a6b7d">L4Re::Rm::get_areas</a>);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><a class="code hl_define" href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a>(<a class="code hl_function" href="classL4Re_1_1Rm.html#ae05bcd7f0c2215129701b029075d2f30">L4Re::Rm::find</a>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceL4Re.html">L4Re</a></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>{</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keywordtype">long</span></div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classL4Re_1_1Rm.html#ae6462f6c707de0108afceab8665ad256">   44</a></span><a class="code hl_function" href="classL4Re_1_1Rm.html#ae6462f6c707de0108afceab8665ad256">Rm::attach</a>(<a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> *start, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> size, Rm::Flags flags,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>           <a class="code hl_class" href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap&lt;Dataspace&gt;</a> mem, Rm::Offset offs,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>           <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> align, <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4::Task&gt;</a> <span class="keyword">const</span> task) <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>{</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <span class="keywordflow">if</span> (((flags &amp; F::Rights_mask) == Flags(0)) || (flags &amp; F::Reserved))</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    mem = <a class="code hl_class" href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap&lt;L4Re::Dataspace&gt;</a>();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="keywordtype">long</span> e = attach_t::call(c(), start, size, flags, mem, offs, align, mem.cap().cap());</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <span class="keywordflow">if</span> (e &lt; 0)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> e;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#ifdef CONFIG_MMU</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keywordflow">if</span> ((flags &amp; (F::Eager_map | F::No_eager_map)) == F::Eager_map)</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  <span class="keywordflow">if</span> (!(flags &amp; F::No_eager_map) &amp;&amp; mem.is_valid())</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    e = mem.cap()-&gt;map_region(offs, map_flags(flags), *start, *start + size,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                              task);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keywordflow">return</span> e;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
 </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">int</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><a class="code hl_function" href="classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9">Rm::detach</a>(<a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> start, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> size, <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;Dataspace&gt;</a> *mem,</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>           <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4::Task&gt;</a> task, <span class="keywordtype">unsigned</span> flags) <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> rstart = 0, rsize = 0;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  <a class="code hl_typedef" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> mem_cap = <a class="code hl_enumvalue" href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102">L4_INVALID_CAP</a>;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <span class="keywordtype">long</span> e = detach_t::call(c(), start, size, flags, rstart, rsize, mem_cap);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(e &lt; 0))</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> e;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  <span class="keywordflow">if</span> (mem)</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    *mem = <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4Re::Dataspace&gt;</a>(mem_cap);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <span class="keywordflow">if</span> (!task.is_valid())</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keywordtype">int</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><a class="code hl_function" href="classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9">Rm::detach</a>(<a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> start, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> size, <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;Dataspace&gt;</a> *mem,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>           <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4::Task&gt;</a> task, <span class="keywordtype">unsigned</span> flags) <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>{</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> rstart = 0, rsize = 0;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  <a class="code hl_typedef" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> mem_cap = <a class="code hl_enumvalue" href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102">L4_INVALID_CAP</a>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <span class="keywordtype">long</span> e = detach_t::call(c(), start, size, flags, rstart, rsize, mem_cap);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a>(e &lt; 0))</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">return</span> e;</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  rsize = <a class="code hl_function" href="group__l4__memory__api.html#ga96e3b2d8e69308aecbb11d1d24f61662">l4_round_page</a>(rsize);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  <span class="keywordtype">unsigned</span> order = <a class="code hl_define" href="group__l4__memory__api.html#gac9639364e2fd28399b91a1b30022139f">L4_LOG2_PAGESIZE</a>;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> sz = (1UL &lt;&lt; order);</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> p = rstart; rsize; p += sz, rsize -= sz)</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    {</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>      <span class="keywordflow">while</span> (sz &gt; rsize)</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        {</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>          --order;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>          sz &gt;&gt;= 1;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        }</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>      <span class="keywordflow">for</span> (;;)</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keywordflow">if</span> (mem)</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    *mem = <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4Re::Dataspace&gt;</a>(mem_cap);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  <span class="keywordflow">if</span> (!task.is_valid())</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">return</span> e;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  rsize = <a class="code hl_function" href="group__l4__memory__api.html#ga96e3b2d8e69308aecbb11d1d24f61662">l4_round_page</a>(rsize);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  <span class="keywordtype">unsigned</span> order = <a class="code hl_define" href="group__l4__memory__api.html#gac9639364e2fd28399b91a1b30022139f">L4_LOG2_PAGESIZE</a>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> sz = (1UL &lt;&lt; order);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> p = rstart; rsize; p += sz, rsize -= sz)</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>      <span class="keywordflow">while</span> (sz &gt; rsize)</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        {</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>          <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> m = sz &lt;&lt; 1;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>          <span class="keywordflow">if</span> (m &gt; rsize)</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>          --order;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>          sz &gt;&gt;= 1;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        }</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>          <span class="keywordflow">if</span> (p &amp; (m - 1))</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>          ++order;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>          sz &lt;&lt;= 1;</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        }</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>      task-&gt;unmap(<a class="code hl_function" href="group__l4__fpage__api.html#ga48705696780cda4e2f04dbdb54946f75">l4_fpage</a>(p, order, <a class="code hl_enumvalue" href="group__l4__fpage__api.html#gga5d4f4972d58f72b2a33b6c139b5950a8a371a1fb2c09f17c7eb32ac296b87cf38">L4_FPAGE_RWX</a>),</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                  <a class="code hl_enumvalue" href="group__l4__task__api.html#gga3c24e67b976870a3e911c43c83382f66aa85d4766b182308e5847d543e7d59055">L4_FP_ALL_SPACES</a>);</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  <span class="keywordflow">return</span> e;</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>      <span class="keywordflow">for</span> (;;)</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>          <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> m = sz &lt;&lt; 1;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>          <span class="keywordflow">if</span> (m &gt; rsize)</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>          <span class="keywordflow">if</span> (p &amp; (m - 1))</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>          ++order;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>          sz &lt;&lt;= 1;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      task-&gt;unmap(<a class="code hl_function" href="group__l4__fpage__api.html#ga48705696780cda4e2f04dbdb54946f75">l4_fpage</a>(p, order, <a class="code hl_enumvalue" href="group__l4__fpage__api.html#gga5d4f4972d58f72b2a33b6c139b5950a8a371a1fb2c09f17c7eb32ac296b87cf38">L4_FPAGE_RWX</a>),</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                  <a class="code hl_enumvalue" href="group__l4__task__api.html#gga3c24e67b976870a3e911c43c83382f66aa85d4766b182308e5847d543e7d59055">L4_FP_ALL_SPACES</a>);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  <span class="keywordflow">return</span> e;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
 <div class="ttc" id="aclassL4Re_1_1Rm_html_a1d0b957253cf81e531443d38cf0a6b7d"><div class="ttname"><a href="classL4Re_1_1Rm.html#a1d0b957253cf81e531443d38cf0a6b7d">L4Re::Rm::get_areas</a></div><div class="ttdeci">long get_areas(l4_addr_t start, L4::Ipc::Ret_array&lt; Range &gt; areas)</div><div class="ttdoc">Return the list of areas whose starting addresses are higher or equal to start in the address space m...</div></div>
 <div class="ttc" id="aclassL4Re_1_1Rm_html_a3165a1f7521b5ec58cd710654575f6bb"><div class="ttname"><a href="classL4Re_1_1Rm.html#a3165a1f7521b5ec58cd710654575f6bb">L4Re::Rm::free_area</a></div><div class="ttdeci">long free_area(l4_addr_t addr)</div><div class="ttdoc">Free an area from the region map.</div></div>
 <div class="ttc" id="aclassL4Re_1_1Rm_html_a41421ee05a078fb931cc623a475db241"><div class="ttname"><a href="classL4Re_1_1Rm.html#a41421ee05a078fb931cc623a475db241">L4Re::Rm::get_regions</a></div><div class="ttdeci">long get_regions(l4_addr_t start, L4::Ipc::Ret_array&lt; Range &gt; regions)</div><div class="ttdoc">Return the list of regions whose starting addresses are higher or equal to start in the address space...</div></div>
-<div class="ttc" id="aclassL4Re_1_1Rm_html_a81c3edf15190139911ab69211c0a4bc4"><div class="ttname"><a href="classL4Re_1_1Rm.html#a81c3edf15190139911ab69211c0a4bc4">L4Re::Rm::attach</a></div><div class="ttdeci">long attach(l4_addr_t *start, unsigned long size, Flags flags, L4::Ipc::Cap&lt; Dataspace &gt; mem, Offset offs=0, unsigned char align=L4_PAGESHIFT) const noexcept</div><div class="ttdoc">Attach a data space to a region.</div><div class="ttdef"><b>Definition</b> <a href="rm__impl_8h_source.html#l00043">rm_impl.h:43</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Rm_html_ad1a4be565f4767dfce5e16d7d5e855c3"><div class="ttname"><a href="classL4Re_1_1Rm.html#ad1a4be565f4767dfce5e16d7d5e855c3">L4Re::Rm::reserve_area</a></div><div class="ttdeci">long reserve_area(l4_addr_t *start, unsigned long size, Flags flags=Flags(0), unsigned char align=L4_PAGESHIFT) const noexcept</div><div class="ttdoc">Reserve the given area in the region map.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00278">rm:278</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Rm_html_ae05bcd7f0c2215129701b029075d2f30"><div class="ttname"><a href="classL4Re_1_1Rm.html#ae05bcd7f0c2215129701b029075d2f30">L4Re::Rm::find</a></div><div class="ttdeci">long find(l4_addr_t *addr, unsigned long *size, Offset *offset, L4Re::Rm::Flags *flags, L4::Cap&lt; Dataspace &gt; *m) noexcept</div><div class="ttdoc">Find a region given an address and size.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00644">rm:644</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Rm_html_af4ad2b5650cb44bff10c217220def4c9"><div class="ttname"><a href="classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9">L4Re::Rm::detach</a></div><div class="ttdeci">int detach(l4_addr_t addr, L4::Cap&lt; Dataspace &gt; *mem, L4::Cap&lt; L4::Task &gt; const &amp;task=This_task) const noexcept</div><div class="ttdoc">Detach and unmap a region from the address space.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00722">rm:722</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
-<div class="ttc" id="aclassL4_1_1Ipc_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a></div><div class="ttdoc">Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00545">ipc_types:546</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Rm_html_ad1a4be565f4767dfce5e16d7d5e855c3"><div class="ttname"><a href="classL4Re_1_1Rm.html#ad1a4be565f4767dfce5e16d7d5e855c3">L4Re::Rm::reserve_area</a></div><div class="ttdeci">long reserve_area(l4_addr_t *start, unsigned long size, Flags flags=Flags(0), unsigned char align=L4_PAGESHIFT) const noexcept</div><div class="ttdoc">Reserve the given area in the region map.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00288">rm:288</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Rm_html_ae05bcd7f0c2215129701b029075d2f30"><div class="ttname"><a href="classL4Re_1_1Rm.html#ae05bcd7f0c2215129701b029075d2f30">L4Re::Rm::find</a></div><div class="ttdeci">long find(l4_addr_t *addr, unsigned long *size, Offset *offset, L4Re::Rm::Flags *flags, L4::Cap&lt; Dataspace &gt; *m) noexcept</div><div class="ttdoc">Find a region given an address and size.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00668">rm:668</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Rm_html_ae6462f6c707de0108afceab8665ad256"><div class="ttname"><a href="classL4Re_1_1Rm.html#ae6462f6c707de0108afceab8665ad256">L4Re::Rm::attach</a></div><div class="ttdeci">long attach(l4_addr_t *start, unsigned long size, Flags flags, L4::Ipc::Cap&lt; Dataspace &gt; mem, Offset offs=0, unsigned char align=L4_PAGESHIFT, L4::Cap&lt; L4::Task &gt; const task=L4::Cap&lt; L4::Task &gt;::Invalid) const noexcept</div><div class="ttdoc">Attach a data space to a region.</div><div class="ttdef"><b>Definition</b> <a href="rm__impl_8h_source.html#l00044">rm_impl.h:44</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Rm_html_af4ad2b5650cb44bff10c217220def4c9"><div class="ttname"><a href="classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9">L4Re::Rm::detach</a></div><div class="ttdeci">int detach(l4_addr_t addr, L4::Cap&lt; Dataspace &gt; *mem, L4::Cap&lt; L4::Task &gt; const &amp;task=This_task) const noexcept</div><div class="ttdoc">Detach and unmap a region from the address space.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00746">rm:746</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a></div><div class="ttdoc">Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00562">ipc_types:563</a></div></div>
 <div class="ttc" id="adataspace_html"><div class="ttname"><a href="dataspace.html">dataspace</a></div><div class="ttdoc">Dataspace interface.</div></div>
 <div class="ttc" id="aerr_8h_html"><div class="ttname"><a href="err_8h.html">err.h</a></div><div class="ttdoc">Error codes.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga4087b991c40c0d2fcde9ca331049a4d4"><div class="ttname"><a href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a></div><div class="ttdeci">unsigned long l4_addr_t</div><div class="ttdoc">Address type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00045">l4int.h:45</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4__cap__api_html_ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102"><div class="ttname"><a href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102">L4_INVALID_CAP</a></div><div class="ttdeci">@ L4_INVALID_CAP</div><div class="ttdoc">Invalid capability selector.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00168">consts.h:168</a></div></div>
 <div class="ttc" id="agroup__l4__fpage__api_html_ga48705696780cda4e2f04dbdb54946f75"><div class="ttname"><a href="group__l4__fpage__api.html#ga48705696780cda4e2f04dbdb54946f75">l4_fpage</a></div><div class="ttdeci">l4_fpage_t l4_fpage(l4_addr_t address, unsigned int size, unsigned char rights) L4_NOTHROW</div><div class="ttdoc">Create a memory flex page.</div><div class="ttdef"><b>Definition</b> <a href="____l4__fpage_8h_source.html#l00668">__l4_fpage.h:668</a></div></div>
 <div class="ttc" id="agroup__l4__fpage__api_html_gga5d4f4972d58f72b2a33b6c139b5950a8a371a1fb2c09f17c7eb32ac296b87cf38"><div class="ttname"><a href="group__l4__fpage__api.html#gga5d4f4972d58f72b2a33b6c139b5950a8a371a1fb2c09f17c7eb32ac296b87cf38">L4_FPAGE_RWX</a></div><div class="ttdeci">@ L4_FPAGE_RWX</div><div class="ttdoc">Read-write-execute flex page.</div><div class="ttdef"><b>Definition</b> <a href="____l4__fpage_8h_source.html#l00131">__l4_fpage.h:131</a></div></div>
 <div class="ttc" id="agroup__l4__memory__api_html_ga96e3b2d8e69308aecbb11d1d24f61662"><div class="ttname"><a href="group__l4__memory__api.html#ga96e3b2d8e69308aecbb11d1d24f61662">l4_round_page</a></div><div class="ttdeci">l4_addr_t l4_round_page(l4_addr_t address) L4_NOTHROW</div><div class="ttdoc">Round address up to the next page.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00462">consts.h:462</a></div></div>
 <div class="ttc" id="agroup__l4__memory__api_html_gac9639364e2fd28399b91a1b30022139f"><div class="ttname"><a href="group__l4__memory__api.html#gac9639364e2fd28399b91a1b30022139f">L4_LOG2_PAGESIZE</a></div><div class="ttdeci">#define L4_LOG2_PAGESIZE</div><div class="ttdoc">Number of bits used for page offset.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00398">consts.h:398</a></div></div>
 <div class="ttc" id="agroup__l4__task__api_html_gga3c24e67b976870a3e911c43c83382f66aa85d4766b182308e5847d543e7d59055"><div class="ttname"><a href="group__l4__task__api.html#gga3c24e67b976870a3e911c43c83382f66aa85d4766b182308e5847d543e7d59055">L4_FP_ALL_SPACES</a></div><div class="ttdeci">@ L4_FP_ALL_SPACES</div><div class="ttdoc">Flag to tell the unmap operation to revoke permissions from all child mappings including the mapping ...</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00198">consts.h:198</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga3df4200910f2664b97397c23693beeb0"><div class="ttname"><a href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a></div><div class="ttdeci">#define L4_UNLIKELY(x)</div><div class="ttdoc">Expression is unlikely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00285">compiler.h:285</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga3df4200910f2664b97397c23693beeb0"><div class="ttname"><a href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a></div><div class="ttdeci">#define L4_UNLIKELY(x)</div><div class="ttdoc">Expression is unlikely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00296">compiler.h:296</a></div></div>
 <div class="ttc" id="aipc__client_html"><div class="ttname"><a href="ipc__client.html">ipc_client</a></div></div>
 <div class="ttc" id="aipc__client_html_aebfe730f4231dc11a7a1998acc6e4ab6"><div class="ttname"><a href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a></div><div class="ttdeci">#define L4_RPC_DEF(name)</div><div class="ttdoc">Generate the definition of an RPC stub.</div><div class="ttdef"><b>Definition</b> <a href="ipc__client_source.html#l00043">ipc_client:43</a></div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
 <div class="ttc" id="arm_html"><div class="ttname"><a href="rm.html">rm</a></div><div class="ttdoc">Region mapper interface.</div></div>
 <div class="ttc" id="atask_html"><div class="ttname"><a href="task.html">task</a></div><div class="ttdoc">Common task related definitions.</div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -236,7 +245,7 @@ $(document).ready(function(){initNavTree('rm__impl_8h_source.html',''); initResi
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="dir_36777f7a7a96e008b339783d073d7ed0.html">impl</a></li><li class="navelem"><a class="el" href="rm__impl_8h.html">rm_impl.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

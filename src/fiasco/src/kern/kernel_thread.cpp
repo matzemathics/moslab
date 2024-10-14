@@ -4,6 +4,12 @@ INTERFACE:
 
 class Kernel_thread : public Thread_object
 {
+public:
+  /**
+   * Desired UTCB address for sigma0 and boot tasks.
+   */
+  static Address utcb_addr();
+
 private:
   /**
    * Frees the memory of the initcall sections.
@@ -17,11 +23,7 @@ private:
   void bootstrap() asm ("call_bootstrap") FIASCO_FASTCALL FIASCO_NORETURN;
   void bootstrap_arch();
   void run() FIASCO_NORETURN;
-  void do_idle() __attribute__((noreturn));
   void check_debug_koptions();
-
-protected:
-  void init_workload();
 };
 
 
@@ -36,6 +38,8 @@ IMPLEMENTATION:
 #include "globals.h"
 #include "helping_lock.h"
 #include "kernel_task.h"
+#include "kmem.h"
+#include "mem_layout.h"
 #include "per_cpu_data_alloc.h"
 #include "processor.h"
 #include "task.h"
@@ -46,12 +50,6 @@ IMPLEMENTATION:
 #include "watchdog.h"
 
 
-/**
- * unit test interface
- */
-void
-init_unittest() __attribute__((weak));
-
 PUBLIC explicit
 Kernel_thread::Kernel_thread(Ram_quota *q)
 : Thread_object(q, Thread::Kernel)
@@ -61,6 +59,11 @@ PUBLIC inline
 Mword *
 Kernel_thread::init_stack()
 { return _kernel_sp; }
+
+IMPLEMENT_DEFAULT inline NEEDS["mem_layout.h"]
+Address
+Kernel_thread::utcb_addr()
+{ return Mem_layout::Utcb_addr; }
 
 // the kernel bootstrap routine
 IMPLEMENT FIASCO_INIT
@@ -94,18 +97,19 @@ Kernel_thread::bootstrap()
 
   Per_cpu_data::run_late_ctors(Cpu_number::boot_cpu());
   Per_cpu_data::run_late_ctors(Cpu::invalid());
+  Kmem::kernel_remap();
   bootstrap_arch();
 
   // Needs to be done before the timer is enabled. Otherwise after returning
   // from printf() there could be a burst of timer interrupts distorting the
   // timer loop calibration. The measurement intervals would be far too short.
-  printf("Calibrating timer loop... ");
+  printf("Calibrating timer loop...\n");
   Timer_tick::enable(current_cpu());
   Proc::sti();
   Watchdog::enable();
   // Init delay loop, needs working timer interrupt
   Delay::init();
-  printf("done.\n");
+  printf("Timer calibration done.\n");
 
   run();
 }
@@ -128,12 +132,7 @@ Kernel_thread::run()
 
   check_debug_koptions();
 
-  // init_workload cannot be an initcall, because it fires up the userland
-  // applications which then have access to initcall frames as per kinfo page.
-  if (init_unittest)
-    init_unittest();
-  else
-    init_workload();
+  init_workload();
 
   for (;;)
     idle_op();
@@ -144,9 +143,19 @@ void
 Kernel_thread::check_debug_koptions()
 {}
 
+PRIVATE
+void
+Kernel_thread::init_workload()
+{
+  extern void (*_init_workload_table[])();
+  for (unsigned i = 0; _init_workload_table[i]; ++i)
+    _init_workload_table[i]();
+}
+
 // ------------------------------------------------------------------------
 IMPLEMENTATION [debug]:
 
+#include "koptions.h"
 #include "string_buffer.h"
 
 IMPLEMENT_OVERRIDE
@@ -173,7 +182,7 @@ Kernel_thread::check_debug_koptions()
 }
 
 // ------------------------------------------------------------------------
-IMPLEMENTATION [!arch_idle && !tickless_idle]:
+IMPLEMENTATION [!tickless_idle]:
 
 PUBLIC inline NEEDS["processor.h"]
 void
@@ -232,6 +241,7 @@ Kernel_thread::idle_op()
       arch_tickless_idle(cpu);
 
       Mem_space::enable_tlb(cpu);
+      Mem_space::reload_current();
       Rcu::leave_idle(cpu);
       Timer_tick::enable(cpu);
     }

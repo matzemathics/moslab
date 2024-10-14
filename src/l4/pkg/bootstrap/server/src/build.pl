@@ -10,6 +10,7 @@
 
 use strict;
 use warnings;
+use feature qw/state/;
 
 BEGIN { unshift @INC, $ENV{L4DIR}.'/tool/lib'
            if $ENV{L4DIR} && -d $ENV{L4DIR}.'/tool/lib/L4';}
@@ -27,17 +28,18 @@ my $cross_compile_prefix = $ENV{CROSS_COMPILE} || '';
 my $arch                 = $ENV{OPT_ARCH}     || "x86";
 my $platform_type        = $ENV{OPT_PLATFORM_TYPE};
 
-my $module_path   = $ENV{SEARCHPATH}    || ".";
-my $prog_objcopy  = $ENV{OBJCOPY}       || "${cross_compile_prefix}objcopy";
-my $prog_cc       = $ENV{CC}            || "${cross_compile_prefix}gcc";
-my $prog_nm       = $ENV{NM}            || "${cross_compile_prefix}nm";
-my $prog_cp       = $ENV{PROG_CP}       || "cp";
-my $prog_gzip     = $ENV{PROG_GZIP}     || "gzip";
-my $compress      = $ENV{OPT_COMPRESS}  || 0;
-my $strip         = $ENV{OPT_STRIP}     || 1;
-my $output_dir    = $ENV{OUTPUT_DIR}    || '.';
-my $make_inc_file = $ENV{MAKE_INC_FILE} || "mod.make.inc";
-my $flags_cc      = $ENV{FLAGS_CC}      || '';
+my $module_path    = $ENV{SEARCHPATH}     || ".";
+my $prog_objcopy   = $ENV{OBJCOPY}        || "${cross_compile_prefix}objcopy";
+my $prog_cc        = $ENV{CC}             || "${cross_compile_prefix}gcc";
+my $prog_nm        = $ENV{NM}             || "${cross_compile_prefix}nm";
+my $prog_cp        = $ENV{PROG_CP}        || "cp";
+my $prog_gzip      = $ENV{PROG_GZIP}      || "gzip";
+my $compress       = $ENV{COMPRESS}       || 0;
+my $can_decompress = $ENV{CAN_DECOMPRESS} || 0;
+my $strip          = $ENV{OPT_STRIP}      || 1;
+my $output_dir     = $ENV{OUTPUT_DIR}     || '.';
+my $make_inc_file  = $ENV{MAKE_INC_FILE}  || "mod.make.inc";
+my $flags_cc       = $ENV{FLAGS_CC}       || '';
 
 sub usage()
 {
@@ -103,7 +105,6 @@ sub build_obj
 {
   my ($file, $cmdline, $modname, $flags, $opts) = @_;
   my %d;
-  my %imgmod;
 
   $d{path} = L4::ModList::search_file($file, $module_path)
     || die "Cannot find file $file! Used search path: $module_path";
@@ -136,7 +137,7 @@ sub build_obj
         {
           # Linux AARCH64 kernel image. 'objcopy -S' would remove the AArch64
           # header. The resulting PE image format isn't supported by Uvmm.
-          $d{nostrip} = 1;
+          $opts->{nostrip} = 1;
         }
       else
         {
@@ -152,42 +153,22 @@ sub build_obj
 
   system("$prog_cp $d{path} $modname.obj") if $take_orig;
 
-  my $uncompressed_size = -s "$modname.obj";
+  $opts->{compress} = undef if $compress;
 
-  my $c_unc = Digest::MD5->new;
-  open(M, "$modname.obj") || die "Failed to open $modname.obj: $!";
-  binmode M;
-  $c_unc->addfile(*M);
-  close M;
-
-  if ($compress and
-      not L4::ModList::is_gzipped_file("$modname.obj"))
+  state $warned_decompress = 0;
+  unless ($can_decompress or not exists $opts->{compress} or $warned_decompress)
     {
-       system("$prog_gzip -9f $modname.obj && mv $modname.obj.gz $modname.obj");
-       $d{size_compressed} = -s "$modname.obj";
+      print("WARNING: bootstrap cannot decompress. Image will likely not boot.\n");
+      $warned_decompress = 1;
     }
+  my %imgmod = L4::Image::fill_module("$modname.obj", $opts,
+                                       basename((split(/\s+/, $cmdline))[0]),
+                                       $flags, $cmdline);
+  error($imgmod{error}) if $imgmod{error};
 
   $d{modname} = $modname;
 
   &{$output_formatter{module}}(%d);
-
-  my $c_compr = Digest::MD5->new;
-  open(M, "$modname.obj") || die "Failed to open $modname.obj: $!";
-  $c_compr->addfile(*M);
-  close M;
-
-  my $size = -s "$modname.obj";
-  my $md5_compr = $c_compr->hexdigest;
-  my $md5_uncompr = $c_unc->hexdigest;
-
-  $imgmod{filepath}          = "$modname.obj";
-  $imgmod{flags}             = $flags;
-  $imgmod{size}              = $size;
-  $imgmod{size_uncompressed} = $uncompressed_size;
-  $imgmod{name}              = basename((split(/\s+/, $cmdline))[0]);
-  ($imgmod{cmdline}          = $cmdline) =~ s,^\S+\/,,;
-  $imgmod{md5sum_compr}      = $md5_compr;
-  $imgmod{md5sum_uncompr}    = $md5_uncompr;
 
   return %imgmod;
 }
@@ -224,7 +205,7 @@ sub build_objects(@)
   for (my $i = 0; $i < @mods; $i++) {
     $img{mods}[$i] =
       { build_obj($mods[$i]->{file}, $mods[$i]->{cmdline},
-                  $mods[$i]->{modname}, $mods[$i]->{type} | 1 << 4,
+                  $mods[$i]->{modname}, $mods[$i]->{type},
                   $mods[$i]->{opts}) };
   }
 
@@ -254,6 +235,7 @@ sub build_objects(@)
   $img{attrs}{"l4i:loadaddr"} = $ENV{BOOTSTRAP_LINKADDR};
   $img{attrs}{"l4i:rambase"} = $ENV{OPT_RAM_BASE};
   $img{attrs}{"l4i:uefi"} = $ENV{OPT_EFIMODE};
+  $img{attrs}{"bootstrap:features"} = "compress-gz" if $can_decompress;
 
   my $volatile_data = 1;
 
@@ -357,7 +339,7 @@ sub postprocess
   error("Multiple or no image info headers found -- must not be") if $count != 1;
 
   my $fn_nm = $fn;
-  my ($_start, $_end, $_module_data_start, $bin_addr_end_bin);
+  my ($_stext, $_end, $_module_data_start, $bin_addr_end_bin);
   my $restart_nm;
   do
     {
@@ -373,7 +355,7 @@ sub postprocess
               $restart_nm = 1;
               last;
             }
-          $_start             = Math::BigInt->from_hex($1) if /^([0-9a-f]+)\s+T\s+_start$/i;
+          $_stext             = Math::BigInt->from_hex($1) if /^([0-9a-f]+)\s+T\s+_stext$/i;
           $_end               = Math::BigInt->from_hex($1) if /^([0-9a-f]+)\s+[BD]\s+_end$/i;
           $_module_data_start = Math::BigInt->from_hex($1) if /^([0-9a-f]+)\s+[BDTNR]\s+_module_data_start$/i;
           $bin_addr_end_bin   = Math::BigInt->from_hex($1) if /^([0-9a-f]+)\s+t\s+crt_end_bin$/i;
@@ -386,7 +368,7 @@ sub postprocess
   $bin_addr_end_bin = Math::BigInt->new() unless defined $bin_addr_end_bin;
 
   error("Did not find _end symbol in binary") unless defined $_end;
-  error("Did not find _start symbol in binary") unless defined $_start;
+  error("Did not find _stext symbol in binary") unless defined $_stext;
   error("Did not find _module_data_start symbol in binary")
     unless defined $_module_data_start;
 
@@ -400,7 +382,7 @@ sub postprocess
     return $adr;
   };
 
-  $_start             = $compensate_nm_bug->($_start);
+  $_stext             = $compensate_nm_bug->($_stext);
   $_end               = $compensate_nm_bug->($_end);
   $_module_data_start = $compensate_nm_bug->($_module_data_start);
   $bin_addr_end_bin   = $compensate_nm_bug->($bin_addr_end_bin);
@@ -418,7 +400,7 @@ sub postprocess
   if ($v)
     {
       printf "ELF: Filling image_info data at ELF-file pos 0x%x\n", $pos;
-      print "ELF: _start=", $_start->as_hex(), "\n";
+      print "ELF: _stext=", $_stext->as_hex(), "\n";
       print "ELF: _end=", $_end->as_hex(), "\n";
       print "ELF: _module_data_start=", $_module_data_start->as_hex(), "\n";
       print "ELF: bin_addr_end_bin=", $bin_addr_end_bin->as_hex(), "\n";
@@ -455,14 +437,14 @@ sub postprocess
   my $_mod_header = 0;
   if (defined $offsets->{mod_header})
     {
-      $_mod_header = $offsets->{mod_header} + $_module_data_start - $_start;
+      $_mod_header = $offsets->{mod_header} + $_module_data_start - $_stext;
       printf "_mod_header=%x\n", $_mod_header if $v;
     }
 
   my $_attrs = 0;
   if (defined $offsets->{attrs})
     {
-      $_attrs = $offsets->{attrs} + $_module_data_start - $_start;
+      $_attrs = $offsets->{attrs} + $_module_data_start - $_stext;
       printf "_attrs=%x\n", $_attrs if $v;
     }
 
@@ -471,7 +453,7 @@ sub postprocess
                           0, # crc32
                           $_version,
                           $_flags,
-                          $_start, $_end, $_module_data_start,
+                          $_stext, $_end, $_module_data_start,
                           $bin_addr_end_bin,
                           $_mod_header, $_attrs),
                 L4::Image::dsi('IMAGE_INFO_SIZE'));
@@ -518,7 +500,7 @@ chdir $output_dir || die "Cannot change to directory '$output_dir': $!";
 
 my %entry = ( mbi_cmdline => '' );
 
-%entry = L4::ModList::get_module_entry($modulesfile, $entryname)
+%entry = L4::ModList::get_module_entry($modulesfile, $entryname, $module_path)
   if $modulesfile and $entryname;
 
 if ($cmd eq 'build')

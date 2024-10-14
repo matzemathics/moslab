@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/semaphore.h Source File</title>
+<title>L4Re Operating System Framework: l4/sys/semaphore.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -167,11 +170,11 @@ $(document).ready(function(){initNavTree('semaphore_8h_source.html',''); initRes
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
 </div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__api_html_gab96d1669dcd54657237ee27b7f6862c6"><div class="ttname"><a href="group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6">l4_ipc_call</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_call(l4_cap_idx_t object, l4_utcb_t *utcb, l4_msgtag_t tag, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Object call (usual invocation).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00550">ipc.h:550</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__api_html_gab96d1669dcd54657237ee27b7f6862c6"><div class="ttname"><a href="group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6">l4_ipc_call</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_call(l4_cap_idx_t object, l4_utcb_t *utcb, l4_msgtag_t tag, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Object call (usual invocation).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00576">ipc.h:576</a></div></div>
 <div class="ttc" id="agroup__l4__irq__api_html_ga180cfaf342ce9ff484a6aa7c276e1597"><div class="ttname"><a href="group__l4__irq__api.html#ga180cfaf342ce9ff484a6aa7c276e1597">l4_irq_trigger_u</a></div><div class="ttdeci">l4_msgtag_t l4_irq_trigger_u(l4_cap_idx_t irq, l4_utcb_t *utcb) L4_NOTHROW</div><div class="ttdoc">Trigger the object.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2irq_8h_source.html#l00262">irq.h:262</a></div></div>
 <div class="ttc" id="agroup__l4__irq__api_html_gab24e0fc21a207fd566ece1e6fafbac48"><div class="ttname"><a href="group__l4__irq__api.html#gab24e0fc21a207fd566ece1e6fafbac48">l4_irq_trigger</a></div><div class="ttdeci">l4_msgtag_t l4_irq_trigger(l4_cap_idx_t irq) L4_NOTHROW</div><div class="ttdoc">Trigger an IRQ.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2irq_8h_source.html#l00305">irq.h:305</a></div></div>
-<div class="ttc" id="agroup__l4__msgtag__api_html_ga661d71acad9d096fa990f7c94943bc78"><div class="ttname"><a href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a></div><div class="ttdeci">l4_msgtag_t l4_msgtag(long label, unsigned words, unsigned items, unsigned flags) L4_NOTHROW</div><div class="ttdoc">Create a message tag from the specified values.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00427">types.h:427</a></div></div>
+<div class="ttc" id="agroup__l4__msgtag__api_html_ga661d71acad9d096fa990f7c94943bc78"><div class="ttname"><a href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a></div><div class="ttdeci">l4_msgtag_t l4_msgtag(long label, unsigned words, unsigned items, unsigned flags) L4_NOTHROW</div><div class="ttdoc">Create a message tag from the specified values.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00428">types.h:428</a></div></div>
 <div class="ttc" id="agroup__l4__msgtag__api_html_gga9ac8443c5696208bb0539dd659ea1c92ad93a31752d5bd7e8076bec7d8e4293f3"><div class="ttname"><a href="group__l4__msgtag__api.html#gga9ac8443c5696208bb0539dd659ea1c92ad93a31752d5bd7e8076bec7d8e4293f3">L4_PROTO_SEMAPHORE</a></div><div class="ttdeci">@ L4_PROTO_SEMAPHORE</div><div class="ttdoc">Protocol for semaphore objects.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00072">types.h:72</a></div></div>
 <div class="ttc" id="agroup__l4__semaphore__api_html_ga7fc3931fba29e35a6690639c74774c43"><div class="ttname"><a href="group__l4__semaphore__api.html#ga7fc3931fba29e35a6690639c74774c43">l4_semaphore_up</a></div><div class="ttdeci">l4_msgtag_t l4_semaphore_up(l4_cap_idx_t sem) L4_NOTHROW</div><div class="ttdoc">Semaphore up operation (wrapper for trigger()).</div><div class="ttdef"><b>Definition</b> <a href="semaphore_8h_source.html#l00056">semaphore.h:56</a></div></div>
 <div class="ttc" id="agroup__l4__semaphore__api_html_ga93dd91476859488c579de1caae8058e8"><div class="ttname"><a href="group__l4__semaphore__api.html#ga93dd91476859488c579de1caae8058e8">l4_semaphore_down</a></div><div class="ttdeci">l4_msgtag_t l4_semaphore_down(l4_cap_idx_t sem, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Semaphore down operation.</div><div class="ttdef"><b>Definition</b> <a href="semaphore_8h_source.html#l00110">semaphore.h:110</a></div></div>
@@ -180,10 +183,10 @@ $(document).ready(function(){initNavTree('semaphore_8h_source.html',''); initRes
 <div class="ttc" id="agroup__l4sys__defines_html_ga362dfa378e662dd04f710a23fc7ea931"><div class="ttname"><a href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div><div class="ttdeci">#define L4_NOTHROW</div><div class="ttdoc">Mark a function declaration and definition as never throwing an exception.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00188">compiler.h:188</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
 <div class="ttc" id="al4_2sys_2irq_8h_html"><div class="ttname"><a href="l4_2sys_2irq_8h.html">irq.h</a></div><div class="ttdoc">C Irq interface.</div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html"><div class="ttname"><a href="unionl4__msg__regs__t.html">l4_msg_regs_t</a></div><div class="ttdoc">Encapsulation of the message-register block in the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00078">utcb.h:79</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html_ad7d601b3b3808afaefe4c09d42de8b99"><div class="ttname"><a href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">l4_msg_regs_t::mr</a></div><div class="ttdeci">l4_umword_t mr[L4_UTCB_GENERIC_DATA_SIZE]</div><div class="ttdoc">Message registers.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00080">utcb.h:80</a></div></div>
-<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00059">__timeout.h:59</a></div></div>
+<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00060">__timeout.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -191,7 +194,7 @@ $(document).ready(function(){initNavTree('semaphore_8h_source.html',''); initRes
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="semaphore_8h.html">semaphore.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

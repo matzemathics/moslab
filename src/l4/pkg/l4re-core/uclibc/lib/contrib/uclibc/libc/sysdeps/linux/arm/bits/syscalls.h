@@ -43,8 +43,34 @@
    })									\
 )
 
-#if !defined(__thumb__)
-#if defined(__ARM_EABI__)
+#define INTERNAL_SYSCALL_ARM(name, err, nr, args...)           \
+	INTERNAL_SYSCALL_NCS(__ARM_NR_##name, err, nr, args)
+
+#if defined(__thumb__)
+/* We can't use push/pop inside the asm because that breaks
+   unwinding (ie. thread cancellation).
+ */
+#define INTERNAL_SYSCALL_NCS(name, err, nr, args...)			\
+(__extension__ \
+  ({ unsigned int __internal_sys_result;				\
+    {									\
+      int _sys_buf[2];							\
+      register int __a1 __asm__ ("a1");					\
+      register int *__v3 __asm__ ("v3") = _sys_buf;			\
+      *__v3 = (int) (name);						\
+      LOAD_ARGS_##nr (args)						\
+      __asm__ __volatile__ ("str	r7, [v3, #4]\n"			\
+		    "\tldr	r7, [v3]\n"				\
+		    "\tswi	0	@ syscall " #name "\n"		\
+		    "\tldr	r7, [v3, #4]"				\
+		    : "=r" (__a1)					\
+		    : "r" (__v3) ASM_ARGS_##nr				\
+                    : "memory");					\
+	__internal_sys_result = __a1;					\
+    }									\
+    (int) __internal_sys_result; }) \
+)
+#else /* ARM */
 #define INTERNAL_SYSCALL_NCS(name, err, nr, args...)			\
 (__extension__ \
   ({unsigned int __internal_sys_result;					\
@@ -60,48 +86,7 @@
      }									\
      (int) __internal_sys_result; }) \
 )
-#else /* defined(__ARM_EABI__) */
-
-#define INTERNAL_SYSCALL_NCS(name, err, nr, args...)			\
-(__extension__ \
-  ({ unsigned int __internal_sys_result;				\
-     {									\
-       register int __a1 __asm__ ("a1");					\
-       LOAD_ARGS_##nr (args)						\
-       __asm__ __volatile__ ("swi	%1	@ syscall " #name	\
-		     : "=r" (__a1)					\
-		     : "i" (name) ASM_ARGS_##nr				\
-		     : "memory");					\
-       __internal_sys_result = __a1;					\
-     }									\
-     (int) __internal_sys_result; }) \
-)
 #endif
-#else /* !defined(__thumb__) */
-/* We can't use push/pop inside the asm because that breaks
-   unwinding (ie. thread cancellation).
- */
-#define INTERNAL_SYSCALL_NCS(name, err, nr, args...)			\
-(__extension__ \
-  ({ unsigned int __internal_sys_result;				\
-    {									\
-      int _sys_buf[2];							\
-      register int __a1 __asm__ ("a1");					\
-      register int *_v3 __asm__ ("v3") = _sys_buf;			\
-      *_v3 = (int) (name);						\
-      LOAD_ARGS_##nr (args)						\
-      __asm__ __volatile__ ("str	r7, [v3, #4]\n"			\
-		    "\tldr	r7, [v3]\n"				\
-		    "\tswi	0	@ syscall " #name "\n"		\
-		    "\tldr	r7, [v3, #4]"				\
-		    : "=r" (__a1)					\
-		    : "r" (_v3) ASM_ARGS_##nr				\
-                    : "memory");					\
-	__internal_sys_result = __a1;					\
-    }									\
-    (int) __internal_sys_result; }) \
-)
-#endif /*!defined(__thumb__)*/
 
 #define INTERNAL_SYSCALL_ERROR_P(val, err) \
   ((unsigned int) (val) >= 0xfffff001u)
@@ -129,21 +114,22 @@
   register int __a4 __asm__ ("a4") = __a4tmp;
 #define ASM_ARGS_4	ASM_ARGS_3, "r" (__a4)
 #define LOAD_ARGS_5(a1, a2, a3, a4, a5)		\
-  int _v1tmp = (int) (a5);			\
+  int __v1tmp = (int) (a5);			\
   LOAD_ARGS_4 (a1, a2, a3, a4)			\
-  register int _v1 __asm__ ("v1") = _v1tmp;
-#define ASM_ARGS_5	ASM_ARGS_4, "r" (_v1)
+  register int __v1 __asm__ ("v1") = __v1tmp;
+#define ASM_ARGS_5	ASM_ARGS_4, "r" (__v1)
 #define LOAD_ARGS_6(a1, a2, a3, a4, a5, a6)	\
-  int _v2tmp = (int) (a6);			\
+  int __v2tmp = (int) (a6);			\
   LOAD_ARGS_5 (a1, a2, a3, a4, a5)		\
-  register int _v2 __asm__ ("v2") = _v2tmp;
-#define ASM_ARGS_6	ASM_ARGS_5, "r" (_v2)
+  register int __v2 __asm__ ("v2") = __v2tmp;
+#define ASM_ARGS_6	ASM_ARGS_5, "r" (__v2)
+#ifndef __thumb__
 #define LOAD_ARGS_7(a1, a2, a3, a4, a5, a6, a7)	\
-  int _v3tmp = (int) (a7);			\
+  int __v3tmp = (int) (a7);			\
   LOAD_ARGS_6 (a1, a2, a3, a4, a5, a6)		\
-  register int _v3 __asm__ ("v3") = _v3tmp;
-#define ASM_ARGS_7	ASM_ARGS_6, "r" (_v3)
-
+  register int __v3 __asm__ ("v3") = __v3tmp;
+#define ASM_ARGS_7	ASM_ARGS_6, "r" (__v3)
+#endif
 
 #endif /* __ASSEMBLER__ */
 #endif /* _BITS_SYSCALLS_H */

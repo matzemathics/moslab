@@ -22,9 +22,11 @@
 #include "vcon_stream.h"
 #include "ns_fs.h"
 
+#include <l4/bid_config.h>
 #include <l4/re/env>
 #include <l4/re/rm>
 #include <l4/re/dataspace>
+#include <l4/sys/assert.h>
 #include <l4/cxx/hlist>
 #include <l4/cxx/pair>
 #include <l4/cxx/std_alloc>
@@ -140,6 +142,7 @@ public:
   int register_file_system(L4Re::Vfs::File_system *f) noexcept override;
   int unregister_file_system(L4Re::Vfs::File_system *f) noexcept override;
   L4Re::Vfs::File_system *get_file_system(char const *fstype) noexcept override;
+  L4Re::Vfs::File_system_list file_system_list() noexcept override;
 
   int register_file_factory(cxx::Ref_ptr<L4Re::Vfs::File_factory> f) noexcept override;
   int unregister_file_factory(cxx::Ref_ptr<L4Re::Vfs::File_factory> f) noexcept override;
@@ -181,6 +184,9 @@ private:
                      l4_addr_t *offset);
 
   void align_mmap_start_and_length(void **start, size_t *length);
+  int munmap_regions(void *start, size_t len);
+
+  L4Re::Vfs::File_system *find_fs_from_type(char const *fstype) noexcept;
 };
 
 static inline bool strequal(char const *a, char const *b)
@@ -222,35 +228,44 @@ Vfs::unregister_file_system(L4Re::Vfs::File_system *f) noexcept
     if (*p == f)
       {
         *p = f->next();
-	f->next() = 0;
-	return 0;
+        f->next() = 0;
+        return 0;
       }
 
   return -ENOENT;
 }
 
 L4Re::Vfs::File_system *
+Vfs::find_fs_from_type(char const *fstype) noexcept
+{
+  L4Re::Vfs::File_system_list fsl(_fs_registry);
+  for (L4Re::Vfs::File_system_list::Iterator c = fsl.begin();
+       c != fsl.end(); ++c)
+    if (strequal(c->type(), fstype))
+      return *c;
+  return 0;
+}
+
+L4Re::Vfs::File_system_list
+Vfs::file_system_list() noexcept
+{
+  return L4Re::Vfs::File_system_list(_fs_registry);
+}
+
+L4Re::Vfs::File_system *
 Vfs::get_file_system(char const *fstype) noexcept
 {
-  bool try_dynamic = true;
-  for (;;)
-    {
-      using L4Re::Vfs::File_system;
-      for (File_system *c = _fs_registry; c; c = c->next())
-	if (strequal(c->type(), fstype))
-	  return c;
+  L4Re::Vfs::File_system *fs;
+  if ((fs = find_fs_from_type(fstype)))
+    return fs;
 
-      if (!try_dynamic)
-	return 0;
+  // Try to load a file system module dynamically
+  int res = Vfs_config::load_module(fstype);
+  if (res < 0)
+    return 0;
 
-      // try to load a file system module dynamically
-      int res = Vfs_config::load_module(fstype);
-
-      if (res < 0)
-	return 0;
-
-      try_dynamic = false;
-    }
+  // Try again
+  return find_fs_from_type(fstype);
 }
 
 int
@@ -391,19 +406,18 @@ Vfs::set_fd(int fd, Ref_ptr<L4Re::Vfs::File> const &f) noexcept
   if (!fi)                           \
     return -err;
 
-
 void
 Vfs::align_mmap_start_and_length(void **start, size_t *length)
 {
-  l4_addr_t s = l4_addr_t(*start);
+  l4_addr_t const s = reinterpret_cast<l4_addr_t>(*start);
+  size_t const o = s & (L4_PAGESIZE - 1);
 
-  *length += s & (L4_PAGESIZE - 1);    // Add rounding down delta to length
-  *start   = (void *)l4_trunc_page(s); // Make start page aligned
-  *length  = l4_round_page(*length);   // Round length up to page size
+  *start   = reinterpret_cast<void *>(l4_trunc_page(s));
+  *length  = l4_round_page(*length + o);
 }
 
 int
-Vfs::munmap(void *start, size_t len) L4_NOTHROW
+Vfs::munmap_regions(void *start, size_t len)
 {
   using namespace L4;
   using namespace L4Re;
@@ -420,33 +434,79 @@ Vfs::munmap(void *start, size_t len) L4_NOTHROW
   while (1)
     {
       DEBUG_LOG(debug_mmap, {
-	  outstring("DETACH: ");
-	  outhex32(l4_addr_t(start));
-	  outstring(" ");
-	  outhex32(len);
-	  outstring("\n");
+                outstring("DETACH: start = 0x");
+                outhex32(l4_addr_t(start));
+                outstring(" len = 0x");
+                outhex32(len);
+                outstring("\n");
       });
       err = r->detach(l4_addr_t(start), len, &ds, This_task);
       if (err < 0)
-	return err;
+        return err;
 
       switch (err & Rm::Detach_result_mask)
-	{
-	case Rm::Split_ds:
-	  if (ds.is_valid())
-	    L4Re::virt_cap_alloc->take(ds);
-	  return 0;
-	case Rm::Detached_ds:
-	  if (ds.is_valid())
-	    L4Re::virt_cap_alloc->release(ds);
-	  break;
-	default:
-	  break;
-	}
+        {
+        case Rm::Split_ds:
+          if (ds.is_valid())
+            L4Re::virt_cap_alloc->take(ds);
+          return 0;
+        case Rm::Detached_ds:
+          if (ds.is_valid())
+            L4Re::virt_cap_alloc->release(ds);
+          break;
+        default:
+          break;
+        }
 
       if (!(err & Rm::Detach_again))
-	return 0;
+        return 0;
     }
+}
+
+int
+Vfs::munmap(void *start, size_t len) L4_NOTHROW
+{
+  using namespace L4;
+  using namespace L4Re;
+
+  int err = 0;
+  Cap<Rm> r = Env::env()->rm();
+
+  // Fields for obtaining a list of areas for the calling process
+  long area_cnt = -1;           // No. of areas in this process
+  Rm::Area const *area_array;
+  bool matches_area = false;        // true if unmap parameters match an area
+
+  // First check if there are any areas matching the munmap request. Those
+  // might have been created by an mmap call using PROT_NONE as protection
+  // modifier.
+
+  area_cnt = r->get_areas((l4_addr_t) start, &area_array);
+
+  // It is enough to check for the very first entry, since get_areas will
+  // only return areas with a starting address equal or greater to <start>.
+  // However, we intend to unmap at most the area starting exactly at
+  // <start>.
+  if (area_cnt > 0)
+    {
+      size_t area_size = area_array[0].end - area_array[0].start + 1;
+
+      // Only free the area if the munmap parameters describe it exactly.
+      if (area_array[0].start == (l4_addr_t) start && area_size == len)
+        {
+          r->free_area((l4_addr_t) start);
+          matches_area = true;
+        }
+    }
+
+  // After clearing possible area reservations from PROT_NONE mappings, clear
+  // any regions in the address range specified. Note that errors shall be
+  // suppressed if an area was freed but no regions were found.
+  err = munmap_regions(start, len);
+  if (err == -ENOENT && matches_area)
+    return 0;
+
+  return err;
 }
 
 int
@@ -464,7 +524,7 @@ Vfs::alloc_ds(unsigned long size, L4Re::Shared_cap<L4Re::Dataspace> *ds)
   DEBUG_LOG(debug_mmap, {
       outstring("ANON DS ALLOCATED: size=");
       outhex32(size);
-      outstring("  cap=");
+      outstring("  cap = 0x");
       outhex32(ds->cap());
       outstring("\n");
       });
@@ -476,7 +536,15 @@ int
 Vfs::alloc_anon_mem(l4_umword_t size, L4Re::Shared_cap<L4Re::Dataspace> *ds,
                     l4_addr_t *offset)
 {
-#ifdef USE_BIG_ANON_DS
+#if !defined(CONFIG_MMU)
+  // Small values for !MMU systems. These platforms do not have much memory
+  // typically and the memory must be instantly allocated.
+  enum
+  {
+    ANON_MEM_DS_POOL_SIZE = 256UL << 10, // size of a pool dataspace used for anon memory
+    ANON_MEM_MAX_SIZE     =  32UL << 10, // chunk size that will be allocate a dataspace
+  };
+#elif defined(USE_BIG_ANON_DS)
   enum
   {
     ANON_MEM_DS_POOL_SIZE = 256UL << 20, // size of a pool dataspace used for anon memory
@@ -531,6 +599,21 @@ int
 Vfs::mmap2(void *start, size_t len, int prot, int flags, int fd, off_t page4k_offset,
            void **resptr) L4_NOTHROW
 {
+  DEBUG_LOG(debug_mmap, {
+            outstring("MMAP params: ");
+            outstring("start = 0x");
+            outhex32(l4_addr_t(start));
+            outstring(", len = 0x");
+            outhex32(len);
+            outstring(", prot = 0x");
+            outhex32(prot);
+            outstring(", flags = 0x");
+            outhex32(flags);
+            outstring(", offset = 0x");
+            outhex32(page4k_offset);
+            outstring("\n");
+  });
+
   using namespace L4Re;
   off64_t offset = l4_trunc_page(page4k_offset << 12);
 
@@ -541,22 +624,27 @@ Vfs::mmap2(void *start, size_t len, int prot, int flags, int fd, off_t page4k_of
   align_mmap_start_and_length(&start, &len);
 
   // special code to just reserve an area of the virtual address space
-  if (flags & 0x1000000)
+  // Same behavior should be exposed when mapping with PROT_NONE. Mind that
+  // PROT_NONE can only be specified exclusively, since it is defined to 0x0.
+  if ((flags & 0x1000000) || (prot == PROT_NONE))
     {
       int err;
       L4::Cap<Rm> r = Env::env()->rm();
-      l4_addr_t area = (l4_addr_t)start;
+      l4_addr_t area = reinterpret_cast<l4_addr_t>(start);
       err = r->reserve_area(&area, len, L4Re::Rm::F::Search_addr);
       if (err < 0)
-	return err;
-      *resptr = (void*)area;
+        return err;
+
+      *resptr = reinterpret_cast<void*>(area);
+
       DEBUG_LOG(debug_mmap, {
-	  outstring("MMAP reserved area: ");
-	  outhex32(area);
-	  outstring("  length=");
-	  outhex32(len);
-	  outstring("\n");
+                outstring("  MMAP reserved area: 0x");
+                outhex32(area);
+                outstring("  length= 0x");
+                outhex32(len);
+                outstring("\n");
       });
+
       return 0;
     }
 
@@ -570,14 +658,14 @@ Vfs::mmap2(void *start, size_t len, int prot, int flags, int fd, off_t page4k_of
 
       int err = alloc_anon_mem(len, &ds, &anon_offset);
       if (err)
-	return err;
+        return err;
 
       DEBUG_LOG(debug_mmap, {
-	  outstring("USE ANON MEM: ");
-	  outhex32(ds.cap());
-	  outstring(" offs=");
-	  outhex32(anon_offset);
-	  outstring("\n");
+                outstring("  USE ANON MEM: 0x");
+                outhex32(ds.cap());
+                outstring(" offs = 0x");
+                outhex32(anon_offset);
+                outstring("\n");
       });
     }
 
@@ -585,45 +673,58 @@ Vfs::mmap2(void *start, size_t len, int prot, int flags, int fd, off_t page4k_of
     {
       Ref_ptr<L4Re::Vfs::File> fi = fds.get(fd);
       if (!fi)
-	{
-	  return -EBADF;
-	}
+        return -EBADF;
 
       L4::Cap<L4Re::Dataspace> fds = fi->data_space();
 
       if (!fds.is_valid())
-	{
-	  return -EINVAL;
-	}
+        return -EINVAL;
 
       if (len + offset > l4_round_page(fds->size()))
-	{
-	  return -EINVAL;
-	}
+        return -EINVAL;
 
       if (flags & MAP_PRIVATE)
-	{
-	  DEBUG_LOG(debug_mmap, outstring("COW\n"););
+        {
+          DEBUG_LOG(debug_mmap, outstring("COW\n"););
           int err = ds->copy_in(anon_offset, fds, offset, len);
-          if (err < 0)
+          if (err == -L4_EINVAL)
+            {
+              L4::Cap<Rm> r = Env::env()->rm();
+              Rm::Unique_region<char*> src;
+              Rm::Unique_region<char*> dst;
+              err = r->attach(&src, len,
+                              L4Re::Rm::F::Search_addr | L4Re::Rm::F::R,
+                              fds, offset);
+              if (err < 0)
+                return err;
+
+              err = r->attach(&dst, len,
+                              L4Re::Rm::F::Search_addr| L4Re::Rm::F::RW,
+                              ds.get(), anon_offset);
+              if (err < 0)
+                return err;
+
+              memcpy(dst.get(), src.get(), len);
+            }
+          else if (err)
             return err;
 
-	  offset = anon_offset;
-	}
+          offset = anon_offset;
+        }
       else
-	{
+        {
           L4Re::virt_cap_alloc->take(fds);
           ds = L4Re::Shared_cap<L4Re::Dataspace>(fds, L4Re::virt_cap_alloc);
-	}
+        }
     }
   else
     offset = anon_offset;
 
 
   if (!(flags & MAP_FIXED) && start == 0)
-    start = (void*)L4_PAGESIZE;
+    start = reinterpret_cast<void*>(L4_PAGESIZE);
 
-  char *data = (char *)start;
+  char *data = static_cast<char *>(start);
   L4::Cap<Rm> r = Env::env()->rm();
   l4_addr_t overmap_area = L4_INVALID_ADDR;
 
@@ -634,19 +735,26 @@ Vfs::mmap2(void *start, size_t len, int prot, int flags, int fd, off_t page4k_of
 
       err = r->reserve_area(&overmap_area, len);
       if (err < 0)
-	overmap_area = L4_INVALID_ADDR;
+        overmap_area = L4_INVALID_ADDR;
 
       rm_flags |= Rm::F::In_area;
 
-      err = munmap(start, len);
+      // Make sure to remove old mappings residing at the respective address 
+      // range. If none exists, we are fine as well, allowing us to ignore
+      // ENOENT here.
+      err = munmap_regions(start, len);
       if (err && err != -ENOENT)
-	return err;
+        return err;
     }
 
-  if (!(flags & MAP_FIXED))  rm_flags |= Rm::F::Search_addr;
-  if (prot & PROT_READ)      rm_flags |= Rm::F::R;
-  if (prot & PROT_WRITE)     rm_flags |= Rm::F::W;
-  if (prot & PROT_EXEC)      rm_flags |= Rm::F::X;
+  if (!(flags & MAP_FIXED))
+    rm_flags |= Rm::F::Search_addr;
+  if (prot & PROT_READ)
+    rm_flags |= Rm::F::R;
+  if (prot & PROT_WRITE)
+    rm_flags |= Rm::F::W;
+  if (prot & PROT_EXEC)
+    rm_flags |= Rm::F::X;
 
   err = r->attach(&data, len, rm_flags,
                   L4::Ipc::make_cap(ds.get(), (prot & PROT_WRITE)
@@ -655,17 +763,17 @@ Vfs::mmap2(void *start, size_t len, int prot, int flags, int fd, off_t page4k_of
                   offset);
 
   DEBUG_LOG(debug_mmap, {
-      outstring("  MAPPED: ");
-      outhex32(ds.cap());
-      outstring("  addr: ");
-      outhex32(l4_addr_t(data));
-      outstring("  bytes: ");
-      outhex32(len);
-      outstring("  offset: ");
-      outhex32(offset);
-      outstring("  err=");
-      outdec(err);
-      outstring("\n");
+            outstring("  MAPPED: 0x");
+            outhex32(ds.cap());
+            outstring("  addr: 0x");
+            outhex32(l4_addr_t(data));
+            outstring("  bytes: 0x");
+            outhex32(len);
+            outstring("  offset: 0x");
+            outhex32(offset);
+            outstring("  err = ");
+            outdec(err);
+            outstring("\n");
   });
 
 
@@ -726,11 +834,11 @@ Vfs::mremap(void *old_addr, size_t old_size, size_t new_size, int flags,
   using namespace L4Re;
 
   DEBUG_LOG(debug_mmap, {
-            outstring("Mremap: addr=");
+            outstring("Mremap: addr = 0x");
             outhex32((l4_umword_t)old_addr);
-            outstring(" old_size=");
+            outstring(" old_size = 0x");
             outhex32(old_size);
-            outstring("  new_size=");
+            outstring("  new_size = 0x");
             outhex32(new_size);
             outstring("\n");
             });
@@ -738,8 +846,8 @@ Vfs::mremap(void *old_addr, size_t old_size, size_t new_size, int flags,
   if (flags & MREMAP_FIXED && !(flags & MREMAP_MAYMOVE))
     return -EINVAL;
 
-  l4_addr_t oa = l4_trunc_page((l4_addr_t)old_addr);
-  if (oa != (l4_addr_t)old_addr)
+  l4_addr_t oa = l4_trunc_page(reinterpret_cast<l4_addr_t>(old_addr));
+  if (oa != reinterpret_cast<l4_addr_t>(old_addr))
     return -EINVAL;
 
   bool const fixed = flags & MREMAP_FIXED;
@@ -756,7 +864,8 @@ Vfs::mremap(void *old_addr, size_t old_size, size_t new_size, int flags,
       if (new_size < old_size)
         {
           *new_addr = old_addr;
-          return munmap((void*)(oa + new_size), old_size - new_size);
+          return munmap(reinterpret_cast<void*>(oa + new_size),
+                        old_size - new_size);
         }
 
       if (new_size == old_size)
@@ -775,8 +884,8 @@ Vfs::mremap(void *old_addr, size_t old_size, size_t new_size, int flags,
   Auto_area new_area(r);
   if (fixed)
     {
-      l4_addr_t na = l4_trunc_page((l4_addr_t)*new_addr);
-      if (na != (l4_addr_t)*new_addr)
+      l4_addr_t na = l4_trunc_page(reinterpret_cast<l4_addr_t>(*new_addr));
+      if (na != reinterpret_cast<l4_addr_t>(*new_addr))
         return -EINVAL;
 
       // check if the current virtual memory area can be expanded
@@ -819,19 +928,21 @@ Vfs::mremap(void *old_addr, size_t old_size, size_t new_size, int flags,
             return -ENOMEM;
 
           pad_addr = new_area.a + old_size;
-          *new_addr = (void *)new_area.a;
+          *new_addr = reinterpret_cast<void *>(new_area.a);
         }
     }
 
   if (old_area.is_valid())
     {
+      unsigned long size = old_size;
+
       l4_addr_t a = old_area.a;
-      unsigned long s = old_size;
+      unsigned long s = 1;
       L4Re::Rm::Offset o;
       L4Re::Rm::Flags f;
       L4::Cap<L4Re::Dataspace> ds;
 
-      for (; r->find(&a, &s, &o, &f, &ds) >= 0 && (!(f & Rm::F::In_area));)
+      while (r->find(&a, &s, &o, &f, &ds) >= 0 && !(f & Rm::F::In_area))
         {
           if (a < old_area.a)
             {
@@ -847,12 +958,11 @@ Vfs::mremap(void *old_addr, size_t old_size, size_t new_size, int flags,
           l4_addr_t x = a - old_area.a + new_area.a;
 
           int err = r->attach(&x, s, Rm::F::In_area | f,
-                              L4::Ipc::make_cap(ds, f.cap_rights()),
-                              o);
+                              L4::Ipc::make_cap(ds, f.cap_rights()), o);
           if (err < 0)
             return err;
 
-          // cout the new attached ds reference
+          // count the new attached ds reference
           L4Re::virt_cap_alloc->take(ds);
 
           err = r->detach(a, s, &ds, This_task,
@@ -874,7 +984,14 @@ Vfs::mremap(void *old_addr, size_t old_size, size_t new_size, int flags,
             default:
               break;
             }
+
+          if (size <= s)
+            break;
+          a += s;
+          size -= s;
+          s = 1;
         }
+
       old_area.free();
     }
 
@@ -903,10 +1020,8 @@ Vfs::mremap(void *old_addr, size_t old_size, size_t new_size, int flags,
 }
 
 int
-Vfs::mprotect(const void *a, size_t sz, int prot) L4_NOTHROW
+Vfs::mprotect(const void * /* a */, size_t /* sz */, int prot) L4_NOTHROW
 {
-  (void)a;
-  (void)sz;
   return (prot & PROT_WRITE) ? -1 : 0;
 }
 
@@ -937,6 +1052,7 @@ namespace {
   };
 }
 
+/// \relates L4Re::Vfs::Fs
 int
 Vfs::mount(char const *path, cxx::Ref_ptr<L4Re::Vfs::File> const &dir) noexcept
 {
@@ -962,7 +1078,7 @@ Vfs::mount(char const *path, cxx::Ref_ptr<L4Re::Vfs::File> const &dir) noexcept
       if (!name)
         return -ENOMEM;
 
-      cxx::Ref_ptr<Mount_tree> nt(new Real_mount_tree(name));
+      auto nt = cxx::make_ref_obj<Real_mount_tree>(name);
       if (!nt)
         {
           __rtld_l4re_env_posix_vfs_ops->free(name);
@@ -982,8 +1098,6 @@ Vfs::mount(char const *path, cxx::Ref_ptr<L4Re::Vfs::File> const &dir) noexcept
   return -EINVAL;
 }
 
-
 #undef DEBUG_LOG
 #undef GET_FILE_DBG
 #undef GET_FILE
-

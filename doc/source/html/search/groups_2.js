@@ -19,7 +19,7 @@ var searchData=
   ['console_16',['Virtual Console',['../group__l4__vcon__api.html',1,'']]],
   ['console_20api_17',['Console API',['../group__api__l4re__console.html',1,'']]],
   ['constants_18',['Internal constants',['../group__l4sigma0__api__internal.html',1,'']]],
-  ['consumer_19',['consumer',['../group__api__l4shmc__chunk__cons.html',1,'Consumer'],['../group__api__l4shmc__signal__cons.html',1,'Consumer']]],
+  ['consumer_19',['consumer',['../group__api__l4shmc__signal__cons.html',1,'Consumer'],['../group__api__l4shmc__chunk__cons.html',1,'Consumer']]],
   ['control_20',['Thread control',['../group__l4__thread__control__api.html',1,'']]],
   ['control_20c_20api_21',['Platform Control C API',['../group__l4__platform__control__api.html',1,'']]],
   ['control_20registers_20tcrs_22',['Thread Control Registers (TCRs)',['../group__l4__utcb__tcr__api.html',1,'']]],

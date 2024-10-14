@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Error Handling</title>
+<title>L4Re Operating System Framework: Error Handling</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -213,7 +216,7 @@ Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00075">75</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00092">92</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
 
 </div>
 </div>
@@ -251,14 +254,14 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>In case of an IPC error, a negative error code in the range of <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9abca9ec6a352a4bc8856751834d732ef6" title="Communication error-range low.">L4_EIPC_LO</a> to <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a325defb4d4674d9a9492ba83f27b0855" title="Communication error-range high.">L4_EIPC_HI</a> (see <a class="el" href="l4_2sys_2ipc_8h.html#a92b8e935d6fa1222f0358a477f539367" title="Get a negative error code for the given IPC error code.">l4_ipc_to_errno()</a> and <a class="el" href="group__l4__ipc__err__api.html#ga896e67446a2348545f520c46a775c3c3" title="Error codes in the error TCR.">l4_ipc_tcr_error_t</a>), otherwise the tag label. By convention, the callee can signal errors via a negative tag label (negated value from <a class="el" href="group__l4__error__api.html#gab4c8abc71ffa221a25c1ca5840a354f9" title="L4 error codes.">l4_error_code_t</a>) and success via a non-negative value. </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2libs_2l4re_2streammap_2client_8cc-example.html#a9">examples/libs/l4re/streammap/client.cc</a>, <a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a23">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2isr_2main_8c-example.html#a5">examples/sys/isr/main.c</a>, <a class="el" href="examples_2sys_2migrate_2thread_migrate_8cc-example.html#a3">examples/sys/migrate/thread_migrate.cc</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a7">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a9">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a19">examples/sys/utcb-ipc/main.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2libs_2l4re_2streammap_2client_8cc-example.html#a9">examples/libs/l4re/streammap/client.cc</a>, <a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a24">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2isr_2main_8c-example.html#a5">examples/sys/isr/main.c</a>, <a class="el" href="examples_2sys_2migrate_2thread_migrate_8cc-example.html#a3">examples/sys/migrate/thread_migrate.cc</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a9">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a9">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a19">examples/sys/utcb-ipc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00636">636</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00657">657</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="mem__alloc__impl_8h_source.html#l00035">L4Re::Mem_alloc::alloc()</a>, <a class="el" href="client_2l4virtio_source.html#l00129">L4virtio::Driver::Device::bind_notification_irq()</a>, <a class="el" href="capability_source.html#l00125">L4::cap_dynamic_cast()</a>, <a class="el" href="client_2l4virtio_source.html#l00056">L4virtio::Driver::Device::driver_connect()</a>, <a class="el" href="____ktrace-impl_8h_source.html#l00035">fiasco_tbuf_log()</a>, <a class="el" href="____ktrace-impl_8h_source.html#l00042">fiasco_tbuf_log_3val()</a>, <a class="el" href="____ktrace-impl_8h_source.html#l00065">fiasco_tbuf_log_binary()</a>, <a class="el" href="util_2event_source.html#l00070">L4Re::Util::Event_t&lt; PAYLOAD &gt;::init()</a>, <a class="el" href="vcon_8h_source.html#l00330">l4_vcon_write_u()</a>, and <a class="el" href="event__buffer_source.html#l00125">L4Re::Util::Event_buffer_consumer_t&lt; PAYLOAD &gt;::process()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="mem__alloc__impl_8h_source.html#l00035">L4Re::Mem_alloc::alloc()</a>, <a class="el" href="client_2l4virtio_source.html#l00129">L4virtio::Driver::Device::bind_notification_irq()</a>, <a class="el" href="capability_source.html#l00126">L4::cap_dynamic_cast()</a>, <a class="el" href="client_2l4virtio_source.html#l00056">L4virtio::Driver::Device::driver_connect()</a>, <a class="el" href="____ktrace-impl_8h_source.html#l00035">fiasco_tbuf_log()</a>, <a class="el" href="____ktrace-impl_8h_source.html#l00042">fiasco_tbuf_log_3val()</a>, <a class="el" href="____ktrace-impl_8h_source.html#l00065">fiasco_tbuf_log_binary()</a>, <a class="el" href="util_2event_source.html#l00070">L4Re::Util::Event_t&lt; PAYLOAD &gt;::init()</a>, <a class="el" href="vcon_8h_source.html#l00330">l4_vcon_write_u()</a>, and <a class="el" href="event__buffer_source.html#l00126">L4Re::Util::Event_buffer_consumer_t&lt; PAYLOAD &gt;::process()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -322,11 +325,11 @@ Functions</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2ipc_2ipc_example_8c-example.html#a7">examples/sys/ipc/ipc_example.c</a>, and <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a22">examples/sys/start-with-exc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00619">619</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00640">640</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00113">l4_thread_regs_t::error</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00077">L4_IPC_ERROR_MASK</a>, and <a class="el" href="l4_2sys_2types_8h_source.html#l00456">l4_msgtag_has_error()</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00113">l4_thread_regs_t::error</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00094">L4_IPC_ERROR_MASK</a>, <a class="el" href="compiler_8h_source.html#l00295">L4_LIKELY</a>, and <a class="el" href="l4_2sys_2types_8h_source.html#l00457">l4_msgtag_has_error()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="x86_2l4f_2l4_2util_2port__io_8h_source.html#l00056">l4util_ioport_map()</a>, <a class="el" href="event__buffer_source.html#l00125">L4Re::Util::Event_buffer_consumer_t&lt; PAYLOAD &gt;::process()</a>, and <a class="el" href="client_2l4virtio_source.html#l00268">L4virtio::Driver::Device::wait()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="x86_2l4f_2l4_2util_2port__io_8h_source.html#l00056">l4util_ioport_map()</a>, <a class="el" href="event__buffer_source.html#l00126">L4Re::Util::Event_buffer_consumer_t&lt; PAYLOAD &gt;::process()</a>, and <a class="el" href="client_2l4virtio_source.html#l00268">L4virtio::Driver::Device::wait()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -378,9 +381,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Error condition of type l4_ipc_tcr_error_t. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00648">648</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00669">669</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00113">l4_thread_regs_t::error</a>, and <a class="el" href="l4_2sys_2ipc_8h_source.html#l00077">L4_IPC_ERROR_MASK</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00113">l4_thread_regs_t::error</a>, and <a class="el" href="l4_2sys_2ipc_8h_source.html#l00094">L4_IPC_ERROR_MASK</a>.</p>
 
 </div>
 </div>
@@ -418,7 +421,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Boolean value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00645">645</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00666">666</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00113">l4_thread_regs_t::error</a>.</p>
 
@@ -458,7 +461,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Boolean value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00642">642</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2ipc_8h_source.html#l00663">663</a> of file <a class="el" href="l4_2sys_2ipc_8h_source.html">ipc.h</a>.</p>
 
 </div>
 </div>
@@ -468,7 +471,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

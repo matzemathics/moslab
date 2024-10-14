@@ -28,6 +28,11 @@
 #include <cassert>
 #include <cstdio>
 
+#include <l4/bid_config.h>
+#ifdef CONFIG_MOE_DEBUG_NAMES
+# include <l4/sys/debugger.h>
+#endif
+
 #define DEBUG_CAP_ALLOC 0
 
 enum
@@ -122,7 +127,7 @@ public:
   template< typename T >
   L4::Cap<T> alloc() { return L4::cap_cast<T>(alloc()); }
 
-  L4::Cap<L4::Kobject> alloc(Moe::Server_object *_o)
+  L4::Cap<L4::Kobject> alloc(Moe::Server_object *_o, [[maybe_unused]] const char *n)
   {
     extern Object_pool object_pool;
     // make sure we register an Epiface ptr
@@ -138,6 +143,9 @@ public:
     l4_factory_create_gate(L4_BASE_FACTORY_CAP, cap.cap(),
                            L4_BASE_THREAD_CAP, id);
 
+#ifdef CONFIG_MOE_DEBUG_NAMES
+    l4_debugger_set_object_name(cap.cap(), n);
+#endif
     _o->set_server(&object_pool, cap, true);
     return cap;
   }

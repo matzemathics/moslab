@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/cxx/avl_map Source File</title>
+<title>L4Re Operating System Framework: l4/cxx/avl_map Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -183,26 +186,30 @@ $(document).ready(function(){initNavTree('avl__map_source.html',''); initResizab
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  { <span class="keywordflow">return</span> <a class="code hl_function" href="classcxx_1_1Bits_1_1Base__avl__set.html#ac1f7218e9e51bfef71ecb746719a389a">Base_type::insert</a>(<a class="code hl_struct" href="structcxx_1_1Pair.html">Pair&lt;Key_type, Data_type&gt;</a>(key, data)); }</div>
 </div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
-<div class="foldopen" id="foldopen00118" data-start="{" data-end="}">
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classcxx_1_1Avl__map.html#aea7acedd7d4a26289da9f9c01d434145">  118</a></span>  <a class="code hl_typedef" href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">Data_type</a> <span class="keyword">const</span> &amp;<a class="code hl_function" href="classcxx_1_1Avl__map.html#aea7acedd7d4a26289da9f9c01d434145">operator [] </a>(<a class="code hl_typedef" href="classcxx_1_1Avl__map.html#a2cff3dedb8b0c68cd91ac22d3025bf2b">Key_type</a> <span class="keyword">const</span> &amp;key)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keyword">  </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classcxx_1_1Bits_1_1Base__avl__set.html#a1825ad4f133473e296c3842cb7bbcc92">find_node</a>(key)-&gt;second; }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  <a class="code hl_struct" href="structcxx_1_1Pair.html">cxx::Pair&lt;Iterator, int&gt;</a> emplace(Args &amp;&amp;...args)</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  { <span class="keywordflow">return</span> Base_type::emplace(cxx::forward&lt;Args&gt;(args)...); }</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="foldopen" id="foldopen00122" data-start="{" data-end="}">
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="classcxx_1_1Avl__map.html#aea7acedd7d4a26289da9f9c01d434145">  122</a></span>  <a class="code hl_typedef" href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">Data_type</a> <span class="keyword">const</span> &amp;<a class="code hl_function" href="classcxx_1_1Avl__map.html#aea7acedd7d4a26289da9f9c01d434145">operator [] </a>(<a class="code hl_typedef" href="classcxx_1_1Avl__map.html#a2cff3dedb8b0c68cd91ac22d3025bf2b">Key_type</a> <span class="keyword">const</span> &amp;key)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="keyword">  </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classcxx_1_1Bits_1_1Base__avl__set.html#a1825ad4f133473e296c3842cb7bbcc92">find_node</a>(key)-&gt;second; }</div>
 </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classcxx_1_1Avl__map.html#a5310b934989cc5be30504a8ed0f82aff">  130</a></span>  <a class="code hl_typedef" href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">Data_type</a> &amp;<a class="code hl_function" href="classcxx_1_1Avl__map.html#aea7acedd7d4a26289da9f9c01d434145">operator [] </a>(<a class="code hl_typedef" href="classcxx_1_1Avl__map.html#a2cff3dedb8b0c68cd91ac22d3025bf2b">Key_type</a> <span class="keyword">const</span> &amp;key)</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  {</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <a class="code hl_class" href="classcxx_1_1Bits_1_1Base__avl__set_1_1Node.html">Node</a> n = this-&gt;<a class="code hl_function" href="classcxx_1_1Bits_1_1Base__avl__set.html#a1825ad4f133473e296c3842cb7bbcc92">find_node</a>(key);</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">if</span> (n)</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>      <span class="keywordflow">return</span> <span class="keyword">const_cast&lt;</span><a class="code hl_typedef" href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">Data_type</a>&amp;<span class="keyword">&gt;</span>(n-&gt;second);</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="classcxx_1_1Avl__map.html#add7094c60fe0f60a8954ca6b89ae670f">insert</a>(key, <a class="code hl_typedef" href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">Data_type</a>()).first-&gt;second;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="foldopen" id="foldopen00134" data-start="{" data-end="}">
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classcxx_1_1Avl__map.html#a5310b934989cc5be30504a8ed0f82aff">  134</a></span>  <a class="code hl_typedef" href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">Data_type</a> &amp;<a class="code hl_function" href="classcxx_1_1Avl__map.html#aea7acedd7d4a26289da9f9c01d434145">operator [] </a>(<a class="code hl_typedef" href="classcxx_1_1Avl__map.html#a2cff3dedb8b0c68cd91ac22d3025bf2b">Key_type</a> <span class="keyword">const</span> &amp;key)</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>  {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <a class="code hl_class" href="classcxx_1_1Bits_1_1Base__avl__set_1_1Node.html">Node</a> n = this-&gt;<a class="code hl_function" href="classcxx_1_1Bits_1_1Base__avl__set.html#a1825ad4f133473e296c3842cb7bbcc92">find_node</a>(key);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordflow">if</span> (n)</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>      <span class="keywordflow">return</span> <span class="keyword">const_cast&lt;</span><a class="code hl_typedef" href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">Data_type</a>&amp;<span class="keyword">&gt;</span>(n-&gt;second);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="classcxx_1_1Avl__map.html#add7094c60fe0f60a8954ca6b89ae670f">insert</a>(key, <a class="code hl_typedef" href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">Data_type</a>()).first-&gt;second;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>  }</div>
 </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>};</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>};</div>
 </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>}</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>}</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
 <div class="ttc" id="aavl__set_html"><div class="ttname"><a href="avl__set.html">avl_set</a></div><div class="ttdoc">AVL set.</div></div>
 <div class="ttc" id="aclasscxx_1_1Avl__map_html"><div class="ttname"><a href="classcxx_1_1Avl__map.html">cxx::Avl_map</a></div><div class="ttdoc">AVL tree based associative container.</div><div class="ttdef"><b>Definition</b> <a href="avl__map_source.html#l00056">avl_map:60</a></div></div>
 <div class="ttc" id="aclasscxx_1_1Avl__map_html_a2cff3dedb8b0c68cd91ac22d3025bf2b"><div class="ttname"><a href="classcxx_1_1Avl__map.html#a2cff3dedb8b0c68cd91ac22d3025bf2b">cxx::Avl_map::Key_type</a></div><div class="ttdeci">KEY_TYPE Key_type</div><div class="ttdoc">Type of the key values.</div><div class="ttdef"><b>Definition</b> <a href="avl__map_source.html#l00070">avl_map:70</a></div></div>
@@ -212,22 +219,22 @@ $(document).ready(function(){initNavTree('avl__map_source.html',''); initResizab
 <div class="ttc" id="aclasscxx_1_1Avl__map_html_ab233e58d2dfd6ce439954f01b0b81156"><div class="ttname"><a href="classcxx_1_1Avl__map.html#ab233e58d2dfd6ce439954f01b0b81156">cxx::Avl_map::Node_allocator</a></div><div class="ttdeci">Base_type::Node_allocator Node_allocator</div><div class="ttdoc">Type of the allocator.</div><div class="ttdef"><b>Definition</b> <a href="avl__map_source.html#l00076">avl_map:76</a></div></div>
 <div class="ttc" id="aclasscxx_1_1Avl__map_html_add7094c60fe0f60a8954ca6b89ae670f"><div class="ttname"><a href="classcxx_1_1Avl__map.html#add7094c60fe0f60a8954ca6b89ae670f">cxx::Avl_map::insert</a></div><div class="ttdeci">cxx::Pair&lt; Iterator, int &gt; insert(Key_type const &amp;key, Data_type const &amp;data)</div><div class="ttdoc">Insert a &lt;key, data&gt; pair into the map.</div><div class="ttdef"><b>Definition</b> <a href="avl__map_source.html#l00110">avl_map:110</a></div></div>
 <div class="ttc" id="aclasscxx_1_1Avl__map_html_ae128be3333eb06076a080162ef91da9d"><div class="ttname"><a href="classcxx_1_1Avl__map.html#ae128be3333eb06076a080162ef91da9d">cxx::Avl_map::Data_type</a></div><div class="ttdeci">DATA_TYPE Data_type</div><div class="ttdoc">Type of the data values.</div><div class="ttdef"><b>Definition</b> <a href="avl__map_source.html#l00072">avl_map:72</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Avl__map_html_aea7acedd7d4a26289da9f9c01d434145"><div class="ttname"><a href="classcxx_1_1Avl__map.html#aea7acedd7d4a26289da9f9c01d434145">cxx::Avl_map::operator[]</a></div><div class="ttdeci">Data_type const &amp; operator[](Key_type const &amp;key) const</div><div class="ttdoc">Get the data for the given key.</div><div class="ttdef"><b>Definition</b> <a href="avl__map_source.html#l00118">avl_map:118</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_1_1Node_html"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set_1_1Node.html">cxx::Bits::Base_avl_set::Node</a></div><div class="ttdoc">A smart pointer to a tree item.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00175">avl_set:176</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html">cxx::Bits::Base_avl_set</a></div><div class="ttdoc">Internal: AVL set with internally managed nodes.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00131">avl_set:132</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a0ed1310ae21e7dff1a5d02bb070d980d"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a0ed1310ae21e7dff1a5d02bb070d980d">cxx::Bits::Base_avl_set::Iterator</a></div><div class="ttdeci">Avl_set_iter&lt; _Node, Item_type, Fwd &gt; Iterator</div><div class="ttdoc">Forward iterator for the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00228">avl_set:228</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a1825ad4f133473e296c3842cb7bbcc92"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a1825ad4f133473e296c3842cb7bbcc92">cxx::Bits::Base_avl_set::find_node</a></div><div class="ttdeci">Node find_node(Key_type const &amp;item) const</div><div class="ttdoc">Lookup a node equal to item.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00324">avl_set:324</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a3117162871c5d2ee6c20da8720b352a1"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a3117162871c5d2ee6c20da8720b352a1">cxx::Bits::Base_avl_set::Rev_iterator</a></div><div class="ttdeci">Avl_set_iter&lt; _Node, Item_type, Rev &gt; Rev_iterator</div><div class="ttdoc">Backward iterator for the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00234">avl_set:234</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a8a525c0344ed5b005ef16bdc1cd8ed8a"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a8a525c0344ed5b005ef16bdc1cd8ed8a">cxx::Bits::Base_avl_set::Node_allocator</a></div><div class="ttdeci">ALLOC&lt; _Node &gt; Node_allocator</div><div class="ttdoc">Type for the node allocator.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00211">avl_set:211</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a9a0532334b146963c70051d1cbcdef1a"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a9a0532334b146963c70051d1cbcdef1a">cxx::Bits::Base_avl_set::Const_rev_iterator</a></div><div class="ttdeci">Avl_set_iter&lt; _Node, Const_item_type, Rev &gt; Const_rev_iterator</div><div class="ttdoc">Constant backward iterator for the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00237">avl_set:237</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_ac1f7218e9e51bfef71ecb746719a389a"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#ac1f7218e9e51bfef71ecb746719a389a">cxx::Bits::Base_avl_set::insert</a></div><div class="ttdeci">cxx::Pair&lt; Iterator, int &gt; insert(Item_type const &amp;item)</div><div class="ttdoc">Insert an item into the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00412">avl_set:412</a></div></div>
-<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_adf5292c8b529cf9caf53855b96136cd7"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#adf5292c8b529cf9caf53855b96136cd7">cxx::Bits::Base_avl_set::Const_iterator</a></div><div class="ttdeci">Avl_set_iter&lt; _Node, Const_item_type, Fwd &gt; Const_iterator</div><div class="ttdoc">Constant forward iterator for the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00231">avl_set:231</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Avl__map_html_aea7acedd7d4a26289da9f9c01d434145"><div class="ttname"><a href="classcxx_1_1Avl__map.html#aea7acedd7d4a26289da9f9c01d434145">cxx::Avl_map::operator[]</a></div><div class="ttdeci">Data_type const &amp; operator[](Key_type const &amp;key) const</div><div class="ttdoc">Get the data for the given key.</div><div class="ttdef"><b>Definition</b> <a href="avl__map_source.html#l00122">avl_map:122</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_1_1Node_html"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set_1_1Node.html">cxx::Bits::Base_avl_set::Node</a></div><div class="ttdoc">A smart pointer to a tree item.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00183">avl_set:184</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html">cxx::Bits::Base_avl_set</a></div><div class="ttdoc">Internal: AVL set with internally managed nodes.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00133">avl_set:134</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a0ed1310ae21e7dff1a5d02bb070d980d"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a0ed1310ae21e7dff1a5d02bb070d980d">cxx::Bits::Base_avl_set::Iterator</a></div><div class="ttdeci">Avl_set_iter&lt; _Node, Item_type, Fwd &gt; Iterator</div><div class="ttdoc">Forward iterator for the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00236">avl_set:236</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a1825ad4f133473e296c3842cb7bbcc92"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a1825ad4f133473e296c3842cb7bbcc92">cxx::Bits::Base_avl_set::find_node</a></div><div class="ttdeci">Node find_node(Key_type const &amp;item) const</div><div class="ttdoc">Lookup a node equal to item.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00335">avl_set:335</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a3117162871c5d2ee6c20da8720b352a1"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a3117162871c5d2ee6c20da8720b352a1">cxx::Bits::Base_avl_set::Rev_iterator</a></div><div class="ttdeci">Avl_set_iter&lt; _Node, Item_type, Rev &gt; Rev_iterator</div><div class="ttdoc">Backward iterator for the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00242">avl_set:242</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a8a525c0344ed5b005ef16bdc1cd8ed8a"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a8a525c0344ed5b005ef16bdc1cd8ed8a">cxx::Bits::Base_avl_set::Node_allocator</a></div><div class="ttdeci">ALLOC&lt; _Node &gt; Node_allocator</div><div class="ttdoc">Type for the node allocator.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00219">avl_set:219</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_a9a0532334b146963c70051d1cbcdef1a"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#a9a0532334b146963c70051d1cbcdef1a">cxx::Bits::Base_avl_set::Const_rev_iterator</a></div><div class="ttdeci">Avl_set_iter&lt; _Node, Const_item_type, Rev &gt; Const_rev_iterator</div><div class="ttdoc">Constant backward iterator for the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00245">avl_set:245</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_ac1f7218e9e51bfef71ecb746719a389a"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#ac1f7218e9e51bfef71ecb746719a389a">cxx::Bits::Base_avl_set::insert</a></div><div class="ttdeci">cxx::Pair&lt; Iterator, int &gt; insert(Item_type const &amp;item)</div><div class="ttdoc">Insert an item into the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00423">avl_set:423</a></div></div>
+<div class="ttc" id="aclasscxx_1_1Bits_1_1Base__avl__set_html_adf5292c8b529cf9caf53855b96136cd7"><div class="ttname"><a href="classcxx_1_1Bits_1_1Base__avl__set.html#adf5292c8b529cf9caf53855b96136cd7">cxx::Bits::Base_avl_set::Const_iterator</a></div><div class="ttdeci">Avl_set_iter&lt; _Node, Const_item_type, Fwd &gt; Const_iterator</div><div class="ttdoc">Constant forward iterator for the set.</div><div class="ttdef"><b>Definition</b> <a href="avl__set_source.html#l00239">avl_set:239</a></div></div>
 <div class="ttc" id="aclasscxx_1_1New__allocator_html"><div class="ttname"><a href="classcxx_1_1New__allocator.html">cxx::New_allocator</a></div><div class="ttdoc">Standard allocator based on operator new () .</div><div class="ttdef"><b>Definition</b> <a href="std__alloc_source.html#l00067">std_alloc:68</a></div></div>
 <div class="ttc" id="anamespacecxx_html"><div class="ttname"><a href="namespacecxx.html">cxx</a></div><div class="ttdoc">Our C++ library.</div><div class="ttdef"><b>Definition</b> <a href="arith_source.html#l00022">arith:22</a></div></div>
 <div class="ttc" id="apair_html"><div class="ttname"><a href="pair.html">pair</a></div><div class="ttdoc">Pair implementation.</div></div>
 <div class="ttc" id="astructcxx_1_1Bits_1_1Avl__map__get__key_html"><div class="ttname"><a href="structcxx_1_1Bits_1_1Avl__map__get__key.html">cxx::Bits::Avl_map_get_key</a></div><div class="ttdoc">Key-getter for Avl_map.</div><div class="ttdef"><b>Definition</b> <a href="avl__map_source.html#l00036">avl_map:37</a></div></div>
 <div class="ttc" id="astructcxx_1_1Lt__functor_html"><div class="ttname"><a href="structcxx_1_1Lt__functor.html">cxx::Lt_functor</a></div><div class="ttdoc">Generic comparator class that defaults to the less-than operator.</div><div class="ttdef"><b>Definition</b> <a href="std__ops_source.html#l00029">std_ops:30</a></div></div>
-<div class="ttc" id="astructcxx_1_1Pair_html"><div class="ttname"><a href="structcxx_1_1Pair.html">cxx::Pair</a></div><div class="ttdoc">Pair of two values.</div><div class="ttdef"><b>Definition</b> <a href="pair_source.html#l00036">pair:37</a></div></div>
+<div class="ttc" id="astructcxx_1_1Pair_html"><div class="ttname"><a href="structcxx_1_1Pair.html">cxx::Pair</a></div><div class="ttdoc">Pair of two values.</div><div class="ttdef"><b>Definition</b> <a href="pair_source.html#l00038">pair:39</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -235,7 +242,7 @@ $(document).ready(function(){initNavTree('avl__map_source.html',''); initResizab
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_dd3580c6b729ef0dd2be01098f8e55ee.html">cxx</a></li><li class="navelem"><a class="el" href="avl__map.html">avl_map</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

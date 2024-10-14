@@ -104,9 +104,13 @@ static int __malloc_trim(size_t pad, mstate av)
 */
 int malloc_trim(size_t pad)
 {
+  int r;
+  __MALLOC_LOCK;
   mstate av = get_malloc_state();
   __malloc_consolidate(av);
-  return __malloc_trim(pad, av);
+  r = __malloc_trim(pad, av);
+  __MALLOC_UNLOCK;
+  return r;
 }
 
 /*
@@ -210,8 +214,9 @@ void attribute_hidden __malloc_consolidate(mstate av)
 		*fb = 0;
 
 		do {
+            CHECK_PTR(p);
 		    check_inuse_chunk(p);
-		    nextp = p->fd;
+		    nextp = REVEAL_PTR(&p->fd, p->fd);
 
 		    /* Slightly streamlined version of consolidation code in free() */
 		    size = p->size & ~PREV_INUSE;
@@ -304,7 +309,7 @@ void free(void* mem)
 
 	set_fastchunks(av);
 	fb = &(av->fastbins[fastbin_index(size)]);
-	p->fd = *fb;
+	p->fd = PROTECT_PTR(&p->fd, *fb);
 	*fb = p;
     }
 
@@ -408,3 +413,5 @@ void free(void* mem)
     __MALLOC_UNLOCK;
 }
 
+/* glibc compatibilty  */
+weak_alias(free, __libc_free)

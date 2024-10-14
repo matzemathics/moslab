@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/vcpu/vcpu.h Source File</title>
+<title>L4Re Operating System Framework: l4/vcpu/vcpu.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -285,11 +288,11 @@ $(document).ready(function(){initNavTree('vcpu_2vcpu_8h_source.html',''); initRe
 <div class="ttc" id="agroup__api__libvcpu_html_gaed55cde10e914bfc8be9760a0fd90b0e"><div class="ttname"><a href="group__api__libvcpu.html#gaed55cde10e914bfc8be9760a0fd90b0e">l4vcpu_print_state</a></div><div class="ttdeci">void l4vcpu_print_state(const l4_vcpu_state_t *vcpu, const char *prefix) L4_NOTHROW</div><div class="ttdoc">Print the state of a vCPU.</div></div>
 <div class="ttc" id="agroup__api__libvcpu_html_gaf305894f807867f8a5b1a99b22c05587"><div class="ttname"><a href="group__api__libvcpu.html#gaf305894f807867f8a5b1a99b22c05587">l4vcpu_wait_for_event</a></div><div class="ttdeci">void l4vcpu_wait_for_event(l4_vcpu_state_t *vcpu, l4_utcb_t *utcb, l4vcpu_event_hndl_t do_event_work_cb, l4vcpu_setup_ipc_t setup_ipc) L4_NOTHROW</div><div class="ttdoc">Wait for event.</div><div class="ttdef"><b>Definition</b> <a href="vcpu_2vcpu_8h_source.html#l00281">vcpu.h:281</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga4087b991c40c0d2fcde9ca331049a4d4"><div class="ttname"><a href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a></div><div class="ttdeci">unsigned long l4_addr_t</div><div class="ttdoc">Address type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00045">l4int.h:45</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__api_html_gade81ef7ed9cb9e08bec716e640eabe04"><div class="ttname"><a href="group__l4__ipc__api.html#gade81ef7ed9cb9e08bec716e640eabe04">l4_ipc_wait</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_wait(l4_utcb_t *utcb, l4_umword_t *label, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Wait for an incoming message from any possible sender.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00583">ipc.h:583</a></div></div>
-<div class="ttc" id="agroup__l4__msgtag__api_html_ga52e71bb66855f4d78fa5c82b5f0c5a87"><div class="ttname"><a href="group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87">l4_msgtag_has_error</a></div><div class="ttdeci">unsigned l4_msgtag_has_error(l4_msgtag_t t) L4_NOTHROW</div><div class="ttdoc">Test for error indicator flag.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00456">types.h:456</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_gac33be3c7adb0515c7085b82d647517a2"><div class="ttname"><a href="group__l4__timeout__api.html#gac33be3c7adb0515c7085b82d647517a2">L4_IPC_BOTH_TIMEOUT_0</a></div><div class="ttdeci">#define L4_IPC_BOTH_TIMEOUT_0</div><div class="ttdoc">0 receive and send timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00085">__timeout.h:85</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_gaf01c5e1475efc4f33bc7d1985f7320d3"><div class="ttname"><a href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a></div><div class="ttdeci">#define L4_IPC_NEVER</div><div class="ttdoc">never timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00082">__timeout.h:82</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__api_html_gade81ef7ed9cb9e08bec716e640eabe04"><div class="ttname"><a href="group__l4__ipc__api.html#gade81ef7ed9cb9e08bec716e640eabe04">l4_ipc_wait</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_wait(l4_utcb_t *utcb, l4_umword_t *label, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Wait for an incoming message from any possible sender.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00604">ipc.h:604</a></div></div>
+<div class="ttc" id="agroup__l4__msgtag__api_html_ga52e71bb66855f4d78fa5c82b5f0c5a87"><div class="ttname"><a href="group__l4__msgtag__api.html#ga52e71bb66855f4d78fa5c82b5f0c5a87">l4_msgtag_has_error</a></div><div class="ttdeci">unsigned l4_msgtag_has_error(l4_msgtag_t t) L4_NOTHROW</div><div class="ttdoc">Test for error indicator flag.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00457">types.h:457</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_gac33be3c7adb0515c7085b82d647517a2"><div class="ttname"><a href="group__l4__timeout__api.html#gac33be3c7adb0515c7085b82d647517a2">L4_IPC_BOTH_TIMEOUT_0</a></div><div class="ttdeci">#define L4_IPC_BOTH_TIMEOUT_0</div><div class="ttdoc">0 receive and send timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00087">__timeout.h:87</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_gaf01c5e1475efc4f33bc7d1985f7320d3"><div class="ttname"><a href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a></div><div class="ttdeci">#define L4_IPC_NEVER</div><div class="ttdoc">never timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00084">__timeout.h:84</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4__vcpu__api_html_gga4a26ee99aaf5f75087c6918f57c3d4d5afdc98b96983362771316581981ded160"><div class="ttname"><a href="group__l4__vcpu__api.html#gga4a26ee99aaf5f75087c6918f57c3d4d5afdc98b96983362771316581981ded160">L4_VCPU_SF_IRQ_PENDING</a></div><div class="ttdeci">@ L4_VCPU_SF_IRQ_PENDING</div><div class="ttdoc">An event is pending: Either an IRQ or another thread attempts to send an IPC to this vCPU thread.</div><div class="ttdef"><b>Definition</b> <a href="sys_2vcpu_8h_source.html#l00182">vcpu.h:182</a></div></div>
 <div class="ttc" id="agroup__l4__vcpu__api_html_gga648aa99b07fd60d941c5ebb25f746967a6283b6f4dc69ad65e5ab99f0c35044a9"><div class="ttname"><a href="group__l4__vcpu__api.html#gga648aa99b07fd60d941c5ebb25f746967a6283b6f4dc69ad65e5ab99f0c35044a9">L4_VCPU_F_IRQ</a></div><div class="ttdeci">@ L4_VCPU_F_IRQ</div><div class="ttdoc">Receiving of IRQs and IPC enabled.</div><div class="ttdef"><b>Definition</b> <a href="sys_2vcpu_8h_source.html#l00125">vcpu.h:125</a></div></div>
@@ -297,12 +300,12 @@ $(document).ready(function(){initNavTree('vcpu_2vcpu_8h_source.html',''); initRe
 <div class="ttc" id="agroup__l4sys__defines_html_ga2469cd44710705e9f0a5832e060ec48a"><div class="ttname"><a href="group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a">L4_CV</a></div><div class="ttdeci">#define L4_CV</div><div class="ttdoc">Define calling convention.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2linkage_8h_source.html#l00044">linkage.h:44</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga362dfa378e662dd04f710a23fc7ea931"><div class="ttname"><a href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div><div class="ttdeci">#define L4_NOTHROW</div><div class="ttdoc">Mark a function declaration and definition as never throwing an exception.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00188">compiler.h:188</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga4accdcabe8bddb4964f8986855e7c728"><div class="ttname"><a href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a></div><div class="ttdeci">void l4_barrier(void)</div><div class="ttdoc">Memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00327">compiler.h:327</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga4accdcabe8bddb4964f8986855e7c728"><div class="ttname"><a href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a></div><div class="ttdeci">void l4_barrier(void)</div><div class="ttdoc">Memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00344">compiler.h:344</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga568e6bde99652b7fd271ad206cfe38f5"><div class="ttname"><a href="group__l4sys__defines.html#ga568e6bde99652b7fd271ad206cfe38f5">__BEGIN_DECLS</a></div><div class="ttdeci">#define __BEGIN_DECLS</div><div class="ttdoc">Start section with C types and functions.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00196">compiler.h:196</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_gac76599eba5afa89a12c44176cbfa90cb"><div class="ttname"><a href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a></div><div class="ttdeci">#define L4_LIKELY(x)</div><div class="ttdoc">Expression is likely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00284">compiler.h:284</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_gac76599eba5afa89a12c44176cbfa90cb"><div class="ttname"><a href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">L4_LIKELY</a></div><div class="ttdeci">#define L4_LIKELY(x)</div><div class="ttdoc">Expression is likely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00295">compiler.h:295</a></div></div>
 <div class="ttc" id="astructl4__vcpu__state__t_html"><div class="ttname"><a href="structl4__vcpu__state__t.html">l4_vcpu_state_t</a></div><div class="ttdoc">State of a vCPU.</div><div class="ttdef"><b>Definition</b> <a href="sys_2vcpu_8h_source.html#l00086">vcpu.h:87</a></div></div>
 <div class="ttc" id="asys_2vcpu_8h_html"><div class="ttname"><a href="sys_2vcpu_8h.html">vcpu.h</a></div><div class="ttdoc">vCPU API</div></div>
-<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00059">__timeout.h:59</a></div></div>
+<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00060">__timeout.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -310,7 +313,7 @@ $(document).ready(function(){initNavTree('vcpu_2vcpu_8h_source.html',''); initRe
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_499f942adf6d1e36428e5905faf00190.html">vcpu</a></li><li class="navelem"><a class="el" href="vcpu_2vcpu_8h.html">vcpu.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

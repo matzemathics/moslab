@@ -1,6 +1,5 @@
 PKGDIR           ?= ../..
 L4DIR            ?= $(PKGDIR)/../..
-DOPEDIR          ?= $(L4DIR_ABS)/pkg/dope
 
 TARGET            = mag
 PRIVATE_INCDIR    = $(SRC_DIR)/../../include/server

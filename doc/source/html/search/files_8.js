@@ -16,6 +16,6 @@ var searchData=
   ['ipc_5fstream_13',['ipc_stream',['../ipc__stream.html',1,'']]],
   ['ipc_5ftypes_14',['ipc_types',['../ipc__types.html',1,'']]],
   ['irq_15',['irq',['../irq.html',1,'']]],
-  ['irq_2eh_16',['irq.h',['../x86_2l4_2util_2irq_8h.html',1,'(Global Namespace)'],['../l4_2sys_2irq_8h.html',1,'(Global Namespace)'],['../l4_2irq_2irq_8h.html',1,'(Global Namespace)'],['../arm_2l4_2util_2irq_8h.html',1,'(Global Namespace)'],['../amd64_2l4_2util_2irq_8h.html',1,'(Global Namespace)']]],
+  ['irq_2eh_16',['irq.h',['../amd64_2l4_2util_2irq_8h.html',1,'(Global Namespace)'],['../arm_2l4_2util_2irq_8h.html',1,'(Global Namespace)'],['../l4_2irq_2irq_8h.html',1,'(Global Namespace)'],['../l4_2sys_2irq_8h.html',1,'(Global Namespace)'],['../x86_2l4_2util_2irq_8h.html',1,'(Global Namespace)']]],
   ['item_5falloc_17',['item_alloc',['../item__alloc.html',1,'']]]
 ];

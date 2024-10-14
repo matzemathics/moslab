@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * vfork for uClibc
  * Copyright (C) 2000-2006 by Erik Andersen <andersen@uclibc.org>
@@ -13,15 +12,6 @@
 #include <bits/errno.h>
 #include <sys/syscall.h>
 
-#ifndef SAVE_PID
-#define SAVE_PID
-#endif
-
-#ifndef RESTORE_PID
-#define RESTORE_PID
-#endif
-
-
 #ifdef __NR_fork
 .text
 .global	__vfork
@@ -33,9 +23,7 @@
 .thumb_func
 __vfork:
 #ifdef __NR_vfork
-	SAVE_PID
 	DO_CALL (vfork)
-	RESTORE_PID
 	ldr		r1, =0xfffff000
 	cmp		r0, r1
 	bcs		1f
@@ -69,9 +57,7 @@ __error:
 __vfork:
 
 #ifdef __NR_vfork
-	SAVE_PID
 	DO_CALL (vfork)
-	RESTORE_PID
 	cmn	r0, #4096
 	IT(t, cc)
 	BXC(cc, lr)

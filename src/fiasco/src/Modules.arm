@@ -6,7 +6,7 @@
 include $(srcdir)/Modules.generic
 
 SUBSYSTEMS := 	ABI KERNEL LIBK DRIVERS MINILIBC LIBUART \
-		CXXLIB VERSION JABI TCBOFFSET CRT0
+		CXXLIB VERSION JABI TCBOFFSET CRT0 STDWORKLOAD
 
 ifeq ($(CONFIG_UNIT_TEST),y)
 	# UTEST depends on KERNEL and CHECKSUM, must be listed after them
@@ -20,12 +20,16 @@ ifeq ($(CONFIG_BIT64),y)
 PREPROCESS_PARTS += 64bit arm_esr_traps
 BITS := 64
 else
-PREPROCESS_PARTS += 32bit abs_syscalls recover_jmpbuf
+PREPROCESS_PARTS += 32bit recover_jmpbuf
+PREPROCESS_PARTS-$(CONFIG_MMU) += abs_syscalls
 BITS := 32
 endif
 
-# On ARMv7 and above Fiasco instead uses broadcast TLB invalidation instructions.
-PREPROCESS_PARTS-$(CONFIG_MP)                 += $(if $(CONFIG_ARM_V7PLUS),,need_xcpu_tlb_flush)
+# On ARMv7 and above Fiasco uses broadcast TLB invalidation instructions. On
+# MPU systems, IPIs are always required because each CPU has its own MPU
+# instance.
+NEED_TLB_IPI := $(if $(CONFIG_MMU),$(if $(CONFIG_ARM_V7PLUS),,y),y)
+PREPROCESS_PARTS-$(CONFIG_MP)                 += $(if $(NEED_TLB_IPI),need_xcpu_tlb_flush)
 PREPROCESS_PARTS-$(CONFIG_JDB)                += debug log
 PREPROCESS_PARTS-$(CONFIG_ARM_CACHE_L2CXX0)   += outer_cache outer_cache_l2cxx0
 
@@ -55,6 +59,8 @@ VPATH			+= drivers/$(CONFIG_XARCH)/$(BITS) drivers/$(CONFIG_XARCH) drivers
 PRIVATE_INCDIR		+= drivers/$(CONFIG_XARCH)/$(BITS) drivers/$(CONFIG_XARCH) drivers
 INTERFACES_DRIVERS 	:= sa1100 mux_console console uart filter_console \
 			   h3xxx io mem mmu reset processor delayloop
+INTERFACES_DRIVERS	+= $(if $(CONFIG_UART_CHECKSUM),stream_crc32)
+INTERFACES_DRIVERS      += fb_console
 io_IMPL			:= io io-arm
 mmu_IMPL		:= mmu mmu-arm mmu-arm-$(BITS)
 mem_IMPL		:= mem mem-arm
@@ -116,24 +122,18 @@ endif
 #
 JABI			:= libjabi.a
 VPATH			+= jabi/$(CONFIG_XARCH)/$(BITS) jabi/$(CONFIG_XARCH) jabi
-INTERFACES_JABI		:= jdb_ktrace
+INTERFACES_JABI		:= jdb_ktrace jdb_obj_info
 
 #
-# ABI Subsystem
+# FONTS subsystem
 #
-
-ABI 		:= libabi.a
-VPATH 		+= abi/$(CONFIG_XARCH)/$(BITS) abi/$(CONFIG_XARCH) abi
-
-INTERFACES_ABI 	:= kip l4_types l4_fpage l4_msg_item \
-                   l4_buf_desc l4_error
-
-l4_types_IMPL 	:= l4_types l4_types-debug
-
-
-# x0!=32Bit UIDs
-kip_IMPL	:= kip kip-debug kip-arm
-
+SUBSYSTEMS              += FONTS
+FONTS                   := libfonts.a
+FONT_FILES              := vgafont.psf
+VPATH                   += ../data/fonts
+OBJ_FONTS               := $(addsuffix .bin.o,$(FONT_FILES))
+NOOPT                   += $(patsubst %.o, %, $(OBJ_FONTS))
+KERNEL_EXTRA_LIBS       += $(FONTS)
 
 #
 # KERNEL subsystem
@@ -147,12 +147,18 @@ PRIVATE_INCDIR 	+= kern/$(CONFIG_XARCH)/$(BITS) kern/$(CONFIG_XARCH) kern
 INTERFACES_KERNEL += 	__main kmem_space boot_uart_init     \
 			irq_chip_generic bootstrap                  \
 			outer_cache utcb_support                    \
-			smc_call psci mem_chunk alternatives
+			smc_call psci alternatives
 
+NEED_MEM_CHUNK = $(or $(and $(CONFIG_ARM_GIC_MSI),$(CONFIG_HAVE_ARM_GICV3)),\
+                      $(CONFIG_IOMMU))
+
+INTERFACES_KERNEL-$(CONFIG_MPU) += mpu kmem_mpu
+INTERFACES_KERNEL-$(NEED_MEM_CHUNK) += mem_chunk
 INTERFACES_KERNEL-$(CONFIG_ARM_ACPI) += acpi acpi_fadt
 INTERFACES_KERNEL-$(CONFIG_ARM_MPCORE) += scu
 INTERFACES_KERNEL-$(CONFIG_ARM_CORTEX_A9) += scu
-INTERFACES_KERNEL-$(CONFIG_BIT32) += kern_lib_page mem_op
+INTERFACES_KERNEL-$(CONFIG_BIT32)-$(CONFIG_MMU) += kern_lib_page
+INTERFACES_KERNEL-$(CONFIG_BIT32) += mem_op
 INTERFACES_KERNEL-$(CONFIG_SERIAL) += uart_console
 INTERFACES_KERNEL-$(CONFIG_ARM_EM_TZ) += vm
 INTERFACES_KERNEL-$(CONFIG_CPU_VIRT) += hyp_vm_state vgic vgic_global
@@ -173,10 +179,11 @@ INTERFACES_KERNEL += boot_infos
 bootstrap_IMPL		:= bootstrap bootstrap-arm-$(BITS)
 clock_IMPL              := clock
 config_IMPL	  	:= config config-arm
+context_base_IMPL       := context_base context_base-arm
 context_IMPL	  	:= context context-arm context-arm-$(BITS) \
                            context-vcpu context-arm-hyp context-arm-hyp-$(BITS)
 continuation_IMPL	:= continuation-arm
-cpu_IMPL	  	:= cpu cpu-arm cpu-arm-hyp cpu-arm-$(BITS)
+cpu_IMPL	  	:= cpu cpu-arm cpu-arm-$(BITS)
 cpu_lock_IMPL  	  	:= cpu_lock cpu_lock-generic
 dmar_space_IMPL		:= dmar_space
 ifeq ($(CONFIG_BIT64),y)
@@ -197,7 +204,7 @@ iommu_IMPL		:= iommu-arm
 ipi_IMPL		:= ipi ipi-arm
 kdb_ke_IMPL		+= kdb_ke-arm
 kernel_task_IMPL	:= kernel_task kernel_task-arm
-kernel_thread_IMPL	:= kernel_thread kernel_thread-std kernel_thread-arm \
+kernel_thread_IMPL	:= kernel_thread kernel_thread-arm \
 			   kernel_thread-arm-$(BITS)
 kernel_uart_IMPL  	:= kernel_uart kernel_uart-libuart
 map_util_IMPL		:= map_util map_util-mem map_util-objs
@@ -205,21 +212,25 @@ mem_layout_IMPL		:= mem_layout mem_layout-arm-$(BITS) \
 			   mem_layout-arm
 mem_space_IMPL		:= mem_space mem_space-arm mem_space-arm-$(BITS)
 mem_unit_IMPL		:= mem_unit mem_unit-arm-$(BITS)
-kmem_IMPL		:= kmem-arm kmem
+kmem_IMPL		:= kmem kmem-arm
 kmem_alloc_IMPL		:= kmem_alloc kmem_alloc-arm
 kmem_space_IMPL		:= kmem_space kmem_space-arm-$(BITS)
 outer_cache_IMPL	:= outer_cache outer_cache-l2cxx0
 paging_IMPL	  	:= paging paging-arm paging-arm-$(BITS)
 perf_cnt_IMPL		:= perf_cnt perf_cnt-arm perf_cnt-arm-$(BITS)
 pic_IMPL		:= pic
-platform_control_IMPL   += platform_control-arm-psci
+platform_control_IMPL   += platform_control-arm platform_control-arm-psci
+platform_control_object_IMPL := platform_control_object \
+                                platform_control_object-arm
 psci_IMPL		:= psci-arm
 sched_context_IMPL	:= sched_context-wfq sched_context-fixed_prio \
 			   sched_context-fp_wfq sched_context
 scu_IMPL                := scu
+space_IMPL		:= space space-arm
 spin_lock_IMPL		:= spin_lock spin_lock-arm spin_lock-arm-$(BITS)
 startup_IMPL		:= startup startup-arm
-sys_call_page_IMPL	:= sys_call_page $(if $(CONFIG_BIT32), sys_call_page-arm)
+sys_call_page_IMPL	:= sys_call_page \
+			   $(if $(and $(CONFIG_BIT32),$(CONFIG_MMU)), sys_call_page-arm)
 task_IMPL		:= task task-arm
 thread_IMPL	  	:= thread thread-arm thread-arm-hyp \
 			   thread-jdb thread-jdb-$(BITS) thread-ipc \
@@ -233,13 +244,18 @@ vgic_IMPL		:= vgic
 vgic_v3_IMPL		:= vgic_v3 vgic_v3-$(BITS)
 vmem_alloc_IMPL	  	:= vmem_alloc vmem_alloc-arch
 tb_entry_IMPL		:= tb_entry tb_entry-arm
+mpu_IMPL                := mpu mpu-arm-$(BITS)
+global_data_IMPL        := global_data global_data-arm-$(BITS)
 
 
 ifeq ("$(CONFIG_JDB)","y")
 JDB			:= jdb_compound.o
 SUBSYSTEMS		+= JDB
-INTERFACES_JDB		+= jdb_ptab jdb_trace_set jdb_log jdb_perf \
-			   jdb_console_buffer jdb_idle_stats
+INTERFACES_JDB		+= jdb_trace_set jdb_log jdb_console_buffer \
+			   jdb_idle_stats
+
+INTERFACES_JDB-$(CONFIG_PERF_CNT) += jdb_perf
+INTERFACES_JDB-$(CONFIG_MMU) += jdb_ptab
 
 CXXSRC_JDB := tb_entry_output.cc
 
@@ -285,7 +301,7 @@ ASSRC_CRT0	:= crt0.S
 #
 CXXLIB 			:= libcxx.a
 VPATH			+= lib/cxxlib
-INTERFACES_CXXLIB 	:= paranoia
+CXXSRC_CXXLIB	 	:= paranoia.cc
 
 #
 # LIBK subsystem

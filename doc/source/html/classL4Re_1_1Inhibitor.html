@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re::Inhibitor Class Reference</title>
+<title>L4Re Operating System Framework: L4Re::Inhibitor Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -119,9 +122,9 @@ $(document).ready(function(){initNavTree('classL4Re_1_1Inhibitor.html',''); init
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aecb89d9dc7138d4646bca3fe5d27042a" id="r_aecb89d9dc7138d4646bca3fe5d27042a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classL4Re_1_1Inhibitor.html#aecb89d9dc7138d4646bca3fe5d27042aad10674dcf6cde6eb7acb89dd77bb2bc3">Name_max</a> = 20
+<tr class="memitem:a9dd14f3a7cde0b14f0650a7384c5448d" id="r_a9dd14f3a7cde0b14f0650a7384c5448d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classL4Re_1_1Inhibitor.html#a9dd14f3a7cde0b14f0650a7384c5448dad10674dcf6cde6eb7acb89dd77bb2bc3">Name_max</a> = 20
  }</td></tr>
-<tr class="separator:aecb89d9dc7138d4646bca3fe5d27042a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a9dd14f3a7cde0b14f0650a7384c5448d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -178,8 +181,8 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 
 <p class="definition">Definition at line <a class="el" href="inhibitor_source.html#l00040">40</a> of file <a class="el" href="inhibitor_source.html">inhibitor</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="aecb89d9dc7138d4646bca3fe5d27042a" name="aecb89d9dc7138d4646bca3fe5d27042a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecb89d9dc7138d4646bca3fe5d27042a">&#9670;&#160;</a></span>anonymous enum</h2>
+<a id="a9dd14f3a7cde0b14f0650a7384c5448d" name="a9dd14f3a7cde0b14f0650a7384c5448d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dd14f3a7cde0b14f0650a7384c5448d">&#9670;&#160;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -190,7 +193,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aecb89d9dc7138d4646bca3fe5d27042aad10674dcf6cde6eb7acb89dd77bb2bc3" name="aecb89d9dc7138d4646bca3fe5d27042aad10674dcf6cde6eb7acb89dd77bb2bc3"></a>Name_max&#160;</td><td class="fielddoc"><p>The maximum length of a lock's name. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9dd14f3a7cde0b14f0650a7384c5448dad10674dcf6cde6eb7acb89dd77bb2bc3" name="a9dd14f3a7cde0b14f0650a7384c5448dad10674dcf6cde6eb7acb89dd77bb2bc3"></a>Name_max&#160;</td><td class="fielddoc"><p>The maximum length of a lock's name. </p>
 </td></tr>
 </table>
 
@@ -293,7 +296,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>A pointer to a buffer for the name of the lock. </td></tr>
-    <tr><td class="paramname">len</td><td>The length of the available buffer (usually <a class="el" href="classL4Re_1_1Inhibitor.html#aecb89d9dc7138d4646bca3fe5d27042aad10674dcf6cde6eb7acb89dd77bb2bc3" title="The maximum length of a lock&#39;s name.">Name_max</a> is used). </td></tr>
+    <tr><td class="paramname">len</td><td>The length of the available buffer (usually <a class="el" href="classL4Re_1_1Inhibitor.html#a9dd14f3a7cde0b14f0650a7384c5448dad10674dcf6cde6eb7acb89dd77bb2bc3" title="The maximum length of a lock&#39;s name.">Name_max</a> is used). </td></tr>
     <tr><td class="paramname">current_id</td><td>The ID of the last available lock, use -1 to get the first lock. </td></tr>
     <tr><td class="paramname">utcb</td><td>The UTCB to use for the message.</td></tr>
   </table>
@@ -309,7 +312,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 
 <p class="definition">Definition at line <a class="el" href="inhibitor_source.html#l00086">86</a> of file <a class="el" href="inhibitor_source.html">inhibitor</a>.</p>
 
-<p class="reference">References <a class="el" href="____typeinfo_8h_source.html#l00779">L4::Kobject_t&lt; Inhibitor, L4::Kobject, L4RE_PROTO_INHIBITOR &gt;::c()</a>.</p>
+<p class="reference">References <a class="el" href="____typeinfo_8h_source.html#l00780">L4::Kobject_t&lt; Inhibitor, L4::Kobject, L4RE_PROTO_INHIBITOR &gt;::c()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -363,7 +366,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4Re.html">L4Re</a></li><li class="navelem"><a class="el" href="classL4Re_1_1Inhibitor.html">Inhibitor</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

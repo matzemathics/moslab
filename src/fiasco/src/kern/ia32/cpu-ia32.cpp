@@ -65,8 +65,10 @@ public:
 
   enum Local_features
   {
-    Lf_rdpmc		= 0x00000001,
-    Lf_rdpmc32		= 0x00000002,
+    Lf_rdpmc            = 1U << 0,  // supports RDPMC instruction
+    Lf_rdpmc32          = 1U << 1,  // supports RDPMC32 instruction
+    Lf_tsc_invariant    = 1U << 2,  // TSC runs at constant rate and does not
+                                    // stop in any ACPI state
   };
 
   Unsigned64 time_us() const;
@@ -125,6 +127,7 @@ private:
   Unsigned32 _arch_perfmon_info_eax;    // CPUID(10).EAX
   Unsigned32 _arch_perfmon_info_ebx;    // CPUID(10).EBX
   Unsigned32 _arch_perfmon_info_ecx;    // CPUID(10).ECX
+  Unsigned32 _arch_perfmon_info_edx;    // CPUID(10).EDX
 
   Unsigned32 _monitor_mwait_eax;        // CPUID(5).EAX
   Unsigned32 _monitor_mwait_ebx;        // CPUID(5).EBX
@@ -324,8 +327,8 @@ private:
   char bts_active;
 
   Gdt *gdt;
-  Tss *tss;
-  Tss *tss_dbf;
+  Tss *_tss;
+  Tss *_tss_dbf;
 
 public:
   Lbr lbr_type() const { return _lbr; }
@@ -334,11 +337,12 @@ public:
   bool bts_status() const { return bts_active; }
   bool btf_status() const { return btf_active; }
 
-  Gdt* get_gdt() const { return gdt; }
-  Tss* get_tss() const { return tss; }
+  Gdt *get_gdt() const { return gdt; }
+  Tss *get_tss() const { return _tss; }
+
   void set_gdt() const
   {
-    Pseudo_descriptor desc((Address)gdt, Gdt::gdt_max-1);
+    Pseudo_descriptor desc(reinterpret_cast<Address>(gdt), Gdt::gdt_max-1);
     Gdt::set (&desc);
   }
 
@@ -448,8 +452,7 @@ struct Ia32_intel_microcode
       if (total_size() <= (data_size() + 48 + 20))
         return false;
 
-      auto *et = reinterpret_cast<Ext_signature_table const *>(
-          (char const *)(this + 1) + data_size());
+      auto *et = offset_cast<Ext_signature_table const *>(this + 1, data_size());
 
       if (!et->checksum_valid())
         return false;
@@ -469,7 +472,7 @@ struct Ia32_intel_microcode
       if (!match_proc(rev_sig & 0xffffffffU, proc_mask))
         return false;
 
-      return (Signed32)(rev_sig >> 32) < update_rev;
+      return static_cast<Signed32>(rev_sig >> 32) < update_rev;
     }
 
   } __attribute__((packed));
@@ -490,7 +493,7 @@ struct Ia32_intel_microcode
     extern char const __attribute__((weak))ia32_intel_microcode_end[];
     char const *pos = ia32_intel_microcode_start;
 
-    if ((Address)pos & 0xf)
+    if (reinterpret_cast<Address>(pos) & 0xf)
       {
         printf("warning: microcode updates misaligned, skipping\n");
         return nullptr;
@@ -546,20 +549,19 @@ struct Ia32_intel_microcode
     if (!update)
       return false;
 
-    static Spin_lock<> load_lock(Spin_lock<>::Unlocked);
+    static Spin_lock<> load_lock;
 
       {
         auto g = lock_guard(load_lock);
-        Cpu::wrmsr((Address)update->data(), 0x79); // IA32_BIOS_UPDT_TRIG
+        Cpu::wrmsr(reinterpret_cast<Address>(update->data()),
+                   0x79); // IA32_BIOS_UPDT_TRIG
       }
 
     Unsigned64 n = get_sig();
     if (rev_sig != n)
       {
-        printf("microcode update: rev %x -> %x (%x)\n",
-               (unsigned)(rev_sig >> 32),
-               (unsigned)(n >> 32),
-               update->date);
+        printf("microcode update: rev %llx -> %llx (%x)\n",
+               rev_sig >> 32, n >> 32, update->date);
       }
     else
       {
@@ -570,6 +572,25 @@ struct Ia32_intel_microcode
     return true;
   }
 };
+
+/**
+ * Reset the IO bitmap.
+ *
+ * Instead of physically resetting the IO bitmap by setting its bits, the
+ * IO bitmap offset in the TSS is set beyond the TSS segment limit.
+ *
+ * On an IO port access, this effectively causes a #GP exception even without
+ * the CPU accessing the IO bitmap.
+ *
+ * \note This method needs to be called with the CPU lock held.
+ */
+PUBLIC inline NEEDS["tss.h"]
+void
+Cpu::reset_io_bitmap()
+{
+  _tss->_hw.ctx.iopb = Tss::Segment_limit + 1;
+  _tss->_io_bitmap_revision = 0;
+}
 
 //-----------------------------------------------------------------------------
 IMPLEMENTATION[ux]:
@@ -930,8 +951,8 @@ char const * const Cpu::exception_strings[] =
   /* 17 */ "Alignment Check",
   /* 18 */ "Machine Check",
   /* 19 */ "SIMD Floating-Point Exception",
-  /* 20 */ "Reserved",
-  /* 21 */ "Reserved",
+  /* 20 */ "Virtualization Exception",
+  /* 21 */ "Control Protection Exception",
   /* 22 */ "Reserved",
   /* 23 */ "Reserved",
   /* 24 */ "Reserved",
@@ -973,7 +994,7 @@ Cpu::exception_string(Mword trapno)
   return exception_strings[trapno];
 }
 
-PUBLIC static inline FIASCO_INIT_CPU
+PUBLIC static inline FIASCO_INIT_CPU_SFX(cpuid)
 void
 Cpu::cpuid(Unsigned32 mode, Unsigned32 ecx_val,
            Unsigned32 *eax, Unsigned32 *ebx, Unsigned32 *ecx, Unsigned32 *edx)
@@ -1025,10 +1046,10 @@ Cpu::cache_tlb_intel()
 
   do
     {
-      cpuid(2, (Unsigned32 *)(desc),
-               (Unsigned32 *)(desc + 4),
-               (Unsigned32 *)(desc + 8),
-               (Unsigned32 *)(desc + 12));
+      cpuid(2, reinterpret_cast<Unsigned32 *>(desc),
+               reinterpret_cast<Unsigned32 *>(desc + 4),
+               reinterpret_cast<Unsigned32 *>(desc + 8),
+               reinterpret_cast<Unsigned32 *>(desc + 12));
 
       for (i = 1; i < 16; i++)
 	{
@@ -1188,13 +1209,15 @@ Cpu::set_model_str()
   snprintf(_model_str, sizeof (_model_str), "Unknown CPU");
 }
 
-PUBLIC inline FIASCO_INIT_CPU
+PUBLIC inline FIASCO_INIT_CPU_SFX(arch_perfmon_info)
 void
-Cpu::arch_perfmon_info(Unsigned32 *eax, Unsigned32 *ebx, Unsigned32 *ecx) const
+Cpu::arch_perfmon_info(Unsigned32 *eax, Unsigned32 *ebx, Unsigned32 *ecx,
+                       Unsigned32 *edx) const
 {
   *eax = _arch_perfmon_info_eax;
   *ebx = _arch_perfmon_info_ebx;
   *ecx = _arch_perfmon_info_ecx;
+  *edx = _arch_perfmon_info_edx;
 }
 
 PUBLIC static
@@ -1255,15 +1278,15 @@ Cpu::identify()
     Unsigned32 max, i;
     char vendor_id[12];
 
-    cpuid(0, &max, (Unsigned32 *)(vendor_id),
-                   (Unsigned32 *)(vendor_id + 8),
-                   (Unsigned32 *)(vendor_id + 4));
+    cpuid(0, &max, reinterpret_cast<Unsigned32 *>(vendor_id),
+                   reinterpret_cast<Unsigned32 *>(vendor_id + 8),
+                   reinterpret_cast<Unsigned32 *>(vendor_id + 4));
 
     for (i = sizeof (vendor_ident) / sizeof (*vendor_ident) - 1; i; i--)
       if (!memcmp(vendor_id, vendor_ident[i], 12))
         break;
 
-    _vendor = (Cpu::Vendor)i;
+    _vendor = static_cast<Cpu::Vendor>(i);
 
     if (_vendor == Vendor_intel)
       Ia32_intel_microcode::load();
@@ -1277,7 +1300,8 @@ Cpu::identify()
       case 10:
         cpuid(10, &_arch_perfmon_info_eax,
                   &_arch_perfmon_info_ebx,
-                  &_arch_perfmon_info_ecx, &i);
+                  &_arch_perfmon_info_ecx,
+                  &_arch_perfmon_info_edx);
         // FALLTHRU
       case 2:
         if (_vendor == Vendor_intel)
@@ -1355,6 +1379,10 @@ Cpu::identify()
 	      addr_size_info();
 	    // FALLTHRU
 	  case 0x80000007:
+            if (_vendor == Vendor_amd || _vendor == Vendor_intel)
+              if (cpuid_edx(0x80000007) & (1U << 8))
+                _local_features |= Lf_tsc_invariant;
+            // FALLTHRU
 	  case 0x80000006:
 	    if (_vendor == Vendor_amd || _vendor == Vendor_via)
 	      cache_tlb_l2_l3();
@@ -1365,7 +1393,7 @@ Cpu::identify()
 	    // FALLTHRU
 	  case 0x80000004:
 	    {
-	      Unsigned32 *s = (Unsigned32 *)_model_str;
+	      Unsigned32 *s = reinterpret_cast<Unsigned32 *>(_model_str);
 	      for (unsigned i = 0; i < 3; ++i)
 	        cpuid(0x80000002 + i, &s[0 + 4*i], &s[1 + 4*i],
                                       &s[2 + 4*i], &s[3 + 4*i]);
@@ -1592,20 +1620,19 @@ PUBLIC FIASCO_INIT_AND_PM
 void
 Cpu::pm_resume()
 {
-  if (id() != Cpu_number::boot_cpu())
-    {
-      // the boot CPU restores some state in asm already
-      set_gdt();
-      set_ldt(0);
-      set_ds(Gdt::data_segment());
-      set_es(Gdt::data_segment());
-      set_ss(Gdt::gdt_data_kernel | Gdt::Selector_kernel);
-      set_fs(Gdt::gdt_data_user   | Gdt::Selector_user);
-      set_gs(Gdt::gdt_data_user   | Gdt::Selector_user);
-      set_cs();
+  set_gdt();
+  set_ldt(0);
 
-      set_tss();
-    }
+  set_ds(Gdt::data_segment());
+  set_es(Gdt::data_segment());
+  set_ss(Gdt::gdt_data_kernel | Gdt::Selector_kernel);
+  set_fs(Gdt::gdt_data_user   | Gdt::Selector_user);
+  set_gs(Gdt::gdt_data_user   | Gdt::Selector_user);
+  set_cs();
+
+  // the boot CPU restores TSS in asm already
+  if (id() != Cpu_number::boot_cpu())
+    set_tss();
 
   if (_vendor == Vendor_intel)
     Ia32_intel_microcode::load();
@@ -1656,8 +1683,8 @@ PUBLIC static inline
 void
 Cpu::xsetbv(Unsigned64 val, Unsigned32 xcr)
 {
-  asm volatile ("xsetbv" : : "a" ((Mword)val),
-                             "d" ((Mword)(val >> 32)),
+  asm volatile ("xsetbv" : : "a" (static_cast<Mword>(val)),
+                             "d" (static_cast<Mword>(val >> 32)),
                              "c" (xcr));
 }
 
@@ -1670,7 +1697,7 @@ Cpu::xgetbv(Unsigned32 xcr)
                : "=a" (eax),
                  "=d" (edx)
                : "c" (xcr));
-  return eax | ((Unsigned64)edx << 32);
+  return eax | (Unsigned64{edx} << 32);
 }
 
 PUBLIC static inline
@@ -1719,13 +1746,13 @@ Cpu::rdpmc(Unsigned32 idx, Unsigned32)
   Unsigned32 l,h;
 
   asm volatile ("rdpmc" : "=a" (l), "=d" (h) : "c" (idx));
-  return ((Unsigned64)h << 32) + (Unsigned64)l;
+  return (Unsigned64{h} << 32) + Unsigned64{l};
 }
 
 PUBLIC static inline
 void
 Cpu::wrmsr(Unsigned32 low, Unsigned32 high, Unsigned32 reg)
-{ Proc::wrmsr(((Unsigned64)high << 32) | low, reg); }
+{ Proc::wrmsr((Unsigned64{high} << 32) | low, reg); }
 
 PUBLIC static inline
 void
@@ -2071,13 +2098,13 @@ Cpu::calibrate_tsc()
   // tsc_to_ns_div = calibrate_time * 2^32 / tsc
   asm ("divl %2"
        :"=a" (tsc_to_ns_div), "=d" (dummy)
-       :"r" ((Unsigned32)tsc_end), "a" (0), "d" (calibrate_time));
+       :"r" (static_cast<Unsigned32>(tsc_end)), "a" (0), "d" (calibrate_time));
 
   // In 'A*1000/32', 'A*1000' could result in a value '>= 2^32' if A is too big
   // (CPU is too slow). Use 'A*(1000/32) = A*31.25' instead.
   scaler_tsc_to_ns  = tsc_to_ns_div * 31 + tsc_to_ns_div / 4;
   scaler_tsc_to_us  = tsc_to_ns_div;
-  scaler_ns_to_tsc  = muldiv(1 << 31, ((Unsigned32)tsc_end),
+  scaler_ns_to_tsc  = muldiv(1 << 31, static_cast<Unsigned32>(tsc_end),
                              calibrate_time * 1000 >> 1 * 1 << 5);
   if (scaler_tsc_to_ns)
     _frequency = ns_to_tsc(1000000000UL);

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: examples/libs/l4re/c++/shared_ds/ds_clnt.cc</title>
+<title>L4Re Operating System Framework: examples/libs/l4re/c++/shared_ds/ds_clnt.cc</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -206,21 +209,21 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <div class="line"> </div>
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassL4Re_1_1Dataspace_html"><div class="ttname"><a href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a></div><div class="ttdoc">Interface for memory-like objects.</div><div class="ttdef"><b>Definition</b> <a href="dataspace_source.html#l00060">dataspace:63</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Dataspace_html"><div class="ttname"><a href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a></div><div class="ttdoc">Interface for memory-like objects.</div><div class="ttdef"><b>Definition</b> <a href="dataspace_source.html#l00061">dataspace:64</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a2706ca11e70845b0a29a5646c9fd54bc"><div class="ttname"><a href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a></div><div class="ttdeci">static Env const * env() noexcept</div><div class="ttdoc">Returns the initial environment for the current task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00103">env:103</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_aa5e8a6cc32d4c0741d929eb2ffbac7dc"><div class="ttname"><a href="classL4Re_1_1Env.html#aa5e8a6cc32d4c0741d929eb2ffbac7dc">L4Re::Env::rm</a></div><div class="ttdeci">L4::Cap&lt; Rm &gt; rm() const noexcept</div><div class="ttdoc">Object-capability to the region map.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00127">env:127</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_ac0b1c467eec9440707b06b9ca6691a53"><div class="ttname"><a href="classL4Re_1_1Env.html#ac0b1c467eec9440707b06b9ca6691a53">L4Re::Env::get_cap</a></div><div class="ttdeci">L4::Cap&lt; T &gt; get_cap(char const *name, unsigned l) const noexcept</div><div class="ttdoc">Get the capability selector for the object named name.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00204">env:204</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_ab4937bb12579c752564f7250760d0bda"><div class="ttname"><a href="classL4_1_1Cap__base.html#ab4937bb12579c752564f7250760d0bda">L4::Cap_base::is_valid</a></div><div class="ttdeci">bool is_valid() const noexcept</div><div class="ttdoc">Test whether the capability is a valid capability index (i.e., not L4_INVALID_CAP).</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00060">capability.h:60</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_ab4937bb12579c752564f7250760d0bda"><div class="ttname"><a href="classL4_1_1Cap__base.html#ab4937bb12579c752564f7250760d0bda">L4::Cap_base::is_valid</a></div><div class="ttdeci">bool is_valid() const noexcept</div><div class="ttdoc">Test whether the capability is a valid capability index (i.e., not L4_INVALID_CAP).</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00057">capability.h:57</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="aclassL4_1_1Irq_html"><div class="ttname"><a href="classL4_1_1Irq.html">L4::Irq</a></div><div class="ttdoc">C++ Irq interface, see IRQs for the C interface.</div><div class="ttdef"><b>Definition</b> <a href="irq_source.html#l00131">irq:132</a></div></div>
 <div class="ttc" id="adataspace_html"><div class="ttname"><a href="dataspace.html">dataspace</a></div><div class="ttdoc">Dataspace interface.</div></div>
 <div class="ttc" id="aenv_html"><div class="ttname"><a href="env.html">env</a></div><div class="ttdoc">Environment interface.</div></div>
 <div class="ttc" id="agroup__l4__cache__api_html_gadc960cee81afb33f99cf7978ff1f487a"><div class="ttname"><a href="group__l4__cache__api.html#gadc960cee81afb33f99cf7978ff1f487a">l4_cache_clean_data</a></div><div class="ttdeci">int l4_cache_clean_data(unsigned long start, unsigned long end) L4_NOTHROW</div><div class="ttdoc">Cache clean a range in D-cache; writes back to PoC.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2cache_8h_source.html#l00081">cache.h:81</a></div></div>
 <div class="ttc" id="agroup__l4re__cap__api_html_ga29e3dbeb3c8ed0609519c9df212c9c52"><div class="ttname"><a href="group__l4re__cap__api.html#ga29e3dbeb3c8ed0609519c9df212c9c52">L4Re::Util::cap_alloc</a></div><div class="ttdeci">_Cap_alloc &amp; cap_alloc</div><div class="ttdoc">Capability allocator.</div></div>
-<div class="ttc" id="anamespaceL4_1_1Ipc_html_aa6b9422f850eb175240c9d18c5cc708c"><div class="ttname"><a href="namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c">L4::Ipc::make_cap_rw</a></div><div class="ttdeci">Cap&lt; T &gt; make_cap_rw(L4::Cap&lt; T &gt; cap) noexcept</div><div class="ttdoc">Make an L4::Ipc::Cap&lt;T&gt; for the given capability with L4_CAP_FPAGE_RW rights.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00638">ipc_types:638</a></div></div>
+<div class="ttc" id="anamespaceL4_1_1Ipc_html_aa6b9422f850eb175240c9d18c5cc708c"><div class="ttname"><a href="namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c">L4::Ipc::make_cap_rw</a></div><div class="ttdeci">Cap&lt; T &gt; make_cap_rw(L4::Cap&lt; T &gt; cap) noexcept</div><div class="ttdoc">Make an L4::Ipc::Cap&lt;T&gt; for the given capability with L4_CAP_FPAGE_RW rights.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00659">ipc_types:659</a></div></div>
 <div class="ttc" id="arm_html"><div class="ttname"><a href="rm.html">rm</a></div><div class="ttdoc">Region mapper interface.</div></div>
-<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a">L4Re::Rm::F::RW</a></div><div class="ttdeci">@ RW</div><div class="ttdoc">Readable and writable region.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00140">rm:140</a></div></div>
-<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">L4Re::Rm::F::Search_addr</a></div><div class="ttdeci">@ Search_addr</div><div class="ttdoc">Search for a suitable address range.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00118">rm:118</a></div></div>
+<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a">L4Re::Rm::F::RW</a></div><div class="ttdeci">@ RW</div><div class="ttdoc">Readable and writable region.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00150">rm:150</a></div></div>
+<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">L4Re::Rm::F::Search_addr</a></div><div class="ttdeci">@ Search_addr</div><div class="ttdoc">Search for a suitable address range.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00125">rm:125</a></div></div>
 <div class="ttc" id="autil_2cap__alloc_html"><div class="ttname"><a href="util_2cap__alloc.html">cap_alloc</a></div><div class="ttdoc">Capability allocator.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
@@ -228,7 +231,7 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

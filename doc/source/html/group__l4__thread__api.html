@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Thread</title>
+<title>L4Re Operating System Framework: Thread</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -145,9 +148,17 @@ Enumerations</h2></td></tr>
 <tr class="separator:gada4810653b18bca5841f3aa8387502a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga288a4500e4be2587d2f16d754d1a2e16" id="r_ga288a4500e4be2587d2f16d754d1a2e16"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__thread__api.html#ga288a4500e4be2587d2f16d754d1a2e16">L4_thread_ex_regs_flags</a> { <a class="el" href="group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16aa13ff4d1b899982508b9ad36c61fe47a">L4_THREAD_EX_REGS_CANCEL</a> = 0x10000UL
 , <a class="el" href="group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35">L4_THREAD_EX_REGS_TRIGGER_EXCEPTION</a> = 0x20000UL
+, <a class="el" href="group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16ab083c24a18872362e491050d43b5cdf3">L4_THREAD_EX_REGS_ARCH_MASK</a> = 0xff000000UL
  }</td></tr>
 <tr class="memdesc:ga288a4500e4be2587d2f16d754d1a2e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags for the thread ex-regs operation.  <a href="group__l4__thread__api.html#ga288a4500e4be2587d2f16d754d1a2e16">More...</a><br /></td></tr>
 <tr class="separator:ga288a4500e4be2587d2f16d754d1a2e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1733954711051b531a3d8db16b72bd1b" id="r_ga1733954711051b531a3d8db16b72bd1b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__thread__api.html#ga1733954711051b531a3d8db16b72bd1b">L4_thread_ex_regs_flags_arm</a> { <a class="el" href="group__l4__thread__api.html#gga1733954711051b531a3d8db16b72bd1ba797b4f9440f6fc4e4fba440c3d749392">L4_THREAD_EX_REGS_ARM_SET_EL_MASK</a> = 0x3 &lt;&lt; 24
+, <a class="el" href="group__l4__thread__api.html#gga1733954711051b531a3d8db16b72bd1bae4c5265ed6bee495086b916dc28da28e">L4_THREAD_EX_REGS_ARM_SET_EL_KEEP</a> = 0x0 &lt;&lt; 24
+, <a class="el" href="group__l4__thread__api.html#gga1733954711051b531a3d8db16b72bd1ba7a4d7695872eb3a05eedbc9e869de3c5">L4_THREAD_EX_REGS_ARM_SET_EL_EL0</a> = 0x1 &lt;&lt; 24
+, <a class="el" href="group__l4__thread__api.html#gga1733954711051b531a3d8db16b72bd1ba01450979020a54adcc29b5a9028eb095">L4_THREAD_EX_REGS_ARM_SET_EL_EL1</a> = 0x2 &lt;&lt; 24
+ }</td></tr>
+<tr class="memdesc:ga1733954711051b531a3d8db16b72bd1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arm specific <a class="el" href="classL4_1_1Thread.html#aacd56bbf983577cfc591f21fd511d3b6" title="Exchange basic thread registers.">L4::Thread::ex_regs()</a> flags.  <a href="group__l4__thread__api.html#ga1733954711051b531a3d8db16b72bd1b">More...</a><br /></td></tr>
+<tr class="separator:ga1733954711051b531a3d8db16b72bd1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -258,7 +269,7 @@ Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00718">718</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00721">721</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 </div>
 </div>
@@ -290,7 +301,7 @@ Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00741">741</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00744">744</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 </div>
 </div>
@@ -312,9 +323,40 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35" name="gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35"></a>L4_THREAD_EX_REGS_TRIGGER_EXCEPTION&#160;</td><td class="fielddoc"><p>Trigger artificial exception in thread. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga288a4500e4be2587d2f16d754d1a2e16ab083c24a18872362e491050d43b5cdf3" name="gga288a4500e4be2587d2f16d754d1a2e16ab083c24a18872362e491050d43b5cdf3"></a>L4_THREAD_EX_REGS_ARCH_MASK&#160;</td><td class="fielddoc"><p>Arch specific flags. </p>
+</td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00756">756</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00759">759</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+
+</div>
+</div>
+<a id="ga1733954711051b531a3d8db16b72bd1b" name="ga1733954711051b531a3d8db16b72bd1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1733954711051b531a3d8db16b72bd1b">&#9670;&#160;</a></span>L4_thread_ex_regs_flags_arm</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__l4__thread__api.html#ga1733954711051b531a3d8db16b72bd1b">L4_thread_ex_regs_flags_arm</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Arm specific <a class="el" href="classL4_1_1Thread.html#aacd56bbf983577cfc591f21fd511d3b6" title="Exchange basic thread registers.">L4::Thread::ex_regs()</a> flags. </p>
+<p>Only one option must be used in calls to <a class="el" href="classL4_1_1Thread.html#aacd56bbf983577cfc591f21fd511d3b6" title="Exchange basic thread registers.">L4::Thread::ex_regs()</a>. Using more than one option results in undefined behaviour. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga1733954711051b531a3d8db16b72bd1ba797b4f9440f6fc4e4fba440c3d749392" name="gga1733954711051b531a3d8db16b72bd1ba797b4f9440f6fc4e4fba440c3d749392"></a>L4_THREAD_EX_REGS_ARM_SET_EL_MASK&#160;</td><td class="fielddoc"><p>Exception level set mask. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1733954711051b531a3d8db16b72bd1bae4c5265ed6bee495086b916dc28da28e" name="gga1733954711051b531a3d8db16b72bd1bae4c5265ed6bee495086b916dc28da28e"></a>L4_THREAD_EX_REGS_ARM_SET_EL_KEEP&#160;</td><td class="fielddoc"><p>Keep current exception level of thread (default). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1733954711051b531a3d8db16b72bd1ba7a4d7695872eb3a05eedbc9e869de3c5" name="gga1733954711051b531a3d8db16b72bd1ba7a4d7695872eb3a05eedbc9e869de3c5"></a>L4_THREAD_EX_REGS_ARM_SET_EL_EL0&#160;</td><td class="fielddoc"><p>Set exception level of thread to EL0 (usr mode). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1733954711051b531a3d8db16b72bd1ba01450979020a54adcc29b5a9028eb095" name="gga1733954711051b531a3d8db16b72bd1ba01450979020a54adcc29b5a9028eb095"></a>L4_THREAD_EX_REGS_ARM_SET_EL_EL1&#160;</td><td class="fielddoc"><p>Set exception level of thread to EL1 (sys mode). </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="arm_2l4_2sys_2thread_8h_source.html#l00053">53</a> of file <a class="el" href="arm_2l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 </div>
 </div>
@@ -363,7 +405,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>System call return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="arm_2l4_2sys_2thread_8h_source.html#l00059">59</a> of file <a class="el" href="arm_2l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="arm_2l4_2sys_2thread_8h_source.html#l00079">79</a> of file <a class="el" href="arm_2l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -434,13 +476,13 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>System call return tag</dd></dl>
 <p>This method allows to manipulate and start a thread. The basic functionality is to set the instruction pointer and the stack pointer of a thread. Additionally, this method allows also to cancel ongoing IPC operations and to force the thread to raise an artificial exception (see <code>flags</code>). If the thread is in an IPC operation or if <a class="el" href="group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35" title="Trigger artificial exception in thread.">L4_THREAD_EX_REGS_TRIGGER_EXCEPTION</a> forces an IPC then changes in IP and SP take effect directly after returning from this IPC.</p>
-<p>The thread is started using <a class="el" href="group__l4__scheduler__api.html#gad2a9662639b3bc122d551dab6a1c9aca" title="Run a thread on a Scheduler.">l4_scheduler_run_thread()</a>. However, if at the time <a class="el" href="group__l4__scheduler__api.html#gad2a9662639b3bc122d551dab6a1c9aca" title="Run a thread on a Scheduler.">l4_scheduler_run_thread()</a> is called, the instruction pointer of the thread is invalid, a later call to <a class="el" href="group__l4__thread__api.html#ga1ea29499c679caeae810516d16f4347c" title="Exchange basic thread registers.">l4_thread_ex_regs()</a> with a valid instruction pointer might start the thread. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a31">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a14">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a15">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a26">examples/sys/utcb-ipc/main.c</a>.</dd>
+<p>The thread is started using <a class="el" href="group__l4__scheduler__api.html#ga529821cb75f0c3d17ec66e4357f0f72c" title="Run a thread on a Scheduler.">l4_scheduler_run_thread()</a>. However, if at the time <a class="el" href="group__l4__scheduler__api.html#ga529821cb75f0c3d17ec66e4357f0f72c" title="Run a thread on a Scheduler.">l4_scheduler_run_thread()</a> is called, the instruction pointer of the thread is invalid, a later call to <a class="el" href="group__l4__thread__api.html#ga1ea29499c679caeae810516d16f4347c" title="Exchange basic thread registers.">l4_thread_ex_regs()</a> with a valid instruction pointer might start the thread. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a32">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a16">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a15">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a26">examples/sys/utcb-ipc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00907">907</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00912">912</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l00769">l4_thread_ex_regs_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l00774">l4_thread_ex_regs_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -509,12 +551,12 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>System call return tag</dd></dl>
 <p>This method allows to manipulate and start a thread. The basic functionality is to set the instruction pointer and the stack pointer of a thread. Additionally, this method allows also to cancel ongoing IPC operations and to force the thread to raise an artificial exception (see <code>flags</code>). If the thread is in an IPC operation or if <a class="el" href="group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35" title="Trigger artificial exception in thread.">L4_THREAD_EX_REGS_TRIGGER_EXCEPTION</a> forces an IPC then changes in IP and SP take effect directly after returning from this IPC.</p>
-<p>The thread is started using <a class="el" href="group__l4__scheduler__api.html#gad2a9662639b3bc122d551dab6a1c9aca" title="Run a thread on a Scheduler.">l4_scheduler_run_thread()</a>. However, if at the time <a class="el" href="group__l4__scheduler__api.html#gad2a9662639b3bc122d551dab6a1c9aca" title="Run a thread on a Scheduler.">l4_scheduler_run_thread()</a> is called, the instruction pointer of the thread is invalid, a later call to <a class="el" href="group__l4__thread__api.html#ga1ea29499c679caeae810516d16f4347c" title="Exchange basic thread registers.">l4_thread_ex_regs()</a> with a valid instruction pointer might start the thread.</p>
+<p>The thread is started using <a class="el" href="group__l4__scheduler__api.html#ga529821cb75f0c3d17ec66e4357f0f72c" title="Run a thread on a Scheduler.">l4_scheduler_run_thread()</a>. However, if at the time <a class="el" href="group__l4__scheduler__api.html#ga529821cb75f0c3d17ec66e4357f0f72c" title="Run a thread on a Scheduler.">l4_scheduler_run_thread()</a> is called, the instruction pointer of the thread is invalid, a later call to <a class="el" href="group__l4__thread__api.html#ga1ea29499c679caeae810516d16f4347c" title="Exchange basic thread registers.">l4_thread_ex_regs()</a> with a valid instruction pointer might start the thread.</p>
 <p>Returned values are valid only if function returns successfully. </p>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00914">914</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00919">919</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l00780">l4_thread_ex_regs_ret_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l00785">l4_thread_ex_regs_ret_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -592,11 +634,11 @@ Functions</h2></td></tr>
 <p>This method allows to manipulate and start a thread. The basic functionality is to set the instruction pointer and the stack pointer of a thread. Additionally, this method allows also to cancel ongoing IPC operations and to force the thread to raise an artificial exception (see <code>flags</code>). If the thread is in an IPC operation or if <a class="el" href="group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35" title="Trigger artificial exception in thread.">L4_THREAD_EX_REGS_TRIGGER_EXCEPTION</a> forces an IPC then changes in IP and SP take effect directly after returning from this IPC.</p>
 <p>The thread is started using <a class="el" href="classL4_1_1Scheduler.html#acc86cb4df9b2aad35730b209e0c98089" title="Run a thread on a Scheduler.">L4::Scheduler::run_thread()</a>. However, if at the time <a class="el" href="classL4_1_1Scheduler.html#acc86cb4df9b2aad35730b209e0c98089" title="Run a thread on a Scheduler.">L4::Scheduler::run_thread()</a> is called, the instruction pointer of the thread is invalid, a later call to ex_regs() with a valid instruction pointer might start the thread.   </p>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00780">780</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00785">785</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l00769">l4_thread_ex_regs_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l00774">l4_thread_ex_regs_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="sys_2thread_source.html#l00123">L4::Thread::ex_regs()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l00914">l4_thread_ex_regs_ret()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="sys_2thread_source.html#l00123">L4::Thread::ex_regs()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l00919">l4_thread_ex_regs_ret()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -681,11 +723,11 @@ Functions</h2></td></tr>
 <p>This method allows to manipulate and start a thread. The basic functionality is to set the instruction pointer and the stack pointer of a thread. Additionally, this method allows also to cancel ongoing IPC operations and to force the thread to raise an artificial exception (see <code>flags</code>). If the thread is in an IPC operation or if <a class="el" href="group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35" title="Trigger artificial exception in thread.">L4_THREAD_EX_REGS_TRIGGER_EXCEPTION</a> forces an IPC then changes in IP and SP take effect directly after returning from this IPC.</p>
 <p>The thread is started using <a class="el" href="classL4_1_1Scheduler.html#acc86cb4df9b2aad35730b209e0c98089" title="Run a thread on a Scheduler.">L4::Scheduler::run_thread()</a>. However, if at the time <a class="el" href="classL4_1_1Scheduler.html#acc86cb4df9b2aad35730b209e0c98089" title="Run a thread on a Scheduler.">L4::Scheduler::run_thread()</a> is called, the instruction pointer of the thread is invalid, a later call to ex_regs() with a valid instruction pointer might start the thread.   </p>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00769">769</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00774">774</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00064">L4_PROTO_THREAD</a>, <a class="el" href="l4_2sys_2thread_8h_source.html#l00693">L4_THREAD_EX_REGS_OP</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00064">L4_PROTO_THREAD</a>, <a class="el" href="l4_2sys_2thread_8h_source.html#l00696">L4_THREAD_EX_REGS_OP</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="sys_2thread_source.html#l00090">L4::Thread::ex_regs()</a>, <a class="el" href="l4_2sys_2thread_8h_source.html#l00907">l4_thread_ex_regs()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l00780">l4_thread_ex_regs_ret_u()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="sys_2thread_source.html#l00090">L4::Thread::ex_regs()</a>, <a class="el" href="l4_2sys_2thread_8h_source.html#l00912">l4_thread_ex_regs()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l00785">l4_thread_ex_regs_ret_u()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -773,7 +815,7 @@ Functions</h2></td></tr>
 <dd>
 <a class="el" href="group__l4__thread__api.html#gab4f2106933cf35dc0d4fb2e97e093aef" title="Apply (commit) a sender modification sequence.">l4_thread_modify_sender_commit</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01087">1087</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01092">1092</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -822,11 +864,12 @@ Functions</h2></td></tr>
 
 <p>Apply (commit) a sender modification sequence. </p>
 <p>The modification rules are applied to all IPCs to the thread (whether directly or by IPC gate) that are already in flight, that is that the sender is already blocking on.</p>
+<dl class="section note"><dt>Note</dt><dd>Modifying the senders of a thread running on a different CPU core is not supported.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__l4__thread__api.html#ga06ff88cfe27ad4f6c67fa0dc36e6c261" title="Start a thread sender modification sequence.">l4_thread_modify_sender_start</a> </dd>
 <dd>
 <a class="el" href="group__l4__thread__api.html#ga424473745319d388b8c1378699cec20d" title="Add a modification pattern to a sender modification sequence.">l4_thread_modify_sender_add</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01098">1098</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01103">1103</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -875,7 +918,7 @@ Functions</h2></td></tr>
 <dd>
 <a class="el" href="group__l4__thread__api.html#gab4f2106933cf35dc0d4fb2e97e093aef" title="Apply (commit) a sender modification sequence.">l4_thread_modify_sender_commit</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01081">1081</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01086">1086</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -943,7 +986,7 @@ Functions</h2></td></tr>
 </ul>
 <p>When the deletion event is delivered, there is no indication about which IPC gate was deleted. </p>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01008">1008</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01013">1013</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -1000,7 +1043,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>system call return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00976">976</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00981">981</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -1046,7 +1089,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>system call return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00967">967</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00972">972</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -1097,7 +1140,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">thread</td><td>Capability selector of the thread for which the vCPU feature shall be enabled. </td></tr>
-    <tr><td class="paramname">vcpu_state</td><td>The virtual address where the kernel shall store the vCPU state in case of vCPU exits. The address must be a valid kernel-user-memory address (see <a class="el" href="group__l4__task__api.html#ga616af00101b9c34b428836715a90409d" title="Add kernel-user memory.">l4_task_add_ku_mem()</a>).</td></tr>
+    <tr><td class="paramname">vcpu_state</td><td>The virtual address where the kernel shall store the vCPU state in case of vCPU exits. The address must be a valid kernel-user-memory address (see <a class="el" href="group__l4__task__api.html#ga433356d17f678aa259c6b616aeb476ef" title="Add kernel-user memory.">l4_task_add_ku_mem()</a>).</td></tr>
   </table>
   </dd>
 </dl>
@@ -1106,9 +1149,9 @@ Functions</h2></td></tr>
 <p>The kernel-user memory area starting at <code>vcpu_state</code> must be at least 128-byte aligned and must cover the size of <a class="el" href="structl4__vcpu__state__t.html" title="State of a vCPU.">l4_vcpu_state_t</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>Disabling of the vCPU feature is optional and currently not supported. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01025">1025</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01030">1030</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l01015">l4_thread_vcpu_control_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l01020">l4_thread_vcpu_control_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-14-summary" class="dynsummary" style="display:block;">
@@ -1157,7 +1200,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">thread</td><td>Capability selector of the thread for which the extended vCPU feature shall be enabled. </td></tr>
-    <tr><td class="paramname">ext_vcpu_state</td><td>The virtual address where the kernel shall store the vCPU state in case of vCPU exits. The address must be a valid kernel-user-memory address (see <a class="el" href="group__l4__task__api.html#ga616af00101b9c34b428836715a90409d" title="Add kernel-user memory.">l4_task_add_ku_mem()</a>).</td></tr>
+    <tr><td class="paramname">ext_vcpu_state</td><td>The virtual address where the kernel shall store the vCPU state in case of vCPU exits. The address must be a valid kernel-user-memory address (see <a class="el" href="group__l4__task__api.html#ga433356d17f678aa259c6b616aeb476ef" title="Add kernel-user memory.">l4_task_add_ku_mem()</a>).</td></tr>
   </table>
   </dd>
 </dl>
@@ -1171,9 +1214,9 @@ Disabling of the extended vCPU feature is currently not supported. </dd>
 <dd>
 Upgrading from non-extended vCPU feature to extended vCPU feature is currently not supported. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01040">1040</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01045">1045</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l01030">l4_thread_vcpu_control_ext_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2thread_8h_source.html#l01035">l4_thread_vcpu_control_ext_u()</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-15-summary" class="dynsummary" style="display:block;">
@@ -1228,7 +1271,7 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">thread</td><td>Capability selector of the thread for which the extended vCPU feature shall be enabled.</td></tr>
-    <tr><td class="paramname">ext_vcpu_state</td><td>The virtual address where the kernel shall store the vCPU state in case of vCPU exits. The address must be a valid kernel-user-memory address (see <a class="el" href="classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). </td></tr>
+    <tr><td class="paramname">ext_vcpu_state</td><td>The virtual address where the kernel shall store the vCPU state in case of vCPU exits. The address must be a valid kernel-user-memory address (see <a class="el" href="classL4_1_1Task.html#a9e741ff1d27ca776c65abaff1de2f139" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). </td></tr>
     <tr><td class="paramname">utcb</td><td>UTCB to be used for this operation, shall be the UTCB of the calling thread. Defaults to <a class="el" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address.">l4_utcb</a>.</td></tr>
   </table>
   </dd>
@@ -1243,11 +1286,11 @@ Disabling of the extended vCPU feature is currently not supported. </dd>
 <dd>
 Upgrading from non-extended vCPU feature to extended vCPU feature is currently not supported.   </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01030">1030</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01035">1035</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00064">L4_PROTO_THREAD</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00064">L4_PROTO_THREAD</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="l4_2sys_2thread_8h_source.html#l01040">l4_thread_vcpu_control_ext()</a>, and <a class="el" href="sys_2thread_source.html#l00387">L4::Thread::vcpu_control_ext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="l4_2sys_2thread_8h_source.html#l01045">l4_thread_vcpu_control_ext()</a>, and <a class="el" href="sys_2thread_source.html#l00387">L4::Thread::vcpu_control_ext()</a>.</p>
 <div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-16-summary" class="dynsummary" style="display:block;">
@@ -1309,7 +1352,7 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">thread</td><td>Capability selector of the thread for which the vCPU feature shall be enabled.</td></tr>
-    <tr><td class="paramname">vcpu_state</td><td>A virtual address pointing to a <a class="el" href="structl4__vcpu__state__t.html" title="State of a vCPU.">l4_vcpu_state_t</a>. It must be a valid kernel-user-memory address (see <a class="el" href="classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). </td></tr>
+    <tr><td class="paramname">vcpu_state</td><td>A virtual address pointing to a <a class="el" href="structl4__vcpu__state__t.html" title="State of a vCPU.">l4_vcpu_state_t</a>. It must be a valid kernel-user-memory address (see <a class="el" href="classL4_1_1Task.html#a9e741ff1d27ca776c65abaff1de2f139" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). </td></tr>
     <tr><td class="paramname">utcb</td><td>UTCB to be used for this operation, shall be the UTCB of the calling thread. Defaults to <a class="el" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address.">l4_utcb</a>.</td></tr>
   </table>
   </dd>
@@ -1320,11 +1363,11 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 <p>The asynchronous IPC handling is described at <a class="el" href="group__l4__vcpu__api.html">vCPU API</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>Disabling of the vCPU feature is optional and currently not supported.   </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01015">1015</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l01020">1020</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00064">L4_PROTO_THREAD</a>, <a class="el" href="l4_2sys_2thread_8h_source.html#l00699">L4_THREAD_VCPU_CONTROL_OP</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00064">L4_PROTO_THREAD</a>, <a class="el" href="l4_2sys_2thread_8h_source.html#l00702">L4_THREAD_VCPU_CONTROL_OP</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="l4_2sys_2thread_8h_source.html#l01025">l4_thread_vcpu_control()</a>, and <a class="el" href="sys_2thread_source.html#l00354">L4::Thread::vcpu_control()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="l4_2sys_2thread_8h_source.html#l01030">l4_thread_vcpu_control()</a>, and <a class="el" href="sys_2thread_source.html#l00354">L4::Thread::vcpu_control()</a>.</p>
 <div id="dynsection-18" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-18-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-18-summary" class="dynsummary" style="display:block;">
@@ -1400,7 +1443,7 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 <p>To resume into another address space, the capability to the target <a class="el" href="group__l4__task__api.html">Task</a> (or <a class="el" href="classL4_1_1Vm.html" title="Virtual machine host address space.">L4::Vm</a>) must be set in <a class="el" href="structl4__vcpu__state__t.html#ade963d62e21e225390c94f8e24a6bec1" title="User task to use.">l4_vcpu_state_t::user_task</a> together with <a class="el" href="group__l4__vcpu__api.html#gga648aa99b07fd60d941c5ebb25f746967a14d8e402739cff88ebf7e2810f306c4b" title="User task will be used.">L4_VCPU_F_USER_MODE</a>. The capability selector must have all lower bits clear (see <a class="el" href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aba3e1dbcc462d842d56df9fc928e796b" title="Mask to get only the relevant bits of an l4_cap_idx_t.">L4_CAP_MASK</a>). The kernel adds the <a class="el" href="group__l4__ipc__api.html#ggaecfdf101783a02772b67b94793f3a915a5b352c0582c47836abceacaa0ecb8f2e" title="Send-phase flag.">L4_SYSF_SEND</a> flag there to indicate that the capability has been referenced in the kernel. Consecutive resumes will not reference the task capability again until all lower bits are cleared again. To release a task use a different task capability or use an invalid capability with the <a class="el" href="group__l4__ipc__api.html#ggaecfdf101783a02772b67b94793f3a915a21d07c1e159b0e4b2bd824ac052e4508" title="Reply flag.">L4_SYSF_REPLY</a> flag set.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structl4__vcpu__state__t.html" title="State of a vCPU.">l4_vcpu_state_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00988">988</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00993">993</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -1441,7 +1484,7 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 <dl class="section return"><dt>Returns</dt><dd>Message tag to be used for <a class="el" href="group__l4__ipc__api.html#gad2fef5fd3d173495d89c122883e909d6" title="Add a flex-page to be sent to the UTCB.">l4_sndfpage_add()</a> and <a class="el" href="group__l4__thread__api.html#gaaf8bb1c28a014326dd381bc2d3478da8" title="Commit vCPU resume.">l4_thread_vcpu_resume_commit()</a></dd></dl>
 <p>The vCPU resume functionality is split in multiple functions to allow the specification of additional send-flex-pages using <a class="el" href="group__l4__ipc__api.html#gad2fef5fd3d173495d89c122883e909d6" title="Add a flex-page to be sent to the UTCB.">l4_sndfpage_add()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00982">982</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00987">987</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-21" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -1481,9 +1524,9 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 <p>Yield current time slice. </p>
 <dl class="section return"><dt>Returns</dt><dd>system call return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00856">856</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00861">861</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2consts_8h_source.html#l00168">L4_INVALID_CAP</a>, <a class="el" href="____timeout_8h_source.html#l00085">L4_IPC_BOTH_TIMEOUT_0</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00592">l4_ipc_receive()</a>, and <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>.</p>
+<p class="reference">References <a class="el" href="l4_2sys_2consts_8h_source.html#l00168">L4_INVALID_CAP</a>, <a class="el" href="____timeout_8h_source.html#l00087">L4_IPC_BOTH_TIMEOUT_0</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00613">l4_ipc_receive()</a>, and <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>.</p>
 <div id="dynsection-22" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-22-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-22-summary" class="dynsummary" style="display:block;">
@@ -1500,7 +1543,7 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

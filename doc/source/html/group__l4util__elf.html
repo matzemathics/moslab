@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: ELF binary format</title>
+<title>L4Re Operating System Framework: ELF binary format</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -224,9 +227,9 @@ typedef struct <a class="el" href="structElf64__Auxv.html">Elf64_Auxv</a>&#160;<
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:gadc29c2ff13d900c2f185ee95427fb06c" id="r_gadc29c2ff13d900c2f185ee95427fb06c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__l4util__elf.html#ggadc29c2ff13d900c2f185ee95427fb06caf0fb70219e42cb17f443b5a058e21f57">EI_NIDENT</a> = 16
+<tr class="memitem:gaff3701dfcc246bf08b07f25a2cfd9e6d" id="r_gaff3701dfcc246bf08b07f25a2cfd9e6d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__l4util__elf.html#ggaff3701dfcc246bf08b07f25a2cfd9e6daf0fb70219e42cb17f443b5a058e21f57">EI_NIDENT</a> = 16
  }</td></tr>
-<tr class="separator:gadc29c2ff13d900c2f185ee95427fb06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:gaff3701dfcc246bf08b07f25a2cfd9e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1f1765cb83b2bcca9b7d84c955929d52" id="r_ga1f1765cb83b2bcca9b7d84c955929d52"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4util__elf.html#ga1f1765cb83b2bcca9b7d84c955929d52">Elf_ETs</a> { <br />
 &#160;&#160;<a class="el" href="group__l4util__elf.html#gga1f1765cb83b2bcca9b7d84c955929d52a16ec634ec16b5750f108673917d231a8">ET_NONE</a> = 0
 , <a class="el" href="group__l4util__elf.html#gga1f1765cb83b2bcca9b7d84c955929d52a643c2b18fd5edd897eed4462bb70e3ea">ET_REL</a> = 1
@@ -327,7 +330,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84aec759ae74c2e74e48349bdb2366feb98">EM_MICROBLAZE</a> = 189
 , <br />
 &#160;&#160;<a class="el" href="group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a3024c4adf13472e2cf73c8f0d8b27251">EM_TILEGX</a> = 191
-, <b>EM_NUM</b> = 192
+, <a class="el" href="group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84ae7291e24e22d05c77a14576b858af8c8">EM_RISCV</a> = 243
+, <b>EM_NUM</b> = 244
 <br />
  }</td></tr>
 <tr class="memdesc:gac8d0eceebc222b45f2406bd1273aae84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Required architecture.  <a href="group__l4util__elf.html#gac8d0eceebc222b45f2406bd1273aae84">More...</a><br /></td></tr>
@@ -922,7 +926,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </div><div class="memdoc">
 <dl class="section see"><dt>See also</dt><dd>Elf_R_386s. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00659">659</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00668">668</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -943,7 +947,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </div><div class="memdoc">
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__l4util__elf.html#gae0f31a7bee7409a3f264bdec236b0f25" title="Symbol Binding.">Elf_STBs</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00889">889</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00898">898</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -964,7 +968,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </div><div class="memdoc">
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__l4util__elf.html#ga6cbcea8e67667377fe5bfce1318f284a" title="Symbol Types.">Elf_STTs</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00892">892</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00901">901</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -985,7 +989,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </div><div class="memdoc">
 <dl class="section see"><dt>See also</dt><dd>Elf_R_386s. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00667">667</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00676">676</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1006,7 +1010,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </div><div class="memdoc">
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__l4util__elf.html#gae0f31a7bee7409a3f264bdec236b0f25" title="Symbol Binding.">Elf_STBs</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00898">898</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00907">907</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1027,13 +1031,13 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </div><div class="memdoc">
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__l4util__elf.html#ga6cbcea8e67667377fe5bfce1318f284a" title="Symbol Types.">Elf_STTs</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00901">901</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00910">910</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="gadc29c2ff13d900c2f185ee95427fb06c" name="gadc29c2ff13d900c2f185ee95427fb06c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gadc29c2ff13d900c2f185ee95427fb06c">&#9670;&#160;</a></span>anonymous enum</h2>
+<a id="gaff3701dfcc246bf08b07f25a2cfd9e6d" name="gaff3701dfcc246bf08b07f25a2cfd9e6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaff3701dfcc246bf08b07f25a2cfd9e6d">&#9670;&#160;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1044,11 +1048,11 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggadc29c2ff13d900c2f185ee95427fb06caf0fb70219e42cb17f443b5a058e21f57" name="ggadc29c2ff13d900c2f185ee95427fb06caf0fb70219e42cb17f443b5a058e21f57"></a>EI_NIDENT&#160;</td><td class="fielddoc"><p>Number of characters. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaff3701dfcc246bf08b07f25a2cfd9e6daf0fb70219e42cb17f443b5a058e21f57" name="ggaff3701dfcc246bf08b07f25a2cfd9e6daf0fb70219e42cb17f443b5a058e21f57"></a>EI_NIDENT&#160;</td><td class="fielddoc"><p>Number of characters. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00113">113</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00121">121</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1070,7 +1074,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00766">766</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00775">775</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1124,7 +1128,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00935">935</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00944">944</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1152,7 +1156,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00293">293</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00302">302</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1180,7 +1184,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00302">302</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00311">311</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1252,7 +1256,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00590">590</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00599">599</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1280,7 +1284,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00619">619</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00628">628</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1310,7 +1314,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00577">577</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00586">586</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1409,7 +1413,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00531">531</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00540">540</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1433,7 +1437,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00726">726</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00735">735</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1474,7 +1478,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00269">269</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00278">278</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1631,9 +1635,11 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 <tr><td class="fieldname"><a id="ggac8d0eceebc222b45f2406bd1273aae84a3024c4adf13472e2cf73c8f0d8b27251" name="ggac8d0eceebc222b45f2406bd1273aae84a3024c4adf13472e2cf73c8f0d8b27251"></a>EM_TILEGX&#160;</td><td class="fielddoc"><p>Tilera TILE-Gx. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ggac8d0eceebc222b45f2406bd1273aae84ae7291e24e22d05c77a14576b858af8c8" name="ggac8d0eceebc222b45f2406bd1273aae84ae7291e24e22d05c77a14576b858af8c8"></a>EM_RISCV&#160;</td><td class="fielddoc"><p>RISC-V. </p>
+</td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00179">179</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00187">187</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1668,7 +1674,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00164">164</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00172">172</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1693,7 +1699,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00261">261</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00270">270</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1721,7 +1727,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00284">284</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00293">293</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1773,7 +1779,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00482">482</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00491">491</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1797,7 +1803,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00503">503</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00512">512</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1865,7 +1871,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00311">311</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00320">320</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1895,7 +1901,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00472">472</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00481">481</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -1953,7 +1959,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00446">446</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00455">455</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2037,7 +2043,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00673">673</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00682">682</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2059,7 +2065,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00821">821</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00830">830</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2116,7 +2122,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00773">773</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00782">782</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2186,7 +2192,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00828">828</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00837">837</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2210,7 +2216,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00758">758</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00767">767</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2260,7 +2266,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00401">401</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00410">410</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2294,7 +2300,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00330">330</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00339">339</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2364,7 +2370,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00372">372</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00381">381</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2399,7 +2405,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00908">908</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00917">917</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2438,7 +2444,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00921">921</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="elf_8h_source.html#l00930">930</a> of file <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
 
 </div>
 </div>
@@ -2448,7 +2454,7 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

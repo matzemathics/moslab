@@ -13,7 +13,7 @@ clean:
 	@$(RM) -r obj pre-built-images
 
 setup:
-	@if [ -d obj ]; then                                                            \
+	@+if [ -d obj ]; then                                                            \
 	  echo "Snapshot has already been setup. Proceed with 'make setup' or 'make clean'.";    \
 	else                                                                            \
 	  export PATH=$$(pwd)/bin:$$PATH;                                               \
@@ -92,6 +92,7 @@ obj/l4linux/arm64/vmlinux: obj/l4/arm64/l4defs.mk.inc
 
 build_images: build_l4linux build_l4re build_fiasco
 	@echo "=============== Building Images ==============================="
+	@+set -e;                                                                \
 	export PATH=$$(pwd)/bin:$$PATH;                                         \
 	[ -e obj/.config ] && . obj/.config;                                    \
 	if [ -z "$(GRUB_INST_PATH)" ]; then                                     \
@@ -107,6 +108,9 @@ build_images: build_l4linux build_l4re build_fiasco
 	        PATH=$(GRUB_INST_PATH)/efi/bin:$$PATH $(MAKE) -C $$d grub2iso ISONAME_SUFFIX=.efi.iso $$args; \
 	        PATH=$(GRUB_INST_PATH)/pc/bin:$$PATH  $(MAKE) -C $$d grub2iso ISONAME_SUFFIX=.pc.iso $$args; \
 	      fi;                                                               \
+	      if [ "$$d" = "amd64" -o "$$d" = "arm64" ]; then                   \
+	        $(MAKE) -C $$d efiimage $$args;                                 \
+	      fi;                                                               \
 	    done;                                                               \
 	  fi;                                                                   \
 	done	
@@ -116,6 +120,7 @@ gen_prebuilt: copy_prebuilt pre-built-images/l4image
 
 copy_prebuilt2: build_images
 	@echo "Creating pre-built image directory"
+	@set -e;                                             \
 	@cd obj/l4;                                          \
 	for arch in *; do                                    \
 	  for i in $$arch/images/*; do \
@@ -140,17 +145,19 @@ copy_prebuilt2: build_images
 
 copy_prebuilt: build_images
 	@echo "Creating pre-built image directory"
-	@cd obj/l4;                                          \
+	@set -e;                                             \
+	cd obj/l4;                                           \
 	for arch in *; do                                    \
 	  mkdir -p ../../pre-built-images/$$arch;            \
-	  for i in $$arch/images/*.elf                       \
-	           $$arch/images/*.uimage; do                \
-	    [ -e $$i ] || continue;                          \
-	    if [ $$i != $$arch/images/bootstrap.elf -a       \
-	         $$i != $$arch/images/bootstrap.uimage -a    \
-	         $$i != amd64/images/bootstrap32.elf ]; then \
-	      cp $$i ../../pre-built-images/$$arch;          \
+	  for i in $$arch/images/l4re_*.elf             \
+	           $$arch/images/l4re_*.elf32           \
+	           $$arch/images/l4re_*.efi             \
+	           $$arch/images/l4re_*.uimage; do      \
+	    if [[ "$$arch" = "amd64" && $$i = *.elf ]]; then \
+	      continue;                                      \
 	    fi;                                              \
+	    [ -e $$i ] || continue;                          \
+	    cp $$i ../../pre-built-images/$$arch;            \
 	  done;                                              \
 	done
 

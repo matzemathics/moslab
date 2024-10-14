@@ -64,25 +64,14 @@
 
 /* Define an entry point visible from C.  */
 #define	ENTRY(name)						\
-  ASM_GLOBAL_DIRECTIVE C_SYMBOL_NAME(name);			\
+  .globl C_SYMBOL_NAME(name);			\
   ASM_TYPE_DIRECTIVE (C_SYMBOL_NAME(name),function)		\
   .align ALIGNARG(4);						\
-  name##:							\
-  CALL_MCOUNT
+  name##:
 
 #undef	END
 #define END(name)						\
   ASM_SIZE_DIRECTIVE(name)
-
-/* If compiled for profiling, call `mcount' at the start of each function.  */
-#ifdef	PROF
-#define CALL_MCOUNT			\
-	str	lr,[sp, #-4]!	;	\
-	bl	PLTJMP(mcount)	;	\
-	ldr	lr, [sp], #4	;
-#else
-#define CALL_MCOUNT		/* Do nothing.  */
-#endif
 
 #ifdef	NO_UNDERSCORES
 /* Since C identifiers are not normally prefixed with an underscore
@@ -148,21 +137,8 @@
 #define	PSEUDO_END_ERRVAL(name) \
   END (name)
 
-#undef ret_ERRVAL
-#define ret_ERRVAL PSEUDO_RET_NOERRNO
-
 #if defined NOT_IN_libc
 # define SYSCALL_ERROR __local_syscall_error
-# ifdef RTLD_PRIVATE_ERRNO
-#  define SYSCALL_ERROR_HANDLER					\
-__local_syscall_error:						\
-       ldr     r1, 1f;						\
-       rsb     r0, r0, #0;					\
-0:     str     r0, [pc, r1];					\
-       mvn     r0, #0;						\
-       DO_RET(lr);						\
-1:     .word C_SYMBOL_NAME(rtld_errno) - 0b - 8;
-# else
 #  define SYSCALL_ERROR_HANDLER					\
 __local_syscall_error:						\
 	str	lr, [sp, #-4]!;					\
@@ -173,7 +149,6 @@ __local_syscall_error:						\
 	str	r1, [r0];					\
 	mvn	r0, #0;						\
 	ldr	pc, [sp], #4;
-# endif
 #else
 # define SYSCALL_ERROR_HANDLER	/* Nothing here; code in sysdep.S is used.  */
 # define SYSCALL_ERROR __syscall_error
@@ -205,6 +180,42 @@ __local_syscall_error:						\
    sees the right arguments.
 
 */
+#if __ARM_ARCH > 6 || defined (__ARM_ARCH_6K__) || defined (__ARM_ARCH_6ZK__)
+# define ARCH_HAS_HARD_TP
+#endif
+
+# ifdef __thumb2__
+#  define NEGOFF_ADJ_BASE(R, OFF)	add R, R, $OFF
+#  define NEGOFF_ADJ_BASE2(D, S, OFF)	add D, S, $OFF
+#  define NEGOFF_OFF1(R, OFF)		[R]
+#  define NEGOFF_OFF2(R, OFFA, OFFB)	[R, $((OFFA) - (OFFB))]
+# else
+#  define NEGOFF_ADJ_BASE(R, OFF)
+#  define NEGOFF_ADJ_BASE2(D, S, OFF)	mov D, S
+#  define NEGOFF_OFF1(R, OFF)		[R, $OFF]
+#  define NEGOFF_OFF2(R, OFFA, OFFB)	[R, $OFFA]
+# endif
+
+# ifdef ARCH_HAS_HARD_TP
+/* If the cpu has cp15 available, use it.  */
+#  define GET_TLS(TMP)		mrc p15, 0, r0, c13, c0, 3
+# else
+/* At this generic level we have no tricks to pull.  Call the ABI routine.  */
+#  define GET_TLS(TMP)					\
+	push	{ r1, r2, r3, lr };			\
+	cfi_remember_state;				\
+	cfi_adjust_cfa_offset (16);			\
+	cfi_rel_offset (r1, 0);				\
+	cfi_rel_offset (r2, 4);				\
+	cfi_rel_offset (r3, 8);				\
+	cfi_rel_offset (lr, 12);			\
+	bl	__aeabi_read_tp;			\
+	pop	{ r1, r2, r3, lr };			\
+	cfi_restore_state
+# endif /* ARCH_HAS_HARD_TP */
+
+
+
 
 #undef	DO_CALL
 #if defined(__ARM_EABI__)
@@ -240,121 +251,5 @@ __local_syscall_error:						\
 #define UNDOARGS_6 ldmfd sp!, {r4, r5};
 #define UNDOARGS_7 ldmfd sp!, {r4, r5, r6};
 
-#else /* not __ASSEMBLER__ */
-/* Define a macro which expands into the inline wrapper code for a system
-   call.  */
-#undef INLINE_SYSCALL
-#define INLINE_SYSCALL(name, nr, args...)					\
-  ({ unsigned int _inline_sys_result = INTERNAL_SYSCALL (name, , nr, args);	\
-     if (unlikely (INTERNAL_SYSCALL_ERROR_P (_inline_sys_result, )))	\
-       {									\
-	 __set_errno (INTERNAL_SYSCALL_ERRNO (_inline_sys_result, ));		\
-	 _inline_sys_result = (unsigned int) -1;				\
-       }									\
-     (int) _inline_sys_result; })
-
-#undef INTERNAL_SYSCALL_DECL
-#define INTERNAL_SYSCALL_DECL(err) do { } while (0)
-
-#undef INTERNAL_SYSCALL_RAW
-#if defined(__thumb__)
-/* Hide the use of r7 from the compiler, this would be a lot
- * easier but for the fact that the syscalls can exceed 255.
- * For the moment the LOAD_ARG_7 is sacrificed.
- * We can't use push/pop inside the asm because that breaks
- * unwinding (ie. thread cancellation).
- */
-#define INTERNAL_SYSCALL_RAW(name, err, nr, args...)		\
-  ({ unsigned int _internal_sys_result;				\
-    {								\
-      int _sys_buf[2];						\
-      register int __a1 __asm__ ("a1");				\
-      register int *_v3 __asm__ ("v3") = _sys_buf;		\
-      LOAD_ARGS_##nr (args)					\
-      *_v3 = (int) (name);					\
-      __asm__ __volatile__ ("str	r7, [v3, #4]\n"		\
-                    "\tldr      r7, [v3]\n"			\
-                    "\tswi      0       @ syscall " #name "\n"	\
-                    "\tldr      r7, [v3, #4]"			\
-                   : "=r" (__a1)				\
-                    : "r" (_v3) ASM_ARGS_##nr			\
-                    : "memory");				\
-      _internal_sys_result = __a1;				\
-    }								\
-    (int) _internal_sys_result; })
-#elif defined(__ARM_EABI__)
-#define INTERNAL_SYSCALL_RAW(name, err, nr, args...)		\
-  ({unsigned int _internal_sys_result;				\
-     {								\
-       register int __a1 __asm__ ("r0"), _nr __asm__ ("r7");	\
-       LOAD_ARGS_##nr (args)					\
-       _nr = name;						\
-       __asm__ __volatile__ ("swi	0x0 @ syscall " #name	\
-		     : "=r" (__a1)				\
-		     : "r" (_nr) ASM_ARGS_##nr			\
-		     : "memory");				\
-       _internal_sys_result = __a1;				\
-     }								\
-     (int) _internal_sys_result; })
-#else /* !defined(__ARM_EABI__) */
-#define INTERNAL_SYSCALL_RAW(name, err, nr, args...)		\
-  ({ unsigned int _internal_sys_result;				\
-     {								\
-       register int __a1 __asm__ ("a1");			\
-       LOAD_ARGS_##nr (args)					\
-       __asm__ __volatile__ ("swi	%1 @ syscall " #name	\
-		     : "=r" (__a1)				\
-		     : "i" (name) ASM_ARGS_##nr			\
-		     : "memory");				\
-       _internal_sys_result = __a1;				\
-     }								\
-     (int) _internal_sys_result; })
-#endif
-
-#undef INTERNAL_SYSCALL
-#define INTERNAL_SYSCALL(name, err, nr, args...)		\
-	INTERNAL_SYSCALL_RAW(SYS_ify(name), err, nr, args)
-
-#undef INTERNAL_SYSCALL_ARM
-#define INTERNAL_SYSCALL_ARM(name, err, nr, args...)		\
-	INTERNAL_SYSCALL_RAW(__ARM_NR_##name, err, nr, args)
-
-#undef INTERNAL_SYSCALL_ERROR_P
-#define INTERNAL_SYSCALL_ERROR_P(val, err) \
-  ((unsigned int) (val) >= 0xfffff001u)
-
-#undef INTERNAL_SYSCALL_ERRNO
-#define INTERNAL_SYSCALL_ERRNO(val, err)	(-(val))
-
-#if defined(__ARM_EABI__)
-#undef INTERNAL_SYSCALL_NCS
-#define INTERNAL_SYSCALL_NCS(number, err, nr, args...)		\
-	INTERNAL_SYSCALL_RAW(number, err, nr, args)
-#else
-/* We can't implement non-constant syscalls directly since the syscall
-   number is normally encoded in the instruction.  So use SYS_syscall.  */
-#undef INTERNAL_SYSCALL_NCS
-#define INTERNAL_SYSCALL_NCS(number, err, nr, args...)		\
-	INTERNAL_SYSCALL_NCS_##nr (number, err, args)
-
-#define INTERNAL_SYSCALL_NCS_0(number, err, args...)		\
-	INTERNAL_SYSCALL (syscall, err, 1, number, args)
-#define INTERNAL_SYSCALL_NCS_1(number, err, args...)		\
-	INTERNAL_SYSCALL (syscall, err, 2, number, args)
-#define INTERNAL_SYSCALL_NCS_2(number, err, args...)		\
-	INTERNAL_SYSCALL (syscall, err, 3, number, args)
-#define INTERNAL_SYSCALL_NCS_3(number, err, args...)		\
-	INTERNAL_SYSCALL (syscall, err, 4, number, args)
-#define INTERNAL_SYSCALL_NCS_4(number, err, args...)		\
-	INTERNAL_SYSCALL (syscall, err, 5, number, args)
-#define INTERNAL_SYSCALL_NCS_5(number, err, args...)		\
-	INTERNAL_SYSCALL (syscall, err, 6, number, args)
-#endif
-
 #endif	/* __ASSEMBLER__ */
-
-/* Pointer mangling is not yet supported for ARM.  */
-#define PTR_MANGLE(var) (void) (var)
-#define PTR_DEMANGLE(var) (void) (var)
-
 #endif /* linux/arm/sysdep.h */

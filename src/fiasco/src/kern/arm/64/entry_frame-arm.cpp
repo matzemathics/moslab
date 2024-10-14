@@ -11,10 +11,10 @@ private:
 
 public:
   void from(Mword id)
-  { r[4] = id; }
+  { r[1] = id; }
 
   Mword from_spec() const
-  { return r[4]; }
+  { return r[1]; }
 
    L4_obj_ref ref() const
   { return L4_obj_ref::from_raw(r[2]); }
@@ -29,7 +29,7 @@ public:
   { r[3] = to.raw(); }
 
   Utcb *utcb() const
-  { return reinterpret_cast<Utcb*>(r[1]); }
+  { return reinterpret_cast<Utcb*>(r[4]); }
 
   L4_msg_tag tag() const
   { return L4_msg_tag(r[0]); }
@@ -97,26 +97,6 @@ bool
 Return_frame::check_valid_user_psr() const
 { return (pstate & Proc::Status_mode_mask) == 0x00; }
 
-PUBLIC static inline NEEDS["processor.h"]
-Mword
-Entry_frame::initial_user_psr(Mword psr)
-{
-  return (psr & ~Proc::Status_interrupts_mask) | Proc::Status_always_mask;
-}
-
-PUBLIC inline NEEDS["processor.h"]
-void
-Entry_frame::set_base_user_state()
-{
-  psr &= ~(Proc::Status_mode_mask | Proc::Status_interrupts_mask);
-  psr |= Proc::Status_mode_user | Proc::Status_always_mask;
-}
-
-PUBLIC inline NEEDS["processor.h"]
-void
-Entry_frame::sanitize_user_state()
-{ set_base_user_state(); }
-
 //------------------------------------------------------------------
 IMPLEMENTATION [arm && 64bit && cpu_virt]:
 
@@ -125,44 +105,13 @@ bool
 Return_frame::check_valid_user_psr() const
 { return (pstate & 0x1c) != 0x08; }
 
-PUBLIC static inline NEEDS["processor.h"]
-Mword
-Entry_frame::initial_user_psr(Mword psr)
-{
-  return psr | Proc::Status_interrupts_mask;
-}
-
-PUBLIC inline NEEDS["processor.h"]
-void
-Entry_frame::set_base_user_state()
-{
-  psr &= ~(Proc::Status_mode_mask | Proc::Status_interrupts_mask);
-  psr |=   Proc::Status_mode_user | Proc::Status_interrupts_mask
-         | Proc::Status_always_mask;
-}
-
-PUBLIC inline
-void
-Entry_frame::sanitize_user_state()
-{
-  unsigned const max_el = 1;
-
-  if (psr & 0x10)
-    return;
-
-  // set illegal execution state bit in PSR, this will trigger
-  // an exception upon ERET
-  if (((psr & 0xf) >> 2) > max_el)
-    psr = psr | (1UL << 20);
-}
-
 // ------------------------------------------------------
-IMPLEMENTATION [arm && 64bit]:
+IMPLEMENTATION [arm && 64bit && !cpu_virt]:
 
-#include <cstdio>
+#include "processor.h"
 #include "mem.h"
 
-PUBLIC inline NEEDS["mem.h"]
+PUBLIC inline NEEDS["processor.h", "mem.h"]
 void
 Entry_frame::copy_and_sanitize(Entry_frame const *src)
 {
@@ -171,7 +120,21 @@ Entry_frame::copy_and_sanitize(Entry_frame const *src)
   usp = src->usp;
   pc  = src->pc;
   pstate = access_once(&src->pstate);
-  sanitize_user_state();
+  pstate &= ~(Proc::Status_mode_mask | Proc::Status_interrupts_mask);
+  pstate |= Proc::Status_mode_user | Proc::Status_always_mask;
+}
+
+// ------------------------------------------------------
+IMPLEMENTATION [arm && 64bit]:
+
+#include <cstdio>
+#include "processor.h"
+
+PUBLIC inline NEEDS["processor.h"]
+void
+Return_frame::psr_set_mode(unsigned char m)
+{
+  pstate = (pstate & ~Proc::Status_mode_mask) | m;
 }
 
 PUBLIC inline NEEDS[Return_frame::check_valid_user_psr]
@@ -191,3 +154,5 @@ Syscall_frame::dump()
          r[0], r[1], r[2], r[3]);
   printf(" R4: %08lx\n", r[4]);
 }
+
+

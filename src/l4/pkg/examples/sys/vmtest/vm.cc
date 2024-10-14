@@ -384,7 +384,7 @@ Vm::run_tests()
   ret = handle_vmexit();
   if (ret == VMCALL)
     {
-      if (vcpu->r.dx == 0xdeadbeef)
+      if (vcpu->r.dx == 0x22446688)
         printf("ok - vm running\n");
     }
   else

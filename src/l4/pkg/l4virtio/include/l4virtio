@@ -1,5 +1,5 @@
 // vi:set ft=cpp: -*- Mode: C++ -*-
-/* SPDX-License-Identifier: GPL-2.0-only or License-Ref-kk-custom */
+/* SPDX-License-Identifier: MIT */
 /*
  * Copyright (C) 2013-2022 Kernkonzept GmbH.
  * Author(s): Alexander Warg <alexander.warg@kernkonzept.com>
@@ -61,6 +61,14 @@ public:
                       out_notify, in_notify, to);
     }
 
+    int notify_queue(unsigned num, L4::Cap<L4::Triggerable> out_notify,
+                     L4::Cap<L4::Triggerable> in_notify,
+                     l4_timeout_s to = L4_IPC_TIMEOUT_NEVER)
+    {
+      return send_cmd(L4VIRTIO_CMD_NOTIFY_QUEUE | num,
+                      out_notify, in_notify, to);
+    }
+
     /**
      * Check the VIRTIO status register device and driver failure bits.
      *
@@ -81,6 +89,14 @@ public:
                    l4_timeout_s to = L4_IPC_TIMEOUT_NEVER)
     {
       return send_cmd(L4VIRTIO_CMD_SET_STATUS | new_status,
+                      out_notify, in_notify, to);
+    }
+
+    int cfg_changed(unsigned reg, L4::Cap<L4::Triggerable> out_notify,
+                   L4::Cap<L4::Triggerable> in_notify,
+                   l4_timeout_s to = L4_IPC_TIMEOUT_NEVER)
+    {
+      return send_cmd(L4VIRTIO_CMD_CFG_CHANGED | reg,
                       out_notify, in_notify, to);
     }
 

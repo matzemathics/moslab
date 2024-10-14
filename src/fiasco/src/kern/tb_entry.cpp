@@ -45,14 +45,14 @@ extern Tb_log_table_entry _jdb_log_table_end;
 class Tb_entry
 {
 protected:
-  Mword		_number;	///< event number
-  Address	_ip;		///< instruction pointer
-  Unsigned64	_tsc;		///< time stamp counter
-  Context const *_ctx;		///< Context
-  Unsigned32	_pmc1;		///< performance counter value 1
-  Unsigned32	_pmc2;		///< performance counter value 2
-  Unsigned32	_kclock;	///< lower 32 bits of kernel clock
-  Unsigned8	_type;		///< type of entry
+  Mword         _number;        ///< event number
+  Address       _ip;            ///< instruction pointer
+  Unsigned64    _tsc;           ///< time stamp counter
+  Context const *_ctx;          ///< Context
+  Unsigned32    _pmc1;          ///< performance counter value 1
+  Unsigned32    _pmc2;          ///< performance counter value 2
+  Unsigned32    _kclock;        ///< lower 32 bits of kernel clock
+  Unsigned8     _type;          ///< type of entry
   Unsigned8     _cpu;           ///< CPU
 
   static Mword (*rdcnt1)();
@@ -93,9 +93,7 @@ class Tb_entry_union : public Tb_entry
 private:
   char _padding[Tb_entry_size - sizeof(Tb_entry)];
 };
-
-static_assert(sizeof(Tb_entry_union) == Tb_entry::Tb_entry_size,
-              "Tb_entry_union has the wrong size");
+static_assert(sizeof(Tb_entry_union) == Tb_entry::Tb_entry_size);
 
 struct Tb_entry_empty : public Tb_entry
 {
@@ -129,7 +127,7 @@ template< typename T >
 class Tb_entry_formatter_t : public Tb_entry_formatter
 {
 public:
-  Tb_entry_formatter_t() {}
+  constexpr Tb_entry_formatter_t() {}
 
   typedef T const *Const_ptr;
   typedef T *Ptr;
@@ -163,44 +161,47 @@ Tb_entry_formatter_t<T> const Tb_entry_formatter_t<T>::singleton;
 class Tb_entry_ipc : public Tb_entry
 {
 private:
-  L4_msg_tag	_tag;           ///< message tag
-  Mword	_dword[2];	///< first two message words
-  L4_obj_ref	_dst;		///< destination id
-  Mword       _dbg_id;
-  Mword       _label;
-  L4_timeout_pair _timeout;	///< timeout
+  L4_msg_tag    _tag;           ///< message tag
+  Mword         _dword[2];      ///< first two message words
+  L4_obj_ref    _dst;           ///< destination id
+  Mword         _dbg_id;
+  Mword         _label;
+  L4_timeout_pair _timeout;     ///< timeout
 public:
   Tb_entry_ipc() : _timeout(0) {}
   void print(String_buffer *buf) const;
 };
+static_assert(sizeof(Tb_entry_ipc) <= Tb_entry::Tb_entry_size);
 
 /** logged ipc result. */
 class Tb_entry_ipc_res : public Tb_entry
 {
 private:
-  L4_msg_tag	_tag;		///< message tag
-  Mword	_dword[2];	///< first two dwords
-  L4_error	_result;	///< result
-  Mword	_from;		///< receive descriptor
-  Mword	_pair_event;	///< referred event
-  Unsigned8	_have_snd;	///< ipc had send part
-  Unsigned8	_is_np;		///< next period bit set
+  Unsigned8     _have_snd;      ///< IPC had send part
+  Unsigned8     _is_np;         ///< next period bit set
+  L4_msg_tag    _tag;           ///< message tag
+  Mword         _dword[2];      ///< first two dwords
+  L4_error      _result;        ///< result
+  Mword         _from;          ///< receive descriptor
+  L4_obj_ref    _dst;           ///< destination id
+  Mword         _pair_event;    ///< referred event
 public:
   void print(String_buffer *buf) const;
 };
-
+static_assert(sizeof(Tb_entry_ipc_res) <= Tb_entry::Tb_entry_size);
 
 /** logged pagefault. */
 class Tb_entry_pf : public Tb_entry
 {
 private:
-  Address	_pfa;		///< pagefault address
-  Mword	_error;		///< pagefault error code
-  Space	*_space;
+  Address       _pfa;           ///< pagefault address
+  Mword         _error;         ///< pagefault error code
+  Space         *_space;
 public:
   // Unused because PF logging type < Tbuf_dynentries, see formatter_default()
   void print(String_buffer *) const {}
 };
+static_assert(sizeof(Tb_entry_pf) <= Tb_entry::Tb_entry_size);
 
 /** logged kernel event. */
 template<unsigned BASE_SIZE>
@@ -244,6 +245,7 @@ public:
   void set(Context const *ctx, Address ip)
   { set_global(Tbuf_ke, ctx, ip); }
 };
+static_assert(sizeof(Tb_entry_ke) <= Tb_entry::Tb_entry_size);
 
 class Tb_entry_ke_reg : public Tb_entry
 {
@@ -253,18 +255,20 @@ public:
   void set(Context const *ctx, Address ip)
   { set_global(Tbuf_ke_reg, ctx, ip); }
 };
+static_assert(sizeof(Tb_entry_ke_reg) <= Tb_entry::Tb_entry_size);
 
 /** logged breakpoint. */
 class Tb_entry_bp : public Tb_entry
 {
 private:
-  Address	_address;	///< breakpoint address
-  int		_len;		///< breakpoint length
-  Mword	_value;		///< value at address
-  int		_mode;		///< breakpoint mode
+  Address       _address;       ///< breakpoint address
+  int           _len;           ///< breakpoint length
+  Mword         _value;         ///< value at address
+  int           _mode;          ///< breakpoint mode
 public:
   void print(String_buffer *buf) const;
 };
+static_assert(sizeof(Tb_entry_bp) <= Tb_entry::Tb_entry_size);
 
 /** logged binary kernel event. */
 class Tb_entry_ke_bin : public Tb_entry
@@ -273,9 +277,19 @@ public:
   char _msg[Tb_entry_size - sizeof(Tb_entry)];
   enum { SIZE = 30 };
 };
+static_assert(sizeof(Tb_entry_ke_bin) <= Tb_entry::Tb_entry_size);
+
+//---------------------------------------------------------------------------
+INTERFACE[64bit]:
+
+EXTENSION class Tb_entry_ipc
+{
+private:
+  Unsigned64  _to_abs_rcv;      ///< absolute receive timeout
+};
 
 
-
+//---------------------------------------------------------------------------
 IMPLEMENTATION:
 
 #include <cstring>
@@ -331,7 +345,7 @@ Tb_entry::set_global(char type, Context const *ctx, Address ip)
   _type   = type;
   _ctx    = ctx;
   _ip     = ip;
-  _kclock = (Unsigned32)Kip::k()->clock();
+  _kclock = static_cast<Unsigned32>(Kip::k()->clock());
   _cpu    = cxx::int_value<Cpu_number>(current_cpu());
 }
 
@@ -414,9 +428,8 @@ Tb_entry::pmc2() const
 PUBLIC inline NEEDS ["entry_frame.h"]
 void
 Tb_entry_ipc::set(Context const *ctx, Mword ip, Syscall_frame *ipc_regs, Utcb *utcb,
-		  Mword dbg_id, Unsigned64 left)
+                  Mword dbg_id, Unsigned64 /* left */)
 {
-  (void)left;
   set_global(Tbuf_ipc, ctx, ip);
   _dst       = ipc_regs->ref();
   _label     = ipc_regs->from_spec();
@@ -425,6 +438,7 @@ Tb_entry_ipc::set(Context const *ctx, Mword ip, Syscall_frame *ipc_regs, Utcb *u
   _dbg_id = dbg_id;
 
   _timeout   = ipc_regs->timeout();
+  set_abs_timeout(utcb);
   _tag       = ipc_regs->tag();
   // hint for gcc
   Mword tmp0 = utcb->values[0];
@@ -473,8 +487,8 @@ PUBLIC inline NEEDS ["entry_frame.h"]
 void
 Tb_entry_ipc_res::set(Context const *ctx, Mword ip, Syscall_frame *ipc_regs,
                       Utcb *utcb,
-		      Mword result, Mword pair_event, Unsigned8 have_snd,
-		      Unsigned8 is_np)
+                      Mword result, Mword pair_event, Unsigned8 have_snd,
+                      Unsigned8 is_np)
 {
   set_global(Tbuf_ipc_res, ctx, ip);
   // hint for gcc
@@ -486,6 +500,7 @@ Tb_entry_ipc_res::set(Context const *ctx, Mword ip, Syscall_frame *ipc_regs,
   _pair_event = pair_event;
   _result     = L4_error::from_raw(result);
   _from       = ipc_regs->from_spec();
+  _dst        = ipc_regs->ref();
   _have_snd   = have_snd;
   _is_np      = is_np;
 }
@@ -525,11 +540,16 @@ Mword
 Tb_entry_ipc_res::pair_event() const
 { return _pair_event; }
 
+PUBLIC inline
+bool
+Tb_entry_ipc_res::ipc_has_recv_phase() const
+{ return !!(_dst.op() & L4_obj_ref::Ipc_recv); }
+
 
 PUBLIC inline
 void
 Tb_entry_pf::set(Context const *ctx, Address ip, Address pfa,
-		 Mword error, Space *spc)
+                 Mword error, Space *spc)
 {
   set_global(Tbuf_pf, ctx, ip);
   _pfa   = pfa;
@@ -556,7 +576,7 @@ Tb_entry_pf::space() const
 PUBLIC inline
 void
 Tb_entry_bp::set(Context const *ctx, Address ip,
-		 int mode, int len, Mword value, Address address)
+                 int mode, int len, Mword value, Address address)
 {
   set_global(Tbuf_breakpoint, ctx, ip);
   _mode    = mode;
@@ -601,3 +621,31 @@ Tb_entry_ke_bin::set_buf(unsigned i, char c)
     _msg[i] = c;
 }
 
+//---------------------------------------------------------------------------
+IMPLEMENTATION[32bit]:
+
+PUBLIC inline void Tb_entry_ipc::set_abs_timeout(Utcb *)
+{
+  // ignore absolute timeouts due to lack of space
+}
+
+PUBLIC inline
+Unsigned64
+Tb_entry_ipc::timeout_abs_rcv() const
+{ return 0ULL; }
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION[64bit]:
+
+PUBLIC inline NEEDS ["entry_frame.h"]
+void
+Tb_entry_ipc::set_abs_timeout(Utcb *utcb)
+{
+  if (_timeout.rcv.is_absolute())
+    _to_abs_rcv = _timeout.rcv.microsecs_abs(utcb);
+}
+
+PUBLIC inline
+Unsigned64
+Tb_entry_ipc::timeout_abs_rcv() const
+{ return _to_abs_rcv; }

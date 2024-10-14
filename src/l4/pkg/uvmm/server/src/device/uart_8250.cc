@@ -23,6 +23,7 @@
 #include "io_device.h"
 #include "mmio_device.h"
 #include "vcon_device.h"
+#include "pm_device_if.h"
 
 static Dbg warn(Dbg::Mmio, Dbg::Warn, "uart_8250");
 
@@ -68,7 +69,8 @@ namespace {
 class Uart_8250_base
 : public Vdev::Device,
   public Vcon_device,
-  public L4::Irqep_t<Uart_8250_base>
+  public L4::Irqep_t<Uart_8250_base>,
+  public Vdev::Pm_device
 {
   enum Regs
   {
@@ -165,6 +167,8 @@ class Uart_8250_base
     Lsr_reg() : raw(0x60) {}
     explicit Lsr_reg(l4_uint8_t v) : raw(v) {}
 
+    /// Set, when no transmission is running; clear by reading LSR.
+    CXX_BITFIELD_MEMBER(6, 6, temt, raw);
     /// Set, when data can be written.
     CXX_BITFIELD_MEMBER(5, 5, thre, raw);
     /// Break interrupt.
@@ -193,12 +197,15 @@ class Uart_8250_base
       pe() = 0;
       oe() = 0;
     }
+
+    void reset() { raw = 0x40; }
   };
 
 public:
   Uart_8250_base(L4::Cap<L4::Vcon> con, l4_uint64_t regshift,
                  cxx::Ref_ptr<Gic::Ic> const &ic, int irq)
-  : Vcon_device(con), _regshift(regshift), _sink(ic, irq)
+  : Vcon_device(con), _regshift(regshift), _sink(ic, irq),
+    _scr(0), _dll(0), _dlm(0)
   {
     l4_vcon_attr_t attr;
     if (l4_error(con->get_attr(&attr)) != L4_EOK)
@@ -327,6 +334,16 @@ public:
       };
   }
 
+  void pm_suspend() override
+  {
+    flush_cons();
+  }
+
+  void pm_resume() override
+  {
+    reset();
+  }
+
 private:
   l4_uint32_t read_char()
   {
@@ -405,6 +422,37 @@ private:
     _sink.inject();
   }
 
+  // Flush cons channel and drop the data to receive an IRQ on next input.
+  void flush_cons()
+  {
+    int const sz = 100;
+    char dummy[sz];
+    while (_con->read(dummy, sz) > sz)
+      ;
+
+    // clear IRQ sink
+    _sink.ack();
+  }
+
+  /**
+   * Reset the UART state.
+   *
+   * Write reset values to the registers, flush the cons channel and set the
+   * IRQ sink into cleared state.
+   */
+  void reset()
+  {
+    _ier.raw = 0;
+    _iir.clear();
+    _lsr.reset();
+    _lcr.raw = 0;
+    _scr = 0;
+    _dll = 0;
+    _dlm = 0;
+
+    flush_cons();
+  }
+
   l4_uint64_t _regshift;
   Vmm::Irq_sink _sink;
   bool _enabled = false;
@@ -429,6 +477,8 @@ public:
                  cxx::Ref_ptr<Gic::Ic> const &ic, int irq)
   : Uart_8250_base(con, regshift, ic, irq)
   {}
+
+  char const *dev_name() const override { return "Uart_8250_mmio"; }
 };
 
 class Uart_8250_io
@@ -439,6 +489,9 @@ public:
   Uart_8250_io(L4::Cap<L4::Vcon> con, cxx::Ref_ptr<Gic::Ic> const &ic, int irq)
   : Uart_8250_base(con, 0, ic, irq)
   {}
+
+  char const *dev_name() const override
+  { return "UART 8250"; }
 
   void io_in(unsigned reg, Vmm::Mem_access::Width width, l4_uint32_t *value) override
   {
@@ -481,7 +534,7 @@ struct F : Vdev::Factory
 
     if (Vmm::Guest::Has_io_space) // Differentiate node types (MMIO or port-IO) here
       {
-        auto region = Vmm::Io_region(0x3f8, 0x400, Vmm::Region_type::Virtual);
+        auto region = Vmm::Io_region(0x3f8, 0x3ff, Vmm::Region_type::Virtual);
         auto c = Vdev::make_device<Uart_8250_io>(cap, it.ic(), it.irq());
         c->register_obj<Uart_8250_io>(devs->vmm()->registry());
         devs->vmm()->add_io_device(region, c);

@@ -1,5 +1,11 @@
 <map id="l4_vm_vmx_ptr_load" name="l4_vm_vmx_ptr_load">
-<area shape="rect" id="Node000001" title="Loads the user_vmcs as the current VMCS." alt="" coords="5,5,164,31"/>
-<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#ga4d323a569fb25c1e13c43307a10c0928" title="Saves cached state from the kernel VMCS to the user VMCS." alt="" coords="212,5,349,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,15,198,15,198,21,164,21"/>
+<area shape="rect" id="Node000001" title="Loads the user_vmcs as the current software VMCS." alt="" coords="5,29,164,55"/>
+<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#ga4d323a569fb25c1e13c43307a10c0928" title="Saves cached state from the kernel software VMCS to the user software VMCS." alt="" coords="212,29,349,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,39,198,39,198,45,164,45"/>
+<area shape="rect" id="Node000003" href="$group__l4__vm__vmx__api.html#ga68d8576e1d43f45fb1286b7d716fb33f" title="Get the hardware VMCS object capability associated with the software VMCS." alt="" coords="397,5,592,31"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="137,27,212,14,299,9,383,10,383,15,299,14,212,19,138,32"/>
+<area shape="rect" id="Node000004" href="$group__l4__vm__vmx__api.html#gaf3a8561834bf99b27397eab48320d9e9" title="Associate the software VMCS with a hardware VMCS object capability." alt="" coords="398,55,591,80"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="138,52,212,65,300,70,384,70,384,75,299,75,212,70,137,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="349,32,384,28,384,33,350,37"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="350,47,385,52,384,57,349,53"/>
 </map>

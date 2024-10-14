@@ -202,6 +202,16 @@
 #endif /* __cplusplus */
 
 /**
+ * Constexpr function attribute.
+ * \hideinitializer
+ */
+#if defined __cplusplus && __cplusplus >= 201402L
+# define L4_CONSTEXPR constexpr
+#else
+# define L4_CONSTEXPR
+#endif
+
+/**
  * Noreturn function attribute.
  * \hideinitializer
  */
@@ -238,9 +248,10 @@
  * type on the target machine. This is normally identical to desired stack
  * alignment.
  */
-#if defined(ARCH_x86) || defined(ARCH_amd64) || \
-  defined(ARCH_arm) || defined(ARCH_arm64) || \
-  defined(ARCH_mips) || defined(ARCH_ppc32) || defined(ARCH_sparc)
+#if defined(__i386__) || defined(__amd64__) || \
+  defined(__arm__) || defined(__aarch64__) || \
+  defined(__mips__) || defined(__riscv) || \
+  defined(__powerpc__) || defined(__sparc__)
 # define L4_STACK_ALIGN         __BIGGEST_ALIGNMENT__
 #else
 # error Define L4_STACK_ALIGN for this target!
@@ -263,7 +274,7 @@
  *
  * \hideinitializer
  */
-#if defined(ARCH_x86) || defined(ARCH_amd64)
+#if defined(__i386__) || defined(__amd64__)
 L4_INLINE unsigned long l4_align_stack_for_direct_fncall(unsigned long stack)
 {
   if ((stack & (L4_STACK_ALIGN - 1)) == (L4_STACK_ALIGN - sizeof(unsigned long)))
@@ -300,6 +311,12 @@ L4_INLINE unsigned long l4_align_stack_for_direct_fncall(unsigned long stack)
 
 #define L4_stringify_helper(x) #x                       ///< stringify helper. \hideinitializer
 #define L4_stringify(x)        L4_stringify_helper(x)   ///< stringify. \hideinitializer
+
+#ifdef __has_builtin
+#define L4_HAS_BUILTIN(def) __has_builtin(def)
+#else
+#define L4_HAS_BUILTIN(def) 0
+#endif
 
 #ifndef __ASSEMBLER__
 /**

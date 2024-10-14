@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Thread Class Reference</title>
+<title>L4Re Operating System Framework: L4::Thread Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -340,7 +343,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 
 <p class="definition">Definition at line <a class="el" href="sys_2thread_source.html#l00123">123</a> of file <a class="el" href="sys_2thread_source.html">thread</a>.</p>
 
-<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l00780">l4_thread_ex_regs_ret_u()</a>.</p>
+<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l00785">l4_thread_ex_regs_ret_u()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -413,7 +416,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 
 <p class="definition">Definition at line <a class="el" href="sys_2thread_source.html#l00090">90</a> of file <a class="el" href="sys_2thread_source.html">thread</a>.</p>
 
-<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l00769">l4_thread_ex_regs_u()</a>.</p>
+<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l00774">l4_thread_ex_regs_u()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -458,11 +461,12 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <dl class="section return"><dt>Returns</dt><dd>System call return tag.</dd></dl>
 <p>The modification rules are applied to all IPCs to the thread (whether directly or by IPC gate) that are already in flight, that is that the sender is already blocking on.</p>
 <p>See <a class="el" href="classL4_1_1Thread_1_1Modify__senders.html" title="Class wrapping a list of rules which modify the sender label of IPC messages inbound to this thread.">Modify_senders</a> for a detailed description when applying sender modification rules is required.</p>
+<dl class="section note"><dt>Note</dt><dd>Modifying the senders of a thread running on a different CPU core is not supported.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__l4__thread__api.html#gab4f2106933cf35dc0d4fb2e97e093aef" title="Apply (commit) a sender modification sequence.">l4_thread_modify_sender_commit()</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sys_2thread_source.html#l00498">498</a> of file <a class="el" href="sys_2thread_source.html">thread</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sys_2thread_source.html#l00501">501</a> of file <a class="el" href="sys_2thread_source.html">thread</a>.</p>
 
-<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, and <a class="el" href="l4_2sys_2types_8h_source.html#l00064">L4_PROTO_THREAD</a>.</p>
+<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, and <a class="el" href="l4_2sys_2types_8h_source.html#l00064">L4_PROTO_THREAD</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -532,7 +536,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 
 <p class="definition">Definition at line <a class="el" href="sys_2thread_source.html#l00414">414</a> of file <a class="el" href="sys_2thread_source.html">thread</a>.</p>
 
-<p class="reference">References <a class="el" href="capability_8h_source.html#l00052">L4::Cap_base::cap()</a>, and <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>.</p>
+<p class="reference">References <a class="el" href="capability_8h_source.html#l00049">L4::Cap_base::cap()</a>, and <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -683,7 +687,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <p>Enable the vCPU feature for the thread. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vcpu_state</td><td>A virtual address pointing to a <a class="el" href="structl4__vcpu__state__t.html" title="State of a vCPU.">l4_vcpu_state_t</a>. It must be a valid kernel-user-memory address (see <a class="el" href="classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). </td></tr>
+    <tr><td class="paramname">vcpu_state</td><td>A virtual address pointing to a <a class="el" href="structl4__vcpu__state__t.html" title="State of a vCPU.">l4_vcpu_state_t</a>. It must be a valid kernel-user-memory address (see <a class="el" href="classL4_1_1Task.html#a9e741ff1d27ca776c65abaff1de2f139" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). </td></tr>
     <tr><td class="paramname">utcb</td><td>UTCB to be used for this operation, shall be the UTCB of the calling thread. Defaults to <a class="el" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address.">l4_utcb</a>.</td></tr>
   </table>
   </dd>
@@ -696,7 +700,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 
 <p class="definition">Definition at line <a class="el" href="sys_2thread_source.html#l00354">354</a> of file <a class="el" href="sys_2thread_source.html">thread</a>.</p>
 
-<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l01015">l4_thread_vcpu_control_u()</a>.</p>
+<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l01020">l4_thread_vcpu_control_u()</a>.</p>
 <div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-9-summary" class="dynsummary" style="display:block;">
@@ -744,7 +748,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <p>Enable the extended vCPU feature for the thread. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ext_vcpu_state</td><td>The virtual address where the kernel shall store the vCPU state in case of vCPU exits. The address must be a valid kernel-user-memory address (see <a class="el" href="classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). </td></tr>
+    <tr><td class="paramname">ext_vcpu_state</td><td>The virtual address where the kernel shall store the vCPU state in case of vCPU exits. The address must be a valid kernel-user-memory address (see <a class="el" href="classL4_1_1Task.html#a9e741ff1d27ca776c65abaff1de2f139" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). </td></tr>
     <tr><td class="paramname">utcb</td><td>UTCB to be used for this operation, shall be the UTCB of the calling thread. Defaults to <a class="el" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address.">l4_utcb</a>.</td></tr>
   </table>
   </dd>
@@ -761,7 +765,7 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 
 <p class="definition">Definition at line <a class="el" href="sys_2thread_source.html#l00387">387</a> of file <a class="el" href="sys_2thread_source.html">thread</a>.</p>
 
-<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l01030">l4_thread_vcpu_control_ext_u()</a>.</p>
+<p class="reference">References <a class="el" href="kobject_source.html#l00079">L4::Kobject::cap()</a>, and <a class="el" href="l4_2sys_2thread_8h_source.html#l01035">l4_thread_vcpu_control_ext_u()</a>.</p>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-10-summary" class="dynsummary" style="display:block;">
@@ -894,7 +898,7 @@ Upgrading from non-extended vCPU feature to extended vCPU feature is currently n
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="classL4_1_1Thread.html">Thread</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

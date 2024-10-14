@@ -1,7 +1,7 @@
 PKGDIR		?= ../..
 L4DIR		?= $(PKGDIR)/../..
 
-TARGET		= libl4z.a libl4z.so
+TARGET		= libl4z.a libl4z.so libl4z.p.a
 WARNINGS        = $(WARNINGS_MEDIUM) \
                   $(call checkcc,-Wno-implicit-function-declaration)
 SYSTEMS	        = $(SYSTEMS_ABI) $(SYSTEMS_PLAIN)

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/shmc/ringbuf.h File Reference</title>
+<title>L4Re Operating System Framework: l4/shmc/ringbuf.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -106,7 +109,7 @@ $(document).ready(function(){initNavTree('ringbuf_8h.html',''); initResizable();
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="ringbuf_8h__incl.svg" width="1051" height="550"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="ringbuf_8h__incl.svg" width="1000" height="550"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="ringbuf_8h_source.html">Go to the source code of this file.</a></p>
@@ -122,15 +125,15 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a75dc43d355685aac61623e1e7d3c2d73" id="r_a75dc43d355685aac61623e1e7d3c2d73"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ringbuf_8h.html#a75dc43d355685aac61623e1e7d3c2d73">L4SHMC_RINGBUF_HEAD</a>(ringbuf)&#160;&#160;&#160;((<a class="el" href="structl4shmc__ringbuf__head__t.html">l4shmc_ringbuf_head_t</a>*)((ringbuf)-&gt;_addr))</td></tr>
-<tr class="memdesc:a75dc43d355685aac61623e1e7d3c2d73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get ring buffer head pointer.  <br /></td></tr>
-<tr class="separator:a75dc43d355685aac61623e1e7d3c2d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad2b2ff15bf620c4fb587ef97c389a97" id="r_aad2b2ff15bf620c4fb587ef97c389a97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ringbuf_8h.html#aad2b2ff15bf620c4fb587ef97c389a97">L4SHMC_RINGBUF_DATA</a>(ringbuf)&#160;&#160;&#160;(<a class="el" href="ringbuf_8h.html#a75dc43d355685aac61623e1e7d3c2d73">L4SHMC_RINGBUF_HEAD</a>(ringbuf)-&gt;data)</td></tr>
-<tr class="memdesc:aad2b2ff15bf620c4fb587ef97c389a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get ring buffer data pointer.  <br /></td></tr>
-<tr class="separator:aad2b2ff15bf620c4fb587ef97c389a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a110e33bc1a57463cc5e77372bf140fee" id="r_a110e33bc1a57463cc5e77372bf140fee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ringbuf_8h.html#a110e33bc1a57463cc5e77372bf140fee">L4SHMC_RINGBUF_DATA_SIZE</a>(ringbuf)&#160;&#160;&#160;((ringbuf)-&gt;_size - sizeof(<a class="el" href="structl4shmc__ringbuf__head__t.html">l4shmc_ringbuf_head_t</a>))</td></tr>
-<tr class="memdesc:a110e33bc1a57463cc5e77372bf140fee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get size of data area.  <br /></td></tr>
-<tr class="separator:a110e33bc1a57463cc5e77372bf140fee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga75dc43d355685aac61623e1e7d3c2d73" id="r_ga75dc43d355685aac61623e1e7d3c2d73"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__api__l4shm__ringbuf__internal.html#ga75dc43d355685aac61623e1e7d3c2d73">L4SHMC_RINGBUF_HEAD</a>(ringbuf)&#160;&#160;&#160;((<a class="el" href="structl4shmc__ringbuf__head__t.html">l4shmc_ringbuf_head_t</a>*)((ringbuf)-&gt;_addr))</td></tr>
+<tr class="memdesc:ga75dc43d355685aac61623e1e7d3c2d73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get ring buffer head pointer.  <br /></td></tr>
+<tr class="separator:ga75dc43d355685aac61623e1e7d3c2d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaad2b2ff15bf620c4fb587ef97c389a97" id="r_gaad2b2ff15bf620c4fb587ef97c389a97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__api__l4shm__ringbuf__internal.html#gaad2b2ff15bf620c4fb587ef97c389a97">L4SHMC_RINGBUF_DATA</a>(ringbuf)&#160;&#160;&#160;(<a class="el" href="group__api__l4shm__ringbuf__internal.html#ga75dc43d355685aac61623e1e7d3c2d73">L4SHMC_RINGBUF_HEAD</a>(ringbuf)-&gt;data)</td></tr>
+<tr class="memdesc:gaad2b2ff15bf620c4fb587ef97c389a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get ring buffer data pointer.  <br /></td></tr>
+<tr class="separator:gaad2b2ff15bf620c4fb587ef97c389a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga110e33bc1a57463cc5e77372bf140fee" id="r_ga110e33bc1a57463cc5e77372bf140fee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__api__l4shm__ringbuf__internal.html#ga110e33bc1a57463cc5e77372bf140fee">L4SHMC_RINGBUF_DATA_SIZE</a>(ringbuf)&#160;&#160;&#160;((ringbuf)-&gt;_size - sizeof(<a class="el" href="structl4shmc__ringbuf__head__t.html">l4shmc_ringbuf_head_t</a>))</td></tr>
+<tr class="memdesc:ga110e33bc1a57463cc5e77372bf140fee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get size of data area.  <br /></td></tr>
+<tr class="separator:ga110e33bc1a57463cc5e77372bf140fee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -174,91 +177,6 @@ Functions</h2></td></tr>
 <tr class="memdesc:abbfdfa3474442e1b250a0a59eb5bac7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Have a look at the ring buffer and see which size the next packet to be read has.  <br /></td></tr>
 <tr class="separator:abbfdfa3474442e1b250a0a59eb5bac7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aad2b2ff15bf620c4fb587ef97c389a97" name="aad2b2ff15bf620c4fb587ef97c389a97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad2b2ff15bf620c4fb587ef97c389a97">&#9670;&#160;</a></span>L4SHMC_RINGBUF_DATA</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L4SHMC_RINGBUF_DATA</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">ringbuf</td><td>)</td>
-          <td>&#160;&#160;&#160;(<a class="el" href="ringbuf_8h.html#a75dc43d355685aac61623e1e7d3c2d73">L4SHMC_RINGBUF_HEAD</a>(ringbuf)-&gt;data)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get ring buffer data pointer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ringbuf</td><td><a class="el" href="structl4shmc__ringbuf__t.html" title="Ring buffer.">l4shmc_ringbuf_t</a> struct </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="ringbuf_8h_source.html#l00113">113</a> of file <a class="el" href="ringbuf_8h_source.html">ringbuf.h</a>.</p>
-
-</div>
-</div>
-<a id="a110e33bc1a57463cc5e77372bf140fee" name="a110e33bc1a57463cc5e77372bf140fee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a110e33bc1a57463cc5e77372bf140fee">&#9670;&#160;</a></span>L4SHMC_RINGBUF_DATA_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L4SHMC_RINGBUF_DATA_SIZE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">ringbuf</td><td>)</td>
-          <td>&#160;&#160;&#160;((ringbuf)-&gt;_size - sizeof(<a class="el" href="structl4shmc__ringbuf__head__t.html">l4shmc_ringbuf_head_t</a>))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get size of data area. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ringbuf</td><td><a class="el" href="structl4shmc__ringbuf__t.html" title="Ring buffer.">l4shmc_ringbuf_t</a> struct </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="ringbuf_8h_source.html#l00122">122</a> of file <a class="el" href="ringbuf_8h_source.html">ringbuf.h</a>.</p>
-
-</div>
-</div>
-<a id="a75dc43d355685aac61623e1e7d3c2d73" name="a75dc43d355685aac61623e1e7d3c2d73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75dc43d355685aac61623e1e7d3c2d73">&#9670;&#160;</a></span>L4SHMC_RINGBUF_HEAD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L4SHMC_RINGBUF_HEAD</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">ringbuf</td><td>)</td>
-          <td>&#160;&#160;&#160;((<a class="el" href="structl4shmc__ringbuf__head__t.html">l4shmc_ringbuf_head_t</a>*)((ringbuf)-&gt;_addr))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get ring buffer head pointer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ringbuf</td><td><a class="el" href="structl4shmc__ringbuf__t.html" title="Ring buffer.">l4shmc_ringbuf_t</a> struct </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="ringbuf_8h_source.html#l00104">104</a> of file <a class="el" href="ringbuf_8h_source.html">ringbuf.h</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a3c648282472c29b707914c41de240994" name="a3c648282472c29b707914c41de240994"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3c648282472c29b707914c41de240994">&#9670;&#160;</a></span>l4shmc_rb_attach_receiver()</h2>
@@ -808,7 +726,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_4720fcac3b01e025220c92790c02ac45.html">shmc</a></li><li class="navelem"><a class="el" href="ringbuf_8h.html">ringbuf.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

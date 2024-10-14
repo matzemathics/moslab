@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4virtio_config_hdr_t Struct Reference</title>
+<title>L4Re Operating System Framework: l4virtio_config_hdr_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -108,7 +111,7 @@ $(document).ready(function(){initNavTree('structl4virtio__config__hdr__t.html','
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structl4virtio__config__hdr__t__coll__graph.svg" width="196" height="276"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structl4virtio__config__hdr__t__coll__graph.svg" width="158" height="196"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -141,50 +144,12 @@ Data Fields</h2></td></tr>
 <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>queues_offset</b></td></tr>
 <tr class="memdesc:a4da93c2cef05149a4fb6b4bd06a768d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">offset of virtqueue config array <br /></td></tr>
 <tr class="separator:a4da93c2cef05149a4fb6b4bd06a768d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2f4bac6d9465b1a4c61b2421c384890" id="r_ab2f4bac6d9465b1a4c61b2421c384890"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structl4virtio__config__hdr__t.html#ab2f4bac6d9465b1a4c61b2421c384890">status</a></td></tr>
-<tr class="memdesc:ab2f4bac6d9465b1a4c61b2421c384890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Device status register (read-only).  <br /></td></tr>
-<tr class="separator:ab2f4bac6d9465b1a4c61b2421c384890"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90f01dba465ba5fa9859f83d2b080191" id="r_a90f01dba465ba5fa9859f83d2b080191"><td class="memItemLeft" align="right" valign="top"><a id="a90f01dba465ba5fa9859f83d2b080191" name="a90f01dba465ba5fa9859f83d2b080191"></a>
-<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cfg_driver_notify_index</b></td></tr>
-<tr class="memdesc:a90f01dba465ba5fa9859f83d2b080191"><td class="mdescLeft">&#160;</td><td class="mdescRight">W: Event index to be used for config notifications (device to driver) <br /></td></tr>
-<tr class="separator:a90f01dba465ba5fa9859f83d2b080191"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae179a95335120332e56c5b47a819a32f" id="r_ae179a95335120332e56c5b47a819a32f"><td class="memItemLeft" align="right" valign="top"><a id="ae179a95335120332e56c5b47a819a32f" name="ae179a95335120332e56c5b47a819a32f"></a>
-<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cfg_device_notify_index</b></td></tr>
-<tr class="memdesc:ae179a95335120332e56c5b47a819a32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">R: Event index to be used for config notifications (driver to device) <br /></td></tr>
-<tr class="separator:ae179a95335120332e56c5b47a819a32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72015e9067ddd3a840450868539695e9" id="r_a72015e9067ddd3a840450868539695e9"><td class="memItemLeft" align="right" valign="top"><a id="a72015e9067ddd3a840450868539695e9" name="a72015e9067ddd3a840450868539695e9"></a>
-<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cmd</b></td></tr>
-<tr class="memdesc:a72015e9067ddd3a840450868539695e9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceL4.html" title="L4 low-level kernel interface.">L4</a> specific command register polled by the driver iff supported. <br /></td></tr>
-<tr class="separator:a72015e9067ddd3a840450868539695e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>L4-VIRTIO config header, provided in shared data space. </p>
 
-<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00125">125</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
-</div><h2 class="groupheader">Field Documentation</h2>
-<a id="ab2f4bac6d9465b1a4c61b2421c384890" name="ab2f4bac6d9465b1a4c61b2421c384890"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2f4bac6d9465b1a4c61b2421c384890">&#9670;&#160;</a></span>status</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> l4virtio_config_hdr_t::status</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Device status register (read-only). </p>
-<p>The register must be written using <a class="el" href="group__l4virtio__transport.html#ga0cf50f73a4c4be6798e198610d2107db">l4virtio_set_status()</a>.</p>
-<p>must be at offset 0x70 (virtio-mmio) </p>
-
-<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00164">164</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00301">L4virtio::Svr::Dev_config::reset_hdr()</a>, <a class="el" href="server_2l4virtio_source.html#l00259">L4virtio::Svr::Dev_config::set_device_needs_reset()</a>, and <a class="el" href="server_2l4virtio_source.html#l00247">L4virtio::Svr::Dev_config::set_status()</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00129">129</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>l4/l4virtio/<a class="el" href="virtio_8h_source.html">virtio.h</a></li>
 </ul>
 </div><!-- contents -->
@@ -194,7 +159,7 @@ Data Fields</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="structl4virtio__config__hdr__t.html">l4virtio_config_hdr_t</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

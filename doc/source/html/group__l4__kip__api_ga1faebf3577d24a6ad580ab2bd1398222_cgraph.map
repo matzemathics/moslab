@@ -1,5 +1,5 @@
 <map id="l4_kip_clock_lw" name="l4_kip_clock_lw">
 <area shape="rect" id="Node000001" title="Return least significant machine word of clock value from the KIP." alt="" coords="5,5,129,31"/>
-<area shape="rect" id="Node000002" href="$group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e" title="Memory barrier." alt="" coords="177,5,240,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,15,163,15,163,21,129,21"/>
+<area shape="rect" id="Node000002" href="$group__l4__kip__api.html#gadeb6bfd4fa27bf58c9bd60302dbbb044" title="Return clock value from the KIP." alt="" coords="177,5,280,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,15,164,15,164,21,130,21"/>
 </map>

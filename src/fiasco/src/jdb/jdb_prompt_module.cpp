@@ -32,7 +32,7 @@ private:
   static int  screen_width;
   static unsigned input_time_block_sec;
 
-  int wait_for_escape(Console *cons);
+  bool wait_for_escape(Console *cons);
 };
 
 char Jdb_pcm::subcmd;
@@ -48,6 +48,8 @@ PRIVATE
 int
 Jdb_pcm::get_coords(Console *cons, unsigned &x, unsigned &y)
 {
+  // A tool like minicom is attached at the other end of the serial line and
+  // responds to this "request cursor position" escape sequence.
   cons->write("\033[6n", 4);
 
   if (!wait_for_escape(cons))
@@ -81,8 +83,6 @@ PRIVATE
 void
 Jdb_pcm::detect_screensize()
 {
-  unsigned x, y, max_x, max_y;
-  char str[20];
   Console *uart;
 
   if (!(uart = Kconsole::console()->find_console(Console::UART)))
@@ -90,15 +90,22 @@ Jdb_pcm::detect_screensize()
 
   while (uart->getchar(false) != -1)
     ;
+
+  unsigned x, y;
   if (!get_coords(uart, x, y))
     return;
+
   // set scroll region to the max + set cursor to the max
-  uart->write("\033[1;199r\033[199;199H", 18);
+  uart->write("\033[1;500r\033[500;500H", 18);
+
+  unsigned max_x, max_y;
   if (!get_coords(uart, max_x, max_y))
     return;
   Jdb_screen::set_width(max_x);
   Jdb_screen::set_height(max_y);
-  // adapt scroll region, restore cursor
+
+  // adapt scroll region and restore cursor
+  char str[28];
   snprintf(str, sizeof(str), "\033[1;%ur\033[%u;%uH", max_y, y, x);
   uart->write(str, strlen(str));
 }
@@ -241,19 +248,20 @@ IMPLEMENTATION:
 #include "processor.h"
 
 // A tool like minicom is attached at the other end of the serial line and
-// responds to the magical escape sequence.
+// responds to the magical escape sequence. It may take some time before the
+// response arrives if the tool at the other end is attached via network.
 IMPLEMENT
-int
+bool
 Jdb_pcm::wait_for_escape(Console *cons)
 {
-  // 100ms timeout should be more than reasonable.
-  for (unsigned cnt = 100;; --cnt)
+  // 200ms timeout should be also reasonable for network connections.
+  for (unsigned cnt = 4000;; --cnt)
     {
       int c = cons->getchar(false);
       if (c == KEY_ESC || c == KEY_SINGLE_ESC)
-        return 1;
+        return true;
       if (c != -1 || !cnt)
-        return 0;
-      Delay::delay(1);
+        return false;
+      Delay::udelay(50);
     }
 }

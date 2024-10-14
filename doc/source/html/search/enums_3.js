@@ -32,5 +32,6 @@ var searchData=
   ['elf_5fstns_29',['Elf_STNs',['../group__l4util__elf.html#ga30ee12a55cb73ff2aa77646cdced1b33',1,'elf.h']]],
   ['elf_5fstt_5farm_5fs_30',['Elf_STT_ARM_s',['../group__l4util__elf.html#ga2018e98052aab88413f82d951092b53b',1,'elf.h']]],
   ['elf_5fstts_31',['Elf_STTs',['../group__l4util__elf.html#ga6cbcea8e67667377fe5bfce1318f284a',1,'elf.h']]],
-  ['error_32',['Error',['../structL4virtio_1_1Svr_1_1Bad__descriptor.html#a6d0361d240b52210a4a6bcb5570a6a25',1,'L4virtio::Svr::Bad_descriptor']]]
+  ['error_32',['Error',['../structL4virtio_1_1Svr_1_1Bad__descriptor.html#a6d0361d240b52210a4a6bcb5570a6a25',1,'L4virtio::Svr::Bad_descriptor']]],
+  ['events_33',['Events',['../structL4virtio_1_1Svr_1_1Console_1_1Control__message.html#a47d3b7eb9911ef9b693250331174e981',1,'L4virtio::Svr::Console::Control_message']]]
 ];

@@ -1,6 +1,6 @@
 // Reference-counted COW string instantiations -*- C++ -*-
 
-// Copyright (C) 2014-2023 Free Software Foundation, Inc.
+// Copyright (C) 2014-2024 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -33,6 +33,7 @@
 # error This file should not be compiled for this configuration.
 #endif
 
+#ifndef BID_VARIANT_FLAG_NOFPU
 #include <random>
 
 namespace std _GLIBCXX_VISIBILITY(default)
@@ -45,3 +46,4 @@ namespace std _GLIBCXX_VISIBILITY(default)
   random_device::_M_init_pretr1(const std::string& token)
   { _M_init(token.c_str(), token.length()); }
 } // namespace
+#endif

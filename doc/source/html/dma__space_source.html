@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/dma_space Source File</title>
+<title>L4Re Operating System Framework: l4/re/dma_space Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -214,7 +217,7 @@ $(document).ready(function(){initNavTree('dma__space_source.html',''); initResiz
 <div class="ttc" id="aclassL4Re_1_1Dma__space_html_aee4c8d896e37dfc9360626d6c66a8ddfa8a327c8b8ce658b902e5eb89db124474"><div class="ttname"><a href="classL4Re_1_1Dma__space.html#aee4c8d896e37dfc9360626d6c66a8ddfa8a327c8b8ce658b902e5eb89db124474">L4Re::Dma_space::None</a></div><div class="ttdeci">@ None</div><div class="ttdoc">device is coherently connected to the memory</div><div class="ttdef"><b>Definition</b> <a href="dma__space_source.html#l00081">dma_space:80</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Dma__space_html_aee4c8d896e37dfc9360626d6c66a8ddfa8e0780a9c4af9233d37d391aa81042c0"><div class="ttname"><a href="classL4Re_1_1Dma__space.html#aee4c8d896e37dfc9360626d6c66a8ddfa8e0780a9c4af9233d37d391aa81042c0">L4Re::Dma_space::From_device</a></div><div class="ttdeci">@ From_device</div><div class="ttdoc">device writes to the memory</div><div class="ttdef"><b>Definition</b> <a href="dma__space_source.html#l00079">dma_space:79</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Dma__space_html_aff32c07ebd1d03567cc3ccbd07bde481"><div class="ttname"><a href="classL4Re_1_1Dma__space.html#aff32c07ebd1d03567cc3ccbd07bde481">L4Re::Dma_space::Space_attribs</a></div><div class="ttdeci">L4::Types::Flags&lt; Space_attrib &gt; Space_attribs</div><div class="ttdoc">Attributes used when configuring the DMA space.</div><div class="ttdef"><b>Definition</b> <a href="dma__space_source.html#l00133">dma_space:133</a></div></div>
-<div class="ttc" id="aclassL4_1_1Ipc_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a></div><div class="ttdoc">Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00545">ipc_types:546</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a></div><div class="ttdoc">Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00562">ipc_types:563</a></div></div>
 <div class="ttc" id="aclassL4_1_1Types_1_1Flags_html"><div class="ttname"><a href="classL4_1_1Types_1_1Flags.html">L4::Types::Flags</a></div><div class="ttdoc">Template for defining typical Flags bitmaps.</div><div class="ttdef"><b>Definition</b> <a href="types_source.html#l00063">types:64</a></div></div>
 <div class="ttc" id="adataspace_html"><div class="ttname"><a href="dataspace.html">dataspace</a></div><div class="ttdoc">Dataspace interface.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga08c1e83a068ded7add134b188cd44967"><div class="ttname"><a href="group__l4__basic__types.html#ga08c1e83a068ded7add134b188cd44967">l4_size_t</a></div><div class="ttdeci">unsigned int l4_size_t</div><div class="ttdoc">Unsigned size type.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2l4int_8h_source.html#l00035">l4int.h:35</a></div></div>
@@ -223,12 +226,12 @@ $(document).ready(function(){initNavTree('dma__space_source.html',''); initResiz
 <div class="ttc" id="aipc__iface_html_a5772eb61b611f8f17bbc89e02e534ca1"><div class="ttname"><a href="ipc__iface.html#a5772eb61b611f8f17bbc89e02e534ca1">L4_INLINE_RPC</a></div><div class="ttdeci">#define L4_INLINE_RPC(res, name, args, attr...)</div><div class="ttdoc">Define an inline RPC call (type and callable).</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00469">ipc_iface:469</a></div></div>
 <div class="ttc" id="aipc__types_html"><div class="ttname"><a href="ipc__types.html">ipc_types</a></div></div>
 <div class="ttc" id="al4_2sys_2types_8h_html"><div class="ttname"><a href="l4_2sys_2types_8h.html">types.h</a></div><div class="ttdoc">Common L4 ABI Data Types.</div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
 <div class="ttc" id="aprotocols_8h_html"><div class="ttname"><a href="protocols_8h.html">protocols.h</a></div><div class="ttdoc">L4Re Protocol Constants (C version)</div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Call__t_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Call__t.html">L4::Ipc::Call_t</a></div><div class="ttdoc">RPC attribute for an RPC call with required rights.</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00257">ipc_iface:258</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1In__out_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1In__out.html">L4::Ipc::In_out</a></div><div class="ttdoc">Mark an argument as in-out argument.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00052">ipc_types:53</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Opt_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Opt.html">L4::Ipc::Opt</a></div><div class="ttdoc">Attribute for defining an optional RPC argument.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00147">ipc_types:148</a></div></div>
-<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs.html">L4::Typeid::Rpcs</a></div><div class="ttdoc">Standard list of RPCs of an interface.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00438">__typeinfo.h:438</a></div></div>
+<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs.html">L4::Typeid::Rpcs</a></div><div class="ttdoc">Standard list of RPCs of an interface.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00439">__typeinfo.h:439</a></div></div>
 <div class="ttc" id="atypes_html"><div class="ttname"><a href="types.html">types</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -237,7 +240,7 @@ $(document).ready(function(){initNavTree('dma__space_source.html',''); initResiz
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="dma__space.html">dma_space</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

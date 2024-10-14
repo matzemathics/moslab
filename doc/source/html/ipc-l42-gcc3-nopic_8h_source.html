@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: x86/l4f/l4/sys/ipc-l42-gcc3-nopic.h Source File</title>
+<title>L4Re Operating System Framework: x86/l4f/l4/sys/ipc-l42-gcc3-nopic.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -162,13 +165,13 @@ $(document).ready(function(){initNavTree('ipc-l42-gcc3-nopic_8h_source.html','')
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
 </div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4__ipc__api_html_ga1caa56d45e0453b3002e7f5cfdb0dec7"><div class="ttname"><a href="group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7">l4_ipc</a></div><div class="ttdeci">l4_msgtag_t l4_ipc(l4_cap_idx_t dest, l4_utcb_t *u, l4_umword_t flags, l4_umword_t slabel, l4_msgtag_t tag, l4_umword_t *rlabel, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Generic L4 object invocation.</div><div class="ttdef"><b>Definition</b> <a href="ipc-l42-gcc3-nopic_8h_source.html#l00031">ipc-l42-gcc3-nopic.h:31</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga362dfa378e662dd04f710a23fc7ea931"><div class="ttname"><a href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div><div class="ttdeci">#define L4_NOTHROW</div><div class="ttdoc">Mark a function declaration and definition as never throwing an exception.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00188">compiler.h:188</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
-<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00059">__timeout.h:59</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
+<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00060">__timeout.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -176,7 +179,7 @@ $(document).ready(function(){initNavTree('ipc-l42-gcc3-nopic_8h_source.html','')
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d979004d17f5223e5cbcd0eb3b9cd5ac.html">x86</a></li><li class="navelem"><a class="el" href="dir_8d01419ca1aaeec965167f1badeb4efc.html">l4f</a></li><li class="navelem"><a class="el" href="dir_b1ef4b33e412106de45c69a6c077bb16.html">l4</a></li><li class="navelem"><a class="el" href="dir_fc28d5f4fe926199ead80cf3928a99e6.html">sys</a></li><li class="navelem"><b>ipc-l42-gcc3-nopic.h</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

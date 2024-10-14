@@ -1,0 +1,5 @@
+<map id="l4_ext_vcpu_state_vmx_t" name="l4_ext_vcpu_state_vmx_t">
+<area shape="rect" id="Node000001" title="VMX extended vCPU state." alt="" coords="5,133,185,199"/>
+<area shape="rect" id="Node000002" href="$structl4__vmx__offset__table__t.html" title="Software VMCS field offset table." alt="" coords="16,5,175,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,71,98,117,93,117,93,71"/>
+</map>

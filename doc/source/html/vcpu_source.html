@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/vcpu/vcpu Source File</title>
+<title>L4Re Operating System Framework: l4/vcpu/vcpu Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -282,7 +285,7 @@ $(document).ready(function(){initNavTree('vcpu_source.html',''); initResizable()
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>}</div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a2706ca11e70845b0a29a5646c9fd54bc"><div class="ttname"><a href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a></div><div class="ttdeci">static Env const * env() noexcept</div><div class="ttdoc">Returns the initial environment for the current task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00103">env:103</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="aclassL4vcpu_1_1State_html"><div class="ttname"><a href="classL4vcpu_1_1State.html">L4vcpu::State</a></div><div class="ttdoc">C++ implementation of state word in the vCPU area.</div><div class="ttdef"><b>Definition</b> <a href="vcpu_source.html#l00035">vcpu:36</a></div></div>
 <div class="ttc" id="aclassL4vcpu_1_1State_html_a789c2da9e14fee921107c968332347cb"><div class="ttname"><a href="classL4vcpu_1_1State.html#a789c2da9e14fee921107c968332347cb">L4vcpu::State::set</a></div><div class="ttdeci">void set(unsigned v)</div><div class="ttdoc">Set flags.</div><div class="ttdef"><b>Definition</b> <a href="vcpu_source.html#l00066">vcpu:66</a></div></div>
 <div class="ttc" id="aclassL4vcpu_1_1State_html_a7de8ab5f3939c2a415f1fadd7aa9ae52"><div class="ttname"><a href="classL4vcpu_1_1State.html#a7de8ab5f3939c2a415f1fadd7aa9ae52">L4vcpu::State::add</a></div><div class="ttdeci">void add(unsigned bits)</div><div class="ttdoc">Add flags.</div><div class="ttdef"><b>Definition</b> <a href="vcpu_source.html#l00052">vcpu:52</a></div></div>
@@ -326,8 +329,8 @@ $(document).ready(function(){initNavTree('vcpu_source.html',''); initResizable()
 <div class="ttc" id="agroup__l4__basic__types_html_gae8d67914f723bf843df6f311ad2619a2"><div class="ttname"><a href="group__l4__basic__types.html#gae8d67914f723bf843df6f311ad2619a2">l4_uint16_t</a></div><div class="ttdeci">unsigned short int l4_uint16_t</div><div class="ttdoc">Unsigned 16bit value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00038">l4int.h:38</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga2469cd44710705e9f0a5832e060ec48a"><div class="ttname"><a href="group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a">L4_CV</a></div><div class="ttdeci">#define L4_CV</div><div class="ttdoc">Define calling convention.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2linkage_8h_source.html#l00044">linkage.h:44</a></div></div>
-<div class="ttc" id="astructl4__vcpu__ipc__regs__t_html"><div class="ttname"><a href="structl4__vcpu__ipc__regs__t.html">l4_vcpu_ipc_regs_t</a></div><div class="ttdoc">vCPU message registers.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00071">__vcpu-arch.h:72</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html"><div class="ttname"><a href="structl4__vcpu__regs__t.html">l4_vcpu_regs_t</a></div><div class="ttdoc">vCPU registers.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00043">__vcpu-arch.h:44</a></div></div>
+<div class="ttc" id="astructl4__vcpu__ipc__regs__t_html"><div class="ttname"><a href="structl4__vcpu__ipc__regs__t.html">l4_vcpu_ipc_regs_t</a></div><div class="ttdoc">vCPU message registers.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00094">__vcpu-arch.h:95</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html"><div class="ttname"><a href="structl4__vcpu__regs__t.html">l4_vcpu_regs_t</a></div><div class="ttdoc">vCPU registers.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00066">__vcpu-arch.h:67</a></div></div>
 <div class="ttc" id="astructl4__vcpu__state__t_html"><div class="ttname"><a href="structl4__vcpu__state__t.html">l4_vcpu_state_t</a></div><div class="ttdoc">State of a vCPU.</div><div class="ttdef"><b>Definition</b> <a href="sys_2vcpu_8h_source.html#l00086">vcpu.h:87</a></div></div>
 <div class="ttc" id="astructl4__vcpu__state__t_html_a1f45174954aa47bb2f21b7b90bed250e"><div class="ttname"><a href="structl4__vcpu__state__t.html#a1f45174954aa47bb2f21b7b90bed250e">l4_vcpu_state_t::entry_sp</a></div><div class="ttdeci">l4_umword_t entry_sp</div><div class="ttdoc">Stack pointer for entry (when coming from user task)</div><div class="ttdef"><b>Definition</b> <a href="sys_2vcpu_8h_source.html#l00102">vcpu.h:102</a></div></div>
 <div class="ttc" id="astructl4__vcpu__state__t_html_a5bda11ca79ffbb7b3bfa645d29e5d10f"><div class="ttname"><a href="structl4__vcpu__state__t.html#a5bda11ca79ffbb7b3bfa645d29e5d10f">l4_vcpu_state_t::sticky_flags</a></div><div class="ttdeci">l4_uint16_t sticky_flags</div><div class="ttdoc">Pending flags. See L4_vcpu_sticky_flags.</div><div class="ttdef"><b>Definition</b> <a href="sys_2vcpu_8h_source.html#l00097">vcpu.h:97</a></div></div>
@@ -345,7 +348,7 @@ $(document).ready(function(){initNavTree('vcpu_source.html',''); initResizable()
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_499f942adf6d1e36428e5905faf00190.html">vcpu</a></li><li class="navelem"><a class="el" href="vcpu.html">vcpu</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

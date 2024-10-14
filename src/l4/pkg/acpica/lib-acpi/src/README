@@ -1,4 +1,15 @@
 
+https://github.com/acpica/acpica.git
+f835584eab9c65d13614a1a69db1c7b136d6c1c8
+
+
+
+
+
+
+
+
+
 git checkout <acpica commit>
 git subtree split -P source --annotate="(source)"
 git checkout private/master

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/cxx/string Source File</title>
+<title>L4Re Operating System Framework: l4/cxx/string Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -172,7 +175,7 @@ $(document).ready(function(){initNavTree('string_source.html',''); initResizable
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">if</span> (idx &gt;= _len)</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="classcxx_1_1String.html#aea53999e715a2ede6f7811db1eb1ff1c">String</a>(<a class="code hl_function" href="classcxx_1_1String.html#a21ab9dc0ee0f3971d9f858c54dcec286">end</a>(), 0UL);</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classcxx_1_1String.html#aea53999e715a2ede6f7811db1eb1ff1c">String</a>(_start + idx, <a class="code hl_function" href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">cxx::min</a>(<a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a>, _len - idx));</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classcxx_1_1String.html#aea53999e715a2ede6f7811db1eb1ff1c">String</a>(_start + idx, cxx::min(<a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a>, _len - idx));</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  }</div>
 </div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
@@ -183,7 +186,7 @@ $(document).ready(function(){initNavTree('string_source.html',''); initResizable
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>      {</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> nlen = _start + _len - <a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>;</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a> != 0)</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    nlen = <a class="code hl_function" href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">cxx::min</a>(nlen, <a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a>);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    nlen = cxx::min(nlen, <a class="code hl_function" href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">len</a>);</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="classcxx_1_1String.html#aea53999e715a2ede6f7811db1eb1ff1c">String</a>(<a class="code hl_function" href="classcxx_1_1String.html#a101fd26cc3e799be32f027cd52a5da90">start</a>, nlen);</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      }</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
@@ -407,7 +410,6 @@ $(document).ready(function(){initNavTree('string_source.html',''); initResizable
 <div class="ttc" id="aclasscxx_1_1String_html_ae9a00f2167b423168cfa89e318d2c67f"><div class="ttname"><a href="classcxx_1_1String.html#ae9a00f2167b423168cfa89e318d2c67f">cxx::String::len</a></div><div class="ttdeci">int len() const</div><div class="ttdoc">Length.</div><div class="ttdef"><b>Definition</b> <a href="string_source.html#l00069">string:69</a></div></div>
 <div class="ttc" id="aclasscxx_1_1String_html_aea53999e715a2ede6f7811db1eb1ff1c"><div class="ttname"><a href="classcxx_1_1String.html#aea53999e715a2ede6f7811db1eb1ff1c">cxx::String::String</a></div><div class="ttdeci">String()</div><div class="ttdoc">Zero-initialize. Create an invalid string.</div><div class="ttdef"><b>Definition</b> <a href="string_source.html#l00062">string:62</a></div></div>
 <div class="ttc" id="aclasscxx_1_1String_html_aec45ef479a03d9924891a4fd60668e76"><div class="ttname"><a href="classcxx_1_1String.html#aec45ef479a03d9924891a4fd60668e76">cxx::String::substr</a></div><div class="ttdeci">String substr(char const *start, unsigned long len=0) const</div><div class="ttdoc">Substring of length len starting at start.</div><div class="ttdef"><b>Definition</b> <a href="string_source.html#l00104">string:104</a></div></div>
-<div class="ttc" id="agroup__cxx__api_html_ga0bd9662898a7499fcd3feefe594a699b"><div class="ttname"><a href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">cxx::min</a></div><div class="ttdeci">T1 min(T1 a, T1 b)</div><div class="ttdoc">Get the minimum of a and b.</div><div class="ttdef"><b>Definition</b> <a href="minmax_source.html#l00035">minmax:35</a></div></div>
 <div class="ttc" id="anamespacecxx_html"><div class="ttname"><a href="namespacecxx.html">cxx</a></div><div class="ttdoc">Our C++ library.</div><div class="ttdef"><b>Definition</b> <a href="arith_source.html#l00022">arith:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -416,7 +418,7 @@ $(document).ready(function(){initNavTree('string_source.html',''); initResizable
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_dd3580c6b729ef0dd2be01098f8e55ee.html">cxx</a></li><li class="navelem"><b>string</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

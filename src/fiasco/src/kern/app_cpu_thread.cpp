@@ -79,6 +79,7 @@ App_cpu_thread::bootstrap(Mword resume)
       Cpu::cpus.current().set_online(1);
     }
 
+  // Release _tramp_mp_spinlock without releasing CPU lock.
   _tramp_mp_spinlock.set(1);
 
   if (!resume)
@@ -99,7 +100,7 @@ App_cpu_thread::bootstrap(Mword resume)
   if (!resume)
     Per_cpu_data::run_late_ctors(ccpu);
 
-  Scheduler::scheduler.trigger_hotplug_event();
+  Scheduler::scheduler->trigger_hotplug_event();
   Timer_tick::enable(ccpu);
   cpu_lock.clear();
 
@@ -110,15 +111,17 @@ App_cpu_thread::bootstrap(Mword resume)
         printf("CPU[%u]: goes to idle loop\n", cxx::int_value<Cpu_number>(ccpu));
     }
 
-  if (init_unittest_app_core)
-    init_unittest_app_core();
+  init_workload();
 
   for (;;)
     idle_op();
 }
 
-/**
- * unit test interface for app cores.
- */
+PRIVATE
 void
-init_unittest_app_core() __attribute__((weak));
+App_cpu_thread::init_workload()
+{
+  extern void (*_init_workload_app_cpu_table[])();
+  for (unsigned i = 0; _init_workload_app_cpu_table[i]; ++i)
+    _init_workload_app_cpu_table[i]();
+}

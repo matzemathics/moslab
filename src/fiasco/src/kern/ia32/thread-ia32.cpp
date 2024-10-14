@@ -12,6 +12,16 @@ EXTENSION class Thread
 {
 private:
   /**
+   * Return value for \ref handle_io_fault.
+   */
+  enum Io_return
+  {
+    Ignored = 0,
+    Retry = 1,
+    Fail = 2
+  };
+
+  /**
    * Return code segment used for exception reflection to user mode
    */
   static Mword exception_cs();
@@ -57,8 +67,8 @@ Thread::Thread(Ram_quota *q)
   _space.space(Kernel_task::kernel_task());
 
   if (Config::Stack_depth)
-    std::memset((char*)this + sizeof(Thread), '5',
-		Thread::Size-sizeof(Thread)-64);
+    std::memset(reinterpret_cast<char *>(this) + sizeof(Thread), '5',
+                Thread::Size - sizeof(Thread) - 64);
 
   _magic = magic;
   _timeout = 0;
@@ -110,29 +120,31 @@ Thread::handle_kernel_exc(Trap_state *ts)
 {
   for (auto const &e: Exc_entry::table())
     {
-      if (e.ip == ts->ip())
-        {
-          if (e.handler)
-            {
-              if (0)
-                printf("fixup exception(h): %ld: ip=%lx -> handler %p fixup %lx ts @ %p -> %lx\n",
-                       ts->trapno(), ts->ip(), e.handler, e.fixup, ts, reinterpret_cast<Mword const *>(ts)[-1]);
-              if (0)
-                ts->dump();
+      if (e.ip != ts->ip()) continue;
 
-              return e.handler(&e, ts);
-            }
-          else if (e.fixup)
-            {
-              if (0)
-                printf("fixup exception: %ld: ip=%lx -> fixup %lx\n",
-                       ts->trapno(), ts->ip(), e.fixup);
-              ts->ip(e.fixup);
-              return true;
-            }
-          else
-            return false;
+      if (e.handler)
+        {
+          if (0)
+            printf("fixup exception(h): %ld: "
+                   "ip=%lx -> handler %p fixup %lx ts @ %p -> %lx\n",
+                   ts->trapno(), ts->ip(), reinterpret_cast<void *>(e.handler),
+                   e.fixup, static_cast<void *>(ts),
+                   reinterpret_cast<Mword const *>(ts)[-1]);
+          if (0)
+            ts->dump();
+
+          return e.handler(&e, ts);
         }
+      else if (e.fixup)
+        {
+          if (0)
+            printf("fixup exception: %ld: ip=%lx -> fixup %lx\n",
+                   ts->trapno(), ts->ip(), e.fixup);
+          ts->ip(e.fixup);
+          return true;
+        }
+      else
+        return false;
     }
   return false;
 }
@@ -151,7 +163,7 @@ int
 Thread::handle_slow_trap(Trap_state *ts)
 {
   int from_user = ts->cs() & 3;
-  int res_iopf;
+  Io_return res_iopf;
 
   if (EXPECT_FALSE(ts->_trapno == 0xee)) //debug IPI
     {
@@ -164,14 +176,8 @@ Thread::handle_slow_trap(Trap_state *ts)
 
   if (from_user && _space.user_mode())
     {
-      if (ts->_trapno == 14 && Kmem::is_io_bitmap_page_fault(ts->_cr2))
-        {
-	  ts->_trapno = 13;
-	  ts->_err    = 0;
-        }
-
       if (send_exception(ts))
-	goto success;
+        goto success;
     }
 
   // XXX We might be forced to raise an exception. In this case, our return
@@ -194,7 +200,21 @@ Thread::handle_slow_trap(Trap_state *ts)
 
       // get also here if a pagefault was not handled by the user level pager
       if (ts->_trapno == 14)
-        goto check_exception;
+        {
+          if ((ts->_err & (PF_ERR_INSTFETCH | PF_ERR_PRESENT))
+              == (PF_ERR_INSTFETCH | PF_ERR_PRESENT))
+            {
+              ts->dump();
+              panic("kernel data execution\n");
+            }
+          if ((ts->_err & (PF_ERR_WRITE | PF_ERR_PRESENT))
+              == (PF_ERR_WRITE | PF_ERR_PRESENT))
+            {
+              ts->dump();
+              panic("kernel code modification\n");
+            }
+          goto check_exception;
+        }
 
       goto generic_debug;      // we were in kernel mode -- nothing to emulate
     }
@@ -217,19 +237,23 @@ Thread::handle_slow_trap(Trap_state *ts)
   if (EXPECT_FALSE ((error = setjmp(pf_recovery)) != 0) )
     {
       WARN("%p killed:\n"
-           "\033[1mUnhandled page fault, code=%08x\033[m\n", this, error);
+           "\033[1mUnhandled page fault, code=%08x\033[m\n",
+           static_cast<void *>(this), error);
       goto fail_nomsg;
     }
 
   set_recover_jmpbuf(&pf_recovery);
-  res_iopf = handle_io_page_fault(ts);
+  res_iopf = handle_io_fault(ts);
   clear_recover_jmpbuf();
 
   switch (res_iopf)
     {
-    case 1: goto success;
-    case 2: goto fail;
-    default: break;
+    case Ignored:
+      break;
+    case Retry:
+      goto success;
+    case Fail:
+      goto fail;
     }
 
 check_exception:
@@ -250,7 +274,7 @@ check_exception:
 fail:
   // can't handle trap -- kill the thread
   WARN("%p killed:\n"
-       "\033[1mUnhandled trap \033[m\n", this);
+       "\033[1mUnhandled trap \033[m\n", static_cast<void *>(this));
 
 fail_nomsg:
   if (Warn::is_enabled(Warning))
@@ -284,8 +308,6 @@ Thread::update_local_map(Address pfa, Mword /*error_code*/)
   static_assert(255 == (Mem_layout::User_max >> 39),
                 "Mem_layout::User_max must lie in 512G slot 255.");
   // 512G slot 259 is used for context-specific kernel data.
-  static_assert(259 == ((Mem_layout::Io_bitmap >> 39) & 0x1ff),
-                "Mem_layout::Io_bitmap must lie in 512G slot 259.");
   static_assert(259 == ((Mem_layout::Caps_start >> 39) & 0x1ff),
                 "Mem_layout::Caps_start must lie in 512G slot 259.");
   static_assert(259 == (((Mem_layout::Caps_end - 1) >> 39) & 0x1ff),
@@ -335,7 +357,6 @@ int
 thread_page_fault(Address pfa, Mword error_code, Address ip, Mword flags,
 		  Return_frame *regs)
 {
-
   // XXX: need to do in a different way, if on debug stack e.g.
 #if 0
   // If we're in the GDB stub -- let generic handler handle it
@@ -398,14 +419,9 @@ Thread::handle_sigma0_page_fault(Address pfa)
   va = cxx::mask_lsb(va, size);
 
   return mem_space()->v_insert(Mem_space::Phys_addr(va), va, size,
-                               Page::Attr(L4_fpage::Rights::URWX()))
+                               Page::Attr::space_local(L4_fpage::Rights::URWX()))
     != Mem_space::Insert_err_nomem;
 }
-
-PRIVATE static inline
-void
-Thread::save_fpu_state_to_utcb(Trap_state *, Utcb *)
-{}
 
 //----------------------------------------------------------------------------
 IMPLEMENTATION [!(vmx || svm) && (ia32 || amd64)]:
@@ -423,10 +439,10 @@ void
 Thread::_hw_virt_arch_init_vcpu_state(Vcpu_state *vcpu_state)
 {
   if (Vmx::cpus.current().vmx_enabled())
-    Vmx::cpus.current().init_vmcs_infos(vcpu_state);
+    Vmx::cpus.current().init_vcpu_state(vcpu_state);
 
   if (Cpu::boot_cpu()->vendor() == Cpu::Vendor_intel)
-    vcpu_state->user_data[6] = (Mword)Cpu::ucode_revision();
+    vcpu_state->user_data[6] = Cpu::ucode_revision();
 
   // currently we do nothing for SVM here
 }
@@ -502,7 +518,8 @@ Thread::sys_gdt_x86(L4_msg_tag tag, Utcb const *utcb, Utcb *out)
       && Utcb::val_idx(Utcb::val64_idx(2) + idx) < tag.words();
       ++idx, ++entry_number)
     {
-      Gdt_entry d = access_once((Gdt_entry *)&utcb->val64[Utcb::val64_idx(2) + idx]);
+      Gdt_entry d = access_once(reinterpret_cast<Gdt_entry const *>(
+                                  &utcb->val64[Utcb::val64_idx(2) + idx]));
       if (d.unsafe())
         return Kobject_iface::commit_result(-L4_err::EInval);
 
@@ -548,16 +565,11 @@ Thread::user_ip(Mword ip)
 IMPLEMENTATION [(ia32,amd64,ux) && !io]:
 
 PRIVATE inline
-int
-Thread::handle_io_page_fault(Trap_state *)
-{ return 0; }
-
-PRIVATE inline
-bool
-Thread::get_ioport(Address /*eip*/, Trap_state * /*ts*/,
-                   unsigned * /*port*/, unsigned * /*size*/)
-{ return false; }
-
+Thread::Io_return
+Thread::handle_io_fault(Trap_state *)
+{
+  return Ignored;
+}
 
 //---------------------------------------------------------------------------
 IMPLEMENTATION[ia32 || amd64]:
@@ -626,52 +638,13 @@ Thread::check_f00f_bug(Trap_state *ts)
     ts->_trapno = (ts->_cr2 - Idt::idt()) / 8;
 }
 
-
-PRIVATE inline
-unsigned
-Thread::check_io_bitmap_delimiter_fault(Trap_state *ts)
-{
-  // check for page fault at the byte following the IO bitmap
-  if (ts->_trapno == 14           // page fault?
-      && (ts->_err & 4) == 0         // in supervisor mode?
-      && ts->ip() <= Mem_layout::User_max   // delimiter byte accessed?
-      && (ts->_cr2 == Mem_layout::Io_bitmap + Mem_layout::Io_port_max / 8))
-    {
-      // page fault in the first byte following the IO bitmap
-      // map in the cpu_page read_only at the place
-      Mem_space::Status result =
-	mem_space()->v_insert(
-	    Mem_space::Phys_addr(mem_space()->virt_to_phys_s0((void*)Kmem::io_bitmap_delimiter_page())),
-	    Virt_addr(Mem_layout::Io_bitmap + Mem_layout::Io_port_max / 8),
-	    Mem_space::Page_order(Config::PAGE_SHIFT),
-	    Page::Attr(Page::Rights::R(), Page::Type::Normal(), Page::Kern::Global()));
-
-      switch (result)
-	{
-	case Mem_space::Insert_ok:
-	  return 1; // success
-	case Mem_space::Insert_err_nomem:
-	  // kernel failure, translate this into a general protection
-	  // violation and hope that somebody handles it
-	  ts->_trapno = 13;
-	  ts->_err    =  0;
-	  return 0; // fail
-	default:
-	  // no other error code possible
-	  assert (false);
-	}
-    }
-
-  return 1;
-}
-
 PRIVATE inline NEEDS["keycodes.h"]
 int
 Thread::handle_not_nested_trap(Trap_state *ts)
 {
   // no kernel debugger present
   printf(" %p IP=" L4_PTR_FMT " Trap=%02lx [Ret/Esc]\n",
-	 this, ts->ip(), ts->_trapno);
+         static_cast<void *>(this), ts->ip(), ts->_trapno);
 
   int r;
   // cannot use normal getchar because it may block with hlt and irq's
@@ -737,10 +710,10 @@ Thread::pagein_tcb_request(Return_frame *regs)
 {
   // Counterpart: Mem_layout::read_special_safe()
   unsigned long new_ip = regs->ip();
-  if (*(Unsigned8*)new_ip == 0x48) // REX.W
+  if (*reinterpret_cast<Unsigned8*>(new_ip) == 0x48) // REX.W
     new_ip += 1;
 
-  Unsigned16 op = *(Unsigned16*)new_ip;
+  Unsigned16 op = *reinterpret_cast<Unsigned16*>(new_ip);
   if ((op & 0xc0ff) == 0x8b)
     {
       regs->ip(new_ip + 2);
@@ -751,7 +724,8 @@ Thread::pagein_tcb_request(Return_frame *regs)
       //         ecx/rcx
       //         edx/rdx
       //         ...
-      Mword *reg = ((Mword*)regs) - 2 - Return_frame::Pf_ax_offset;
+      Mword *reg = reinterpret_cast<Mword*>(regs) - 2
+                   - Return_frame::Pf_ax_offset;
       assert((op >> 11) <= 2);
       reg[-(op>>11)] = 0; // op==0 => eax, op==1 => ecx, op==2 => edx
 

@@ -8,10 +8,11 @@ var group__api__l4re__elf__aux =
     [ "l4re_elf_aux_mword_t", "group__api__l4re__elf__aux.html#gac647d3f0069707ad5c090effcaa25740", null ],
     [ "l4re_elf_aux_t", "group__api__l4re__elf__aux.html#ga41f9ebfc96e36cb8a75522ed4e88c755", null ],
     [ "l4re_elf_aux_vma_t", "group__api__l4re__elf__aux.html#ga576fe48d6af561bf84babc93c3188820", [
-      [ "L4RE_ELF_AUX_T_NONE", "group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7ade70fe6081b8fa866ad8007f9d3dc9c1", null ],
-      [ "L4RE_ELF_AUX_T_VMA", "group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7ae443a95a70b9c77b9dc0cbf4b51341b4", null ],
-      [ "L4RE_ELF_AUX_T_STACK_SIZE", "group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7aade645e911d95695f41ab8ac90fbf635", null ],
-      [ "L4RE_ELF_AUX_T_STACK_ADDR", "group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7a2dc6787457362ed48cf68de11a121479", null ],
-      [ "L4RE_ELF_AUX_T_KIP_ADDR", "group__api__l4re__elf__aux.html#gga3d01b665f7e924f5f97fa41f5879c7f7a653b74e1441387ecec1fab8f123e6174", null ]
+      [ "L4RE_ELF_AUX_T_NONE", "group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6ade70fe6081b8fa866ad8007f9d3dc9c1", null ],
+      [ "L4RE_ELF_AUX_T_VMA", "group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6ae443a95a70b9c77b9dc0cbf4b51341b4", null ],
+      [ "L4RE_ELF_AUX_T_STACK_SIZE", "group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6aade645e911d95695f41ab8ac90fbf635", null ],
+      [ "L4RE_ELF_AUX_T_STACK_ADDR", "group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a2dc6787457362ed48cf68de11a121479", null ],
+      [ "L4RE_ELF_AUX_T_KIP_ADDR", "group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a653b74e1441387ecec1fab8f123e6174", null ],
+      [ "L4RE_ELF_AUX_T_EX_REGS_FLAGS", "group__api__l4re__elf__aux.html#ggae6dceca96ec2c7a1b4aa211264a87ef6a1dbf7c86dcda8b268ff72443b3710ff4", null ]
     ] ]
 ];

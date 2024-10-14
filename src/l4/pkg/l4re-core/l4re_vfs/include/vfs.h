@@ -279,7 +279,7 @@ public:
    * \return A capability to an L4Re::Dataspace that represents the file
    *         contents in an L4Re way.
    */
-  virtual L4::Cap<L4Re::Dataspace> data_space() const noexcept = 0;
+  virtual L4::Cap<L4Re::Dataspace> data_space() noexcept = 0;
 
   /**
    * \brief Read one or more blocks of data from the file.
@@ -465,6 +465,9 @@ public:
 
   cxx::Ref_ptr<Mount_tree> mount_tree() const noexcept
   { return _mount_tree; }
+
+  virtual int select(int nfds, fd_set *readfds, fd_set *writefds,
+                     fd_set *exceptfds, struct timeval *timeout) throw() = 0;
 
 private:
   int _ref_cnt;
@@ -809,7 +812,7 @@ public:
   {}
 
   cxx::Ref_ptr<File> create(L4::Cap<void> file) override
-  { return cxx::ref_ptr(new IMPL(L4::cap_cast<IFACE>(file))); }
+  { return cxx::make_ref_obj<IMPL>(L4::cap_cast<IFACE>(file)); }
 };
 
 /**
@@ -872,6 +875,42 @@ public:
 inline
 File_system::~File_system() noexcept
 {}
+
+class File_system_list
+{
+public:
+  class Iterator
+  {
+  public:
+    explicit constexpr Iterator(File_system *c = nullptr) : _c(c) {}
+
+    Iterator &operator++()
+    {
+      if (_c)
+        _c = _c->next();
+      return *this;
+    }
+
+    bool operator==(Iterator const &other) const { return _c == other._c; }
+    bool operator!=(Iterator const &other) const { return _c != other._c; }
+    File_system *operator*() const { return _c; }
+    File_system *operator->() const { return _c; }
+
+  private:
+    File_system *_c;
+  };
+
+  File_system_list(File_system *head) : _head(head) {}
+
+  constexpr Iterator begin() const
+  { return Iterator(_head); }
+
+  constexpr Iterator end() const
+  { return Iterator(); }
+
+private:
+  File_system *_head;
+};
 
 /**
  * \brief POSIX File-system related functionality.
@@ -961,6 +1000,16 @@ public:
   virtual File_system *get_file_system(char const *fstype) noexcept = 0;
 
   /**
+   * \internal
+   * \brief File-system iterator, get each file-system.
+   * \note This function is used by the file-system mount call.
+   * \param i Iterator, initialize with 'nullptr'. Done when returns
+   *          'nullptr'.
+   * \return A pointer to the file-system object, or 0 if done.
+   */
+  virtual File_system_list file_system_list() noexcept = 0;
+
+  /**
    * \brief Backend for the POSIX mount call.
    */
   int mount(char const *source, char const *target,
@@ -973,18 +1022,18 @@ public:
   virtual cxx::Ref_ptr<File_factory> get_file_factory(char const *proto_name) noexcept = 0;
 
   virtual ~Fs() = 0;
+
+private:
+  int mount_one(char const *source, char const *target,
+                File_system *fs, unsigned long mountflags,
+                void const *data) noexcept;
 };
 
 inline int
-Fs::mount(char const *source, char const *target,
-          char const *fstype, unsigned long mountflags,
-          void const *data) noexcept
+Fs::mount_one(char const *source, char const *target,
+              File_system *fs, unsigned long mountflags,
+              void const *data) noexcept
 {
-  File_system *fs = get_file_system(fstype);
-
-  if (!fs)
-    return -ENODEV;
-
   cxx::Ref_ptr<File> dir;
   int res = fs->mount(source, mountflags, data, &dir);
 
@@ -992,6 +1041,33 @@ Fs::mount(char const *source, char const *target,
     return res;
 
   return mount(target, dir);
+}
+
+inline int
+Fs::mount(char const *source, char const *target,
+          char const *fstype, unsigned long mountflags,
+          void const *data) noexcept
+{
+  if (   fstype[0] == 'a'
+      && fstype[1] == 'u'
+      && fstype[2] == 't'
+      && fstype[3] == 'o'
+      && fstype[4] == 0)
+    {
+      File_system_list fsl = file_system_list();
+      for (File_system_list::Iterator c = fsl.begin(); c != fsl.end(); ++c)
+        if (mount_one(source, target, *c, mountflags, data) == 0)
+          return 0;
+
+      return -ENODEV;
+    }
+
+  File_system *fs = get_file_system(fstype);
+
+  if (!fs)
+    return -ENODEV;
+
+  return mount_one(source, target, fs, mountflags, data);
 }
 
 inline
@@ -1022,7 +1098,7 @@ public:
 
     ++len;
 
-    char *b = (char *)this->malloc(len);
+    char *b = static_cast<char *>(this->malloc(len));
     if (b == nullptr)
       return nullptr;
 

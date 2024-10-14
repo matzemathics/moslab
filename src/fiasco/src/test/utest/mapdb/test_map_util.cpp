@@ -35,9 +35,10 @@ IMPLEMENTATION:
 #include "map_util.h"
 #include "ram_quota.h"
 #include "space.h"
+#include "factory.h"
 #include "common_test_mapdb.h"
 
-void
+extern "C" void
 init_unittest()
 {
   // As we do output matching, wait until all app CPUs are done booting to
@@ -55,17 +56,16 @@ class Mapdb_util_test : public Mapdb_test_base
 {
 public:
   Mapdb_util_test()
-  : sigma0(&rq)
+  : sigma0(Factory::root())
   {
     // mapdb_mem only exported from map_util-mem for debug builds
-    extern Static_object<Mapdb> mapdb_mem;
+    extern Global_data<Static_object<Mapdb>> mapdb_mem;
     init_mapdb_mem(&sigma0);
     mapdb = mapdb_mem.get();
   }
 
 private:
   Mapdb *mapdb;
-  Test_fake_factory rq;
   Test_s0_space sigma0;
 };
 
@@ -137,7 +137,7 @@ Mapdb_util_test::print_node(Space *space, Mapdb::Pfn pfn,
                          [](Mapping *node, Mapdb::Order order)
     {
       pr_tag("%*sspace=%s vaddr=0x%lx size=0x%lx\n",
-             (int)node->depth() + 1, "", node_name(node->space()),
+             static_cast<int>(node->depth() + 1), "", node_name(node->space()),
              to_virt(node->pfn(order)), to_virt(Mapdb::Pfn(1) << order));
     });
   pr_tag("\n");
@@ -165,7 +165,7 @@ Mapdb_util_test::test_map_util()
   static_assert(S_super >= _1M, "Adapt test for smaller superpage size");
 
   pr_tag("Page = %ldKB, Superpage = %ldMB\n",
-         (Address)S_page >> 10, (Address)S_super >> 20);
+         S_page >> 10, S_super >> 20);
 
   // Support for pages > superpage is optional.
   printf(" largest_page_size = %d\n",
@@ -174,8 +174,8 @@ Mapdb_util_test::test_map_util()
   pr_tag("have_superpages = %s\n", have_superpages() ? "yes" : "no");
   pr_tag("\n");
 
-  auto server = Utest::kmem_create<Test_space>(&rq, "server");
-  auto client = Utest::kmem_create<Test_space>(&rq, "client");
+  auto server = Utest::kmem_create<Test_space>(Factory::root(), "server");
+  auto client = Utest::kmem_create<Test_space>(Factory::root(), "client");
 
   typedef Mem_space::Page_order Page_order;
   typedef Mem_space::Phys_addr Phys_addr;

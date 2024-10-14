@@ -12,16 +12,9 @@ public:
     Sys_cpu, ///< Hit only on the CPU that manages the system time
     App_cpu, ///< Hit only on application CPUs
   };
+
   /// Create a timer IRQ object
-  explicit Timer_tick(Mode mode)
-  {
-    switch (mode)
-      {
-      case Any_cpu: set_hit(&handler_all); break;
-      case Sys_cpu: set_hit(&handler_sys_time); break;
-      case App_cpu: set_hit(&handler_app); break;
-      }
-  }
+  explicit Timer_tick(Mode mode);
 
   static void setup(Cpu_number cpu);
   static void enable(Cpu_number cpu);
@@ -50,6 +43,7 @@ public:
     Address user_ip;
     void print(String_buffer *) const;
   };
+  static_assert(sizeof(Log) <= Tb_entry::Tb_entry_size);
 };
 
 // ------------------------------------------------------------------------
@@ -61,15 +55,25 @@ IMPLEMENTATION:
 #include "kernel_console.h"
 #include "vkey.h"
 
+IMPLEMENT
+Timer_tick::Timer_tick(Mode mode)
+{
+  switch (mode)
+    {
+    case Any_cpu: set_hit(&handler_all); break;
+    case Sys_cpu: set_hit(&handler_sys_time); break;
+    case App_cpu: set_hit(&handler_app); break;
+    }
+
+  if (Config::esc_hack || (Config::serial_esc == Config::SERIAL_ESC_NOIRQ))
+    Vkey::enable_receive();
+}
+
 PRIVATE static inline NEEDS["thread.h", "timer.h", "kdb_ke.h",
                             "kernel_console.h", "vkey.h"]
 void
-Timer_tick::handle_timer(Irq_base *_s, Upstream_irq const *ui,
-                         Thread *t, Cpu_number cpu)
+Timer_tick::handle_timer(Thread *t, Cpu_number cpu)
 {
-  Timer_tick *self = nonull_static_cast<Timer_tick *>(_s);
-  self->ack();
-  Upstream_irq::ack(ui);
   Timer::update_system_clock(cpu);
   if (   (cpu == Cpu_number::boot_cpu())
       && (Config::esc_hack || (Config::serial_esc == Config::SERIAL_ESC_NOIRQ)))
@@ -83,18 +87,26 @@ Timer_tick::handle_timer(Irq_base *_s, Upstream_irq const *ui,
 
 PUBLIC static inline NEEDS[Timer_tick::handle_timer]
 void
-Timer_tick::handler_all(Irq_base *_s, Upstream_irq const *ui)
+Timer_tick::handler_all_noack()
+{ handle_timer(current_thread(), current_cpu()); }
+
+PUBLIC static inline NEEDS[Timer_tick::handler_all_noack]
+void
+Timer_tick::handler_all(Irq_base *irq, Upstream_irq const *ui)
 {
-  Thread *t = current_thread();
-  handle_timer(_s, ui, t, current_cpu());
+  nonull_static_cast<Timer_tick *>(irq)->ack();
+  Upstream_irq::ack(ui);
+  handler_all_noack();
 }
 
 PUBLIC static inline NEEDS[Timer_tick::handle_timer]
 void
-Timer_tick::handler_sys_time(Irq_base *_s, Upstream_irq const *ui)
+Timer_tick::handler_sys_time(Irq_base *irq, Upstream_irq const *ui)
 {
+  nonull_static_cast<Timer_tick *>(irq)->ack();
+  Upstream_irq::ack(ui);
   // assume the boot CPU to be the CPU that manages the system time
-  handle_timer(_s, ui, current_thread(), Cpu_number::boot_cpu());
+  handle_timer(current_thread(), Cpu_number::boot_cpu());
 }
 
 PUBLIC static inline NEEDS["thread.h", "timer.h"]

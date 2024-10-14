@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Scmi::Base_proto" name="L4virtio::Svr::Scmi::Base_proto">
+<area shape="rect" id="Node000001" title="Base class for the SCMI base protocol." alt="" coords="14,277,146,357"/>
+<area shape="rect" id="Node000002" href="$structL4virtio_1_1Svr_1_1Scmi_1_1Proto.html" title=" " alt="" coords="5,148,155,228"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,242,83,277,77,277,77,242"/>
+<area shape="rect" id="Node000003" href="$structL4virtio_1_1Svr_1_1Scmi_1_1Proto.html" title="Base class for all protocols." alt="" coords="11,5,149,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="83,99,83,148,77,148,77,99"/>
+</map>

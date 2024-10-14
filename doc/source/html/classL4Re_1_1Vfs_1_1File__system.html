@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re::Vfs::File_system Class Reference</title>
+<title>L4Re Operating System Framework: L4Re::Vfs::File_system Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -130,7 +133,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For implementing a special file system <a class="el" href="classL4Re_1_1Vfs_1_1Be__file__system.html" title="Boilerplate class for implementing a L4Re::Vfs::File_system.">L4Re::Vfs::Be_file_system</a> may be used as a base class.</dd></dl>
 <p>The main purpose of this interface is to have a single object for each supported file-system type (e.g., ext2, vfat) that exists in the application and is registered at the <a class="el" href="classL4Re_1_1Vfs_1_1Fs.html" title="POSIX File-system related functionality.">L4Re::Vfs::Fs</a> singleton available via L4Re::Vfs::vfs_ops. Ultimately, the POSIX mount function calls the <a class="el" href="classL4Re_1_1Vfs_1_1File__system.html#ac8d21114767238289cc45ebca8f7afbb" title="Create a directory object dir representing source mounted with this file system.">File_system::mount</a> method matching the file-system type given in mount. </p>
 
-<p class="definition">Definition at line <a class="el" href="vfs_8h_source.html#l00828">828</a> of file <a class="el" href="vfs_8h_source.html">vfs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vfs_8h_source.html#l00831">831</a> of file <a class="el" href="vfs_8h_source.html">vfs.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ac8d21114767238289cc45ebca8f7afbb" name="ac8d21114767238289cc45ebca8f7afbb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac8d21114767238289cc45ebca8f7afbb">&#9670;&#160;</a></span>mount()</h2>
@@ -190,15 +193,6 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success, and &lt;0 on error (e.g. -EINVAL). </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="vfs_8h_source.html#l00979">L4Re::Vfs::Fs::mount()</a>.</p>
-<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4Re_1_1Vfs_1_1File__system_ac8d21114767238289cc45ebca8f7afbb_icgraph.svg" width="384" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
 </div>
 </div>
 <a id="aa5822abf6c5a5e975ad873237e4bf563" name="aa5822abf6c5a5e975ad873237e4bf563"></a>
@@ -241,7 +235,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4Re.html">L4Re</a></li><li class="navelem"><a class="el" href="namespaceL4Re_1_1Vfs.html">Vfs</a></li><li class="navelem"><a class="el" href="classL4Re_1_1Vfs_1_1File__system.html">File_system</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

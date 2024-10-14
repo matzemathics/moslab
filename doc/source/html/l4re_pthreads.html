@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Pthread Support</title>
+<title>L4Re Operating System Framework: Pthread Support</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -148,8 +151,8 @@ $(document).ready(function(){initNavTree('l4re_pthreads.html',''); initResizable
 <div class="line">  <span class="comment">// failure...</span></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a13a538cde83236d893045d533dc7296b"><div class="ttname"><a href="classL4Re_1_1Env.html#a13a538cde83236d893045d533dc7296b">L4Re::Env::scheduler</a></div><div class="ttdeci">L4::Cap&lt; L4::Scheduler &gt; scheduler() const noexcept</div><div class="ttdoc">Get the scheduler capability for the task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00282">env:282</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a2706ca11e70845b0a29a5646c9fd54bc"><div class="ttname"><a href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a></div><div class="ttdeci">static Env const * env() noexcept</div><div class="ttdoc">Returns the initial environment for the current task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00103">env:103</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__err__api_html_ga05c11e3e10b6c2aa941396ac2018899f"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f">l4_error</a></div><div class="ttdeci">long l4_error(l4_msgtag_t tag) L4_NOTHROW</div><div class="ttdoc">Get IPC error code if any or message tag label otherwise for an IPC call.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00636">ipc.h:636</a></div></div>
-<div class="ttc" id="agroup__l4__scheduler__api_html_ga97fc9fce99006ce7011a25bb8d014c8d"><div class="ttname"><a href="group__l4__scheduler__api.html#ga97fc9fce99006ce7011a25bb8d014c8d">l4_sched_param</a></div><div class="ttdeci">l4_sched_param_t l4_sched_param(unsigned prio, l4_umword_t quantum=0) L4_NOTHROW</div><div class="ttdoc">Construct scheduler parameter.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00282">scheduler.h:282</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__err__api_html_ga05c11e3e10b6c2aa941396ac2018899f"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f">l4_error</a></div><div class="ttdeci">long l4_error(l4_msgtag_t tag) L4_NOTHROW</div><div class="ttdoc">Get IPC error code if any or message tag label otherwise for an IPC call.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00657">ipc.h:657</a></div></div>
+<div class="ttc" id="agroup__l4__scheduler__api_html_ga97fc9fce99006ce7011a25bb8d014c8d"><div class="ttname"><a href="group__l4__scheduler__api.html#ga97fc9fce99006ce7011a25bb8d014c8d">l4_sched_param</a></div><div class="ttdeci">l4_sched_param_t l4_sched_param(unsigned prio, l4_umword_t quantum=0) L4_NOTHROW</div><div class="ttdoc">Construct scheduler parameter.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00291">scheduler.h:291</a></div></div>
 </div><!-- fragment --><p class="endli"></p>
 </li>
 </ul>
@@ -194,10 +197,10 @@ $(document).ready(function(){initNavTree('l4re_pthreads.html',''); initResizable
 <div class="line">                                <span class="comment">// the pthread&#39;s data structures</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// using cap_idx here is undefined behavior.</span></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga539da15c2a1be4803ed7a3f3a5742194"><div class="ttname"><a href="group__l4__cap__api.html#ga539da15c2a1be4803ed7a3f3a5742194">l4_is_valid_cap</a></div><div class="ttdeci">unsigned l4_is_valid_cap(l4_cap_idx_t c) L4_NOTHROW</div><div class="ttdoc">Test if a capability selector is a valid selector.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00415">types.h:415</a></div></div>
-<div class="ttc" id="agroup__l4__task__api_html_ga829a1b5cb4d5dba33ffee57534a505af"><div class="ttname"><a href="group__l4__task__api.html#ga829a1b5cb4d5dba33ffee57534a505af">l4_task_cap_valid</a></div><div class="ttdeci">l4_msgtag_t l4_task_cap_valid(l4_cap_idx_t task, l4_cap_idx_t cap) L4_NOTHROW</div><div class="ttdoc">Check whether a capability is present (refers to an object).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2task_8h_source.html#l00446">task.h:446</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_a002076380a3f6e4f29a1f6b50ce2bde2"><div class="ttname"><a href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">l4_msgtag_t::label</a></div><div class="ttdeci">long label() const L4_NOTHROW</div><div class="ttdoc">Get the protocol value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00167">types.h:167</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga539da15c2a1be4803ed7a3f3a5742194"><div class="ttname"><a href="group__l4__cap__api.html#ga539da15c2a1be4803ed7a3f3a5742194">l4_is_valid_cap</a></div><div class="ttdeci">unsigned l4_is_valid_cap(l4_cap_idx_t c) L4_NOTHROW</div><div class="ttdoc">Test if a capability selector is a valid selector.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00416">types.h:416</a></div></div>
+<div class="ttc" id="agroup__l4__task__api_html_ga829a1b5cb4d5dba33ffee57534a505af"><div class="ttname"><a href="group__l4__task__api.html#ga829a1b5cb4d5dba33ffee57534a505af">l4_task_cap_valid</a></div><div class="ttdeci">l4_msgtag_t l4_task_cap_valid(l4_cap_idx_t task, l4_cap_idx_t cap) L4_NOTHROW</div><div class="ttdoc">Check whether a capability is present (refers to an object).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2task_8h_source.html#l00455">task.h:455</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_a002076380a3f6e4f29a1f6b50ce2bde2"><div class="ttname"><a href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">l4_msgtag_t::label</a></div><div class="ttdeci">long label() const L4_NOTHROW</div><div class="ttdoc">Get the protocol value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00168">types.h:168</a></div></div>
 </div><!-- fragment -->  </li>
 </ul>
 </div></div><!-- contents -->
@@ -208,7 +211,7 @@ $(document).ready(function(){initNavTree('l4re_pthreads.html',''); initResizable
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="l4re_concepts.html">Programming for L4Re</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

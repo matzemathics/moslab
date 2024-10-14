@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: cxx::Bitfield&lt; T, LSB, MSB &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: cxx::Bitfield&lt; T, LSB, MSB &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -125,68 +128,76 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a22006217b75221ad82cde06090f6c229" id="r_a22006217b75221ad82cde06090f6c229"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a">Bits</a> = MSB + 1 - LSB
-, <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2">Lsb</a> = LSB
-, <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229a2f5e6f2d3e1cd25d4c905e680eadcc34">Msb</a> = MSB
+<tr class="memitem:a0b48204f3c03e2424d046f344e7ca5f2" id="r_a0b48204f3c03e2424d046f344e7ca5f2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a">Bits</a> = MSB + 1 - LSB
+, <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2">Lsb</a> = LSB
+, <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2a2f5e6f2d3e1cd25d4c905e680eadcc34">Msb</a> = MSB
  }</td></tr>
-<tr class="separator:a22006217b75221ad82cde06090f6c229"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85afeb75ac1516f5bec8fe3cb63f9b35" id="r_a85afeb75ac1516f5bec8fe3cb63f9b35"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a85afeb75ac1516f5bec8fe3cb63f9b35">Masks</a> : T { <a class="el" href="classcxx_1_1Bitfield.html#a85afeb75ac1516f5bec8fe3cb63f9b35ab4b9584d83b7e460678379ba52b3262e">Low_mask</a> = ((T)~0ULL) &gt;&gt; (sizeof(T)*8 - Bits)
-, <a class="el" href="classcxx_1_1Bitfield.html#a85afeb75ac1516f5bec8fe3cb63f9b35ae140ccae1e38bdcad4354722b4ff888e">Mask</a> = Low_mask &lt;&lt; Lsb
+<tr class="separator:a0b48204f3c03e2424d046f344e7ca5f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66cd0a99e4d836c4e1a76250cf6d2d23" id="r_a66cd0a99e4d836c4e1a76250cf6d2d23"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a66cd0a99e4d836c4e1a76250cf6d2d23">Masks</a> : Base_type { <a class="el" href="classcxx_1_1Bitfield.html#a66cd0a99e4d836c4e1a76250cf6d2d23ab4b9584d83b7e460678379ba52b3262e">Low_mask</a> = static_cast&lt;Base_type&gt;(~0ULL) &gt;&gt; (sizeof(Base_type)*8 - Bits)
+, <a class="el" href="classcxx_1_1Bitfield.html#a66cd0a99e4d836c4e1a76250cf6d2d23ae140ccae1e38bdcad4354722b4ff888e">Mask</a> = Low_mask &lt;&lt; Lsb
  }</td></tr>
-<tr class="memdesc:a85afeb75ac1516f5bec8fe3cb63f9b35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Masks for bitswise operation on internal parts of a bitfield.  <a href="classcxx_1_1Bitfield.html#a85afeb75ac1516f5bec8fe3cb63f9b35">More...</a><br /></td></tr>
-<tr class="separator:a85afeb75ac1516f5bec8fe3cb63f9b35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1dcfd2c2916485bae6edf52e7cb326a" id="r_ac1dcfd2c2916485bae6edf52e7cb326a"><td class="memItemLeft" align="right" valign="top">typedef Best_type&lt; <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a">Bits</a> &gt;::Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a></td></tr>
-<tr class="memdesc:ac1dcfd2c2916485bae6edf52e7cb326a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type to hold at least <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits.  <br /></td></tr>
+<tr class="memdesc:a66cd0a99e4d836c4e1a76250cf6d2d23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Masks for bitswise operation on internal parts of a bitfield.  <a href="classcxx_1_1Bitfield.html#a66cd0a99e4d836c4e1a76250cf6d2d23">More...</a><br /></td></tr>
+<tr class="separator:a66cd0a99e4d836c4e1a76250cf6d2d23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1dcfd2c2916485bae6edf52e7cb326a" id="r_ac1dcfd2c2916485bae6edf52e7cb326a"><td class="memItemLeft" align="right" valign="top">typedef Best_type&lt; <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a">Bits</a> &gt;::Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a></td></tr>
+<tr class="memdesc:ac1dcfd2c2916485bae6edf52e7cb326a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type to hold at least <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits.  <br /></td></tr>
 <tr class="separator:ac1dcfd2c2916485bae6edf52e7cb326a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a781d6d6a9d4788f56f8071ce9b2b9ca3" id="r_a781d6d6a9d4788f56f8071ce9b2b9ca3"><td class="memItemLeft" align="right" valign="top">typedef Best_type&lt; <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a">Bits</a>+<a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2">Lsb</a> &gt;::Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a></td></tr>
-<tr class="memdesc:a781d6d6a9d4788f56f8071ce9b2b9ca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type to hold at least <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> + <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits.  <br /></td></tr>
+<tr class="memitem:a781d6d6a9d4788f56f8071ce9b2b9ca3" id="r_a781d6d6a9d4788f56f8071ce9b2b9ca3"><td class="memItemLeft" align="right" valign="top">typedef Best_type&lt; <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a">Bits</a>+<a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2">Lsb</a> &gt;::Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a></td></tr>
+<tr class="memdesc:a781d6d6a9d4788f56f8071ce9b2b9ca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type to hold at least <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> + <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits.  <br /></td></tr>
 <tr class="separator:a781d6d6a9d4788f56f8071ce9b2b9ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac174608ac338d755235810f315e6408" id="r_aac174608ac338d755235810f315e6408"><td class="memItemLeft" align="right" valign="top"><a id="aac174608ac338d755235810f315e6408" name="aac174608ac338d755235810f315e6408"></a>
-typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value.html">Value</a>&lt; T &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ref</b></td></tr>
-<tr class="memdesc:aac174608ac338d755235810f315e6408"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference type to access the bits inside a raw bit field. <br /></td></tr>
-<tr class="separator:aac174608ac338d755235810f315e6408"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa5da9baeb9a223cee18faf0e4735440" id="r_aaa5da9baeb9a223cee18faf0e4735440"><td class="memItemLeft" align="right" valign="top"><a id="aaa5da9baeb9a223cee18faf0e4735440" name="aaa5da9baeb9a223cee18faf0e4735440"></a>
-typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value.html">Value</a>&lt; T const  &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Val</b></td></tr>
-<tr class="memdesc:aaa5da9baeb9a223cee18faf0e4735440"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcxx_1_1Bitfield_1_1Value.html" title="Internal helper type.">Value</a> type to access the bits inside a raw bit field. <br /></td></tr>
-<tr class="separator:aaa5da9baeb9a223cee18faf0e4735440"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f3bbbc316ec29c6bcd341d00363d52a" id="r_a5f3bbbc316ec29c6bcd341d00363d52a"><td class="memItemLeft" align="right" valign="top"><a id="a5f3bbbc316ec29c6bcd341d00363d52a" name="a5f3bbbc316ec29c6bcd341d00363d52a"></a>
-typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value__unshifted.html">Value_unshifted</a>&lt; T &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ref_unshifted</b></td></tr>
-<tr class="memdesc:a5f3bbbc316ec29c6bcd341d00363d52a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference type to access the bits inside a raw bit field (in place). <br /></td></tr>
-<tr class="separator:a5f3bbbc316ec29c6bcd341d00363d52a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12a10f5d5da6b203161b8793306531e3" id="r_a12a10f5d5da6b203161b8793306531e3"><td class="memItemLeft" align="right" valign="top"><a id="a12a10f5d5da6b203161b8793306531e3" name="a12a10f5d5da6b203161b8793306531e3"></a>
-typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value__unshifted.html">Value_unshifted</a>&lt; T const  &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Val_unshifted</b></td></tr>
-<tr class="memdesc:a12a10f5d5da6b203161b8793306531e3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcxx_1_1Bitfield_1_1Value.html" title="Internal helper type.">Value</a> type to access the bits inside a raw bit field (in place). <br /></td></tr>
-<tr class="separator:a12a10f5d5da6b203161b8793306531e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4ee89e7f26d1628bd4c702959ca4fbc" id="r_af4ee89e7f26d1628bd4c702959ca4fbc"><td class="memItemLeft" align="right" valign="top"><a id="af4ee89e7f26d1628bd4c702959ca4fbc" name="af4ee89e7f26d1628bd4c702959ca4fbc"></a>
+typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value.html">Value</a>&lt; Base_type &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ref</b></td></tr>
+<tr class="memdesc:af4ee89e7f26d1628bd4c702959ca4fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference type to access the bits inside a raw bit field. <br /></td></tr>
+<tr class="separator:af4ee89e7f26d1628bd4c702959ca4fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60d8b3892a758f5b30875df738df6469" id="r_a60d8b3892a758f5b30875df738df6469"><td class="memItemLeft" align="right" valign="top"><a id="a60d8b3892a758f5b30875df738df6469" name="a60d8b3892a758f5b30875df738df6469"></a>
+typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value.html">Value</a>&lt; Base_type volatile &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ref_volatile</b></td></tr>
+<tr class="memdesc:a60d8b3892a758f5b30875df738df6469"><td class="mdescLeft">&#160;</td><td class="mdescRight">Volatile reference type to access the bits inside a raw bit field. <br /></td></tr>
+<tr class="separator:a60d8b3892a758f5b30875df738df6469"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a801b1fb423551966bfd9a0d773e3b036" id="r_a801b1fb423551966bfd9a0d773e3b036"><td class="memItemLeft" align="right" valign="top"><a id="a801b1fb423551966bfd9a0d773e3b036" name="a801b1fb423551966bfd9a0d773e3b036"></a>
+typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value.html">Value</a>&lt; Base_type const  &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Val</b></td></tr>
+<tr class="memdesc:a801b1fb423551966bfd9a0d773e3b036"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcxx_1_1Bitfield_1_1Value.html" title="Internal helper type.">Value</a> type to access the bits inside a raw bit field. <br /></td></tr>
+<tr class="separator:a801b1fb423551966bfd9a0d773e3b036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfb81932e19cd94bfac4cf870e639936" id="r_acfb81932e19cd94bfac4cf870e639936"><td class="memItemLeft" align="right" valign="top"><a id="acfb81932e19cd94bfac4cf870e639936" name="acfb81932e19cd94bfac4cf870e639936"></a>
+typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value__unshifted.html">Value_unshifted</a>&lt; Base_type &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ref_unshifted</b></td></tr>
+<tr class="memdesc:acfb81932e19cd94bfac4cf870e639936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference type to access the bits inside a raw bit field (in place). <br /></td></tr>
+<tr class="separator:acfb81932e19cd94bfac4cf870e639936"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f557c49aec16845516dde95373fdf9f" id="r_a2f557c49aec16845516dde95373fdf9f"><td class="memItemLeft" align="right" valign="top"><a id="a2f557c49aec16845516dde95373fdf9f" name="a2f557c49aec16845516dde95373fdf9f"></a>
+typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value__unshifted.html">Value_unshifted</a>&lt; Base_type volatile &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ref_unshifted_volatile</b></td></tr>
+<tr class="memdesc:a2f557c49aec16845516dde95373fdf9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Volatile reference type to access the bits inside a raw bit field (in place). <br /></td></tr>
+<tr class="separator:a2f557c49aec16845516dde95373fdf9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeac44da9ba4a2d0e37047a2aa0c2a4dc" id="r_aeac44da9ba4a2d0e37047a2aa0c2a4dc"><td class="memItemLeft" align="right" valign="top"><a id="aeac44da9ba4a2d0e37047a2aa0c2a4dc" name="aeac44da9ba4a2d0e37047a2aa0c2a4dc"></a>
+typedef <a class="el" href="classcxx_1_1Bitfield_1_1Value__unshifted.html">Value_unshifted</a>&lt; Base_type const  &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Val_unshifted</b></td></tr>
+<tr class="memdesc:aeac44da9ba4a2d0e37047a2aa0c2a4dc"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcxx_1_1Bitfield_1_1Value.html" title="Internal helper type.">Value</a> type to access the bits inside a raw bit field (in place). <br /></td></tr>
+<tr class="separator:aeac44da9ba4a2d0e37047a2aa0c2a4dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a50d93d103f4b31798399bc349cb4d210" id="r_a50d93d103f4b31798399bc349cb4d210"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a50d93d103f4b31798399bc349cb4d210">get</a> (<a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a>)</td></tr>
-<tr class="memdesc:a50d93d103f4b31798399bc349cb4d210"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the bits out of <code>val</code>.  <br /></td></tr>
-<tr class="separator:a50d93d103f4b31798399bc349cb4d210"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5f6db1f81c5ac0eb7093d8fd61310d9" id="r_af5f6db1f81c5ac0eb7093d8fd61310d9"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#af5f6db1f81c5ac0eb7093d8fd61310d9">get_unshifted</a> (<a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a>)</td></tr>
-<tr class="memdesc:af5f6db1f81c5ac0eb7093d8fd61310d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the bits in place out of <code>val</code>.  <br /></td></tr>
-<tr class="separator:af5f6db1f81c5ac0eb7093d8fd61310d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68f3092e1839bc709beb3611c2f5cb31" id="r_a68f3092e1839bc709beb3611c2f5cb31"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a68f3092e1839bc709beb3611c2f5cb31">set_dirty</a> (T dest, <a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a>)</td></tr>
-<tr class="memdesc:a68f3092e1839bc709beb3611c2f5cb31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the bits corresponding to <code>val</code>.  <br /></td></tr>
-<tr class="separator:a68f3092e1839bc709beb3611c2f5cb31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6e85dede315b549dfec835d92525948" id="r_ae6e85dede315b549dfec835d92525948"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#ae6e85dede315b549dfec835d92525948">set_unshifted_dirty</a> (T dest, <a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a>)</td></tr>
-<tr class="memdesc:ae6e85dede315b549dfec835d92525948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the bits corresponding to <code>val</code>.  <br /></td></tr>
-<tr class="separator:ae6e85dede315b549dfec835d92525948"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ecb232dbd24976e50f5a6674b504517" id="r_a0ecb232dbd24976e50f5a6674b504517"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a0ecb232dbd24976e50f5a6674b504517">set</a> (T dest, <a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a>)</td></tr>
-<tr class="memdesc:a0ecb232dbd24976e50f5a6674b504517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the bits corresponding to <code>val</code>.  <br /></td></tr>
-<tr class="separator:a0ecb232dbd24976e50f5a6674b504517"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9c4c45aeb034031a6d5cd5484e571bb" id="r_ae9c4c45aeb034031a6d5cd5484e571bb"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#ae9c4c45aeb034031a6d5cd5484e571bb">set_unshifted</a> (T dest, <a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a>)</td></tr>
-<tr class="memdesc:ae9c4c45aeb034031a6d5cd5484e571bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the bits corresponding to <code>val</code>.  <br /></td></tr>
-<tr class="separator:ae9c4c45aeb034031a6d5cd5484e571bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8180660e03ca6acf85047dba64bb77a3" id="r_a8180660e03ca6acf85047dba64bb77a3"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a8180660e03ca6acf85047dba64bb77a3">val_dirty</a> (<a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a>)</td></tr>
-<tr class="memdesc:a8180660e03ca6acf85047dba64bb77a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shifted bits for <code>val</code>.  <br /></td></tr>
-<tr class="separator:a8180660e03ca6acf85047dba64bb77a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3384706160a84e15a283e2c639071a26" id="r_a3384706160a84e15a283e2c639071a26"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a> (<a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a> val)</td></tr>
-<tr class="memdesc:a3384706160a84e15a283e2c639071a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shifted bits for <code>val</code>.  <br /></td></tr>
-<tr class="separator:a3384706160a84e15a283e2c639071a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabe77366dc22247455497f4a925ea3ef" id="r_aabe77366dc22247455497f4a925ea3ef"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#aabe77366dc22247455497f4a925ea3ef">val_unshifted</a> (<a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a3384706160a84e15a283e2c639071a26">val</a>)</td></tr>
-<tr class="memdesc:aabe77366dc22247455497f4a925ea3ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shifted bits for <code>val</code>.  <br /></td></tr>
-<tr class="separator:aabe77366dc22247455497f4a925ea3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06fdbf197205ae22f89a997a03f7d873" id="r_a06fdbf197205ae22f89a997a03f7d873"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a06fdbf197205ae22f89a997a03f7d873">get</a> (<a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a>)</td></tr>
+<tr class="memdesc:a06fdbf197205ae22f89a997a03f7d873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the bits out of <code>val</code>.  <br /></td></tr>
+<tr class="separator:a06fdbf197205ae22f89a997a03f7d873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f0c0601a22cf6cf61c19a3e61dcaa8" id="r_ae5f0c0601a22cf6cf61c19a3e61dcaa8"><td class="memItemLeft" align="right" valign="top">static constexpr Base_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#ae5f0c0601a22cf6cf61c19a3e61dcaa8">get_unshifted</a> (<a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a>)</td></tr>
+<tr class="memdesc:ae5f0c0601a22cf6cf61c19a3e61dcaa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the bits in place out of <code>val</code>.  <br /></td></tr>
+<tr class="separator:ae5f0c0601a22cf6cf61c19a3e61dcaa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7ae0469cb02433656c409037496c1c5" id="r_ae7ae0469cb02433656c409037496c1c5"><td class="memItemLeft" align="right" valign="top">static constexpr Base_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#ae7ae0469cb02433656c409037496c1c5">set_dirty</a> (Base_type dest, <a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a>)</td></tr>
+<tr class="memdesc:ae7ae0469cb02433656c409037496c1c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the bits corresponding to <code>val</code>.  <br /></td></tr>
+<tr class="separator:ae7ae0469cb02433656c409037496c1c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e305e8c9e712e990c0c433563df6e9d" id="r_a8e305e8c9e712e990c0c433563df6e9d"><td class="memItemLeft" align="right" valign="top">static constexpr Base_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a8e305e8c9e712e990c0c433563df6e9d">set_unshifted_dirty</a> (Base_type dest, <a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a>)</td></tr>
+<tr class="memdesc:a8e305e8c9e712e990c0c433563df6e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the bits corresponding to <code>val</code>.  <br /></td></tr>
+<tr class="separator:a8e305e8c9e712e990c0c433563df6e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f6d68cd9ec3d1e73d4cfbf09a152a3d" id="r_a6f6d68cd9ec3d1e73d4cfbf09a152a3d"><td class="memItemLeft" align="right" valign="top">static Base_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a6f6d68cd9ec3d1e73d4cfbf09a152a3d">set</a> (Base_type dest, <a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a>)</td></tr>
+<tr class="memdesc:a6f6d68cd9ec3d1e73d4cfbf09a152a3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the bits corresponding to <code>val</code>.  <br /></td></tr>
+<tr class="separator:a6f6d68cd9ec3d1e73d4cfbf09a152a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf71654863853313e89cc5af4b6bdd3a" id="r_acf71654863853313e89cc5af4b6bdd3a"><td class="memItemLeft" align="right" valign="top">static Base_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#acf71654863853313e89cc5af4b6bdd3a">set_unshifted</a> (Base_type dest, <a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a>)</td></tr>
+<tr class="memdesc:acf71654863853313e89cc5af4b6bdd3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the bits corresponding to <code>val</code>.  <br /></td></tr>
+<tr class="separator:acf71654863853313e89cc5af4b6bdd3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a818da07b2e19e478f5deb4f30fed2b68" id="r_a818da07b2e19e478f5deb4f30fed2b68"><td class="memItemLeft" align="right" valign="top">static constexpr Base_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a818da07b2e19e478f5deb4f30fed2b68">val_dirty</a> (<a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a>)</td></tr>
+<tr class="memdesc:a818da07b2e19e478f5deb4f30fed2b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shifted bits for <code>val</code>.  <br /></td></tr>
+<tr class="separator:a818da07b2e19e478f5deb4f30fed2b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eb831cf0efee1b05529a685f9cf8367" id="r_a9eb831cf0efee1b05529a685f9cf8367"><td class="memItemLeft" align="right" valign="top">static constexpr Base_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a> (<a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a> val)</td></tr>
+<tr class="memdesc:a9eb831cf0efee1b05529a685f9cf8367"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shifted bits for <code>val</code>.  <br /></td></tr>
+<tr class="separator:a9eb831cf0efee1b05529a685f9cf8367"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a348dd87b1a812459bf3a575c89925f16" id="r_a348dd87b1a812459bf3a575c89925f16"><td class="memItemLeft" align="right" valign="top">static constexpr Base_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcxx_1_1Bitfield.html#a348dd87b1a812459bf3a575c89925f16">val_unshifted</a> (<a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a> <a class="el" href="classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367">val</a>)</td></tr>
+<tr class="memdesc:a348dd87b1a812459bf3a575c89925f16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shifted bits for <code>val</code>.  <br /></td></tr>
+<tr class="separator:a348dd87b1a812459bf3a575c89925f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, unsigned LSB, unsigned MSB&gt;<br />
@@ -211,15 +222,15 @@ class cxx::Bitfield&lt; T, LSB, MSB &gt;</div><p>Definition for a member (part) 
 template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef Best_type&lt;<a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a">Bits</a>&gt;::Type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::Bits_type</td>
+          <td class="memname">typedef Best_type&lt;<a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a">Bits</a>&gt;::Type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::Bits_type</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Type to hold at least <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits. </p>
+<p>Type to hold at least <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits. </p>
 <p>This type can handle all values that can be stored in this part of the bit field. </p>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00083">83</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00085">85</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
 </div>
 </div>
@@ -232,21 +243,21 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
 template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef Best_type&lt;<a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a">Bits</a>+<a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2">Lsb</a>&gt;::Type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::Shift_type</td>
+          <td class="memname">typedef Best_type&lt;<a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a">Bits</a>+<a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2">Lsb</a>&gt;::Type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::Shift_type</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Type to hold at least <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> + <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits. </p>
-<p>This type can handle all values that can be stored in this part of the bit field when they are at the target location (<a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits shifted to the left). </p>
+<p>Type to hold at least <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> + <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits. </p>
+<p>This type can handle all values that can be stored in this part of the bit field when they are at the target location (<a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits shifted to the left). </p>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00091">91</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00093">93</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a22006217b75221ad82cde06090f6c229" name="a22006217b75221ad82cde06090f6c229"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22006217b75221ad82cde06090f6c229">&#9670;&#160;</a></span>anonymous enum</h2>
+<a id="a0b48204f3c03e2424d046f344e7ca5f2" name="a0b48204f3c03e2424d046f344e7ca5f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b48204f3c03e2424d046f344e7ca5f2">&#9670;&#160;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,20 +270,20 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" name="a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a"></a>Bits&#160;</td><td class="fielddoc"><p>Number of bits. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" name="a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a"></a>Bits&#160;</td><td class="fielddoc"><p>Number of bits. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" name="a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2"></a>Lsb&#160;</td><td class="fielddoc"><p>index of the LSB </p>
+<tr><td class="fieldname"><a id="a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" name="a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2"></a>Lsb&#160;</td><td class="fielddoc"><p>index of the LSB </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a22006217b75221ad82cde06090f6c229a2f5e6f2d3e1cd25d4c905e680eadcc34" name="a22006217b75221ad82cde06090f6c229a2f5e6f2d3e1cd25d4c905e680eadcc34"></a>Msb&#160;</td><td class="fielddoc"><p>index of the MSB </p>
+<tr><td class="fieldname"><a id="a0b48204f3c03e2424d046f344e7ca5f2a2f5e6f2d3e1cd25d4c905e680eadcc34" name="a0b48204f3c03e2424d046f344e7ca5f2a2f5e6f2d3e1cd25d4c905e680eadcc34"></a>Msb&#160;</td><td class="fielddoc"><p>index of the MSB </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00061">61</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00063">63</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
 </div>
 </div>
-<a id="a85afeb75ac1516f5bec8fe3cb63f9b35" name="a85afeb75ac1516f5bec8fe3cb63f9b35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85afeb75ac1516f5bec8fe3cb63f9b35">&#9670;&#160;</a></span>Masks</h2>
+<a id="a66cd0a99e4d836c4e1a76250cf6d2d23" name="a66cd0a99e4d836c4e1a76250cf6d2d23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66cd0a99e4d836c4e1a76250cf6d2d23">&#9670;&#160;</a></span>Masks</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -280,26 +291,26 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
 template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="classcxx_1_1Bitfield.html#a85afeb75ac1516f5bec8fe3cb63f9b35">cxx::Bitfield::Masks</a> : T</td>
+          <td class="memname">enum <a class="el" href="classcxx_1_1Bitfield.html#a66cd0a99e4d836c4e1a76250cf6d2d23">cxx::Bitfield::Masks</a> : Base_type</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Masks for bitswise operation on internal parts of a bitfield. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a85afeb75ac1516f5bec8fe3cb63f9b35ab4b9584d83b7e460678379ba52b3262e" name="a85afeb75ac1516f5bec8fe3cb63f9b35ab4b9584d83b7e460678379ba52b3262e"></a>Low_mask&#160;</td><td class="fielddoc"><p>Mask value to get <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a66cd0a99e4d836c4e1a76250cf6d2d23ab4b9584d83b7e460678379ba52b3262e" name="a66cd0a99e4d836c4e1a76250cf6d2d23ab4b9584d83b7e460678379ba52b3262e"></a>Low_mask&#160;</td><td class="fielddoc"><p>Mask value to get <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85afeb75ac1516f5bec8fe3cb63f9b35ae140ccae1e38bdcad4354722b4ff888e" name="a85afeb75ac1516f5bec8fe3cb63f9b35ae140ccae1e38bdcad4354722b4ff888e"></a>Mask&#160;</td><td class="fielddoc"><p>Mask value to the bits out of a <code>T</code>. </p>
+<tr><td class="fieldname"><a id="a66cd0a99e4d836c4e1a76250cf6d2d23ae140ccae1e38bdcad4354722b4ff888e" name="a66cd0a99e4d836c4e1a76250cf6d2d23ae140ccae1e38bdcad4354722b4ff888e"></a>Mask&#160;</td><td class="fielddoc"><p>Mask value to the bits out of a <code>T</code>. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00069">69</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00071">71</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a50d93d103f4b31798399bc349cb4d210" name="a50d93d103f4b31798399bc349cb4d210"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50d93d103f4b31798399bc349cb4d210">&#9670;&#160;</a></span>get()</h2>
+<a id="a06fdbf197205ae22f89a997a03f7d873" name="a06fdbf197205ae22f89a997a03f7d873"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06fdbf197205ae22f89a997a03f7d873">&#9670;&#160;</a></span>get()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -310,7 +321,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a> <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::get </td>
+          <td class="memname">static constexpr <a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a> <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::get </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a>&#160;</td>
           <td class="paramname"><em>val</em></td><td>)</td>
@@ -319,7 +330,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -331,23 +342,23 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The bits form <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> to <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229a2f5e6f2d3e1cd25d4c905e680eadcc34" title="index of the MSB">Msb</a> shifted to the right. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The bits form <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> to <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2a2f5e6f2d3e1cd25d4c905e680eadcc34" title="index of the MSB">Msb</a> shifted to the right. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00108">108</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00110">110</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00072">cxx::Bitfield&lt; T, LSB, MSB &gt;::Low_mask</a>, <a class="el" href="bitfield_source.html#l00064">cxx::Bitfield&lt; T, LSB, MSB &gt;::Lsb</a>, and <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00074">cxx::Bitfield&lt; T, LSB, MSB &gt;::Low_mask</a>, <a class="el" href="bitfield_source.html#l00066">cxx::Bitfield&lt; T, LSB, MSB &gt;::Lsb</a>, and <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a50d93d103f4b31798399bc349cb4d210_cgraph.svg" width="488" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a06fdbf197205ae22f89a997a03f7d873_cgraph.svg" width="488" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="af5f6db1f81c5ac0eb7093d8fd61310d9" name="af5f6db1f81c5ac0eb7093d8fd61310d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5f6db1f81c5ac0eb7093d8fd61310d9">&#9670;&#160;</a></span>get_unshifted()</h2>
+<a id="ae5f0c0601a22cf6cf61c19a3e61dcaa8" name="ae5f0c0601a22cf6cf61c19a3e61dcaa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5f0c0601a22cf6cf61c19a3e61dcaa8">&#9670;&#160;</a></span>get_unshifted()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,7 +369,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::get_unshifted </td>
+          <td class="memname">static constexpr Base_type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::get_unshifted </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a>&#160;</td>
           <td class="paramname"><em>val</em></td><td>)</td>
@@ -367,7 +378,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -379,24 +390,24 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The bits from <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> to <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229a2f5e6f2d3e1cd25d4c905e680eadcc34" title="index of the MSB">Msb</a> (unshifted).</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The bits from <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> to <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2a2f5e6f2d3e1cd25d4c905e680eadcc34" title="index of the MSB">Msb</a> (unshifted).</dd></dl>
 <p>This means other bits are masked out, however the result is not shifted to the right. </p>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00121">121</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00123">123</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00074">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, and <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00076">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, and <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_af5f6db1f81c5ac0eb7093d8fd61310d9_cgraph.svg" width="488" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_ae5f0c0601a22cf6cf61c19a3e61dcaa8_cgraph.svg" width="488" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a0ecb232dbd24976e50f5a6674b504517" name="a0ecb232dbd24976e50f5a6674b504517"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ecb232dbd24976e50f5a6674b504517">&#9670;&#160;</a></span>set()</h2>
+<a id="a6f6d68cd9ec3d1e73d4cfbf09a152a3d" name="a6f6d68cd9ec3d1e73d4cfbf09a152a3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f6d68cd9ec3d1e73d4cfbf09a152a3d">&#9670;&#160;</a></span>set()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -407,9 +418,9 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::set </td>
+          <td class="memname">static Base_type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::set </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype">Base_type&#160;</td>
           <td class="paramname"><em>dest</em>, </td>
         </tr>
         <tr>
@@ -441,21 +452,21 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The new value of the whole bit field. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00170">170</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00172">172</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00072">cxx::Bitfield&lt; T, LSB, MSB &gt;::Low_mask</a>, <a class="el" href="bitfield_source.html#l00136">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_dirty()</a>, and <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00074">cxx::Bitfield&lt; T, LSB, MSB &gt;::Low_mask</a>, <a class="el" href="bitfield_source.html#l00138">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_dirty()</a>, and <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a0ecb232dbd24976e50f5a6674b504517_cgraph.svg" width="662" height="80"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a6f6d68cd9ec3d1e73d4cfbf09a152a3d_cgraph.svg" width="662" height="80"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a68f3092e1839bc709beb3611c2f5cb31" name="a68f3092e1839bc709beb3611c2f5cb31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68f3092e1839bc709beb3611c2f5cb31">&#9670;&#160;</a></span>set_dirty()</h2>
+<a id="ae7ae0469cb02433656c409037496c1c5" name="ae7ae0469cb02433656c409037496c1c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7ae0469cb02433656c409037496c1c5">&#9670;&#160;</a></span>set_dirty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -466,9 +477,9 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::set_dirty </td>
+          <td class="memname">static constexpr Base_type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::set_dirty </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype">Base_type&#160;</td>
           <td class="paramname"><em>dest</em>, </td>
         </tr>
         <tr>
@@ -485,7 +496,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -499,33 +510,33 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The new value of the whole bit field.</dd></dl>
-<dl class="section pre"><dt>Precondition</dt><dd><code>val</code> must not contain more than <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><code>val</code> must not contain more than <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This function does not mask <code>val</code> to the right number of bits. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00136">136</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00138">138</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00064">cxx::Bitfield&lt; T, LSB, MSB &gt;::Lsb</a>, <a class="el" href="bitfield_source.html#l00074">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, and <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00066">cxx::Bitfield&lt; T, LSB, MSB &gt;::Lsb</a>, <a class="el" href="bitfield_source.html#l00076">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, and <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="bitfield_source.html#l00170">cxx::Bitfield&lt; T, LSB, MSB &gt;::set()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="bitfield_source.html#l00172">cxx::Bitfield&lt; T, LSB, MSB &gt;::set()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a68f3092e1839bc709beb3611c2f5cb31_cgraph.svg" width="487" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_ae7ae0469cb02433656c409037496c1c5_cgraph.svg" width="487" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a68f3092e1839bc709beb3611c2f5cb31_icgraph.svg" width="312" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_ae7ae0469cb02433656c409037496c1c5_icgraph.svg" width="312" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="ae9c4c45aeb034031a6d5cd5484e571bb" name="ae9c4c45aeb034031a6d5cd5484e571bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9c4c45aeb034031a6d5cd5484e571bb">&#9670;&#160;</a></span>set_unshifted()</h2>
+<a id="acf71654863853313e89cc5af4b6bdd3a" name="acf71654863853313e89cc5af4b6bdd3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf71654863853313e89cc5af4b6bdd3a">&#9670;&#160;</a></span>set_unshifted()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -536,9 +547,9 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::set_unshifted </td>
+          <td class="memname">static Base_type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::set_unshifted </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype">Base_type&#160;</td>
           <td class="paramname"><em>dest</em>, </td>
         </tr>
         <tr>
@@ -564,27 +575,27 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dest</td><td>The current value of the whole bit field. </td></tr>
-    <tr><td class="paramname">val</td><td>The value shifted <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits to the left that shall be set into the bit field.</td></tr>
+    <tr><td class="paramname">val</td><td>The value shifted <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits to the left that shall be set into the bit field.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the new value of the whole bit field. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00182">182</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00184">184</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00074">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, <a class="el" href="bitfield_source.html#l00156">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_unshifted_dirty()</a>, and <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00076">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, <a class="el" href="bitfield_source.html#l00158">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_unshifted_dirty()</a>, and <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_ae9c4c45aeb034031a6d5cd5484e571bb_cgraph.svg" width="662" height="80"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_acf71654863853313e89cc5af4b6bdd3a_cgraph.svg" width="662" height="80"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="ae6e85dede315b549dfec835d92525948" name="ae6e85dede315b549dfec835d92525948"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6e85dede315b549dfec835d92525948">&#9670;&#160;</a></span>set_unshifted_dirty()</h2>
+<a id="a8e305e8c9e712e990c0c433563df6e9d" name="a8e305e8c9e712e990c0c433563df6e9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e305e8c9e712e990c0c433563df6e9d">&#9670;&#160;</a></span>set_unshifted_dirty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -595,9 +606,9 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::set_unshifted_dirty </td>
+          <td class="memname">static constexpr Base_type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::set_unshifted_dirty </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype">Base_type&#160;</td>
           <td class="paramname"><em>dest</em>, </td>
         </tr>
         <tr>
@@ -614,7 +625,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -623,38 +634,38 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dest</td><td>The current value of the whole bit field. </td></tr>
-    <tr><td class="paramname">val</td><td>The value shifted <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits to the left that shall be set into the bits.</td></tr>
+    <tr><td class="paramname">val</td><td>The value shifted <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits to the left that shall be set into the bits.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The new value of the whole bit field.</dd></dl>
-<dl class="section pre"><dt>Precondition</dt><dd><code>val</code> must not contain more than <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits shifted <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits to the left.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><code>val</code> must not contain more than <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits shifted <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits to the left.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This function does not mask <code>val</code> to the right number of bits. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00156">156</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00158">158</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00074">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, and <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00076">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, and <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="bitfield_source.html#l00182">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_unshifted()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="bitfield_source.html#l00184">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_unshifted()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-7-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-7-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_ae6e85dede315b549dfec835d92525948_cgraph.svg" width="487" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a8e305e8c9e712e990c0c433563df6e9d_cgraph.svg" width="487" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-8-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_ae6e85dede315b549dfec835d92525948_icgraph.svg" width="312" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a8e305e8c9e712e990c0c433563df6e9d_icgraph.svg" width="312" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a3384706160a84e15a283e2c639071a26" name="a3384706160a84e15a283e2c639071a26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3384706160a84e15a283e2c639071a26">&#9670;&#160;</a></span>val()</h2>
+<a id="a9eb831cf0efee1b05529a685f9cf8367" name="a9eb831cf0efee1b05529a685f9cf8367"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eb831cf0efee1b05529a685f9cf8367">&#9670;&#160;</a></span>val()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -665,7 +676,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::val </td>
+          <td class="memname">static constexpr Base_type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::val </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classcxx_1_1Bitfield.html#ac1dcfd2c2916485bae6edf52e7cb326a">Bits_type</a>&#160;</td>
           <td class="paramname"><em>val</em></td><td>)</td>
@@ -674,7 +685,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -688,30 +699,30 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The raw bit field value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00205">205</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00207">207</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00072">cxx::Bitfield&lt; T, LSB, MSB &gt;::Low_mask</a>, <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>, and <a class="el" href="bitfield_source.html#l00196">cxx::Bitfield&lt; T, LSB, MSB &gt;::val_dirty()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00074">cxx::Bitfield&lt; T, LSB, MSB &gt;::Low_mask</a>, <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>, and <a class="el" href="bitfield_source.html#l00198">cxx::Bitfield&lt; T, LSB, MSB &gt;::val_dirty()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="bitfield_source.html#l00108">cxx::Bitfield&lt; T, LSB, MSB &gt;::get()</a>, <a class="el" href="bitfield_source.html#l00121">cxx::Bitfield&lt; T, LSB, MSB &gt;::get_unshifted()</a>, <a class="el" href="bitfield_source.html#l00170">cxx::Bitfield&lt; T, LSB, MSB &gt;::set()</a>, <a class="el" href="bitfield_source.html#l00136">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_dirty()</a>, <a class="el" href="bitfield_source.html#l00182">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_unshifted()</a>, <a class="el" href="bitfield_source.html#l00156">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_unshifted_dirty()</a>, <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>, <a class="el" href="bitfield_source.html#l00196">cxx::Bitfield&lt; T, LSB, MSB &gt;::val_dirty()</a>, and <a class="el" href="bitfield_source.html#l00215">cxx::Bitfield&lt; T, LSB, MSB &gt;::val_unshifted()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="bitfield_source.html#l00110">cxx::Bitfield&lt; T, LSB, MSB &gt;::get()</a>, <a class="el" href="bitfield_source.html#l00123">cxx::Bitfield&lt; T, LSB, MSB &gt;::get_unshifted()</a>, <a class="el" href="bitfield_source.html#l00172">cxx::Bitfield&lt; T, LSB, MSB &gt;::set()</a>, <a class="el" href="bitfield_source.html#l00138">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_dirty()</a>, <a class="el" href="bitfield_source.html#l00184">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_unshifted()</a>, <a class="el" href="bitfield_source.html#l00158">cxx::Bitfield&lt; T, LSB, MSB &gt;::set_unshifted_dirty()</a>, <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>, <a class="el" href="bitfield_source.html#l00198">cxx::Bitfield&lt; T, LSB, MSB &gt;::val_dirty()</a>, and <a class="el" href="bitfield_source.html#l00217">cxx::Bitfield&lt; T, LSB, MSB &gt;::val_unshifted()</a>.</p>
 <div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-9-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-9-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a3384706160a84e15a283e2c639071a26_cgraph.svg" width="312" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a9eb831cf0efee1b05529a685f9cf8367_cgraph.svg" width="312" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-10-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-10-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a3384706160a84e15a283e2c639071a26_icgraph.svg" width="488" height="459"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a9eb831cf0efee1b05529a685f9cf8367_icgraph.svg" width="488" height="459"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a8180660e03ca6acf85047dba64bb77a3" name="a8180660e03ca6acf85047dba64bb77a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8180660e03ca6acf85047dba64bb77a3">&#9670;&#160;</a></span>val_dirty()</h2>
+<a id="a818da07b2e19e478f5deb4f30fed2b68" name="a818da07b2e19e478f5deb4f30fed2b68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a818da07b2e19e478f5deb4f30fed2b68">&#9670;&#160;</a></span>val_dirty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -722,7 +733,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::val_dirty </td>
+          <td class="memname">static constexpr Base_type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::val_dirty </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a>&#160;</td>
           <td class="paramname"><em>val</em></td><td>)</td>
@@ -731,7 +742,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -744,33 +755,33 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The raw bit field value.</dd></dl>
-<dl class="section pre"><dt>Precondition</dt><dd><code>val</code> must not contain more than <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><code>val</code> must not contain more than <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aa177a701313bc78e77f61c807e89559a" title="Number of bits.">Bits</a> bits.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This function does not mask <code>val</code> to the right number of bits. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00196">196</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00198">198</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00064">cxx::Bitfield&lt; T, LSB, MSB &gt;::Lsb</a>, and <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00066">cxx::Bitfield&lt; T, LSB, MSB &gt;::Lsb</a>, and <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 <div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-11-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-11-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a8180660e03ca6acf85047dba64bb77a3_cgraph.svg" width="312" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a818da07b2e19e478f5deb4f30fed2b68_cgraph.svg" width="312" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-12-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-12-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a8180660e03ca6acf85047dba64bb77a3_icgraph.svg" width="663" height="395"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a818da07b2e19e478f5deb4f30fed2b68_icgraph.svg" width="663" height="395"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="aabe77366dc22247455497f4a925ea3ef" name="aabe77366dc22247455497f4a925ea3ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabe77366dc22247455497f4a925ea3ef">&#9670;&#160;</a></span>val_unshifted()</h2>
+<a id="a348dd87b1a812459bf3a575c89925f16" name="a348dd87b1a812459bf3a575c89925f16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a348dd87b1a812459bf3a575c89925f16">&#9670;&#160;</a></span>val_unshifted()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -781,7 +792,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::val_unshifted </td>
+          <td class="memname">static constexpr Base_type <a class="el" href="classcxx_1_1Bitfield.html">cxx::Bitfield</a>&lt; T, LSB, MSB &gt;::val_unshifted </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3">Shift_type</a>&#160;</td>
           <td class="paramname"><em>val</em></td><td>)</td>
@@ -790,7 +801,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -798,21 +809,21 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
 <p>Get the shifted bits for <code>val</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">val</td><td>The value shifted <a class="el" href="classcxx_1_1Bitfield.html#a22006217b75221ad82cde06090f6c229aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits to the left that shall be set into the bits.</td></tr>
+    <tr><td class="paramname">val</td><td>The value shifted <a class="el" href="classcxx_1_1Bitfield.html#a0b48204f3c03e2424d046f344e7ca5f2aae230140b2dc77764062352e4c0b27a2" title="index of the LSB">Lsb</a> bits to the left that shall be set into the bits.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The raw bit field value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00215">215</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bitfield_source.html#l00217">217</a> of file <a class="el" href="bitfield_source.html">bitfield</a>.</p>
 
-<p class="reference">References <a class="el" href="bitfield_source.html#l00074">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, and <a class="el" href="bitfield_source.html#l00205">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
+<p class="reference">References <a class="el" href="bitfield_source.html#l00076">cxx::Bitfield&lt; T, LSB, MSB &gt;::Mask</a>, and <a class="el" href="bitfield_source.html#l00207">cxx::Bitfield&lt; T, LSB, MSB &gt;::val()</a>.</p>
 <div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-13-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-13-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_aabe77366dc22247455497f4a925ea3ef_cgraph.svg" width="487" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcxx_1_1Bitfield_a348dd87b1a812459bf3a575c89925f16_cgraph.svg" width="487" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -827,7 +838,7 @@ template&lt;typename T , unsigned LSB, unsigned MSB&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecxx.html">cxx</a></li><li class="navelem"><a class="el" href="classcxx_1_1Bitfield.html">Bitfield</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

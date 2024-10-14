@@ -31,8 +31,8 @@ var l4_2sys_2ipc_8h =
     [ "l4_ipc_send", "group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e", null ],
     [ "l4_ipc_send_and_wait", "group__l4__ipc__api.html#ga72ee1f322b3f633fb885905ce213e2b5", null ],
     [ "l4_ipc_sleep", "group__l4__ipc__api.html#gac3b4a3b13e77b799dc154c57a04cdd9b", null ],
-    [ "l4_ipc_sleep_ms", "group__l4__ipc__api.html#ga46347a153dfcc368ef76b022dc70a83d", null ],
-    [ "l4_ipc_sleep_us", "group__l4__ipc__api.html#ga7c75873cd265368610e39db5aefabe43", null ],
+    [ "l4_ipc_sleep_ms", "group__l4__ipc__api.html#gaf7beb30ebd9a71fbafeda9d1be057d88", null ],
+    [ "l4_ipc_sleep_us", "group__l4__ipc__api.html#ga5a466a7ca3fa167baadbd824238ad7cc", null ],
     [ "l4_ipc_to_errno", "l4_2sys_2ipc_8h.html#a92b8e935d6fa1222f0358a477f539367", null ],
     [ "l4_ipc_wait", "group__l4__ipc__api.html#gade81ef7ed9cb9e08bec716e640eabe04", null ],
     [ "l4_sndfpage_add", "group__l4__ipc__api.html#gad2fef5fd3d173495d89c122883e909d6", null ]

@@ -20,7 +20,6 @@
 #include <sched.h>
 #include <time.h>
 
-#define __need_sigset_t
 #include <signal.h>
 #include <bits/pthreadtypes.h>
 #include <bits/initspin.h>
@@ -31,7 +30,7 @@ __BEGIN_DECLS
 /* Initializers.  */
 
 #define PTHREAD_MUTEX_INITIALIZER \
-  {0, 0, 0, PTHREAD_MUTEX_TIMED_NP, __LOCK_INITIALIZER}
+  {0, 0, 0, PTHREAD_MUTEX_ADAPTIVE_NP, __LOCK_INITIALIZER}
 #ifdef __USE_GNU
 # define PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP \
   {0, 0, 0, PTHREAD_MUTEX_RECURSIVE_NP, __LOCK_INITIALIZER}
@@ -41,7 +40,7 @@ __BEGIN_DECLS
   {0, 0, 0, PTHREAD_MUTEX_ADAPTIVE_NP, __LOCK_INITIALIZER}
 #endif
 
-#define PTHREAD_COND_INITIALIZER {__LOCK_INITIALIZER, 0, "", 0}
+#define PTHREAD_COND_INITIALIZER {__LOCK_INITIALIZER, 0}
 
 #if defined __USE_UNIX98 || defined __USE_XOPEN2K
 # define PTHREAD_RWLOCK_INITIALIZER \
@@ -82,13 +81,13 @@ enum
 
 enum
 {
-  PTHREAD_MUTEX_TIMED_NP,
+  PTHREAD_MUTEX_ADAPTIVE_NP,
   PTHREAD_MUTEX_RECURSIVE_NP,
   PTHREAD_MUTEX_ERRORCHECK_NP,
-  PTHREAD_MUTEX_ADAPTIVE_NP
-#ifdef __USE_UNIX98
+  PTHREAD_MUTEX_TIMED_NP
+#if defined __USE_UNIX98 || defined __USE_XOPEN2K8
   ,
-  PTHREAD_MUTEX_NORMAL = PTHREAD_MUTEX_TIMED_NP,
+  PTHREAD_MUTEX_NORMAL = PTHREAD_MUTEX_ADAPTIVE_NP,
   PTHREAD_MUTEX_RECURSIVE = PTHREAD_MUTEX_RECURSIVE_NP,
   PTHREAD_MUTEX_ERRORCHECK = PTHREAD_MUTEX_ERRORCHECK_NP,
   PTHREAD_MUTEX_DEFAULT = PTHREAD_MUTEX_NORMAL
@@ -163,7 +162,7 @@ enum
 extern int pthread_create (pthread_t *__restrict __threadp,
 			   const pthread_attr_t *__restrict __attr,
 			   void *(*__start_routine) (void *),
-			   void *__restrict __arg) __THROW;
+			   void *__restrict __arg) __THROWNL;
 
 /* Obtain the identifier of the current thread.  */
 extern pthread_t pthread_self (void) __THROW;
@@ -178,6 +177,21 @@ extern void pthread_exit (void *__retval) __attribute__ ((__noreturn__));
    exit status of the thread is stored in *THREAD_RETURN, if THREAD_RETURN
    is not NULL.  */
 extern int pthread_join (pthread_t __th, void **__thread_return);
+
+#ifdef __USE_GNU
+/* Check whether thread TH has terminated.  If yes return the status of
+   the thread in *THREAD_RETURN, if THREAD_RETURN is not NULL.  */
+extern int pthread_tryjoin_np (pthread_t __th, void **__thread_return) __THROW;
+
+/* Make calling thread wait for termination of the thread TH, but only
+   until TIMEOUT.  The exit status of the thread is stored in
+   *THREAD_RETURN, if THREAD_RETURN is not NULL.
+
+   This function is a cancellation point and therefore not marked with
+   __THROW.  */
+extern int pthread_timedjoin_np (pthread_t __th, void **__thread_return,
+				 __const struct timespec *__abstime);
+#endif
 
 /* Indicate that the thread TH is never to be joined with PTHREAD_JOIN.
    The resources of TH will therefore be freed immediately when it
@@ -241,7 +255,6 @@ extern int pthread_attr_setscope (pthread_attr_t *__attr, int __scope)
 extern int pthread_attr_getscope (const pthread_attr_t *__restrict __attr,
 				  int *__restrict __scope) __THROW;
 
-#ifdef __USE_UNIX98
 /* Set the size of the guard area at the bottom of the thread.  */
 extern int pthread_attr_setguardsize (pthread_attr_t *__attr,
 				      size_t __guardsize) __THROW;
@@ -250,13 +263,12 @@ extern int pthread_attr_setguardsize (pthread_attr_t *__attr,
 extern int pthread_attr_getguardsize (const pthread_attr_t *__restrict
 				      __attr, size_t *__restrict __guardsize)
      __THROW;
-#endif
 
 #if 0 /* uClibc: deprecated stuff disabled. def __UCLIBC_SUSV3_LEGACY__ */
 /* Set the starting address of the stack of the thread to be created.
    Depending on whether the stack grows up or down the value must either
    be higher or lower than all the address in the memory block.  The
-   minimal size of the block must be PTHREAD_STACK_MIN.  */
+   minimal size of the block must be PTHREAD_STACK_SIZE.  */
 extern int pthread_attr_setstackaddr (pthread_attr_t *__attr,
 				      void *__stackaddr) __THROW;
 
@@ -280,7 +292,7 @@ extern int pthread_attr_getstack (const pthread_attr_t *__restrict __attr,
 #endif
 
 /* Add information about the minimum stack size needed for the thread
-   to be started.  This size must never be less than PTHREAD_STACK_MIN
+   to be started.  This size must never be less than PTHREAD_STACK_SIZE
    and must also not exceed the system limits.  */
 extern int pthread_attr_setstacksize (pthread_attr_t *__attr,
 				      size_t __stacksize) __THROW;
@@ -290,11 +302,15 @@ extern int pthread_attr_getstacksize (const pthread_attr_t *__restrict
 				      __attr, size_t *__restrict __stacksize)
      __THROW;
 
+#if 0
+/* Not yet implemented in uClibc! */
+
 #ifdef __USE_GNU
 /* Initialize thread attribute *ATTR with attributes corresponding to the
    already running thread TH.  It shall be called on uninitialized ATTR
    and destroyed with pthread_attr_destroy when no longer needed.  */
 extern int pthread_getattr_np (pthread_t __th, pthread_attr_t *__attr) __THROW;
+#endif
 #endif
 
 /* Functions for scheduling control.  */
@@ -319,6 +335,11 @@ extern int pthread_getconcurrency (void) __THROW;
 extern int pthread_setconcurrency (int __level) __THROW;
 #endif
 
+#ifdef __USE_GNU
+/* Same thing, different name */
+#define pthread_yield() sched_yield()
+#endif
+
 /* Functions for mutex handling.  */
 
 /* Initialize MUTEX using attributes in *MUTEX_ATTR, or use the
@@ -331,20 +352,20 @@ extern int pthread_mutex_init (pthread_mutex_t *__restrict __mutex,
 extern int pthread_mutex_destroy (pthread_mutex_t *__mutex) __THROW;
 
 /* Try to lock MUTEX.  */
-extern int pthread_mutex_trylock (pthread_mutex_t *__mutex) __THROW;
+extern int pthread_mutex_trylock (pthread_mutex_t *__mutex) __THROWNL;
 
 /* Wait until lock for MUTEX becomes available and lock it.  */
-extern int pthread_mutex_lock (pthread_mutex_t *__mutex) __THROW;
+extern int pthread_mutex_lock (pthread_mutex_t *__mutex) __THROWNL;
 
 #ifdef __USE_XOPEN2K
 /* Wait until lock becomes available, or specified time passes. */
 extern int pthread_mutex_timedlock (pthread_mutex_t *__restrict __mutex,
 				    const struct timespec *__restrict
-				    __abstime) __THROW;
+				    __abstime) __THROWNL;
 #endif
 
 /* Unlock MUTEX.  */
-extern int pthread_mutex_unlock (pthread_mutex_t *__mutex) __THROW;
+extern int pthread_mutex_unlock (pthread_mutex_t *__mutex) __THROWNL;
 
 
 /* Functions for handling mutex attributes.  */
@@ -365,7 +386,7 @@ extern int pthread_mutexattr_getpshared (const pthread_mutexattr_t *
 extern int pthread_mutexattr_setpshared (pthread_mutexattr_t *__attr,
 					 int __pshared) __THROW;
 
-#ifdef __USE_UNIX98
+#if defined __USE_UNIX98 || defined __USE_XOPEN2K8
 /* Set the mutex kind attribute in *ATTR to KIND (either PTHREAD_MUTEX_NORMAL,
    PTHREAD_MUTEX_RECURSIVE, PTHREAD_MUTEX_ERRORCHECK, or
    PTHREAD_MUTEX_DEFAULT).  */
@@ -385,20 +406,25 @@ extern int pthread_mutexattr_gettype (const pthread_mutexattr_t *__restrict
 extern int pthread_cond_init (pthread_cond_t *__restrict __cond,
 			      const pthread_condattr_t *__restrict
 			      __cond_attr) __THROW;
+libpthread_hidden_proto(pthread_cond_init)
 
 /* Destroy condition variable COND.  */
 extern int pthread_cond_destroy (pthread_cond_t *__cond) __THROW;
+libpthread_hidden_proto(pthread_cond_destroy)
 
 /* Wake up one thread waiting for condition variable COND.  */
-extern int pthread_cond_signal (pthread_cond_t *__cond) __THROW;
+extern int pthread_cond_signal (pthread_cond_t *__cond) __THROWNL;
+libpthread_hidden_proto(pthread_cond_signal)
 
 /* Wake up all threads waiting for condition variables COND.  */
-extern int pthread_cond_broadcast (pthread_cond_t *__cond) __THROW;
+extern int pthread_cond_broadcast (pthread_cond_t *__cond) __THROWNL;
+libpthread_hidden_proto(pthread_cond_broadcast)
 
 /* Wait for condition variable COND to be signaled or broadcast.
    MUTEX is assumed to be locked before.  */
 extern int pthread_cond_wait (pthread_cond_t *__restrict __cond,
 			      pthread_mutex_t *__restrict __mutex);
+libpthread_hidden_proto(pthread_cond_wait)
 
 /* Wait for condition variable COND to be signaled or broadcast until
    ABSTIME.  MUTEX is assumed to be locked before.  ABSTIME is an
@@ -408,14 +434,17 @@ extern int pthread_cond_timedwait (pthread_cond_t *__restrict __cond,
 				   pthread_mutex_t *__restrict __mutex,
 				   const struct timespec *__restrict
 				   __abstime);
+libpthread_hidden_proto(pthread_cond_timedwait)
 
 /* Functions for handling condition variable attributes.  */
 
 /* Initialize condition variable attribute ATTR.  */
 extern int pthread_condattr_init (pthread_condattr_t *__attr) __THROW;
+libpthread_hidden_proto(pthread_condattr_init)
 
 /* Destroy condition variable attribute ATTR.  */
 extern int pthread_condattr_destroy (pthread_condattr_t *__attr) __THROW;
+libpthread_hidden_proto(pthread_condattr_destroy)
 
 /* Get the process-shared flag of the condition variable attribute ATTR.  */
 extern int pthread_condattr_getpshared (const pthread_condattr_t *
@@ -426,6 +455,18 @@ extern int pthread_condattr_getpshared (const pthread_condattr_t *
 extern int pthread_condattr_setpshared (pthread_condattr_t *__attr,
 					int __pshared) __THROW;
 
+#ifdef __USE_XOPEN2K
+/* Get the clock selected for the condition variable attribute ATTR.  */
+extern int pthread_condattr_getclock (const pthread_condattr_t *
+				      __restrict __attr,
+				      __clockid_t *__restrict __clock_id)
+     __THROW __nonnull ((1, 2));
+
+/* Set the clock selected for the condition variable attribute ATTR.  */
+extern int pthread_condattr_setclock (pthread_condattr_t *__attr,
+				      __clockid_t __clock_id)
+     __THROW __nonnull ((1));
+#endif
 
 #if defined __USE_UNIX98 || defined __USE_XOPEN2K
 /* Functions for handling read-write locks.  */
@@ -440,33 +481,33 @@ extern int pthread_rwlock_init (pthread_rwlock_t *__restrict __rwlock,
 extern int pthread_rwlock_destroy (pthread_rwlock_t *__rwlock) __THROW;
 
 /* Acquire read lock for RWLOCK.  */
-extern int pthread_rwlock_rdlock (pthread_rwlock_t *__rwlock) __THROW;
+extern int pthread_rwlock_rdlock (pthread_rwlock_t *__rwlock) __THROWNL;
 
 /* Try to acquire read lock for RWLOCK.  */
-extern int pthread_rwlock_tryrdlock (pthread_rwlock_t *__rwlock) __THROW;
+extern int pthread_rwlock_tryrdlock (pthread_rwlock_t *__rwlock) __THROWNL;
 
 # ifdef __USE_XOPEN2K
 /* Try to acquire read lock for RWLOCK or return after specfied time.  */
 extern int pthread_rwlock_timedrdlock (pthread_rwlock_t *__restrict __rwlock,
 				       const struct timespec *__restrict
-				       __abstime) __THROW;
+				       __abstime) __THROWNL;
 # endif
 
 /* Acquire write lock for RWLOCK.  */
-extern int pthread_rwlock_wrlock (pthread_rwlock_t *__rwlock) __THROW;
+extern int pthread_rwlock_wrlock (pthread_rwlock_t *__rwlock) __THROWNL;
 
 /* Try to acquire write lock for RWLOCK.  */
-extern int pthread_rwlock_trywrlock (pthread_rwlock_t *__rwlock) __THROW;
+extern int pthread_rwlock_trywrlock (pthread_rwlock_t *__rwlock) __THROWNL;
 
 # ifdef __USE_XOPEN2K
 /* Try to acquire write lock for RWLOCK or return after specfied time.  */
 extern int pthread_rwlock_timedwrlock (pthread_rwlock_t *__restrict __rwlock,
 				       const struct timespec *__restrict
-				       __abstime) __THROW;
+				       __abstime) __THROWNL;
 # endif
 
 /* Unlock RWLOCK.  */
-extern int pthread_rwlock_unlock (pthread_rwlock_t *__rwlock) __THROW;
+extern int pthread_rwlock_unlock (pthread_rwlock_t *__rwlock) __THROWNL;
 
 
 /* Functions for handling read-write lock attributes.  */
@@ -495,6 +536,9 @@ extern int pthread_rwlockattr_setkind_np (pthread_rwlockattr_t *__attr,
 					  int __pref) __THROW;
 #endif
 
+#if 0
+/* Not yet implemented in uClibc! */
+
 #ifdef __USE_XOPEN2K
 /* The IEEE Std. 1003.1j-2000 introduces functions to implement
    spinlocks.  */
@@ -508,13 +552,13 @@ extern int pthread_spin_init (pthread_spinlock_t *__lock, int __pshared)
 extern int pthread_spin_destroy (pthread_spinlock_t *__lock) __THROW;
 
 /* Wait until spinlock LOCK is retrieved.  */
-extern int pthread_spin_lock (pthread_spinlock_t *__lock) __THROW;
+extern int pthread_spin_lock (pthread_spinlock_t *__lock) __THROWNL;
 
 /* Try to lock spinlock LOCK.  */
-extern int pthread_spin_trylock (pthread_spinlock_t *__lock) __THROW;
+extern int pthread_spin_trylock (pthread_spinlock_t *__lock) __THROWNL;
 
 /* Release spinlock LOCK.  */
-extern int pthread_spin_unlock (pthread_spinlock_t *__lock) __THROW;
+extern int pthread_spin_unlock (pthread_spinlock_t *__lock) __THROWNL;
 
 
 /* Barriers are a also a new feature in 1003.1j-2000. */
@@ -536,7 +580,8 @@ extern int pthread_barrierattr_getpshared (const pthread_barrierattr_t *
 extern int pthread_barrierattr_setpshared (pthread_barrierattr_t *__attr,
 					   int __pshared) __THROW;
 
-extern int pthread_barrier_wait (pthread_barrier_t *__barrier) __THROW;
+extern int pthread_barrier_wait (pthread_barrier_t *__barrier) __THROWNL;
+#endif
 #endif
 
 
@@ -629,6 +674,9 @@ extern void _pthread_cleanup_pop (struct _pthread_cleanup_buffer *__buffer,
 extern void _pthread_cleanup_push_defer (struct _pthread_cleanup_buffer *__buffer,
 					 void (*__routine) (void *),
 					 void *__arg) __THROW;
+extern void __pthread_cleanup_push_defer (struct _pthread_cleanup_buffer *__buffer,
+					  void (*__routine) (void *),
+					  void *__arg) __THROW;
 
 /* Remove a cleanup handler as pthread_cleanup_pop does, but also
    restores the cancellation type that was in effect when the matching
@@ -639,13 +687,19 @@ extern void _pthread_cleanup_push_defer (struct _pthread_cleanup_buffer *__buffe
 
 extern void _pthread_cleanup_pop_restore (struct _pthread_cleanup_buffer *__buffer,
 					  int __execute) __THROW;
+extern void __pthread_cleanup_pop_restore (struct _pthread_cleanup_buffer *__buffer,
+					   int __execute) __THROW;
 #endif
 
+
+#if 0
+/* Not yet implemented in uClibc! */
 
 #ifdef __USE_XOPEN2K
 /* Get ID of CPU-time clock for thread THREAD_ID.  */
 extern int pthread_getcpuclockid (pthread_t __thread_id,
-				  __clockid_t *__clock_id) __THROW;
+				  clockid_t *__clock_id) __THROW;
+#endif
 #endif
 
 
@@ -655,6 +709,7 @@ extern int pthread_getcpuclockid (pthread_t __thread_id,
 
 /* Functions for handling process creation and process execution.  */
 
+#ifdef __ARCH_USE_MMU__
 /* Install handlers to be called when a new process is created with FORK.
    The PREPARE handler is called in the parent process just before performing
    FORK. The PARENT handler is called in the parent process just after FORK.
@@ -669,6 +724,7 @@ extern int pthread_getcpuclockid (pthread_t __thread_id,
 extern int pthread_atfork (void (*__prepare) (void),
 			   void (*__parent) (void),
 			   void (*__child) (void)) __THROW;
+#endif
 
 /* Terminate all threads in the program except the calling process.
    Should be called just before invoking one of the exec*() functions.  */

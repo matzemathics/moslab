@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -140,13 +143,13 @@ typedef <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a8a525c0344e
 <tr class="memdesc:ab233e58d2dfd6ce439954f01b0b81156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the allocator. <br /></td></tr>
 <tr class="separator:ab233e58d2dfd6ce439954f01b0b81156"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classcxx_1_1Bits_1_1Base__avl__set"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classcxx_1_1Bits_1_1Base__avl__set')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;</a></td></tr>
-<tr class="memitem:a6676c1d4d97693ef7ee349328fefb862 inherit pub_types_classcxx_1_1Bits_1_1Base__avl__set" id="r_a6676c1d4d97693ef7ee349328fefb862"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862a265ef3ba86548d8bf7ca76f93cde094b">E_noent</a> = 2
-, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862a9a570c997ff2eac13f3bbc5dceb8c2fc">E_exist</a> = 17
-, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862a4de38aa9739ebc166603bc6c11bcefac">E_nomem</a> = 12
-, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862ab5343fd6bbe1a001c65774de917b1f00">E_inval</a> = 22
+<tr class="memitem:ad8991702e21c3db4c282a8ab1090deb8 inherit pub_types_classcxx_1_1Bits_1_1Base__avl__set" id="r_ad8991702e21c3db4c282a8ab1090deb8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8a265ef3ba86548d8bf7ca76f93cde094b">E_noent</a> = 2
+, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8a9a570c997ff2eac13f3bbc5dceb8c2fc">E_exist</a> = 17
+, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8a4de38aa9739ebc166603bc6c11bcefac">E_nomem</a> = 12
+, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8ab5343fd6bbe1a001c65774de917b1f00">E_inval</a> = 22
  }</td></tr>
-<tr class="memdesc:a6676c1d4d97693ef7ee349328fefb862"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return status constants.  <a href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862">More...</a><br /></td></tr>
-<tr class="separator:a6676c1d4d97693ef7ee349328fefb862 inherit pub_types_classcxx_1_1Bits_1_1Base__avl__set"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ad8991702e21c3db4c282a8ab1090deb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return status constants.  <a href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8">More...</a><br /></td></tr>
+<tr class="separator:ad8991702e21c3db4c282a8ab1090deb8 inherit pub_types_classcxx_1_1Bits_1_1Base__avl__set"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b1494f45a5e96e9387c737be16f99d4 inherit pub_types_classcxx_1_1Bits_1_1Base__avl__set" id="r_a6b1494f45a5e96e9387c737be16f99d4"><td class="memItemLeft" align="right" valign="top">
 typedef ITEM_TYPE&#160;</td><td class="memItemRight" valign="bottom"><b>Item_type</b></td></tr>
 <tr class="memdesc:a6b1494f45a5e96e9387c737be16f99d4 inherit pub_types_classcxx_1_1Bits_1_1Base__avl__set"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type for the items store in the set. <br /></td></tr>
@@ -351,9 +354,9 @@ template&lt;typename KEY_TYPE , typename DATA_TYPE , template&lt; typename A &gt
 
 <p class="definition">Definition at line <a class="el" href="avl__map_source.html#l00110">110</a> of file <a class="el" href="avl__map_source.html">avl_map</a>.</p>
 
-<p class="reference">References <a class="el" href="avl__set_source.html#l00412">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::insert()</a>.</p>
+<p class="reference">References <a class="el" href="avl__set_source.html#l00423">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::insert()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="avl__map_source.html#l00130">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::operator[]()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="avl__map_source.html#l00134">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::operator[]()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -406,9 +409,9 @@ template&lt;typename KEY_TYPE , typename DATA_TYPE , template&lt; typename A &gt
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>If the item already exists, a reference to the data item. Otherwise a new data item is default-constructed and inserted under the given key before a reference is returned. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__map_source.html#l00130">130</a> of file <a class="el" href="avl__map_source.html">avl_map</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__map_source.html#l00134">134</a> of file <a class="el" href="avl__map_source.html">avl_map</a>.</p>
 
-<p class="reference">References <a class="el" href="avl__set_source.html#l00324">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::find_node()</a>, and <a class="el" href="avl__map_source.html#l00110">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::insert()</a>.</p>
+<p class="reference">References <a class="el" href="avl__set_source.html#l00335">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::find_node()</a>, and <a class="el" href="avl__map_source.html#l00110">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::insert()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -454,9 +457,9 @@ template&lt;typename KEY_TYPE , typename DATA_TYPE , template&lt; typename A &gt
 </dl>
 <dl class="section pre"><dt>Precondition</dt><dd>A &lt;key, data&gt; pair for the given key value must exist. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__map_source.html#l00118">118</a> of file <a class="el" href="avl__map_source.html">avl_map</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__map_source.html#l00122">122</a> of file <a class="el" href="avl__map_source.html">avl_map</a>.</p>
 
-<p class="reference">References <a class="el" href="avl__set_source.html#l00324">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::find_node()</a>.</p>
+<p class="reference">References <a class="el" href="avl__set_source.html#l00335">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::find_node()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -477,7 +480,7 @@ template&lt;typename KEY_TYPE , typename DATA_TYPE , template&lt; typename A &gt
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecxx.html">cxx</a></li><li class="navelem"><a class="el" href="classcxx_1_1Avl__map.html">Avl_map</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

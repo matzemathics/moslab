@@ -60,6 +60,7 @@ IMPLEMENTATION:
 #include "kmem_alloc.h"
 #include "kmem.h"
 #include "mem_layout.h"
+#include "paging_bits.h"
 
 PRIVATE  template< typename SPACE >
 static inline NEEDS["mem_layout.h"]
@@ -76,7 +77,7 @@ Obj_space_virt<SPACE>::get_cap(Cap_index index)
 {
   Mem_space *ms = SPACE::mem_space(this);
 
-  Address phys = Address(ms->virt_to_phys((Address)cap_virt(index)));
+  Address phys = ms->virt_to_phys(reinterpret_cast<Address>(cap_virt(index)));
   if (EXPECT_FALSE(phys == ~0UL))
     return 0;
 
@@ -89,7 +90,7 @@ PRIVATE  template< typename SPACE >
 typename Obj_space_virt<SPACE>::Entry *
 Obj_space_virt<SPACE>::caps_alloc(Cap_index virt)
 {
-  Address cv = (Address)cap_virt(virt);
+  Address cv = reinterpret_cast<Address>(cap_virt(virt));
   void *mem = Kmem_alloc::allocator()->q_alloc(SPACE::ram_quota(this),
                                                Config::page_size());
 
@@ -106,10 +107,11 @@ Obj_space_virt<SPACE>::caps_alloc(Cap_index virt)
 
   Mem_space::Status s;
   s = SPACE::mem_space(this)->v_insert(
-      Mem_space::Phys_addr(Kmem::kdir->virt_to_phys((Address)mem)),
+      Mem_space::Phys_addr(Kmem::kdir->virt_to_phys(
+                             reinterpret_cast<Address>(mem))),
       cxx::mask_lsb(Virt_addr(cv), Mem_space::Page_order(Config::PAGE_SHIFT)),
       Mem_space::Page_order(Config::PAGE_SHIFT),
-      Mem_space::Attr(L4_fpage::Rights::RW()));
+      Mem_space::Attr::space_local(L4_fpage::Rights::RW()));
       //| Mem_space::Page_referenced | Mem_space::Page_dirty);
 
   switch (s)
@@ -127,7 +129,7 @@ Obj_space_virt<SPACE>::caps_alloc(Cap_index virt)
       return 0;
     };
 
-  unsigned long cap = (cv & (Config::PAGE_SIZE - 1)) | (unsigned long)mem;
+  unsigned long cap = reinterpret_cast<unsigned long>(mem) | Pg::offset(cv);
 
   return reinterpret_cast<Entry*>(cap);
 }
@@ -186,7 +188,7 @@ Obj_space_virt<SPACE>::v_lookup(V_pfn const &virt, Phys_addr *phys,
 
   if (Optimize_local)
     {
-      Capability c = Mem_layout::read_special_safe((Capability*)cap);
+      Capability c = Mem_layout::read_special_safe(&cap->capability());
 
       if (phys) *phys = c.obj();
       if (c.valid() && attribs)
@@ -208,29 +210,29 @@ inline NEEDS [Obj_space_virt::cap_virt, Obj_space_virt::get_cap]
 typename Obj_space_virt<SPACE>::Capability FIASCO_FLATTEN
 Obj_space_virt<SPACE>::lookup(Cap_index virt)
 {
-  Capability *c;
+  Entry *c;
   virt &= Cap_index(~(~0UL << Whole_space));
 
   if (SPACE::mem_space(this) == Mem_space::current_mem_space(current_cpu()))
-    c = reinterpret_cast<Capability*>(cap_virt(virt));
+    c = cap_virt(virt);
   else
     c = get_cap(virt);
 
   if (EXPECT_FALSE(!c))
     return Capability(0); // void
 
-  return Mem_layout::read_special_safe(c);
+  return Mem_layout::read_special_safe(&c->capability());
 }
 
 PUBLIC template< typename SPACE >
 inline NEEDS [Obj_space_virt::cap_virt]
-Kobject_iface *
+Kobject_iface * __attribute__((nonnull))
 Obj_space_virt<SPACE>::lookup_local(Cap_index virt, L4_fpage::Rights *rights)
 {
   virt &= Cap_index(~(~0UL << Whole_space));
-  Capability *c = reinterpret_cast<Capability*>(cap_virt(virt));
-  Capability cap = Mem_layout::read_special_safe(c);
-  if (rights) *rights = L4_fpage::Rights(cap.rights());
+  Entry *c = cap_virt(virt);
+  Capability cap = Mem_layout::read_special_safe(&c->capability());
+  *rights = L4_fpage::Rights(cap.rights());
   return cap.obj();
 }
 
@@ -238,10 +240,9 @@ Obj_space_virt<SPACE>::lookup_local(Cap_index virt, L4_fpage::Rights *rights)
 IMPLEMENT template< typename SPACE >
 inline NEEDS[<cassert>, Obj_space_virt::cap_virt, Obj_space_virt::get_cap]
 L4_fpage::Rights FIASCO_FLATTEN
-Obj_space_virt<SPACE>::v_delete(V_pfn virt, Page_order size,
-                                   L4_fpage::Rights page_attribs)
+Obj_space_virt<SPACE>::v_delete(V_pfn virt, [[maybe_unused]] Page_order size,
+                                L4_fpage::Rights page_attribs)
 {
-  (void)size;
   assert (size == Page_order(0));
 
   Entry *c;
@@ -250,11 +251,11 @@ Obj_space_virt<SPACE>::v_delete(V_pfn virt, Page_order size,
     {
       c = cap_virt(virt);
       if (!c)
-	return L4_fpage::Rights(0);
+        return L4_fpage::Rights(0);
 
-      Capability cap = Mem_layout::read_special_safe((Capability*)c);
+      Capability cap = Mem_layout::read_special_safe(&c->capability());
       if (!cap.valid())
-	return L4_fpage::Rights(0);
+        return L4_fpage::Rights(0);
     }
   else
     c = get_cap(virt);
@@ -275,9 +276,8 @@ inline NEEDS[Obj_space_virt::cap_virt, Obj_space_virt::caps_alloc,
              Obj_space_virt::get_cap, <cassert>]
 typename Obj::Insert_result FIASCO_FLATTEN
 Obj_space_virt<SPACE>::v_insert(Phys_addr phys, V_pfn const &virt,
-                                Page_order size, Attr page_attribs)
+                                [[maybe_unused]] Page_order size, Attr page_attribs)
 {
-  (void)size;
   assert (size == Page_order(0));
 
   Entry *c;
@@ -290,7 +290,7 @@ Obj_space_virt<SPACE>::v_insert(Phys_addr phys, V_pfn const &virt,
 	return Obj::Insert_err_nomem;
 
       Capability cap;
-      if (!Mem_layout::read_special_safe((Capability*)c, cap)
+      if (!Mem_layout::read_special_safe(&c->capability(), cap)
 	  && !caps_alloc(virt))
 	return Obj::Insert_err_nomem;
     }

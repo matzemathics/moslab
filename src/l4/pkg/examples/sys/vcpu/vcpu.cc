@@ -249,6 +249,34 @@ asm
 static void setup_user_state_arch(l4_vcpu_state_t *) { }
 static void handler_prolog() {}
 
+#elif defined(ARCH_riscv)
+asm
+(
+  ".p2align 12                      \t\n"
+  ".global my_super_code            \t\n"
+  ".global my_super_code_excp       \t\n"
+  ".global my_super_code_excp_after \t\n"
+  "my_super_code:                   \t\n"
+  "1: addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "my_super_code_excp:              \t\n"
+  "   ecall                         \t\n"
+  "my_super_code_excp_after:        \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   addi a0, a0, 4                \t\n"
+  "   j 1b                          \t\n"
+  );
+
+static void setup_user_state_arch(l4_vcpu_state_t *) { }
+static void handler_prolog() {}
+
 #else
 #error Add your architecture.
 #endif
@@ -335,8 +363,8 @@ static int run(void)
   vcpu_task = chkcap(L4Re::Util::cap_alloc.alloc<L4::Task>(),
                      "Task cap alloc");
 
-  chksys(L4Re::Env::env()->factory()->create_task(vcpu_task,
-                                                  l4_fpage_invalid()),
+  l4_fpage_t utcb_area = l4_fpage_invalid();
+  chksys(L4Re::Env::env()->factory()->create_task(vcpu_task, &utcb_area),
          "create task");
   l4_debugger_set_object_name(vcpu_task.cap(), "vcpu 'user' task");
 

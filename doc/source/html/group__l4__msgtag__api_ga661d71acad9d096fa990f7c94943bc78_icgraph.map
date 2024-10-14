@@ -44,7 +44,7 @@
 <area shape="poly" id="edge58_Node000001_Node000057" title=" " alt="" coords="1044,1425,1011,1461,971,1499,921,1534,876,1561,873,1556,918,1530,968,1495,1008,1457,1040,1421"/>
 <area shape="rect" id="Node000061" href="$group__l4__irq__api.html#ga180cfaf342ce9ff484a6aa7c276e1597" title="Trigger the object." alt="" coords="787,1657,910,1683"/>
 <area shape="poly" id="edge62_Node000001_Node000061" title=" " alt="" coords="1057,1426,1027,1507,1003,1554,971,1597,950,1617,927,1634,881,1660,879,1655,924,1630,947,1613,967,1594,998,1551,1022,1505,1052,1424"/>
-<area shape="rect" id="Node000066" href="$group__l4__irq__api.html#ga1dd27341b8d2a6cd09e9784188109b7c" title="Unmask IRQ." alt="" coords="783,1719,915,1744"/>
+<area shape="rect" id="Node000066" href="$group__l4__irq__api.html#ga1dd27341b8d2a6cd09e9784188109b7c" title="Unmask this IRQ." alt="" coords="783,1719,915,1744"/>
 <area shape="poly" id="edge67_Node000001_Node000066" title=" " alt="" coords="1064,1426,1059,1481,1045,1554,1033,1592,1017,1629,997,1665,971,1696,945,1714,916,1725,914,1720,943,1710,968,1692,993,1662,1013,1627,1028,1590,1040,1552,1054,1481,1058,1425"/>
 <area shape="rect" id="Node000068" href="$group__l4__irq__api.html#ga1690f577bd2896ec9b1e5a24d00af874" title="Unmask IRQ and (open) wait for any message." alt="" coords="795,1792,903,1817"/>
 <area shape="poly" id="edge69_Node000001_Node000068" title=" " alt="" coords="1065,1426,1062,1491,1050,1578,1039,1626,1022,1673,1000,1717,971,1757,940,1782,904,1797,902,1792,937,1777,967,1753,996,1714,1017,1670,1034,1624,1045,1577,1057,1490,1059,1425"/>

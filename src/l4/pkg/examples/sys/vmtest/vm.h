@@ -41,7 +41,8 @@ private:
 
 protected:
   void setup_vm();
-  // to be implemented by svm/vmx classes
+
+  // To be implemented by SVM/VMX classes
   virtual bool cpu_virt_capable() = 0;
   virtual bool npt_available() = 0;
   virtual void initialize_vmcb(unsigned long_mode) = 0;
@@ -58,8 +59,13 @@ protected:
   virtual l4_umword_t get_rax() = 0;
   virtual void enable_npt() = 0;
   virtual void disable_npt() = 0;
+
   l4_vcpu_state_t *vcpu;
-  void *vmcb; // named vmcs on intel
+
+  // Virtual Machine Control Block for SVM.
+  // Virtual Machine Control Structure for VMX.
+  void *vmcb;
+
   L4::Cap<L4::Vm> vm_cap;
 
   enum exit_reason
@@ -70,4 +76,3 @@ protected:
       Exception_intercept
     };
 };
-

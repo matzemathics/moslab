@@ -21,10 +21,67 @@ INTERFACE:
 #include "timer.h"
 #include "thread_object.h"
 #include "unique_ptr.h"
+#include "workload.h"
 
 
 extern "C" void cov_print(void) __attribute__((weak));
 
+INIT_WORKLOAD(INIT_WORKLOAD_PRIO_UNIT_TEST, init_unittest);
+
+template <typename T, unsigned ALIGN = __alignof(T)>
+struct Kmem_slab_t_singleton
+{
+  static Kmem_slab_t<T, ALIGN> instance;
+
+  static void *alloc() { return instance.alloc(); }
+
+  template<typename Q> static
+  void *q_alloc(Q *q) { return instance.template q_alloc<Q>(q); }
+
+  static void free(void *e) { instance.free(e); }
+
+  template<typename Q> static
+  void q_free(Q *q, void *e) { instance.template q_free<Q>(q, e); }
+
+  template<typename ...ARGS> static
+  T *new_obj(ARGS &&...args)
+  { return instance.new_obj(cxx::forward<ARGS>(args)...); }
+
+  template<typename Q, typename ...ARGS> static
+  T *q_new(Q *q, ARGS &&...args)
+  { return instance.q_new(q, cxx::forward<ARGS>(args)...); }
+
+  static void del(T *e)
+  { instance.del(e); }
+
+  template<typename Q> static
+  void q_del(Q *q, T *e)
+  { instance.q_del(q, e); }
+};
+
+template <typename T, unsigned ALIGN>
+Kmem_slab_t<T, ALIGN> Kmem_slab_t_singleton<T, ALIGN>::instance;
+
+template <unsigned SIZE, unsigned ALIGN = 8>
+struct Kmem_slab_for_size_singleton
+{
+  static Kmem_slab_for_size<SIZE, ALIGN> instance;
+
+  static void *alloc() { return instance.alloc(); }
+
+  template<typename Q> static
+  void *q_alloc(Q *q) { return instance.template q_alloc<Q>(q); }
+
+  static void free(void *e) { instance.free(e); }
+
+  template<typename Q> static
+  void q_free(Q *q, void *e) { instance.template q_free<Q>(q, e); }
+
+  static Slab_cache *slab() { return instance.slab(); }
+};
+
+template <unsigned SIZE, unsigned ALIGN>
+Kmem_slab_for_size<SIZE, ALIGN> Kmem_slab_for_size_singleton<SIZE, ALIGN>::instance;
 
 /// Utest namespace for constants
 struct Utest
@@ -47,7 +104,7 @@ struct Utest
     void operator()(T *s) const
     {
       if (s)
-        Kmem_slab_t<T>::del(s);
+        Kmem_slab_t_singleton<T>::del(s);
     }
   };
 
@@ -97,6 +154,14 @@ struct Utest
     static Per_cpu<Unsigned32> count_prev;
     static Per_cpu<Unsigned64> count_epoch;
   };
+
+  /**
+   * Returns a value which is changed by the timer interrupt handler.
+   *
+   * If the returned values of two invocations are equal, no timer interrupt was
+   * triggered between the two function invocations.
+   */
+  static Unsigned64 timer_interrupt_indicator();
 };
 
 /**
@@ -383,7 +448,7 @@ Utest_fw::start(char const *group = nullptr, char const *test = nullptr)
  */
 PUBLIC inline
 void
-Utest_fw::finish()
+Utest_fw::finish(char const *skip_msg = nullptr)
 {
   // finish previous test if there is one.
   if (_num_tests > 0)
@@ -395,7 +460,11 @@ Utest_fw::finish()
   if (_sum_failed && ext_info.debug)
     kdb_ke("Test finish with failure & Debug flag set.");
 
-  printf("\nKUT 1..%i\n", _num_tests);
+  if (skip_msg)
+    printf("\nKUT 1..%i #SKIP %s\n", _num_tests, skip_msg);
+  else
+    printf("\nKUT 1..%i\n", _num_tests);
+
   printf("\nKUT TAP TEST FINISHED\n");
 
   // QEMU platforms terminate after the FINISH line. Only hardware tests
@@ -509,7 +578,7 @@ Utest_fw::tap_msg(bool success,
            msg ? msg : "");
 
   if (_test_uuid)
-    printf("KUT # Test-uuid: %s\n", _test_uuid);
+    printf("\nKUT # Test-uuid: %s\n\n", _test_uuid);
 }
 
 /**
@@ -647,6 +716,38 @@ Utest_fw::print_eval(char const *eval, A &&val, char const *str) const
 }
 
 /**
+ * Print an error message and abort the test if `obj` is null.
+ *
+ * This function shall be used to verify conditions in unit test setup /
+ * cleanup code which are not relevant for the actual test.
+ *
+ * \param obj     Pointer which must be non-null.
+ * \param msg     Message to be printed in case of failure.
+ */
+PUBLIC template <typename T, typename D> static inline
+void
+Utest_fw::chk(cxx::unique_ptr<T, D> const &obj, char const *msg)
+{
+  return chk(obj != nullptr, msg);
+}
+
+/**
+ * Print an error message and abort the test if `obj` is null.
+ *
+ * This function shall be used to verify conditions in unit test setup /
+ * cleanup code which are not relevant for the actual test.
+ *
+ * \param obj     Pointer which must be non-null.
+ * \param msg     Message to be printed in case of failure.
+ */
+PUBLIC template <typename T, typename D> static inline
+void
+Utest_fw::chk(cxx::unique_ptr<T, D> const &obj, Utest_fmt const &msg)
+{
+  return chk(obj != nullptr, msg);
+}
+
+/**
  * Print an error message and abort the test if `result` is false.
  *
  * This function shall be used to verify conditions in unit test setup /
@@ -718,7 +819,10 @@ template <typename T> inline
 void
 utest_format_print_value(T const &val)
 {
-  utest_format_print_value((unsigned long)cxx::int_value<T>(val));
+  if constexpr (cxx::is_pointer_v<T> || cxx::is_null_pointer_v<T>)
+    utest_format_print_value(reinterpret_cast<unsigned long>(val));
+  else
+    utest_format_print_value(static_cast<unsigned long>(cxx::int_value<T>(val)));
 }
 
 inline
@@ -763,6 +867,10 @@ utest_format_print_value(short val) { printf("%d", val); }
 
 inline
 void
+utest_format_print_value(unsigned short val) { printf("%u", val); }
+
+inline
+void
 utest_format_print_value(bool val) { printf("%d", val); }
 
 inline
@@ -791,6 +899,28 @@ Utest::next_online_cpu(Cpu_number *cpu)
       return true;
 
   return false;
+}
+
+/**
+ * Return the nth online CPU starting at the first CPU.
+ *
+ * \param n  Number of the online CPU (0 = first, 1 = second, ...)
+ * \return The CPU number of the nth online CPU or Cpu_number::nil if the nth
+ *         online CPU was not found.
+ */
+PUBLIC static inline
+Cpu_number
+Utest::nth_online_cpu(unsigned n)
+{
+  Cpu_number cpu = Cpu_number::first();
+  for (;;)
+    {
+      if (!next_online_cpu(&cpu))
+        return Cpu_number::nil();
+      if (!n--)
+        return cpu;
+      ++cpu;
+    }
 }
 
 /**
@@ -989,7 +1119,7 @@ Utest::start_thread(F const &fn, Cpu_number cpu,
   //     user IP is not used (thread never leaves the kernel), hence that
   //     address is used to pass the required parameters.
   //  2. Remove the 'Thread_dead' state bit.
-  t->ex_regs((Address)&args, 0UL, 0, 0, 0, 0);
+  t->ex_regs(reinterpret_cast<Address>(&args), 0UL, 0, 0, 0, 0);
   t->activate();
 
     {
@@ -1009,7 +1139,7 @@ template <typename T, Unsigned8 FILL, typename...A>
 static cxx::unique_ptr<T, Utest::Deleter<T>>
 Utest::kmem_create_fill(A&&... args)
 {
-  void *p = Kmem_slab_t<T>::alloc();
+  void *p = Kmem_slab_t_singleton<T>::alloc();
   if (p)
     {
       memset(p, FILL, sizeof(T));
@@ -1061,6 +1191,13 @@ Utest::kmem_create_clear(A&&... args)
   return kmem_create_fill<T, 0x00, A...>(cxx::forward<A>(args)...);
 }
 
+IMPLEMENT_DEFAULT
+Unsigned64
+Utest::timer_interrupt_indicator()
+{
+  return Kip::k()->clock();
+}
+
 /**
  * Construct object that disables kernel tick. The timer
  * tick is reenabled again then the object is destructed
@@ -1079,8 +1216,22 @@ Utest::Tick_disabler::Tick_disabler()
 IMPLEMENT
 Utest::Tick_disabler::~Tick_disabler()
 {
-  auto guard = lock_guard(cpu_lock);
-  Timer_tick::enable(current_cpu());
+    {
+      auto guard = lock_guard(cpu_lock);
+      Timer_tick::enable(current_cpu());
+    }
+
+  if (!cpu_lock.test())
+    {
+      // Wait for system clock to be updated once after re-enabling timer tick,
+      // otherwise an immediately following `Utest::wait()` might wait much
+      // shorter than expected.
+      Utest::wait(1);
+    }
+
+  // In one-shot mode we need to re-program the timer. Trigger it immediately.
+  // This might be too early but the timeout handler will take care.
+  Timer::update_timer(Timer::system_clock() + 1);
 }
 
 /**
@@ -1319,4 +1470,28 @@ Utest::Tick_disabler::timestamp()
   Unsigned64 freq = Generic_timer::Gtimer::frequency();
 
   return (count * 1000000UL) / freq;
+}
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION[riscv]:
+
+/// Tickless operation is supported on RISC-V.
+IMPLEMENT_OVERRIDE static
+bool
+Utest::Tick_disabler::supported()
+{
+  return true;
+}
+
+/**
+ * Get current timestamp in us.
+ *
+ * \return Current timestamp in us.
+ */
+IMPLEMENT_OVERRIDE static
+Unsigned64
+Utest::Tick_disabler::timestamp()
+{
+  Unsigned32 frequency = Kip::k()->platform_info.arch.timebase_frequency;
+  return (Cpu::rdtime() * 1000000ULL) / (frequency);
 }

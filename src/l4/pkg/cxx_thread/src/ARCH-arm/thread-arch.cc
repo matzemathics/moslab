@@ -12,21 +12,23 @@ void L4_cxx_start(void);
 
 void L4_cxx_start(void)
 {
-  asm volatile (".global L4_Thread_start_cxx_thread \n"
-                "L4_Thread_start_cxx_thread:        \n"
-                "ldmib sp!, {r0}                    \n"
-                "ldr pc,1f                          \n"
-                "1: .word L4_Thread_execute         \n");
+  asm volatile (".global L4_Thread_start_cxx_thread         \n"
+                ".type L4_Thread_start_cxx_thread, #function\n"
+                "L4_Thread_start_cxx_thread:                \n"
+                "ldr r0, [sp, #4]                           \n"
+                "ldr pc,1f                                  \n"
+                "1: .word L4_Thread_execute                 \n");
 }
 
 void L4_cxx_kill(void);
 
 void L4_cxx_kill(void)
 {
-  asm volatile (".global L4_Thread_kill_cxx_thread \n"
-                "L4_Thread_kill_cxx_thread:        \n"
-                "ldmib sp!, {r0}                   \n"
-                "ldr pc,1f                         \n"
-                "1: .word L4_Thread_shutdown       \n");
+  asm volatile (".global L4_Thread_kill_cxx_thread          \n"
+                ".type L4_Thread_kill_cxx_thread, #function \n"
+                "L4_Thread_kill_cxx_thread:                 \n"
+                "ldr r0, [sp, #4]                           \n"
+                "ldr pc,1f                                  \n"
+                "1: .word L4_Thread_shutdown                \n");
 }
 

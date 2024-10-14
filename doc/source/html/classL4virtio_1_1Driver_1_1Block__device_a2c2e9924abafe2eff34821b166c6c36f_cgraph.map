@@ -4,11 +4,11 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,131,159,93,219,55,233,48,235,53,221,60,162,98,114,135"/>
 <area shape="rect" id="Node000003" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a9ebf7e4518d01a4dc17c5ee6c0e3025b" title="Return a reference to a descriptor in the descriptor table." alt="" coords="220,69,411,109"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,131,230,111,231,116,161,136"/>
-<area shape="rect" id="Node000004" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a4c91d7f9a29c6b9f80d7db69ea066863" title="Get the next bits ( 0 to 0 ) of raw." alt="" coords="244,133,387,173"/>
+<area shape="rect" id="Node000004" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a7412bbf6d83eccc67857cf7bddaf6897" title="Get the next bits ( 0 to 0 ) of raw." alt="" coords="244,133,387,173"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="172,151,230,151,230,156,172,156"/>
 <area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Device.html#a72090d324268b51f3937197748c26853" title="Send a request to the device." alt="" coords="229,197,401,237"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="161,171,231,191,230,196,160,176"/>
-<area shape="rect" id="Node000007" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a30ec0bb337904ddd9b321e41f6e5a2b0" title="Get the write bits ( 1 to 1 ) of raw." alt="" coords="242,261,389,301"/>
+<area shape="rect" id="Node000007" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#ae8a176bcd662bb1e50f08fe63147372b" title="Get the write bits ( 1 to 1 ) of raw." alt="" coords="242,261,389,301"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="114,171,162,209,221,247,235,254,233,259,219,252,159,213,111,175"/>
 <area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Virtqueue.html#a20a030dd769eddf44b6cb0bb07b84ee8" title="Enqueue a descriptor in the available ring." alt="" coords="459,197,649,237"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="402,215,445,215,445,220,402,220"/>

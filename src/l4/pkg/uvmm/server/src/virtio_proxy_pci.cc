@@ -23,8 +23,9 @@ public:
   Virtio_proxy_pci(Vdev::Dt_node const &node, unsigned num_msix_entries,
                    L4::Cap<L4virtio::Device> device,
                    unsigned nnq_id, Vmm::Vm_ram *ram,
-                   Gic::Msix_dest const &msix_dest)
-  : Virtio_device_pci<Virtio_proxy_pci>(node, num_msix_entries),
+                   Gic::Msix_dest const &msix_dest,
+                   Vdev::Pci::Pci_bridge_windows *wnds)
+  : Virtio_device_pci<Virtio_proxy_pci>(node, num_msix_entries, wnds),
     // 0x100: size of the virtio config header
     Virtio_proxy<Virtio_proxy_pci>(device, 0x100 + device_config_len(), nnq_id, ram),
     Virtio::Pci_connector<Virtio_proxy_pci>(),
@@ -36,9 +37,12 @@ public:
   void virtio_pci_device_config_written() {}
 
 protected:
-  cxx::Ref_ptr<Vmm::Mmio_device> get_mmio_bar_handler(unsigned) override
+  cxx::Ref_ptr<Vmm::Mmio_device> get_mmio_bar_handler(unsigned idx) override
   {
-    return event_connector()->make_mmio_device();
+    if (idx == 0)
+      return event_connector()->make_mmio_device();
+
+    return cxx::Ref_ptr<Vmm::Mmio_device>(this);
   }
 
   cxx::Ref_ptr<Vmm::Io_device> get_io_bar_handler(unsigned) override
@@ -99,11 +103,12 @@ struct F : Factory
     int const num_msix = 2;
     auto proxy =
       make_device<Virtio_proxy_pci>(node, num_msix, cap, nnq_id,
-                                    devs->ram().get(), pci->msix_dest(dev_id));
+                                    devs->ram().get(), pci->msix_dest(dev_id),
+                                    pci->bridge_windows());
 
     proxy->register_irq(vmm->registry());
     proxy->init_virtio_pci_device();
-    pci->bus()->register_device(proxy);
+    pci->bus()->register_device(proxy, dev_id);
 
     return proxy;
   }

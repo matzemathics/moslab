@@ -34,10 +34,6 @@ __attribute_used__ static int ret_enosys_stub(void)
 	link_warning(stub, #stub ": this function is not implemented") \
 	strong_alias(ret_enosys_stub, stub)
 
-#ifndef __ARCH_USE_MMU__
-# undef __NR_fork
-#endif
-
 #ifdef __arm__
 # define __NR_fadvise64_64 __NR_arm_fadvise64_64
 # define __NR_fadvise64 __NR_arm_fadvise64_64
@@ -86,14 +82,6 @@ make_stub(capset)
 make_stub(connect)
 #endif
 
-#if !defined __NR_create_module && defined __UCLIBC_LINUX_MODULE_24__
-make_stub(create_module)
-#endif
-
-#if !defined __NR_delete_module && defined __UCLIBC_LINUX_MODULE_26__
-make_stub(delete_module)
-#endif
-
 #if !defined __NR_epoll_create && defined __UCLIBC_HAS_EPOLL__ \
 	&& !defined __NR_epoll_create1
 make_stub(epoll_create)
@@ -128,7 +116,7 @@ make_stub(fgetxattr)
 make_stub(flistxattr)
 #endif
 
-#if !defined __NR_fork && !defined __NR_clone
+#if !defined __ARCH_USE_MMU__ || (!defined __NR_fork && !defined __NR_clone)
 make_stub(fork)
 #endif
 
@@ -157,6 +145,10 @@ make_stub(getpeername)
 make_stub(getpgrp)
 #endif
 
+#if !defined __NR_getrandom && defined __UCLIBC_LINUX_SPECIFIC__
+make_stub(getrandom)
+#endif
+
 #if !defined __NR_getsockname && !defined __NR_socketcall && defined __UCLIBC_HAS_SOCKET__
 make_stub(getsockname)
 #endif
@@ -167,10 +159,6 @@ make_stub(getsockopt)
 
 #ifndef __NR_getxattr
 make_stub(getxattr)
-#endif
-
-#if !defined __NR_init_module && defined __UCLIBC_LINUX_MODULE_26__
-make_stub(init_module)
 #endif
 
 #if !defined __NR_inotify_add_watch && defined __UCLIBC_LINUX_SPECIFIC__
@@ -232,9 +220,7 @@ make_stub(modify_ldt)
 
 #ifndef __NR_openat
 make_stub(openat)
-# ifdef __UCLIBC_HAS_LFS__
 make_stub(openat64)
-# endif
 #endif
 
 #if !defined __NR_personality && defined __UCLIBC_LINUX_SPECIFIC__
@@ -249,11 +235,11 @@ make_stub(pipe2)
 make_stub(pivot_root)
 #endif
 
-#if !defined __NR_fadvise64 && defined __UCLIBC_HAS_LFS__
+#if !defined __NR_fadvise64
 make_ret_stub(posix_fadvise)
 #endif
 
-#if !defined __NR_fadvise64_64 && defined __UCLIBC_HAS_LFS__ && __WORDSIZE == 32
+#if !defined __NR_fadvise64_64 && __WORDSIZE == 32
 make_ret_stub(posix_fadvise64)
 #endif
 
@@ -267,10 +253,6 @@ make_stub(ppoll)
 
 #if !defined __NR_prctl && defined __UCLIBC_LINUX_SPECIFIC__
 make_stub(prctl)
-#endif
-
-#if !defined __NR_query_module && defined __UCLIBC_LINUX_MODULE_24__
-make_stub(query_module)
 #endif
 
 #if !defined __NR_readahead && defined __UCLIBC_LINUX_SPECIFIC__
@@ -326,7 +308,7 @@ make_stub(send)
 make_stub(sendfile)
 #endif
 
-#if !defined __NR_sendfile64 && !defined __NR_sendfile && defined __UCLIBC_LINUX_SPECIFIC__ && defined __UCLIBC_HAS_LFS__
+#if !defined __NR_sendfile64 && !defined __NR_sendfile && defined __UCLIBC_LINUX_SPECIFIC__
 make_stub(sendfile64)
 #endif
 
@@ -344,6 +326,10 @@ make_stub(setfsgid)
 
 #if ((__WORDSIZE == 32 && (!defined __NR_setfsuid32 && !defined __NR_setfsuid)) || (__WORDSIZE == 64 && !defined __NR_setfsuid)) && defined __UCLIBC_LINUX_SPECIFIC__
 make_stub(setfsuid)
+#endif
+
+#if !defined __NR_setns && defined __UCLIBC_LINUX_SPECIFIC__
+make_stub(setns)
 #endif
 
 #if !defined __NR_setresgid32 && !defined __NR_setresgid && defined __UCLIBC_LINUX_SPECIFIC__

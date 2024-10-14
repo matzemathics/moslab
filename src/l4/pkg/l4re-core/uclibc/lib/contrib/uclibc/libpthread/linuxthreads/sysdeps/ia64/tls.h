@@ -111,33 +111,7 @@ typedef struct
 
 # define TLS_MULTIPLE_THREADS_IN_TCB 1
 
-/* Get the thread descriptor definition.  */
-#  include <linuxthreads/descr.h>
-
 # endif
-
-#else
-
-# ifndef __ASSEMBLER__
-
-typedef struct
-{
-  void *tcb;
-  dtv_t *dtv;
-  void *self;
-  int multiple_threads;
-} tcbhead_t;
-
-/* Get the thread descriptor definition.  */
-#  include <linuxthreads/descr.h>
-
-#  define NONTLS_INIT_TP \
-  do { 									\
-    static const tcbhead_t nontls_init_tp = { .multiple_threads = 0 };	\
-    __thread_self = (__typeof (__thread_self)) &nontls_init_tp;		\
-  } while (0)
-
-#endif
 
 #endif /* USE_TLS */
 

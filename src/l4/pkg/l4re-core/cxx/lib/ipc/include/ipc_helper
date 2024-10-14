@@ -26,6 +26,10 @@
 #include <l4/cxx/exceptions>
 #include <l4/sys/utcb.h>
 
+/**
+ * \defgroup helper IPC Helpers
+ */
+
 namespace L4
 {
 #ifdef __EXCEPTIONS
@@ -38,10 +42,9 @@ namespace L4
    * \utcb{utcb}
    */
   inline void
-  throw_ipc_exception(L4::Cap<void> const &o, l4_msgtag_t const &err,
-                      l4_utcb_t *utcb)
+  throw_ipc_exception([[maybe_unused]] L4::Cap<void> const &o,
+                      l4_msgtag_t const &err, l4_utcb_t *utcb)
   {
-    (void)o;
     if (err.has_error())
       throw (L4::Com_error(l4_error_u(err, utcb)));
   }

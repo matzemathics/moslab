@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Program to load an ELF binary on a linux system, and run it
  * after resolving ELF shared library symbols
@@ -221,11 +220,11 @@ _dl_lookup_gnu_hash(struct elf_resolve *tpnt, ElfW(Sym) *symtab, unsigned long h
 
 	const ElfW(Addr) *bitmask = tpnt->l_gnu_bitmask;
 
+	_dl_assert (bitmask != NULL);
 	ElfW(Addr) bitmask_word	= bitmask[(hash / __ELF_NATIVE_CLASS) & tpnt->l_gnu_bitmask_idxbits];
 
 	unsigned int hashbit1 = hash & (__ELF_NATIVE_CLASS - 1);
 	unsigned int hashbit2 = ((hash >> tpnt->l_gnu_shift) & (__ELF_NATIVE_CLASS - 1));
-	_dl_assert (bitmask != NULL);
 
 	if (unlikely((bitmask_word >> hashbit1) & (bitmask_word >> hashbit2) & 1)) {
 		unsigned long rem;
@@ -379,7 +378,7 @@ char *_dl_find_hash(const char *name, struct r_scope_elem *scope, struct elf_res
 #endif
 			case STB_GLOBAL:
 			case 10: /* DAS IS VON MIR GNU STB UNIQUE aw11 L4 und so, eigentlich muss das anders */
-#ifdef __FDPIC__
+#if defined(__FRV_FDPIC__) || defined(__BFIN_FDPIC__) || defined(__FDPIC__)
 			if (sym_ref)
 				sym_ref->tpnt = tpnt;
 #endif
@@ -388,7 +387,7 @@ char *_dl_find_hash(const char *name, struct r_scope_elem *scope, struct elf_res
 				break;
 		}
 	}
-#ifdef __FDPIC__
+#if defined(__FRV_FDPIC__) || defined(__BFIN_FDPIC__) || defined(__FDPIC__)
 	if (sym_ref)
 		sym_ref->tpnt = tpnt;
 #endif

@@ -1,0 +1,7 @@
+<map id="l4_timeout_get" name="l4_timeout_get">
+<area shape="rect" id="Node000001" title="Get clock value for a clock + a timeout." alt="" coords="5,31,125,56"/>
+<area shape="rect" id="Node000002" href="$group__l4__timeout__api.html#gabad6526067fe7f0e0268fa00efab7599" title="Return whether the given timeout is absolute or not." alt="" coords="173,5,347,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,33,159,28,160,34,126,38"/>
+<area shape="rect" id="Node000003" href="$group__l4__timeout__api.html#gad36403610d9a5b4d3bdcb6fcb249ba6c" title="Get clock value of out timeout." alt="" coords="188,55,332,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,48,175,54,174,59,126,53"/>
+</map>

@@ -69,20 +69,18 @@ extern void _dl_get_tls_static_info (size_t *sizep, size_t *alignp)
 
 extern void _dl_allocate_static_tls (struct link_map *map)
      internal_function attribute_hidden;
-
-extern int _dl_try_allocate_static_tls (struct link_map *map)
+extern int _dl_try_allocate_static_tls (struct link_map* map)
      internal_function attribute_hidden;
 
 /* Taken from glibc/elf/dl-reloc.c */
 #define CHECK_STATIC_TLS(sym_map)											\
 	do {																	\
-		if (unlikely((sym_map)->l_tls_offset == NO_TLS_OFFSET))	\
+		if (__builtin_expect ((sym_map)->l_tls_offset == NO_TLS_OFFSET, 0))	\
 			_dl_allocate_static_tls (sym_map);								\
 	} while (0)
-
-#define TRY_STATIC_TLS(sym_map) \
-       (__builtin_expect ((sym_map)->l_tls_offset != NO_TLS_OFFSET, 1) \
-        || _dl_try_allocate_static_tls(sym_map) == 0)
+#define TRY_STATIC_TLS(sym_map)												\
+	(__builtin_expect ((sym_map)->l_tls_offset != NO_TLS_OFFSET, 1)			\
+		 || _dl_try_allocate_static_tls (sym_map) == 0)
 
 /* These are internal entry points to the two halves of _dl_allocate_tls,
    only used within rtld.c itself at startup time.  */
@@ -120,7 +118,9 @@ EXTERN size_t _dl_tls_static_used;
 /* Alignment requirement of the static TLS block.  */
 EXTERN size_t _dl_tls_static_align;
 /* Function pointer for catching TLS errors.  */
+#if 1 /* def _LIBC_REENTRANT */
 EXTERN void **(*_dl_error_catch_tsd) (void) __attribute__ ((const));
+#endif
 
 /* Number of additional entries in the slotinfo array of each slotinfo
    list element.  A large number makes it almost certain take we never

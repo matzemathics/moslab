@@ -27,7 +27,7 @@ size_t attribute_hidden __stdio_READ(register FILE *stream,
 	ssize_t rv = 0;
 
 	__STDIO_STREAM_VALIDATE(stream);
-	assert(stream->__filedes >= -1);
+	assert(stream->__filedes >= -2);
 	assert(__STDIO_STREAM_IS_READING(stream));
 	assert(!__STDIO_STREAM_BUFFER_RAVAIL(stream)); /* Buffer must be empty. */
 	assert(!(stream->__modeflags & __FLAG_UNGOT));
@@ -38,9 +38,6 @@ size_t attribute_hidden __stdio_READ(register FILE *stream,
 			bufsize = SSIZE_MAX;
 		}
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning EINTR?
-#endif
 /* 	RETRY: */
 		if ((rv = __READ(stream, (char *) buf, bufsize)) <= 0) {
 			if (rv == 0) {
@@ -50,9 +47,6 @@ size_t attribute_hidden __stdio_READ(register FILE *stream,
 				__STDIO_STREAM_SET_ERROR(stream);
 				rv = 0;
 			}
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Make custom stream read return check optional.
-#endif
 #ifdef __UCLIBC_HAS_GLIBC_CUSTOM_STREAMS__
 		} else {
 			assert(rv <= bufsize);

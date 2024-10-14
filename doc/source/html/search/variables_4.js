@@ -3,7 +3,7 @@ var searchData=
   ['d_5fptr_0',['d_ptr',['../structElf64__Dyn.html#a4820e579b624438f02827e7b44fbd0f7',1,'Elf64_Dyn::d_ptr'],['../structElf32__Dyn.html#adcdb4fa1682c07a7e7874c99f9cbd028',1,'Elf32_Dyn::d_ptr']]],
   ['d_5ftag_1',['d_tag',['../structElf32__Dyn.html#a0edbe45a1c49cbb352dc3e1937369180',1,'Elf32_Dyn::d_tag'],['../structElf64__Dyn.html#a74a63e5acb7d8ddc946a5b0c5eb3c26a',1,'Elf64_Dyn::d_tag']]],
   ['d_5fval_2',['d_val',['../structElf32__Dyn.html#a00a89085454a384ae77fd9112b3062c7',1,'Elf32_Dyn::d_val'],['../structElf64__Dyn.html#ab1741378fc34cbcc8caf3f7bb5e6de18',1,'Elf64_Dyn::d_val']]],
-  ['data_3',['data',['../structl4shmc__ringbuf__head__t.html#a6cc78713c78ac00cf2660d1ed4e03be5',1,'l4shmc_ringbuf_head_t::data'],['../structL4_1_1Ipc_1_1Array__in__buf.html#ac89c9e32ec16a01ab1d04e6bebb0a802',1,'L4::Ipc::Array_in_buf::data']]],
+  ['data_3',['data',['../structL4_1_1Ipc_1_1Array__in__buf.html#ac89c9e32ec16a01ab1d04e6bebb0a802',1,'L4::Ipc::Array_in_buf::data'],['../structl4shmc__ringbuf__head__t.html#a6cc78713c78ac00cf2660d1ed4e03be5',1,'l4shmc_ringbuf_head_t::data']]],
   ['dbg_5flvl_4',['dbg_lvl',['../structl4re__aux__t.html#aaed711f443d864306b3fda2c1fb5b40e',1,'l4re_aux_t']]],
   ['dec_5',['dec',['../namespaceL4.html#a4e96755ffe9daba2be73803fb239fa8e',1,'L4']]],
   ['desc_5faddr_6',['desc_addr',['../structl4virtio__config__queue__t.html#a7c8175ec8a55273afc88e55e320fcbb1',1,'l4virtio_config_queue_t']]],

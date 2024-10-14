@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/debugger Source File</title>
+<title>L4Re Operating System Framework: l4/sys/debugger Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -180,10 +183,17 @@ $(document).ready(function(){initNavTree('debugger_source.html',''); initResizab
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>                       <a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb = <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  { <span class="keywordflow">return</span> l4_debugger_get_object_name_u(<a class="code hl_function" href="classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c">cap</a>(), <span class="keywordtype">id</span>, name, size, utcb); }</div>
 </div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>};</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="foldopen" id="foldopen00172" data-start="{" data-end="}">
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classL4_1_1Debugger.html#a0243becea2865769bd869c0cb6165f52">  172</a></span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> <a class="code hl_function" href="classL4_1_1Debugger.html#a0243becea2865769bd869c0cb6165f52">add_image_info</a>(<a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> base, <span class="keyword">const</span> <span class="keywordtype">char</span> *name,</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                             <a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb = <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>  { <span class="keywordflow">return</span> l4_debugger_add_image_info_u(<a class="code hl_function" href="classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c">cap</a>(), base, name, utcb); }</div>
 </div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>}</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>};</div>
+</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>}</div>
 <div class="ttc" id="aclassL4_1_1Debugger_html"><div class="ttname"><a href="classL4_1_1Debugger.html">L4::Debugger</a></div><div class="ttdoc">C++ kernel debugger API.</div><div class="ttdef"><b>Definition</b> <a href="debugger_source.html#l00053">debugger:54</a></div></div>
+<div class="ttc" id="aclassL4_1_1Debugger_html_a0243becea2865769bd869c0cb6165f52"><div class="ttname"><a href="classL4_1_1Debugger.html#a0243becea2865769bd869c0cb6165f52">L4::Debugger::add_image_info</a></div><div class="ttdeci">l4_msgtag_t add_image_info(l4_addr_t base, const char *name, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Add loaded image information for a task.</div><div class="ttdef"><b>Definition</b> <a href="debugger_source.html#l00172">debugger:172</a></div></div>
 <div class="ttc" id="aclassL4_1_1Debugger_html_a3971a4965501d6557ee44fbef97ede7d"><div class="ttname"><a href="classL4_1_1Debugger.html#a3971a4965501d6557ee44fbef97ede7d">L4::Debugger::get_object_name</a></div><div class="ttdeci">l4_msgtag_t get_object_name(unsigned id, char *name, unsigned size, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Get name of object with Id id.</div><div class="ttdef"><b>Definition</b> <a href="debugger_source.html#l00159">debugger:159</a></div></div>
 <div class="ttc" id="aclassL4_1_1Debugger_html_a3ee2faa3af880a05df406e9e6a48b45e"><div class="ttname"><a href="classL4_1_1Debugger.html#a3ee2faa3af880a05df406e9e6a48b45e">L4::Debugger::global_id</a></div><div class="ttdeci">unsigned long global_id(l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Get the globally unique ID of the object behind a capability.</div><div class="ttdef"><b>Definition</b> <a href="debugger_source.html#l00082">debugger:82</a></div></div>
 <div class="ttc" id="aclassL4_1_1Debugger_html_a882a885d5297c0c1de65e3471bc6e09b"><div class="ttname"><a href="classL4_1_1Debugger.html#a882a885d5297c0c1de65e3471bc6e09b">L4::Debugger::query_log_name</a></div><div class="ttdeci">long query_log_name(unsigned idx, char *name, unsigned namelen, char *shortname, unsigned shortnamelen, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Query the name of a log type given the ID.</div><div class="ttdef"><b>Definition</b> <a href="debugger_source.html#l00127">debugger:127</a></div></div>
@@ -191,14 +201,14 @@ $(document).ready(function(){initNavTree('debugger_source.html',''); initResizab
 <div class="ttc" id="aclassL4_1_1Debugger_html_aa832e2140225b1eeba7f1c5c6d718fa6"><div class="ttname"><a href="classL4_1_1Debugger.html#aa832e2140225b1eeba7f1c5c6d718fa6">L4::Debugger::switch_log</a></div><div class="ttdeci">l4_msgtag_t switch_log(const char *name, unsigned on_off, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Set or unset log.</div><div class="ttdef"><b>Definition</b> <a href="debugger_source.html#l00144">debugger:144</a></div></div>
 <div class="ttc" id="aclassL4_1_1Debugger_html_ac7c3534030cb16125329f97e2ebcda72"><div class="ttname"><a href="classL4_1_1Debugger.html#ac7c3534030cb16125329f97e2ebcda72">L4::Debugger::kobj_to_id</a></div><div class="ttdeci">unsigned long kobj_to_id(l4_addr_t kobjp, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Get the globally unique ID of the object behind the kobject pointer.</div><div class="ttdef"><b>Definition</b> <a href="debugger_source.html#l00094">debugger:94</a></div></div>
 <div class="ttc" id="aclassL4_1_1Debugger_html_acdd127740e39ecba17d0c82dc1f4ff97"><div class="ttname"><a href="classL4_1_1Debugger.html#acdd127740e39ecba17d0c82dc1f4ff97">L4::Debugger::set_object_name</a></div><div class="ttdeci">l4_msgtag_t set_object_name(const char *name, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Set the name of a kernel object.</div><div class="ttdef"><b>Definition</b> <a href="debugger_source.html#l00070">debugger:70</a></div></div>
-<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00759">__typeinfo.h:760</a></div></div>
+<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00760">__typeinfo.h:761</a></div></div>
 <div class="ttc" id="aclassL4_1_1Kobject_html_a4f2117ae76762f4084e6a1adb915863c"><div class="ttname"><a href="classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c">L4::Kobject::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="kobject_source.html#l00079">kobject:79</a></div></div>
 <div class="ttc" id="adebugger_8h_html"><div class="ttname"><a href="debugger_8h.html">debugger.h</a></div><div class="ttdoc">Debugger related definitions.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga4087b991c40c0d2fcde9ca331049a4d4"><div class="ttname"><a href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a></div><div class="ttdeci">unsigned long l4_addr_t</div><div class="ttdoc">Address type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00045">l4int.h:45</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_gadc099b4a59e1d99638c72c11a8c8b644"><div class="ttname"><a href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a></div><div class="ttdeci">l4_utcb_t * l4_utcb(void) L4_NOTHROW L4_PURE</div><div class="ttdoc">Get the UTCB address.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00340">utcb.h:340</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -206,7 +216,7 @@ $(document).ready(function(){initNavTree('debugger_source.html',''); initResizab
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="debugger.html">debugger</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

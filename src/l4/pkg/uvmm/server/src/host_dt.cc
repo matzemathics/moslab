@@ -76,13 +76,32 @@ namespace {
 void
 Vdev::Host_dt::add_source(char const *fname)
 {
-  Mapped_file mem(fname);
+  std::string filename(fname);
+  std::size_t pos = filename.find(":limit=");
+  if (pos != std::string::npos)
+    {
+      std::string r = filename.substr(pos + 7, std::string::npos);
+
+      _upper_limit = strtoull(r.c_str(), NULL, 0);
+      if (!_upper_limit)
+        {
+          Err().printf("Failed to parse a valid upper limit for DT placement. "
+                       "Found: '%s'. Configuration error. Exit.\n", r.c_str());
+          L4Re::chksys(-L4_EINVAL, "Unable to parse configuration for upper "
+                                   "limit for DT placement");
+        }
+
+      warn.printf("DT location configured to be below 0x%llx\n",
+                  _upper_limit);
+    }
+
+  Mapped_file mem(filename.substr(0, pos).c_str());
   if (!mem.valid())
     L4Re::chksys(-L4_EINVAL, "Unable to access overlay");
 
   if (valid())
     {
-      get().apply_overlay(mem.get(), fname);
+      get().apply_overlay(mem.get(), filename.substr(0, pos).c_str());
       return;
     }
 
@@ -92,7 +111,7 @@ Vdev::Host_dt::add_source(char const *fname)
   dt.check_tree();
 
   // XXX would be nice to expand dynamically
-  _fdt = new Dtb::Fdt(fdt, cxx::max(dt.size(), 0x200U));
+  _fdt = cxx::make_unique<Dtb::Fdt>(fdt, cxx::max(dt.size(), 0x200U));
 }
 
 void

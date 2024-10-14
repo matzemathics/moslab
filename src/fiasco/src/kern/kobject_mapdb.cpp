@@ -131,10 +131,8 @@ Kobject_mapdb::valid_address(Phys_addr obj)
 PUBLIC inline static
 Kobject_mapdb::Mapping *
 Kobject_mapdb::insert(Frame const &, Space *,
-                      Vaddr va, Obj_space::Phys_addr o, Obj_space::V_pfc size)
+                      Vaddr va, Obj_space::Phys_addr o, [[maybe_unused]] Obj_space::V_pfc size)
 {
-  (void)size;
-  (void)o;
   assert (size == Obj_space::V_pfc(1));
 
   Mapping *m = va._c;
@@ -143,7 +141,7 @@ Kobject_mapdb::insert(Frame const &, Space *,
   rn->_root.add(m);
 
   Obj::Entry *e = static_cast<Obj::Entry*>(m);
-  if (e->ref_cnt()) // counted
+  if (e->is_ref_counted())
     {
       // No overflow check required. The counter has type Smword and can count
       // half of the addresses in the virtual address space. A capability has a
@@ -168,7 +166,7 @@ Kobject_mapdb::grant(Frame &f, Space *, Vaddr va)
   // replace the source cap with the destination cap in the list
   Mapping::List::replace(se, re);
 
-  if (se->ref_cnt() && !re->ref_cnt())
+  if (se->is_ref_counted() && !re->is_ref_counted())
     if (--f.frame->_cnt <= 0)
       f.frame->invalidate_mappings();
 
@@ -190,7 +188,7 @@ Kobject_mapdb::flush(Frame const &f, L4_map_mask mask,
       return;
     }
 
-  if (!static_cast<Obj::Entry*>(f.m)->ref_cnt())  // not counted
+  if (!static_cast<Obj::Entry*>(f.m)->is_ref_counted())
     {
       Mapping::List::remove(f.m);
       return;

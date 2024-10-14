@@ -2,8 +2,8 @@
 <area shape="rect" id="Node000001" title="Switch to the next descriptor in a descriptor chain." alt="" coords="5,55,167,95"/>
 <area shape="rect" id="Node000002" href="$namespacecxx.html#ab148b2c460eb31462ced9a1eafd9667c" title="Read the value at an address at most once." alt="" coords="229,5,363,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,53,234,32,236,37,161,58"/>
-<area shape="rect" id="Node000003" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a978fd95c3be397943f14b0e5c2c9937b" title="Get the indirect bits ( 2 to 2 ) of raw." alt="" coords="215,55,377,95"/>
+<area shape="rect" id="Node000003" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#afbe72e699f3403f80e62125754c69d14" title="Get the indirect bits ( 2 to 2 ) of raw." alt="" coords="215,55,377,95"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="167,73,201,73,201,78,167,78"/>
-<area shape="rect" id="Node000004" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a4c91d7f9a29c6b9f80d7db69ea066863" title="Get the next bits ( 0 to 0 ) of raw." alt="" coords="225,119,367,159"/>
+<area shape="rect" id="Node000004" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a7412bbf6d83eccc67857cf7bddaf6897" title="Get the next bits ( 0 to 0 ) of raw." alt="" coords="225,119,367,159"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="153,93,218,113,216,118,152,98"/>
 </map>

@@ -52,8 +52,15 @@ __sigsetjmp:
 	/* Save registers */
 	stmia	ip!, {v1-v6, sl, fp, sp, lr}
 #endif
-#if defined __UCLIBC_HAS_FLOATS__ && ! defined __UCLIBC_HAS_SOFT_FLOAT__
+#if defined __UCLIBC_HAS_FLOATS__ && ! defined __UCLIBC_HAS_SOFT_FLOAT__ && ! defined BID_VARIANT_FLAG_NOFPU
 # ifdef __VFP_FP__
+#  if __ARM_ARCH >= 8
+	/* Store the VFP registers.  */
+	fstmiax ip!, {d8-d15}
+	/* Store the floating-point status register.  */
+	fmrx    r2, fpscr
+	str     r2, [ip], #4
+#  else
 	/* Store the VFP registers.  */
 	/* Following instruction is fstmiax ip!, {d8-d15}.  */
 	stc	p11, cr8, [r12], #68
@@ -61,6 +68,7 @@ __sigsetjmp:
 	/* Following instruction is fmrx r2, fpscr.  */
 	mrc	p10, 7, r2, cr1, cr0, 0
 	str	r2, [ip], #4
+#  endif
 # elif defined __MAVERICK__
 	cfstrd	mvd4,  [ip], #8 ; nop
 	cfstrd	mvd5,  [ip], #8 ; nop

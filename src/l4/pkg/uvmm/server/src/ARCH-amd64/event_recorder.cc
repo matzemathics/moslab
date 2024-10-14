@@ -8,10 +8,10 @@
 
 namespace Vmm {
 
-void Event_recorder::inject(Vm_state *vms)
+bool Event_recorder::inject(Vm_state *vms)
 {
   if (empty())
-    return;
+    return false;
 
   auto top = _queue.top();
   if (top->inject(vms))
@@ -28,8 +28,11 @@ void Event_recorder::inject(Vm_state *vms)
         _has_irq = false;
 
       // We have ownership. We have to free the memory!
-      delete top;
+      free_event(top);
+      return true;
     }
+
+  return false;
 }
 
 void Event_recorder::add(Event_record *event)
@@ -61,7 +64,7 @@ void Event_recorder::clear()
       auto top = _queue.top();
       _queue.pop();
       // We have ownership. We have to free the memory!
-      delete top;
+      free_event(top);
     }
 
   _has_exception = false;
@@ -72,7 +75,7 @@ void Event_recorder::clear()
 bool Event_recorder::empty() const
 { return _queue.empty(); }
 
-void Event_recorder::dump() const
+void Event_recorder::dump(unsigned vcpu_id) const
 {
   static char const *Event_prio_names[Event_prio::Prio_max] = {
     "Abort",
@@ -96,14 +99,15 @@ void Event_recorder::dump() const
 
   if (_queue.empty())
     {
-      Dbg().printf("Ev_rec: No event recorded.\n");
+      Dbg().printf("[%3u] Ev_rec: No event recorded.\n", vcpu_id);
       return;
     }
 
   auto prio = _queue.top()->prio;
   char const *name = prio < Event_prio::Prio_max ? Event_prio_names[prio]
                                                  : "Index out of bounds";
-  Dbg().printf("Ev_rec: Top event has prio %i (%s)\n", prio, name);
+  Dbg().printf("[%3u] Ev_rec: Top event has prio %i (%s); #events: %zu\n",
+               vcpu_id, prio, name, _queue.size());
 }
 
 } // namespace Vmm

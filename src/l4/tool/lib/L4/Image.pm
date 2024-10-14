@@ -31,8 +31,10 @@ use warnings;
 use strict;
 use Exporter;
 use File::Basename;
-use File::Temp qw/tempdir/;
+use File::Temp qw/tempdir tempfile/;
 use File::Copy qw/copy/;
+use IO::Compress::Gzip qw/gzip $GzipError/;
+use IO::Uncompress::Gunzip qw/gunzip $GunzipError/;
 use Digest::MD5;
 use POSIX;
 use L4::Image::Utils qw/error check_sysread check_syswrite
@@ -176,40 +178,19 @@ sub get_file_type
   return $type;
 }
 
-# TODO: Add something with compression
 sub fill_module
 {
   my $m_file = shift;
-  my $m_name = shift;
-  my $m_type = shift;
-  my $m_cmdline = shift;
-
+  my $m_opts = shift;
   return ( error => "File '$m_file' does not exist" ) unless -e $m_file;
 
+  my $m_name = shift // basename($m_file);
+  my $m_type = shift // 0;
+  my $m_cmdline = shift // $m_name;
+
   my %d;
-
-  $m_name = basename($m_file) unless defined $m_name;
-  $m_type = 0 unless defined $m_type;
-  $m_cmdline = $m_name unless defined $m_cmdline;
-
-  $d{name} = $m_name;
-  $d{cmdline} = $m_cmdline;
-  $d{flags} = $m_type;
-  $d{filepath} = $m_file;
-
-  my $md5uncomp = Digest::MD5->new;
-  my $ff;
-  if (!open($ff, $m_file))
-    {
-      return ( error => "Failed to open '$m_file': $!" );
-    }
-  binmode $ff;
-  $md5uncomp->addfile($ff);
-  close $ff;
-  $d{md5sum_compr}   = $md5uncomp->hexdigest;
-  $d{md5sum_uncompr} = $md5uncomp->hexdigest;
-  $d{size} = -s $m_file;
-  $d{size_uncompressed} = -s $m_file;
+  my $r = update_module(\%d, $m_file, $m_opts, $m_name, $m_type, $m_cmdline);
+  return ( error => $r ) if $r;
 
   return %d;
 }
@@ -218,6 +199,7 @@ sub update_module
 {
   my $d = shift;
   my $m_file = shift;
+  my $m_opts = shift;
   my $m_name = shift;
   my $m_type = shift;
   my $m_cmdline = shift;
@@ -226,22 +208,52 @@ sub update_module
 
   $d->{name}     = $m_name if defined $m_name;
   $d->{cmdline}  = $m_cmdline if defined $m_cmdline;
-  $d->{flags}    = map_type_name_to_flag($m_type) if defined $m_type;
+  $d->{flags}    = $m_type if defined $m_type;
   $d->{filepath} = $m_file;
 
-  my $md5uncomp = Digest::MD5->new;
+  my %attrs;
+  foreach my $key (sort keys %{$m_opts})
+    {
+      if ($key =~ /^attr:(.*)/)
+        {
+          $attrs{$1} = $m_opts->{$key};
+        }
+    }
+  $d->{attrs} = \%attrs;
+
+  my $md5 = Digest::MD5->new;
   my $ff;
   if (!open($ff, $m_file))
     {
       return "Failed to open '$m_file': $!";
     }
   binmode $ff;
-  $md5uncomp->addfile($ff);
+  $md5->addfile($ff);
   close $ff;
-  $d->{md5sum_compr}   = $md5uncomp->hexdigest;
-  $d->{md5sum_uncompr} = $md5uncomp->hexdigest;
-  $d->{size} = -s $m_file;
+  $d->{md5sum_uncompr} = $md5->hexdigest;
   $d->{size_uncompressed} = -s $m_file;
+
+  if (exists $m_opts->{compress} and ($m_opts->{compress} // "gz") ne "none")
+    {
+      return "Unknown compression method: " . ($m_opts->{compress} // "gz")
+        if ($m_opts->{compress} // "gz") ne "gz";
+      $md5->reset();
+      my ($tfh, $tfilename) = tempfile(UNLINK => 1);
+      gzip ${m_file} => $tfilename
+        or return "Compression failed: $GzipError\n";
+      $d->{filepath} = $tfilename;
+
+      if (!open($ff, $m_file))
+        {
+          return "Failed to open '$m_file': $!";
+        }
+      binmode $ff;
+      $md5->addfile($ff);
+      close $ff;
+    }
+
+  $d->{md5sum_compr}   = $md5->hexdigest;
+  $d->{size} = -s $d->{filepath};
 
   return undef;
 }
@@ -698,6 +710,8 @@ sub import_modules
       $mods[$i]{cmdline}        = unpack('Z*', substr($data, $mods[$i]{cmdline} + $offs));
       $mods[$i]{md5sum_compr}   = unpack('Z*', substr($data, $mods[$i]{md5sum_compr} + $offs));
       $mods[$i]{md5sum_uncompr} = unpack('Z*', substr($data, $mods[$i]{md5sum_uncompr} + $offs));
+      #TODO: The following code for now assumes that we always are gzip compressed
+      $mods[$i]{opts} = { compress => undef } if $mods[$i]{size} ne $mods[$i]{size_uncompressed};
 
       $mods[$i]{fileoffset} = $offset_mod_header + $mods[$i]{start} + $DSI_CUR->{MOD_HEADER_SIZE} + $i * $DSI_CUR->{MOD_INFO_SIZE};
 
@@ -725,8 +739,17 @@ sub import_modules
               $sz -= $r;
             }
           while ($r);
-
           close $filefd;
+
+          if (exists $mods[$i]{opts}{compress})
+            {
+              my $tmp = File::Temp->new();
+              gunzip $modfn => $tmp
+                or die "Decompression failed: $GunzipError\n";
+
+              rename($tmp, $modfn) || error("Could not rename decompressed $modfn file!");
+            }
+
 
           $mods[$i]{filepath} = $modfn;
 
@@ -735,15 +758,39 @@ sub import_modules
           my $s = $mods[$i]{cmdline};
           $s =~ s/^\S+//;
           $s = $mods[$i]{name}.$s;
+          my $flags = "";
+          my @kv;
+          if (%{$mods[$i]{opts}})
+            {
+              foreach my $k ( keys %{$mods[$i]{opts}} )
+                {
+                  my $f = $k;
+                  my $v = $mods[$i]{opts}{$k};
+                  $f .= "=$v" if defined $v;
+                  push @kv, $f;
+                }
+            }
+          if (defined $mods[$i]{attrs})
+            {
+              foreach my $k ( keys %{$mods[$i]{attrs}} )
+                {
+                  push @kv, "attr:" . $k . "=" . $mods[$i]{attrs}{$k}
+                }
+            }
+          if (@kv)
+            {
+              $flags = "[" . join(",", @kv) . "]";
+            }
           if ($type == 1) {
-            $modules_list .= "kernel $s\n";
+            $modules_list .= "kernel";
           } elsif ($type == 2) {
-            $modules_list .= "sigma0 $s\n";
+            $modules_list .= "sigma0";
           } elsif ($type == 3) {
-            $modules_list .= "roottask $s\n";
+            $modules_list .= "roottask";
           } else {
-            $modules_list .= "module $s\n";
+            $modules_list .= "module";
           }
+          $modules_list .= "$flags $s\n";
         }
     }
 

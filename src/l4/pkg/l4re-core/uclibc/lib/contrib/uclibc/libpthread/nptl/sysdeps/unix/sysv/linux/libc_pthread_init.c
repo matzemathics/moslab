@@ -37,37 +37,19 @@ int *
 #endif
 __libc_pthread_init (
      unsigned long int *ptr,
-     void (*reclaim) (void),
-     const struct pthread_functions *functions)
+     void (*reclaim) (void))
 {
   /* Remember the pointer to the generation counter in libpthread.  */
+#ifdef __ARCH_USE_MMU__
   __fork_generation_pointer = ptr;
+#endif
 
   /* Called by a child after fork.  */
+#ifdef __ARCH_USE_MMU__
   __register_atfork (NULL, NULL, reclaim, NULL);
-
-#ifdef SHARED
-  /* We copy the content of the variable pointed to by the FUNCTIONS
-     parameter to one in libc.so since this means access to the array
-     can be done with one memory access instead of two.
-   */
-   memcpy (&__libc_pthread_functions, functions,
-           sizeof (__libc_pthread_functions));
-  __libc_pthread_functions_init = 1;
 #endif
 
 #ifndef TLS_MULTIPLE_THREADS_IN_TCB
   return &__libc_multiple_threads;
 #endif
 }
-
-#ifdef SHARED
-#if 0
-void
-libc_freeres_fn (freeres_libptread)
-{
-  if (__libc_pthread_functions_init)
-    PTHFCT_CALL (ptr_freeres, ());
-}
-#endif
-#endif

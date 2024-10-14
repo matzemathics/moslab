@@ -83,8 +83,8 @@
 #define mywxdigit(D,C) (mywdigit(D,C) || (unsigned)(((C) | 0x20) - 'a') <= 5)
 
 typedef struct {
-	short l;
-	short u;
+	int32_t l;
+	int32_t u;
 } uldiff_entry;
 
 typedef struct {
@@ -227,11 +227,11 @@ int main(int argc, char **argv)
 			++verbose;
 			continue;
 		}
+		/* setlocale might be just a stub */
 		if (!setlocale(LC_CTYPE, *argv)) {
 			verbose_msg("setlocale(LC_CTYPE,%s) failed!  Skipping this locale...\n", *argv);
 			continue;
 		}
-
 		if (!(totitle = wctrans("totitle"))) {
 			verbose_msg("no totitle transformation.\n");
 		}
@@ -306,43 +306,43 @@ int main(int argc, char **argv)
 #endif
 #if 0
 				if (c < 256) {
-					unsigned int glibc;
+					unsigned int curr_stdclib;
 
-					glibc = 0;
-					if (isalnum(c)) ++glibc; glibc <<= 1;
-					if (isalpha(c)) ++glibc; glibc <<= 1;
-					if (isblank(c)) ++glibc; glibc <<= 1;
-					if (iscntrl(c)) ++glibc; glibc <<= 1;
-					if (isdigit(c)) ++glibc; glibc <<= 1;
-					if (isgraph(c)) ++glibc; glibc <<= 1;
-					if (islower(c)) ++glibc; glibc <<= 1;
-					if (isprint(c)) ++glibc; glibc <<= 1;
-					if (ispunct(c)) ++glibc; glibc <<= 1;
-					if (isspace(c)) ++glibc; glibc <<= 1;
-					if (isupper(c)) ++glibc; glibc <<= 1;
-					if (isxdigit(c)) ++glibc;
-					verbose_msg("%#8x : ctype %#4x\n", c, glibc);
+					curr_stdclib = 0;
+					if (isalnum(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (isalpha(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (isblank(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iscntrl(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (isdigit(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (isgraph(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (islower(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (isprint(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (ispunct(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (isspace(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (isupper(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (isxdigit(c)) ++curr_stdclib;
+					verbose_msg("%#8x : ctype %#4x\n", c, curr_stdclib);
 				}
 #endif
 #if 1
 				/* Paranoid checking... */
 				{
-					unsigned int glibc;
+					unsigned int curr_stdclib;
 					unsigned int mine;
 
-					glibc = 0;
-					if (iswalnum(c)) ++glibc; glibc <<= 1;
-					if (iswalpha(c)) ++glibc; glibc <<= 1;
-					if (iswblank(c)) ++glibc; glibc <<= 1;
-					if (iswcntrl(c)) ++glibc; glibc <<= 1;
-					if (iswdigit(c)) ++glibc; glibc <<= 1;
-					if (iswgraph(c)) ++glibc; glibc <<= 1;
-					if (iswlower(c)) ++glibc; glibc <<= 1;
-					if (iswprint(c)) ++glibc; glibc <<= 1;
-					if (iswpunct(c)) ++glibc; glibc <<= 1;
-					if (iswspace(c)) ++glibc; glibc <<= 1;
-					if (iswupper(c)) ++glibc; glibc <<= 1;
-					if (iswxdigit(c)) ++glibc;
+					curr_stdclib = 0;
+					if (iswalnum(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswalpha(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswblank(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswcntrl(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswdigit(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswgraph(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswlower(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswprint(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswpunct(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswspace(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswupper(c)) ++curr_stdclib; curr_stdclib <<= 1;
+					if (iswxdigit(c)) ++curr_stdclib;
 
 					mine = 0;
 					if (mywalnum(d,c)) ++mine; mine <<= 1;
@@ -358,15 +358,15 @@ int main(int argc, char **argv)
 					if (mywupper(d,c)) ++mine; mine <<= 1;
 					if (mywxdigit(d,c)) ++mine;
 
-					if (glibc != mine) {
-						verbose_msg("%#8x : glibc %#4x != %#4x mine  %u\n", c, glibc, mine, d);
+					if (curr_stdclib != mine) {
+						verbose_msg("%#8x : curr_stdclib %#4x != %#4x mine  %u\n", c, curr_stdclib, mine, d);
 						return EXIT_FAILURE;
 					}
 #if 0
 					if (iswctype(c,is_comb) || iswctype(c,is_comb3)) {
 /*						if (!iswpunct(c)) { */
 							verbose_msg("%#8x : %d %d %#4x\n",
-								   c, iswctype(c,is_comb),iswctype(c,is_comb3), glibc);
+								   c, iswctype(c,is_comb),iswctype(c,is_comb3), curr_stdclib);
 /*						} */
 					}
 #endif
@@ -401,7 +401,7 @@ int main(int argc, char **argv)
 				u = (long)(int) towupper(c) - c;
 				ult[c] = 0;
 				if (l || u) {
-					if ((l != (short)l) || (u != (short)u)) {
+					if ((l != (int32_t)l) || (u != (int32_t)u)) {
 						verbose_msg("range assumption error!  %x  %ld  %ld\n", c, l, u);
 						return EXIT_FAILURE;
 					}
@@ -553,7 +553,7 @@ int main(int argc, char **argv)
 		for (c = 0; c <= 0x10ffffUL; c++)
 #endif
 		{
-			unsigned int glibc;
+			unsigned int curr_stdclib;
 			unsigned int mine;
 			unsigned int upper, lower;
 
@@ -568,19 +568,19 @@ int main(int argc, char **argv)
 			}
 #endif
 #endif
-			glibc = 0;
-			if (iswalnum(c)) ++glibc; glibc <<= 1;
-			if (iswalpha(c)) ++glibc; glibc <<= 1;
-			if (iswblank(c)) ++glibc; glibc <<= 1;
-			if (iswcntrl(c)) ++glibc; glibc <<= 1;
-			if (iswdigit(c)) ++glibc; glibc <<= 1;
-			if (iswgraph(c)) ++glibc; glibc <<= 1;
-			if (iswlower(c)) ++glibc; glibc <<= 1;
-			if (iswprint(c)) ++glibc; glibc <<= 1;
-			if (iswpunct(c)) ++glibc; glibc <<= 1;
-			if (iswspace(c)) ++glibc; glibc <<= 1;
-			if (iswupper(c)) ++glibc; glibc <<= 1;
-			if (iswxdigit(c)) ++glibc;
+			curr_stdclib = 0;
+			if (iswalnum(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswalpha(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswblank(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswcntrl(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswdigit(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswgraph(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswlower(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswprint(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswpunct(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswspace(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswupper(c)) ++curr_stdclib; curr_stdclib <<= 1;
+			if (iswxdigit(c)) ++curr_stdclib;
 
 			{
 				unsigned int u;
@@ -630,8 +630,8 @@ int main(int argc, char **argv)
 				if (mywupper(d,c)) ++mine; mine <<= 1;
 				if (mywxdigit(d,c)) ++mine;
 
-				if (glibc != mine) {
-					verbose_msg("%#8x : glibc %#4x != %#4x mine %d\n", c, glibc, mine, d);
+				if (curr_stdclib != mine) {
+					verbose_msg("%#8x : curr_stdclib %#4x != %#4x mine %d\n", c, curr_stdclib, mine, d);
 					if (c < 0x30000UL) {
 						verbose_msg("sc=%#x u=%#x n=%#x i0=%#x i1=%#x\n", sc, u, n, i0, i1);
 					}
@@ -655,17 +655,17 @@ int main(int argc, char **argv)
 				}
 
 				if (towupper(c) != upper) {
-					verbose_msg("%#8x : towupper glibc %#4x != %#4x mine\n",
+					verbose_msg("%#8x : towupper curr_stdclib %#4x != %#4x mine\n",
 						   c, towupper(c), upper);
 				}
 
 				if (towlower(c) != lower) {
-					verbose_msg("%#8x : towlower glibc %#4x != %#4x mine   i0 = %d\n",
+					verbose_msg("%#8x : towlower curr_stdclib %#4x != %#4x mine   i0 = %d\n",
 						   c, towlower(c), lower, i0);
 				}
 
 				if (totitle && ((tt = towctrans(c, totitle)) != upper)) {
-					verbose_msg("%#8x : totitle glibc %#4lx != %#4x mine   i0 = %d\n",
+					verbose_msg("%#8x : totitle curr_stdclib %#4lx != %#4x mine   i0 = %d\n",
 						   c, tt, upper, i0);
 				}
 			}
@@ -681,10 +681,9 @@ int main(int argc, char **argv)
 		output_table("ctype", &cttable);
 		output_table("uplow", &ultable);
 
-#warning fix the upper bound on the upper/lower tables... save 200 bytes or so
 		printf("#define __LOCALE_DATA_WCuplow_diffs  %7u\n", ul_count);
 		printf("\n#ifdef WANT_WCuplow_diff_data\n\n");
-		printf("\nstatic const short __LOCALE_DATA_WCuplow_diff_data[%zu] = {",
+		printf("\nstatic const int32_t __LOCALE_DATA_WCuplow_diff_data[%zu] = {",
 			   2 * (size_t) ul_count);
 		for (i = 0; i < ul_count; i++) {
 			if (i % 4 == 0) {

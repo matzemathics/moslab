@@ -24,6 +24,8 @@
 #include "spinlock.h"
 #include "restart.h"
 
+libpthread_hidden_proto(nanosleep)
+
 static void __pthread_acquire(int * spinlock);
 
 static __inline__ void __pthread_release(int * spinlock)
@@ -63,7 +65,6 @@ void internal_function __pthread_lock(struct _pthread_fastlock * lock,
 #if defined HAS_COMPARE_AND_SWAP
   long oldstatus, newstatus;
   int successful_seizure, spurious_wakeup_count;
-  int spin_count;
 #endif
 
 #if defined TEST_FOR_COMPARE_AND_SWAP
@@ -83,11 +84,11 @@ void internal_function __pthread_lock(struct _pthread_fastlock * lock,
     return;
 
   spurious_wakeup_count = 0;
-  spin_count = 0;
 
   /* On SMP, try spinning to get the lock. */
-
+#if 0
   if (__pthread_smp_kernel) {
+    int spin_count;
     int max_count = lock->__spinlock * 2 + 10;
 
     if (max_count > MAX_ADAPTIVE_SPIN_COUNT)
@@ -111,6 +112,7 @@ void internal_function __pthread_lock(struct _pthread_fastlock * lock,
 
     lock->__spinlock += (spin_count - lock->__spinlock) / 8;
   }
+#endif
 
 again:
 
@@ -186,10 +188,16 @@ int __pthread_unlock(struct _pthread_fastlock * lock)
   WRITE_MEMORY_BARRIER();
 
 again:
-  while ((oldstatus = lock->__status) == 1) {
-    if (__compare_and_swap_with_release_semantics(&lock->__status,
+  oldstatus = lock->__status;
+  if (oldstatus == 0 || oldstatus == 1) {
+    /* No threads are waiting for this lock.  Please note that we also
+       enter this case if the lock is not taken at all.  If this wouldn't
+       be done here we would crash further down.  */
+    if (! __compare_and_swap_with_release_semantics(&lock->__status,
 	oldstatus, 0))
-      return 0;
+      goto again;
+
+    return 0;
   }
 
   /* Find thread in waiting queue with maximal priority */
@@ -615,8 +623,6 @@ void __pthread_alt_unlock(struct _pthread_fastlock *lock)
     if (maxprio == INT_MIN)
       continue;
 
-    ASSERT (p_max_prio != (struct wait_node *) 1);
-
     /* Now we want to to remove the max priority thread's wait node from
        the list. Before we can do this, we must atomically try to change the
        node's abandon state from zero to nonzero. If we succeed, that means we
@@ -637,20 +643,8 @@ void __pthread_alt_unlock(struct _pthread_fastlock *lock)
 #if defined HAS_COMPARE_AND_SWAP
 	wait_node_dequeue(pp_head, pp_max_prio, p_max_prio);
 #endif
-
-      /* Release the spinlock *before* restarting.  */
-#if defined TEST_FOR_COMPARE_AND_SWAP
-      if (!__pthread_has_cas)
-#endif
-#if !defined HAS_COMPARE_AND_SWAP || defined TEST_FOR_COMPARE_AND_SWAP
-	{
-	  __pthread_release(&lock->__spinlock);
-	}
-#endif
-
       restart(p_max_prio->thr);
-
-      return;
+      break;
     }
   }
 

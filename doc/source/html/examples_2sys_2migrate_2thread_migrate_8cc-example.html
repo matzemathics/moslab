@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: examples/sys/migrate/thread_migrate.cc</title>
+<title>L4Re Operating System Framework: examples/sys/migrate/thread_migrate.cc</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -222,19 +225,19 @@ $(document).ready(function(){initNavTree('examples_2sys_2migrate_2thread_migrate
 <div class="line">}</div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a13a538cde83236d893045d533dc7296b"><div class="ttname"><a href="classL4Re_1_1Env.html#a13a538cde83236d893045d533dc7296b">L4Re::Env::scheduler</a></div><div class="ttdeci">L4::Cap&lt; L4::Scheduler &gt; scheduler() const noexcept</div><div class="ttdoc">Get the scheduler capability for the task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00282">env:282</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a2706ca11e70845b0a29a5646c9fd54bc"><div class="ttname"><a href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a></div><div class="ttdeci">static Env const * env() noexcept</div><div class="ttdoc">Returns the initial environment for the current task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00103">env:103</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="aenv_html"><div class="ttname"><a href="env.html">env</a></div><div class="ttdoc">Environment interface.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga994a270c5c1613a5e235e212bc6a5af9"><div class="ttname"><a href="group__l4__basic__types.html#ga994a270c5c1613a5e235e212bc6a5af9">L4_MWORD_BITS</a></div><div class="ttdeci">#define L4_MWORD_BITS</div><div class="ttdoc">Size of machine words in bits.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2l4int_8h_source.html#l00033">l4int.h:33</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__err__api_html_ga05c11e3e10b6c2aa941396ac2018899f"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f">l4_error</a></div><div class="ttdeci">long l4_error(l4_msgtag_t tag) L4_NOTHROW</div><div class="ttdoc">Get IPC error code if any or message tag label otherwise for an IPC call.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00636">ipc.h:636</a></div></div>
-<div class="ttc" id="agroup__l4__scheduler__api_html_ga25d36547d6902c482c747b0face8781c"><div class="ttname"><a href="group__l4__scheduler__api.html#ga25d36547d6902c482c747b0face8781c">l4_sched_cpu_set</a></div><div class="ttdeci">l4_sched_cpu_set_t l4_sched_cpu_set(l4_umword_t offset, unsigned char granularity, l4_umword_t map=1) L4_NOTHROW</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00272">scheduler.h:272</a></div></div>
-<div class="ttc" id="agroup__l4__scheduler__api_html_ga97fc9fce99006ce7011a25bb8d014c8d"><div class="ttname"><a href="group__l4__scheduler__api.html#ga97fc9fce99006ce7011a25bb8d014c8d">l4_sched_param</a></div><div class="ttdeci">l4_sched_param_t l4_sched_param(unsigned prio, l4_umword_t quantum=0) L4_NOTHROW</div><div class="ttdoc">Construct scheduler parameter.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00282">scheduler.h:282</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__err__api_html_ga05c11e3e10b6c2aa941396ac2018899f"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f">l4_error</a></div><div class="ttdeci">long l4_error(l4_msgtag_t tag) L4_NOTHROW</div><div class="ttdoc">Get IPC error code if any or message tag label otherwise for an IPC call.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00657">ipc.h:657</a></div></div>
+<div class="ttc" id="agroup__l4__scheduler__api_html_ga25d36547d6902c482c747b0face8781c"><div class="ttname"><a href="group__l4__scheduler__api.html#ga25d36547d6902c482c747b0face8781c">l4_sched_cpu_set</a></div><div class="ttdeci">l4_sched_cpu_set_t l4_sched_cpu_set(l4_umword_t offset, unsigned char granularity, l4_umword_t map=1) L4_NOTHROW</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00281">scheduler.h:281</a></div></div>
+<div class="ttc" id="agroup__l4__scheduler__api_html_ga97fc9fce99006ce7011a25bb8d014c8d"><div class="ttname"><a href="group__l4__scheduler__api.html#ga97fc9fce99006ce7011a25bb8d014c8d">l4_sched_param</a></div><div class="ttdeci">l4_sched_param_t l4_sched_param(unsigned prio, l4_umword_t quantum=0) L4_NOTHROW</div><div class="ttdoc">Construct scheduler parameter.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00291">scheduler.h:291</a></div></div>
 <div class="ttc" id="ascheduler_html"><div class="ttname"><a href="scheduler.html">scheduler</a></div><div class="ttdoc">Scheduler object functions.</div></div>
 <div class="ttc" id="astring_8h_html"><div class="ttname"><a href="string_8h.html">string.h</a></div><div class="ttdoc">String.</div></div>
 <div class="ttc" id="astructl4__sched__cpu__set__t_html"><div class="ttname"><a href="structl4__sched__cpu__set__t.html">l4_sched_cpu_set_t</a></div><div class="ttdoc">CPU sets.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00069">scheduler.h:70</a></div></div>
 <div class="ttc" id="astructl4__sched__cpu__set__t_html_a8b86034596efc3f19b821389ffa60a95"><div class="ttname"><a href="structl4__sched__cpu__set__t.html#a8b86034596efc3f19b821389ffa60a95">l4_sched_cpu_set_t::map</a></div><div class="ttdeci">l4_umword_t map</div><div class="ttdoc">Bitmap of CPUs.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00088">scheduler.h:88</a></div></div>
-<div class="ttc" id="astructl4__sched__param__t_html"><div class="ttname"><a href="structl4__sched__param__t.html">l4_sched_param_t</a></div><div class="ttdoc">Scheduler parameter set.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00179">scheduler.h:180</a></div></div>
-<div class="ttc" id="astructl4__sched__param__t_html_a051b2b611ddd38deac93e3915d4c1464"><div class="ttname"><a href="structl4__sched__param__t.html#a051b2b611ddd38deac93e3915d4c1464">l4_sched_param_t::affinity</a></div><div class="ttdeci">l4_sched_cpu_set_t affinity</div><div class="ttdoc">CPU affinity.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00181">scheduler.h:181</a></div></div>
+<div class="ttc" id="astructl4__sched__param__t_html"><div class="ttname"><a href="structl4__sched__param__t.html">l4_sched_param_t</a></div><div class="ttdoc">Scheduler parameter set.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00184">scheduler.h:185</a></div></div>
+<div class="ttc" id="astructl4__sched__param__t_html_a051b2b611ddd38deac93e3915d4c1464"><div class="ttname"><a href="structl4__sched__param__t.html#a051b2b611ddd38deac93e3915d4c1464">l4_sched_param_t::affinity</a></div><div class="ttdeci">l4_sched_cpu_set_t affinity</div><div class="ttdoc">CPU affinity.</div><div class="ttdef"><b>Definition</b> <a href="scheduler_8h_source.html#l00186">scheduler.h:186</a></div></div>
 <div class="ttc" id="autil_2cap__alloc_html"><div class="ttname"><a href="util_2cap__alloc.html">cap_alloc</a></div><div class="ttdoc">Capability allocator.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
@@ -242,7 +245,7 @@ $(document).ready(function(){initNavTree('examples_2sys_2migrate_2thread_migrate
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

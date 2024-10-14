@@ -2,6 +2,8 @@ INTERFACE [ia32 || ux || amd64]:
 
 EXTENSION class Mem_space
 {
+  friend class Mem_space_test;
+
 public:
   typedef Pdir Dir_type;
 
@@ -101,7 +103,10 @@ private:
     }
 
     static void reset_id(Mem_space *o, Cpu_number cpu)
-    { write_now(&o->_asid[cpu], (unsigned long)Mem_unit::Asid_invalid); }
+    {
+      write_now(&o->_asid[cpu],
+                static_cast<unsigned long>(Mem_unit::Asid_invalid));
+    }
   };
 
   struct Asid_alloc : Id_alloc<Unsigned16, Mem_space, Asid_ops>
@@ -150,7 +155,7 @@ PUBLIC static inline
 bool
 Mem_space::is_full_flush(L4_fpage::Rights rights)
 {
-  return (bool)(rights & L4_fpage::Rights::R());
+  return static_cast<bool>(rights & L4_fpage::Rights::R());
 }
 
 PUBLIC inline NEEDS["cpu.h"]
@@ -181,7 +186,7 @@ Mem_space::destroy()
 IMPLEMENT
 Mem_space::Status
 Mem_space::v_insert(Phys_addr phys, Vaddr virt, Page_order size,
-                    Attr page_attribs)
+                    Attr page_attribs, bool)
 {
   // insert page into page table
 
@@ -217,7 +222,7 @@ Mem_space::v_insert(Phys_addr phys, Vaddr virt, Page_order size,
         return Insert_warn_exists;
 
       i.set_page(entry);
-      page_protect(cxx::int_value<Virt_addr>(virt), Address(1) << cxx::int_value<Page_order>(size),
+      page_protect(cxx::int_value<Virt_addr>(virt), Address{1} << cxx::int_value<Page_order>(size),
                    *i.pte & Page_all_attribs);
 
       return Insert_warn_attrib_upgrade;
@@ -226,7 +231,7 @@ Mem_space::v_insert(Phys_addr phys, Vaddr virt, Page_order size,
     {
       i.set_page(entry);
       page_map(cxx::int_value<Virt_addr>(phys), cxx::int_value<Virt_addr>(virt),
-               Address(1) << cxx::int_value<Page_order>(size), page_attribs);
+               Address{1} << cxx::int_value<Page_order>(size), page_attribs);
 
       return Insert_ok;
     }
@@ -265,19 +270,6 @@ Mem_space::virt_to_phys(Address virt) const
   return dir()->virt_to_phys(virt);
 }
 
-/**
- * Simple page-table lookup.
- *
- * @param virt Virtual address.  This address does not need to be page-aligned.
- * @return Physical address corresponding to a.
- */
-PUBLIC inline NEEDS ["mem_layout.h"]
-Address
-Mem_space::pmem_to_phys(Address virt) const
-{
-  return Mem_layout::pmem_to_phys(virt);
-}
-
 IMPLEMENT
 bool
 Mem_space::v_lookup(Vaddr virt, Phys_addr *phys,
@@ -314,14 +306,14 @@ Mem_space::v_delete(Vaddr virt, Page_order size, L4_fpage::Rights page_attribs)
     {
       // downgrade PDE (superpage) rights
       i.del_rights(page_attribs);
-      page_protect(cxx::int_value<Virt_addr>(virt), Address(1) << cxx::int_value<Page_order>(size),
+      page_protect(cxx::int_value<Virt_addr>(virt), Address{1} << cxx::int_value<Page_order>(size),
                    *i.pte & Page_all_attribs);
     }
   else
     {
       // delete PDE (superpage)
       i.clear();
-      page_unmap(cxx::int_value<Virt_addr>(virt), Address(1) << cxx::int_value<Page_order>(size));
+      page_unmap(cxx::int_value<Virt_addr>(virt), Address{1} << cxx::int_value<Page_order>(size));
     }
 
   return ret;
@@ -339,7 +331,7 @@ Mem_space::dir_shutdown()
 
   // free all unshared page table levels for the kernel space
   _dir->destroy(Virt_addr(Mem_layout::User_max + 1),
-                Virt_addr(~0UL), 0, Pdir::Super_level,
+                Virt_addr(Pdir::Max_addr), 0, Pdir::Super_level,
                 Kmem_alloc::q_allocator(_quota));
 }
 
@@ -359,17 +351,15 @@ Mem_space::~Mem_space()
 IMPLEMENTATION [ia32 || amd64]:
 
 #include <cassert>
-#include "l4_types.h"
-#include "kmem.h"
-#include "mem_unit.h"
-#include "cpu_lock.h"
-#include "lock_guard.h"
-#include "logdefs.h"
-#include "paging.h"
-
 #include <cstring>
 #include "config.h"
+#include "cpu_lock.h"
+#include "l4_types.h"
+#include "lock_guard.h"
+#include "logdefs.h"
 #include "kmem.h"
+#include "mem_unit.h"
+#include "paging.h"
 
 PUBLIC inline NEEDS ["kmem.h"]
 Address
@@ -485,17 +475,19 @@ Mem_space::switch_page_table(Switchin_flags)
 // --------------------------------------------------------------------
 IMPLEMENTATION [(amd64 || ia32) && cpu_local_map]:
 
+#include "mem.h"
+
 PRIVATE static inline
 Address *
 Mem_space::cpu_val()
 { return reinterpret_cast<Address *>(Mem_layout::Kentry_cpu_page); }
 
-PRIVATE inline NEEDS ["cpu.h", "kmem.h"]
+PRIVATE inline NEEDS ["cpu.h", "kmem.h", "mem.h"]
 void
 Mem_space::prepare_pt_switch()
 {
   Mword *pd = reinterpret_cast<Mword *>(Kmem::current_cpu_udir());
-  Mword *d = (Mword *)_dir;
+  Mword *d = reinterpret_cast<Mword *>(_dir);
   auto *m = Kmem::pte_map();
   unsigned bit = 0;
   for (;;)
@@ -511,7 +503,8 @@ Mem_space::prepare_pt_switch()
       //printf("u: %u %lx\n", bit - 1, n);
       //LOG_MSG_3VAL(current(), "u", bit - 1, n, *reinterpret_cast<Mword *>(m));
     }
-  asm volatile ("" : : : "memory");
+
+  Mem::barrier();
 }
 
 
@@ -609,7 +602,7 @@ Mem_space::regular_tlb_type()
 
 IMPLEMENT inline NEEDS["mem_unit.h"]
 void
-Mem_space::tlb_flush(bool = false)
+Mem_space::tlb_flush_current_cpu()
 {
   if (_current.current() == this)
     Mem_unit::tlb_flush();
@@ -639,7 +632,7 @@ Mem_space::asid(unsigned long a)
 }
 
 PUBLIC inline
-unsigned long
+unsigned long FIASCO_PURE
 Mem_space::c_asid() const
 { return _asid[current_cpu()]; }
 
@@ -668,7 +661,7 @@ Mem_space::regular_tlb_type()
 
 IMPLEMENT inline NEEDS["mem_unit.h"]
 void
-Mem_space::tlb_flush(bool = false)
+Mem_space::tlb_flush_current_cpu()
 {
   auto asid = c_asid();
   if (asid != Mem_unit::Asid_invalid)

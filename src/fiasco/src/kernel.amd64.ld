@@ -7,11 +7,6 @@
 _boot_sys_start = 0x300000;
 _kernel_image	= FIASCO_IMAGE_VIRT_START;	/* kernel link address */
 _load		= FIASCO_IMAGE_PHYS_START & 0x1fffff;
-/*
-_load		= 0x1000;	/* skip page 0 to preserve BIOS data and
-				 * page 1 to reserve space for the KIP */
-
-/*_fiasco_image_offset = 0xf0000000;*/
 _fiasco_image_offset = FIASCO_IMAGE_PHYS_OFFSET;
 
 OUTPUT_FORMAT("elf64-x86-64")
@@ -22,9 +17,9 @@ PHDRS {
   tramp PT_LOAD;
   btext PT_LOAD;
   bdata PT_LOAD;
-  kip PT_LOAD;
-  koptions PT_LOAD;
   ktext PT_LOAD;
+  koptions PT_LOAD;
+  kip PT_LOAD;
   kdata PT_LOAD;
   kitext PT_LOAD;
   kidata PT_LOAD;
@@ -33,6 +28,12 @@ PHDRS {
 }
 
 SECTIONS {
+  . = FIASCO_MP_TRAMP_PAGE;
+  .realmode_tramp : {
+      *(.realmode_tramp*)
+      . = ALIGN(0x1000);
+  } : tramp = 0x00
+
   /*
    * The correct section attribute would be NOLOAD but in that case ld.lld
    * would wrongly merge the ".bda" content with the "tramp" output section.
@@ -40,16 +41,11 @@ SECTIONS {
    * is still supported and does the right thing. See also the ld.lld docu:
    * "COPY, INFO, OVERLAY: clear the SHF_ALLOC bit in sh_flags."
    */
-  .bda 0x400 (INFO) : {
+  .bda FIASCO_BDA_PAGE + 0x400 (INFO) : {
     . += 0xe;
     ebda_segment = .;
+    . += 0x2;
   }
-
-  . = FIASCO_MP_TRAMP_PAGE;
-  .realmode_tramp : {
-      *(.realmode_tramp*)
-      . = ALIGN(0x1000);
-  } : tramp
 
   . = _boot_sys_start;
   .text_boot : ALIGN(0x1000) {
@@ -66,33 +62,14 @@ SECTIONS {
 
   . = ALIGN(0x10);
   .bss_boot : {
-      *(.bootstrap.bss .bootstrap.gnu.linkonce.b.*)
+      *(.bootstrap.bss .bootstrap.bss.* .bootstrap.gnu.linkonce.b.*)
   . = ALIGN(0x1000);
   PROVIDE(_boot_sys_end = .);
   } : bdata
 
   . = _kernel_image + _load;
 
-  .kip : AT(ADDR(.kip) - _fiasco_image_offset) {
-    _kernel_image_start = .;
-    *(.kernel_info_page)
-    _initkip_start = .;
-    KEEP(*(.initkip.version))
-    KEEP(*(.initkip.features))
-    KEEP(*(.initkip.features.end))
-    _initkip_end = .;
-    /* See KIP layout in abi/kip.cpp. The feature strings are terminated by '\0'! */
-    ASSERT (_initkip_end < my_kernel_info_page + 0x900, "Kernel version strings too long");
-    . = ALIGN(4K);
-  } :kip :l4_kip = 0
-
-  .koptions : AT (ADDR(.koptions) - _fiasco_image_offset) {
-    *(.koptions)
-  } :koptions :l4_koptions = 0
-
-#ifdef CONFIG_KERNEL_NX
-  . = ALIGN(2M);
-#endif
+  _kernel_image_start = .;
 
   .text : AT (ADDR(.text) - _fiasco_image_offset) {
     PROVIDE ( _kernel_text_start = . );
@@ -128,6 +105,8 @@ SECTIONS {
     KEEP(*(.intel_microcode))
     PROVIDE (ia32_intel_microcode_end = .);
 
+    DEFINE_WORKLOAD_SECTIONS
+
     . = ALIGN(8);
     JDB_TABLE(typeinfo);
 
@@ -135,6 +114,10 @@ SECTIONS {
 
     PROVIDE (_etext = .);
   } : ktext = 0x90909090
+
+  .koptions : AT (ADDR(.koptions) - _fiasco_image_offset) {
+    *(.koptions)
+  } :koptions :l4_koptions = 0
 
 #ifdef CONFIG_KERNEL_NX
   /*
@@ -149,7 +132,21 @@ SECTIONS {
   }
 #endif
 
+  . = ALIGN(4K);
+  .kip : AT(ADDR(.kip) - _fiasco_image_offset) {
+    *(.kernel_info_page)
+    _initkip_start = .;
+    KEEP(*(.initkip.version))
+    KEEP(*(.initkip.features))
+    KEEP(*(.initkip.features.end))
+    _initkip_end = .;
+    /* See KIP layout in abi/kip.cpp. The feature strings are terminated by '\0'! */
+    ASSERT (_initkip_end < my_kernel_info_page + 0x900, "Kernel version strings too long");
+    . = ALIGN(4K);
+  } :kip :l4_kip = 0
+
   .data : AT (ADDR(.data) - _fiasco_image_offset) {
+    . = ALIGN(0x20);
     PROVIDE (_kernel_data_start = .);
     *(.data .data.* .gnu.linkonce.d.*)
     *(.anno)

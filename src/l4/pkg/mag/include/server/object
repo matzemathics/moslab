@@ -79,6 +79,7 @@ public:
   virtual void add_gc_obj(Object *o) = 0;
 
   using L4Re::Util::Object_registry::dispatch;
+  using L4Re::Util::Object_registry::register_obj;
 };
 
 }

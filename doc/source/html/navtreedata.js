@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "L4Re Operating System Framework – Interface and Usage Documentation", "index.html", [
+  [ "L4Re Operating System Framework", "index.html", [
     [ "Overview", "index.html", null ],
     [ "Introduction", "l4re_intro.html", [
       [ "L4Re Microkernel", "l4re_intro.html#fiasco_intro", [
@@ -131,12 +131,12 @@ var NAVTREE =
         [ "Command Line Options", "l4re_servers_ned.html#l4re_ned_options", null ]
       ] ],
       [ "Io, the Io Server", "io.html", null ],
-      [ "l4vio_net_p2p, a virtual network point-to-point link", "l4re_servers_virtio_net_p2p.html", null ],
+      [ "Cons, the Console Multiplexer", "l4re_servers_cons.html", null ],
+      [ "Mag, the GUI Multiplexer", "l4re_servers_mag.html", null ],
       [ "Uvmm, the virtual machine monitor", "l4re_servers_uvmm.html", [
         [ "RAM configuration", "l4re_servers_uvmm_ram_details.html", null ]
       ] ],
-      [ "Mag, the GUI Multiplexer", "l4re_servers_mag.html", null ],
-      [ "Cons, the Console Multiplexer", "l4re_servers_cons.html", null ]
+      [ "l4vio_net_p2p, a virtual network point-to-point link", "l4re_servers_virtio_net_p2p.html", null ]
     ] ],
     [ "Bootstrap, the L4 kernel bootstrapper", "bootstrap.html", null ],
     [ "Deprecated List", "deprecated.html", null ],
@@ -185,29 +185,30 @@ var NAVTREEINDEX =
 [
 "ARCH-amd64_2asm__access_8h_source.html",
 "classL4Re_1_1Env.html#a4ee984ef97add6179043b15413470ec7",
-"classL4Re_1_1Util_1_1Smart__count__cap.html",
-"classL4_1_1Basic__registry.html",
-"classL4_1_1Ipc_1_1Istream.html#af4d28aa64235c822f624891154109a0c",
-"classL4_1_1Registry__iface.html#a97645d010b6d832e2914b65061e55b71",
-"classL4vbus_1_1Icu.html#a836655616e1572d6e5453a566c6d6372",
-"classL4virtio_1_1Virtqueue.html#ad569bf985c1849caadd7fd7c15d75cec",
-"classcxx_1_1Bits_1_1Bst.html#ab86f783914505fd36cf3abddda981d4a",
-"dir_2ac49572ec7562e26d3ea1810f9b7733.html",
-"globals_n.html",
-"group__api__l4shmc__signal.html",
-"group__l4__ipc__api.html#ggaecfdf101783a02772b67b94793f3a915a57ba98e147a7c3a2fc1a8c965318c7dd",
-"group__l4__protocol__ops.html#gga98d28c4c873ee732f4217c8eb1ba5920a8849ab6238f6334ae907c8a7e5bfb9c3",
-"group__l4__vm__vmx__api.html#ggac5a7a61aec9e350c19bd87420f37e0acaf7a9ade10e34f67119a63fbacc3162fb",
-"group__l4util__elf.html#gga1abf4ecfed17127c9af06412e31aea0eadf7e5d3a23da6b83e744ef69c1fd263f",
-"group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a2251f476f0fb75667072523c0e13f7ca",
-"group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07a8927996ae9cb218bf390cb0fb058902f",
-"l4re_servers_ned.html#l4re_ned_options",
-"scheduler_8h.html",
-"structL4Re_1_1Video_1_1Goos_1_1Info.html#aa67aae51970e347752970cc42851b0ee",
-"structL4_1_1Typeid_1_1Detail_1_1__Rpcs_3_01OPCODE_00_01O_00_01R_00_01X_8_8_8_01_4.html",
-"structl4__exc__regs__t.html#a3a0d58ca8a29bc67e3f8aab588a01e80",
+"classL4Re_1_1Util_1_1Registry__server.html#a694a009623e0bce2faf1d6699cba8720",
+"classL4_1_1Base__exception.html",
+"classL4_1_1Ipc_1_1Istream.html#ad33f3a887fbd32d7d04c4fb3fd9c0fcb",
+"classL4_1_1Poll__timeout__kipclock.html#a6783096f90ee37e1b3dfda705c4cd0bb",
+"classL4vbus_1_1Device.html#a63dcb7dba875e85f09f7ab755836bf2e",
+"classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a0d0c98a19bb3156a39ec6fe4d5368c30",
+"classcxx_1_1Bits_1_1Base__avl__set.html#a6b1494f45a5e96e9387c737be16f99d4",
+"classcxx_1_1String.html#a330429e4e2b79ce768f6894d698c0cc7",
+"functions_func_a.html",
+"group__api__l4re__c__video.html#ga5cd6b0b0c57acc904bfaa677cb057cd1",
+"group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698",
+"group__l4__memory__api.html#ga5cbba3eb068bbd8339e70dfc40d018a9",
+"group__l4__utcb__api__x86.html#ggac03d87ea12ff53e0a7037eb3f9408af8aa5516052180335a4ae8ecb83bade036a",
+"group__l4util__atomic.html#ga3bc077b2c3afe0bc32082c76bc190899",
+"group__l4util__elf.html#gga479a6103f148a70889af697c3fa0ecffabff26ad8be32d1fbd663e7a8fdf4d9cb",
+"group__l4util__portio.html#ga03c82082d9bbe894b95978cf887907ec",
+"ipc__types.html#a3f3e35f220d7a35dd2ca3d012ef05008",
+"namespaceL4Re_1_1Util.html#a576bd39bbb4e90efa19b3e41d4e23313",
+"structElf64__Phdr.html#af50e5756da2acda5ccb02ebaa3367092",
+"structL4_1_1Ipc_1_1Msg_1_1Do__in__data.html",
+"structL4virtio_1_1Svr_1_1Console_1_1Port.html#a5163c0cac00845a5ddb1df7b99d69e15",
+"structl4__exc__regs__t.html#a416000fd7366f3aea4b67c66a8bf5a54",
 "structl4re__env__cap__entry__t.html#a2027e219842d2e7f2bca77b5839d07b4",
-"uart__imx_8h_source.html"
+"uart__lpuart_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

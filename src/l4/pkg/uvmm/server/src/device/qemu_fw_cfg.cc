@@ -58,7 +58,7 @@ static Dbg warn(Dbg::Dev, Dbg::Warn, "qemu_fw_cfg");
 static Dbg info(Dbg::Dev, Dbg::Info, "qemu_fw_cfg");
 static Dbg trace(Dbg::Dev, Dbg::Trace, "qemu_fw_cfg");
 
-enum Fw_cfg_item_slectors
+enum Fw_cfg_item_selectors
 {
   // Item selectors defined by Qemu
   Fw_cfg_signature     = 0x00,
@@ -488,6 +488,8 @@ public:
         break;
       }
   }
+
+  char const *dev_name() const override { return "Qemu_fw_if_mmio"; }
 };
 
 class Qemu_fw_if_io
@@ -498,6 +500,9 @@ public:
   Qemu_fw_if_io(Vdev::Device_lookup *devs, Vdev::Dt_node const &node)
   : Qemu_fw_if(devs, node)
   {}
+
+  char const *dev_name() const override
+  { return "Firmware interface"; }
 
   /* IO write from the guest to device */
   void io_out(unsigned port, Vmm::Mem_access::Width width, l4_uint32_t value) override
@@ -623,4 +628,9 @@ Qemu_fw_cfg::put_file(char const *fn, char const *blob, size_t size)
 {
   if (auto *d = Qemu_fw_if::get())
     d->put_file(fn, blob, size);
+  else
+    warn.printf("Warning: Did not add '%s' because the Qemu_fw_if device does "
+                "not exist yet. Please ensure the device node of Qemu_fw_if "
+                "comes before the device serving '%s' in the device tree.\n",
+                fn, fn);
 }

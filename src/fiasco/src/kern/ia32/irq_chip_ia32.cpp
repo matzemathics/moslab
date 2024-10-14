@@ -171,8 +171,7 @@ Int_vector_allocator::alloc()
 PUBLIC explicit inline
 Irq_chip_ia32::Irq_chip_ia32(unsigned irqs)
 : _irqs(irqs),
-  _vec(irqs ? (unsigned char *)Boot_alloced::alloc(irqs) : 0),
-  _entry_lock(Spin_lock<>::Unlocked)
+  _vec(irqs ? Boot_alloced::allocate<unsigned char>(irqs) : 0)
 {
   for (unsigned i = 0; i < irqs; ++i)
     _vec[i] = 0;
@@ -265,7 +264,7 @@ Irq_chip_ia32::vfree(Irq_base *irq, void *handler)
   assert (v);
   assert (idt_irq_vector_stubs[v - 0x20].irq == irq);
 
-  Idt::set_entry(v, (Address)handler, false);
+  Idt::set_entry(v, reinterpret_cast<Address>(handler), false);
   idt_irq_vector_stubs[v - 0x20].irq = 0;
   _vec[irq->pin()] = 0;
 
@@ -303,7 +302,8 @@ Irq_chip_ia32::_vsetup(Irq_base *irq, Mword pin, unsigned vector)
   // force code to memory before setting IDT entry
   Mem::barrier();
 
-  Idt::set_entry(vector, (Address)&idt_irq_vector_stubs_text[vector - 0x20],
+  Idt::set_entry(vector, reinterpret_cast<Address>(
+                           &idt_irq_vector_stubs_text[vector - 0x20]),
                  false);
   return vector;
 }
@@ -323,6 +323,6 @@ Irq_chip_ia32::_vsetup(Irq_base *irq, Mword pin, unsigned vector)
   // force code to memory before setting IDT entry
   Mem::barrier();
 
-  Idt::set_entry(vector, (Address)p, false);
+  Idt::set_entry(vector, reinterpret_cast<Address>(p), false);
   return vector;
 }

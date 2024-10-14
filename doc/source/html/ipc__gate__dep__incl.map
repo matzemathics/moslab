@@ -1,11 +1,13 @@
 <map id="l4/sys/ipc_gate" name="l4/sys/ipc_gate">
-<area shape="rect" id="Node000001" title="The C++ IPC gate interface." alt="" coords="57,5,176,31"/>
-<area shape="rect" id="Node000002" href="$object__registry_source.html" title=" " alt="" coords="28,79,205,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,44,119,79,114,79,114,44"/>
+<area shape="rect" id="Node000001" title="The C++ IPC gate interface." alt="" coords="108,5,227,31"/>
+<area shape="rect" id="Node000002" href="$object__registry_source.html" title=" " alt="" coords="79,79,256,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,44,170,79,165,79,165,44"/>
 <area shape="rect" id="Node000003" href="$client_2l4virtio_source.html" title=" " alt="" coords="105,152,229,192"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,114,157,150,153,153,129,117"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,118,170,152,165,152,165,118"/>
 <area shape="rect" id="Node000004" href="$client_2virtio-block_source.html" title=" " alt="" coords="5,240,129,280"/>
-<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="109,118,97,153,74,241,69,239,91,151,104,116"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="137,114,115,131,96,153,85,175,78,198,71,240,66,239,73,197,80,173,92,151,111,128,134,109"/>
+<area shape="rect" id="Node000006" href="$virtio-scmi-device_source.html" title=" " alt="" coords="254,152,398,192"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="204,108,289,149,286,154,202,112"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="137,203,91,242,88,238,133,199"/>
 <area shape="rect" id="Node000005" href="$virtio-net_source.html" title=" " alt="" coords="153,240,277,280"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="187,203,207,238,202,241,182,205"/>

@@ -23,14 +23,17 @@
 #include <stdlib.h>
 #include <sys/mman.h>
 #include <bits/uClibc_mutex.h>
+#include <bits/uClibc_page.h>
 #include <bits/l4-malloc.h>
 
-#ifndef L4_MINIMAL_LIBC
 #include <l4/sys/consts.h>
+
+
+__UCLIBC_MUTEX_EXTERN(__malloc_lock)
+#if defined __UCLIBC_HAS_THREADS__ && !defined __UCLIBC_HAS_LINUXTHREADS__
+	attribute_hidden
 #endif
-
-
-__UCLIBC_MUTEX_EXTERN(__malloc_lock);
+	;
 #define __MALLOC_LOCK		__UCLIBC_MUTEX_LOCK(__malloc_lock)
 #define __MALLOC_UNLOCK		__UCLIBC_MUTEX_UNLOCK(__malloc_lock)
 
@@ -144,11 +147,7 @@ __UCLIBC_MUTEX_EXTERN(__malloc_lock);
 //#  include <unistd.h>
 //#  define malloc_getpagesize sysconf(_SC_PAGESIZE)
 //#else /* just guess */
-#ifdef L4_MINIMAL_LIBC
-#  define malloc_getpagesize (4096)
-#else
 #  define malloc_getpagesize (L4_PAGESIZE)
-#endif
 #endif
 
 
@@ -361,16 +360,13 @@ __UCLIBC_MUTEX_EXTERN(__malloc_lock);
 #endif
 
 #ifdef __ARCH_USE_MMU__
-
-#define MMAP(addr, size, prot) \
- (mmap((addr), (size), (prot), MAP_PRIVATE|MAP_ANONYMOUS, 0, 0))
-
+# define _MAP_UNINITIALIZED 0
 #else
+# define _MAP_UNINITIALIZED MAP_UNINITIALIZED
+#endif
 
 #define MMAP(addr, size, prot) \
- (mmap((addr), (size), (prot), MAP_SHARED|MAP_ANONYMOUS|MAP_UNINITIALIZE, 0, 0))
-
-#endif
+ (mmap((addr), (size), (prot), MAP_PRIVATE|MAP_ANONYMOUS|_MAP_UNINITIALIZED, 0, 0))
 
 
 /* -----------------------  Chunk representations ----------------------- */
@@ -523,7 +519,7 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 #define checked_request2size(req, sz)                             \
   if (REQUEST_OUT_OF_RANGE(req)) {                                \
-    errno = ENOMEM;                                               \
+    __set_errno(ENOMEM);                                          \
     return 0;                                                     \
   }                                                               \
   (sz) = request2size(req);
@@ -850,6 +846,21 @@ typedef struct malloc_chunk* mfastbinptr;
 #define get_max_fast(M) \
   ((M)->max_fast & ~(FASTCHUNKS_BIT | ANYCHUNKS_BIT))
 
+/*
+  Safe-Linking:
+  Use randomness from ASLR (mmap_base) to protect single-linked lists
+  of fastbins. Together with allocation alignment checks, this mechanism
+  reduces the risk of pointer hijacking, as was done with Safe-Unlinking
+  in the double-linked lists of smallbins.
+*/
+#define PROTECT_PTR(pos, ptr)     ((mchunkptr)((((size_t)pos) >> L4_PAGESHIFT) ^ ((size_t)ptr)))
+#define REVEAL_PTR(pos, ptr)      PROTECT_PTR(pos, ptr)
+#define PTR_FOR_ALIGNMENT_CHECK(P) \
+    (MALLOC_ALIGNMENT == 2*(sizeof(size_t)) ? (P) : chunk2mem(P))
+
+#define CHECK_PTR(P)                            \
+  if (!aligned_OK(PTR_FOR_ALIGNMENT_CHECK(P)))  \
+      abort();
 
 /*
   morecore_properties is a status word holding dynamically discovered
@@ -925,7 +936,7 @@ typedef struct malloc_state *mstate;
    malloc relies on the property that malloc_state is initialized to
    all zeroes (as is true of C statics).
 */
-extern struct malloc_state __malloc_state;  /* never directly referenced */
+extern struct malloc_state __malloc_state attribute_hidden;  /* never directly referenced */
 
 /*
    All uses of av_ are via get_malloc_state().
@@ -962,12 +973,12 @@ void   __malloc_consolidate(mstate) attribute_hidden;
 #define check_malloced_chunk(P,N)   __do_check_malloced_chunk(P,N)
 #define check_malloc_state()        __do_check_malloc_state()
 
-extern void __do_check_chunk(mchunkptr p);
-extern void __do_check_free_chunk(mchunkptr p);
-extern void __do_check_inuse_chunk(mchunkptr p);
-extern void __do_check_remalloced_chunk(mchunkptr p, size_t s);
-extern void __do_check_malloced_chunk(mchunkptr p, size_t s);
-extern void __do_check_malloc_state(void);
+extern void __do_check_chunk(mchunkptr p) attribute_hidden;
+extern void __do_check_free_chunk(mchunkptr p) attribute_hidden;
+extern void __do_check_inuse_chunk(mchunkptr p) attribute_hidden;
+extern void __do_check_remalloced_chunk(mchunkptr p, size_t s) attribute_hidden;
+extern void __do_check_malloced_chunk(mchunkptr p, size_t s) attribute_hidden;
+extern void __do_check_malloc_state(void) attribute_hidden;
 
 #include <assert.h>
 

@@ -1,5 +1,4 @@
 /* Copyright (C) 2002-2007, 2009 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
    Contributed by Ulrich Drepper <drepper@redhat.com>, 2002.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -28,9 +27,10 @@
 #include <lowlevellock.h>
 #include <bits/stackinfo.h>
 #include <internaltypes.h>
-#include <pthread-functions.h>
 #include <atomic.h>
 #include <bits/kernel-features.h>
+#include <errno.h>
+#include <internal-signals.h>
 
 
 /* Atomic operations on TLS memory.  */
@@ -311,23 +311,6 @@ __do_cancel (void)
 # define LIBC_CANCEL_HANDLED()	/* Nothing.  */
 #endif
 
-/* The signal used for asynchronous cancellation.  */
-#define SIGCANCEL	__SIGRTMIN
-
-
-/* Signal needed for the kernel-supported POSIX timer implementation.
-   We can reuse the cancellation signal since we can distinguish
-   cancellation from timer expirations.  */
-#define SIGTIMER	SIGCANCEL
-
-
-/* Signal used to implement the setuid et.al. functions.  */
-#define SIGSETXID	(__SIGRTMIN + 1)
-
-/* Used to communicate with signal handler.  */
-extern struct xid_command *__xidcmd attribute_hidden;
-
-
 /* Internal prototypes.  */
 
 /* Thread list handling.  */
@@ -356,16 +339,10 @@ extern void __pthread_cleanup_upto (__jmp_buf target, char *targetframe);
 hidden_proto (__pthread_cleanup_upto)
 #endif
 
-
-/* Functions with versioned interfaces.  */
-extern int __pthread_create_2_1 (pthread_t *newthread,
+extern int pthread_create (pthread_t *newthread,
 				 const pthread_attr_t *attr,
 				 void *(*start_routine) (void *), void *arg);
-extern int __pthread_create_2_0 (pthread_t *newthread,
-				 const pthread_attr_t *attr,
-				 void *(*start_routine) (void *), void *arg);
-extern int __pthread_attr_init_2_1 (pthread_attr_t *attr);
-extern int __pthread_attr_init_2_0 (pthread_attr_t *attr);
+extern int pthread_attr_init (pthread_attr_t *attr);
 
 
 /* Event handlers for libthread_db interface.  */
@@ -377,12 +354,10 @@ hidden_proto (__nptl_death_event)
 /* Register the generation counter in the libpthread with the libc.  */
 #ifdef TLS_MULTIPLE_THREADS_IN_TCB
 extern void __libc_pthread_init (unsigned long int *ptr,
-				 void (*reclaim) (void),
-				 const struct pthread_functions *functions);
+				 void (*reclaim) (void));
 #else
 extern int *__libc_pthread_init (unsigned long int *ptr,
-				 void (*reclaim) (void),
-				 const struct pthread_functions *functions);
+				 void (*reclaim) (void));
 
 /* Variable set to a nonzero value if more than one thread runs or ran.  */
 extern int __pthread_multiple_threads attribute_hidden;
@@ -402,6 +377,7 @@ weak_function;
 
 extern void __pthread_init_static_tls (struct link_map *) attribute_hidden;
 
+extern size_t __pthread_get_minstack (const pthread_attr_t *attr);
 
 /* Namespace save aliases.  */
 extern int __pthread_getschedparam (pthread_t thread_id, int *policy,

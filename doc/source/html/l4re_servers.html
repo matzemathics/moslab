@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re Servers</title>
+<title>L4Re Operating System Framework: L4Re Servers</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -125,15 +128,15 @@ $(document).ready(function(){initNavTree('l4re_servers.html',''); initResizable(
 <li><p class="startli">fb-drv, the Low-Level Graphics Driver</p>
 <p class="startli">provides low-level access and initialization of various graphics hardware. It has support for running VESA BIOS calls on Intel x86 platforms, as well as support for various ARM display controllers. <code>fb-drv</code> provides a single instance of the L4Re::Goos interface and can serve as a back end for the Mag server, in particular, if there is no graphics support in the boot loader.</p>
 </li>
-<li><a class="el" href="l4re_servers_virtio_net_p2p.html">l4vio_net_p2p, a virtual network point-to-point link</a></li>
-<li><a class="el" href="l4re_servers_uvmm.html">Uvmm, the virtual machine monitor</a></li>
+<li><p class="startli"><a class="el" href="l4re_servers_cons.html">Cons, the Console Multiplexer</a></p>
+<p class="startli">An interactive multiplexer for console in- and output. It buffers the output from different L4 clients and allows to switch between them to redirect input.</p>
+</li>
+<li><a class="el" href="l4re_servers_sigma0.html">Sigma0, the Root-Pager</a></li>
 <li><p class="startli"><a class="el" href="l4re_servers_mag.html">Mag, the GUI Multiplexer</a></p>
 <p class="startli">Our default multiplexer for the graphics hardware is Mag. Mag is a Nitpicker (TODO: ref) derivate that allows secure multiplexing of the graphics and input hardware among multiple applications and multiple complete windowing environments.</p>
 </li>
-<li><a class="el" href="l4re_servers_sigma0.html">Sigma0, the Root-Pager</a></li>
-<li><p class="startli"><a class="el" href="l4re_servers_cons.html">Cons, the Console Multiplexer</a></p>
-<p class="startli">An interactive multiplexer for console in- and output. It buffers the output from different L4 clients and allows to switch between them to redirect input. </p>
-</li>
+<li><a class="el" href="l4re_servers_uvmm.html">Uvmm, the virtual machine monitor</a></li>
+<li><a class="el" href="l4re_servers_virtio_net_p2p.html">l4vio_net_p2p, a virtual network point-to-point link</a> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
@@ -142,7 +145,7 @@ $(document).ready(function(){initNavTree('l4re_servers.html',''); initResizable(
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

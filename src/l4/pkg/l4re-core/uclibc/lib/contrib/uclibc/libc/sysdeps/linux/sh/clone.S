@@ -1,5 +1,4 @@
 /* Copyright (C) 1999, 2000, 2003, 2004, 2007 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -23,9 +22,7 @@
 #include <sysdep.h>
 #define _ERRNO_H	1
 #include <bits/errno.h>
-#ifdef RESET_PID
-#include <tcb-offsets.h>
-#endif
+
 /* int clone(int (*fn)(void *arg), void *child_stack, int flags, void *arg,
 	     pid_t *ptid, void *tls, pid_t *ctid); */
 
@@ -53,8 +50,24 @@ ENTRY(__clone)
 	mov	#+SYS_ify(clone), r3
 	trapa	#0x15
 	mov     r0, r1
+#ifdef __sh2__
+/* 12 arithmetic shifts for the sh2, because shad doesn't exist! */
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+        shar    r1
+#else
 	mov	#-12, r2
 	shad	r2, r1
+#endif
 	not	r1, r1			// r1=0 means r0 = -1 to -4095
 	tst	r1, r1			// i.e. error in linux
 	bf	.Lclone_end
@@ -69,29 +82,7 @@ ENTRY(__clone)
 2:
 	/* terminate the stack frame */
 	mov	#0, r14
-#ifdef RESET_PID
-	mov	r4, r0
-	shlr16	r0
-	tst	#1, r0			// CLONE_THREAD = (1 << 16)
-	bf/s	4f
-	 mov	r4, r0
-	/* new pid */
-	shlr8	r0
-	tst	#1, r0			// CLONE_VM = (1 << 8)
-	bf/s	3f
-	 mov	#-1, r0
-	mov	#+SYS_ify(getpid), r3
-	trapa	#0x15
-3:
-	stc	gbr, r1
-	mov.w	.Lpidoff, r2
-	add	r1, r2
-	mov.l	r0, @r2
-	mov.w	.Ltidoff, r2
-	add	r1, r2
-	mov.l	r0, @r2
-4:
-#endif
+
 	/* thread starts */
 	mov.l	@r15, r1
 	jsr	@r1
@@ -122,12 +113,6 @@ ENTRY(__clone)
 	.long	_GLOBAL_OFFSET_TABLE_
 .L3:
 	.long	PLTJMP(C_SYMBOL_NAME(_exit))
-#ifdef RESET_PID
-.Lpidoff:
-	.word	PID - TLS_PRE_TCB_SIZE
-.Ltidoff:
-	.word	TID - TLS_PRE_TCB_SIZE
-#endif
-PSEUDO_END (__clone)
 
+PSEUDO_END (__clone)
 weak_alias (__clone, clone)

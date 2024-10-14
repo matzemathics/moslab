@@ -65,6 +65,12 @@ public:
     Cpacr_el1_fpen_full = 3UL << 20,
   };
 
+  enum : Mword
+  {
+    Vtcr_nsa = 1UL << 30,
+    Vtcr_msa = 1UL << 31,
+  };
+
   struct has_aarch32_el1 : public Alternative_static_functor<has_aarch32_el1>
   {
     static bool probe()
@@ -72,6 +78,19 @@ public:
       Mword pfr0;
       asm ("mrs %0, ID_AA64PFR0_EL1": "=r" (pfr0));
       return pfr0 & 0x20;
+    }
+  };
+
+  struct has_vmsa : public Alternative_static_functor<has_vmsa>
+  {
+    // See Armv8-R AArch64 supplement (ARM DDI 0600A)
+    static bool probe()
+    {
+      Mword mmfr0;
+      asm ("mrs %0, ID_AA64MMFR0_EL1": "=r" (mmfr0));
+      unsigned msa = (mmfr0 >> 48) & 0x0fU;
+      unsigned msa_frac = (mmfr0 >> 52) & 0x0fU;
+      return msa == 0 || (msa == 0xf && msa_frac == 2);
     }
   };
 };
@@ -181,10 +200,13 @@ public:
     /**
      * HCR value to be used for normal threads.
      *
-     * On AArch64 (with virtualization support) running in EL1.
+     * On AArch64 (with virtualization support) they can choose to run in EL1
+     * or EL0.
      */
-    Hcr_non_vm_bits = Hcr_must_set_bits | Hcr_rw | Hcr_dc | Hcr_tsw
-                      | Hcr_ttlb | Hcr_tvm | Hcr_trvm
+    Hcr_non_vm_bits_common = Hcr_must_set_bits | Hcr_rw | Hcr_dc | Hcr_tsw
+                             | Hcr_ttlb | Hcr_tvm | Hcr_trvm,
+    Hcr_non_vm_bits_el1    = Hcr_non_vm_bits_common,
+    Hcr_non_vm_bits_el0    = Hcr_non_vm_bits_common | Hcr_tge,
   };
 
   enum
@@ -199,60 +221,36 @@ public:
                     | Sctlr_res,
   };
 
-  enum {
-    Mdcr_hpmn_mask = 0xf,
-    Mdcr_tpmcr     = 1UL << 5,
-    Mdcr_tpm       = 1UL << 6,
-    Mdcr_hpme      = 1UL << 7,
-    Mdcr_tde       = 1UL << 8,
-    Mdcr_tda       = 1UL << 9,
-    Mdcr_tdosa     = 1UL << 10,
-    Mdcr_tdra      = 1UL << 11,
-
-    Mdcr_bits      = Mdcr_tpmcr | Mdcr_tpm
-                     | Mdcr_tda | Mdcr_tdosa | Mdcr_tdra,
-    Mdcr_vm_mask   = 0xf00,
+  enum
+  {
+    Mdcr_bits = (TAG_ENABLED(perf_cnt_user) ? 0 : (Mdcr_tpmcr | Mdcr_tpm))
+                | Mdcr_tda | Mdcr_tdosa | Mdcr_tdra,
   };
 };
-
-PUBLIC inline
-unsigned
-Cpu::supported_pa_range() const
-{
-  static Unsigned8 const pa_range[16] = { 32, 36, 40, 42, 44, 48, 52 };
-  return pa_range[_cpu_id._mmfr[0] & 0x0fU];
-}
 
 PRIVATE inline
 unsigned
 Cpu::vmid_bits() const
 { return (_cpu_id._mmfr[1] & 0xf0U) == 0x20 ? 16 : 8; }
 
-IMPLEMENT_OVERRIDE
+PRIVATE inline
 void
-Cpu::init_hyp_mode()
+Cpu::init_hyp_mode_common()
 {
   extern char exception_vector[];
-
-  // Feature availability check for IPA address space size
-  if (supported_pa_range() < phys_bits())
-    panic("IPA address size too small: HW provides %d bits, required %d bits!",
-          supported_pa_range(), phys_bits());
 
   if (vmid_bits() < Mem_unit::Asid_bits)
     panic("VMID size too small: HW provides %d bits, configured %d bits!",
           vmid_bits(), Mem_unit::Asid_bits);
 
   asm volatile ("msr VBAR_EL2, %x0" : : "r"(&exception_vector));
-  asm volatile ("msr VTCR_EL2, %x0" : :
-                "r"(  (1UL << 31) // RES1
-                    | (Page::Tcr_attribs << 8)
-                    | Page::Vtcr_bits));
+  asm volatile ("msr VTCR_EL2, %x0" : : "r"(vtcr_bits()));
 
-  asm volatile ("msr MDCR_EL2, %x0" : : "r"((Mword)Mdcr_bits));
+  Mword mdcr = Mword{Mdcr_bits} | (has_hpmn0() ? 0 : 1);
+  asm volatile ("msr MDCR_EL2, %x0" : : "r"(mdcr));
 
-  asm volatile ("msr SCTLR_EL1, %x0" : : "r"((Mword)Sctlr_el1_generic));
-  asm volatile ("msr HCR_EL2, %x0" : : "r" (Hcr_non_vm_bits));
+  asm volatile ("msr SCTLR_EL1, %x0" : : "r"(Mword{Sctlr_el1_generic}));
+  asm volatile ("msr HCR_EL2, %x0" : : "r" (Hcr_non_vm_bits_el0));
   asm volatile ("msr HSTR_EL2, %x0" : : "r" (Hstr_non_vm));
 
   Mem::dsb();
@@ -261,6 +259,87 @@ Cpu::init_hyp_mode()
   // HCPTR
   asm volatile("msr CPTR_EL2, %x0" : : "r" (Cptr_el2_generic | Cptr_el2_tta));
 }
+
+//--------------------------------------------------------------------------
+IMPLEMENTATION [arm && cpu_virt && mmu]:
+
+EXTENSION class Cpu
+{
+public:
+  enum : Mword
+  {
+    Vtcr_usr_mask = 0,
+  };
+};
+
+PUBLIC static inline
+unsigned long
+Cpu::vtcr_bits()
+{
+  return (1UL << 31) // RES1
+         | (Page::Tcr_attribs << 8)
+         | Page::vtcr_bits(pa_range());
+}
+
+IMPLEMENT_OVERRIDE
+void
+Cpu::init_hyp_mode()
+{
+  // Prevent a compiler warning on Page::Min_pa_range==0.
+  if (static_cast<int>(pa_range()) < Page::Min_pa_range)
+    panic("Not enough physical address bits! Disable CONFIG_ARM_PT48.\n");
+
+  init_hyp_mode_common();
+}
+
+//--------------------------------------------------------------------------
+IMPLEMENTATION [arm && mpu && !cpu_virt]:
+
+PUBLIC static
+void
+Cpu::init_sctlr()
+{
+  Mem::dsb();
+  asm volatile("msr SCTLR_EL1, %[control]" : : [control] "r" (Sctlr_generic));
+  Mem::isb();
+}
+
+//--------------------------------------------------------------------------
+IMPLEMENTATION [arm && mpu && cpu_virt]:
+
+EXTENSION class Cpu
+{
+public:
+  enum : Mword
+  {
+    Vtcr_usr_mask = Vtcr_msa | Vtcr_nsa,
+  };
+};
+
+PUBLIC static inline
+unsigned long
+Cpu::vtcr_bits()
+{
+  return 0; // PMSA@EL1 by default
+}
+
+IMPLEMENT_OVERRIDE
+void
+Cpu::init_hyp_mode()
+{
+  asm volatile ("msr S3_4_C2_C6_2, %0" : : "r"(1UL << 31)); // VSTCR_EL2
+  init_hyp_mode_common();
+}
+
+PUBLIC static
+void
+Cpu::init_sctlr()
+{
+  Mem::dsb();
+  asm volatile("msr SCTLR_EL2, %[control]" : : [control] "r" (Sctlr_generic));
+  Mem::isb();
+}
+
 //--------------------------------------------------------------------------
 IMPLEMENTATION [arm]:
 
@@ -273,6 +352,11 @@ PUBLIC inline
 bool
 Cpu::has_sve() const
 { return ((_cpu_id._pfr[0] >> 32) & 0xf) == 1; }
+
+IMPLEMENT_OVERRIDE inline
+bool
+Cpu::has_hpmn0() const
+{ return ((_cpu_id._dfr0 >> 60) & 0xf) == 1; }
 
 PUBLIC static inline
 Mword
@@ -320,7 +404,7 @@ Cpu::enable_dcache()
   asm volatile("mrs     %0, SCTLR_EL1 \n"
                "orr     %0, %0, %1    \n"
                "msr     SCTLR_EL1, %0 \n"
-               : "=&r" (r) : "r" ((Mword)(Sctlr_c | Sctlr_i)));
+               : "=&r" (r) : "r" (Mword{Sctlr_c | Sctlr_i}));
 }
 
 PUBLIC static inline
@@ -331,7 +415,24 @@ Cpu::disable_dcache()
   asm volatile("mrs     %0, SCTLR_EL1 \n"
                "bic     %0, %0, %1    \n"
                "msr     SCTLR_EL1, %0 \n"
-               : "=&r" (r) : "r" ((Mword)(Sctlr_c | Sctlr_i)));
+               : "=&r" (r) : "r" (Mword{Sctlr_c | Sctlr_i}));
+}
+
+PUBLIC static inline
+unsigned
+Cpu::pa_range()
+{
+  Mword id_aa64mmfr0_el1;
+  asm("mrs %0, S3_0_C0_C7_0" : "=r"(id_aa64mmfr0_el1));
+  return id_aa64mmfr0_el1 & 0x0fU;
+}
+
+PUBLIC static inline
+unsigned
+Cpu::phys_bits()
+{
+  static char const pa_range_bits[16] = { 32, 36, 40, 42, 44, 48, 52 };
+  return pa_range_bits[pa_range()];
 }
 
 //--------------------------------------------------------------------------

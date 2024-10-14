@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -160,7 +163,7 @@ Public Member Functions</h2></td></tr>
 class L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;</div><p>List of driver memory regions assigned to a single L4-VIRTIO transport instance. </p>
 <dl class="section note"><dt>Note</dt><dd>The regions added to this list <em>must</em> never overlap. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00609">609</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00629">629</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a4325ef36d8d9d159d8d6a774b11378f4" name="a4325ef36d8d9d159d8d6a774b11378f4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4325ef36d8d9d159d8d6a774b11378f4">&#9670;&#160;</a></span>add()</h2>
@@ -222,9 +225,9 @@ template&lt;typename DATA &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the new region. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00649">649</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00669">669</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="error__helper_source.html#l00068">L4Re::chksys()</a>, <a class="el" href="server_2l4virtio_source.html#l00638">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::full()</a>, and <a class="el" href="err_8h_source.html#l00050">L4_ENOMEM</a>.</p>
+<p class="reference">References <a class="el" href="error__helper_source.html#l00068">L4Re::chksys()</a>, <a class="el" href="server_2l4virtio_source.html#l00658">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::full()</a>, and <a class="el" href="err_8h_source.html#l00050">L4_ENOMEM</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -281,9 +284,9 @@ template&lt;typename DATA &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the region containing the given region, NULL if none is found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00683">683</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00703">703</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00744">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::load_desc()</a>, <a class="el" href="server_2l4virtio_source.html#l00717">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::load_desc()</a>, and <a class="el" href="server_2l4virtio_source.html#l00697">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::load_desc()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00764">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::load_desc()</a>, <a class="el" href="server_2l4virtio_source.html#l00737">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::load_desc()</a>, and <a class="el" href="server_2l4virtio_source.html#l00717">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::load_desc()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -320,9 +323,9 @@ template&lt;typename DATA &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>True if the remaining capacity is 0. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00638">638</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00658">658</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00649">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00669">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::add()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -367,7 +370,7 @@ template&lt;typename DATA &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00630">630</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00650">650</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
 </div>
 </div>
@@ -437,9 +440,9 @@ template&lt;typename ARG &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00744">744</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00764">764</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="virtqueue_source.html#l00124">L4virtio::Virtqueue::Desc::addr</a>, <a class="el" href="virtio_source.html#l00330">L4virtio::Svr::Bad_descriptor::Bad_address</a>, <a class="el" href="server_2l4virtio_source.html#l00683">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::find()</a>, <a class="el" href="virtqueue_source.html#l00078">L4virtio::Ptr&lt; T &gt;::get()</a>, <a class="el" href="compiler_8h_source.html#l00285">L4_UNLIKELY</a>, and <a class="el" href="virtqueue_source.html#l00125">L4virtio::Virtqueue::Desc::len</a>.</p>
+<p class="reference">References <a class="el" href="virtqueue_source.html#l00115">L4virtio::Virtqueue::Desc::addr</a>, <a class="el" href="virtio_source.html#l00383">L4virtio::Svr::Bad_descriptor::Bad_address</a>, <a class="el" href="server_2l4virtio_source.html#l00703">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::find()</a>, <a class="el" href="virtqueue_source.html#l00069">L4virtio::Ptr&lt; T &gt;::get()</a>, <a class="el" href="compiler_8h_source.html#l00296">L4_UNLIKELY</a>, and <a class="el" href="virtqueue_source.html#l00116">L4virtio::Virtqueue::Desc::len</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -508,9 +511,9 @@ template&lt;typename DATA &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00717">717</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00737">737</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="virtqueue_source.html#l00124">L4virtio::Virtqueue::Desc::addr</a>, <a class="el" href="virtio_source.html#l00330">L4virtio::Svr::Bad_descriptor::Bad_address</a>, <a class="el" href="server_2l4virtio_source.html#l00683">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::find()</a>, <a class="el" href="virtqueue_source.html#l00078">L4virtio::Ptr&lt; T &gt;::get()</a>, <a class="el" href="compiler_8h_source.html#l00285">L4_UNLIKELY</a>, and <a class="el" href="virtqueue_source.html#l00125">L4virtio::Virtqueue::Desc::len</a>.</p>
+<p class="reference">References <a class="el" href="virtqueue_source.html#l00115">L4virtio::Virtqueue::Desc::addr</a>, <a class="el" href="virtio_source.html#l00383">L4virtio::Svr::Bad_descriptor::Bad_address</a>, <a class="el" href="server_2l4virtio_source.html#l00703">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::find()</a>, <a class="el" href="virtqueue_source.html#l00069">L4virtio::Ptr&lt; T &gt;::get()</a>, <a class="el" href="compiler_8h_source.html#l00296">L4_UNLIKELY</a>, and <a class="el" href="virtqueue_source.html#l00116">L4virtio::Virtqueue::Desc::len</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -579,9 +582,9 @@ template&lt;typename DATA &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00697">697</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00717">717</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="virtqueue_source.html#l00124">L4virtio::Virtqueue::Desc::addr</a>, <a class="el" href="virtio_source.html#l00330">L4virtio::Svr::Bad_descriptor::Bad_address</a>, <a class="el" href="server_2l4virtio_source.html#l00683">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::find()</a>, <a class="el" href="virtqueue_source.html#l00078">L4virtio::Ptr&lt; T &gt;::get()</a>, <a class="el" href="compiler_8h_source.html#l00285">L4_UNLIKELY</a>, and <a class="el" href="virtqueue_source.html#l00125">L4virtio::Virtqueue::Desc::len</a>.</p>
+<p class="reference">References <a class="el" href="virtqueue_source.html#l00115">L4virtio::Virtqueue::Desc::addr</a>, <a class="el" href="virtio_source.html#l00383">L4virtio::Svr::Bad_descriptor::Bad_address</a>, <a class="el" href="server_2l4virtio_source.html#l00703">L4virtio::Svr::Driver_mem_list_t&lt; DATA &gt;::find()</a>, <a class="el" href="virtqueue_source.html#l00069">L4virtio::Ptr&lt; T &gt;::get()</a>, <a class="el" href="compiler_8h_source.html#l00296">L4_UNLIKELY</a>, and <a class="el" href="virtqueue_source.html#l00116">L4virtio::Virtqueue::Desc::len</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-7-summary" class="dynsummary" style="display:block;">
@@ -626,9 +629,9 @@ template&lt;typename DATA &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00663">663</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00683">683</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="error__helper_source.html#l00068">L4Re::chksys()</a>, and <a class="el" href="err_8h_source.html#l00058">L4_ERANGE</a>.</p>
+<p class="reference">References <a class="el" href="error__helper_source.html#l00068">L4Re::chksys()</a>, and <a class="el" href="err_8h_source.html#l00059">L4_ERANGE</a>.</p>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
@@ -649,7 +652,7 @@ template&lt;typename DATA &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4virtio.html">L4virtio</a></li><li class="navelem"><b>Svr</b></li><li class="navelem"><a class="el" href="classL4virtio_1_1Svr_1_1Driver__mem__list__t.html">Driver_mem_list_t</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

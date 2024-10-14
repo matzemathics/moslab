@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Program to load an ELF binary on a linux system, and run it
  * after resolving ELF shared library symbols
@@ -95,8 +94,15 @@
 #include "dl-startup.h"
 
 #ifdef __LDSO_PRELINK_SUPPORT__
-/* These defined magically in the linker script.  */
-extern char _begin[] attribute_hidden;
+/* This is defined by the linker script.  */
+extern ElfW(Addr) _begin[] attribute_hidden;
+#endif
+
+
+ElfW(auxv_t) _dl_auxvt[AUX_MAX_AT_ID];
+
+#ifdef LDSO_NEED_DPNT
+ElfW(Dyn) *_dl_saved_dpnt = 0;
 #endif
 
 /* Static declarations */
@@ -131,7 +137,7 @@ DL_START(unsigned long args)
 	int i;            /* aw11: use to iterate the phdrs */
 	struct elf_resolve tpnt_tmp;
 	struct elf_resolve *tpnt = &tpnt_tmp;
-	ElfW(auxv_t) auxvt[AT_EGID + 1];
+	ElfW(auxv_t) _dl_auxvt_tmp[AUX_MAX_AT_ID];
 	ElfW(Dyn) *dpnt;
 	uint32_t  *p32;
 #ifndef NOT_FOR_L4
@@ -165,7 +171,7 @@ DL_START(unsigned long args)
 
 	/* Place -1 here as a checkpoint.  We later check if it was changed
 	 * when we read in the auxvt */
-	auxvt[AT_UID].a_type = -1;
+	_dl_auxvt_tmp[AT_UID].a_type = -1;
 
 	/* The junk on the stack immediately following the environment is
 	 * the Auxiliary Vector Table.  Read out the elements of the auxvt,
@@ -173,14 +179,16 @@ DL_START(unsigned long args)
 	while (*aux_dat) {
 		ElfW(auxv_t) *auxv_entry = (ElfW(auxv_t) *) aux_dat;
 
-		if (auxv_entry->a_type <= AT_EGID) {
-			_dl_memcpy(&(auxvt[auxv_entry->a_type]), auxv_entry, sizeof(ElfW(auxv_t)));
+		if (auxv_entry->a_type < AUX_MAX_AT_ID) {
+			_dl_memcpy(&(_dl_auxvt_tmp[auxv_entry->a_type]), auxv_entry, sizeof(ElfW(auxv_t)));
 		}
 #ifndef L4_ONLY
 		if (auxv_entry->a_type == 0xf1) {
 			l4re_env = (void*)auxv_entry->a_un.a_val;
 		}
 #endif
+		
+		
 		aux_dat += 2;
 	}
 
@@ -195,16 +203,16 @@ DL_START(unsigned long args)
 	 * We use it if the kernel is not passing a valid address through the auxvt.
 	 */
 
-	if (!auxvt[AT_BASE].a_un.a_val)
-		auxvt[AT_BASE].a_un.a_val =  (Elf32_Addr) &_begin;
+	if (!_dl_auxvt_tmp[AT_BASE].a_un.a_val)
+		_dl_auxvt_tmp[AT_BASE].a_un.a_val =  (ElfW(Addr)) &_begin;
 	/* Note: if the dynamic linker itself is prelinked, the load_addr is 0 */
 	DL_INIT_LOADADDR_BOOT(load_addr, elf_machine_load_address());
 #else
-	if (!auxvt[AT_BASE].a_un.a_val)
-		auxvt[AT_BASE].a_un.a_val = elf_machine_load_address();
-	DL_INIT_LOADADDR_BOOT(load_addr, auxvt[AT_BASE].a_un.a_val);
+	if (!_dl_auxvt_tmp[AT_BASE].a_un.a_val)
+		_dl_auxvt_tmp[AT_BASE].a_un.a_val = elf_machine_load_address();
+	DL_INIT_LOADADDR_BOOT(load_addr, _dl_auxvt_tmp[AT_BASE].a_un.a_val);
 #endif
-	header = (ElfW(Ehdr) *) auxvt[AT_BASE].a_un.a_val;
+	header = (ElfW(Ehdr) *) _dl_auxvt_tmp[AT_BASE].a_un.a_val;
 
 	/* Check the ELF header to make sure everything looks ok.  */
 	if (!header || header->e_ident[EI_CLASS] != ELF_CLASS ||
@@ -286,11 +294,14 @@ DL_START(unsigned long args)
 	PERFORM_BOOTSTRAP_GOT(tpnt);
 #endif
 
-#if !defined(PERFORM_BOOTSTRAP_GOT) || defined(__avr32__) || defined(__mips__)
-
 	/* OK, now do the relocations.  We do not do a lazy binding here, so
 	   that once we are done, we have considerably more flexibility. */
 	SEND_EARLY_STDERR_DEBUG("About to do library loader relocations\n");
+
+#if !defined(__FDPIC__) && !defined(__DSBT__)
+	/* Process DT_RELR relative relocations */
+	DL_RELOCATE_RELR(tpnt);
+#endif
 
 	{
 		int indx;
@@ -342,6 +353,10 @@ DL_START(unsigned long args)
 					sym = NULL;
 					if (symtab_index) {
 						ElfW(Sym) *symtab;
+#if !defined(EARLY_STDERR_SPECIAL) && defined(__SUPPORT_LD_DEBUG_EARLY__)
+						char *strtab;
+						strtab = (char *) tpnt->dynamic_info[DT_STRTAB];
+#endif
 
 						symtab = (ElfW(Sym) *) tpnt->dynamic_info[DT_SYMTAB];
 						sym = &symtab[symtab_index];
@@ -353,8 +368,6 @@ DL_START(unsigned long args)
 						SEND_STDERR_DEBUG(strtab + sym->st_name);
 						SEND_STDERR_DEBUG("\n");
 #endif
-					} else {
-						SEND_STDERR_DEBUG("relocating unknown symbol\n");
 					}
 					/* Use this machine-specific macro to perform the actual relocation.  */
 					PERFORM_BOOTSTRAP_RELOC(rpnt, reloc_addr, symbol_addr, load_addr, sym);
@@ -368,7 +381,6 @@ DL_START(unsigned long args)
 #endif
 		}
 	}
-#endif
 
 	SEND_STDERR_DEBUG("Done relocating ldso; we can now use globals and make function calls!\n");
 
@@ -377,10 +389,18 @@ DL_START(unsigned long args)
 	   fixed up by now.  Still no function calls outside of this library,
 	   since the dynamic resolver is not yet ready. */
 
+#ifdef LDSO_NEED_DPNT
+/*XXX TODO this crashes on nios2: it translates to
+ * [r5] := (value of the local variable dpnt)
+ * but r5 is a NULL pointer at this place, which was
+ * retrieved from the GOT a few instructions further above.
+ */
+	_dl_saved_dpnt = dpnt;
+#endif
 	__rtld_stack_end = (void *)(argv - 1);
 
 #ifndef __ONLY_FOR_L4__
-	_dl_setup_malloc(auxvt);
+	_dl_setup_malloc(_dl_auxvt_tmp);
 
 	{
 		__rtld_l4re_global_env = l4re_env;
@@ -402,9 +422,18 @@ DL_START(unsigned long args)
 			(*ia)();
 	}
 #endif
+
+	/*
+	*  now the globals work. so copy the aux vector
+	*/
+	_dl_memcpy( _dl_auxvt, _dl_auxvt_tmp, sizeof( ElfW(auxv_t) ) * AUX_MAX_AT_ID );
+
 	_dl_elf_main = (int (*)(int, char **, char **))
-			_dl_get_ready_to_run(tpnt, load_addr, auxvt, envp, argv
+			_dl_get_ready_to_run(tpnt, load_addr, envp, argv
 					     DL_GET_READY_TO_RUN_EXTRA_ARGS);
+
+
+	load_vdso((void *)_dl_auxvt[AT_SYSINFO_EHDR].a_un.a_val, envp);
 
 	/* Transfer control to the application.  */
 	SEND_STDERR_DEBUG("transfering control to application @ ");

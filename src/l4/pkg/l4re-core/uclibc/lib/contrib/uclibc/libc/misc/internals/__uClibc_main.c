@@ -29,15 +29,56 @@
 #include <fcntl.h>
 #endif
 #ifdef __UCLIBC_HAS_THREADS_NATIVE__
-#include <pthread-functions.h>
 #include <not-cancel.h>
 #include <atomic.h>
+#include <tls.h>
 #endif
 #ifdef __UCLIBC_HAS_THREADS__
 #include <pthread.h>
 #endif
 #ifdef __UCLIBC_HAS_LOCALE__
 #include <locale.h>
+#endif
+
+/* Are we in a secure process environment or are we dealing
+ * with setuid stuff?  If we are dynamically linked, then we
+ * already have _dl_secure, otherwise we need to re-examine
+ * auxvt[] below.
+ */
+int _pe_secure = 0;
+libc_hidden_data_def(_pe_secure)
+
+#if !defined(SHARED) && defined(__FDPIC__)
+struct funcdesc_value
+{
+	void *entry_point;
+	void *got_value;
+} __attribute__((__aligned__(8)));
+
+
+/* Prevent compiler optimization that removes GOT assignment.
+
+  Due to optimization passes (block split and move), in the rare case
+  where use r9 is the single instruction in a block we can have the
+  following behaviour:
+  - this block is marked as a forward block since use is not
+  considered as an active instruction after reload pass.
+
+  - In this case a jump in this block can be moved to the start of the
+  next one and so remove use in this flow of instructions which can
+  lead to a removal of r9 restoration after a call. */
+#define _dl_stabilize_funcdesc(val)			\
+	({ __asm__ ("" : "+m" (*(val))); (val); })
+
+static void fdpic_init_array_jump(void *addr)
+{
+	struct funcdesc_value *fm = (struct funcdesc_value *) fdpic_init_array_jump;
+	struct funcdesc_value fd = {addr, fm->got_value};
+
+	void (*pf)(void) = (void*) _dl_stabilize_funcdesc(&fd);
+
+	(*pf)();
+}
 #endif
 
 #ifndef SHARED
@@ -57,10 +98,6 @@ static uintptr_t stack_chk_guard;
 /* for gcc-4.1 non-TLS */
 uintptr_t __stack_chk_guard attribute_relro;
 #  endif
-/* for gcc-3.x + Etoh ssp */
-#  ifdef __UCLIBC_HAS_SSP_COMPAT__
-uintptr_t __guard attribute_relro;
-#  endif
 # endif
 
 /*
@@ -72,12 +109,12 @@ void internal_function _dl_aux_init (ElfW(auxv_t) *av);
 #ifdef __UCLIBC_HAS_THREADS__
 /*
  * uClibc internal locking requires that we have weak aliases
- * for dummy functions in case libpthread.a is not linked in.
+ * for dummy functions in case a single threaded application is linked.
  * This needs to be in compilation unit that is pulled always
  * in or linker will disregard these weaks.
  */
 
-static int __pthread_return_0 (pthread_mutex_t *unused) { return 0; }
+static int __pthread_return_0 (pthread_mutex_t *unused) { (void)unused; return 0; }
 weak_alias (__pthread_return_0, __pthread_mutex_lock)
 weak_alias (__pthread_return_0, __pthread_mutex_trylock)
 weak_alias (__pthread_return_0, __pthread_mutex_unlock)
@@ -85,6 +122,7 @@ weak_alias (__pthread_return_0, __pthread_mutex_unlock)
 int weak_function
 __pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)
 {
+        (void)mutex; (void)attr;
         return 0;
 }
 
@@ -127,6 +165,10 @@ extern void weak_function __pthread_initialize_minimal(void);
 #else
 extern void __pthread_initialize_minimal(void);
 #endif
+#endif
+
+#ifndef SHARED
+extern void __libc_setup_tls (size_t tcbsize, size_t tcbalign);
 #endif
 
 /* If __UCLIBC_FORMAT_SHARED_FLAT__, all array initialisation and finalisation
@@ -178,10 +220,10 @@ size_t __pagesize = 0;
 # define O_NOFOLLOW	0
 #endif
 
+#ifdef __NOT_FOR_L4__
 #ifndef __ARCH_HAS_NO_LDSO__
 static void __check_one_fd(int fd, int mode)
 {
-#ifdef __NOT_FOR_L4__
     /* Check if the specified fd is already open */
     if (fcntl(fd, F_GETFD) == -1)
     {
@@ -195,13 +237,11 @@ static void __check_one_fd(int fd, int mode)
 		abort();
 	}
     }
-#endif
 }
 
 #ifndef SHARED
 static int __check_suid(void)
 {
-#ifdef __NOT_FOR_L4__
     uid_t uid, euid;
     gid_t gid, egid;
 
@@ -213,11 +253,10 @@ static int __check_suid(void)
     egid = getegid();
     if (gid != egid)
 	return 1;
-#endif
-    return 0; /* we are not suid */
 }
 #endif
 #endif
+#endif // __NOT_FOR_L4__
 
 /* __uClibc_init completely initialize uClibc so it is ready to use.
  *
@@ -244,6 +283,13 @@ void __uClibc_init(void)
     __pagesize = PAGE_SIZE;
 
 #ifdef __UCLIBC_HAS_THREADS__
+
+#if defined (__UCLIBC_HAS_THREADS_NATIVE__) && !defined (SHARED)
+    /* Unlike in the dynamically linked case the dynamic linker has not
+       taken care of initializing the TLS data structures.  */
+    __libc_setup_tls (TLS_TCB_SIZE, TLS_TCB_ALIGN);
+#endif
+
     /* Before we start initializing uClibc we have to call
      * __pthread_initialize_minimal so we can use pthread_locks
      * whenever they are needed.
@@ -262,9 +308,6 @@ void __uClibc_init(void)
     THREAD_SET_STACK_GUARD (stack_chk_guard);
 #  else
     __stack_chk_guard = stack_chk_guard;
-#  endif
-#  ifdef __UCLIBC_HAS_SSP_COMPAT__
-    __guard = stack_chk_guard;
 #  endif
 # endif
 #endif
@@ -306,7 +349,11 @@ void __uClibc_fini(void)
 # elif !defined (__UCLIBC_FORMAT_SHARED_FLAT__)
     size_t i = __fini_array_end - __fini_array_start;
     while (i-- > 0)
+#if !defined(SHARED) && defined(__FDPIC__)
+	fdpic_init_array_jump(__fini_array_start[i]);
+#else
 	(*__fini_array_start [i]) ();
+#endif
 # endif
     if (__app_fini != NULL)
 	(__app_fini)();
@@ -336,7 +383,7 @@ void __uClibc_main(int (*main)(int, char **, char **), int argc,
 		    char **argv, void (*app_init)(void), void (*app_fini)(void),
 		    void (*rtld_fini)(void), void *stack_end attribute_unused)
 {
-#if !defined __ARCH_HAS_NO_LDSO__ && !defined SHARED
+#ifndef SHARED
     unsigned long *aux_dat;
     ElfW(auxv_t) auxvt[AT_EGID + 1];
 #endif
@@ -365,7 +412,7 @@ void __uClibc_main(int (*main)(int, char **, char **), int argc,
 	__environ = &argv[argc];
     }
 
-#if !defined __ARCH_HAS_NO_LDSO__ && !defined SHARED
+#ifndef SHARED
     /* Pull stuff from the ELF header when possible */
     memset(auxvt, 0x00, sizeof(auxvt));
     aux_dat = (unsigned long*)__environ;
@@ -406,6 +453,8 @@ void __uClibc_main(int (*main)(int, char **, char **), int argc,
      * _dl_pagesize is defined into ld.so if SHARED or into libc.a otherwise. */
     __pagesize = _dl_pagesize;
 
+#ifdef __NOT_FOR_L4__
+//We are never setuid on L4
 #ifndef SHARED
     /* Prevent starting SUID binaries where the stdin. stdout, and
      * stderr file descriptors are not already opened. */
@@ -420,7 +469,11 @@ void __uClibc_main(int (*main)(int, char **, char **), int argc,
 	__check_one_fd (STDIN_FILENO, O_RDONLY | O_NOFOLLOW);
 	__check_one_fd (STDOUT_FILENO, O_RDWR | O_NOFOLLOW);
 	__check_one_fd (STDERR_FILENO, O_RDWR | O_NOFOLLOW);
+	_pe_secure = 1 ;
     }
+    else
+	_pe_secure = 0 ;
+#endif
 #endif
 
     __uclibc_progname = *argv;
@@ -449,7 +502,11 @@ void __uClibc_main(int (*main)(int, char **, char **), int argc,
 	const size_t size = __preinit_array_end - __preinit_array_start;
 	size_t i;
 	for (i = 0; i < size; i++)
+#if !defined(SHARED) && defined(__FDPIC__)
+	    fdpic_init_array_jump(__preinit_array_start[i]);
+#else
 	    (*__preinit_array_start [i]) ();
+#endif
     }
 # endif
     /* Run all the application's ctors now.  */
@@ -465,7 +522,11 @@ void __uClibc_main(int (*main)(int, char **, char **), int argc,
 	const size_t size = __init_array_end - __init_array_start;
 	size_t i;
 	for (i = 0; i < size; i++)
+#if !defined(SHARED) && defined(__FDPIC__)
+	    fdpic_init_array_jump(__init_array_start[i]);
+#else
 	    (*__init_array_start [i]) ();
+#endif
     }
 # endif
 #endif
@@ -505,22 +566,14 @@ void __uClibc_main(int (*main)(int, char **, char **), int argc,
 	else
 	{
 		/* Remove the thread-local data.  */
-# ifdef SHARED
-		__libc_pthread_functions.ptr__nptl_deallocate_tsd ();
-# else
 		__nptl_deallocate_tsd ();
-# endif
 
 		/* One less thread.  Decrement the counter.  If it is zero we
 		   terminate the entire process.  */
 		result = 0;
-# ifdef SHARED
-		unsigned int *const ptr = __libc_pthread_functions.ptr_nthreads;
-# else
 		unsigned int *const ptr = &__nptl_nthreads;
-# endif
 
-		if (! atomic_decrement_and_test (ptr))
+		if (ptr && ! atomic_decrement_and_test (ptr))
 			/* Not much left to do but to exit the thread, not the process.  */
 			__exit_thread_inline (0);
 	}

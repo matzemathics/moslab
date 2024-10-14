@@ -33,7 +33,11 @@ Region_map::Region_map()
       attach_area(start, end - start + 1, L4Re::Rm::F::Reserved);
     }
 
+#ifdef CONFIG_MMU
+  // Prevent NULL pointer accesses on MMU systems. On systems without MMU there
+  // might actually be valid memory on this address.
   attach_area(0, L4_PAGESIZE);
+#endif
 }
 
 int Region_ops::map(Region_handler const *h, l4_addr_t adr,
@@ -73,6 +77,17 @@ Region_ops::free(Region_handler const *h, l4_addr_t start, unsigned long size)
 
   h->memory()->clear(h->offset() + start, size);
 }
+
+int
+Region_ops::map_info(Region_handler const *h,
+                     l4_addr_t *start_addr, l4_addr_t *end_addr)
+{
+  if (!h->memory())
+    return 0;
+
+  return h->memory()->map_info(*start_addr, *end_addr);
+}
+
 
 int
 Region_map::validate_ds(void *, L4::Ipc::Snd_fpage const &ds_cap,

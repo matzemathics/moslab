@@ -20,6 +20,7 @@
 #endif
 
 #include <sys/types.h>
+#include <bits/wordsize.h>
 
 /* Flags for `semop'.  */
 #define SEM_UNDO	0x1000		/* undo the operation on exit */
@@ -38,13 +39,33 @@
 struct semid_ds
 {
   struct ipc_perm sem_perm;		/* operation permission struct */
+#if defined(__UCLIBC_USE_TIME64__)
+  unsigned long int __sem_otime_internal_1;
+  unsigned long int __sem_otime_internal_2;
+#else
   __time_t sem_otime;			/* last semop() time */
-  unsigned long int __unused1;
+#endif
+#if (__WORDSIZE == 32 && !defined(__ARC64_ARCH32__) && !defined(__arc__) && !defined(__arm__) && !defined(__or1k__) && !defined(__xtensa__)) || \
+    ((defined(__ARC64_ARCH32__) || defined(__arc__) || defined(__arm__) || defined(__or1k__) || defined(__xtensa__)) && !defined(__UCLIBC_USE_TIME64__))
+  unsigned long int __uclibc_unused1;
+#endif
+#if defined(__UCLIBC_USE_TIME64__)
+  unsigned long int __sem_ctime_internal_1;
+  unsigned long int __sem_ctime_internal_2;
+#else
   __time_t sem_ctime;			/* last time changed by semctl() */
-  unsigned long int __unused2;
+#endif
+#if (__WORDSIZE == 32 && !defined(__ARC64_ARCH32__) && !defined(__arc__) && !defined(__arm__) && !defined(__or1k__) && !defined(__xtensa__)) || \
+    ((defined(__ARC64_ARCH32__) || defined(__arc__) || defined(__arm__) || defined(__or1k__) || defined(__xtensa__)) && !defined(__UCLIBC_USE_TIME64__))
+  unsigned long int __uclibc_unused2;
+#endif
   unsigned long int sem_nsems;		/* number of semaphores in set */
-  unsigned long int __unused3;
-  unsigned long int __unused4;
+#if defined(__UCLIBC_USE_TIME64__)
+  __time_t sem_otime;			/* last semop() time */
+  __time_t sem_ctime;			/* last time changed by semctl() */
+#endif
+  unsigned long int __uclibc_unused3;
+  unsigned long int __uclibc_unused4;
 };
 
 /* The user should define a union like the following to use it for arguments

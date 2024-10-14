@@ -13,6 +13,8 @@
 
 #include <l4/cxx/hlist>
 #include <l4/sys/vcon>
+#include <l4/sys/cxx/ipc_server_loop>
+#include <l4/cxx/ipc_timeout_queue>
 
 #include "output_mux.h"
 
@@ -20,6 +22,20 @@
 #include <l4/cxx/string>
 
 #include <vector>
+
+template<typename Client>
+class Client_timeout : public L4::Ipc_svr::Timeout_queue::Timeout
+{
+public:
+  Client_timeout(Client *client)
+  : _client(client)
+  {}
+
+  void expired() override;
+
+private:
+  Client *_client;
+};
 
 class Client : public cxx::H_list_item
 {
@@ -124,7 +140,7 @@ public:
       return _tail == _head;
     }
 
-    bool is_next_break(int offset)
+    bool is_next_break(int offset) const
     {
       return    break_points.size()
              && ((_head + offset) % _bufsz) == break_points[0];
@@ -216,11 +232,15 @@ public:
       return p;
     }
 
-    int distance()
+    bool empty() const { return head() == tail(); }
+
+    int distance() const { return distance(tail(), head()); }
+
+    int distance(Index start, Index end) const
     {
-      if (_head >= _tail)
-        return _head - _tail;
-      return (_head + _bufsz) - _tail;
+      if (end.i >= start.i)
+        return end.i - start.i;
+      return (end.i + _bufsz) - start.i;
     }
 
     void clear(int l)
@@ -243,6 +263,8 @@ public:
     std::vector<int> break_points;
     unsigned long _sum_bytes = 0, _sum_lines = 0;
   };
+
+  void timeout_expired();
 
   struct Equal_key
   {
@@ -283,7 +305,9 @@ public:
   };
 
   Client() = delete;
-  Client(std::string const &tag, int color, int rsz, int wsz, Key key);
+  Client(std::string const &tag, int color, int rsz, int wsz, Key key,
+         bool line_buffering, unsigned line_buffering_ms,
+         L4::Ipc_svr::Server_iface *sif);
 
   virtual ~Client()
   {
@@ -337,11 +361,19 @@ private:
   bool _timestamp = false;
   bool _new_line = true;
   bool _dead = false;
+  bool _line_buffering = false;
+  unsigned _line_buffering_ms = 50;
   Key _key;
 
   Buf _wb, _rb;
 
+  Buf::Index _first_unwritten;
+
   void print_timestamp();
+  void do_output(Buf::Index until);
+
+  Client_timeout<Client> _timeout;
+  L4::Ipc_svr::Server_iface *_sif;
 
 protected:
   l4_vcon_attr_t _attr;

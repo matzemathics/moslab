@@ -5,6 +5,7 @@ INTERFACE:
 #include "atomic.h"
 #include "types.h"
 #include "spin_lock.h"
+#include "global_data.h"
 
 class Irq_base;
 class Irq_chip;
@@ -128,19 +129,36 @@ public:
   int set_mode(Mword, Mode) override { return 0; }
   bool is_edge_triggered(Mword) const override { return true; }
 
-  static Irq_chip_soft sw_chip;
+  static Global_data<Irq_chip_soft> sw_chip;
 };
 
 /**
- * Abstract IRQ controller chip that is visble as part of the
+ * Abstract IRQ controller chip that is visible as part of the
  * Icu to the user.
  */
 class Irq_chip_icu : public Irq_chip
 {
 public:
+  /** Reserve the given pin of the ICU making it impossible to attach an IRQ. */
   virtual bool reserve(Mword pin) = 0;
+
+  /**
+   * Attach an IRQ object to a given pin of the ICU.
+   *
+   * \param irq   The IRQ.
+   * \param pin   The pin to attach the IRQ to.
+   * \param init  By default, perform the pin allocation and the following
+   *              initialization: Adjust the trigger mode of the IRQ to the pin
+   *              of the chip, mask/unmask the pin according to the IRQ`s masked
+   *              state and set the target CPU of the pin.
+   *              If this parameter is set to `false`, skip the initialization.
+   */
   virtual bool alloc(Irq_base *irq, Mword pin, bool init = true) = 0;
+
+  /** Return the IRQ object attached to a given pin of the ICU. */
   virtual Irq_base *irq(Mword pin) const = 0;
+
+  /** Return the number of pins provided by this ICU. */
   virtual unsigned nr_irqs() const = 0;
   virtual ~Irq_chip_icu() = 0;
 };
@@ -164,9 +182,9 @@ public:
     F_enabled = 1, // This flags needs to be set atomically.
   };
 
-  Irq_base() : _flags(0), _irq_lock(Spin_lock<>::Unlocked), _next(0)
+  Irq_base() : _flags(0)
   {
-    Irq_chip_soft::sw_chip.bind(this, 0, true);
+    Irq_chip_soft::sw_chip->bind(this, 0, true);
     mask();
   }
 
@@ -176,7 +194,12 @@ public:
   Irq_chip *chip() const { return _chip; }
   Spin_lock<> *irq_lock() { return &_irq_lock; }
 
-  void mask() { if (!__mask()) _chip->mask(_pin); }
+  void mask()
+  {
+    if (!__mask())
+      _chip->mask(_pin);
+  }
+
   void mask_and_ack()
   {
     if (!__mask())
@@ -185,7 +208,12 @@ public:
       _chip->ack(_pin);
   }
 
-  void unmask() { if (__unmask()) _chip->unmask(_pin); }
+  void unmask()
+  {
+    if (__unmask())
+      _chip->unmask(_pin);
+  }
+
   void ack() { _chip->ack(_pin); }
 
   void set_cpu(Cpu_number cpu) { _chip->set_cpu(_pin, cpu); }
@@ -251,9 +279,7 @@ protected:
   { nonull_static_cast<T*>(irq)->handle(ui); }
 
 public:
-  Irq_base *_next;
-
-  static Irq_base *(*dcast)(Kobject_iface *);
+  static Global_data<Irq_base *(*)(Kobject_iface *)> dcast;
 };
 
 
@@ -301,24 +327,36 @@ IMPLEMENTATION:
 #include "lock_guard.h"
 #include "static_init.h"
 
-Irq_chip_soft Irq_chip_soft::sw_chip INIT_PRIORITY(EARLY_INIT_PRIO);
-Irq_base *(*Irq_base::dcast)(Kobject_iface *);
+DEFINE_GLOBAL_PRIO(EARLY_INIT_PRIO)
+Global_data<Irq_chip_soft> Irq_chip_soft::sw_chip;
+
+DEFINE_GLOBAL Global_data<Irq_base *(*)(Kobject_iface *)> Irq_base::dcast;
 
 IMPLEMENT inline Irq_chip::~Irq_chip() {}
 IMPLEMENT inline Irq_chip_icu::~Irq_chip_icu() {}
 IMPLEMENT inline Irq_base::~Irq_base() {}
 
 /**
- * \pre `irq->irq_lock()` must be held
+ * Bind the passed IRQ object to this IRQ controller chip.
+ *
+ * \param irq        The IRQ object to bind.
+ * \param pin        The pin of this IRQ controller chip.
+ * \param ctor_only  On `false` (default), set the IRQ mode (edge/level) as
+ *                   implemented by the IRQ controller chip and mask/unmask the
+ *                   IRQ at the chip according to the current state of the IRQ
+ *                   object.
+ *                   On `true`, skip these efforts.
+ *
+ * \pre `irq->irq_lock()` must be held.
  */
 PUBLIC inline
 void
-Irq_chip::bind(Irq_base *irq, Mword pin, bool ctor = false)
+Irq_chip::bind(Irq_base *irq, Mword pin, bool ctor_only = false)
 {
   irq->_pin = pin;
   irq->_chip = this;
 
-  if (ctor)
+  if (ctor_only)
     return;
 
   irq->switch_mode(is_edge_triggered(pin));
@@ -330,13 +368,20 @@ Irq_chip::bind(Irq_base *irq, Mword pin, bool ctor = false)
 }
 
 /**
- * \pre `irq->irq_lock()` must be held
+ * Unbind the passed IRQ object from this IRQ controller chip by binding the IRQ
+ * object to the `sw_chip` chip.
+ *
+ * \param irq  The IRQ object to unbind.
+ *
+ * \see Irq_base::Irq_base()
+ *
+ * \pre `irq->irq_lock()` must be held.
  */
 IMPLEMENT inline
 void
 Irq_chip::unbind(Irq_base *irq)
 {
-  Irq_chip_soft::sw_chip.bind(irq, 0, true);
+  Irq_chip_soft::sw_chip->bind(irq, 0, true);
 }
 
 
@@ -404,6 +449,7 @@ public:
     Mword pin;
     void print(String_buffer *buf) const;
   };
+  static_assert(sizeof(Irq_log) <= Tb_entry::Tb_entry_size);
 };
 
 
@@ -422,12 +468,13 @@ Irq_base::Irq_log::print(String_buffer *buf) const
 {
   Kobject_dbg::Const_iterator irq = Kobject_dbg::pointer_to_obj(obj);
 
-  buf->printf("0x%lx/%lu @ chip %s(%p) ", pin, pin, chip->chip_type(), chip);
+  buf->printf("0x%lx/%lu @ chip %s(%p) ", pin, pin, chip->chip_type(),
+              static_cast<void *>(chip));
 
   if (irq != Kobject_dbg::end())
     buf->printf("D:%lx", irq->dbg_id());
   else
-    buf->printf("irq=%p", obj);
+    buf->printf("irq=%p", static_cast<void *>(obj));
 }
 
 PUBLIC inline NEEDS["logdefs.h"]

@@ -1,6 +1,11 @@
 mainmenu "L4Re Configuration"
 
+source "Kconfig.generated.defines"
+
 config ARCH_ENABLE_STACK_PROTECTOR
+	bool
+
+config ARCH_NO_MMU
 	bool
 
 choice
@@ -39,6 +44,7 @@ config BUILD_ABI
 	default "linux" if BUILD_ABI_linux
 
 # PF_INCLUDE
+source "mk/arch/Kconfig.common.inc"
 
 choice
 	prompt "Platform Selection"
@@ -85,6 +91,11 @@ endif
 source "Kconfig.generated.platform_types"
 source "Kconfig.generated.pkgs"
 
+config MMU
+	bool
+	default y
+	depends on !ARCH_NO_MMU
+
 config USE_DROPS_STDDIR
 	def_bool n
 
@@ -118,6 +129,10 @@ config ETAGS
 	string
 	default "etags"
 
+config BID_OPTIMIZE_SIZE
+	bool "Optimize for size (-Os)"
+	help
+	  Use -Os instead of -O2 to build smaller executables.
 
 config BID_DEBUG_INFO
 	bool "Generate debug information"
@@ -134,6 +149,17 @@ config BID_BUILD_TESTS
 	  Enable to build tests.
 
 	  If unsure, say 'N'.
+
+config BID_BUILD_TESTS_SHARED
+	bool "Use shared linking for tests" if EXPERT
+	depends on BID_BUILD_TESTS
+	default y if !ARCH_NO_MMU
+	help
+	  Linking tests shared reduces the on-disk footprint of the build tree,
+	  and, potentially, also the amount of data needed to be transferred on
+	  a single test invocation.
+
+	  Enable this on platforms that support it if in doubt.
 
 config INT_CPP_NAME_SWITCH
 	bool "Automatically determine internal gcc preprocessor names"
@@ -164,6 +190,17 @@ config BID_STRIP_BINARIES
 	  Fiasco kernel debugger), say 'N' here.
 
 	  If unsure, say 'Y'.
+
+config BID_LD_EMIT_UNWIND
+	bool "GCC: Emit unwind tables"
+	help
+	  If enabled, gcc will be passed the '-funwind-tables' cmdline
+	  option, adding unwind tables for all generated code. Binaries will
+	  be larger, but without unwind tables no backtraces can be created
+	  on most architectures (except on x86) and no exception handling
+	  can be provided by LLVM's libunwind.
+
+	  If unsure, say 'N'.
 
 config BID_GCC_OMIT_FP
 	bool "GCC: Omit Frame-pointers"
@@ -225,9 +262,10 @@ config BID_BUILD_DOC
 	  Say Y if you also want to build the doc directories.
 
 config RELEASE_MODE
-	bool "Enable RELEASE flag"
+	bool "Do a release and non-debug(able) build"
 	help
 	  Enable to leave out debugging and other code normally not needed.
+	  Do only enable this after you have a working configuration.
 
 	  Say N.
 
@@ -247,9 +285,10 @@ config EXPERIMENTAL
 
 	  Use with caution!
 
+if EXPERIMENTAL
+
 choice
 	prompt "Position independent executables"
-	depends on EXPERIMENTAL
 	depends on BUILD_ARCH_amd64 || BUILD_ARCH_arm || BUILD_ARCH_arm64
 	default BID_PIE_NONE
 
@@ -277,10 +316,53 @@ config BID_PIE_ALL
 
 endchoice
 
+config BID_THUMB
+	bool "Build thumb code"
+	depends on BUILD_ARCH_arm
+	help
+	  Build with -mthumb by default. This will reduce the code size at the
+	  slight expense of execution speed.
+
+config BID_STATIC_HEAP
+	bool "Static heap reservation"
+	depends on BID_CAN_STATIC_HEAP
+	help
+	  Statically reserve the heap in the bss section of executables.
+
+	  This will save the additional MPU region that would otherwise be
+	  necessary due to the dynmamic allocation of a dataspace.
+
+config BID_STATIC_STACK
+	bool "Static stack allocation"
+	depends on BID_CAN_STATIC_STACK
+	help
+	  Statically allocate stack in bss section of executables.
+
+	  This will save the additional MPU region that would otherwise be
+	  necessary. Also relieves the loader from dynamically allocating any
+	  stack memory.
+
+endif # EXPERIMENTAL
+
+config BID_CAN_STATIC_HEAP
+	bool # enabled by l4re-core for configurations that support this
+
+config BID_CAN_STATIC_STACK
+	bool # enabled by l4re-core for configurations that support this
+
 config BID_PIE
 	bool
 	default y
 	depends on BID_PIE_VOLUNTARY || BID_PIE_ALL
+
+config EXPERT
+	bool "Show expert options"
+	help
+	  Expert options are those that you should never have to change unless
+	  you have a very good reason to do so. Their default values are
+	  intended to be used for nearly all use-cases. So only enable this
+	  option if you are certain that you need it and ensure you are aware
+	  of all consequences when changing any of them.
 
 endmenu
 

@@ -1,5 +1,8 @@
+# vim:se ft=make:
+
 CROSS_COMPILE_x86         = x86_64-linux-gnu-
 LD_EMULATION_CHOICE_x86   = elf_i386
+ASFLAGS_x86               = -Wa,--noexecstack
 LDFLAGS_x86              += -z noexecstack
 OFORMAT_x86               = elf32-i386
 BFD_ARCH_x86              = i386
@@ -24,14 +27,10 @@ CARCHFLAGS_x86_athlon4    = -march=athlon-4
 CARCHFLAGS_x86_K8         = -march=k8
 CARCHFLAGS_x86_opteron    = -march=opteron
 
-CCXX_FLAGS_x86  += -m32
-
-CC_x86          = $(CROSS_COMPILE)gcc
-CXX_x86         = $(CROSS_COMPILE)g++
-FC_x86          = $(CROSS_COMPILE)gfortran
+CARCHFLAGS_x86  += -m32
 
 SYSTEMS_ABI    += x86-l4f
-SYSTEMS_PLAIN  += x86
+SYSTEMS_PLAIN  += x86-plain
 
 GCCNOFPU_x86_f  = $(call checkcc,-mno-mmx) $(call checkcc,-mno-3dnow) \
                   $(call checkcc,-mno-sse) $(call checkcc,-mno-sse2)  \

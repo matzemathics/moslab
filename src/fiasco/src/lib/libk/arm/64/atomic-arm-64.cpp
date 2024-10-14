@@ -91,7 +91,7 @@ atomic_exchange(T *mem, V value)
   switch (sizeof(T))
     {
     case 4:
-      asm (
+      asm volatile (
           "     prfm  pstl1strm, [%[mem]] \n"
           "1:   ldxr  %w[res], [%[mem]] \n"
           "     stxr  %w[tmp], %w[val], [%[mem]] \n"
@@ -103,19 +103,16 @@ atomic_exchange(T *mem, V value)
       return res;
 
     case 8:
-      asm (
+      asm volatile (
           "     prfm   pstl1strm, [%[mem]] \n"
-          "1:   ldxr   %[res], [%[mem]] \n"
-          "     stxr   %w[tmp], %[val], [%[mem]] \n"
+          "1:   ldxr   %x[res], [%[mem]] \n"
+          "     stxr   %w[tmp], %x[val], [%[mem]] \n"
           "     cmp    %w[tmp], #0 \n"
           "     b.ne   1b "
           : [res] "=&r" (res), [tmp] "=&r" (tmp), "+Qo" (*mem)
           : [mem] "r" (mem), [val] "r" (val)
           : "cc");
       return res;
-
-    default:
-      return T();
     }
 }
 
@@ -132,7 +129,7 @@ atomic_add_fetch(T *mem, V value)
   switch (sizeof(T))
     {
     case 4:
-      asm (
+      asm volatile (
           "     prfm   pstl1strm, [%[mem]] \n"
           "1:   ldxr  %w[res], [%[mem]] \n"
           "     add   %w[res], %w[res], %w[val] \n"
@@ -145,7 +142,7 @@ atomic_add_fetch(T *mem, V value)
       return res;
 
     case 8:
-      asm (
+      asm volatile (
           "     prfm   pstl1strm, [%[mem]] \n"
           "1:   ldxr   %x[res], [%[mem]] \n"
           "     add    %x[res], %x[res], %x[val] \n"
@@ -156,9 +153,6 @@ atomic_add_fetch(T *mem, V value)
           : [mem] "r" (mem), [val] "r" (val)
           : "cc");
       return res;
-
-    default:
-      return T();
     }
 }
 
@@ -176,7 +170,7 @@ atomic_load(T const *p)
       return res;
 
     case 8:
-      asm volatile ("ldr %0, %1" : "=r" (res) : "m"(*p));
+      asm volatile ("ldr %x0, %1" : "=r" (res) : "m"(*p));
       return res;
     }
 }
@@ -195,7 +189,7 @@ atomic_store(T *p, V value)
       break;
 
     case 8:
-      asm volatile ("str %1, %0" : "=m" (*p) : "r" (val));
+      asm volatile ("str %x1, %0" : "=m" (*p) : "r" (val));
       break;
     }
 }

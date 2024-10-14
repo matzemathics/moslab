@@ -375,25 +375,6 @@
 # define __ASSUME_AT_SECURE	1
 #endif
 
-/* Starting with the 2.5.75 kernel the kernel fills in the correct value
-   in the si_pid field passed as part of the siginfo_t struct to signal
-   handlers.  */
-#if __LINUX_KERNEL_VERSION >= 132427
-# define __ASSUME_CORRECT_SI_PID	1
-#endif
-
-/* The tgkill syscall was instroduced for i386 in 2.5.75.  For Alpha
-   it was introduced in 2.6.0-test1 which unfortunately cannot be
-   distinguished from 2.6.0.  On x86-64, ppc, and ppc64 it was
-   introduced in 2.6.0-test3. */
-#if (__LINUX_KERNEL_VERSION >= 132427 && defined __i386__) \
-    || (__LINUX_KERNEL_VERSION >= 132609 && defined __alpha__) \
-    || (__LINUX_KERNEL_VERSION >= 132609 && defined __x86_64__) \
-    || (__LINUX_KERNEL_VERSION >= 132609 && defined __powerpc__) \
-    || (__LINUX_KERNEL_VERSION >= 132609 && defined __sh__)
-# define __ASSUME_TGKILL	1
-#endif
-
 /* The utimes syscall has been available for some architectures
    forever.  For x86 it was introduced after 2.5.75, for x86-64,
    ppc, and ppc64 it was introduced in 2.6.0-test3.  */
@@ -480,6 +461,12 @@
 # define __ASSUME_ACCEPT4       1
 #endif
 
+/* Support for the recvmmsg/sendmmsg syscall was added in 2.6.33  */
+#if __LINUX_KERNEL_VERSION >= 0x020621
+#define __ASSUME_RECVMMSG_SYSCALL       1
+#define __ASSUME_SENDMMSG_SYSCALL       1
+#endif
+
 /* Support for the FUTEX_CLOCK_REALTIME flag was added in 2.6.29.  */
 #if __LINUX_KERNEL_VERSION >= 0x02061d
 # define __ASSUME_FUTEX_CLOCK_REALTIME	1
@@ -503,7 +490,17 @@
 # define __ASSUME_FALLOCATE 1
 #endif
 
+/* prlimit64 is available in 2.6.36.  */
+#if __LINUX_KERNEL_VERSION >= 0x020624
+# define __ASSUME_PRLIMIT64    1
+#endif
+
 /* getcpu is a syscall for x86-64 since 3.1.  */
 #if defined __x86_64__ && __LINUX_KERNEL_VERSION >= 0x030100
 # define __ASSUME_GETCPU_SYSCALL        1
+#endif
+
+/* getrandom syscall (widely) appeared around 4.0.0 */
+#if __LINUX_KERNEL_VERSION >= 0x040000
+# define __ASSUME_GETRANDOM_SYSCALL 1
 #endif

@@ -15,7 +15,7 @@
 /* Internal locks */
 
 #include <errno.h>
-//l4/#include <sched.h>
+#include <sched.h>
 #include <time.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -24,8 +24,6 @@
 #include "spinlock.h"
 #include "restart.h"
 
-#include <l4/sys/thread.h>
-#include <l4/util/util.h>
 
 static void __pthread_acquire(int * spinlock);
 
@@ -189,10 +187,16 @@ int __pthread_unlock(struct _pthread_fastlock * lock)
   WRITE_MEMORY_BARRIER();
 
 again:
-  while ((oldstatus = lock->__status) == 1) {
-    if (__compare_and_swap_with_release_semantics(&lock->__status,
+  oldstatus = lock->__status;
+  if (oldstatus == 0 || oldstatus == 1) {
+    /* No threads are waiting for this lock.  Please note that we also
+       enter this case if the lock is not taken at all.  If this wouldn't
+       be done here we would crash further down.  */
+    if (! __compare_and_swap_with_release_semantics(&lock->__status,
 	oldstatus, 0))
-      return 0;
+      goto again;
+
+    return 0;
   }
 
   /* Find thread in waiting queue with maximal priority */
@@ -618,8 +622,6 @@ void __pthread_alt_unlock(struct _pthread_fastlock *lock)
     if (maxprio == INT_MIN)
       continue;
 
-    ASSERT (p_max_prio != (struct wait_node *) 1);
-
     /* Now we want to to remove the max priority thread's wait node from
        the list. Before we can do this, we must atomically try to change the
        node's abandon state from zero to nonzero. If we succeed, that means we
@@ -717,15 +719,18 @@ int __pthread_compare_and_swap(long * ptr, long oldval, long newval,
 static void __pthread_acquire(int * spinlock)
 {
   int cnt = 0;
+  struct timespec tm;
 
   READ_MEMORY_BARRIER();
 
   while (testandset(spinlock)) {
     if (cnt < MAX_SPIN_COUNT) {
-      l4_thread_yield();
+      sched_yield();
       cnt++;
     } else {
-      l4_usleep(SPIN_SLEEP_DURATION / 1000);
+      tm.tv_sec = 0;
+      tm.tv_nsec = SPIN_SLEEP_DURATION;
+      nanosleep(&tm, NULL);
       cnt = 0;
     }
   }

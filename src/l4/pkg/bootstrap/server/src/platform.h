@@ -29,6 +29,18 @@ public:
   virtual l4_addr_t to_virt(l4_uint64_t phys_addr)
   { return phys_addr; }
 
+  /** Number of AMP nodes on platform. */
+  virtual unsigned num_nodes()
+  { return 1; }
+
+  /** Id of first AMP node on platform. */
+  virtual unsigned first_node()
+  { return 0; }
+
+  /** Id of current AMP on platform. */
+  virtual unsigned current_node()
+  { return 0; }
+
   virtual void reboot()
   {
     l4_infinite_loop();
@@ -57,18 +69,12 @@ public:
    */
   virtual void setup_kernel_options(L4_kernel_options::Options *) {}
 
-  /**
-   * Allows the platform to do platform specific setup when loading modules.
-   * It is guaranteed that this is called after setup_kernel_config().
-   */
-  virtual void module_load_hook(l4_addr_t /* addr */, l4_umword_t /* file_sz */,
-                                l4_umword_t /* mem_sz */,
-                                char const* /* cmdline */) {};
+  virtual void init_regions() {}
 
   virtual void boot_kernel(unsigned long entry)
   {
     typedef void (*func)(void);
-    ((func)entry)();
+    reinterpret_cast<func>(entry)();
     exit(-100);
   }
 

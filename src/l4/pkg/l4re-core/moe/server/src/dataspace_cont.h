@@ -8,6 +8,7 @@
  */
 #pragma once
 
+#include <l4/bid_config.h>
 #include "dataspace.h"
 
 namespace Moe {
@@ -20,7 +21,9 @@ class Dataspace_cont : public Dataspace
 public:
   Dataspace_cont(void *start, unsigned long size,
                  Flags flags,
-                 unsigned char page_shift);
+                 unsigned char page_shift,
+                 Single_page_alloc_base::Config cfg
+                   = Single_page_alloc_base::Config());
 
   ~Dataspace_cont() { unmap(); }
 
@@ -34,8 +37,13 @@ public:
               Dma_attribs dma_attrs, Dma_space::Direction dir,
               Dma_space::Dma_addr *dma_addr) override;
 
+#if !defined(CONFIG_MMU)
+  long map_info(l4_addr_t &start_addr,
+                l4_addr_t &end_addr) const noexcept override;
+#endif
+
 protected:
-  void start(void *start) { _start = (char*)start; }
+  void start(void *start) { _start = static_cast<char*>(start); }
   void *start() { return _start; }
 
 private:

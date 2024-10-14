@@ -16,40 +16,43 @@ CXXFLAGS                    += -DL4_NO_RTTI -fno-rtti -fno-exceptions
 DEFINES                      = -DL4_KIP_ADDR=$(L4_KIP_ADDR)
 
 SRC_CC                       = kobject.cc
+SRC_S_libl4sys-arm          += ARCH-arm/atomic_ops_s.S
 SRC_C_libl4sys-ppc32        += ARCH-ppc32/atomic_ops.c
 SRC_S_libl4sys-sparc        += ARCH-sparc/atomic_ops.S
 
-SRC_S_libl4sys.a-arm64       = $(if $(CONFIG_BID_PIE),ARCH-arm64/syscall.S)
+SRC_S_libl4sys.a-arm         = ARCH-arm/syscall.S
+SRC_S_libl4sys.a-arm64       = ARCH-arm64/syscall.S
+SRC_S_libl4sys.so-arm        = ARCH-arm/syscall.S
 SRC_S_libl4sys.so-arm64      = ARCH-arm64/syscall.S
 
-SRC_C_libl4sys-direct.a      = kip.c
 SRC_S_libl4sys-direct.so     =
+SRC_S_libl4sys-direct.a-arm  = ARCH-arm/syscall.S
 SRC_S_libl4sys-direct.a-arm64 = ARCH-arm64/syscall.S
-SRC_S_libl4sys-direct.a-x86  = syscalls_direct.S
-SRC_S_libl4sys-direct.a      = $(SRC_S_libl4sys-direct.a-$(ARCH))
-vpath syscalls_direct.S $(SRC_DIR)/ARCH-$(ARCH)
+SRC_S_libl4sys-direct.a-x86  = ARCH-x86/syscalls_direct.S
+SRC_S_libl4sys-direct.a      = kip.S $(SRC_S_libl4sys-direct.a-$(ARCH))
 
-SRC_C_libl4sys.a             = utcb.c errtostr.c kip.c $(SRC_C_libl4sys-$(ARCH))
+SRC_C_libl4sys.a             = utcb.c errtostr.c $(SRC_C_libl4sys-$(ARCH))
 SRC_C_libl4sys.so            = utcb.c errtostr.c $(SRC_C_libl4sys-$(ARCH))
-SRC_S_libl4sys.a             = $(SRC_S_libl4sys.a-$(ARCH)) \
+SRC_S_libl4sys.a             = kip.S $(SRC_S_libl4sys.a-$(ARCH)) \
                                $(SRC_S_libl4sys-$(ARCH))
 SRC_S_libl4sys.so            = $(SRC_S_libl4sys.so-$(ARCH)) \
                                $(SRC_S_libl4sys-$(ARCH))
 
-SRC_C_libl4sys-l4x.a         = utcb.c errtostr.c kip.c $(SRC_C_libl4sys-$(ARCH))
+SRC_C_libl4sys-l4x.a         = utcb.c errtostr.c $(SRC_C_libl4sys-$(ARCH))
 SRC_C_libl4sys-l4x.so        = utcb.c errtostr.c $(SRC_C_libl4sys-$(ARCH))
-SRC_S_libl4sys-l4x.a         = $(SRC_S_libl4sys-$(ARCH))
+SRC_S_libl4sys-l4x.a         = kip.S $(SRC_S_libl4sys-$(ARCH))
 SRC_S_libl4sys-l4x.so        = $(SRC_S_libl4sys-$(ARCH))
 
 SRC_C_l4lx-arm               = utcb.c
 SRC_C_l4lx-amd64             = utcb.c
+SRC_S_l4lx-arm               = ARCH-arm/atomic_ops_s.S
 SRC_C_l4lx-mips              = utcb.c
 SRC_C_l4lx-ppc32             = utcb.c ARCH-ppc32/atomic_ops.c
+SRC_C_l4lx-riscv             = utcb.c
 SRC_C_l4lx-x86               = ARCH-x86/utcb-l4x.c
 SRC_C_libl4sys-l4x.a         = errtostr.c $(SRC_C_l4lx-$(ARCH))
 SRC_S_libl4sys-l4x.a         = $(SRC_S_l4lx-$(ARCH))
 
-include $(L4DIR)/mk/lib.mk
+COMPILER_RT                  = compiler-rt-pure
 
-GCCLIB    = $(OBJ_BASE)/lib/$(ARCH)_$(CPU)/libgcc.a
-GCCLIB_SO = $(OBJ_BASE)/lib/$(ARCH)_$(CPU)/libgcc.a
+include $(L4DIR)/mk/lib.mk

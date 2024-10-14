@@ -38,6 +38,7 @@ class Vhw_descriptor {};
 INTERFACE:
 
 #include "types.h"
+#include "global_data.h"
 
 class Kip
 {
@@ -64,7 +65,8 @@ public:
   Unsigned8  offset_version_strings;
   Unsigned8  fill0[sizeof(Mword) - 1];
   Unsigned8  kip_sys_calls;
-  Unsigned8  fill1[sizeof(Mword) - 1];
+  Unsigned8  node;
+  Unsigned8  fill1[sizeof(Mword) - 2];
 
   /* the following stuff is undocumented; we assume that the kernel
      info page is located at offset 0x1000 into the L4 kernel boot
@@ -104,7 +106,8 @@ public:
   Mword      frequency_bus;
 
   /* 0xB8   0x160 */
-  Mword      _res7[10 + ((sizeof(Mword) == 8) ? 2 : 0)];
+  Mword      mbt_counter; // only used for model-based testing
+  Mword      _res7[9 + ((sizeof(Mword) == 8) ? 2 : 0)];
 
   /* 0xE0   0x1C0 */
   Mword      user_ptr;
@@ -134,7 +137,7 @@ public:
    * KIP clock. */
 
 private:
-  static Kip *global_kip asm ("GLOBAL_KIP");
+  static Global_data<Kip *> global_kip;
 };
 
 #define L4_KERNEL_INFO_MAGIC (0x4BE6344CL) /* "L4µK" */
@@ -165,13 +168,17 @@ Address Mem_desc::end() const
 { return _h | 0x3ffUL; }
 
 PUBLIC inline ALWAYS_INLINE
+Address Mem_desc::size() const
+{ return end() - start() + 1; }
+
+PUBLIC inline ALWAYS_INLINE
 void
 Mem_desc::type(Mem_type t)
 { _l = (_l & ~0x0f) | (t & 0x0f); }
 
 PUBLIC inline ALWAYS_INLINE
 Mem_desc::Mem_type Mem_desc::type() const
-{ return (Mem_type)(_l & 0x0f); }
+{ return static_cast<Mem_type>(_l & 0x0f); }
 
 PUBLIC inline
 unsigned Mem_desc::ext_type() const
@@ -180,6 +187,10 @@ unsigned Mem_desc::ext_type() const
 PUBLIC inline ALWAYS_INLINE
 unsigned Mem_desc::is_virtual() const
 { return _l & 0x200; }
+
+PUBLIC inline ALWAYS_INLINE
+unsigned Mem_desc::eager_map() const
+{ return _l & 0x100; }
 
 PUBLIC inline
 bool Mem_desc::contains(Address addr) const
@@ -193,11 +204,11 @@ bool Mem_desc::valid() const
 
 PRIVATE inline ALWAYS_INLINE
 Mem_desc *Kip::mem_descs()
-{ return (Mem_desc*)(((Address)this) + (_mem_info >> (MWORD_BITS/2))); }
+{ return offset_cast<Mem_desc*>(this, _mem_info >> (MWORD_BITS/2)); }
 
 PRIVATE inline
 Mem_desc const *Kip::mem_descs() const
-{ return (Mem_desc const *)(((Address)this) + (_mem_info >> (MWORD_BITS/2))); }
+{ return offset_cast<Mem_desc const *>(this, _mem_info >> (MWORD_BITS/2)); }
 
 PUBLIC inline ALWAYS_INLINE
 unsigned Kip::num_mem_descs() const
@@ -237,7 +248,7 @@ Mem_desc *Kip::add_mem_region(Mem_desc const &md)
   return 0;
 }
 
-Kip *Kip::global_kip;
+DEFINE_GLOBAL Global_data<Kip *> Kip::global_kip;
 
 PUBLIC static inline ALWAYS_INLINE NEEDS["config.h"]
 void

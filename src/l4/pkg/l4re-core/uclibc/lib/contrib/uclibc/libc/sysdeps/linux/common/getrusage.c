@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * getrusage() for uClibc
  *
@@ -10,4 +9,5 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 #include <wait.h>
+#include <sys/resource.h>
 _syscall2(int, getrusage, __rusage_who_t, who, struct rusage *, usage)

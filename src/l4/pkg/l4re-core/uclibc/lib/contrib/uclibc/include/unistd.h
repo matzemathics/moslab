@@ -206,7 +206,7 @@ __BEGIN_DECLS
 #include <bits/uClibc_posix_opt.h>
 
 /* Get the environment definitions from Unix98.  */
-#ifdef __USE_UNIX98
+#if defined __USE_UNIX98 || defined __USE_XOPEN2K
 # include <bits/environments.h>
 #endif
 
@@ -266,7 +266,7 @@ typedef __pid_t pid_t;
 # endif
 #endif	/* X/Open */
 
-#if defined __USE_MISC || defined __USE_XOPEN_EXTENDED
+#if defined __USE_MISC || defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K
 # ifndef __intptr_t_defined
 typedef __intptr_t intptr_t;
 #  define __intptr_t_defined
@@ -290,7 +290,7 @@ typedef __socklen_t socklen_t;
 /* Test for access to NAME using the real UID and real GID.  */
 extern int access (const char *__name, int __type) __THROW __nonnull ((1));
 
-#if 0 /*def __USE_GNU*/
+#if defined __UCLIBC_LINUX_SPECIFIC__ && defined __USE_GNU
 /* Test for access to NAME using the effective UID and GID
    (as normal file operations use).  */
 extern int euidaccess (const char *__name, int __type)
@@ -387,7 +387,7 @@ extern __typeof(write) __write_nocancel attribute_hidden;
 libc_hidden_proto(write)
 #endif
 
-#ifdef __USE_UNIX98
+#if defined __USE_UNIX98 || defined __USE_XOPEN2K8
 # ifndef __USE_FILE_OFFSET64
 /* Read NBYTES into BUF from FD at the given position OFFSET without
    changing the file pointer.  Return the number read, -1 for errors
@@ -469,8 +469,9 @@ libc_hidden_proto(alarm)
 extern unsigned int sleep (unsigned int __seconds);
 libc_hidden_proto(sleep)
 
-#if (defined __USE_BSD || defined __USE_XOPEN_EXTENDED) \
-	&& defined __UCLIBC_SUSV3_LEGACY__
+#if (defined __USE_BSD \
+		|| (defined __USE_XOPEN_EXTENDED && !defined __USE_XOPEN2K8) \
+	) && defined __UCLIBC_SUSV3_LEGACY__
 /* Set an alarm to go off (generating a SIGALRM signal) in VALUE
    microseconds.  If INTERVAL is nonzero, when the alarm goes off, the
    timer is reset to go off every INTERVAL microseconds thereafter.
@@ -500,7 +501,7 @@ extern int chown (const char *__file, __uid_t __owner, __gid_t __group)
      __THROW __nonnull ((1)) __wur;
 libc_hidden_proto(chown)
 
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K8
 /* Change the owner and group of the file that FD is open on.  */
 extern int fchown (int __fd, __uid_t __owner, __gid_t __group) __THROW __wur;
 
@@ -525,7 +526,7 @@ libc_hidden_proto(fchownat)
 extern int chdir (const char *__path) __THROW __nonnull ((1)) __wur;
 libc_hidden_proto(chdir)
 
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K8
 /* Change the process's working directory to the one FD is open on.  */
 extern int fchdir (int __fd) __THROW __wur;
 libc_hidden_proto(fchdir)
@@ -548,7 +549,7 @@ libc_hidden_proto(getcwd)
 extern char *get_current_dir_name (void) __THROW;
 #endif
 
-#if 0 /*defined __USE_BSD || defined __USE_XOPEN_EXTENDED*/
+#if 0 /*defined __USE_BSD || (defined __USE_XOPEN_EXTENDED && !defined __USE_XOPEN2K8)*/
 /* Put the absolute pathname of the current working directory in BUF.
    If successful, return BUF.  If not, put an error message in
    BUF and return NULL.  BUF should be at least PATH_MAX bytes long.  */
@@ -581,52 +582,51 @@ extern char **environ;
 /* Replace the current process, executing PATH with arguments ARGV and
    environment ENVP.  ARGV and ENVP are terminated by NULL pointers.  */
 extern int execve (const char *__path, char *const __argv[],
-		   char *const __envp[]) __THROW __nonnull ((1));
+		   char *const __envp[]) __THROW __nonnull ((1, 2));
 libc_hidden_proto(execve)
 
-#if 0 /*def __USE_XOPEN2K8*/
 /* Execute the file FD refers to, overlaying the running program image.
    ARGV and ENVP are passed to the new program, as for `execve'.  */
 extern int fexecve (int __fd, char *const __argv[], char *const __envp[])
-     __THROW;
-#endif
-
+     __THROW __nonnull ((2));
+libc_hidden_proto(fexecve)
 
 /* Execute PATH with arguments ARGV and environment from `environ'.  */
 extern int execv (const char *__path, char *const __argv[])
-     __THROW __nonnull ((1));
+     __THROW __nonnull ((1, 2));
 libc_hidden_proto(execv)
 
 /* Execute PATH with all arguments after PATH until a NULL pointer,
    and the argument after that for environment.  */
 extern int execle (const char *__path, const char *__arg, ...)
-     __THROW __nonnull ((1));
+     __THROW __nonnull ((1, 2));
 libc_hidden_proto(execle)
 
 /* Execute PATH with all arguments after PATH until
    a NULL pointer and environment from `environ'.  */
 extern int execl (const char *__path, const char *__arg, ...)
-     __THROW __nonnull ((1));
+     __THROW __nonnull ((1, 2));
 libc_hidden_proto(execl)
 
 /* Execute FILE, searching in the `PATH' environment variable if it contains
    no slashes, with arguments ARGV and environment from `environ'.  */
 extern int execvp (const char *__file, char *const __argv[])
-     __THROW __nonnull ((1));
+     __THROW __nonnull ((1, 2));
 libc_hidden_proto(execvp)
 
 /* Execute FILE, searching in the `PATH' environment variable if
    it contains no slashes, with all arguments after FILE until a
    NULL pointer and environment from `environ'.  */
 extern int execlp (const char *__file, const char *__arg, ...)
-     __THROW __nonnull ((1));
+     __THROW __nonnull ((1, 2));
 libc_hidden_proto(execlp)
 
 #ifdef __USE_GNU
 /* Execute FILE, searching in the `PATH' environment variable if it contains
    no slashes, with arguments ARGV and environment from a pointer */
-extern int execvpe (__const char *__file, char *__const __argv[], char *__const __envp[])
-     __THROW __nonnull ((1));
+extern int execvpe (const char *__file, char *const __argv[],
+		char *const __envp[])
+     __THROW __nonnull ((1, 2));
 libc_hidden_proto(execvpe)
 #endif
 
@@ -671,21 +671,12 @@ libc_hidden_proto(getpid)
 /* Get the process ID of the calling process's parent.  */
 extern __pid_t getppid (void) __THROW;
 
-/* Get the process group ID of the calling process.
-   This function is different on old BSD. */
-#ifndef __FAVOR_BSD
+/* Get the process group ID of the calling process.  */
 extern __pid_t getpgrp (void) __THROW;
-#else
-# ifdef __REDIRECT_NTH
-extern __pid_t __REDIRECT_NTH (getpgrp, (__pid_t __pid), __getpgid);
-# else
-#  define getpgrp __getpgid
-# endif
-#endif
 
 /* Get the process group ID of process PID.  */
 extern __pid_t __getpgid (__pid_t __pid) __THROW;
-#ifdef __USE_XOPEN_EXTENDED
+#if defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K8
 extern __pid_t getpgid (__pid_t __pid) __THROW;
 #endif
 
@@ -696,7 +687,7 @@ extern __pid_t getpgid (__pid_t __pid) __THROW;
 extern int setpgid (__pid_t __pid, __pid_t __pgid) __THROW;
 libc_hidden_proto(setpgid)
 
-#if defined __USE_SVID || defined __USE_BSD || defined __USE_XOPEN_EXTENDED
+#if defined __USE_MISC || defined __USE_XOPEN_EXTENDED
 /* Both System V and BSD have `setpgrp' functions, but with different
    calling conventions.  The BSD function is the same as POSIX.1 `setpgid'
    (above).  The System V function takes no arguments and puts the calling
@@ -704,26 +695,13 @@ libc_hidden_proto(setpgid)
 
    New programs should always use `setpgid' instead.
 
-   The default in GNU is to provide the System V function.  The BSD
-   function is available under -D_BSD_SOURCE.  */
-
-# ifndef __FAVOR_BSD
+   GNU provides the POSIX.1 function.  */
 
 /* Set the process group ID of the calling process to its own PID.
    This is exactly the same as `setpgid (0, 0)'.  */
 extern int setpgrp (void) __THROW;
 
-# else
-
-/* Another name for `setpgid' (above).  */
-#  ifdef __REDIRECT_NTH
-extern int __REDIRECT_NTH (setpgrp, (__pid_t __pid, __pid_t __pgrp), setpgid);
-#  else
-#   define setpgrp setpgid
-#  endif
-
-# endif	/* Favor BSD.  */
-#endif	/* Use SVID or BSD.  */
+#endif	/* Use misc or X/Open.  */
 
 /* Create a new session with the calling process as its leader.
    The process group IDs of the session and the calling process
@@ -731,7 +709,7 @@ extern int __REDIRECT_NTH (setpgrp, (__pid_t __pid, __pid_t __pgrp), setpgid);
 extern __pid_t setsid (void) __THROW;
 libc_hidden_proto(setsid)
 
-#ifdef __USE_XOPEN_EXTENDED
+#if defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K8
 /* Return the session ID of the given process.  */
 extern __pid_t getsid (__pid_t __pid) __THROW;
 libc_hidden_proto(getsid)
@@ -768,37 +746,37 @@ extern int group_member (__gid_t __gid) __THROW;
    If the calling process is the super-user, set the real
    and effective user IDs, and the saved set-user-ID to UID;
    if not, the effective user ID is set to UID.  */
-extern int setuid (__uid_t __uid) __THROW;
+extern int setuid (__uid_t __uid) __THROW __wur;
 
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED
 /* Set the real user ID of the calling process to RUID,
    and the effective user ID of the calling process to EUID.  */
-extern int setreuid (__uid_t __ruid, __uid_t __euid) __THROW;
+extern int setreuid (__uid_t __ruid, __uid_t __euid) __THROW __wur;
 libc_hidden_proto(setreuid)
 #endif
 
 #if defined __USE_BSD || defined __USE_XOPEN2K
 /* Set the effective user ID of the calling process to UID.  */
-extern int seteuid (__uid_t __uid) __THROW;
+extern int seteuid (__uid_t __uid) __THROW __wur;
 libc_hidden_proto(seteuid)
-#endif /* Use BSD.  */
+#endif
 
 /* Set the group ID of the calling process to GID.
    If the calling process is the super-user, set the real
    and effective group IDs, and the saved set-group-ID to GID;
    if not, the effective group ID is set to GID.  */
-extern int setgid (__gid_t __gid) __THROW;
+extern int setgid (__gid_t __gid) __THROW __wur;
 
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED
 /* Set the real group ID of the calling process to RGID,
    and the effective group ID of the calling process to EGID.  */
-extern int setregid (__gid_t __rgid, __gid_t __egid) __THROW;
+extern int setregid (__gid_t __rgid, __gid_t __egid) __THROW __wur;
 libc_hidden_proto(setregid)
 #endif
 
 #if defined __USE_BSD || defined __USE_XOPEN2K
 /* Set the effective group ID of the calling process to GID.  */
-extern int setegid (__gid_t __gid) __THROW;
+extern int setegid (__gid_t __gid) __THROW __wur;
 #endif /* Use BSD.  */
 
 #ifdef __USE_GNU
@@ -816,14 +794,14 @@ extern int getresgid (__gid_t *__rgid, __gid_t *__egid, __gid_t *__sgid)
 /* Set the real user ID, effective user ID, and saved-set user ID,
    of the calling process to RUID, EUID, and SUID, respectively.  */
 extern int setresuid (__uid_t __ruid, __uid_t __euid, __uid_t __suid)
-     __THROW;
+     __THROW __wur;
 libc_hidden_proto(setresuid)
 #endif
 
 /* Set the real group ID, effective group ID, and saved-set group ID,
    of the calling process to RGID, EGID, and SGID, respectively.  */
 extern int setresgid (__gid_t __rgid, __gid_t __egid, __gid_t __sgid)
-     __THROW;
+     __THROW __wur;
 libc_hidden_proto(setresgid)
 #endif
 
@@ -832,7 +810,7 @@ libc_hidden_proto(setresgid)
 /* Clone the calling process, creating an exact copy.
    Return -1 for errors, 0 to the new process,
    and the process ID of the new process to the old process.  */
-extern __pid_t fork (void) __THROW;
+extern __pid_t fork (void) __THROWNL;
 # ifdef _LIBC
 # ifdef __UCLIBC_HAS_THREADS__
 extern __typeof(fork) __libc_fork;
@@ -849,11 +827,6 @@ libc_hidden_proto(fork)
 extern __pid_t vfork (void) __THROW;
 libc_hidden_proto(vfork)
 #endif /* Use BSD. */
-
-#if 0 /* psm: seems unused , exit-thread.S is not compiled */
-/* Special exit function which only terminates the current thread.  */
-extern void __exit_thread (int val) __attribute__ ((__noreturn__));
-#endif
 
 /* Return the pathname of the terminal FD is open on, or NULL on errors.
    The returned storage is good only until the next call to this function.  */
@@ -903,7 +876,7 @@ extern ssize_t readlink (const char *__restrict __path,
 			 char *__restrict __buf, size_t __len)
      __THROW __nonnull ((1, 2)) __wur;
 libc_hidden_proto(readlink)
-#endif /* Use BSD.  */
+#endif /* Use POSIX.1-2001.  */
 
 #ifdef __USE_ATFILE
 /* Like symlink but a relative path in TO is interpreted relative to TOFD.  */
@@ -944,7 +917,7 @@ extern int tcsetpgrp (int __fd, __pid_t __pgrp_id) __THROW;
 
 /* Return the login name of the user.
 
-   This function is a possible cancellation points and therefore not
+   This function is a possible cancellation point and therefore not
    marked with __THROW.  */
 extern char *getlogin (void);
 libc_hidden_proto(getlogin)
@@ -953,7 +926,7 @@ libc_hidden_proto(getlogin)
    If it cannot be determined or some other error occurred, return the error
    code.  Otherwise return 0.
 
-   This function is a possible cancellation points and therefore not
+   This function is a possible cancellation point and therefore not
    marked with __THROW.  */
 extern int getlogin_r (char *__name, size_t __name_len) __nonnull ((1));
 #endif
@@ -974,7 +947,7 @@ extern int setlogin (const char *__name) __THROW __nonnull ((1));
 #endif
 
 
-#if defined __USE_BSD || defined __USE_UNIX98
+#if defined __USE_BSD || defined __USE_UNIX98 || defined __USE_XOPEN2K
 /* Put the name of the current host in no more than LEN bytes of NAME.
    The result is null-terminated if LEN is large enough for the full
    name and the terminator.  */
@@ -1071,6 +1044,11 @@ extern char *getpass (const char *__prompt) __nonnull ((1));
 extern int fsync (int __fd);
 #endif /* Use BSD || X/Open || Unix98.  */
 
+#if defined __USE_GNU
+/* Make all changes done to all files on the file system associated
+ *    with FD actually appear on disk.  */
+extern int syncfs (int __fd) __THROW;
+#endif
 
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED
 
@@ -1168,6 +1146,20 @@ extern long int syscall (long int __sysno, ...) __THROW;
 
 #endif	/* Use misc.  */
 
+/* Are we in a secure process environment or are we dealing with setuid
+ * stuff?  This value is returned by issetugid().
+ */
+extern int _pe_secure;
+libc_hidden_proto(_pe_secure)
+
+#ifdef __USE_BSD
+/* issetugid() returns 1 if the process environment or memory address space
+   is considered tainted, and returns 0 otherwise.  This happens, for example,
+   when a process's privileges are elevated by the setuid or setgid flags on
+   an executable belonging to root.
+*/
+extern int issetugid(void);
+#endif
 
 #if (defined __USE_MISC || defined __USE_XOPEN_EXTENDED) && !defined F_LOCK
 /* NOTE: These declarations also appear in <fcntl.h>; be sure to keep both
@@ -1249,15 +1241,9 @@ extern void swab (const void *__restrict __from, void *__restrict __to,
 
 /* The Single Unix specification demands this prototype to be here.
    It is also found in <stdio.h>.  */
-#ifdef __USE_XOPEN
+#if defined __USE_XOPEN && !defined __USE_XOPEN2K
 /* Return the name of the controlling terminal.  */
 extern char *ctermid (char *__s) __THROW;
-#endif
-
-
-/* Define some macros helping to catch buffer overflows.  */
-#if __USE_FORTIFY_LEVEL > 0 && defined __extern_always_inline
-# include <bits/unistd.h>
 #endif
 
 __END_DECLS

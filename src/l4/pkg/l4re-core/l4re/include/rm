@@ -71,6 +71,13 @@ namespace L4Re {
  * fault IPC with a mapping from the backing dataspace. If not, an error is
  * returned.
  *
+ * Depending on the system type, an attached dataspace might or might not be
+ * mapped eagerly. MMU-based systems resort to lazy mapping while systems
+ * without MMU do eager mappings by default. The L4Re::Rm::F::Eager_map and
+ * L4Re::Rm::F::No_eager_map flags can be used to force the respective
+ * behaviour, independent of the underlying system. In case both flags are
+ * given, the L4Re::Rm::F::No_eager_map flag wins.
+ *
  * \see L4Re::Dataspace, L4Re::Rm,
  * \see \ref l4re_concepts_ds_rm
  */
@@ -115,17 +122,20 @@ public:
     enum Attach_flags : l4_uint32_t
     {
       /// Search for a suitable address range.
-      Search_addr  = 0x20000,
+      Search_addr  =  0x20000,
       /// Search only in area, or map into area.
-      In_area      = 0x40000,
+      In_area      =  0x40000,
       /// Eagerly map the attached data space in.
-      Eager_map    = 0x80000,
+      Eager_map    =  0x80000,
+      /// Prevent eager mapping of the attached data space.
+      No_eager_map = 0x100000,
       /// Mask of all attach flags.
-      Attach_mask  = 0xf0000,
+      Attach_mask  = 0x1f0000,
     };
 
     L4_TYPES_FLAGS_OPS_DEF(Attach_flags);
 
+    /// Region flags (permissions, cacheability, special).
     enum Region_flags : l4_uint16_t
     {
       /// Region rights
@@ -171,7 +181,7 @@ public:
 
     friend constexpr Dataspace::Flags map_flags(Region_flags rf)
     {
-      return Dataspace::Flags((l4_uint16_t)rf & Ds_map_mask);
+      return Dataspace::Flags(static_cast<l4_uint16_t>(rf) & Ds_map_mask);
     }
 
     struct Flags : L4::Types::Flags_ops_t<Flags>
@@ -179,8 +189,8 @@ public:
       l4_uint32_t raw;
       Flags() = default;
       explicit constexpr Flags(l4_uint32_t f) : raw(f) {}
-      constexpr Flags(Attach_flags rf) : raw((l4_uint32_t)rf) {}
-      constexpr Flags(Region_flags rf) : raw((l4_uint32_t)rf) {}
+      constexpr Flags(Attach_flags rf) : raw(static_cast<l4_uint32_t>(rf)) {}
+      constexpr Flags(Region_flags rf) : raw(static_cast<l4_uint32_t>(rf)) {}
 
       friend constexpr Dataspace::Flags map_flags(Flags f)
       {
@@ -304,7 +314,10 @@ public:
   long reserve_area(T **start, unsigned long size,
                     Flags flags = Flags(0),
                     unsigned char align = L4_PAGESHIFT) const noexcept
-  { return reserve_area_t::call(c(), (l4_addr_t*)start, size, flags, align); }
+  {
+    return reserve_area_t::call(c(), reinterpret_cast<l4_addr_t*>(start), size,
+                                flags, align);
+  }
 
   /**
    * Free an area from the region map.
@@ -360,6 +373,11 @@ public:
    * \param          align  Alignment of the virtual region, log2-size, default:
    *                        a page (#L4_PAGESHIFT). This is only meaningful if
    *                        the #L4Re::Rm::F::Search_addr flag is used.
+   * \param          task   Optional destination task of mapping if
+   *                        `F::Eager_map` flag was passed. If invalid, the
+   *                        mapping is established in the current task. This
+   *                        parameter is only useful if the region manager is
+   *                        for a foreign task.
    *
    * \retval 0                  Success
    * \retval -L4_ENOENT         No area could be found (see
@@ -382,7 +400,9 @@ public:
    */
   long attach(l4_addr_t *start, unsigned long size, Flags flags,
               L4::Ipc::Cap<Dataspace> mem, Offset offs = 0,
-              unsigned char align = L4_PAGESHIFT) const noexcept;
+              unsigned char align = L4_PAGESHIFT,
+              L4::Cap<L4::Task> const task
+                = L4::Cap<L4::Task>::Invalid) const noexcept;
 
   /**
    * \copydoc L4Re::Rm::attach
@@ -390,11 +410,13 @@ public:
   template< typename T >
   long attach(T **start, unsigned long size, Flags flags,
               L4::Ipc::Cap<Dataspace> mem, Offset offs = 0,
-              unsigned char align = L4_PAGESHIFT) const noexcept
+              unsigned char align = L4_PAGESHIFT,
+              L4::Cap<L4::Task> const task
+                = L4::Cap<L4::Task>::Invalid) const noexcept
   {
     union X { l4_addr_t a; T* t; };
     X *x = reinterpret_cast<X*>(start);
-    return attach(&x->a, size, flags, mem, offs, align);
+    return attach(&x->a, size, flags, mem, offs, align, task);
   }
 
 #if __cplusplus >= 201103L
@@ -460,7 +482,7 @@ public:
       if (&o != this)
         {
           if (_rm.is_valid())
-            _rm->detach(l4_addr_t(_addr), 0);
+            _rm->detach(reinterpret_cast<l4_addr_t>(_addr), 0);
           _rm = o._rm;
           _addr = o.release();
         }
@@ -475,7 +497,7 @@ public:
     ~Unique_region() noexcept
     {
       if (_rm.is_valid())
-        _rm->detach(l4_addr_t(_addr), 0);
+        _rm->detach(reinterpret_cast<l4_addr_t>(_addr), 0);
     }
 
     /**
@@ -536,15 +558,17 @@ public:
   template< typename T >
   long attach(Unique_region<T> *start, unsigned long size, Flags flags,
               L4::Ipc::Cap<Dataspace> mem, Offset offs = 0,
-              unsigned char align = L4_PAGESHIFT) const noexcept
+              unsigned char align = L4_PAGESHIFT,
+              L4::Cap<L4::Task> const task
+                = L4::Cap<L4::Task>::Invalid) const noexcept
   {
-    l4_addr_t addr = (l4_addr_t)start->get();
+    l4_addr_t addr = reinterpret_cast<l4_addr_t>(start->get());
 
-    long res = attach(&addr, size, flags, mem, offs, align);
+    long res = attach(&addr, size, flags, mem, offs, align, task);
     if (res < 0)
       return res;
 
-    start->reset((T)addr, L4::Cap<Rm>(cap()));
+    start->reset(reinterpret_cast<T>(addr), L4::Cap<Rm>(cap()));
     return res;
   }
 #endif
@@ -726,7 +750,10 @@ Rm::detach(l4_addr_t addr, L4::Cap<Dataspace> *mem,
 inline int
 Rm::detach(void *addr, L4::Cap<Dataspace> *mem,
            L4::Cap<L4::Task> const &task) const noexcept
-{  return detach((l4_addr_t)addr, 1, mem, task, Detach_overlap); }
+{
+  return detach(reinterpret_cast<l4_addr_t>(addr), 1, mem, task,
+                Detach_overlap);
+}
 
 inline int
 Rm::detach(l4_addr_t addr, unsigned long size, L4::Cap<Dataspace> *mem,

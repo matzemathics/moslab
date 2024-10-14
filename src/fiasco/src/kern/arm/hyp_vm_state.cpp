@@ -26,13 +26,15 @@ public:
     }
   };
 
-  static_assert(sizeof(Vm_info) <= 0x200, "Vm_info must less than 0x200 bytes");
+  static_assert(sizeof(Vm_info) <= (  Config::Ext_vcpu_state_offset
+                                    - Config::Ext_vcpu_infos_offset),
+                "Vm_info must not overlap with Vm_state");
 };
 
 struct Context_hyp
 {
   Unsigned64 par;
-  Unsigned64 hcr = Cpu::Hcr_non_vm_bits;
+  Unsigned64 hcr = Cpu::Hcr_non_vm_bits_el0;
 
   Unsigned64 cntvoff;
   Unsigned64 cntv_cval;

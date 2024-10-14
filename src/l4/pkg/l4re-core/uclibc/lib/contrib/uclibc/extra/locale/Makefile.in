@@ -5,13 +5,10 @@
 # Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
 #
 
+.NOTPARALLEL:
+
 locale_DIR := $(top_srcdir)extra/locale
 locale_OUT := $(top_builddir)extra/locale
-
-# command used to download source code
-WGET := wget --passive-ftp
-
-LOCALE_DATA_FILENAME := uClibc-locale-20081111-$(ARCH_NATIVE_BIT)-$(if $(ARCH_LITTLE_ENDIAN),el,eb).tgz
 
 BUILD_CFLAGS-locale-common := \
 	-D__UCLIBC_GEN_LOCALE \
@@ -29,7 +26,8 @@ BUILD_CFLAGS-gen_collate := -D_GNU_SOURCE
 
 locale_headers-$(UCLIBC_HAS_LOCALE) := $(top_builddir)include/bits/uClibc_locale_data.h
 
-#DEPH-locale := $(top_builddir)include/bits/sysnum.h
+headers_dep += $(locale_headers-y)
+
 DEPH-locale := $(top_builddir)include/bits/uClibc_config.h
 DEPH-gen_collate := $(DEPH-locale)
 DEPH-gen_ldc := $(addprefix $(locale_OUT)/,c8tables.h wctables.h locale_tables.h locale_collate.h) $(DEPH-locale)
@@ -45,9 +43,6 @@ locale_SRC := $(locale_OUT)/locale_data.c
 locale_OBJ := $(locale_OUT)/locale_data.o
 
 CFLAGS-locale_data.c := -D__WCHAR_ENABLED -I$(locale_OUT) -I$(locale_DIR)
-
-#headers-$(UCLIBC_HAS_LOCALE) += $(locale_headers-y)
-headers: $(locale_headers-y)
 
 libc-$(UCLIBC_HAS_LOCALE) += $(locale_OBJ)
 libc-nomulti-$(UCLIBC_HAS_LOCALE) += $(locale_OBJ)
@@ -68,13 +63,13 @@ $(locale_OUT)%.s:  $(locale_OUT)%.S FORCE ; $(compile.s)
 $(locale_OUT)%.dep:
 
 
-locale_headers: headers $(top_builddir)include/bits/uClibc_locale_data.h
+locale_headers: $(locale_headers-y)
 
 # make sure that the host system has locales (this check is ok for uClibc/glibc)
 # we do not know though which locales were really enabled for libc at build time
 ifeq ($(wildcard /usr/include/iconv.h),)
 
-$(locale_OUT)/codesets.txt:
+$(locale_OUT)/codesets.txt: $(locale_OUT)/gen_wc8bit
 	@if [ ! -f $@ ] ; then \
 	    set -e; \
 	    echo " "; \
@@ -119,7 +114,7 @@ endif
 
 # the lines beginning w/ '#-' are mandatory
 # at least one conversion is needed (euro/cyrillic)
-$(locale_OUT)/locales.txt: $(locale_DIR)/LOCALES
+$(locale_OUT)/locales.txt: $(locale_DIR)/LOCALES $(locale_OUT)/gen_locale
 	@$(disp_gen)
 ifeq ($(UCLIBC_BUILD_MINIMAL_LOCALE),y)
 	$(Q)echo "@euro e" > $@
@@ -155,10 +150,10 @@ $(locale_OUT)/gen_wctype : $(locale_DIR)/gen_wctype.c
 
 ifneq ($(V),)
 ifeq ($(V),1)
-FLAG-locale-verbose := -v
+FLAG-locale-verbose := -v -v
 endif
 ifeq ($(V),2)
-FLAG-locale-verbose := -v -v
+FLAG-locale-verbose := -v
 endif
 endif
 
@@ -171,9 +166,9 @@ $(locale_OUT)/c8tables.h: $(locale_OUT)/gen_wc8bit $(locale_OUT)/codesets.txt
 # Warning! Beware tr_TR toupper/tolower exceptions!
 $(locale_OUT)/wctables.h: $(locale_OUT)/gen_wctype
 	@$(disp_gen)
-	$(Q)for locale in $(call qstrip,$(UCLIBC_BUILD_MINIMAL_LOCALES)) en_US en_GB; do \
-		$< $(FLAG-locale-verbose) $$locale > $@ || \
+	$(Q)for locale in $(call qstrip,$(UCLIBC_BUILD_MINIMAL_LOCALES)) C; do \
 		$< $(FLAG-locale-verbose) $$locale.UTF-8 > $@ || \
+		$< $(FLAG-locale-verbose) $$locale > $@ || \
 		$< $(FLAG-locale-verbose) $$locale.iso8859-1 > $@ && break; \
 	done
 
@@ -192,26 +187,6 @@ $(locale_OUT)/locale_collate.h: $(locale_OUT)/gen_collate $(locale_OUT)/locale_t
 		$(SED) -e "s/^.*COL_IDX_\([^, ]*\).*$$/\1/" | sort | uniq | \
 		xargs $< $(locale_DIR)/collation $(FLAG-locale-verbose) -o $@
 
-$(locale_OUT)/$(LOCALE_DATA_FILENAME):
-ifeq ($(UCLIBC_DOWNLOAD_PREGENERATED_LOCALE_DATA),y)
-	( cd $(@D); $(WGET) http://www.uclibc.org/downloads/$(@F) )
-endif
-
-ifeq ($(UCLIBC_PREGENERATED_LOCALE_DATA),y)
-
-$(locale_SRC): $(locale_OUT)/$(LOCALE_DATA_FILENAME)
-	zcat $< | $(TAR) -xv -C $(@D) -f -
-	touch $@
-	# we use the one in locale_DIR
-	#$(RM) $(locale_OUT)/locale_mmap.h
-
-# for arch specific versions we have to at least overwrite
-# lt_defines.h/locale_data.c/uClibc_locale_data.h
-
-$(locale_OUT)/uClibc_locale_data.h: $(locale_SRC)
-
-else
-
 $(locale_SRC): $(locale_OUT)/gen_ldc $(locale_OUT)/lt_defines.h
 	@$(disp_gen)
 	$(Q)$< $@
@@ -220,8 +195,6 @@ $(locale_OUT)/uClibc_locale_data.h: $(locale_OUT)/lt_defines.h $(locale_OUT)/c8t
 	@$(disp_gen)
 	$(Q)grep -v "define __LC" $< > $@
 	$(Q)cat $(wordlist 2,4,$^) >> $@
-
-endif
 
 $(top_builddir)include/bits/uClibc_locale_data.h: $(locale_OUT)/uClibc_locale_data.h | $(top_builddir)include/bits/uClibc_config.h
 	@$(disp_gen)

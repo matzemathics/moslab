@@ -22,6 +22,9 @@
 
 
 #include <sys/types.h>
+#ifdef __USE_GNU
+# include <bits/uio.h>
+#endif
 
 /* open/fcntl - O_SYNC is only implemented on blocks devices and on files
    located on an ext2 file system */
@@ -40,12 +43,17 @@
 #define O_FSYNC		 O_SYNC
 #define O_ASYNC		 020000
 
-#ifdef __USE_GNU
-# define O_DIRECT	 040000	/* Direct disk access.  */
+#ifdef __USE_XOPEN2K8
 # define O_DIRECTORY	0200000	/* Must be a directory.  */
 # define O_NOFOLLOW	0400000	/* Do not follow links.  */
-# define O_NOATIME	01000000 /* don't set atime */
 # define O_CLOEXEC	02000000 /* set close_on_exec */
+#endif
+
+#ifdef __USE_GNU
+# define O_DIRECT	 040000	/* Direct disk access.  */
+# define O_NOATIME	01000000 /* don't set atime */
+# define O_PATH        010000000 /* Resolve pathname but do not open file.  */
+# define O_TMPFILE     020200000 /* Atomically create nameless file.  */
 #endif
 
 /* For now Linux has synchronisity options for data and read operations.
@@ -93,6 +101,10 @@
 # define F_SETLEASE	1024	/* Set a lease.	 */
 # define F_GETLEASE	1025	/* Enquire what lease is active.  */
 # define F_NOTIFY	1026	/* Request notfications on a directory.	 */
+# define F_SETPIPE_SZ	1031    /* Set pipe page size array.  */
+# define F_GETPIPE_SZ	1032    /* Get pipe page size array.  */
+#endif
+#if defined __USE_XOPEN2K8 || defined __USE_GNU
 # define F_DUPFD_CLOEXEC 1030	/* Duplicate file descriptor with
 				   close-on-exit set on new fd.  */
 #endif

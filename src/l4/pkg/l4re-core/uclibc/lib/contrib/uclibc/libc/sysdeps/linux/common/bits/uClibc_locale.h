@@ -192,7 +192,7 @@ struct __uclibc_locale_struct {
 	const unsigned char *tblwctype;
 	const unsigned char *tblwuplow;
 /* 	const unsigned char *tblwcomb; */
-	const int16_t *tblwuplow_diff; /* yes... signed */
+	const int32_t *tblwuplow_diff; /* yes... signed */
 	/* width?? */
 
 	wchar_t decimal_point_wc;
@@ -324,11 +324,6 @@ extern struct __uclibc_locale_struct *__global_locale;
 extern int __locale_mbrtowc_l(wchar_t *__restrict dst,
 				const char *__restrict src,
 				__locale_t loc) attribute_hidden;
-#endif
-
-#ifdef L_setlocale
-/* so we only get the warning once... */
-#warning need thread version of CUR_LOCALE!
 #endif
 
 /**********************************************************************/

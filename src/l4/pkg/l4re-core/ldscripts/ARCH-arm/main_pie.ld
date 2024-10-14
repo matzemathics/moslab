@@ -123,7 +123,11 @@ SECTIONS
   .exception_ranges*) } :ro
   /* Adjust the address for the data segment.  We want to adjust up to
      the same address within the page on the next page up.  */
+#if CONFIG_MMU
   . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
+#else
+  . = ALIGN (CONSTANT(COMMONPAGESIZE));
+#endif
   /* Exception handling  */
   .eh_frame       : ONLY_IF_RW { KEEP (*(.eh_frame)) *(.eh_frame.*) } :rw
   .gnu_extab      : ONLY_IF_RW { *(.gnu_extab) } :rw
@@ -184,7 +188,9 @@ SECTIONS
   .jcr            : { KEEP (*(.jcr)) }
   .data.rel.ro : { *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*) *(.data.rel.ro .data.rel.ro.* .gnu.linkonce.d.rel.ro.*) }
   .dynamic        : { *(.dynamic) } :dyn :rw
+#if CONFIG_MMU
   . = DATA_SEGMENT_RELRO_END (0, .);
+#endif
   .got            : { *(.got.plt) *(.igot.plt) *(.got) *(.igot) } :rw
   .data           :
   {
@@ -210,12 +216,27 @@ SECTIONS
    . = ALIGN(. != 0 ? 32 / 8 : 1);
   }
   _bss_end__ = . ; __bss_end__ = . ;
+#if CONFIG_BID_STATIC_HEAP
+  .heap : {
+    . = ALIGN(8);
+    PROVIDE (__heap_start = .);
+    . = . + (DEFINED(__heap_size) ? __heap_size : 0);
+    PROVIDE (__heap_end = .);
+  }
+#endif
+#if CONFIG_BID_STATIC_STACK
+  .stack : ALIGN(8) {
+    . = . + (DEFINED(__stack_size) ? __stack_size : 0);
+  } :rw :l4re_stack
+#endif
   . = ALIGN(32 / 8);
   . = SEGMENT_START("ldata-segment", .);
   . = ALIGN(32 / 8);
   __end__ = . ;
   _end = .; PROVIDE (end = .);
+#if CONFIG_MMU
   . = DATA_SEGMENT_END (.);
+#endif
   /* Stabs debugging sections.  */
   .stab          0 : { *(.stab) } :NONE
   .stabstr       0 : { *(.stabstr) }

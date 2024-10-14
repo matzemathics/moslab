@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/c/log.h Source File</title>
+<title>L4Re Operating System Framework: l4/re/c/log.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -165,7 +168,7 @@ $(document).ready(function(){initNavTree('log_8h_source.html',''); initResizable
 <div class="ttc" id="agroup__api__l4re__c__log_html_ga54aaa6af731a48c6a7484407bf05f98b"><div class="ttname"><a href="group__api__l4re__c__log.html#ga54aaa6af731a48c6a7484407bf05f98b">l4re_log_print_srv</a></div><div class="ttdeci">void l4re_log_print_srv(const l4_cap_idx_t logcap, char const *string) L4_NOTHROW</div><div class="ttdoc">Write a null terminated string to a log.</div></div>
 <div class="ttc" id="agroup__api__l4re__c__log_html_ga95fbf827600b5204e44dd1b87946045e"><div class="ttname"><a href="group__api__l4re__c__log.html#ga95fbf827600b5204e44dd1b87946045e">l4re_log_printn</a></div><div class="ttdeci">void l4re_log_printn(char const *string, int len) L4_NOTHROW</div><div class="ttdoc">Write a string of a given length to the default log.</div><div class="ttdef"><b>Definition</b> <a href="log_8h_source.html#l00097">log.h:97</a></div></div>
 <div class="ttc" id="agroup__api__l4re__c__log_html_gad9d9fa16a9aad027f638c3087f729434"><div class="ttname"><a href="group__api__l4re__c__log.html#gad9d9fa16a9aad027f638c3087f729434">l4re_log_printn_srv</a></div><div class="ttdeci">void l4re_log_printn_srv(const l4_cap_idx_t logcap, char const *string, int len) L4_NOTHROW</div><div class="ttdoc">Write a string of a given length to a log.</div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga2469cd44710705e9f0a5832e060ec48a"><div class="ttname"><a href="group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a">L4_CV</a></div><div class="ttdeci">#define L4_CV</div><div class="ttdoc">Define calling convention.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2linkage_8h_source.html#l00044">linkage.h:44</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga362dfa378e662dd04f710a23fc7ea931"><div class="ttname"><a href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div><div class="ttdeci">#define L4_NOTHROW</div><div class="ttdoc">Mark a function declaration and definition as never throwing an exception.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00188">compiler.h:188</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
@@ -179,7 +182,7 @@ $(document).ready(function(){initNavTree('log_8h_source.html',''); initResizable
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="dir_9cacc43b47fb52c27eca04eb55cc6fe9.html">c</a></li><li class="navelem"><a class="el" href="log_8h.html">log.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

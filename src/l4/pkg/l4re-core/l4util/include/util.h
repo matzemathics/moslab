@@ -26,31 +26,29 @@ EXTERN_C_BEGIN
 /**
  * Calculate l4 timeouts
  * \ingroup l4util_api
- * \param mus   time in microseconds. Special cases:
+ * \param us    time in microseconds. Special cases:
  *              - 0 - > timeout 0
  *              - ~0U -> timeout NEVER
  * \return the corresponding l4_timeout value
  *
  * \deprecated Use l4_timeout_from_us().
  */
-L4_CV l4_timeout_s l4util_micros2l4to(unsigned int mus) L4_NOTHROW;
+L4_CV l4_timeout_s l4util_micros2l4to(l4_uint64_t us) L4_NOTHROW;
 
 /**
  * Suspend thread for a period of \a ms milliseconds
  * \param ms Time in milliseconds
  * \ingroup l4util_api
  */
-L4_CV void l4_sleep(int ms) L4_NOTHROW;
+L4_CV void l4_sleep(l4_uint32_t ms) L4_NOTHROW;
 
 /**
  * Suspend thread for a period of \a us microseconds.
  * \param us Time in microseconds
  * \ingroup l4util_api
- *
- * WARNING: This function is mostly bogus since the timer resolution of
- *          current L4 implementations is about 1ms!
+ * \note The timer resolution of L4 kernels is usually 1ms.
  */
-L4_CV void l4_usleep(int us) L4_NOTHROW;
+L4_CV void l4_usleep(l4_uint64_t us) L4_NOTHROW;
 
 /**
  * Go sleep and never wake up.
@@ -114,10 +112,7 @@ l4_touch_rw(const void *addr, unsigned size) L4_NOTHROW
   e = l4_trunc_page((l4_addr_t)addr + size - 1);
 
   for (; b <= e; b += L4_PAGESIZE)
-    {
-      char x = *(volatile char *)b;
-      *(volatile char *)b = x;
-    }
+    *(volatile char *)b |= 0;
 }
 
 EXTERN_C_END

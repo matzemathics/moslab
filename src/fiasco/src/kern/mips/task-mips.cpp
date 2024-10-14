@@ -31,7 +31,7 @@ Task::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, bool user_mode)
   if (user_mode)
     {
       ctxt->state_add_dirty(Thread_vcpu_user);
-      vcpu->state |= Vcpu_state::F_traps | Vcpu_state::F_exceptions;
+      vcpu->state |= Vcpu_state::F_traps;
 
       ctxt->space_ref()->user_mode(user_mode);
 
@@ -69,7 +69,7 @@ Vz_vm::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, bool user_mode) override
     return -L4_err::EInval;
 
   ctxt->state_add_dirty(Thread_vcpu_user);
-  vcpu->state |= Vcpu_state::F_traps | Vcpu_state::F_exceptions;
+  vcpu->state |= Vcpu_state::F_traps;
 
   ctxt->space_ref()->user_mode(user_mode);
   auto &owner = Vz::owner.cpu(ctxt->get_current_cpu());
@@ -92,6 +92,25 @@ Vz_vm::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, bool user_mode) override
     }
 
   vcpu_resume(&ts, ctxt->regs());
+}
+
+static Kmem_slab_t<Vz_vm> _vz_vm_allocator("Vz_vm");
+
+PUBLIC static
+Vz_vm *Vz_vm::alloc(Ram_quota *q)
+{
+  return _vz_vm_allocator.q_new(q, q);
+}
+
+PUBLIC
+void
+Vz_vm::operator delete (void *ptr)
+{
+  Vz_vm *t = static_cast<Vz_vm *>(ptr);
+  // Prevent the compiler from assuming that the object has become invalid after
+  // destruction. In particular the _quota member contains valid content.
+  asm ("" : "=m"(*t));
+  _vz_vm_allocator.q_free(t->ram_quota(), ptr);
 }
 
 namespace {

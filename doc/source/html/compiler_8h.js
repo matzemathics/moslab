@@ -6,6 +6,7 @@ var compiler_8h =
     [ "EXTERN_C_BEGIN", "group__l4sys__defines.html#ga6774b472721b30450b3334dc4f718a72", null ],
     [ "EXTERN_C_END", "group__l4sys__defines.html#gada1a24bb49d1a045f735dc027664ae57", null ],
     [ "L4_ALWAYS_INLINE", "group__l4sys__defines.html#ga2480e75b7c2b4976ce05d124d6d4c984", null ],
+    [ "L4_CONSTEXPR", "group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a", null ],
     [ "L4_DEPRECATED", "group__l4sys__defines.html#gac61263de7580bce70e1f518201a7f83a", null ],
     [ "L4_EXPORT", "group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2", null ],
     [ "L4_HIDDEN", "group__l4sys__defines.html#gacd71f0ba2a27d5dfb679c2e8b6b20fee", null ],

@@ -296,7 +296,7 @@ PUBLIC
 int
 Breakpoint::restricted(Thread *t)
 {
-  Jdb_entry_frame *e = Jdb::get_entry_frame(Jdb::current_cpu);
+  Jdb_entry_frame *e = Jdb::get_entry_frame(t->get_current_cpu());
 
   Space *task = t->space();
 #if 0
@@ -378,7 +378,7 @@ PUBLIC
 void
 Breakpoint::test_log(Thread *t)
 {
-  Jdb_entry_frame *e = Jdb::get_entry_frame(Jdb::current_cpu);
+  Jdb_entry_frame *e = Jdb::get_entry_frame(t->get_current_cpu());
 
   if (log && !restricted(t))
     {
@@ -720,7 +720,7 @@ got_address:
 	    case 'a': mode = Breakpoint::ACCESS;      break;
 	    }
 	  // abort if no address was given
-	  if (Jdb_input_task_addr::addr() == (Address)-1)
+	  if (Jdb_input_task_addr::addr() == Invalid_address)
 	    return ERROR;
 
 	  Jdb_bp::set_breakpoint(breakpoint_number, Jdb_input_task_addr::address(),

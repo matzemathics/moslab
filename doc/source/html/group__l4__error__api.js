@@ -14,6 +14,7 @@ var group__l4__error__api =
       [ "L4_EBUSY", "group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a6e966af53c8cc82f6bcd1464d957d47f", null ],
       [ "L4_EEXIST", "group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a0230b4251e0ab6c7bf80054fb55465bb", null ],
       [ "L4_ENODEV", "group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a96c4464d149a63301a5314ecd1ff53d9", null ],
+      [ "L4_ENOTDIR", "group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a2d5d219174a3b22a5eb889a5ec859341", null ],
       [ "L4_EINVAL", "group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8", null ],
       [ "L4_ENOSPC", "group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a9d1627a9c88949c991fcd81f1f3da133", null ],
       [ "L4_ERANGE", "group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a226d93ada42b58951cfe40102ae169c8", null ],

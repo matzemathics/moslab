@@ -1,0 +1,7 @@
+<map id="L4virtio::Virtqueue::no_notify_guest" name="L4virtio::Virtqueue::no_notify_guest">
+<area shape="rect" id="Node000001" title="Get the no IRQ flag of this queue." alt="" coords="256,37,399,77"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Block__dev__base.html#afd81130f9e38af771d43aabafa05e043" title="Releases resources related to a request and notifies the client." alt="" coords="5,5,208,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,48,208,43,209,37,243,42"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a04be7d77cf99a295ec0e4f32693858ed" title="Notify queue of available data." alt="" coords="23,69,190,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="243,72,191,80,190,75,242,67"/>
+</map>

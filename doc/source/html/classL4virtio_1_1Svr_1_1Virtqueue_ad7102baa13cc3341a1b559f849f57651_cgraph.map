@@ -1,0 +1,5 @@
+<map id="L4virtio::Svr::Virtqueue::finish" name="L4virtio::Svr::Virtqueue::finish">
+<area shape="rect" id="Node000001" title="Add a range of descriptors to the used ring, and notify an observer once." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#af6577deb37b3685815f9ae52760390db" title="Put the given descriptor into the used ring." alt="" coords="224,5,395,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,23,210,23,210,28,176,28"/>
+</map>

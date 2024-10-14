@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Copyright (C) 2000-2006 by Erik Andersen <andersen@codepoet.org>
  *
@@ -73,8 +72,10 @@ typedef struct {
 #endif
 
 #ifdef _LIBC
+#ifndef __ARCH_HAS_NO_LDSO__
 /* arch specific defines */
 #include <dl-sysdep.h>
+#endif
 #endif
 
 /* Provide a means for a port to pass additional arguments to the _dl_start

@@ -1,5 +1,3 @@
-/* vi: set sw=8 ts=8: */
-
 /*
  * Various assembly language/system dependent hacks that are required
  * so that we can minimize the amount of platform specific code.
@@ -164,11 +162,6 @@ unsigned long __dl_runtime_pltresolve(struct elf_resolve *tpnt,
 
 void _dl_perform_mips_global_got_relocations(struct elf_resolve *tpnt, int lazy);
 
-/* 4096 bytes alignment */
-#if _MIPS_SIM == _MIPS_SIM_ABI64
-#define OFFS_ALIGN (0x10000000000UL-0x1000)
-#endif	/* O32 || N32 */
-
 #if defined USE_TLS
 # if _MIPS_SIM == _MIPS_SIM_ABI64
 # define elf_machine_type_class(type) 					\
@@ -225,10 +218,15 @@ elf_machine_load_address (void)
 {
 	ElfW(Addr) addr;
 	__asm__ ("        .set noreorder\n"
+# if !defined __mips_isa_rev || __mips_isa_rev < 6
 	     "        " STRINGXP (PTR_LA) " %0, 0f\n"
-	     "        bal 0f\n"
+	     "        bltzal $0, 0f\n"
 	     "        nop\n"
 	     "0:      " STRINGXP (PTR_SUBU) " %0, $31, %0\n"
+#else
+	     "0:      lapc $31, 0\n"
+	     "        " STRINGXP (PTR_SUBU) " %0, $31, %0\n"
+#endif
 	     "        .set reorder\n"
 	     :        "=r" (addr)
 	     :        /* No inputs */

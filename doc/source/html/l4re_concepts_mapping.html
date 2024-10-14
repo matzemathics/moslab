@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Spaces and Mappings</title>
+<title>L4Re Operating System Framework: Spaces and Mappings</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -106,7 +109,7 @@ $(document).ready(function(){initNavTree('l4re_concepts_mapping.html',''); initR
 <p>Tasks can exchange resources through a process called "mapping" during IPC and using the <a class="el" href="classL4_1_1Task.html#a2712eda0c02dca9b9e5324e93326f704" title="Map resources available in the source task to a destination task.">L4::Task::map()</a> method. The sending task specifies a send flexpage and the receiving task a receive flexpage. The resources mapped to the send flexpage will then be mapped to the receive flexpage by the kernel.</p>
 <p>Memory mappings and IO port mappings are hierarchical: If a resource of such a type is subject of a map operation, the received mapping is a child mapping of the corresponding mapping in the sending task (parent mapping). The kernel usually respects the relationship between these two mappings (granting is an exception; see below): If rights of a parent mapping are revoked using <a class="el" href="classL4_1_1Task.html#a4b9294cc5d6338a36958df578f092a25" title="Revoke rights from the task.">L4::Task::unmap()</a>, these rights are also removed from its child mappings. Also, if a mapping is completely removed (via <a class="el" href="classL4_1_1Task.html#a4b9294cc5d6338a36958df578f092a25" title="Revoke rights from the task.">L4::Task::unmap()</a> or by mapping something else at its place), then also all child mappings are removed. In contrast, revoking rights of a child mapping leaves the rights of its parent mapping untouched.</p>
 <p>The mapping of a resource can be performed as <em>grant</em> operation (see <a class="el" href="group__l4__msgitem__api.html#gga94ecfe2908867c4ed0c13a7a97337f6aa390d5fd9efeb212bfbed501498387c9e" title="Flag as grant instead of map operation.">L4_MAP_ITEM_GRANT</a>): Such an operation includes the removal of all involved mappings from the send flexpage (basically a move operation). While with a map operation without grant the mapping in the send flexpage remains the parent of all child mappings (including the new child mapping in the receive flexpage), a grant operation moves the mappings covered by the send flexpage to the corresponding addresses from the receive flexpage while leaving the parent/child relationship of the moved mappings with other mappings untouched.</p>
-<p>During a map operation at most the access rights of the source mapping(s) can be transferred but no additional rights. So only rights that are present in the source mapping and that are specified in the send item/flexpage are transferred. This also holds for grant mappings, however, rights revocation is not* guaranteed to be applied to descendant mappings in case of grant.</p>
+<p>During a map operation at most the access rights of the source mapping(s) can be transferred but no additional rights can be added. So only rights that are present in the source mapping and that are specified in the send item/flexpage are transferred. This also holds for grant mappings, however, rights revocation is <em>not</em> guaranteed to be applied to descendant mappings in case of grant.</p>
 <p>There are cases where a grant operation is not or cannot be performed as requested; see <a class="el" href="group__l4__msgitem__api.html#gga94ecfe2908867c4ed0c13a7a97337f6aa390d5fd9efeb212bfbed501498387c9e" title="Flag as grant instead of map operation.">L4_MAP_ITEM_GRANT</a> for details.</p>
 <p>Object capabilities are not hierarchical &ndash; they have no children. The result of the map operation on an object capability is a copy of that capability in the object space of the destination task. </p>
 </div></div><!-- contents -->
@@ -117,7 +120,7 @@ $(document).ready(function(){initNavTree('l4re_concepts_mapping.html',''); initR
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="l4re_concepts.html">Programming for L4Re</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

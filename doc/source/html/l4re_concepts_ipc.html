@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4 Inter-Process Communication (IPC)</title>
+<title>L4Re Operating System Framework: L4 Inter-Process Communication (IPC)</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -150,10 +153,12 @@ IPC Timeouts</h2>
 <li>A thread does not want to wait for an infinite time if the partner is not ready. This could be also some safety measure.</li>
 <li>A thread wants to block for a certain amount of time without consuming CPU time. The <a class="el" href="group__l4__ipc__api.html#gac3b4a3b13e77b799dc154c57a04cdd9b" title="Sleep for an amount of time.">l4_ipc_sleep()</a> function specifies the <a class="el" href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102" title="Invalid capability selector.">L4_INVALID_CAP</a> as target for an IPC receive operation and specifies the intended relative waiting period as IPC timeout. Waiting for an absolute timeout would be possible with similar code.</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>The kernel IPC path is optimized for the two special cases using <a class="el" href="group__l4__timeout__api.html#ga10233285bd94a308b93087f765c83218" title="never timeout">L4_IPC_TIMEOUT_NEVER</a> and <a class="el" href="group__l4__timeout__api.html#ga1fd51d98ee92362453e7bc266fa8b455" title="Timeout constants.">L4_IPC_TIMEOUT_0</a>. Specifying a different timeout causes more maintenance effort for the kernel.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The kernel IPC path is optimized for the two special cases using <a class="el" href="group__l4__timeout__api.html#ga10233285bd94a308b93087f765c83218" title="never timeout">L4_IPC_TIMEOUT_NEVER</a> and <a class="el" href="group__l4__timeout__api.html#ga1fd51d98ee92362453e7bc266fa8b455" title="Timeout constants.">L4_IPC_TIMEOUT_0</a>. Specifying a different timeout causes more maintenance effort for the kernel.</dd>
+<dd>
+Special care is required if a finite timeout for the receive phase of an IPC call is specified: The IPC receive operation could abort before the partner was able to send the reply message. Under certain circumstances the partner may still have the temporary reply capability to the calling thread and may use this capability to reply to the caller at a later, unexpected time specifying an arbitrary IPC label. This case is relevant for servers which call another, possibly untrusted, server while serving a client request.</dd></dl>
 <h2><a class="anchor" id="l4re_concepts_descr_utcb"></a>
 User-level Thread Control Block</h2>
-<p>The <a class="el" href="group__l4__utcb__api.html">UTCB</a> is located on a power-of-2-sized and power-of-2-aligned memory area shared between userland and the kernel (<a class="el" href="classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). The UTCB is bound to a thread during the <a class="el" href="classL4_1_1Thread.html#a4252cd0ad4bdfa00cdc61b5fd2317aef" title="Commit the given thread-attributes object.">L4::Thread::control()</a> operation with the <a class="el" href="classL4_1_1Thread_1_1Attr.html" title="Thread attributes used for control().">L4::Thread::Attr</a> parameters set up using <a class="el" href="classL4_1_1Thread_1_1Attr.html#a858c0a51f7b147c4b2ba21d4a97afdbb" title="Bind the thread to a task.">L4::Thread::Attr::bind()</a>. The UTCB is used for IPC-related data exchange and is set up before invoking <a class="el" href="group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation.">l4_ipc()</a>. To access certain parts of the UTCB, the corresponding functions have to be used (there is no data type L4_utcb or similar). The UTCB consists of:</p><ul>
+<p>The <a class="el" href="group__l4__utcb__api.html">UTCB</a> is located on a power-of-2-sized and power-of-2-aligned memory area shared between userland and the kernel (<a class="el" href="classL4_1_1Task.html#a9e741ff1d27ca776c65abaff1de2f139" title="Add kernel-user memory.">L4::Task::add_ku_mem()</a>). The UTCB is bound to a thread during the <a class="el" href="classL4_1_1Thread.html#a4252cd0ad4bdfa00cdc61b5fd2317aef" title="Commit the given thread-attributes object.">L4::Thread::control()</a> operation with the <a class="el" href="classL4_1_1Thread_1_1Attr.html" title="Thread attributes used for control().">L4::Thread::Attr</a> parameters set up using <a class="el" href="classL4_1_1Thread_1_1Attr.html#a858c0a51f7b147c4b2ba21d4a97afdbb" title="Bind the thread to a task.">L4::Thread::Attr::bind()</a>. The UTCB is used for IPC-related data exchange and is set up before invoking <a class="el" href="group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7" title="Generic L4 object invocation.">l4_ipc()</a>. To access certain parts of the UTCB, the corresponding functions have to be used (there is no data type L4_utcb or similar). The UTCB consists of:</p><ul>
 <li>the <a class="el" href="l4re_concepts_ipc.html#l4re_concepts_descr_mrs">message registers</a> <code>MR[0]</code>, <code>MR[1]</code>, ..., <code>MR[n-1]</code> with n = L4_UTCB_GENERIC_DATA_SIZE (access using <a class="el" href="group__l4__utcb__api.html#ga090bdcc433d5ce568b22ec9ab4f3357b" title="Get the message-register block of a UTCB.">l4_utcb_mr()</a>),</li>
 <li>the <a class="el" href="l4re_concepts_ipc.html#l4re_concepts_descr_bdr">buffer descriptor register</a> <code>BDR</code> (access using <a class="el" href="group__l4__utcb__api.html#gae35044c9bae188ccffb2fd90781c60a5" title="Get the buffer-register block of a UTCB.">l4_utcb_br()</a>, see <a class="el" href="structl4__buf__regs__t.html#a852ae37fbb64d4a2f71cbd4c0ba905d1" title="Buffer descriptor.">l4_buf_regs_t::bdr</a>),</li>
 <li>the <a class="el" href="l4re_concepts_ipc.html#l4re_concepts_descr_brs">buffer registers</a> <code>BR[0]</code>, <code>BR[1]</code>, ..., <code>BR[m-1]</code> with m = L4_UTCB_GENERIC_BUFFERS_SIZE (access using <a class="el" href="group__l4__utcb__api.html#gae35044c9bae188ccffb2fd90781c60a5" title="Get the buffer-register block of a UTCB.">l4_utcb_br()</a>),</li>
@@ -181,7 +186,7 @@ IPC Message registers</h3>
 IPC Buffer Registers</h3>
 <p>The <em>buffer registers</em> and <em>buffer descriptor register</em> are interpreted by the kernel during the receive phase (if any). Buffer registers define <em>receive items</em> which are required to receive typed send items (memory, I/O ports or object capabilities). To specify a receive item, either one or two buffer registers are required:</p><ul>
 <li>A <em>small buffer item</em> (<a class="el" href="classL4_1_1Ipc_1_1Small__buf.html" title="A receive item for receiving a single object capability.">L4::Ipc::Small_buf</a>) occupying one buffer register is sufficient to receive one object capability.</li>
-<li>A <em>buffer item</em> (<a class="el" href="classL4_1_1Ipc_1_1Buf__item.html" title="RPC warpper for a receive item.">L4::Ipc::Buf_item</a>) occupying two buffer registers (<em>message word</em> and a <em>flexpage</em>) is required to receive memory flexpages, I/O ports, or multiple object capabilities.</li>
+<li>A <em>buffer item</em> (L4::Ipc::Buf_item) occupying two buffer registers (<em>message word</em> and a <em>flexpage</em>) is required to receive memory flexpages, I/O ports, or multiple object capabilities.</li>
 </ul>
 <h3><a class="anchor" id="l4re_concepts_descr_bdr"></a>
 IPC Buffer Descriptor Register</h3>
@@ -210,7 +215,7 @@ Transfer of Typed Send Items</h2>
 <p>The kernel will stop transmission of typed items before <a class="el" href="structl4__msgtag__t.html#ad014e4a9f4509b068ddda678f6f8d568" title="Get the number of typed items.">l4_msgtag_t::items()</a> is reached either if it finds a void item as receive buffer or if the flexpage type of the send item does not match the flexpage type of the corresponding receive item. Under both conditions, the IPC is aborted with <a class="el" href="group__l4__ipc__err__api.html#gga896e67446a2348545f520c46a775c3c3acea5de2618320038175e88cbd1007bf7" title="Sent message truncated.">L4_IPC_SEMSGCUT</a> / <a class="el" href="group__l4__ipc__err__api.html#gga896e67446a2348545f520c46a775c3c3acfe35ea38d9bd5b67200793f96c6d7f2" title="Received message truncated.">L4_IPC_REMSGCUT</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>The kernel ignores the flexpage access rights of the receive items. The actual rights for a transferred resource in the target address space are defined by the access rights to that resource of the IPC sender address space and the flexpage access rights in the typed send item. Additionally, when transferring object capabilities, the transferred rights also depend on the sender’s rights on the capability invoked for IPC.</dd></dl>
 <p>The kernel does not unmap capabilities in the receive window when there is no capability present at the corresponding index at the sender. Further, the receiver cannot reliably detect at which capability indices it received capabilities in its receive windows. Therefore, before receiving from an untrusted source, all receive windows should be cleared. Otherwise the receiver may erroneously associate a capability in one of its receive windows with his last IPC partner although it was actually received in an earlier IPC.</p>
-<p>However, the kernel indicates if at least one object capability was received or not, see <a class="el" href="classL4_1_1Ipc_1_1Gen__fpage.html#a64ac865abcfbcc47b373c6e91bab4973" title="Check if at least one capability has been mapped.">L4::Ipc::Gen_fpage::cap_received()</a>.</p>
+<p>However, the kernel indicates if at least one object capability was received or not, see <a class="el" href="classL4_1_1Ipc_1_1Gen__fpage.html#a9f3121e142803d406409f1c2be7b2c97" title="Check if at least one capability has been mapped.">L4::Ipc::Gen_fpage::cap_received()</a>.</p>
 <h1><a class="anchor" id="l4re_concepts_ipc_examples"></a>
 Examples</h1>
 <p>A number of examples show the interplay of the concepts introduced so far.</p>
@@ -265,7 +270,7 @@ User Thread to User Object</h2>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="l4re_concepts.html">Programming for L4Re</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

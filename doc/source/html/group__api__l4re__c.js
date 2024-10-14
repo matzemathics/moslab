@@ -11,6 +11,7 @@ var group__api__l4re__c =
     [ "Log interface", "group__api__l4re__c__log.html", "group__api__l4re__c__log" ],
     [ "Memory allocator", "group__api__l4re__c__mem__alloc.html", "group__api__l4re__c__mem__alloc" ],
     [ "Namespace interface", "group__api__l4re__c__ns.html", "group__api__l4re__c__ns" ],
+    [ "Parent interface", "group__api__l4re__c__parent.html", null ],
     [ "Region map interface", "group__api__l4re__c__rm.html", "group__api__l4re__c__rm" ],
     [ "Video API", "group__api__l4re__c__video.html", "group__api__l4re__c__video" ],
     [ "inhibitor.h", "inhibitor_8h.html", null ]

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re::Util::Counter_atomic&lt; COUNTER &gt; Struct Template Reference</title>
+<title>L4Re Operating System Framework: L4Re::Util::Counter_atomic&lt; COUNTER &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -91,6 +94,8 @@ $(document).ready(function(){initNavTree('structL4Re_1_1Util_1_1Counter__atomic.
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle"><div class="title">L4Re::Util::Counter_atomic&lt; COUNTER &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -104,15 +109,97 @@ $(document).ready(function(){initNavTree('structL4Re_1_1Util_1_1Counter__atomic.
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structL4Re_1_1Util_1_1Counter__atomic__coll__graph.svg" width="171" height="91"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structL4Re_1_1Util_1_1Counter__atomic__coll__graph.svg" width="171" height="111"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:abd26ba4101dec265a47fbfce99f02546" id="r_abd26ba4101dec265a47fbfce99f02546"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4Re_1_1Util_1_1Counter__atomic.html#abd26ba4101dec265a47fbfce99f02546">inc</a> ()</td></tr>
+<tr class="memdesc:abd26ba4101dec265a47fbfce99f02546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Increment counter if not yet saturated.    <br /></td></tr>
+<tr class="separator:abd26ba4101dec265a47fbfce99f02546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6159fa39e4497e2ded0f22b392105d16" id="r_a6159fa39e4497e2ded0f22b392105d16"><td class="memItemLeft" align="right" valign="top">Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4Re_1_1Util_1_1Counter__atomic.html#a6159fa39e4497e2ded0f22b392105d16">dec</a> ()</td></tr>
+<tr class="memdesc:a6159fa39e4497e2ded0f22b392105d16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrement counter if not saturated.    <br /></td></tr>
+<tr class="separator:a6159fa39e4497e2ded0f22b392105d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename COUNTER = unsigned char&gt;<br />
 struct L4Re::Util::Counter_atomic&lt; COUNTER &gt;</div><p>Thread safe version of counter for <a class="el" href="classL4Re_1_1Util_1_1Counting__cap__alloc.html" title="Internal reference-counting cap allocator.">Counting_cap_alloc</a>. </p>
 <p>Despite using atomic instructions, this version has to make sure that capability slots are not reused too early. If the last reference is gone, the capability slot has to be unmapped. The slot must only be allocated again when the unmap has completed. This is accomplished by starting with an initial count of 2. The last reference will decrease the counter to 1. Only then, after the slot was unmapped, will the counter be set to 0. This will allow other threads to reallocate the slot. </p>
 
-<p class="definition">Definition at line <a class="el" href="counting__cap__alloc_source.html#l00073">73</a> of file <a class="el" href="counting__cap__alloc_source.html">counting_cap_alloc</a>.</p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<p class="definition">Definition at line <a class="el" href="counting__cap__alloc_source.html#l00109">109</a> of file <a class="el" href="counting__cap__alloc_source.html">counting_cap_alloc</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6159fa39e4497e2ded0f22b392105d16" name="a6159fa39e4497e2ded0f22b392105d16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6159fa39e4497e2ded0f22b392105d16">&#9670;&#160;</a></span>dec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename COUNTER  = unsigned char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Type <a class="el" href="structL4Re_1_1Util_1_1Counter__atomic.html">L4Re::Util::Counter_atomic</a>&lt; COUNTER &gt;::dec </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Decrement counter if not saturated.   </p>
+<p>Once the counter reached the saturated state, the counter value isn't changed.   </p>
+
+<p class="definition">Definition at line <a class="el" href="counting__cap__alloc_source.html#l00153">153</a> of file <a class="el" href="counting__cap__alloc_source.html">counting_cap_alloc</a>.</p>
+
+</div>
+</div>
+<a id="abd26ba4101dec265a47fbfce99f02546" name="abd26ba4101dec265a47fbfce99f02546"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd26ba4101dec265a47fbfce99f02546">&#9670;&#160;</a></span>inc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename COUNTER  = unsigned char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="structL4Re_1_1Util_1_1Counter__atomic.html">L4Re::Util::Counter_atomic</a>&lt; COUNTER &gt;::inc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Increment counter if not yet saturated.   </p>
+<p>Once the counter reached the saturated state, the counter value isn't changed.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">false</td><td>The counter just went saturated after it was increased. </td></tr>
+    <tr><td class="paramname">true</td><td>Either the counter was already saturated &ndash; in that case the counter value was not changed, or the counter was not saturated &ndash; in that case the counter was increased.   </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="counting__cap__alloc_source.html#l00132">132</a> of file <a class="el" href="counting__cap__alloc_source.html">counting_cap_alloc</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>l4/re/util/<a class="el" href="counting__cap__alloc_source.html">counting_cap_alloc</a></li>
 </ul>
 </div><!-- contents -->
@@ -122,7 +209,7 @@ struct L4Re::Util::Counter_atomic&lt; COUNTER &gt;</div><p>Thread safe version o
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4Re.html">L4Re</a></li><li class="navelem"><a class="el" href="namespaceL4Re_1_1Util.html">Util</a></li><li class="navelem"><a class="el" href="structL4Re_1_1Util_1_1Counter__atomic.html">Counter_atomic</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

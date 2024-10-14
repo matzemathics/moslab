@@ -67,8 +67,30 @@ public:
   Tlb_type tlb_type() const
   { return _tlb_type; }
 
+  /**
+   * Local TLB flush, i.e. only on the current CPU.
+   *
+   * Flushes all entries of this memory space from the TLB.
+   *
+   * @note Might also affect the TLB on other CPUs, if the platform provides a
+   *       mechanism for global TLB invalidation.
+   */
   FIASCO_SPACE_VIRTUAL
-  void tlb_flush(bool);
+  void tlb_flush_current_cpu();
+
+  /**
+   * TLB flush on all CPUs where the memory space is marked as "active".
+   *
+   * Flushes all entries of this memory space from the TLB.
+   *
+   * @pre The cpu lock must not be held (because of cross-CPU call).
+   *
+   * @note Depenending on the TLB type and usage of this memory space, and if
+   *       the platform provides no mechanisms for global TLB invalidation, a
+   *       cross-CPU TLB flush can be a very costly operation (might need an
+   *       IPI-coordinated TLB shootdown).
+   */
+  void tlb_flush_all_cpus();
 
   /** Insert a page-table entry, or upgrade an existing entry with new
    *  attributes.
@@ -77,6 +99,7 @@ public:
    * @param virt  Virtual address for which an entry should be created.
    * @param size  log2 of the page frame size.
    * @param page_attribs  Attributes for the mapping (see Page::Attr).
+   * @param ku_mem        Is it a kernel-user memory mapping?
    * @return Insert_ok if a new mapping was created;
    *         Insert_warn_exists if the mapping already exists;
    *         Insert_warn_attrib_upgrade if the mapping already existed but
@@ -86,13 +109,15 @@ public:
    *         Insert_err_exists if the mapping could not be inserted because
    *                           another mapping occupies the virtual-address
    *                           range
+   * @pre Not thread-safe, the caller must ensure that no one else modifies the
+   *      page table at the same time.
    * @pre phys and virt need to be aligned according to the size argument.
    * @pre size must match one of the frame sizes used in the page table.
    *      See fitting_sizes().
    */
   FIASCO_SPACE_VIRTUAL
   Status v_insert(Phys_addr phys, Vaddr virt, Page_order size,
-                  Attr page_attribs);
+                  Attr page_attribs, bool ku_mem = false);
 
   /** Look up a page-table entry.
    *
@@ -130,6 +155,8 @@ public:
    *         before it was modified. Support for this information is
    *         platform-dependent.
    *
+   * @pre Not thread-safe, the caller must ensure that no one else modifies the
+   *      page table at the same time.
    * @pre `virt` needs to be aligned according to the size argument.
    * @pre `size` must match one of the frame sizes used in the page table.
    *      See fitting_sizes().
@@ -147,6 +174,9 @@ public:
    * @param access_flags  #L4_fpage::Rights::R(): page was referenced.
    *                      #L4_fpage::Rights::W(): page is dirty.
    *
+   * @pre Not thread-safe, the caller must ensure that no one else modifies the
+   *      page table at the same time.
+   *
    * @note Support for setting the page access flags is platform-dependent.
    *       If this feature is not supported, this function does nothing.
    */
@@ -156,12 +186,30 @@ public:
   /** Set this memory space as the current on this CPU. */
   void make_current(Switchin_flags flags = None);
 
+  /**
+   * Reload current Mem_space state on this CPU.
+   *
+   * This is only needed on MPU systems. On MMU systems the hardware does
+   * the page walk independently (after TLB was evicted).
+   */
+  static void reload_current();
+
   static Mem_space *kernel_space()
   { return _kernel_space; }
 
   /** Return the current memory space of this CPU. */
   static inline Mem_space *current_mem_space(Cpu_number cpu)
   { return _current.cpu(cpu); }
+
+  /**
+   * Translate virtual address located in pmem to physical address.
+   *
+   * @param virt  Virtual address located in pmem.
+   *              This address does not need to be page-aligned.
+   *
+   * @return Physical address corresponding to virt.
+   */
+  Address pmem_to_phys(Address virt) const;
 
 /**
  * Simple page-table lookup.
@@ -275,10 +323,10 @@ private:
   Ram_quota *_quota;
 
   static Per_cpu<Mem_space *> _current;
-  static Mem_space *_kernel_space;
-  static Page_order _glbl_page_sizes[Max_num_global_page_sizes];
-  static unsigned _num_glbl_page_sizes;
-  static bool _glbl_page_sizes_finished;
+  static Global_data<Mem_space *> _kernel_space;
+  static Global_data<Page_order[Max_num_global_page_sizes]> _glbl_page_sizes;
+  static Global_data<unsigned> _num_glbl_page_sizes;
+  static Global_data<bool> _glbl_page_sizes_finished;
 };
 
 //---------------------------------------------------------------------------
@@ -307,7 +355,7 @@ public:
    * entry of the memory space is accessed on the current CPU, thus potentially
    * cached in the TLB.
    */
-  static void sync_write_tlb_active_on_cpu();
+  void sync_write_tlb_active_on_cpu();
 
   /**
    * Ensure that all changes to page tables made on the current CPU are visible
@@ -325,7 +373,7 @@ protected:
     if (!_tlb_active_on_cpu.atomic_get_and_set_if_unset(current_cpu()))
       // If the memory space was not already marked as active, we have to
       // execute a synchronization operation.
-      Mem_space::sync_write_tlb_active_on_cpu();
+      sync_write_tlb_active_on_cpu();
   }
 
   /**
@@ -392,23 +440,29 @@ IMPLEMENTATION:
 //
 
 #include "config.h"
+#include "cpu_call.h"
 #include "globals.h"
 #include "l4_types.h"
 #include "kmem_alloc.h"
 #include "mem_unit.h"
 #include "paging.h"
 #include "panic.h"
+#include "global_data.h"
 
 DEFINE_PER_CPU Per_cpu<Mem_space *> Mem_space::_current;
 
 
 char const * const Mem_space::name = "Mem_space";
-Mem_space *Mem_space::_kernel_space;
+DEFINE_GLOBAL Global_data<Mem_space *> Mem_space::_kernel_space;
 
-static Mem_space::Fit_size __mfs;
-Mem_space::Page_order Mem_space::_glbl_page_sizes[Max_num_global_page_sizes];
-unsigned Mem_space::_num_glbl_page_sizes;
-bool Mem_space::_glbl_page_sizes_finished;
+static DEFINE_GLOBAL Global_data<Mem_space::Fit_size> __mfs;
+
+DEFINE_GLOBAL
+Global_data<Mem_space::Page_order[Mem_space::Max_num_global_page_sizes]>
+Mem_space::_glbl_page_sizes;
+
+DEFINE_GLOBAL Global_data<unsigned> Mem_space::_num_glbl_page_sizes;
+DEFINE_GLOBAL Global_data<bool> Mem_space::_glbl_page_sizes_finished;
 
 PROTECTED static
 void
@@ -441,7 +495,7 @@ void
 Mem_space::add_page_size(Page_order o)
 {
   add_global_page_size(o);
-  __mfs.add_page_size(o);
+  __mfs->add_page_size(o);
 }
 
 IMPLEMENT
@@ -506,6 +560,42 @@ Mem_space::switchin_context(Mem_space *from, Switchin_flags flags)
       from->tlb_track_space_usage();
     }
 }
+
+IMPLEMENT_DEFAULT inline
+Address
+Mem_space::pmem_to_phys(Address virt) const
+{ return Mem_layout::pmem_to_phys(virt); }
+
+IMPLEMENT inline NEEDS["cpu_call.h"]
+void
+Mem_space::tlb_flush_all_cpus()
+{
+  if (!Mem_space::Need_xcpu_tlb_flush || tlb_type() == Mem_space::Tlb_iommu)
+    {
+      tlb_flush_current_cpu();
+      return;
+    }
+
+  // To prevent a race condition that could potentially lead to the use of
+  // outdated page table entries on other cores, we have to execute a memory
+  // barrier that ensures that our PTE changes are visible to all other cores,
+  // before we access tlb_active_on_cpu(). Otherwise, if the Mem_space gets
+  // active on another core, shortly after we read tlb_active_on_cpu() where it
+  // was reported as non-active, we won't send a TLB flush to the other core,
+  // but it might not yet see our PTE changes.
+  Mem_space::sync_read_tlb_active_on_cpu();
+
+  Cpu_call::cpu_call_many(tlb_active_on_cpu(), [this](Cpu_number)
+    {
+      tlb_flush_current_cpu();
+      return false;
+    });
+}
+
+IMPLEMENT_DEFAULT static inline
+void
+Mem_space::reload_current()
+{}
 
 //----------------------------------------------------------------------------
 IMPLEMENTATION [!need_xcpu_tlb_flush]:

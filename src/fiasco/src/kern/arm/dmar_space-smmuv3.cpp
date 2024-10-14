@@ -1,19 +1,36 @@
 // -----------------------------------------------------------
-INTERFACE [iommu && !arm_iommu_stage2]:
+INTERFACE [iommu && !arm_iommu_stage2 && 64bit]:
 
 /**
- * When the SMMU is configured to use stage 1 translation, we use the kernel
- * page table layout for the SMMU. For a non-virtualization-enabled kernel, this
- * is equivalent to the regular memory space page table layout. However, for a
+ * When the SMMU is configured to use stage 1 translation, we use the same
+ * page table layout for the SMMU as for the kernel (with a small difference,
+ * see Iommu_page_attr). For a non-virtualization-enabled kernel, this is
+ * equivalent to the regular memory space page table layout. However, for a
  * virtualization-enabled kernel, memory spaces use a stage 2 page table layout,
  * whereas the kernel uses a stage 1 page table layout.
  */
 EXTENSION class Dmar_space
 {
+  /// For the SMMU we always use the NS-EL1&0 translation regime, just like the
+  /// kernel does with virtualization disabled, whereas with virtualization
+  /// enabled the kernel uses the EL2 translation regime. Therefore, we override
+  /// the corresponding attributes here.
+  struct Iommu_page_attr : public Kernel_page_attr
+  {
+    enum
+    {
+      /// The NS-EL1&0 translation regime supports two privilege levels.
+      Priv_levels = 2,
+      PXN = 1ULL << 53, ///< Privileged Execute Never
+      UXN = 1ULL << 54, ///< Unprivileged Execute Never
+      XN = 0,           ///< Execute Never feature not available
+    };
+  };
+
   class Pte_ptr :
     public Pte_long_desc<Pte_ptr>,
     public Pte_iommu<Pte_ptr>,
-    public Pte_long_attribs<Pte_ptr, Kernel_page_attr>,
+    public Pte_long_attribs<Pte_ptr, Iommu_page_attr>,
     public Pte_generic<Pte_ptr, Unsigned64>
   {
   public:
@@ -36,7 +53,7 @@ EXTENSION class Dmar_space
 };
 
 // -----------------------------------------------------------
-INTERFACE [iommu && arm_iommu_stage2 && cpu_virt]:
+INTERFACE [iommu && arm_iommu_stage2 && cpu_virt && 64bit]:
 
 /**
  * When the SMMU is configured to use stage 2 translation, we use the regular
@@ -45,7 +62,7 @@ INTERFACE [iommu && arm_iommu_stage2 && cpu_virt]:
 EXTENSION class Dmar_space
 {
 public:
-  static inline constexpr unsigned start_level()
+  static constexpr unsigned start_level()
   {
     // For non-ARM_PT48 the first page table is concatenated (10-bits), we skip
     // level zero.
@@ -115,7 +132,7 @@ Dmar_space::init_page_sizes()
 
 IMPLEMENT
 void
-Dmar_space::tlb_flush(bool)
+Dmar_space::tlb_flush_current_cpu()
 {
   Iommu::tlb_invalidate_domain(_domain);
 }

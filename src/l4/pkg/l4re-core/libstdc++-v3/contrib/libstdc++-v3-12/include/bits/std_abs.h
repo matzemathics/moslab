@@ -68,7 +68,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
 #ifndef L4_MINIMAL_LIBC
-
+#ifndef BID_VARIANT_FLAG_NOFPU
   inline _GLIBCXX_CONSTEXPR double
   abs(double __x)
   { return __builtin_fabs(__x); }
@@ -80,6 +80,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   inline _GLIBCXX_CONSTEXPR long double
   abs(long double __x)
   { return __builtin_fabsl(__x); }
+#endif
 #endif /* L4_MINIMAL_LIBC */
 #endif
 
@@ -100,17 +101,28 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   abs(__GLIBCXX_TYPE_INT_N_3 __x) { return __x >= 0 ? __x : -__x; }
 #endif
 
+#ifndef BID_VARIANT_FLAG_NOFPU
 #ifndef L4_MINIMAL_LIBC
 #if !defined(__STRICT_ANSI__) && defined(_GLIBCXX_USE_FLOAT128)
   __extension__ inline _GLIBCXX_CONSTEXPR
   __float128
   abs(__float128 __x)
-  { return __x < 0 ? -__x : __x; }
+  {
+#if defined(_GLIBCXX_LDOUBLE_IS_IEEE_BINARY128)
+    return __builtin_fabsl(__x);
+#elif defined(_GLIBCXX_HAVE_FLOAT128_MATH)
+    return __builtin_fabsf128(__x);
+#else
+    // Assume that __builtin_signbit works for __float128.
+    return __builtin_signbit(__x) ? -__x : __x;
+#endif
+  }
 #endif
 #endif /* L4_MINIMAL_LIBC */
+#endif
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace
-} // extern "C"++"
+} // extern "C++"
 
 #endif // _GLIBCXX_BITS_STD_ABS_H

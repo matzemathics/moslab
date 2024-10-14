@@ -33,14 +33,9 @@ __asm__(
     "   ; If ldso ran as cmd with executable file nm as arg     \n"
     "   ; skip the extra args calc by dl_start()                \n"
     "   ld_s    r1, [sp]       ; orig argc from aux-vec Tbl     \n"
-#ifdef STAR_9000535888_FIXED
-    "   ld      r12, [pcl, _dl_skip_args-.+(.&2)]               \n"
-#else
-    "   add     r12, pcl, _dl_skip_args-.+(.&2)                 \n"
-    "   ld      r12, [r12]                                      \n"
-#endif
 
-    "   add     r2, pcl, _dl_fini-.+(.&2)   ; finalizer         \n"
+    "   ld      r12, [pcl, _dl_skip_args@pcl]                   \n"
+    "   add     r2, pcl, _dl_fini@pcl       ; finalizer         \n"
 
     "   add2    sp, sp, r12    ; discard argv entries from stack\n"
     "   sub_s   r1, r1, r12    ; adjusted argc, on stack        \n"
@@ -62,10 +57,11 @@ __asm__(
 
 /*
  * Dynamic loader bootstrapping:
- * Since we don't modify text at runtime, these can only be data relos
- * (so safe to assume that they are word aligned).
- * And also they HAVE to be RELATIVE relos only
- * @RELP is the relo entry being processed
+ * The only relocations that should be found are either R_ARC_RELATIVE for
+ * data relocations (.got, etc) or R_ARC_JMP_SLOT for code relocations
+ * (.plt).  It is safe to assume that all of these relocations are word
+ * aligned.
+ * @RELP is the reloc entry being processed
  * @REL is the pointer to the address we are relocating.
  * @SYMBOL is the symbol involved in the relocation
  * @LOAD is the load address.
@@ -76,7 +72,9 @@ do {									\
 	int type = ELF32_R_TYPE((RELP)->r_info);			\
 	if (likely(type == R_ARC_RELATIVE))				\
 		*REL += (unsigned long) LOAD;				\
-	else								\
+	else if (type == R_ARC_JMP_SLOT)                                \
+		*REL = SYMBOL;						\
+	else if (type != R_ARC_NONE)					\
 		_dl_exit(1);						\
 }while(0)
 

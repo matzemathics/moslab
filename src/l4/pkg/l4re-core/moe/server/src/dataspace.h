@@ -10,6 +10,7 @@
 #pragma once
 
 #include <cstddef>
+#include <l4/bid_config.h>
 #include <l4/sys/types.h>
 #include <l4/cxx/iostream>
 #include <l4/cxx/list>
@@ -36,7 +37,11 @@ class Dataspace :
 {
 public:
   using Flags = L4Re::Dataspace::Flags;
+#ifdef CONFIG_MMU
   enum { Cow_enabled = 0x100 };
+#else
+  enum { Cow_enabled = 0 }; // !MMU systems do not support CoW
+#endif
 
   struct Address
   {
@@ -56,10 +61,14 @@ public:
     unsigned long of() const noexcept { return offs; }
     l4_fpage_t fp() const noexcept { return fpage; }
 
+    /**
+     * Get the start address of the dataspace. Requires `T` to be a pointer
+     * type.
+     */
     template< typename T >
-    T adr() const noexcept { return (T)(bs() + offs); }
+    T adr() const noexcept { return reinterpret_cast<T>(bs() + offs); }
 
-    void *adr() const noexcept { return (void*)(bs() + offs); }
+    void *adr() const noexcept { return reinterpret_cast<void*>(bs() + offs); }
 
     bool is_nil() const noexcept { return offs == -1UL; }
     /**
@@ -71,8 +80,8 @@ public:
   };
 
   Dataspace(unsigned long size, Flags flags,
-            unsigned char page_shift) noexcept
-    : _size(size), _flags(flags), _page_shift(page_shift)
+            unsigned char page_shift, Single_page_alloc_base::Config cfg) noexcept
+    : _size(size), _flags(flags), _page_shift(page_shift), _cfg(cfg)
   {}
 
 
@@ -86,7 +95,11 @@ public:
 
   virtual int pre_allocate(l4_addr_t offset, l4_size_t size, unsigned rights) = 0;
 
-  bool can_cow() const noexcept { return (bool)(_flags & Flags(Cow_enabled)); }
+  bool can_cow() const noexcept
+  {
+    return !!(_flags & Flags(Cow_enabled));
+  }
+
   Flags flags() const noexcept { return _flags; }
 
   Flags map_flags(L4Re::Dataspace::Rights rights = L4_CAP_FPAGE_W) const noexcept
@@ -107,8 +120,12 @@ public:
   virtual bool is_static() const noexcept = 0;
   virtual long clear(unsigned long offs, unsigned long size) const noexcept;
 
+  virtual long map_info(l4_addr_t &start_addr,
+                        l4_addr_t &end_addr) const noexcept;
+
 protected:
   void size(unsigned long size) noexcept { _size = size; }
+  Single_page_alloc_base::Config cfg() const { return _cfg; }
 
 public:
   unsigned long round_size() const noexcept
@@ -116,7 +133,7 @@ public:
   bool check_limit(l4_addr_t offset) const noexcept
   { return offset < round_size(); }
   bool check_range(l4_addr_t offset, unsigned long sz) const noexcept
-  { return offset < round_size() && size() - offset >= sz; }
+  { return offset < size() && size() - offset >= sz; }
 
 public:
   int map(l4_addr_t offs, l4_addr_t spot, Flags flags,
@@ -164,11 +181,15 @@ public:
     return clear(offset, size);
   }
 
+  long op_map_info(L4Re::Dataspace::Rights rights,
+                   l4_addr_t &start_addr,
+                   l4_addr_t &end_addr);
 
 private:
   unsigned long  _size;
   Flags _flags;
   unsigned char  _page_shift;
+  Single_page_alloc_base::Config _cfg;
 };
 
 }

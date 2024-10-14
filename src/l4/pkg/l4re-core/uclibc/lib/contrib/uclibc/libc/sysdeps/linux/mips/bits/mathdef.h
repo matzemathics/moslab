@@ -25,10 +25,9 @@
 #if defined  __USE_ISOC99 && defined _MATH_H && !defined _MATH_H_MATHDEF
 # define _MATH_H_MATHDEF	1
 
-/* Normally, there is no long double type and the `float' and `double'
-   expressions are evaluated as `double'.  */
-typedef double float_t;		/* `float' expressions are evaluated as
-				   `double'.  */
+/* MIPS has both `float' and `double' arithmetic.  */
+typedef float float_t;		/* `float' expressions are evaluated as
+				   `float'.  */
 typedef double double_t;	/* `double' expressions are evaluated as
 				   `double'.  */
 
@@ -38,10 +37,6 @@ typedef double double_t;	/* `double' expressions are evaluated as
 
 #endif	/* ISO C99 */
 
-#if ! defined __NO_LONG_DOUBLE_MATH && _MIPS_SIM == _ABIO32 && defined AW11_DISABLED_THIS
-/* Signal that we do not really have a `long double'.  This disables the
-   declaration of all the `long double' function variants.  */
-# define __NO_LONG_DOUBLE_MATH	1
-#elif !defined __NO_LONG_DOUBLE_MATH && !defined __UCLIBC_HAS_LONG_DOUBLE_MATH__
+#if !defined __NO_LONG_DOUBLE_MATH && !defined __UCLIBC_HAS_LONG_DOUBLE_MATH__ && defined AW11_DISABLED_THIS
 # define __NO_LONG_DOUBLE_MATH	1
 #endif

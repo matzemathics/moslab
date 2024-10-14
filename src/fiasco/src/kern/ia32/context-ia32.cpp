@@ -10,6 +10,15 @@ protected:
   Unsigned16 _es, _fs, _gs;
 };
 
+INTERFACE [vmx]:
+
+class Vmx_vmcs;
+
+EXTENSION class Context
+{
+protected:
+  Vmx_vmcs *_vmcs = nullptr;
+};
 
 IMPLEMENTATION [ia32,amd64,ux]:
 
@@ -42,11 +51,14 @@ Context::switchin_context(Context *from)
   assert (state() & Thread_ready_mask);
 
   from->handle_lock_holder_preemption();
+
+  Cpu &cpu = Cpu::cpus.current();
+
   // Set kernel-esp in case we want to return to the user.
   // kmem::kernel_sp() returns a pointer to the kernel SP (in the
   // TSS) the CPU uses when next switching from user to kernel mode.
   // regs() + 1 returns a pointer to the end of our kernel stack.
-  Cpu::cpus.current().kernel_sp() = reinterpret_cast<Address>(regs() + 1);
+  cpu.kernel_sp() = reinterpret_cast<Address>(regs() + 1);
 
   // switch to our page directory if necessary
   vcpu_aware_space()->switchin_context(from->vcpu_aware_space());
@@ -93,4 +105,29 @@ Context::load_gdt_user_entries(Context * /*old*/ = 0)
   gdt[Gdt::gdt_utcb/8] = _gdt_user_entries[Gdt_user_entries];
 }
 
+//--------------------------------------------------------------------
+IMPLEMENTATION[vmx]:
 
+/**
+ * Get the VMCS object associated with the context.
+ *
+ * \return VMCS object assiciated with the context.
+ */
+PUBLIC inline
+Vmx_vmcs *
+Context::vmcs()
+{
+  return _vmcs;
+}
+
+/**
+ * Set the VMCS object associated with the context.
+ *
+ * \param vmcs  VMCS object to associate with the context.
+ */
+PUBLIC inline
+void
+Context::set_vmcs(Vmx_vmcs *vmcs)
+{
+  _vmcs = vmcs;
+}

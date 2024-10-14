@@ -9,16 +9,14 @@ CSRC-y := \
 	__longjmp.c  brk.c setjmp_aux.c \
 	pread_write.c sigaction.c _test_and_set.c
 
-SSRC-y := bsd-_setjmp.S bsd-setjmp.S setjmp.S syscall.S pipe.S syscall_error.S
+SSRC-y := bsd-_setjmp.S bsd-setjmp.S setjmp.S syscall.S pipe.S syscall_error.S \
+	  vfork.S clone.S
 
 CSRC-$(UCLIBC_LINUX_SPECIFIC) += cacheflush.c sysmips.c
-CSRC-$(UCLIBC_HAS_ADVANCED_REALTIME) += posix_fadvise.c
-CSRC-$(if $(findstring yy,$(UCLIBC_HAS_LFS)$(UCLIBC_HAS_ADVANCED_REALTIME)),y) += posix_fadvise64.c
-SSRC-$(if $(UCLIBC_HAS_THREADS_NATIVE),,y) += vfork.S clone.S
+CSRC-$(UCLIBC_HAS_ADVANCED_REALTIME) += posix_fadvise.c posix_fadvise64.c
 SSRC-$(UCLIBC_HAS_CONTEXT_FUNCS) += makecontext.S setcontext.S getcontext.S \
 	swapcontext.S
 
 ASFLAGS-syscall_error.S += -D_LIBC_REENTRANT
 
-ARCH_HEADERS := sgidefs.h
-# regdef.h
+ARCH_HEADERS := sgidefs.h regdef.h

@@ -4,13 +4,13 @@
 ## For more information about this file format visit the SPDX website at
 ## https://spdx.org
 
-SPDXVersion: SPDX-2.1
+SPDXVersion: SPDX-2.3
 DataLicense: CC0-1.0
-SPDXID: SPDXRef-Document
+SPDXID: SPDXRef-DOCUMENT
 DocumentNamespace: spdx:kernkonzept/readline-8c3e8993-3df8-4b5e-b3b0-4a1adffa90fa
 DocumentName: readline
-
 Creator: Organization: Kernkonzept GmbH (info@kernkonzept.com)
+Created: 2023-08-04T00:00:00Z
 
 ## Package Information
 PackageName: readline
@@ -28,9 +28,9 @@ PackageFileName: ./lib/contrib/libreadline
 PackageOriginator: Organization: Free Software Foundation, Inc.
 PackageLicenseDeclared: GPL-2.0-or-later
 PackageLicenseConcluded: GPL-2.0-or-later
+FilesAnalyzed: false
 PackageCopyrightText: NOASSERTION
 PackageDownloadLocation: NOASSERTION
-FilesAnalyzed: false
 
 ## Relationships
 Relationship: SPDXRef-readline CONTAINS SPDXRef-readline-contrib

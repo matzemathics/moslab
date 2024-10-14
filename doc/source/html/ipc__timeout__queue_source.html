@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/cxx/ipc_timeout_queue Source File</title>
+<title>L4Re Operating System Framework: l4/cxx/ipc_timeout_queue Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -120,7 +123,8 @@ $(document).ready(function(){initNavTree('ipc__timeout__queue_source.html',''); 
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;l4/cxx/hlist&gt;</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;l4/sys/cxx/ipc_server_loop&gt;</span></div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceL4.html">L4</a> { <span class="keyword">namespace </span>Ipc_svr {</div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="namespaceL4_1_1Ipc__svr.html">   22</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceL4.html">L4</a> { <span class="keyword">namespace </span>Ipc_svr {</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="foldopen" id="foldopen00028" data-start="{" data-end="};">
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classL4_1_1Ipc__svr_1_1Timeout.html">   28</a></span><span class="keyword">class </span><a class="code hl_class" href="classL4_1_1Ipc__svr_1_1Timeout.html">Timeout</a> : <span class="keyword">public</span> <a class="code hl_class" href="classcxx_1_1H__list__item__t.html">cxx::H_list_item</a></div>
@@ -226,7 +230,7 @@ $(document).ready(function(){initNavTree('ipc__timeout__queue_source.html',''); 
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>  {</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <a class="code hl_typedef" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a> t = <a class="code hl_variable" href="classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#aedb498336d49a3407de48084ce24f029">queue</a>.<a class="code hl_function" href="classL4_1_1Ipc__svr_1_1Timeout__queue.html#a4d3404d1f551f06f9ef98121bd150569">next_timeout</a>();</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordflow">if</span> (t)</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>       <span class="keywordflow">return</span> <a class="code hl_function" href="group__l4__timeout__api.html#ga3345aebfb9e55eccf20ff8b765197bae">l4_timeout</a>(<a class="code hl_define" href="group__l4__timeout__api.html#ga1fd51d98ee92362453e7bc266fa8b455">L4_IPC_TIMEOUT_0</a>, <a class="code hl_function" href="group__l4__timeout__api.html#gab3eeabba0542c7723fbd5628c6e4d6c3">l4_timeout_abs</a>(t, _timeout_br()));</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>       <span class="keywordflow">return</span> <a class="code hl_function" href="group__l4__timeout__api.html#ga7c5eebe8f0c4b5718ead96072886e7d2">l4_timeout</a>(<a class="code hl_define" href="group__l4__timeout__api.html#ga1fd51d98ee92362453e7bc266fa8b455">L4_IPC_TIMEOUT_0</a>, <a class="code hl_function" href="group__l4__timeout__api.html#gab3eeabba0542c7723fbd5628c6e4d6c3">l4_timeout_abs</a>(t, _timeout_br()));</div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">return</span> <a class="code hl_define" href="group__l4__timeout__api.html#ga22a6a662679f6baaa0ae931d8bb443ea">L4_IPC_SEND_TIMEOUT_0</a>;</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>  }</div>
 </div>
@@ -278,6 +282,7 @@ $(document).ready(function(){initNavTree('ipc__timeout__queue_source.html',''); 
 </div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>}}</div>
+</div>
 <div class="ttc" id="aclassL4_1_1Ipc__svr_1_1Br__manager__no__buffers_html_a6a21ac56918c605ca9796c99edfd8ec0"><div class="ttname"><a href="classL4_1_1Ipc__svr_1_1Br__manager__no__buffers.html#a6a21ac56918c605ca9796c99edfd8ec0">L4::Ipc_svr::Br_manager_no_buffers::first_free_br</a></div><div class="ttdeci">unsigned first_free_br() const</div><div class="ttdoc">Returns 1 as first free buffer.</div><div class="ttdef"><b>Definition</b> <a href="ipc__server__loop_source.html#l00216">ipc_server_loop:216</a></div></div>
 <div class="ttc" id="aclassL4_1_1Ipc__svr_1_1Timeout__queue__hooks_html"><div class="ttname"><a href="classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html">L4::Ipc_svr::Timeout_queue_hooks</a></div><div class="ttdoc">Loop hooks mixin for integrating a timeout queue into the server loop.</div><div class="ttdef"><b>Definition</b> <a href="ipc__timeout__queue_source.html#l00160">ipc_timeout_queue:161</a></div></div>
 <div class="ttc" id="aclassL4_1_1Ipc__svr_1_1Timeout__queue__hooks_html_a07277e39d7a77e66fbd6556f00e3e8aa"><div class="ttname"><a href="classL4_1_1Ipc__svr_1_1Timeout__queue__hooks.html#a07277e39d7a77e66fbd6556f00e3e8aa">L4::Ipc_svr::Timeout_queue_hooks::add_timeout</a></div><div class="ttdeci">int add_timeout(Timeout *timeout, l4_kernel_clock_t time) override</div><div class="ttdoc">Add a timeout to the queue for time time.</div><div class="ttdef"><b>Definition</b> <a href="ipc__timeout__queue_source.html#l00212">ipc_timeout_queue:212</a></div></div>
@@ -311,14 +316,14 @@ $(document).ready(function(){initNavTree('ipc__timeout__queue_source.html',''); 
 <div class="ttc" id="agroup__cxx__ipc__server_html_gga53acccae8e5dc9803ebb8583e1e9de30a591e182e116c067db8a166dd8ec5b2d3"><div class="ttname"><a href="group__cxx__ipc__server.html#gga53acccae8e5dc9803ebb8583e1e9de30a591e182e116c067db8a166dd8ec5b2d3">L4::Ipc_svr::Reply_separate</a></div><div class="ttdeci">@ Reply_separate</div><div class="ttdoc">Server shall call reply and wait separately.</div><div class="ttdef"><b>Definition</b> <a href="ipc__server__loop_source.html#l00054">ipc_server_loop:53</a></div></div>
 <div class="ttc" id="agroup__cxx__ipc__server_html_gga53acccae8e5dc9803ebb8583e1e9de30afec233db6432949dbc89dfda6cb03294"><div class="ttname"><a href="group__cxx__ipc__server.html#gga53acccae8e5dc9803ebb8583e1e9de30afec233db6432949dbc89dfda6cb03294">L4::Ipc_svr::Reply_compound</a></div><div class="ttdeci">@ Reply_compound</div><div class="ttdoc">Server shall use a compound reply and wait (fast).</div><div class="ttdef"><b>Definition</b> <a href="ipc__server__loop_source.html#l00052">ipc_server_loop:52</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_gab71da24eb7cda2c035f18b862309b101"><div class="ttname"><a href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a></div><div class="ttdeci">l4_uint64_t l4_kernel_clock_t</div><div class="ttdoc">Kernel clock type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00064">l4int.h:64</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_ga1fd51d98ee92362453e7bc266fa8b455"><div class="ttname"><a href="group__l4__timeout__api.html#ga1fd51d98ee92362453e7bc266fa8b455">L4_IPC_TIMEOUT_0</a></div><div class="ttdeci">#define L4_IPC_TIMEOUT_0</div><div class="ttdoc">Timeout constants.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00079">__timeout.h:79</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_ga22a6a662679f6baaa0ae931d8bb443ea"><div class="ttname"><a href="group__l4__timeout__api.html#ga22a6a662679f6baaa0ae931d8bb443ea">L4_IPC_SEND_TIMEOUT_0</a></div><div class="ttdeci">#define L4_IPC_SEND_TIMEOUT_0</div><div class="ttdoc">0 send timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00084">__timeout.h:84</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_ga3345aebfb9e55eccf20ff8b765197bae"><div class="ttname"><a href="group__l4__timeout__api.html#ga3345aebfb9e55eccf20ff8b765197bae">l4_timeout</a></div><div class="ttdeci">l4_timeout_t l4_timeout(l4_timeout_s snd, l4_timeout_s rcv) L4_NOTHROW</div><div class="ttdoc">Combine send and receive timeout in a timeout.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00219">__timeout.h:219</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_ga1fd51d98ee92362453e7bc266fa8b455"><div class="ttname"><a href="group__l4__timeout__api.html#ga1fd51d98ee92362453e7bc266fa8b455">L4_IPC_TIMEOUT_0</a></div><div class="ttdeci">#define L4_IPC_TIMEOUT_0</div><div class="ttdoc">Timeout constants.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00081">__timeout.h:81</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_ga22a6a662679f6baaa0ae931d8bb443ea"><div class="ttname"><a href="group__l4__timeout__api.html#ga22a6a662679f6baaa0ae931d8bb443ea">L4_IPC_SEND_TIMEOUT_0</a></div><div class="ttdeci">#define L4_IPC_SEND_TIMEOUT_0</div><div class="ttdoc">0 send timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00086">__timeout.h:86</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_ga7c5eebe8f0c4b5718ead96072886e7d2"><div class="ttname"><a href="group__l4__timeout__api.html#ga7c5eebe8f0c4b5718ead96072886e7d2">l4_timeout</a></div><div class="ttdeci">L4_CONSTEXPR l4_timeout_t l4_timeout(l4_timeout_s snd, l4_timeout_s rcv) L4_NOTHROW</div><div class="ttdoc">Combine send and receive timeout in a timeout.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00221">__timeout.h:221</a></div></div>
 <div class="ttc" id="agroup__l4__timeout__api_html_gab3eeabba0542c7723fbd5628c6e4d6c3"><div class="ttname"><a href="group__l4__timeout__api.html#gab3eeabba0542c7723fbd5628c6e4d6c3">l4_timeout_abs</a></div><div class="ttdeci">l4_timeout_s l4_timeout_abs(l4_kernel_clock_t pint, int br) L4_NOTHROW</div><div class="ttdoc">Set an absolute timeout.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00383">utcb.h:383</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
-<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00059">__timeout.h:59</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
+<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00060">__timeout.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -326,7 +331,7 @@ $(document).ready(function(){initNavTree('ipc__timeout__queue_source.html',''); 
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_dd3580c6b729ef0dd2be01098f8e55ee.html">cxx</a></li><li class="navelem"><b>ipc_timeout_queue</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

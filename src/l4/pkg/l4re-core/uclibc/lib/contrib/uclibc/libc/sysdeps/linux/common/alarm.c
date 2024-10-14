@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * alarm() for uClibc
  *
@@ -10,7 +9,7 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 
-#ifdef __NR_alarm
+#if defined(__NR_alarm) && !defined(__UCLIBC_USE_TIME64__)
 _syscall1(unsigned int, alarm, unsigned int, seconds)
 #else
 # include <sys/time.h>

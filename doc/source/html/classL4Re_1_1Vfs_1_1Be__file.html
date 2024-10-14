@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re::Vfs::Be_file Class Reference</title>
+<title>L4Re Operating System Framework: L4Re::Vfs::Be_file Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -121,9 +124,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a21a57e87a648ee022f18ada16fb2a904" id="r_a21a57e87a648ee022f18ada16fb2a904"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Vfs_1_1Be__file.html#a21a57e87a648ee022f18ada16fb2a904">unlock_all_locks</a> () noexcept override</td></tr>
 <tr class="memdesc:a21a57e87a648ee022f18ada16fb2a904"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unlock all locks on the file.  <br /></td></tr>
 <tr class="separator:a21a57e87a648ee022f18ada16fb2a904"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0af5c0c8ef8ec07855ebaf2de5ac2d53" id="r_a0af5c0c8ef8ec07855ebaf2de5ac2d53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Vfs_1_1Be__file.html#a0af5c0c8ef8ec07855ebaf2de5ac2d53">data_space</a> () const noexcept override</td></tr>
-<tr class="memdesc:a0af5c0c8ef8ec07855ebaf2de5ac2d53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an <a class="el" href="classL4Re_1_1Dataspace.html" title="Interface for memory-like objects.">L4Re::Dataspace</a> object for the file.  <br /></td></tr>
-<tr class="separator:a0af5c0c8ef8ec07855ebaf2de5ac2d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa288bb0d3f71593953dbae5883517116" id="r_aa288bb0d3f71593953dbae5883517116"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Vfs_1_1Be__file.html#aa288bb0d3f71593953dbae5883517116">data_space</a> () noexcept override</td></tr>
+<tr class="memdesc:aa288bb0d3f71593953dbae5883517116"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an <a class="el" href="classL4Re_1_1Dataspace.html" title="Interface for memory-like objects.">L4Re::Dataspace</a> object for the file.  <br /></td></tr>
+<tr class="separator:aa288bb0d3f71593953dbae5883517116"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5acbef1e5329330ad4162bbdb108ff2e" id="r_a5acbef1e5329330ad4162bbdb108ff2e"><td class="memItemLeft" align="right" valign="top"><a id="a5acbef1e5329330ad4162bbdb108ff2e" name="a5acbef1e5329330ad4162bbdb108ff2e"></a>
 ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>readv</b> (const struct iovec *, int) noexcept override</td></tr>
 <tr class="memdesc:a5acbef1e5329330ad4162bbdb108ff2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default backend for POSIX read and readv functions. <br /></td></tr>
@@ -235,13 +238,13 @@ ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>readlink</b> (char
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Boiler plate class for implementing an open file for <a class="el" href="namespaceL4Re_1_1Vfs.html" title="Virtual file system for interfaces in POSIX libc.">L4Re::Vfs</a>. </p>
 <p>This class may be used as a base class for everything that a POSIX file descriptor may point to. This are things such as regular files, directories, special device files, streams, pipes, and so on. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tmpfs_2lib_2src_2fs_8cc-example.html#_a7">tmpfs/lib/src/fs.cc</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tmpfs_2lib_2src_2fs_8cc-example.html#_a6">tmpfs/lib/src/fs.cc</a>.</dd>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="backend_source.html#l00039">39</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0af5c0c8ef8ec07855ebaf2de5ac2d53" name="a0af5c0c8ef8ec07855ebaf2de5ac2d53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0af5c0c8ef8ec07855ebaf2de5ac2d53">&#9670;&#160;</a></span>data_space()</h2>
+<a id="aa288bb0d3f71593953dbae5883517116" name="aa288bb0d3f71593953dbae5883517116"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa288bb0d3f71593953dbae5883517116">&#9670;&#160;</a></span>data_space()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,7 +256,7 @@ ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>readlink</b> (char
           <td class="memname"><a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a> &gt; L4Re::Vfs::Be_file::data_space </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -267,7 +270,7 @@ ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>readlink</b> (char
 <p>This is used as a backend for POSIX mmap and mmap2 functions. </p><dl class="section note"><dt>Note</dt><dd>mmap is not possible if the function returns an invalid capability.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>A capability to an <a class="el" href="classL4Re_1_1Dataspace.html" title="Interface for memory-like objects.">L4Re::Dataspace</a> that represents the file contents in an <a class="el" href="namespaceL4Re.html" title="L4Re C++ Interfaces.">L4Re</a> way. </dd></dl>
 
-<p>Implements <a class="el" href="classL4Re_1_1Vfs_1_1Regular__file.html#a72a0fffffb6460e91826115d36d553d3">L4Re::Vfs::Regular_file</a>.</p>
+<p>Implements <a class="el" href="classL4Re_1_1Vfs_1_1Regular__file.html#a2cbfa1844e4539e2ca32838805308f7f">L4Re::Vfs::Regular_file</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="backend_source.html#l00056">56</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
 
@@ -357,7 +360,7 @@ ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>readlink</b> (char
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4Re.html">L4Re</a></li><li class="navelem"><a class="el" href="namespaceL4Re_1_1Vfs.html">Vfs</a></li><li class="navelem"><a class="el" href="classL4Re_1_1Vfs_1_1Be__file.html">Be_file</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

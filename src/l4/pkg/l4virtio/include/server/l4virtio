@@ -1,5 +1,5 @@
 // vi:ft=cpp
-/* SPDX-License-Identifier: GPL-2.0-only or License-Ref-kk-custom */
+/* SPDX-License-Identifier: MIT */
 /*
  * Copyright (C) 2014-2022 Kernkonzept GmbH.
  * Author(s): Alexander Warg <alexander.warg@kernkonzept.com>
@@ -179,6 +179,12 @@ public:
   { return _host_features[idx]; }
 
   /**
+   * Return the number of queues currently usable.
+   */
+  l4_uint32_t num_queues() const
+  { return _nqueues; }
+
+  /**
    * Return a specific set of guest features.
    *
    * \param idx  Index into the guest features array.
@@ -248,6 +254,17 @@ public:
   {
     _status = status;
     const_cast<l4_uint32_t volatile &>(hdr()->status) = status.raw;
+  }
+
+  /**
+   * \brief Adds irq status bit.
+   * \param status  The value to add to the irq status register.
+   *
+   * This function adds the status bit to the irq status register.
+   */
+  void add_irq_status(l4_uint32_t status)
+  {
+    const_cast<l4_uint32_t volatile &>(hdr()->irq_status) |= status;
   }
 
   /**
@@ -435,6 +452,9 @@ class Driver_mem_region_t : public DATA
 public:
   struct Flags
   {
+    Flags() = default;
+    explicit Flags(l4_uint32_t raw) : raw(raw) {}
+
     l4_uint32_t raw; ///< raw flags value
     CXX_BITFIELD_MEMBER(0, 0, rw, raw); ///< read-write flag
   };
@@ -457,7 +477,7 @@ private:
   template<typename T>
   T _local(l4_uint64_t addr) const
   {
-    return (T)(addr - _trans_offset);
+    return reinterpret_cast<T>(addr - _trans_offset);
   }
 
 public:
@@ -477,7 +497,7 @@ public:
    */
   Driver_mem_region_t(l4_uint64_t drv_base, l4_umword_t size,
                       l4_addr_t offset, Ds_cap &&ds)
-  : _drv_base(l4_trunc_page(drv_base)), _size(0),
+  : _drv_base(l4_trunc_page(drv_base)), _size(0), _flags(0),
     _ds_offset(l4_trunc_page(offset))
   {
     using L4Re::chksys;
@@ -551,7 +571,7 @@ public:
   l4_uint64_t drv_base() const { return _drv_base; }
 
   /// \return The local base address.
-  void *local_base() const { return (void*)_local_base.get(); }
+  l4_addr_t local_base() const { return _local_base.get(); }
 
   /// \return The size of the region in bytes.
   l4_umword_t size() const { return _size; }
@@ -808,12 +828,15 @@ public:
   /// callback for client queue-config request
   virtual int reconfig_queue(unsigned idx) = 0;
 
+  /// callback for client device configuration changes
+  virtual void cfg_changed(unsigned /* reg */) {};
+
   /// callback for registering a single guest IRQ for all queues (old-style)
   virtual void register_single_driver_irq()
   { L4Re::chksys(-L4_ENOSYS, "Legacy single IRQ interface not implemented."); }
 
   /// callback for triggering configuration change notification IRQ
-  virtual void trigger_driver_config_irq() const = 0;
+  virtual void trigger_driver_config_irq() = 0;
 
   /// callback to gather the device notification IRQ (old-style)
   virtual L4::Cap<L4::Irq> device_notify_irq() const
@@ -999,11 +1022,7 @@ public:
 
     // the device MUST NOT notify the driver before DRIVER_OK.
     if (_device_config->status().driver_ok())
-      {
-        // we do not care about this anywhere, so skip
-        // _dev_config->irq_status |= 1;
         trigger_driver_config_irq();
-      }
   }
 
   /**
@@ -1073,8 +1092,8 @@ public:
     L4Re::Util::Dbg()
       .printf("shm=[%llx-%llx] local=[%lx-%lx] desc=[%llx-%llx] (%p-%p)\n",
               desc_info->drv_base(), desc_info->drv_base() + desc_info->size() - 1,
-              (unsigned long)desc_info->local_base(),
-              (unsigned long)desc_info->local_base() + desc_info->size() - 1,
+              desc_info->local_base(),
+              desc_info->local_base() + desc_info->size() - 1,
               desc, desc + Virtqueue::desc_size(num),
               desc_info->local(Ptr<char>(desc)),
               desc_info->local(Ptr<char>(desc)) + Virtqueue::desc_size(num));
@@ -1082,8 +1101,8 @@ public:
     L4Re::Util::Dbg()
       .printf("shm=[%llx-%llx] local=[%lx-%lx] avail=[%llx-%llx] (%p-%p)\n",
               avail_info->drv_base(), avail_info->drv_base() + avail_info->size() - 1,
-              (unsigned long)avail_info->local_base(),
-              (unsigned long)avail_info->local_base() + avail_info->size() - 1,
+              avail_info->local_base(),
+              avail_info->local_base() + avail_info->size() - 1,
               avail, avail + Virtqueue::avail_size(num),
               avail_info->local(Ptr<char>(avail)),
               avail_info->local(Ptr<char>(avail)) + Virtqueue::avail_size(num));
@@ -1091,8 +1110,8 @@ public:
     L4Re::Util::Dbg()
       .printf("shm=[%llx-%llx] local=[%lx-%lx] used=[%llx-%llx] (%p-%p)\n",
               used_info->drv_base(), used_info->drv_base() + used_info->size() - 1,
-              (unsigned long)used_info->local_base(),
-              (unsigned long)used_info->local_base() + used_info->size() - 1,
+              used_info->local_base(),
+              used_info->local_base() + used_info->size() - 1,
               used, used + Virtqueue::used_size(num),
               used_info->local(Ptr<char>(used)),
               used_info->local(Ptr<char>(used)) + Virtqueue::used_size(num));
@@ -1113,8 +1132,8 @@ public:
     L4Re::Util::Dbg()
       .printf("PORT[%p]: DMA guest [%llx-%llx]  local [%lx-%lx]  offset %lx\n",
               this, i->drv_base(), i->drv_base() + i->size() - 1,
-              (unsigned long)i->local_base(),
-              (unsigned long)i->local_base() + i->size() - 1,
+              i->local_base(),
+              i->local_base() + i->size() - 1,
               i->ds_offset());
   }
 
@@ -1140,6 +1159,10 @@ public:
 
       case L4VIRTIO_CMD_CFG_QUEUE:
         reconfig_queue(cmd & ~L4VIRTIO_CMD_MASK);
+        break;
+
+      case L4VIRTIO_CMD_CFG_CHANGED:
+        cfg_changed(cmd & ~L4VIRTIO_CMD_MASK);
         break;
 
       default:
@@ -1356,4 +1379,3 @@ typedef Device_t<No_custom_data> Device;
 } // namespace Svr
 
 }
-

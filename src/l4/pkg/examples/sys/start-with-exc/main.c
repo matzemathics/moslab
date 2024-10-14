@@ -45,17 +45,25 @@ static void L4_STICKY(thread_func(l4_umword_t *d))
 /* Startup trick for this example. Put all the CPU registers on the stack so
  * that the C function above can get it on the stack. */
 asm(
-".global thread			\n\t"
-"thread:			\n\t"
+".global thread			\n"
+"thread:			\n"
 #ifdef ARCH_x86
-"	pusha			\n\t"
-"	push %esp		\n\t"
-"	call thread_func	\n\t"
+"	pusha			\n"
+"	push %esp		\n"
+"	call thread_func	\n"
 #endif
 #ifdef ARCH_arm
-"       push {r0-r7}            \n\t"
-"       mov r0, sp              \n\t"
-"       bl thread_func          \n\t"
+"       push {r0-r7}            \n"
+"       mov r0, sp              \n"
+"       bl thread_func          \n"
+#endif
+#ifdef ARCH_arm64
+"       stp x0, x1, [sp, #0]!   \n"
+"       stp x2, x3, [sp, #0]!   \n"
+"       stp x4, x5, [sp, #0]!   \n"
+"       stp x6, x7, [sp, #0]!   \n"
+"       mov x0, sp              \n"
+"       bl thread_func          \n"
 #endif
 );
 extern void thread(void);
@@ -117,7 +125,7 @@ int main(void)
   if (!l4_msgtag_is_exception(tag))
     {
       printf("PF?: %lx %lx (not prepared to handle this) %ld\n",
-	     l4_utcb_mr_u(u)->mr[0], l4_utcb_mr_u(u)->mr[1], l4_msgtag_label(tag));
+             l4_utcb_mr_u(u)->mr[0], l4_utcb_mr_u(u)->mr[1], l4_msgtag_label(tag));
       return 1;
     }
 
@@ -134,6 +142,17 @@ int main(void)
   e->eax = 7;
 #endif
 #ifdef ARCH_arm
+  e->pc = (l4_umword_t)thread;
+  e->r[0] = 0;
+  e->r[1] = 1;
+  e->r[2] = 2;
+  e->r[3] = 3;
+  e->r[4] = 4;
+  e->r[5] = 5;
+  e->r[6] = 6;
+  e->r[7] = 7;
+#endif
+#ifdef ARCH_arm64
   e->pc = (l4_umword_t)thread;
   e->r[0] = 0;
   e->r[1] = 1;

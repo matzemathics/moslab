@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* sigwait
  *
  * Copyright (C) 2006 by Steven J. Hill <sjhill@realitydiluted.com>
@@ -25,7 +24,8 @@
 #include <signal.h>
 #include <cancel.h>
 
-#if defined __NR_rt_sigtimedwait && defined __UCLIBC_HAS_REALTIME__
+#if (defined(__NR_rt_sigtimedwait) || (defined(__UCLIBC_USE_TIME64__) && defined(__NR_rt_sigtimedwait_time64))) && \
+    defined(__UCLIBC_HAS_REALTIME__)
 
 #include <string.h>
 

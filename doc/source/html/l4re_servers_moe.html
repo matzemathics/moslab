@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Moe, the Root-Task</title>
+<title>L4Re Operating System Framework: Moe, the Root-Task</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -125,7 +128,7 @@ Passing parameters to the create stream</h3>
 <li>Argument <code>size</code>: size in bytes (mandatory)</li>
 <li>Argument <code>flags</code>: special dataspace properties, see <a class="el" href="classL4Re_1_1Mem__alloc.html#a47f3e054def977c17dbf60bfbb4ee05e" title="Flags for the allocator.">L4Re::Mem_alloc::Mem_alloc_flags</a></li>
 <li>Argument <code>align</code>: Log2 alignment of dataspace if supported by allocator</li>
-<li>See detailed description of the parameters in <a class="el" href="classL4Re_1_1Mem__alloc.html#a44b301573ae859e8406400338cc8e924" title="Allocate anonymous memory.">L4Re::Mem_alloc::alloc()</a></li>
+<li>See detailed description of the parameters in <a class="el" href="classL4Re_1_1Mem__alloc.html#a3e61dd10005ccbabb7052050704d6520" title="Allocate anonymous memory.">L4Re::Mem_alloc::alloc()</a></li>
 <li>For details on the types of dataspaces provided by Moe, see <a class="el" href="l4re_servers_moe.html#l4re_moe_dataspace">Dataspace</a></li>
 </ul>
 </li>
@@ -153,10 +156,10 @@ Passing parameters to the create stream</h3>
 <li>For more details see <a class="el" href="l4re_servers_moe.html#l4re_moe_log">Log Subsystem</a></li>
 </ul>
 </li>
-<li><a class="el" href="classL4_1_1Scheduler.html" title="C++ interface of the Scheduler kernel object, see Scheduler for the C interface.">L4::Scheduler</a> <code>(l4_mword_t limit, l4_mword_t offset, l4_umword_t bitmap = ~0UL)</code><ul>
+<li><a class="el" href="classL4_1_1Scheduler.html" title="C++ interface of the Scheduler kernel object, see Scheduler for the C interface.">L4::Scheduler</a> <code>(l4_mword_t limit, l4_mword_t offset, l4_umword_t bitmap = ~0UL, ...)</code><ul>
 <li>Argument <code>limit</code>: maximum priority</li>
 <li>Argument <code>offset</code>: priority offset</li>
-<li>Argument <code>bitmap</code>: bitmap of CPUs</li>
+<li>Argument <code>bitmap</code>: bitmap of CPUs - can be repeated to address higher order CPUs</li>
 <li>Argument <code>limit</code> must be greater than <code>offset</code></li>
 <li>For more details see <a class="el" href="l4re_servers_moe.html#l4re_moe_scheduler">Scheduler subsystem</a></li>
 </ul>
@@ -204,6 +207,7 @@ Command Line Options</h1>
 <dl class="section user"><dt><code>--init=&lt;init process&gt;</code></dt><dd>This options allows to override the default init process binary, which is 'rom/ned'.</dd></dl>
 <dl class="section user"><dt><code>--l4re-dbg=&lt;debug flags&gt;</code></dt><dd>This option allows to set the debug options for the <a class="el" href="namespaceL4Re.html" title="L4Re C++ Interfaces.">L4Re</a> runtime environment of the init process. The flags are the same as for <code>--debug=</code>.</dd></dl>
 <dl class="section user"><dt><code>--ldr-flags=&lt;loader flags&gt;</code></dt><dd>This option allows setting some loader options for the <a class="el" href="namespaceL4Re.html" title="L4Re C++ Interfaces.">L4Re</a> runtime environment. The flags are <code>pre_alloc</code>, <code>all_segs_cow</code>,and <code>pinned_segs</code>.</dd></dl>
+<dl class="section user"><dt><code>--brk=&lt;address&gt;</code></dt><dd>This option is only present on systems without MMU. It restricts dynamic allocations to addresses equal or higher than <code>&lt;address&gt;</code>. The argument is parsed as hexadecimal number without any <code>0x</code> prefix. Use it to prevent moe from allocating memory in regions that shall later be used by other applications or virtual machines.</dd></dl>
 <dl class="section user"><dt><code>-- &lt;init options&gt;</code></dt><dd>All command-line parameters after the special <code>--</code> option are passed directly to the init process. </dd></dl>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
@@ -213,7 +217,7 @@ Command Line Options</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="l4re_servers.html">L4Re Servers</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

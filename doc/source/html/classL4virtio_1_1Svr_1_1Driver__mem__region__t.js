@@ -10,6 +10,6 @@ var classL4virtio_1_1Svr_1_1Driver__mem__region__t =
     [ "flags", "classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a0d0c98a19bb3156a39ec6fe4d5368c30", null ],
     [ "is_writable", "classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a9464fa4646271afd0d21feec59d563ba", null ],
     [ "local", "classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#af08e01da1fdcbc0f0f4c4d90da5d0469", null ],
-    [ "local_base", "classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a8a5924a06457abb6a6e3f2bfe472e419", null ],
+    [ "local_base", "classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a6e35c07336f8b1f1972a6bc1349beeeb", null ],
     [ "size", "classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a6d13ee0514d05868dfc96d64a5d6c8e0", null ]
 ];

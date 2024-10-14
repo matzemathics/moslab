@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['word_5ftype_0',['word_type',['../classcxx_1_1Bitmap__base.html#a6f52a1661a4cbd0738d8975db7ec0eb7',1,'cxx::Bitmap_base']]],
-  ['write_5fbfm_5ft_1',['write_bfm_t',['../structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#abd1dbe536fd08dc674b4399c6d23e750',1,'L4virtio::Virtqueue::Desc::Flags']]]
+  ['val_0',['Val',['../classcxx_1_1Bitfield.html#a801b1fb423551966bfd9a0d773e3b036',1,'cxx::Bitfield']]],
+  ['val_5funshifted_1',['Val_unshifted',['../classcxx_1_1Bitfield.html#aeac44da9ba4a2d0e37047a2aa0c2a4dc',1,'cxx::Bitfield']]],
+  ['value_5ftype_2',['value_type',['../classL4_1_1Types_1_1Flags.html#a62909444ca3296e4e508e742c68338bf',1,'L4::Types::Flags']]]
 ];

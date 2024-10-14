@@ -39,7 +39,7 @@ IMPLEMENT
 void
 Jdb_tcb::print_entry_frame_regs(Thread *t)
 {
-  Jdb_entry_frame *ef = Jdb::get_entry_frame(Jdb::current_cpu);
+  Jdb_entry_frame *ef = Jdb::get_entry_frame(t->get_current_cpu());
   bool user = ef->from_user();
 
   printf("Regs (before debug entry from %s mode):\n",
@@ -50,15 +50,15 @@ Jdb_tcb::print_entry_frame_regs(Thread *t)
   printf("psr=%016lx tpidr: urw=%016lx uro=%016lx\n"
          " pc=%s%016lx\033[m %csp=%016lx x30=%016lx\n",
          ef->psr, t->tpidrurw(), t->tpidruro(), Jdb::esc_iret,
-         ef->ip(), user ? 'u' : 'k', user ? ef->sp() : (Mword)(ef + 1),
-         ef->r[30]);
+         ef->ip(), user ? 'u' : 'k',
+         user ? ef->sp() : reinterpret_cast<Mword>(ef + 1), ef->r[30]);
 }
 
 IMPLEMENT
 void
 Jdb_tcb::info_thread_state(Thread *t)
 {
-  Jdb_tcb_ptr current((Address)t->get_kernel_sp());
+  Jdb_tcb_ptr current(reinterpret_cast<Address>(t->get_kernel_sp()));
 
   printf("PC=%s%016lx\033[m USP=%016lx\n",
          Jdb::esc_emph, current.top_value(-2),  current.top_value(-3));
@@ -80,14 +80,20 @@ IMPLEMENT inline
 bool
 Jdb_tcb_ptr::is_user_value() const
 {
-  return _offs >= Context::Size - 7 * sizeof(Mword);
+  return _offs >= Context::Size - 37 * sizeof(Mword);
 }
 
 IMPLEMENT inline
 const char *
 Jdb_tcb_ptr::user_value_desc() const
 {
-  const char *desc[] = { "PSR", "PC", "USP", "PFA", "ESR", "KSP", "ULR" };
+  const char *desc[] =
+  {
+    "PSR", "PC", "USP", "PFA", "ESR", "KSP", "ULR", "X29", "X28", "X27",
+    "X26", "X25", "X24", "X23", "X22", "X21", "X20", "X19", "X18", "X17",
+    "X16", "X15", "X14", "X13", "X12", "X11", "X10", "X9", "X8", "X7","X6",
+    "X5", "X4", "X3", "X2", "X1", "X0"
+  };
   return desc[(Context::Size - _offs) / sizeof(Mword) - 1];
 }
 

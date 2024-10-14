@@ -1,5 +1,7 @@
 INTERFACE [arm]:
 
+#include "global_data.h"
+
 EXTENSION class Cpu
 {
 public:
@@ -8,14 +10,14 @@ public:
     Cp15_c1_cache_disabled = Cp15_c1_generic,
   };
 
-  static Unsigned32 sctlr;
+  static Global_data<Unsigned32> sctlr;
   bool has_generic_timer() const { return (_cpu_id._pfr[1] & 0xf0000) == 0x10000; }
 };
 
 //-------------------------------------------------------------------------
 IMPLEMENTATION [arm]:
 
-Unsigned32 Cpu::sctlr;
+DEFINE_GLOBAL Global_data<Unsigned32> Cpu::sctlr;
 
 PUBLIC static inline
 Mword
@@ -34,6 +36,21 @@ Cpu::mpidr()
   asm volatile ("mrc p15, 0, %0, c0, c0, 5" : "=r"(mpid));
   return mpid;
 }
+
+IMPLEMENTATION [arm && arm_v8plus && mmu]: //------------------------------
+
+PUBLIC static inline
+Mword
+Cpu::dfr1()
+{ Mword r; asm volatile ("mrc p15, 0, %0, c0, c3, 5": "=r" (r)); return r; }
+
+IMPLEMENT_OVERRIDE inline
+bool
+Cpu::has_hpmn0() const
+{ return ((dfr1() >> 4) & 0xf) == 1; }
+
+//-------------------------------------------------------------------------
+IMPLEMENTATION [arm]:
 
 PRIVATE static inline
 void
@@ -64,7 +81,7 @@ void Cpu::early_init()
 
   check_for_swp_enable();
 
-  // switch to supervisor mode and intialize the memory system
+  // switch to supervisor mode and initialize the memory system
   asm volatile ( " mov  r2, r13             \n"
                  " mov  r3, r14             \n"
                  " msr  cpsr_c, %1          \n"
@@ -73,8 +90,8 @@ void Cpu::early_init()
 
                  " mcr  p15, 0, %0, c1, c0  \n"
                  :
-                 : "r" (sctlr),
-                   "I" (Proc::Status_mode_supervisor
+                 : "r" (sctlr.unwrap()),
+                   "r" (Proc::Status_mode_supervisor
                         | Proc::Status_interrupts_disabled)
                  : "r2", "r3");
 
@@ -104,7 +121,7 @@ Cpu::disable_dcache()
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && !cpu_virt]:
+IMPLEMENTATION [arm && !cpu_virt && mmu]:
 
 #include "kmem.h"
 #include "kmem_space.h"
@@ -119,17 +136,61 @@ Cpu::init_supervisor_mode(bool is_boot_cpu)
   extern char ivt_start; // physical address!
 
   // map the interrupt vector table to 0xffff0000
-  auto pte = Mem_layout::kdir->walk(Virt_addr(Kmem_space::Ivt_base),
-                                    Kpdir::Depth, true,
-                                    Kmem_alloc::q_allocator(Ram_quota::root));
+  auto pte = Kmem::kdir->walk(Virt_addr(Kmem_space::Ivt_base),
+                              Kpdir::Depth, true,
+                              Kmem_alloc::q_allocator(Ram_quota::root.unwrap()));
 
-  Address va = (Address)&ivt_start - Mem_layout::Sdram_phys_base
-                                   + Mem_layout::Map_base;
-  pte.set_page(pte.make_page(Phys_mem_addr(Kmem::kdir->virt_to_phys(va)),
-                             Page::Attr(Page::Rights::RWX(),
-                             Page::Type::Normal(), Page::Kern::Global())));
+  Address va = reinterpret_cast<Address>(&ivt_start)
+                 - Mem_layout::Sdram_phys_base + Mem_layout::Map_base;
+  pte.set_page(Phys_mem_addr(Kmem::kdir->virt_to_phys(va)),
+               Page::Attr::kern_global(Page::Rights::RWX()));
   pte.write_back_if(true);
   Mem_unit::tlb_flush_kernel(Kmem_space::Ivt_base);
+}
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && !cpu_virt && mpu]:
+
+PUBLIC static
+void
+Cpu::init_sctlr()
+{
+  unsigned control = Config::Cache_enabled
+                     ? Cp15_c1_cache_enabled : Cp15_c1_cache_disabled;
+
+  Mem::dsb();
+  asm volatile("mcr p15, 0, %[control], c1, c0, 0" // SCTLR
+      : : [control] "r" (control));
+  Mem::isb();
+}
+
+IMPLEMENT_OVERRIDE
+void
+Cpu::init_supervisor_mode(bool)
+{
+  // set VBAR system register to exception vector address
+  extern char exception_vector;
+  asm volatile("mcr p15, 0, %0, c12, c0, 0 \n\t"  // VBAR
+               :  : "r" (&exception_vector));
+
+  // make sure vectors are executed in A32 state
+  unsigned long r;
+  asm volatile("mrc p15, 0, %0, c1, c0, 0" : "=r" (r) : : "memory");  // SCTLR
+  r &= ~(1UL << 30);
+  asm volatile("mcr p15, 0, %0, c1, c0, 0" : : "r" (r) : "memory");   // SCTLR
+}
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && cpu_virt && mpu]:
+
+PUBLIC static
+void
+Cpu::init_sctlr()
+{
+  Mem::dsb();
+  asm volatile("mcr p15, 4, %[control], c1, c0, 0" // HSCTLR
+      : : [control] "r" (Hsctlr));
+  Mem::isb();
 }
 
 //---------------------------------------------------------------------------
@@ -201,7 +262,7 @@ Cpu::hcr()
   Unsigned32 l, h;
   asm volatile ("mrc p15, 4, %0, c1, c1, 0" : "=r"(l));
   asm volatile ("mrc p15, 4, %0, c1, c1, 4" : "=r"(h));
-  return ((Unsigned64)h << 32) | l;
+  return Unsigned64{h} << 32 | l;
 }
 
 PUBLIC static inline
@@ -210,4 +271,127 @@ Cpu::hcr(Unsigned64 hcr)
 {
   asm volatile ("mcr p15, 4, %0, c1, c1, 0" : : "r"(hcr & 0xffffffff));
   asm volatile ("mcr p15, 4, %0, c1, c1, 4" : : "r"(hcr >> 32));
+}
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && !(mmu && arm_lpae)]:
+
+PUBLIC static inline unsigned Cpu::phys_bits() { return 32; }
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && mmu && arm_lpae]:
+
+PUBLIC static inline unsigned Cpu::phys_bits() { return 40; }
+
+//--------------------------------------------------------------------
+IMPLEMENTATION [arm && cpu_virt && 32bit && mmu]:
+
+EXTENSION class Cpu
+{
+public:
+  enum : Unsigned32
+  {
+    Hcr_must_set_bits = Hcr_vm | Hcr_swio | Hcr_ptw
+                      | Hcr_amo | Hcr_imo | Hcr_fmo
+                      | Hcr_tidcp | Hcr_tsc | Hcr_tactlr,
+  };
+};
+
+IMPLEMENT_OVERRIDE
+void
+Cpu::init_hyp_mode()
+{
+  asm volatile (
+        "mcr p15, 4, %0, c2, c1, 2" // VTCR
+        : : "r" ((1UL << 31) | (Page::Tcr_attribs << 8) | (1 << 6)));
+  init_hyp_mode_common();
+}
+
+//--------------------------------------------------------------------
+IMPLEMENTATION [arm && cpu_virt && 32bit && !mmu]:
+
+EXTENSION class Cpu
+{
+public:
+  enum : Unsigned32
+  {
+    Hcr_must_set_bits = Hcr_vm | Hcr_swio
+                      | Hcr_amo| Hcr_imo | Hcr_fmo
+                      | Hcr_tidcp | Hcr_tsc | Hcr_tactlr,
+  };
+};
+
+IMPLEMENT_OVERRIDE
+void
+Cpu::init_hyp_mode()
+{
+  init_hyp_mode_common();
+}
+
+//--------------------------------------------------------------------
+IMPLEMENTATION [arm && cpu_virt && 32bit]:
+
+EXTENSION class Cpu
+{
+public:
+  enum : Unsigned32
+  {
+    /**
+     * HCR value to be used for the VMM.
+     *
+     * The VMM runs in system mode (PL1), but has extended
+     * CP15 access allowed.
+     */
+    Hcr_host_bits = Hcr_must_set_bits | Hcr_dc,
+
+    /**
+     * HCR value to be used for normal threads.
+     *
+     * On a hyp kernel they can choose to run in PL1 or PL0.
+     * However, all but the TPIDxyz CP15 accesses are disabled.
+     */
+    Hcr_non_vm_bits_common = Hcr_must_set_bits | Hcr_dc | Hcr_tsw
+                             | Hcr_ttlb | Hcr_tvm,
+    Hcr_non_vm_bits_el1    = Hcr_non_vm_bits_common,
+    Hcr_non_vm_bits_el0    = Hcr_non_vm_bits_common | Hcr_tge,
+  };
+
+  enum
+  {
+    Hdcr_bits = (TAG_ENABLED(perf_cnt_user) ? 0 : (Mdcr_tpmcr | Mdcr_tpm))
+                | Mdcr_tde | Mdcr_tda | Mdcr_tdosa | Mdcr_tdra,
+  };
+};
+
+PRIVATE inline
+void
+Cpu::init_hyp_mode_common()
+{
+  extern char hyp_vector_base[];
+
+  assert (!(reinterpret_cast<Mword>(hyp_vector_base) & 31));
+  asm volatile ("mcr p15, 4, %0, c12, c0, 0 \n" : : "r"(hyp_vector_base));
+
+  asm volatile (
+        "mcr p15, 4, %0, c1, c1, 1 \n"
+
+        "mrc p15, 0, r0, c1, c0, 0 \n"
+        "bic r0, #1 \n"
+        "mcr p15, 0, r0, c1, c0, 0 \n"
+
+        "mcr p15, 4, %1, c1, c1, 0 \n"
+        : :
+        "r" (Mword{Hdcr_bits} | (has_hpmn0() ? 0 : 1)),
+        "r" (Hcr_non_vm_bits_el0)
+        : "r0" );
+
+  asm ("mcr p15, 4, %0, c1, c1, 3" : : "r"(Hstr_non_vm)); // HSTR
+
+  Mem::dsb();
+  Mem::isb();
+
+  // HCPTR
+  asm volatile("mcr p15, 4, %0, c1, c1, 2" : :
+               "r" (  0x33ff       // TCP: 0-9, 12-13
+                    | (1 << 20))); // TTA
 }

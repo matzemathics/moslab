@@ -27,9 +27,8 @@ char * tmpnam_r (char *s)
 
     if (__path_search (s, L_tmpnam, NULL, NULL, 0))
 	return NULL;
-    if (__gen_tempname (s, __GT_NOCREATE, 0))
+    if (__gen_tempname (s, __GT_NOCREATE, 0, 0, 0))
 	return NULL;
 
     return s;
 }
-link_warning (tmpnam_r, "the use of OBSOLESCENT `tmpnam_r' is discouraged, use `mkstemp'")

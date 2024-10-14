@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * open() for uClibc
  *
@@ -28,8 +27,11 @@ int __open_nocancel(const char *, int, mode_t) __nonnull ((1)) attribute_hidden;
 int open(const char *file, int oflag, ...)
 {
 	mode_t mode = 0;
+#ifdef __NEW_THREADS
+	int oldtype, result;
+#endif
 
-	if (oflag & O_CREAT) {
+	if (oflag & (O_CREAT | (O_TMPFILE &~ O_DIRECTORY))) {
 		va_list arg;
 		va_start(arg, oflag);
 		mode = va_arg(arg, mode_t);
@@ -44,11 +46,11 @@ int open(const char *file, int oflag, ...)
 #endif
 
 #ifdef __NEW_THREADS
-	int oldtype = LIBC_CANCEL_ASYNC ();
+	oldtype = LIBC_CANCEL_ASYNC ();
 # if defined(__NR_open)
-	int result = __NC(open)(file, oflag, mode);
+	result = __NC(open)(file, oflag, mode);
 # else
-	int result = openat(AT_FDCWD, file, oflag, mode);
+	result = openat(AT_FDCWD, file, oflag, mode);
 # endif
 	LIBC_CANCEL_RESET (oldtype);
 	return result;
@@ -57,6 +59,12 @@ int open(const char *file, int oflag, ...)
 lt_strong_alias(open)
 lt_libc_hidden(open)
 #if !defined(__NR_open)
-strong_alias_untyped(open,__open2_nocancel)
-strong_alias_untyped(open,__open_nocancel)
+int __open2_nocancel(const char *file, int oflag)
+{
+	return open(file, oflag);
+}
+int __open_nocancel(const char *file, int oflag, mode_t mode)
+{
+	return open(file, oflag, mode);
+}
 #endif

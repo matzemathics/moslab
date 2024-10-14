@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/semaphore Source File</title>
+<title>L4Re Operating System Framework: l4/sys/semaphore Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -124,36 +127,36 @@ $(document).ready(function(){initNavTree('semaphore_source.html',''); initResiza
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceL4.html">L4</a> {</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="foldopen" id="foldopen00052" data-start="{" data-end="};">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="structL4_1_1Semaphore.html">   52</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structL4_1_1Semaphore.html">Semaphore</a> : <a class="code hl_class" href="classL4_1_1Kobject__t.html">Kobject_t</a>&lt;Semaphore, Triggerable, L4_PROTO_SEMAPHORE&gt;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>{</div>
-<div class="foldopen" id="foldopen00068" data-start="{" data-end="}">
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc">   68</a></span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> <a class="code hl_function" href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc">up</a>(<a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb = <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  { <span class="keywordflow">return</span> <a class="code hl_function" href="structL4_1_1Triggerable.html#a7109ca8b4aeac0169639f973c91a3a6b">trigger</a>(utcb); }</div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="};">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structL4_1_1Semaphore.html">   54</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structL4_1_1Semaphore.html">Semaphore</a> : <a class="code hl_class" href="classL4_1_1Kobject__t.html">Kobject_t</a>&lt;Semaphore, Triggerable, L4_PROTO_SEMAPHORE&gt;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>{</div>
+<div class="foldopen" id="foldopen00070" data-start="{" data-end="}">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc">   70</a></span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> <a class="code hl_function" href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc">up</a>(<a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb = <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  { <span class="keywordflow">return</span> <a class="code hl_function" href="structL4_1_1Triggerable.html#a7109ca8b4aeac0169639f973c91a3a6b">trigger</a>(utcb); }</div>
 </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c">   88</a></span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> <a class="code hl_function" href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c">down</a>(<a class="code hl_union" href="unionl4__timeout__t.html">l4_timeout_t</a> timeout = <a class="code hl_define" href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a>,</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                   <a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb = <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>  { <span class="keywordflow">return</span> l4_semaphore_down_u(cap(), timeout, utcb);  }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="foldopen" id="foldopen00090" data-start="{" data-end="}">
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c">   90</a></span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> <a class="code hl_function" href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c">down</a>(<a class="code hl_union" href="unionl4__timeout__t.html">l4_timeout_t</a> timeout = <a class="code hl_define" href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a>,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                   <a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb = <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  { <span class="keywordflow">return</span> l4_semaphore_down_u(cap(), timeout, utcb);  }</div>
 </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>};</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>};</div>
 </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}</div>
-<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00759">__typeinfo.h:760</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_gaf01c5e1475efc4f33bc7d1985f7320d3"><div class="ttname"><a href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a></div><div class="ttdeci">#define L4_IPC_NEVER</div><div class="ttdoc">never timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00082">__timeout.h:82</a></div></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>}</div>
+<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00760">__typeinfo.h:761</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_gaf01c5e1475efc4f33bc7d1985f7320d3"><div class="ttname"><a href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a></div><div class="ttdeci">#define L4_IPC_NEVER</div><div class="ttdoc">never timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00084">__timeout.h:84</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_gadc099b4a59e1d99638c72c11a8c8b644"><div class="ttname"><a href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a></div><div class="ttdeci">l4_utcb_t * l4_utcb(void) L4_NOTHROW L4_PURE</div><div class="ttdoc">Get the UTCB address.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00340">utcb.h:340</a></div></div>
 <div class="ttc" id="airq_html"><div class="ttname"><a href="irq.html">irq</a></div><div class="ttdoc">C++ Irq interface.</div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
 <div class="ttc" id="asemaphore_8h_html"><div class="ttname"><a href="semaphore_8h.html">semaphore.h</a></div><div class="ttdoc">C semaphore interface.</div></div>
-<div class="ttc" id="astructL4_1_1Semaphore_html"><div class="ttname"><a href="structL4_1_1Semaphore.html">L4::Semaphore</a></div><div class="ttdoc">C++ Kernel-provided semaphore interface, see Kernel-provided semaphore for the C interface.</div><div class="ttdef"><b>Definition</b> <a href="semaphore_source.html#l00052">semaphore:53</a></div></div>
-<div class="ttc" id="astructL4_1_1Semaphore_html_a3de7e4e35ff4dadab9a26f3b87fb76bc"><div class="ttname"><a href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc">L4::Semaphore::up</a></div><div class="ttdeci">l4_msgtag_t up(l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Semaphore up operation (wrapper for trigger()).</div><div class="ttdef"><b>Definition</b> <a href="semaphore_source.html#l00068">semaphore:68</a></div></div>
-<div class="ttc" id="astructL4_1_1Semaphore_html_a5db9d69c03c135a9ae92d8a523cd9a4c"><div class="ttname"><a href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c">L4::Semaphore::down</a></div><div class="ttdeci">l4_msgtag_t down(l4_timeout_t timeout=L4_IPC_NEVER, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Semaphore down operation.</div><div class="ttdef"><b>Definition</b> <a href="semaphore_source.html#l00088">semaphore:88</a></div></div>
+<div class="ttc" id="astructL4_1_1Semaphore_html"><div class="ttname"><a href="structL4_1_1Semaphore.html">L4::Semaphore</a></div><div class="ttdoc">C++ Kernel-provided semaphore interface, see Kernel-provided semaphore for the C interface.</div><div class="ttdef"><b>Definition</b> <a href="semaphore_source.html#l00054">semaphore:55</a></div></div>
+<div class="ttc" id="astructL4_1_1Semaphore_html_a3de7e4e35ff4dadab9a26f3b87fb76bc"><div class="ttname"><a href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc">L4::Semaphore::up</a></div><div class="ttdeci">l4_msgtag_t up(l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Semaphore up operation (wrapper for trigger()).</div><div class="ttdef"><b>Definition</b> <a href="semaphore_source.html#l00070">semaphore:70</a></div></div>
+<div class="ttc" id="astructL4_1_1Semaphore_html_a5db9d69c03c135a9ae92d8a523cd9a4c"><div class="ttname"><a href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c">L4::Semaphore::down</a></div><div class="ttdeci">l4_msgtag_t down(l4_timeout_t timeout=L4_IPC_NEVER, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Semaphore down operation.</div><div class="ttdef"><b>Definition</b> <a href="semaphore_source.html#l00090">semaphore:90</a></div></div>
 <div class="ttc" id="astructL4_1_1Triggerable_html_a7109ca8b4aeac0169639f973c91a3a6b"><div class="ttname"><a href="structL4_1_1Triggerable.html#a7109ca8b4aeac0169639f973c91a3a6b">L4::Triggerable::trigger</a></div><div class="ttdeci">l4_msgtag_t trigger(l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Trigger the object.</div><div class="ttdef"><b>Definition</b> <a href="irq_source.html#l00102">irq:102</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
-<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00059">__timeout.h:59</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
+<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00060">__timeout.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -161,7 +164,7 @@ $(document).ready(function(){initNavTree('semaphore_source.html',''); initResiza
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="semaphore.html">semaphore</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

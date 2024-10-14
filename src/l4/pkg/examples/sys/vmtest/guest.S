@@ -33,7 +33,7 @@ is_vmx:
 guestcode32:
   // first, prove that code runs in the VM
   inc %eax
-  CALLVMM edx=$0xdeadbeef
+  CALLVMM edx=$0x22446688
 
   movl $0, %ecx
   // test divide by zero exception, should be handled by guest (irq_dz)

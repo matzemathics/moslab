@@ -181,6 +181,19 @@ SECTIONS
    . = ALIGN(. != 0 ? 64 / 8 : 1);
   }
   _bss_end__ = . ; __bss_end__ = . ;
+#if CONFIG_BID_STATIC_HEAP
+  .heap : {
+    . = ALIGN(16);
+    PROVIDE (__heap_start = .);
+    . = . + (DEFINED(__heap_size) ? __heap_size : 0);
+    PROVIDE (__heap_end = .);
+  }
+#endif
+#if CONFIG_BID_STATIC_STACK
+  .stack : ALIGN(16) {
+    . = . + (DEFINED(__stack_size) ? __stack_size : 0);
+  } :rw :l4re_stack
+#endif
   . = ALIGN(64 / 8);
   . = SEGMENT_START("ldata-segment", .);
   . = ALIGN(64 / 8);

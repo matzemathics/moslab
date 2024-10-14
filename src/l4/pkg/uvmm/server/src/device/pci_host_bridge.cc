@@ -90,7 +90,8 @@ void Pci_host_bridge::Hw_pci_device::add_exp_rom_resource()
                 "0x%llx\n",
                 region.start.get(), region.end.get(), exp_rom.io_addr);
 
-  auto m = cxx::make_ref_obj<Ds_manager>(parent->_vbus->io_ds(),
+  auto m = cxx::make_ref_obj<Ds_manager>("Pci_host_bridge: rom",
+                                         parent->_vbus->io_ds(),
                                          exp_rom.io_addr, exp_rom.size);
   parent->_vmm->add_mmio_device(region, make_device<Ds_handler>(m));
 }
@@ -127,8 +128,9 @@ Pci_host_bridge::Hw_pci_device::add_mmio_bar_resources(Pci_cfg_bar const &bar)
   warn().printf("Register MMIO region: [0x%lx, 0x%lx], vbus base 0x%llx\n",
                 region.start.get(), region.end.get(), bar.io_addr);
 
-  auto m = cxx::make_ref_obj<Ds_manager>(parent->_vbus->io_ds(),
-                                         bar.io_addr, size);
+  auto m = cxx::make_ref_obj<Ds_manager>("Pci_host_bridge: mmio bar",
+                                         parent->_vbus->io_ds(), bar.io_addr,
+                                         size);
   parent->_vmm->add_mmio_device(region, make_device<Ds_handler>(m));
 }
 
@@ -174,7 +176,8 @@ Pci_host_bridge::Hw_pci_device::add_msix_bar_resources(Pci_cfg_bar const &bar)
 
   cxx::Ref_ptr<Vmm::Ds_manager> m;
   if (before_pages_size || after_pages_size)
-    m = cxx::make_ref_obj<Vmm::Ds_manager>(parent->_vbus->io_ds(),
+    m = cxx::make_ref_obj<Vmm::Ds_manager>("Pci_host_bridge: io mem",
+                                           parent->_vbus->io_ds(),
                                            bar.io_addr, bar.size);
 
   if (before_pages_size)
@@ -314,7 +317,7 @@ bool Pci_host_bridge::Hw_pci_device::msi_cap_read(unsigned reg,
     return false;
 
   unsigned offset = reg - msi_cap.offset;
-  trace().printf("read: devid = 0x%x offset = 0x%x width = %d\n",
+  trace().printf("msi_cap_read: devid = 0x%x offset = 0x%x width = %d\n",
                  dev_id, offset, width);
 
   // guard against multiple threads accessing the device
@@ -396,10 +399,7 @@ Pci_host_bridge::Hw_pci_device::msi_cap_write_ctrl(l4_uint16_t ctrl)
   else if (was_enabled && !msi_cap.ctrl.msi_enable())
     {
       if (parent->_msi_src_factory)
-        {
-          cfg_space_write_msi_cap();
-          parent->_msi_src_factory->reset_msi_route(msi_src);
-        }
+        cfg_space_write_msi_cap();
       msi_src = nullptr;
 
       trace().printf("MSI disabled: devid = 0x%x ctrl = 0x%x\n", dev_id,
@@ -415,7 +415,7 @@ bool Pci_host_bridge::Hw_pci_device::msi_cap_write(unsigned reg,
     return false;
 
   unsigned offset = reg - msi_cap.offset;
-  trace().printf("write: devid = 0x%x offset = 0x%x width = %d value = 0x%x\n",
+  trace().printf("msi_cap_write: devid = 0x%x offset = 0x%x width = %d value = 0x%x\n",
                  dev_id, offset, width, value);
   if (   (width == Vmm::Mem_access::Width::Wd8 && offset != 0)
       || (offset % (mem_access_to_bits(width) / 8) != 0))
@@ -565,6 +565,37 @@ void Pci_host_bridge::Hw_pci_device::setup_msix_table()
                   dinfo.name, dev_id, bir);
 }
 
+bool Pci_host_bridge::Hw_pci_device::sriov_cap_read(unsigned reg,
+                                                    l4_uint32_t *value,
+                                                    Vmm::Mem_access::Width width)
+{
+  if (reg < sriov_cap.offset || reg >= sriov_cap.cap_end())
+    return false;
+
+  unsigned offset = reg - sriov_cap.offset;
+  trace().printf("sriov_cap_read: devid = 0x%x offset = 0x%x width = %d\n",
+                 dev_id, offset, width);
+
+  switch (offset)
+    {
+    case 0x12: // Fcn Dep Link
+      // If a PF is independent from other PFs of a Device, this field shall
+      // contain its own Function Number. The function number on hardware
+      // differs from the one we assigned to the device on our virtual PCI bus,
+      // so we have to emulate the register.
+      // We do not support device function, therefore the following shift
+      // accounts for the 3 bits allocated for the function number.
+      *value = dev_id << 3;
+      return true;
+
+    default:
+      // Forward to hardware. No register that we emulate.
+      break;
+    }
+
+  return false;
+}
+
 void Pci_host_bridge::Hw_pci_device::map_additional_iomem_resources(
   Vmm::Guest *vmm, L4::Cap<L4Re::Dataspace> io_ds)
 {
@@ -600,22 +631,32 @@ void Pci_host_bridge::Hw_pci_device::map_additional_iomem_resources(
       if (is_pci_bar)
         continue;
 
+      // ignore ROM resource. If supported the expansion ROM BAR is
+      // already set up.
+      if (res.id == 0x4d4f52) // "ROM"
+        continue;
+
+      // Default to 1:1 mapping of additional resources, e.g. for i915.
+      l4_addr_t map_addr = res.start;
+
       info().printf("Additional MMIO resource %s.%.4s : "
-                    "[0x%lx - 0x%lx] flags = 0x%x\n",
+                    "[0x%lx - 0x%lx] -> [0x%lx, 0x%lx] flags = 0x%x\n",
                     dinfo.name, reinterpret_cast<char const *>(&res.id),
-                    res.start, res.end, res.flags);
-      auto region = Vmm::Region::ss(Vmm::Guest_addr(res.start), size,
+                    res.start, res.end, map_addr, map_addr + size - 1,
+                    res.flags);
+
+      auto region = Vmm::Region::ss(Vmm::Guest_addr(map_addr), size,
                                     Vmm::Region_type::Vbus);
       l4_uint32_t rights = 0;
       if (res.flags & L4VBUS_RESOURCE_F_MEM_R)
         rights |= L4_FPAGE_RO;
       if (res.flags & L4VBUS_RESOURCE_F_MEM_W)
         rights |= L4_FPAGE_W;
-      auto handler = Vdev::make_device<
-        Ds_handler>(cxx::make_ref_obj<Vmm::Ds_manager>(io_ds, res.start, size,
-                                                       L4Re::Rm::Region_flags(
-                                                         rights)),
-                    static_cast<L4_fpage_rights>(rights));
+      auto handler = Vdev::make_device<Ds_handler>(
+        cxx::make_ref_obj<Vmm::Ds_manager>("Pci_host_bridge: additional IO mem",
+                                           io_ds, res.start, size,
+                                           L4Re::Rm::Region_flags(rights)),
+        static_cast<L4_fpage_rights>(rights));
       vmm->add_mmio_device(region, handler);
     }
 }

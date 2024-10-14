@@ -14,15 +14,15 @@
 
 /* Semaphores a la POSIX 1003.1b */
 
-#include <errno.h>
+#include <features.h>
 #include <limits.h>
+#include <errno.h>
 #include "pthread.h"
 #include "semaphore.h"
 #include "internals.h"
 #include "spinlock.h"
 #include "restart.h"
 #include "queue.h"
-#include <not-cancel.h>
 
 int sem_init(sem_t *sem, int pshared, unsigned int value)
 {
@@ -45,7 +45,7 @@ int sem_init(sem_t *sem, int pshared, unsigned int value)
 
 static int new_sem_extricate_func(void *obj, pthread_descr th)
 {
-  __volatile__ pthread_descr self = thread_self();
+  volatile pthread_descr self = thread_self();
   sem_t *sem = obj;
   int did_remove = 0;
 
@@ -58,10 +58,9 @@ static int new_sem_extricate_func(void *obj, pthread_descr th)
 
 int sem_wait(sem_t * sem)
 {
-  __volatile__ pthread_descr self = thread_self();
+  volatile pthread_descr self = thread_self();
   pthread_extricate_if extr;
   int already_canceled = 0;
-  int spurious_wakeup_count;
 
   /* Set up extrication interface */
   extr.pu_object = sem;
@@ -90,7 +89,6 @@ int sem_wait(sem_t * sem)
   }
 
   /* Wait for sem_post or cancellation, or fall through if already canceled */
-  spurious_wakeup_count = 0;
   while (1)
     {
       suspend(self);
@@ -98,8 +96,7 @@ int sem_wait(sem_t * sem)
 	  && (THREAD_GETMEM(self, p_woken_by_cancel) == 0
 	      || THREAD_GETMEM(self, p_cancelstate) != PTHREAD_CANCEL_ENABLE))
 	{
-	  /* Count resumes that don't belong to us. */
-	  spurious_wakeup_count++;
+	  /* Resume does not belong to us. */
 	  continue;
 	}
       break;
@@ -169,8 +166,8 @@ int sem_post(sem_t * sem)
     }
     request.req_kind = REQ_POST;
     request.req_args.post = sem;
-    TEMP_FAILURE_RETRY(write_not_cancel(__pthread_manager_request,
-					(char *) &request, sizeof(request)));
+    TEMP_FAILURE_RETRY(write(__pthread_manager_request,
+				    (char *) &request, sizeof(request)));
   }
   return 0;
 }
@@ -190,19 +187,19 @@ int sem_destroy(sem_t * sem)
   return 0;
 }
 
-sem_t *sem_open(const char *name, int oflag, ...)
+sem_t *sem_open(const char *name attribute_unused, int oflag attribute_unused, ...)
 {
   __set_errno (ENOSYS);
   return SEM_FAILED;
 }
 
-int sem_close(sem_t *sem)
+int sem_close(sem_t *sem attribute_unused)
 {
   __set_errno (ENOSYS);
   return -1;
 }
 
-int sem_unlink(const char *name)
+int sem_unlink(const char *name attribute_unused)
 {
   __set_errno (ENOSYS);
   return -1;
@@ -213,7 +210,6 @@ int sem_timedwait(sem_t *sem, const struct timespec *abstime)
   pthread_descr self = thread_self();
   pthread_extricate_if extr;
   int already_canceled = 0;
-  int spurious_wakeup_count;
 
   __pthread_lock(&sem->__sem_lock, self);
   if (sem->__sem_value > 0) {
@@ -250,7 +246,6 @@ int sem_timedwait(sem_t *sem, const struct timespec *abstime)
     __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
   }
 
-  spurious_wakeup_count = 0;
   while (1)
     {
       if (timedsuspend(self, abstime) == 0) {
@@ -277,8 +272,7 @@ int sem_timedwait(sem_t *sem, const struct timespec *abstime)
 	  && (THREAD_GETMEM(self, p_woken_by_cancel) == 0
 	      || THREAD_GETMEM(self, p_cancelstate) != PTHREAD_CANCEL_ENABLE))
 	{
-	  /* Count resumes that don't belong to us. */
-	  spurious_wakeup_count++;
+	  /* Resume does not belong to us. */
 	  continue;
 	}
       break;

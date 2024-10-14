@@ -3,7 +3,7 @@ var searchData=
   ['call_0',['Call',['../structL4_1_1Ipc_1_1Call.html',1,'L4::Ipc']]],
   ['call_5ft_1',['Call_t',['../structL4_1_1Ipc_1_1Call__t.html',1,'L4::Ipc']]],
   ['call_5fzero_5fsend_5ftimeout_2',['Call_zero_send_timeout',['../structL4_1_1Ipc_1_1Call__zero__send__timeout.html',1,'L4::Ipc']]],
-  ['cap_3',['cap',['../classL4_1_1Ipc_1_1Cap.html',1,'L4::Ipc::Cap&lt; T &gt;'],['../classL4_1_1Cap.html',1,'L4::Cap&lt; T &gt;']]],
+  ['cap_3',['cap',['../classL4_1_1Cap.html',1,'L4::Cap&lt; T &gt;'],['../classL4_1_1Ipc_1_1Cap.html',1,'L4::Ipc::Cap&lt; T &gt;']]],
   ['cap_3c_20l4_3a_3afactory_20_3e_4',['Cap&lt; L4::Factory &gt;',['../classL4_1_1Cap.html',1,'L4']]],
   ['cap_3c_20l4_3a_3airq_20_3e_5',['Cap&lt; L4::Irq &gt;',['../classL4_1_1Cap.html',1,'L4']]],
   ['cap_3c_20l4_3a_3asemaphore_20_3e_6',['Cap&lt; L4::Semaphore &gt;',['../classL4_1_1Cap.html',1,'L4']]],
@@ -36,7 +36,9 @@ var searchData=
   ['com_5ferror_33',['Com_error',['../classL4_1_1Com__error.html',1,'L4']]],
   ['compound_5freply_34',['Compound_reply',['../structL4_1_1Ipc__svr_1_1Compound__reply.html',1,'L4::Ipc_svr']]],
   ['console_35',['Console',['../classL4Re_1_1Console.html',1,'L4Re']]],
-  ['counter_36',['Counter',['../structL4Re_1_1Util_1_1Counter.html',1,'L4Re::Util']]],
-  ['counter_5fatomic_37',['Counter_atomic',['../structL4Re_1_1Util_1_1Counter__atomic.html',1,'L4Re::Util']]],
-  ['counting_5fcap_5falloc_38',['Counting_cap_alloc',['../classL4Re_1_1Util_1_1Counting__cap__alloc.html',1,'L4Re::Util']]]
+  ['control_5fmessage_36',['Control_message',['../structL4virtio_1_1Svr_1_1Console_1_1Control__message.html',1,'L4virtio::Svr::Console']]],
+  ['control_5frequest_37',['Control_request',['../structL4virtio_1_1Svr_1_1Console_1_1Control__request.html',1,'L4virtio::Svr::Console']]],
+  ['counter_38',['Counter',['../structL4Re_1_1Util_1_1Counter.html',1,'L4Re::Util']]],
+  ['counter_5fatomic_39',['Counter_atomic',['../structL4Re_1_1Util_1_1Counter__atomic.html',1,'L4Re::Util']]],
+  ['counting_5fcap_5falloc_40',['Counting_cap_alloc',['../classL4Re_1_1Util_1_1Counting__cap__alloc.html',1,'L4Re::Util']]]
 ];

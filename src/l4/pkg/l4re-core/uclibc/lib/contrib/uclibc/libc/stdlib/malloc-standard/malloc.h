@@ -23,11 +23,12 @@
 #include <stdlib.h>
 #include <sys/mman.h>
 #include <bits/uClibc_mutex.h>
+#include <bits/uClibc_page.h>
 
 
 
 __UCLIBC_MUTEX_EXTERN(__malloc_lock)
-#if defined __UCLIBC_HAS_THREADS__ && !defined __LINUXTHREADS_OLD__
+#if defined __UCLIBC_HAS_THREADS__ && !defined __UCLIBC_HAS_LINUXTHREADS__
 	attribute_hidden
 #endif
 	;
@@ -138,7 +139,7 @@ __UCLIBC_MUTEX_EXTERN(__malloc_lock)
 */
 #ifndef malloc_getpagesize
 #  include <unistd.h>
-#  define malloc_getpagesize sysconf(_SC_PAGESIZE)
+#  define malloc_getpagesize getpagesize()
 #else /* just guess */
 #  define malloc_getpagesize (4096)
 #endif
@@ -512,7 +513,7 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 #define checked_request2size(req, sz)                             \
   if (REQUEST_OUT_OF_RANGE(req)) {                                \
-    errno = ENOMEM;                                               \
+    __set_errno(ENOMEM);                                          \
     return 0;                                                     \
   }                                                               \
   (sz) = request2size(req);
@@ -839,6 +840,21 @@ typedef struct malloc_chunk* mfastbinptr;
 #define get_max_fast(M) \
   ((M)->max_fast & ~(FASTCHUNKS_BIT | ANYCHUNKS_BIT))
 
+/*
+  Safe-Linking:
+  Use randomness from ASLR (mmap_base) to protect single-linked lists
+  of fastbins. Together with allocation alignment checks, this mechanism
+  reduces the risk of pointer hijacking, as was done with Safe-Unlinking
+  in the double-linked lists of smallbins.
+*/
+#define PROTECT_PTR(pos, ptr)     ((mchunkptr)((((size_t)pos) >> PAGE_SHIFT) ^ ((size_t)ptr)))
+#define REVEAL_PTR(pos, ptr)      PROTECT_PTR(pos, ptr)
+#define PTR_FOR_ALIGNMENT_CHECK(P) \
+    (MALLOC_ALIGNMENT == 2*(sizeof(size_t)) ? (P) : chunk2mem(P))
+
+#define CHECK_PTR(P)                            \
+  if (!aligned_OK(PTR_FOR_ALIGNMENT_CHECK(P)))  \
+      abort();
 
 /*
   morecore_properties is a status word holding dynamically discovered

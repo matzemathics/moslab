@@ -4,7 +4,7 @@ var classL4virtio_1_1Virtqueue =
     [ "Desc", "classL4virtio_1_1Virtqueue_1_1Desc.html", "classL4virtio_1_1Virtqueue_1_1Desc" ],
     [ "Used", "classL4virtio_1_1Virtqueue_1_1Used.html", "classL4virtio_1_1Virtqueue_1_1Used" ],
     [ "Used_elem", "structL4virtio_1_1Virtqueue_1_1Used__elem.html", "structL4virtio_1_1Virtqueue_1_1Used__elem" ],
-    [ "Virtqueue", "classL4virtio_1_1Virtqueue.html#a9868a89211f9713543b13e564d2ce8bd", null ],
+    [ "Virtqueue", "classL4virtio_1_1Virtqueue.html#a7ae2647d7163653bb5a250936f917a50", null ],
     [ "avail_offset", "classL4virtio_1_1Virtqueue.html#a5a4db3f2c9356da05cd5b472ebc2f0e6", null ],
     [ "disable", "classL4virtio_1_1Virtqueue.html#a031d371276beec1cb5cf550be6fac491", null ],
     [ "dump", "classL4virtio_1_1Virtqueue.html#a3abd68687a8a7d957e9b765433a313ed", null ],

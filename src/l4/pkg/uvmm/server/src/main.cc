@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
 #include <terminate_handler-l4>
 
 #include <sys/mman.h>
@@ -132,7 +133,7 @@ setup_kaslr_seed(Vdev::Host_dt const &dt)
 
   L4::Ipc::Array<char, unsigned long> msg(sizeof(random), random.c);
   int ret = c->get_random(sizeof(random), &msg);
-  if (ret < (int) sizeof(random))
+  if (ret < static_cast<int>(sizeof(random)))
     L4Re::throw_error(ret < 0 ? ret : -L4_EAGAIN,
                       "Getting random seed for KASLR initialisation.");
 
@@ -294,6 +295,8 @@ int main(int argc, char *argv[])
   vmm->prepare_platform(&vm_instance);
   vmm->prepare_binary_run(&vm_instance, entry, kernel_image, cmd_line,
                           dt_boot_addr);
+
+  vmm->memmap()->dump(Dbg::Info);
 
   info.printf("Populating RAM of virtual machine\n");
   vmm->map_eager();

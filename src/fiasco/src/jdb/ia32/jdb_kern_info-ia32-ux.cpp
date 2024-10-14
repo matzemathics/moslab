@@ -5,6 +5,8 @@ IMPLEMENTATION[ia32,ux,amd64]:
 #include "simpleio.h"
 #include "jdb_screen.h"
 
+static char const *end_of_table = reinterpret_cast<char const *>(-1);
+
 PUBLIC
 void
 Jdb_kern_info_cpu::show_f_bits(unsigned features, const char *const *table,
@@ -13,7 +15,7 @@ Jdb_kern_info_cpu::show_f_bits(unsigned features, const char *const *table,
 {
   unsigned i, count;
 
-  for (i = count = 0; *table != (char *)-1; i++, table++)
+  for (i = count = 0; *table != end_of_table; i++, table++)
     if ((features & (1 << i)) && *table)
       {
 	int slen = strlen(*table);
@@ -21,7 +23,7 @@ Jdb_kern_info_cpu::show_f_bits(unsigned features, const char *const *table,
 	  {
 	    colon = 0;
 	    last_pos = first_pos;
-	    printf("\n%*s", (int)first_pos, "");
+	    printf("\n%*s", first_pos, "");
 	  }
 	printf ("%s%s", colon ? ", " : "", *table);
 	last_pos += slen + colon;
@@ -67,7 +69,7 @@ Jdb_kern_info_cpu::show_features()
     "tm (thermal monitor)",
     NULL,
     "pbe (pending break enable)",
-    (char *)(-1)
+    end_of_table
   };
   static const char *const extended[] =
   {
@@ -93,7 +95,7 @@ Jdb_kern_info_cpu::show_features()
     "popcnt", NULL,
     "aes", "xsave", "osxsave",
     "avx", "f16c",
-    (char *)(-1)
+    end_of_table
   };
   static const char *const ext_81_ecx[] =
   {
@@ -102,7 +104,7 @@ Jdb_kern_info_cpu::show_features()
     NULL, "OSVW (OS visible workaround)", NULL, NULL,
     "SKINIT", "WDT (watchdog timer support)", NULL,
     "lwp", "fmaa", NULL, NULL, "nodeid", NULL, "tbm", "topext",
-    (char *)(-1)
+    end_of_table
   };
   static const char *const ext_81_edx[] =
   {
@@ -124,15 +126,31 @@ Jdb_kern_info_cpu::show_features()
     "lm (Long mode)",
     "3dnowext (AMD 3DNow! extenstion)",
     "3dnow (3DNow! instructions)",
-    (char *)(-1)
+    end_of_table
   };
 
   unsigned position = 5, colon = 0;
-  putstr("CPU features:\n     ");
+  putstr("\nCPU features:\n     ");
   show_f_bits (Cpu::boot_cpu()->features(), simple, 5, position, colon);
   show_f_bits (Cpu::boot_cpu()->ext_features(), extended, 5, position, colon);
   show_f_bits (Cpu::boot_cpu()->ext_8000_0001_ecx(), ext_81_ecx, 5, position, colon);
   show_f_bits (Cpu::boot_cpu()->ext_8000_0001_edx(), ext_81_edx, 5, position, colon);
+
+  puts("\n\nRaw CPUID features:");
+  // below we use arbitrary upper limits for basic/extended leaf
+  Unsigned32 max = min(0x2fU, Cpu::cpuid_eax(0));
+  for (Unsigned32 i = 0; i <= max; ++i)
+    {
+      Unsigned32 eax, ebx, ecx, edx;
+      Cpu::cpuid(i, 0, &eax, &ebx, &ecx, &edx);
+      printf("     %08x: %08x %08x %08x %08x\n", i, eax, ebx, ecx, edx);
+      if (i == max && max < 0x80000000U)
+        {
+          i = 0x80000000 - 1;
+          max = min(0x8000001fU, Cpu::cpuid_eax(i + 1));
+          putchar('\n');
+        }
+    }
 }
 
 PRIVATE inline NEEDS["jdb_screen.h"]
@@ -141,5 +159,5 @@ Jdb_kern_info_misc::show_pdir()
 {
   Mem_space *s = Mem_space::current_mem_space(Cpu_number::boot_cpu());
   printf("%s" L4_PTR_FMT "\n",
-         Jdb_screen::Root_page_table, (Address)s->dir());
+         Jdb_screen::Root_page_table, reinterpret_cast<Address>(s->dir()));
 }

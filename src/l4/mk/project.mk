@@ -118,6 +118,8 @@ $(OBJ_DIR)/.Package.deps: $(L4DIR)/mk/pkgdeps $(OBJ_DIR)/.Package.deps.pkgs \
 	$(VERBOSE)$(PKGDEPS_CMD) generate $(SRC_DIR) $(ALL_SUBDIRS) > $@.tmp
 	$(VERBOSE)$(call move_if_changed,$@,$@.tmp)
 
+$(foreach v,$(VARIANTS_AVAILABLE),$(eval $(call variant_package_deps_rule,$(v))))
+
 include $(OBJ_DIR)/.Package.deps
 
 $(ALL_SUBDIRS):%:%/Makefile BID_cont_reset

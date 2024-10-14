@@ -32,8 +32,9 @@ private:
 
 template <>
 int
-Guest::handle_exit<Svm_state>(Vmm::Vcpu_ptr vcpu, Svm_state *vms)
+Guest::handle_exit<Svm_state>(Vmm::Cpu_dev *cpu, Svm_state *vms)
 {
+  Vmm::Vcpu_ptr vcpu = cpu->vcpu();
   l4_vcpu_regs_t *regs = &vcpu->r;
   unsigned vcpu_id = vcpu.get_vcpu_id();
 
@@ -54,7 +55,7 @@ Guest::handle_exit<Svm_state>(Vmm::Vcpu_ptr vcpu, Svm_state *vms)
     // TODO: Lacks handlers for some of the enabled intercepts, which have not
     // been triggered during development. If one of these interceptions is hit,
     // first an error message is printed and then the VM is stopped.
-    case Exit::Cpuid: return handle_cpuid(regs);
+    case Exit::Cpuid: return handle_cpuid(vcpu);
 
     case Exit::Vmmcall: return handle_vm_call(regs);
 
@@ -162,20 +163,25 @@ Guest::handle_exit<Svm_state>(Vmm::Vcpu_ptr vcpu, Svm_state *vms)
     case Exit::Msr:
       {
         bool write = vms->exit_info1() == 1;
-        if (msr_devices_rwmsr(regs, write, vcpu.get_vcpu_id()))
-          return Jump_instr;
-        else
+        bool has_already_exception = ev_rec->has_exception();
+        if (!msr_devices_rwmsr(regs, write, vcpu.get_vcpu_id()))
           {
             info().printf("[%3u]: %s unsupported MSR 0x%lx\n", vcpu_id,
                           write ? "Writing" : "Reading", regs->cx);
             ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
-            return L4_EOK;
+            return Retry;
           }
+
+        if (!has_already_exception && ev_rec->has_exception())
+          return Retry;
+        else
+          return Jump_instr;
       }
 
     case Exit::Hlt:
       trace().printf("[%3u]: HALT 0x%lx!\n", vcpu_id, vms->ip());
       vms->halt();
+      cpu->halt_cpu();
       return Jump_instr;
 
     case Exit::Cr0_sel_write:
@@ -290,6 +296,18 @@ Guest::handle_exit<Svm_state>(Vmm::Vcpu_ptr vcpu, Svm_state *vms)
       // Emulating ICEBP this way leads to an additional DPL check, which INT1
       // does not do normally, but normally, the INT1 is for HW vendors only.
       ev_rec->make_add_event<Event_exc>(Event_prio::Sw_int1, 1); // #DB
+
+      return Retry;
+
+    case Exit::Shutdown:
+      // Any event that triggeres a shutdown, e.g. triple fault, lands here.
+      info().printf("[%3u]: Shutdown intercept triggered at IP 0x%lx. Core in "
+                   "shutdown mode.\n",
+                   vcpu_id, vms->ip());
+      vcpu.dump_regs_t(vms->ip(), info());
+
+      // move CPU into stop state
+      cpu->stop();
 
       return Retry;
 

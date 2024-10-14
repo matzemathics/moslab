@@ -12,6 +12,7 @@
 #include "globals.h"
 #include "page_alloc.h"
 
+#include <l4/bid_config.h>
 #include <l4/re/util/meta>
 
 #include <l4/cxx/iostream>
@@ -119,6 +120,22 @@ Moe::Dataspace::op_copy_in(L4Re::Dataspace::Rights obj,
 }
 
 long
+Moe::Dataspace::map_info(l4_addr_t &, l4_addr_t &) const noexcept
+{
+#ifdef CONFIG_MMU
+  return 0;
+#else
+  return -L4_EPERM;
+#endif
+}
+
+long
+Moe::Dataspace::op_map_info(L4Re::Dataspace::Rights /*rights*/,
+                            l4_addr_t &start_addr,
+                            l4_addr_t &end_addr)
+{ return map_info(start_addr, end_addr); }
+
+long
 Moe::Dataspace::clear(l4_addr_t offs, unsigned long size) const noexcept
 {
   if (!check_limit(offs))
@@ -135,8 +152,8 @@ Moe::Dataspace::clear(l4_addr_t offs, unsigned long size) const noexcept
 
       // No need for I cache coherence, as we just zero fill and assume that
       // this is no executable code
-      l4_cache_clean_data((l4_addr_t)dst_a.adr(),
-                          (l4_addr_t)dst_a.adr() + b_sz);
+      l4_cache_clean_data(reinterpret_cast<l4_addr_t>(dst_a.adr()),
+                          reinterpret_cast<l4_addr_t>(dst_a.adr()) + b_sz);
 
       offs += b_sz;
       sz -= b_sz;

@@ -11,7 +11,7 @@
 #include "acpi.h"
 #include "efi-support.h"
 #include "panic.h"
-#include "platform.h"
+#include "platform-arm.h"
 #include "startup.h"
 #include "support.h"
 
@@ -19,7 +19,7 @@ namespace {
 
 char const * const psci_methods[] = { "unsupported", "SMC", "HVC" };
 
-class Platform_arm_sbsa : public Platform_base,
+class Platform_arm_sbsa : public Platform_arm,
                           public Boot_modules_image_mode
 {
   enum Psci_method { Psci_unsupported, Psci_smc, Psci_hvc };
@@ -36,12 +36,6 @@ public:
     auto *spcr = sdt.find<Acpi::Spcr const *>("SPCR");
     if (!spcr)
       panic("No SPCR found!");
-
-    if (   spcr->type != Acpi::Spcr::Arm_pl011
-        && spcr->type != Acpi::Spcr::Nsc16550
-        && spcr->type != Acpi::Spcr::Arm_sbsa_32bit
-        && spcr->type != Acpi::Spcr::Arm_sbsa)
-      panic("EFI: unsupported uart type: %d", spcr->type);
 
     kuart.variant = spcr->type;
     kuart.base_address = spcr->base.address;
@@ -61,6 +55,8 @@ public:
                       ? Psci_hvc
                       : Psci_smc;
     printf("PSCI: %s\n", psci_methods[_psci_method]);
+
+    efi.setup_gop();
   }
 
   Boot_modules *modules() override { return this; }
@@ -70,9 +66,26 @@ public:
     efi.setup_memory();
   }
 
+  l4util_l4mod_info *construct_mbi(unsigned long mod_addr,
+                                   Internal_module_list const &mods) override
+  {
+    l4util_l4mod_info *mbi = Boot_modules_image_mode::construct_mbi(mod_addr, mods);
+    return efi.construct_mbi(mbi);
+  }
+
   void exit_boot_services() override
   {
+    if (!(kuart_flags & L4_kernel_options::F_noserial)
+        && kuart.variant != Acpi::Spcr::Arm_pl011
+        && kuart.variant != Acpi::Spcr::Nsc16550
+        && kuart.variant != Acpi::Spcr::Arm_sbsa_32bit
+        && kuart.variant != Acpi::Spcr::Arm_sbsa)
+      panic("EFI: unsupported uart type: %d", kuart.variant);
+
     efi.exit_boot_services();
+
+    if (kuart_flags & L4_kernel_options::F_noserial)
+      return;
 
     // EFI console is gone. Use our own UART driver from now on...
     static L4::Io_register_block_mmio r(kuart.base_address);

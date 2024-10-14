@@ -62,6 +62,10 @@ struct Platform_x86_1 : Platform_x86
     regions->add(Region::start_size(boot32_info->ptab64_addr,
                                     boot32_info->ptab64_size,
                                     ".bootstrap-ptab64", Region::Boot));
+    // also ensure boot32_info is reserved
+    regions->add(Region::start_size(boot32_info,
+                                    sizeof(struct boot32_info_t),
+                                    ".boot32_info", Region::Boot));
 #endif
 
 #ifdef ARCH_amd64
@@ -165,7 +169,7 @@ class Platform_x86_multiboot : public Platform_x86_1, public Boot_modules
 {
 public:
   Boot_modules *modules() override { return this; }
-  int base_mod_idx(Mod_info_flags mod_info_mod_type) override
+  int base_mod_idx(Mod_info_flags mod_info_mod_type, unsigned) override
   {
     switch (mod_info_mod_type)
       {
@@ -627,9 +631,7 @@ void __main(l4util_mb_info_t *mbi, unsigned long p2, char const *realmode_si,
   ctor_init();
   Platform_base::platform = &_x86_pc_platform;
   _x86_pc_platform.init();
-#ifdef IMAGE_MODE
   init_modules_infos();
-#endif
 #ifdef ARCH_amd64
   // remember this info to reserve the memory in setup_memory_map later
   _x86_pc_platform.boot32_info = boot32_info;
@@ -644,9 +646,10 @@ void __main(l4util_mb_info_t *mbi, unsigned long p2, char const *realmode_si,
   cmdline = (char const *)(l4_addr_t)mbi->cmdline;
 #if defined (IMAGE_MODE)
   if (!cmdline)
-    cmdline = mod_info_mbi_cmdline(mod_header);
+    cmdline = mod_header->mbi_cmdline();
 #endif
-  _x86_pc_platform.setup_uart(cmdline);
+  static Uart_vga vga_uart;
+  _x86_pc_platform.setup_uart(cmdline, &vga_uart);
   _x86_pc_platform.disable_pci_bus_master();
 
   startup(cmdline);

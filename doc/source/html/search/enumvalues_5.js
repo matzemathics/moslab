@@ -31,6 +31,7 @@ var searchData=
   ['f_5fset_5fflags_28',['F_set_flags',['../classL4Re_1_1Video_1_1View.html#ac59b76ea9344ecf42f1651cb613fdafeaf34763496fafe4e73a7924bab00d1830',1,'L4Re::Video::View']]],
   ['f_5fset_5fpixel_29',['F_set_pixel',['../classL4Re_1_1Video_1_1View.html#ac59b76ea9344ecf42f1651cb613fdafea983a38dc7111764a5ac3b14dce0b9627',1,'L4Re::Video::View']]],
   ['f_5fset_5fposition_30',['F_set_position',['../classL4Re_1_1Video_1_1View.html#ac59b76ea9344ecf42f1651cb613fdafea6437ab31f9902cb1922b82d0a930781b',1,'L4Re::Video::View']]],
-  ['flags_31',['Flags',['../structL4_1_1Type__info_1_1Demand__t.html#afdb021baaaa3ddfbf886605d02b3f4aba7a5c6fc6582e0e413d5c942985c6635f',1,'L4::Type_info::Demand_t']]],
-  ['from_5fdevice_32',['From_device',['../classL4Re_1_1Dma__space.html#aee4c8d896e37dfc9360626d6c66a8ddfa8e0780a9c4af9233d37d391aa81042c0',1,'L4Re::Dma_space']]]
+  ['fixed_5fpaddr_31',['Fixed_paddr',['../classL4Re_1_1Mem__alloc.html#a47f3e054def977c17dbf60bfbb4ee05ea23b07ecdd311dbeea23ff77965ccdb9a',1,'L4Re::Mem_alloc']]],
+  ['flags_32',['Flags',['../structL4_1_1Type__info_1_1Demand__t.html#a4e2c2941d457f91c05810e8a1e90f0c2a7a5c6fc6582e0e413d5c942985c6635f',1,'L4::Type_info::Demand_t']]],
+  ['from_5fdevice_33',['From_device',['../classL4Re_1_1Dma__space.html#aee4c8d896e37dfc9360626d6c66a8ddfa8e0780a9c4af9233d37d391aa81042c0',1,'L4Re::Dma_space']]]
 ];

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/cxx/minmax Source File</title>
+<title>L4Re Operating System Framework: l4/cxx/minmax Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -119,32 +122,68 @@ $(document).ready(function(){initNavTree('minmax_source.html',''); initResizable
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacecxx.html">cxx</a></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>{</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> T1 &gt;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keyword">inline</span></div>
-<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">   35</a></span>  T1 <a class="code hl_function" href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">min</a>(T1 a, T1 b)</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  { <span class="keywordflow">return</span> a &lt; b ? a : b; }</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;type_traits&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacecxx.html">cxx</a></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>{</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  <span class="comment">// trivial, used to terminate the variadic recursion</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="keyword">constexpr</span> A <span class="keyword">const</span> &amp;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  min(A <span class="keyword">const</span> &amp;a)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  { <span class="keywordflow">return</span> a; }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> ...ARGS&gt;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="keyword">constexpr</span> A <span class="keyword">const</span> &amp;</div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="group__cxx__api.html#ga6c502a1807d77feaaff27dc8ff58bd45">   47</a></span>  min(A <span class="keyword">const</span> &amp;a1, A <span class="keyword">const</span> &amp;a2, ARGS <span class="keyword">const</span> &amp;...a)</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">return</span> min((a1 &lt;= a2) ? a1 : a2, a...);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  }</div>
 </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> T1 &gt;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <span class="keyword">inline</span></div>
-<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="group__cxx__api.html#ga1d7a566ab5b06016155d693f91a7ee2d">   46</a></span>  T1 <a class="code hl_function" href="group__cxx__api.html#ga1d7a566ab5b06016155d693f91a7ee2d">max</a>(T1 a, T1 b)</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  { <span class="keywordflow">return</span> a &gt; b ? a : b; }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> ...ARGS&gt;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keyword">constexpr</span> A <span class="keyword">const</span> &amp;</div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="group__cxx__api.html#ga02e5de4cc0616778a1858f3cc288fe0e">   64</a></span>  min(cxx::identity_t&lt;A&gt; <span class="keyword">const</span> &amp;a1,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>      cxx::identity_t&lt;A&gt; <span class="keyword">const</span> &amp;a2,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>      ARGS <span class="keyword">const</span> &amp;...a)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> min&lt;A&gt;((a1 &lt;= a2) ? a1 : a2, a...);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  }</div>
 </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> T1 &gt;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="keyword">inline</span></div>
-<div class="foldopen" id="foldopen00058" data-start="{" data-end="}">
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="group__cxx__api.html#ga3af01832fd9bfa1ea526f705a8aa0680">   58</a></span>  T1 <a class="code hl_function" href="group__cxx__api.html#ga3af01832fd9bfa1ea526f705a8aa0680">clamp</a>(T1 v, T1 lo, T1 hi)</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  { <span class="keywordflow">return</span> <a class="code hl_function" href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">min</a>(hi, <a class="code hl_function" href="group__cxx__api.html#ga1d7a566ab5b06016155d693f91a7ee2d">max</a>(lo, v)); }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  <span class="comment">// trivial, used to terminate the variadic recursion</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <span class="keyword">constexpr</span> A <span class="keyword">const</span> &amp;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  max(A <span class="keyword">const</span> &amp;a)</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  { <span class="keywordflow">return</span> a; }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> ...ARGS&gt;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="keyword">constexpr</span> A <span class="keyword">const</span> &amp;</div>
+<div class="foldopen" id="foldopen00089" data-start="{" data-end="}">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="group__cxx__api.html#ga6b40508618e1b52959e20850cf820dc9">   89</a></span>  max(A <span class="keyword">const</span> &amp;a1, A <span class="keyword">const</span> &amp;a2, ARGS <span class="keyword">const</span> &amp;...a)</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>  { <span class="keywordflow">return</span> max((a1 &gt;= a2) ? a1 : a2, a...); }</div>
 </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>};</div>
-<div class="ttc" id="agroup__cxx__api_html_ga0bd9662898a7499fcd3feefe594a699b"><div class="ttname"><a href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">cxx::min</a></div><div class="ttdeci">T1 min(T1 a, T1 b)</div><div class="ttdoc">Get the minimum of a and b.</div><div class="ttdef"><b>Definition</b> <a href="minmax_source.html#l00035">minmax:35</a></div></div>
-<div class="ttc" id="agroup__cxx__api_html_ga1d7a566ab5b06016155d693f91a7ee2d"><div class="ttname"><a href="group__cxx__api.html#ga1d7a566ab5b06016155d693f91a7ee2d">cxx::max</a></div><div class="ttdeci">T1 max(T1 a, T1 b)</div><div class="ttdoc">Get the maximum of a and b.</div><div class="ttdef"><b>Definition</b> <a href="minmax_source.html#l00046">minmax:46</a></div></div>
-<div class="ttc" id="agroup__cxx__api_html_ga3af01832fd9bfa1ea526f705a8aa0680"><div class="ttname"><a href="group__cxx__api.html#ga3af01832fd9bfa1ea526f705a8aa0680">cxx::clamp</a></div><div class="ttdeci">T1 clamp(T1 v, T1 lo, T1 hi)</div><div class="ttdoc">Limit v to the range given by lo and hi.</div><div class="ttdef"><b>Definition</b> <a href="minmax_source.html#l00058">minmax:58</a></div></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> A, <span class="keyword">typename</span> ...ARGS&gt;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  <span class="keyword">constexpr</span> A <span class="keyword">const</span> &amp;</div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="group__cxx__api.html#ga46630b12dffccbfe3bb39758c3d844a6">  104</a></span>  max(cxx::identity_t&lt;A&gt; <span class="keyword">const</span> &amp;a1,</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      cxx::identity_t&lt;A&gt; <span class="keyword">const</span> &amp;a2,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      ARGS <span class="keyword">const</span> &amp;...a)</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">return</span> max&lt;A&gt;((a1 &gt;= a2) ? a1 : a2, a...);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  }</div>
+</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> T1 &gt;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  <span class="keyword">inline</span></div>
+<div class="foldopen" id="foldopen00120" data-start="{" data-end="}">
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="group__cxx__api.html#ga3af01832fd9bfa1ea526f705a8aa0680">  120</a></span>  T1 <a class="code hl_function" href="group__cxx__api.html#ga3af01832fd9bfa1ea526f705a8aa0680">clamp</a>(T1 v, T1 lo, T1 hi)</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  { <span class="keywordflow">return</span> min(hi, max(lo, v)); }</div>
+</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>};</div>
+<div class="ttc" id="agroup__cxx__api_html_ga3af01832fd9bfa1ea526f705a8aa0680"><div class="ttname"><a href="group__cxx__api.html#ga3af01832fd9bfa1ea526f705a8aa0680">cxx::clamp</a></div><div class="ttdeci">T1 clamp(T1 v, T1 lo, T1 hi)</div><div class="ttdoc">Limit v to the range given by lo and hi.</div><div class="ttdef"><b>Definition</b> <a href="minmax_source.html#l00120">minmax:120</a></div></div>
 <div class="ttc" id="anamespacecxx_html"><div class="ttname"><a href="namespacecxx.html">cxx</a></div><div class="ttdoc">Our C++ library.</div><div class="ttdef"><b>Definition</b> <a href="arith_source.html#l00022">arith:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -153,7 +192,7 @@ $(document).ready(function(){initNavTree('minmax_source.html',''); initResizable
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_dd3580c6b729ef0dd2be01098f8e55ee.html">cxx</a></li><li class="navelem"><b>minmax</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

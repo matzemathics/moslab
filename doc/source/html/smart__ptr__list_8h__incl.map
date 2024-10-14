@@ -1,7 +1,11 @@
 <map id="l4/cxx/bits/smart_ptr_list.h" name="l4/cxx/bits/smart_ptr_list.h">
-<area shape="rect" id="Node000001" title="Implementation of a list of smart&#45;pointer&#45;managed objects." alt="" coords="5,5,161,45"/>
-<area shape="rect" id="Node000002" href="$type__traits_source.html" title=" " alt="" coords="31,93,135,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,46,86,79,81,79,81,46"/>
-<area shape="rect" id="Node000003" href="$type__traits_8h_source.html" title=" " alt="" coords="17,167,149,192"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,119,86,153,81,153,81,119"/>
+<area shape="rect" id="Node000001" title="Implementation of a list of smart&#45;pointer&#45;managed objects." alt="" coords="71,5,227,45"/>
+<area shape="rect" id="Node000002" href="$type__traits_source.html" title=" " alt="" coords="97,93,201,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,46,151,79,146,79,146,46"/>
+<area shape="rect" id="Node000003" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="5,167,137,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,121,96,159,92,155,134,117"/>
+<area shape="rect" id="Node000005" href="$type__traits_8h_source.html" title=" " alt="" coords="161,167,293,192"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="163,117,206,156,203,159,160,121"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="10,240,133,265"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="74,192,74,226,69,226,69,192"/>
 </map>

@@ -11,7 +11,8 @@ var searchData=
   ['vcon_5fsvr_8',['Vcon_svr',['../classL4Re_1_1Util_1_1Vcon__svr.html',1,'L4Re::Util']]],
   ['vcpu_9',['Vcpu',['../classL4vcpu_1_1Vcpu.html',1,'L4vcpu']]],
   ['view_10',['View',['../classL4Re_1_1Video_1_1View.html',1,'L4Re::Video']]],
-  ['virtio_5fnet_5fdevice_11',['Virtio_net_device',['../classL4virtio_1_1Driver_1_1Virtio__net__device.html',1,'L4virtio::Driver']]],
-  ['virtqueue_12',['virtqueue',['../classL4virtio_1_1Driver_1_1Virtqueue.html',1,'L4virtio::Driver::Virtqueue'],['../classL4virtio_1_1Svr_1_1Virtqueue.html',1,'L4virtio::Svr::Virtqueue'],['../classL4virtio_1_1Virtqueue.html',1,'L4virtio::Virtqueue']]],
-  ['vm_13',['Vm',['../classL4_1_1Vm.html',1,'L4']]]
+  ['virtio_5fcon_11',['Virtio_con',['../classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html',1,'L4virtio::Svr::Console']]],
+  ['virtio_5fnet_5fdevice_12',['Virtio_net_device',['../classL4virtio_1_1Driver_1_1Virtio__net__device.html',1,'L4virtio::Driver']]],
+  ['virtqueue_13',['virtqueue',['../classL4virtio_1_1Driver_1_1Virtqueue.html',1,'L4virtio::Driver::Virtqueue'],['../classL4virtio_1_1Svr_1_1Virtqueue.html',1,'L4virtio::Svr::Virtqueue'],['../classL4virtio_1_1Virtqueue.html',1,'L4virtio::Virtqueue']]],
+  ['vm_14',['Vm',['../classL4_1_1Vm.html',1,'L4']]]
 ];

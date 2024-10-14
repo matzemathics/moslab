@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Program to load an ELF binary on a linux system, and run it
  * after resolving ELF shared library symbols
@@ -74,6 +73,7 @@ char *_dl_debug_reloc     = NULL;
 char *_dl_debug_detail    = NULL;
 char *_dl_debug_nofixups  = NULL;
 char *_dl_debug_bindings  = NULL;
+char *_dl_debug_vdso      = NULL;
 int   _dl_debug_file      = 2;
 #endif
 
@@ -110,7 +110,13 @@ static unsigned char *_dl_mmap_zero   = NULL;	/* Also used by _dl_malloc */
 static struct elf_resolve **init_fini_list;
 static struct elf_resolve **scope_elem_list;
 static unsigned int nlist; /* # items in init_fini_list */
+#ifdef __FDPIC__
+/* We need to take the address of _start instead of its FUNCDESC:
+   declare it as void* to control the relocation emitted.  */
+extern void *_start;
+#else
 extern void _start(void);
+#endif
 
 #ifdef __UCLIBC_HAS_SSP__
 #  ifndef __NOT_FOR_L4__ // in L4 we have libssp which implements _dl_setup_stack_chk_guard
@@ -124,9 +130,6 @@ static uintptr_t stack_chk_guard;
 /* Only exported for architectures that don't store the stack guard canary
  * in local thread area.  */
 uintptr_t __stack_chk_guard attribute_relro;
-# endif
-# ifdef __UCLIBC_HAS_SSP_COMPAT__
-uintptr_t __guard attribute_relro;
 # endif
 #endif
 
@@ -246,7 +249,7 @@ void *_dl_malloc(size_t size)
 
 		_dl_debug_early("mmapping more memory\n");
 		_dl_mmap_zero = _dl_malloc_addr = _dl_mmap((void *) 0, rounded_size,
-				PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_UNINITIALIZED, -1, 0);
+				PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | _MAP_UNINITIALIZED, -1, 0);
 		if (_dl_mmap_check_error(_dl_mmap_zero)) {
 			_dl_dprintf(2, "%s: mmap of a spare page failed!\n", _dl_progname);
 			_dl_exit(20);
@@ -269,6 +272,8 @@ static void *_dl_zalloc(size_t size)
 	void *p = _dl_malloc(size);
 	if (p)
 		_dl_memset(p, 0, size);
+	else
+		_dl_exit(1);
 	return p;
 }
 
@@ -396,11 +401,10 @@ static void trace_objects(struct elf_resolve *tpnt, char *str_name)
 static struct elf_resolve * add_ldso(struct elf_resolve *tpnt,
 									 DL_LOADADDR_TYPE load_addr,
 									 ElfW(Addr) ldso_mapaddr,
-									 ElfW(auxv_t) auxvt[AT_EGID + 1],
 									 struct dyn_elf *rpnt)
 {
 		(void) load_addr;
-		ElfW(Ehdr) *epnt = (ElfW(Ehdr) *) auxvt[AT_BASE].a_un.a_val;
+		ElfW(Ehdr) *epnt = (ElfW(Ehdr) *) _dl_auxvt[AT_BASE].a_un.a_val;
 		ElfW(Phdr) *myppnt = (ElfW(Phdr) *)
 				DL_RELOC_ADDR(DL_GET_RUN_ADDR(load_addr, ldso_mapaddr),
 							  epnt->e_phoff);
@@ -459,10 +463,10 @@ static ptrdiff_t _dl_build_local_scope (struct elf_resolve **list,
  * This function is extracted from _dl_get_ready_to_run below
  * so we can call it before running the init function of ldso
  */
-void _dl_setup_malloc(ElfW(auxv_t) auxvt[AT_EGID + 1])
+void _dl_setup_malloc(ElfW(auxv_t) _dl_auxvt[AUX_MAX_AT_ID])
 {
 	/* Store the page size for later use */
-	_dl_pagesize = (auxvt[AT_PAGESZ].a_un.a_val) ? (size_t) auxvt[AT_PAGESZ].a_un.a_val : PAGE_SIZE;
+	_dl_pagesize = (_dl_auxvt[AT_PAGESZ].a_un.a_val) ? (size_t) _dl_auxvt[AT_PAGESZ].a_un.a_val : PAGE_SIZE;
 	/* Make it so _dl_malloc can use the page of memory we have already
 	 * allocated.  We shouldn't need to grab any more memory.  This must
 	 * be first since things like _dl_dprintf() use _dl_malloc()...
@@ -472,8 +476,24 @@ void _dl_setup_malloc(ElfW(auxv_t) auxvt[AT_EGID + 1])
 }
 #endif
 
+#ifdef __NOT_FOR_L4__
+static void _dl_setup_progname(const char *argv0)
+{
+	char image[PATH_MAX];
+	ssize_t s;
+
+	s = _dl_readlink(AT_FDCWD, "/proc/self/exe", image, sizeof(image));
+	if (s > 0 && image[0] == '/') {
+		image[s] = 0;
+		_dl_progname = _dl_strdup(image);
+	} else if (argv0) {
+		_dl_progname = argv0;
+	}
+}
+#endif
+
 void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE load_addr,
-			  ElfW(auxv_t) auxvt[AT_EGID + 1], char **envp, char **argv
+			  char **envp, char **argv
 			  DL_GET_READY_TO_RUN_EXTRA_PARMS)
 {
 	ElfW(Addr) app_mapaddr = 0, ldso_mapaddr = 0;
@@ -494,6 +514,11 @@ void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE load_addr,
 	size_t relro_size = 0;
 	struct r_scope_elem *global_scope;
 	struct elf_resolve **local_scope;
+#if defined(__FDPIC__)
+	int rtype_class = ELF_RTYPE_CLASS_DLSYM;
+#else
+	int rtype_class = ELF_RTYPE_CLASS_PLT;
+#endif
 
 #if defined(USE_TLS) && USE_TLS
 	void *tcbp = NULL;
@@ -509,7 +534,7 @@ void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE load_addr,
 	/* This code is moved to the function _dl_setup_malloc, so we can call
 	 * it before running the init functions of ldso */
 	/* Store the page size for later use */
-	_dl_pagesize = (auxvt[AT_PAGESZ].a_un.a_val) ? (size_t) auxvt[AT_PAGESZ].a_un.a_val : PAGE_SIZE;
+	_dl_pagesize = (_dl_auxvt[AT_PAGESZ].a_un.a_val) ? (size_t) _dl_auxvt[AT_PAGESZ].a_un.a_val : PAGE_SIZE;
 	/* Make it so _dl_malloc can use the page of memory we have already
 	 * allocated.  We shouldn't need to grab any more memory.  This must
 	 * be first since things like _dl_dprintf() use _dl_malloc()...
@@ -526,9 +551,12 @@ void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE load_addr,
 	 * been fixed up by now.  Still no function calls outside of this
 	 * library, since the dynamic resolver is not yet ready.
 	 */
-	if (argv[0]) {
-		_dl_progname = argv[0];
-	}
+#ifdef __NOT_FOR_L4__
+	_dl_setup_progname(argv[0]);
+#else
+	if (argv[0])
+	  _dl_progname = argv[0];
+#endif
 
 #ifdef __DSBT__
 	_dl_ldso_dsbt = (void *)tpnt->dynamic_info[DT_DSBT_BASE_IDX];
@@ -536,7 +564,7 @@ void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE load_addr,
 #endif
 
 #ifndef __LDSO_STANDALONE_SUPPORT__
-	if (_start == (void *) auxvt[AT_ENTRY].a_un.a_val) {
+	if (_start == (void *) _dl_auxvt[AT_ENTRY].a_un.a_val) {
 		_dl_dprintf(2, "Standalone execution is not enabled\n");
 		_dl_exit(1);
 	}
@@ -555,10 +583,10 @@ void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE load_addr,
 	 * Note that for SUID programs we ignore the settings in
 	 * LD_LIBRARY_PATH.
 	 */
-	if ((auxvt[AT_UID].a_un.a_val == (size_t)-1 && _dl_suid_ok()) ||
-	    (auxvt[AT_UID].a_un.a_val != (size_t)-1 &&
-	     auxvt[AT_UID].a_un.a_val == auxvt[AT_EUID].a_un.a_val &&
-	     auxvt[AT_GID].a_un.a_val == auxvt[AT_EGID].a_un.a_val)) {
+	if ((_dl_auxvt[AT_UID].a_un.a_val == (size_t)-1 && _dl_suid_ok()) ||
+	    (_dl_auxvt[AT_UID].a_un.a_val != (size_t)-1 &&
+	     _dl_auxvt[AT_UID].a_un.a_val == _dl_auxvt[AT_EUID].a_un.a_val &&
+	     _dl_auxvt[AT_GID].a_un.a_val == _dl_auxvt[AT_EGID].a_un.a_val)) {
 		_dl_secure = 0;
 #ifdef __LDSO_PRELOAD_ENV_SUPPORT__
 		_dl_preload = _dl_getenv("LD_PRELOAD", envp);
@@ -597,7 +625,7 @@ void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE load_addr,
 #endif
 
 #ifdef __LDSO_STANDALONE_SUPPORT__
-	if (_start == (void *) auxvt[AT_ENTRY].a_un.a_val) {
+	if (_start == (void *) _dl_auxvt[AT_ENTRY].a_un.a_val) {
 		ElfW(Addr) *aux_dat = (ElfW(Addr) *) argv;
 		int argc = (int) aux_dat[-1];
 
@@ -649,7 +677,8 @@ of this helper program; chances are you did not intend to run this program.\n\
 		 * but it could be also a shared object (when ld.so used for tracing)
 		 * We keep the misleading app_tpnt name to avoid variable pollution
 		 */
-		app_tpnt = _dl_load_elf_shared_library(_dl_secure, &rpnt, _dl_progname);
+		app_tpnt = _dl_load_elf_shared_library(_dl_secure ? __RTLD_SECURE : 0,
+							&rpnt, _dl_progname);
 		if (!app_tpnt) {
 			_dl_dprintf(2, "can't load '%s'\n", _dl_progname);
 			_dl_exit(16);
@@ -693,11 +722,11 @@ of this helper program; chances are you did not intend to run this program.\n\
 	 */
 	{
 		unsigned int idx;
-		ElfW(Phdr) *phdr = (ElfW(Phdr) *) auxvt[AT_PHDR].a_un.a_val;
+		ElfW(Phdr) *phdr = (ElfW(Phdr) *) _dl_auxvt[AT_PHDR].a_un.a_val;
 
-		for (idx = 0; idx < auxvt[AT_PHNUM].a_un.a_val; idx++, phdr++)
+		for (idx = 0; idx < _dl_auxvt[AT_PHNUM].a_un.a_val; idx++, phdr++)
 			if (phdr->p_type == PT_PHDR) {
-				DL_INIT_LOADADDR_PROG(app_tpnt->loadaddr, auxvt[AT_PHDR].a_un.a_val - phdr->p_vaddr);
+				DL_INIT_LOADADDR_PROG(app_tpnt->loadaddr, _dl_auxvt[AT_PHDR].a_un.a_val - phdr->p_vaddr);
 				break;
 			}
 
@@ -712,8 +741,8 @@ of this helper program; chances are you did not intend to run this program.\n\
 	 */
 	debug_addr = _dl_zalloc(sizeof(struct r_debug));
 
-	ppnt = (ElfW(Phdr) *) auxvt[AT_PHDR].a_un.a_val;
-	for (i = 0; i < auxvt[AT_PHNUM].a_un.a_val; i++, ppnt++) {
+	ppnt = (ElfW(Phdr) *) _dl_auxvt[AT_PHDR].a_un.a_val;
+	for (i = 0; i < _dl_auxvt[AT_PHNUM].a_un.a_val; i++, ppnt++) {
 		if (ppnt->p_type == PT_GNU_RELRO) {
 			relro_addr = ppnt->p_vaddr;
 			relro_size = ppnt->p_memsz;
@@ -730,12 +759,13 @@ of this helper program; chances are you did not intend to run this program.\n\
 			 * dynamic linking.  We can set the protection back
 			 * again once we are done.
 			 */
-			_dl_debug_early("calling mprotect on the application program\n");
 			/* Now cover the application program. */
 			if (app_tpnt->dynamic_info[DT_TEXTREL]) {
+				unsigned int j;
 				ElfW(Phdr) *ppnt_outer = ppnt;
-				ppnt = (ElfW(Phdr) *) auxvt[AT_PHDR].a_un.a_val;
-				for (i = 0; i < auxvt[AT_PHNUM].a_un.a_val; i++, ppnt++) {
+				_dl_debug_early("calling mprotect on the application program\n");
+				ppnt = (ElfW(Phdr) *) _dl_auxvt[AT_PHDR].a_un.a_val;
+				for (j = 0; j < _dl_auxvt[AT_PHNUM].a_un.a_val; j++, ppnt++) {
 					if (ppnt->p_type == PT_LOAD && !(ppnt->p_flags & PF_W))
 						_dl_mprotect((void *) (DL_RELOC_ADDR(app_tpnt->loadaddr, ppnt->p_vaddr) & PAGE_ALIGN),
 							     (DL_RELOC_ADDR(app_tpnt->loadaddr, ppnt->p_vaddr) & ADDR_ALIGN) +
@@ -762,8 +792,8 @@ of this helper program; chances are you did not intend to run this program.\n\
 					(unsigned long) DL_RELOC_ADDR(app_tpnt->loadaddr, ppnt->p_vaddr),
 					ppnt->p_filesz);
 			_dl_loaded_modules->libtype = elf_executable;
-			_dl_loaded_modules->ppnt = (ElfW(Phdr) *) auxvt[AT_PHDR].a_un.a_val;
-			_dl_loaded_modules->n_phent = auxvt[AT_PHNUM].a_un.a_val;
+			_dl_loaded_modules->ppnt = (ElfW(Phdr) *) _dl_auxvt[AT_PHDR].a_un.a_val;
+			_dl_loaded_modules->n_phent = _dl_auxvt[AT_PHNUM].a_un.a_val;
 			_dl_symbol_tables = rpnt = _dl_zalloc(sizeof(struct dyn_elf));
 			rpnt->dyn = _dl_loaded_modules;
 			app_tpnt->mapaddr = app_mapaddr;
@@ -822,7 +852,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 		char *tmp attribute_unused =
 			(char *) app_tpnt->l_tls_initimage;
 		app_tpnt->l_tls_initimage =
-			(char *) app_tpnt->l_tls_initimage + app_tpnt->loadaddr;
+			(char *) DL_RELOC_ADDR(app_tpnt->loadaddr, app_tpnt->l_tls_initimage);
 		_dl_debug_early("Relocated TLS initial image from %x to %x (size = %x)\n",
 			tmp, app_tpnt->l_tls_initimage, app_tpnt->l_tls_initimage_size);
 	}
@@ -837,7 +867,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 	if (_dl_debug) {
 		if (_dl_strstr(_dl_debug, "all")) {
 			_dl_debug_detail = _dl_debug_move = _dl_debug_symbols
-				= _dl_debug_reloc = _dl_debug_bindings = _dl_debug_nofixups = (void*)1;
+				= _dl_debug_reloc = _dl_debug_bindings = _dl_debug_nofixups = _dl_debug_vdso = (void*)1;
 		} else {
 			_dl_debug_detail   = _dl_strstr(_dl_debug, "detail");
 			_dl_debug_move     = _dl_strstr(_dl_debug, "move");
@@ -845,6 +875,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 			_dl_debug_reloc    = _dl_strstr(_dl_debug, "reloc");
 			_dl_debug_nofixups = _dl_strstr(_dl_debug, "nofix");
 			_dl_debug_bindings = _dl_strstr(_dl_debug, "bind");
+			_dl_debug_vdso     = _dl_strstr(_dl_debug, "vdso");
 		}
 	}
 
@@ -901,7 +932,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 	}
 #endif
 
-	ldso_mapaddr = (ElfW(Addr)) auxvt[AT_BASE].a_un.a_val;
+	ldso_mapaddr = (ElfW(Addr)) _dl_auxvt[AT_BASE].a_un.a_val;
 	/*
 	 * OK, fix one more thing - set up debug_addr so it will point
 	 * to our chain.  Later we may need to fill in more fields, but this
@@ -943,7 +974,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 				_dl_if_debug_dprint("\tfile='%s';  needed by '%s'\n", str, _dl_progname);
 
 				tpnt1 = _dl_load_shared_library(
-					_dl_secure ? DL_RESOLVE_SECURE : 0,
+					_dl_secure ? __RTLD_SECURE : 0,
 					&rpnt, NULL, str, trace_loaded_objects);
 				if (!tpnt1) {
 #ifdef __LDSO_LDD_SUPPORT__
@@ -963,7 +994,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 
 #ifdef __LDSO_LDD_SUPPORT__
 					if (trace_loaded_objects && !_dl_trace_prelink &&
-					    tpnt1->usage_count == 1) {
+					    !(tpnt1->init_flag & DL_OPENED2)) {
 						/* This is a real hack to make
 						 * ldd not print the library
 						 * itself when run on a
@@ -1055,7 +1086,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 
 # ifdef __LDSO_LDD_SUPPORT__
 				if (trace_loaded_objects && !_dl_trace_prelink &&
-				    tpnt1->usage_count == 1) {
+				    !(tpnt1->init_flag & DL_OPENED2)) {
 					_dl_dprintf(1, "\t%s => %s (%x)\n",
 						    cp2, tpnt1->libname,
 						    DL_LOADADDR_BASE(tpnt1->loadaddr));
@@ -1091,7 +1122,9 @@ of this helper program; chances are you did not intend to run this program.\n\
 						if (!ldso_tpnt) {
 							/* Insert the ld.so only once */
 							ldso_tpnt = add_ldso(tpnt, load_addr,
-												 ldso_mapaddr, auxvt, rpnt);
+												 ldso_mapaddr, rpnt);
+						} else {
+							ldso_tpnt->init_flag |= DL_OPENED2;
 						}
 						ldso_tpnt->usage_count++;
 						tpnt1 = ldso_tpnt;
@@ -1122,7 +1155,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 
 #ifdef __LDSO_LDD_SUPPORT__
 				if (trace_loaded_objects && !_dl_trace_prelink &&
-				    tpnt1->usage_count == 1) {
+				    !(tpnt1->init_flag & DL_OPENED2)) {
 					_dl_dprintf(1, "\t%s => %s (%x)\n",
 						    lpntstr, tpnt1->libname,
 						    DL_LOADADDR_BASE(tpnt1->loadaddr));
@@ -1195,7 +1228,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 	 * again once all libs are loaded.
 	 */
 	if (!ldso_tpnt) {
-		tpnt = add_ldso(tpnt, load_addr, ldso_mapaddr, auxvt, rpnt);
+		tpnt = add_ldso(tpnt, load_addr, ldso_mapaddr, rpnt);
 		tpnt->usage_count++;
 		nscope_elem++;
 	} else
@@ -1269,15 +1302,13 @@ of this helper program; chances are you did not intend to run this program.\n\
 	}
 #endif
 #ifdef __UCLIBC_HAS_SSP__
+	_dl_debug_early("Setting up SSP guards\n");
 	/* Set up the stack checker's canary.  */
 	stack_chk_guard = _dl_setup_stack_chk_guard ();
 # ifdef THREAD_SET_STACK_GUARD
 	THREAD_SET_STACK_GUARD (stack_chk_guard);
 # else
 	__stack_chk_guard = stack_chk_guard;
-# endif
-# ifdef __UCLIBC_HAS_SSP_COMPAT__
-	__guard = stack_chk_guard;
 # endif
 #endif
 
@@ -1341,7 +1372,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 
 	}
 
-	_dl_debug_early ("\nprelink checking: %s\n", prelinked ? "ok" : "failed");
+	_dl_debug_early ("prelink checking: %s\n", prelinked ? "ok" : "failed");
 
 	if (prelinked) {
 		if (_dl_loaded_modules->dynamic_info[DT_GNU_CONFLICT_IDX]) {
@@ -1477,21 +1508,21 @@ of this helper program; chances are you did not intend to run this program.\n\
 
 	/* Find the real malloc function and make ldso functions use that from now on */
 	_dl_malloc_function = (void* (*)(size_t)) (intptr_t) _dl_find_hash(__C_SYMBOL_PREFIX__ "malloc",
-			global_scope, NULL, ELF_RTYPE_CLASS_PLT, NULL);
+			global_scope, NULL, rtype_class, NULL);
 
 #if defined(USE_TLS) && USE_TLS
 	/* Find the real functions and make ldso functions use them from now on */
 	_dl_calloc_function = (void* (*)(size_t, size_t)) (intptr_t)
-		_dl_find_hash(__C_SYMBOL_PREFIX__ "calloc", global_scope, NULL, ELF_RTYPE_CLASS_PLT, NULL);
+		_dl_find_hash(__C_SYMBOL_PREFIX__ "calloc", global_scope, NULL, rtype_class, NULL);
 
 	_dl_realloc_function = (void* (*)(void *, size_t)) (intptr_t)
-		_dl_find_hash(__C_SYMBOL_PREFIX__ "realloc", global_scope, NULL, ELF_RTYPE_CLASS_PLT, NULL);
+		_dl_find_hash(__C_SYMBOL_PREFIX__ "realloc", global_scope, NULL, rtype_class, NULL);
 
 	_dl_free_function = (void (*)(void *)) (intptr_t)
-		_dl_find_hash(__C_SYMBOL_PREFIX__ "free", global_scope, NULL, ELF_RTYPE_CLASS_PLT, NULL);
+		_dl_find_hash(__C_SYMBOL_PREFIX__ "free", global_scope, NULL, rtype_class, NULL);
 
 	_dl_memalign_function = (void* (*)(size_t, size_t)) (intptr_t)
-		_dl_find_hash(__C_SYMBOL_PREFIX__ "memalign", global_scope, NULL, ELF_RTYPE_CLASS_PLT, NULL);
+		_dl_find_hash(__C_SYMBOL_PREFIX__ "memalign", global_scope, NULL, rtype_class, NULL);
 
 #endif
 
@@ -1500,11 +1531,11 @@ of this helper program; chances are you did not intend to run this program.\n\
 	_dl_debug_state();
 
 #ifdef __LDSO_STANDALONE_SUPPORT__
-	if (_start == (void *) auxvt[AT_ENTRY].a_un.a_val)
+	if (_start == (void *) _dl_auxvt[AT_ENTRY].a_un.a_val)
 		return (void *) app_tpnt->l_entry;
 	else
 #endif
-		return (void *) auxvt[AT_ENTRY].a_un.a_val;
+		return (void *) _dl_auxvt[AT_ENTRY].a_un.a_val;
 }
 
 #include "dl-hash.c"

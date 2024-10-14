@@ -45,7 +45,10 @@ extern "C"
 __attribute__ ((weak))
 void *__libc_alloc_initial_tls(unsigned long size) __THROW;
 
-static dtv_t static_dtv[2 + TLS_SLOTINFO_SURPLUS];
+#ifdef SHARED
+static
+#endif
+dtv_t static_dtv[2 + TLS_SLOTINFO_SURPLUS];
 
 
 static struct
@@ -134,6 +137,11 @@ void *__libc_alloc_initial_tls(unsigned long size) __THROW
 
   return addr;
 }
+
+#if !defined(__FDPIC__) && !defined(SHARED) && defined(STATIC_PIE)
+ElfW(Addr) _dl_load_base;
+#endif
+
 extern "C"
 void
 __libc_setup_tls (size_t tcbsize, size_t tcbalign)
@@ -141,7 +149,7 @@ __libc_setup_tls (size_t tcbsize, size_t tcbalign)
   void *tlsblock;
   size_t memsz = 0;
   size_t filesz = 0;
-  void *initimage = NULL;
+  char *initimage = NULL;
   size_t align = 0;
   size_t max_align = tcbalign;
   size_t tcb_offset;
@@ -154,10 +162,9 @@ __libc_setup_tls (size_t tcbsize, size_t tcbalign)
 	  /* Remember the values we need.  */
 	  memsz = phdr->p_memsz;
 	  filesz = phdr->p_filesz;
-	  initimage = (void *) phdr->p_vaddr;
+	  initimage = (char *) phdr->p_vaddr;
 #if !defined(SHARED) && defined(STATIC_PIE)
-          extern ElfW(Addr) _dl_load_base;
-          initimage += _dl_load_base;
+	  initimage += _dl_load_base;
 #endif
 	  align = phdr->p_align;
 	  if (phdr->p_align > max_align)
@@ -283,18 +290,6 @@ __attribute__ ((weak))
 __pthread_initialize_minimal (void)
 {
   __libc_setup_tls (TLS_INIT_TCB_SIZE, TLS_INIT_TCB_ALIGN);
-}
-
-#elif defined NONTLS_INIT_TP
-
-/* This is the minimal initialization function used when libpthread is
-   not used.  */
-extern "C"
-void
-__attribute__ ((weak))
-__pthread_initialize_minimal (void)
-{
-  NONTLS_INIT_TP;
 }
 
 #endif

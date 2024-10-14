@@ -14,22 +14,19 @@ protected:
 //---------------------------------------------------------------------------
 IMPLEMENTATION [arm && cpu_virt]:
 
-EXTENSION class Context
-{
-protected:
-  enum
-  {
-    Host_cntkctl = (1U << 8) | (1U << 1),
-    // see: generic_timer.cpp: setup_timer_access (Hyp)
-    Host_cnthctl = 1U,  // enable PL1+PL0 access to CNTPCT_EL0
-    Guest_cnthctl = 0U, // disable PL1+PL0 access to CNTPCT_EL0
-  };
-};
-
 PROTECTED static inline
 Context::Vm_state *
 Context::vm_state(Vcpu_state *vs)
-{ return reinterpret_cast<Vm_state *>(reinterpret_cast<char *>(vs) + 0x400); }
+{ return offset_cast<Vm_state *>(vs, Config::Ext_vcpu_state_offset); }
+
+PROTECTED inline
+void
+Context::sanitize_vmm_state(Return_frame *r) const
+{
+  r->psr_set_mode((_hyp.hcr & Cpu::Hcr_tge) ? Proc::Status_mode_user_el0
+                                            : Proc::Status_mode_user_el1);
+  r->psr |= 0x1c0; // mask PSTATE.{I,A,F}
+}
 
 IMPLEMENT_OVERRIDE
 void
@@ -39,8 +36,11 @@ Context::arch_vcpu_ext_shutdown()
     return;
 
   state_del_dirty(Thread_ext_vcpu_enabled);
-  _hyp.hcr = Cpu::Hcr_non_vm_bits;
-  arm_hyp_load_non_vm_state(true);
+  regs()->psr = Proc::Status_mode_user_el0;
+  _hyp.hcr = Cpu::Hcr_non_vm_bits_el0;
+  _hyp.load(/*from_privileged*/ true, /*to_privileged*/ false);
+  arm_hyp_load_non_vm_state();
+  Gic_h_global::gic->switch_to_non_vcpu(Gic_h::From_vgic_mode::Enabled);
 }
 
 IMPLEMENT_OVERRIDE inline NEEDS[Context::vm_state,
@@ -53,19 +53,13 @@ Context::arch_load_vcpu_kern_state(Vcpu_state *vcpu, bool do_load)
   if (!(state() & Thread_ext_vcpu_enabled))
     {
       _tpidruro = vcpu->host.tpidruro;
-      // vCPU user state has TGE set, so we need to reload HCR here
-      _hyp.hcr = Cpu::Hcr_non_vm_bits;
       if (do_load)
-        {
-          Cpu::hcr(_hyp.hcr);
-          load_tpidruro();
-        }
+        load_tpidruro();
       return;
     }
 
   Vm_state *v = vm_state(vcpu);
 
-  v->guest_regs.hcr = _hyp.hcr;
   bool const all_priv_vm = !(_hyp.hcr & Cpu::Hcr_tge);
   if (all_priv_vm)
     {
@@ -80,9 +74,9 @@ Context::arch_load_vcpu_kern_state(Vcpu_state *vcpu, bool do_load)
     }
 
   _tpidruro = vcpu->host.tpidruro;
-  _hyp.hcr = Cpu::Hcr_host_bits;
+  _hyp.hcr = access_once(&v->host_regs.hcr) | Cpu::Hcr_must_set_bits;
   if (do_load)
-    arm_ext_vcpu_load_host_regs(vcpu, v);
+    arm_ext_vcpu_load_host_regs(vcpu, v, _hyp.hcr);
 }
 
 IMPLEMENT_OVERRIDE inline NEEDS[Context::vm_state,
@@ -94,9 +88,7 @@ Context::arch_load_vcpu_user_state(Vcpu_state *vcpu)
 
   if (!(state() & Thread_ext_vcpu_enabled))
     {
-      _hyp.hcr = Cpu::Hcr_non_vm_bits | Cpu::Hcr_tge;
       _tpidruro = vcpu->_regs.tpidruro;
-      Cpu::hcr(_hyp.hcr);
       load_tpidruro();
       return;
     }
@@ -108,7 +100,9 @@ Context::arch_load_vcpu_user_state(Vcpu_state *vcpu)
   if (all_priv_vm)
     {
       arm_ext_vcpu_switch_to_guest(vcpu, v);
-      Gic_h_global::gic->load_full(&v->gic, true);
+      Gic_h_global::gic->switch_to_vcpu(&v->gic,
+                                        Gic_h::To_user_mode::Enabled,
+                                        Gic_h::From_vgic_mode::Enabled);
     }
 
   arm_ext_vcpu_load_guest_regs(vcpu, v, _hyp.hcr);
@@ -124,47 +118,62 @@ PUBLIC inline NEEDS[Context::arm_hyp_load_non_vm_state,
 void
 Context::switch_vm_state(Context *t)
 {
-  _hyp.save();
-  store_tpidruro();
-  t->_hyp.load();
-
   Mword _state = state();
   Mword _to_state = t->state();
-  if (!((_state | _to_state) & Thread_ext_vcpu_enabled))
-    return;
+
+  bool const from_ext_vcpu_enabled = _state & Thread_ext_vcpu_enabled;
+  bool const from_all_priv = !(_hyp.hcr & Cpu::Hcr_tge);
+  bool const to_ext_vcpu_enabled = _to_state & Thread_ext_vcpu_enabled;
+  bool const to_all_priv = !(t->_hyp.hcr & Cpu::Hcr_tge);
+
+  _hyp.save(from_all_priv || from_ext_vcpu_enabled);
+  store_tpidruro();
+
+  t->_hyp.load(from_all_priv || from_ext_vcpu_enabled,
+               to_all_priv || to_ext_vcpu_enabled);
+
+  if (!from_ext_vcpu_enabled && !to_ext_vcpu_enabled)
+    {
+      if (space()->has_gicc_page_mapped())
+        // gicv3 will only act on Gic_h::From_vgic_mode::Enabled
+        Gic_h_global::gic->switch_to_non_vcpu(Gic_h::From_vgic_mode::Disabled);
+      return;
+    }
 
   // either current or next has extended vCPU enabled
 
-  bool vgic = false;
+  Gic_h::From_vgic_mode from_mode = Gic_h::From_vgic_mode::Disabled;
 
-  if (_state & Thread_ext_vcpu_enabled)
+  if (from_ext_vcpu_enabled)
     {
       Vm_state *v = vm_state(vcpu_state().access());
       save_ext_vcpu_state(_state, v);
 
-      if ((_state & Thread_vcpu_user))
-        vgic = Gic_h_global::gic->save_full(&v->gic);
+      if (_state & Thread_vcpu_user)
+        from_mode = Gic_h_global::gic->switch_from_vcpu(&v->gic);
     }
 
-  if (_to_state & Thread_ext_vcpu_enabled)
+  if (to_ext_vcpu_enabled)
     {
       Vm_state const *v = vm_state(t->vcpu_state().access());
       t->load_ext_vcpu_state(_to_state, v);
 
-      if (_to_state & Thread_vcpu_user)
-        {
-          load_cnthctl(Guest_cnthctl);
-          Gic_h_global::gic->load_full(&v->gic, vgic);
-        }
-      else
-        {
-          load_cnthctl(Host_cnthctl);
-          if (vgic)
-            Gic_h_global::gic->disable();
-        }
+      Gic_h_global::gic->switch_to_vcpu(&v->gic,
+                                        (_to_state & Thread_vcpu_user)
+                                          ? Gic_h::To_user_mode::Enabled
+                                          : Gic_h::To_user_mode::Disabled,
+                                        from_mode);
     }
   else
-    arm_hyp_load_non_vm_state(vgic);
+    {
+      arm_hyp_load_non_vm_state();
+      // Need to do this always:
+      // - GICv2: handle switching to a thread which can access the vGIC page
+      //          but is not in extended vCPU mode
+      // - GICv3: needs to be always called
+      Gic_h_global::gic->switch_to_non_vcpu(from_mode);
+    }
+
 }
 
 IMPLEMENTATION [arm && !cpu_virt]:

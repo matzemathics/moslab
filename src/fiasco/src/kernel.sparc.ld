@@ -39,8 +39,6 @@ SECTIONS {
     KEEP(*(.initkip.features))
     KEEP(*(.initkip.features.end))
     _initkip_end = .;
-    /* See KIP layout in abi/kip.cpp. The feature strings are terminated by '\0'! */
-    ASSERT (_initkip_end < my_kernel_info_page + 0x800, "Kernel version strings too long");
     . = ALIGN(4K);
   } :kip :l4_kip = 0
 
@@ -66,6 +64,8 @@ SECTIONS {
 
     *(.rodata .rodata.* .gnu.linkonce.r.*)
     KEEP(*(.rodata.log.*))
+
+    DEFINE_WORKLOAD_SECTIONS
 
     . = ALIGN(4);
     JDB_TABLE(log);

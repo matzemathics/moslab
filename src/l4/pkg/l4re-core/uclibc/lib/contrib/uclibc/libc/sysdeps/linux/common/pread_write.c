@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Copyright (C) 2000-2006 Erik Andersen <andersen@uclibc.org>
  *
@@ -86,8 +85,7 @@ static ssize_t __NC(pwrite)(int fd, const void *buf, size_t count, off_t offset)
 CANCELLABLE_SYSCALL(ssize_t, pwrite, (int fd, const void *buf, size_t count, off_t offset),
 		    (fd, buf, count, offset))
 
-#ifdef __UCLIBC_HAS_LFS__
-# if __WORDSIZE == 32
+#if __WORDSIZE == 32
 static ssize_t __NC(pread64)(int fd, void *buf, size_t count, off64_t offset)
 {
 	return MY_PREAD64(fd, buf, count, offset);
@@ -101,15 +99,14 @@ static ssize_t __NC(pwrite64)(int fd, const void *buf, size_t count, off64_t off
 }
 CANCELLABLE_SYSCALL(ssize_t, pwrite64, (int fd, const void *buf, size_t count, off64_t offset),
 		    (fd, buf, count, offset))
-# else
-#  ifdef __LINUXTHREADS_OLD__
+#else
+# ifdef __UCLIBC_HAS_LINUXTHREADS__
 weak_alias(pread,pread64)
 weak_alias(pwrite,pwrite64)
 lt_strong_alias(pread64)
 lt_strong_alias(pwrite64)
-#  else
+# else
 strong_alias_untyped(pread,pread64)
 strong_alias_untyped(pwrite,pwrite64)
-#  endif
 # endif
 #endif

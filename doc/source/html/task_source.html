@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/task Source File</title>
+<title>L4Re Operating System Framework: l4/sys/task Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -179,36 +182,36 @@ $(document).ready(function(){initNavTree('task_source.html',''); initResizable()
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>  { <span class="keywordflow">return</span> l4_task_cap_equal_u(<a class="code hl_function" href="classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c">cap</a>(), cap_a.<a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>(), cap_b.<a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>(), utcb); }</div>
 </div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
-<div class="foldopen" id="foldopen00253" data-start="{" data-end="}">
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a">  253</a></span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> <a class="code hl_function" href="classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a">add_ku_mem</a>(<a class="code hl_union" href="unionl4__fpage__t.html">l4_fpage_t</a> <span class="keyword">const</span> &amp;fpage,</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                         <a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb = <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  { <span class="keywordflow">return</span> l4_task_add_ku_mem_u(<a class="code hl_function" href="classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c">cap</a>(), fpage, utcb); }</div>
+<div class="foldopen" id="foldopen00255" data-start="{" data-end="}">
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno"><a class="line" href="classL4_1_1Task.html#a9e741ff1d27ca776c65abaff1de2f139">  255</a></span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> <a class="code hl_function" href="classL4_1_1Task.html#a9e741ff1d27ca776c65abaff1de2f139">add_ku_mem</a>(<a class="code hl_union" href="unionl4__fpage__t.html">l4_fpage_t</a> *fpage,</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>                         <a class="code hl_typedef" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb = <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  { <span class="keywordflow">return</span> l4_task_add_ku_mem_u(<a class="code hl_function" href="classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c">cap</a>(), fpage, utcb); }</div>
 </div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>};</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span> </div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>};</div>
 </div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>}</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>}</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
 <div class="ttc" id="acapability_html"><div class="ttname"><a href="capability.html">capability</a></div><div class="ttdoc">L4::Cap related definitions.</div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00052">capability.h:52</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
-<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00759">__typeinfo.h:760</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00049">capability.h:49</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
+<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00760">__typeinfo.h:761</a></div></div>
 <div class="ttc" id="aclassL4_1_1Kobject_html_a4f2117ae76762f4084e6a1adb915863c"><div class="ttname"><a href="classL4_1_1Kobject.html#a4f2117ae76762f4084e6a1adb915863c">L4::Kobject::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="kobject_source.html#l00079">kobject:79</a></div></div>
 <div class="ttc" id="aclassL4_1_1Task_html"><div class="ttname"><a href="classL4_1_1Task.html">L4::Task</a></div><div class="ttdoc">C++ interface of the Task kernel object, see Task for the C interface.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00044">task:47</a></div></div>
 <div class="ttc" id="aclassL4_1_1Task_html_a2712eda0c02dca9b9e5324e93326f704"><div class="ttname"><a href="classL4_1_1Task.html#a2712eda0c02dca9b9e5324e93326f704">L4::Task::map</a></div><div class="ttdeci">l4_msgtag_t map(Cap&lt; Task &gt; const &amp;src_task, l4_fpage_t const &amp;snd_fpage, l4_umword_t snd_base, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Map resources available in the source task to a destination task.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00095">task:95</a></div></div>
 <div class="ttc" id="aclassL4_1_1Task_html_a4b9294cc5d6338a36958df578f092a25"><div class="ttname"><a href="classL4_1_1Task.html#a4b9294cc5d6338a36958df578f092a25">L4::Task::unmap</a></div><div class="ttdeci">l4_msgtag_t unmap(l4_fpage_t const &amp;fpage, l4_umword_t map_mask, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Revoke rights from the task.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00123">task:123</a></div></div>
 <div class="ttc" id="aclassL4_1_1Task_html_a6cc499337ace36c2cec41da182c905fc"><div class="ttname"><a href="classL4_1_1Task.html#a6cc499337ace36c2cec41da182c905fc">L4::Task::delete_obj</a></div><div class="ttdeci">l4_msgtag_t delete_obj(L4::Cap&lt; void &gt; obj, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Release capability and delete object.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00168">task:168</a></div></div>
 <div class="ttc" id="aclassL4_1_1Task_html_a6fd63174fb70beb932b8889e3d644b53"><div class="ttname"><a href="classL4_1_1Task.html#a6fd63174fb70beb932b8889e3d644b53">L4::Task::release_cap</a></div><div class="ttdeci">l4_msgtag_t release_cap(L4::Cap&lt; void &gt; cap, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Release object capability.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00187">task:187</a></div></div>
+<div class="ttc" id="aclassL4_1_1Task_html_a9e741ff1d27ca776c65abaff1de2f139"><div class="ttname"><a href="classL4_1_1Task.html#a9e741ff1d27ca776c65abaff1de2f139">L4::Task::add_ku_mem</a></div><div class="ttdeci">l4_msgtag_t add_ku_mem(l4_fpage_t *fpage, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Add kernel-user memory.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00255">task:255</a></div></div>
 <div class="ttc" id="aclassL4_1_1Task_html_aaf697eee4820135193d30e4b0e89535b"><div class="ttname"><a href="classL4_1_1Task.html#aaf697eee4820135193d30e4b0e89535b">L4::Task::unmap_batch</a></div><div class="ttdeci">l4_msgtag_t unmap_batch(l4_fpage_t const *fpages, unsigned num_fpages, l4_umword_t map_mask, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Revoke rights from a task.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00142">task:142</a></div></div>
 <div class="ttc" id="aclassL4_1_1Task_html_ac2099a8cdf44b31d8bdcce6d758f8f98"><div class="ttname"><a href="classL4_1_1Task.html#ac2099a8cdf44b31d8bdcce6d758f8f98">L4::Task::cap_valid</a></div><div class="ttdeci">l4_msgtag_t cap_valid(Cap&lt; void &gt; const &amp;cap, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Check whether a capability is present (refers to an object).</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00208">task:208</a></div></div>
 <div class="ttc" id="aclassL4_1_1Task_html_ac3a7a5e423b0b47ed028a6616fe74415"><div class="ttname"><a href="classL4_1_1Task.html#ac3a7a5e423b0b47ed028a6616fe74415">L4::Task::cap_equal</a></div><div class="ttdeci">l4_msgtag_t cap_equal(Cap&lt; void &gt; const &amp;cap_a, Cap&lt; void &gt; const &amp;cap_b, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Test whether two capabilities point to the same object with the same rights.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00225">task:225</a></div></div>
-<div class="ttc" id="aclassL4_1_1Task_html_af1eface9f54b9b2b396e837af5e75d8a"><div class="ttname"><a href="classL4_1_1Task.html#af1eface9f54b9b2b396e837af5e75d8a">L4::Task::add_ku_mem</a></div><div class="ttdeci">l4_msgtag_t add_ku_mem(l4_fpage_t const &amp;fpage, l4_utcb_t *utcb=l4_utcb()) noexcept</div><div class="ttdoc">Add kernel-user memory.</div><div class="ttdef"><b>Definition</b> <a href="task_source.html#l00253">task:253</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_gadc099b4a59e1d99638c72c11a8c8b644"><div class="ttname"><a href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a></div><div class="ttdeci">l4_utcb_t * l4_utcb(void) L4_NOTHROW L4_PURE</div><div class="ttdoc">Get the UTCB address.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00340">utcb.h:340</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
 <div class="ttc" id="aunionl4__fpage__t_html"><div class="ttname"><a href="unionl4__fpage__t.html">l4_fpage_t</a></div><div class="ttdoc">L4 flexpage type.</div><div class="ttdef"><b>Definition</b> <a href="____l4__fpage_8h_source.html#l00085">__l4_fpage.h:85</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -217,7 +220,7 @@ $(document).ready(function(){initNavTree('task_source.html',''); initResizable()
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="task.html">task</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

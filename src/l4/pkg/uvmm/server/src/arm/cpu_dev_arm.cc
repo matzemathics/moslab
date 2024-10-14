@@ -36,6 +36,17 @@ Cpu_dev::Cpu_dev(unsigned idx, unsigned phys_id, Vdev::Dt_node const *node)
       prop = node->get_prop<fdt32_t>("l4vmm,vpidr", &prop_size);
       if (prop && prop_size > 0)
         _dt_vpidr = node->get_prop_val(prop, prop_size, true);
+
+      char const *msa = node->get_prop<char>("l4vmm,msa", nullptr);
+      if (!msa)
+        msa = node->parent_node().get_prop<char>("l4vmm,msa", nullptr);
+
+      if (!msa || strcmp("vmsa", msa) == 0)
+        _pmsa = false;
+      else if (strcmp("pmsa", msa) == 0)
+        _pmsa = true;
+      else
+        L4Re::throw_error(-L4_EINVAL, "invalid l4vmm,msa property");
     }
 }
 
@@ -49,6 +60,8 @@ Cpu_dev::powerup_cpu()
   auto *registry = vcpu().get_ipc_registry();
   L4Re::chkcap(registry->register_irq_obj(&_restart_event),
                "Cannot register CPU restart event");
+
+  _stop_irq.arm(registry);
 }
 
 void
@@ -101,17 +114,17 @@ Cpu_dev::reset()
       l4_vcpu_e_write_32(*_vcpu, L4_VCPU_E_VPIDR,  _dt_vpidr);
     }
 
-  arm_subarch_setup(*_vcpu, !(_vcpu->r.flags & Flags_mode_32));
+  arm_subarch_setup(*_vcpu, !(_vcpu->r.flags & Flags_mode_32), _pmsa);
 
   //
   // Initialize vcpu state
   //
-  _vcpu->saved_state = L4_VCPU_F_FPU_ENABLED
-    | L4_VCPU_F_USER_MODE
-    | L4_VCPU_F_IRQ
-    | L4_VCPU_F_PAGE_FAULTS
-    | L4_VCPU_F_EXCEPTIONS;
-  _vcpu->entry_ip = (l4_umword_t) &vcpu_entry;
+  _vcpu->saved_state =   L4_VCPU_F_FPU_ENABLED
+                       | L4_VCPU_F_USER_MODE
+                       | L4_VCPU_F_IRQ
+                       | L4_VCPU_F_PAGE_FAULTS
+                       | L4_VCPU_F_EXCEPTIONS;
+  _vcpu->entry_ip = reinterpret_cast<l4_umword_t>(&vcpu_entry);
 
   if (!_vcpu->entry_sp)
     {

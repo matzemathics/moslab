@@ -70,10 +70,12 @@ IMPLEMENTATION[ux]:
 #include "config.h"
 #include "emulation.h"
 #include "initcalls.h"
-#include "kernel_console.h"
+//#include "kernel_console.h" // Mux_console => Timer => Irq_chip => Boot_info
+                              // => Kernel_console => Mux_console
 #include "koptions.h"
 #include "loader.h"
 #include "mem_layout.h"
+#include "paging_bits.h"
 
 int                     Boot_info::_fd;
 pid_t                   Boot_info::_pid;
@@ -180,12 +182,12 @@ Boot_info::kmem_start(Address mem_max)
   size = Koptions::o()->kmemsize << 10;
   if (!size)
     {
-      size = end_addr / 100 * Config::kernel_mem_per_cent;
-      if (size > Config::kernel_mem_max)
-	size = Config::kernel_mem_max;
+      size = end_addr / 100U * Config::kmem_per_cent();
+      if (size > Config::kmem_max())
+	size = Config::kmem_max();
     }
 
-  base = (end_addr - size) & Config::PAGE_MASK;
+  base = Pg::trunc(end_addr - size);
   if (Mem_layout::phys_to_pmem(base) < Mem_layout::Physmem)
     base = Mem_layout::pmem_to_phys(Mem_layout::Physmem);
 
@@ -281,7 +283,7 @@ Boot_info::init()
 
       case 'q':
         quiet = true;
-        Kconsole::console()->change_state(0, 0, ~Console::OUTENABLED, 0);
+        // Kconsole::console()->change_state(0, 0, ~Console::OUTENABLED, 0);
         break;
 
       case 't':
@@ -305,8 +307,7 @@ Boot_info::init()
             == 3)
           {
             _fb_size = _fb_width * _fb_height * ((_fb_depth + 7) >> 3);
-            _fb_size += ~Config::SUPERPAGE_MASK;
-            _fb_size &=  Config::SUPERPAGE_MASK;        // Round up to 4 MB
+            _fb_size = Super_pg::round(_fb_size);  // Round up to 4 MB
 
             _input_size  = Config::PAGE_SIZE;
           }
@@ -338,9 +339,9 @@ Boot_info::init()
     }
   }
 
-  if (_sp < ((Mem_layout::Host_as_base - 1) & Config::SUPERPAGE_MASK)
-      && munmap((void *)((Mem_layout::Host_as_base - 1) & Config::PAGE_MASK),
-	        Config::PAGE_SIZE) == -1 && errno == EINVAL)
+  if (_sp < Super_pg::trunc(Mem_layout::Host_as_base - 1)
+      && munmap(reinterpret_cast<void *>(Pg::trunc(Mem_layout::Host_as_base - 1)),
+                Config::PAGE_SIZE) == -1 && errno == EINVAL)
     {
       printf(" Fiasco-UX does only run with %dGB user address space size.\n"
              " Please make sure your host Linux kernel is configured for %dGB\n"
@@ -454,7 +455,7 @@ Boot_info::init()
   _max_mappable_address = memsize;
   mbi->mods_count = modcount - skip;
   mbi->mods_addr  = mbi_phys() + sizeof (*mbi);
-  mbm = reinterpret_cast<L4mod_mod *>((char *) mbi + sizeof (*mbi));
+  mbm = offset_cast<L4mod_mod *>(mbi, sizeof (*mbi));
   str = reinterpret_cast<char *>(mbm + modcount - skip);
 
   // Copying of modules starts at the top, right below the kmem reserved area
@@ -510,7 +511,7 @@ Boot_info::init()
       if (cmd)
         *cmd = ' ';
 
-      mbm->cmdline = str - (char *) mbi + mbi_phys();
+      mbm->cmdline = str - reinterpret_cast<char *>(mbi) + mbi_phys();
 
       // Copy module name with path and command line
       str = stpcpy (str, *m) + 1;
@@ -557,8 +558,7 @@ Boot_info::get_minimum_map_address()
   if (r == -1)
     _min_mappable_address = 0x10000;
 
-  _min_mappable_address
-    = (_min_mappable_address + (Config::PAGE_SIZE - 1)) & Config::PAGE_MASK;
+  _min_mappable_address = Pg::round(_min_mappable_address);
 }
 
 PRIVATE static
@@ -616,9 +616,9 @@ PUBLIC static inline
 unsigned long
 Boot_info::mbi_size()
 {
-  return (unsigned long)mbi_vbe()
+  return reinterpret_cast<unsigned long>(mbi_vbe())
     + sizeof (Multiboot_vbe_controller) + sizeof (Multiboot_vbe_mode)
-    - (unsigned long)mbi_virt();
+    - reinterpret_cast<unsigned long>(mbi_virt());
 }
 
 PUBLIC static inline
@@ -756,22 +756,24 @@ unsigned
 Boot_info::get_checksum_rw(void)
 { return 0; }
 
+// On UX, Koptions::o() reside on a writable section.
 
 PUBLIC static
 void
 Boot_info::set_wait()
-{ Koptions::o()->flags |= Koptions::F_wait; }
+{ const_cast<Koptions::Options *>(Koptions::o())->flags |= Koptions::F_wait; }
 
 PUBLIC static
 void
 Boot_info::kmemsize(unsigned int k)
-{ Koptions::o()->kmemsize = k; }
+{ const_cast<Koptions::Options *>(Koptions::o())->kmemsize = k; }
 
 PUBLIC static
 void
 Boot_info::set_jdb_cmd(const char *j)
 {
-  strncpy(Koptions::o()->jdb_cmd, j, sizeof(Koptions::o()->jdb_cmd) - 1);
-  Koptions::o()->jdb_cmd[sizeof(Koptions::o()->jdb_cmd) - 1] = 0;
+  auto *o = const_cast<Koptions::Options *>(Koptions::o());
+  strncpy(o->jdb_cmd, j, sizeof(Koptions::o()->jdb_cmd) - 1);
+  o->jdb_cmd[sizeof(Koptions::o()->jdb_cmd) - 1] = 0;
 }
 

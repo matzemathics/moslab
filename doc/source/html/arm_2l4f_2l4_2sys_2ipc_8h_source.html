@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: arm/l4f/l4/sys/ipc.h Source File</title>
+<title>L4Re Operating System Framework: arm/l4f/l4/sys/ipc.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -143,17 +146,17 @@ $(document).ready(function(){initNavTree('arm_2l4f_2l4_2sys_2ipc_8h_source.html'
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  (void)utcb;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  __asm__ __volatile__</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    (<span class="stringliteral">&quot;mov lr, pc    \n&quot;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>     <span class="stringliteral">&quot;mvn pc, %[sc] \n&quot;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    (<span class="stringliteral">&quot;mov r5, %[sc]         \n&quot;</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>     <span class="stringliteral">&quot;blx __l4_sys_syscall  \n&quot;</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>     :</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>     <span class="stringliteral">&quot;+r&quot;</span> (_dest),</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>     <span class="stringliteral">&quot;+r&quot;</span> (_timeout),</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>     <span class="stringliteral">&quot;+r&quot;</span> (_label),</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>     <span class="stringliteral">&quot;+r&quot;</span> (_tag)</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>     :</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>     [sc] <span class="stringliteral">&quot;i&quot;</span> (~(L4_SYSCALL_INVOKE))</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>     [sc] <span class="stringliteral">&quot;i&quot;</span> (L4_SYSCALL_INVOKE)</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>     :</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>     <span class="stringliteral">&quot;cc&quot;</span>, <span class="stringliteral">&quot;memory&quot;</span>, <span class="stringliteral">&quot;lr&quot;</span>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>     <span class="stringliteral">&quot;cc&quot;</span>, <span class="stringliteral">&quot;memory&quot;</span>, <span class="stringliteral">&quot;r5&quot;</span>, <span class="stringliteral">&quot;ip&quot;</span>, <span class="stringliteral">&quot;lr&quot;</span>);</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <span class="keywordflow">if</span> (rlabel)</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    *rlabel = _label;</div>
@@ -167,15 +170,15 @@ $(document).ready(function(){initNavTree('arm_2l4f_2l4_2sys_2ipc_8h_source.html'
 <div class="ttc" id="acompiler_8h_html"><div class="ttname"><a href="compiler_8h.html">compiler.h</a></div><div class="ttdoc">L4 compiler related defines.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga51d9492e7700d70ed35838154ca9b279"><div class="ttname"><a href="group__l4__basic__types.html#ga51d9492e7700d70ed35838154ca9b279">l4_mword_t</a></div><div class="ttdeci">signed long l4_mword_t</div><div class="ttdoc">Signed machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00048">l4int.h:48</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4__ipc__api_html_ga1caa56d45e0453b3002e7f5cfdb0dec7"><div class="ttname"><a href="group__l4__ipc__api.html#ga1caa56d45e0453b3002e7f5cfdb0dec7">l4_ipc</a></div><div class="ttdeci">l4_msgtag_t l4_ipc(l4_cap_idx_t dest, l4_utcb_t *utcb, l4_umword_t flags, l4_umword_t slabel, l4_msgtag_t tag, l4_umword_t *rlabel, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Generic L4 object invocation.</div><div class="ttdef"><b>Definition</b> <a href="amd64_2l4f_2l4_2sys_2ipc_8h_source.html#l00033">ipc.h:33</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga362dfa378e662dd04f710a23fc7ea931"><div class="ttname"><a href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div><div class="ttdeci">#define L4_NOTHROW</div><div class="ttdoc">Mark a function declaration and definition as never throwing an exception.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00188">compiler.h:188</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_adcc4bbec40c01f7418f800e071d9712f"><div class="ttname"><a href="structl4__msgtag__t.html#adcc4bbec40c01f7418f800e071d9712f">l4_msgtag_t::raw</a></div><div class="ttdeci">l4_mword_t raw</div><div class="ttdoc">raw value</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00164">types.h:164</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_adcc4bbec40c01f7418f800e071d9712f"><div class="ttname"><a href="structl4__msgtag__t.html#adcc4bbec40c01f7418f800e071d9712f">l4_msgtag_t::raw</a></div><div class="ttdeci">l4_mword_t raw</div><div class="ttdoc">raw value</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00165">types.h:165</a></div></div>
 <div class="ttc" id="asyscall__defs_8h_html"><div class="ttname"><a href="syscall__defs_8h.html">syscall_defs.h</a></div><div class="ttdoc">Syscall entry definitions.</div></div>
-<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00059">__timeout.h:59</a></div></div>
+<div class="ttc" id="aunionl4__timeout__t_html"><div class="ttname"><a href="unionl4__timeout__t.html">l4_timeout_t</a></div><div class="ttdoc">Timeout pair.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00060">__timeout.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -183,7 +186,7 @@ $(document).ready(function(){initNavTree('arm_2l4f_2l4_2sys_2ipc_8h_source.html'
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_0d0fa5d0311b8000470d732da0750893.html">arm</a></li><li class="navelem"><a class="el" href="dir_df24d41d98786fa25d74de76b6a05081.html">l4f</a></li><li class="navelem"><a class="el" href="dir_8d3312329742157cbf7d69cbc3c33f9a.html">l4</a></li><li class="navelem"><a class="el" href="dir_5aaa7e4135aa09424fc8dcfe38c9cb8a.html">sys</a></li><li class="navelem"><a class="el" href="arm_2l4f_2l4_2sys_2ipc_8h.html">ipc.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

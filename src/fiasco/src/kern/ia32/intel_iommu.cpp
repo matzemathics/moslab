@@ -19,6 +19,9 @@ class Io_mmu :
   public Pm_object
 {
 public:
+  /// Maximum number of IOMMUs.
+  enum { Max_iommus = 16 };
+
   /// Command and status register bits
   enum Cmd_bits
   {
@@ -166,10 +169,12 @@ public:
   {
     Address va;
     volatile Unsigned64 &operator [] (Reg_64 index)
-    { return *(Unsigned64 volatile *)(va + (unsigned)index); }
+    { return *reinterpret_cast<Unsigned64 volatile *>(
+               va + static_cast<unsigned>(index)); }
 
     volatile Unsigned32 &operator [] (Reg_32 index)
-    { return *(Unsigned32 volatile *)(va + (unsigned)index); }
+    { return *reinterpret_cast<Unsigned32 volatile *>(
+               va + static_cast<unsigned>(index)); }
   };
 
   enum
@@ -344,9 +349,7 @@ public:
   Irte volatile *_irq_remapping_table = 0;
   unsigned _irq_remap_table_size = 0;
 
-  Io_mmu()
-  : _lock(Spin_lock<>::Unlocked), _inv_q_lock(Spin_lock<>::Unlocked)
-  {}
+  Io_mmu() = default;
 
   unsigned idx() const
   { return this - iommus.begin(); }
@@ -542,7 +545,7 @@ public:
   template<typename... Inv_descs>
   static void queue_and_wait_on_iommus(bool const *need_inv, Inv_descs... descs)
   {
-    Unsigned32 volatile wait_flags[iommus.size()];
+    Unsigned32 volatile wait_flags[Max_iommus];
     for (unsigned i = 0; i < iommus.size(); i++)
       {
         // Skip if this IOMMU does not need invalidation.
@@ -844,6 +847,9 @@ Intel::Io_mmu::init(Cpu_number cpu)
     if (de.cast<ACPI::Dmar_drhd>())
       ++units;
 
+  if (units > Max_iommus)
+    panic("Cannot handle more than %d IOMMUs", Max_iommus);
+
   // need to take a copy of the DMAR into the kernel AS as the ACPI
   // are mapped only into IDLE AS!
   void *dmar = Boot_alloced::alloc(d->len);
@@ -947,7 +953,7 @@ Intel::Io_mmu::get_context_entry(Unsigned8 bus, Unsigned8 df, bool may_alloc)
   cxx::Protected<Rte, true> rte = &_root_table[bus];
 
   if (rte->present())
-    return ((Cte *)Mem_layout::phys_to_pmem(rte->ctp())) + df;
+    return reinterpret_cast<Cte *>(Mem_layout::phys_to_pmem(rte->ctp())) + df;
 
   if (EXPECT_FALSE(!may_alloc))
     return 0;
@@ -973,7 +979,8 @@ Intel::Io_mmu::get_context_entry(Unsigned8 bus, Unsigned8 df, bool may_alloc)
           g.reset();
           // we assume context tables are never freed
           Kmem_alloc::allocator()->free(Ct_bytes, ctx);
-          return ((Cte *)Mem_layout::phys_to_pmem(rte->ctp())) + df;
+          return reinterpret_cast<Cte *>(Mem_layout::phys_to_pmem(rte->ctp()))
+                 + df;
         }
 
       write_consistent(rte.unsafe_ptr(), n);
@@ -981,5 +988,5 @@ Intel::Io_mmu::get_context_entry(Unsigned8 bus, Unsigned8 df, bool may_alloc)
 
   clean_dcache(rte.unsafe_ptr());
 
-  return ((Cte *)ctx) + df;
+  return reinterpret_cast<Cte *>(ctx) + df;
 }

@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* Copyright (C) 1992, 1997, 1998, 2000 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -32,21 +31,12 @@ char *
 get_current_dir_name (void)
 {
 	char *pwd;
-#ifdef __UCLIBC_HAS_LFS__
 	struct stat64 dotstat, pwdstat;
-#else
-	struct stat dotstat, pwdstat;
-#endif
 
 	pwd = getenv ("PWD");
 	if (pwd != NULL
-#ifdef __UCLIBC_HAS_LFS__
 		&& stat64 (".", &dotstat) == 0
 		&& stat64 (pwd, &pwdstat) == 0
-#else
-		&& stat (".", &dotstat) == 0
-		&& stat (pwd, &pwdstat) == 0
-#endif
 		&& pwdstat.st_dev == dotstat.st_dev
 		&& pwdstat.st_ino == dotstat.st_ino)
 		/* The PWD value is correct.  Use it.  */

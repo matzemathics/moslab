@@ -160,7 +160,8 @@ public:
   unsigned long quantum;
 
   void print(String_buffer *buf) const;
-} __attribute__((packed));
+};
+static_assert(sizeof(Tb_entry_sched) <= Tb_entry::Tb_entry_size);
 
 
 IMPLEMENTATION [debug]:
@@ -178,8 +179,7 @@ Tb_entry_sched::print(String_buffer *buf) const
               mode == 0 ? "save" :
               mode == 1 ? "load" :
               mode == 2 ? "invl" : "????",
-              t,
-              (unsigned)id, (unsigned)prio, left, quantum);
+              t, id, prio, left, quantum);
 }
 
 

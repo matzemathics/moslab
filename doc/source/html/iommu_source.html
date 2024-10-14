@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/iommu Source File</title>
+<title>L4Re Operating System Framework: l4/sys/iommu Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -127,14 +130,14 @@ $(document).ready(function(){initNavTree('iommu_source.html',''); initResizable(
 <div class="ttc" id="aclassL4_1_1Iommu_html"><div class="ttname"><a href="classL4_1_1Iommu.html">L4::Iommu</a></div><div class="ttdoc">Interface for IO-MMUs used for DMA remapping.</div><div class="ttdef"><b>Definition</b> <a href="iommu_source.html#l00021">iommu:23</a></div></div>
 <div class="ttc" id="aclassL4_1_1Iommu_html_a6e8cb181bc232ecb19b801f4cd2f9b73"><div class="ttname"><a href="classL4_1_1Iommu.html#a6e8cb181bc232ecb19b801f4cd2f9b73">L4::Iommu::unbind</a></div><div class="ttdeci">l4_msgtag_t unbind(l4_uint64_t src_id, Ipc::Cap&lt; Task &gt; dma_space)</div><div class="ttdoc">Remove the association of the given DMA address space from the device(s) specified by src_id.</div></div>
 <div class="ttc" id="aclassL4_1_1Iommu_html_ae67c4c28d904b7ed1bcfe3d7c83011ba"><div class="ttname"><a href="classL4_1_1Iommu.html#ae67c4c28d904b7ed1bcfe3d7c83011ba">L4::Iommu::bind</a></div><div class="ttdeci">l4_msgtag_t bind(l4_uint64_t src_id, Ipc::Cap&lt; Task &gt; dma_space)</div><div class="ttdoc">Associate dma_space with the set of device(s) specified by src_id.</div></div>
-<div class="ttc" id="aclassL4_1_1Ipc_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a></div><div class="ttdoc">Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00545">ipc_types:546</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a></div><div class="ttdoc">Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00562">ipc_types:563</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_gaf3331c485014bd12a9e4f9d27a55e689"><div class="ttname"><a href="group__l4__basic__types.html#gaf3331c485014bd12a9e4f9d27a55e689">l4_uint64_t</a></div><div class="ttdeci">unsigned long long l4_uint64_t</div><div class="ttdoc">Unsigned 64bit value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00042">l4int.h:42</a></div></div>
 <div class="ttc" id="aipc__iface_html"><div class="ttname"><a href="ipc__iface.html">ipc_iface</a></div><div class="ttdoc">Interface Definition Language.</div></div>
 <div class="ttc" id="aipc__iface_html_a5772eb61b611f8f17bbc89e02e534ca1"><div class="ttname"><a href="ipc__iface.html#a5772eb61b611f8f17bbc89e02e534ca1">L4_INLINE_RPC</a></div><div class="ttdeci">#define L4_INLINE_RPC(res, name, args, attr...)</div><div class="ttdoc">Define an inline RPC call (type and callable).</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00469">ipc_iface:469</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
-<div class="ttc" id="astructL4_1_1Kobject__x_html"><div class="ttname"><a href="structL4_1_1Kobject__x.html">L4::Kobject_x</a></div><div class="ttdoc">Generic Kobject inheritance template.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l01206">__typeinfo.h:1206</a></div></div>
-<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs__code_1_1F_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs__code_1_1F.html">L4::Typeid::Rpcs_code::F</a></div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00455">__typeinfo.h:455</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
+<div class="ttc" id="astructL4_1_1Kobject__x_html"><div class="ttname"><a href="structL4_1_1Kobject__x.html">L4::Kobject_x</a></div><div class="ttdoc">Generic Kobject inheritance template.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l01208">__typeinfo.h:1208</a></div></div>
+<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs__code_1_1F_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs__code_1_1F.html">L4::Typeid::Rpcs_code::F</a></div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00456">__typeinfo.h:456</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -142,7 +145,7 @@ $(document).ready(function(){initNavTree('iommu_source.html',''); initResizable(
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><b>iommu</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

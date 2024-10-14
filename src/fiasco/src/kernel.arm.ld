@@ -1,12 +1,13 @@
 /* -*- c -*- */
 
-#include "globalconfig.h"
 #include "kernel.ld.inc"
 
 /* This file defines the construction of the kernel's virtual address
    space. Has to be kept in sync with
    src/kern/arm/{32,64}/mem_layout_-arm-*.cpp! */
-#if defined CONFIG_BIT32
+#if !defined(CONFIG_MMU)
+virt_address       = kernel_load_addr;
+#elif defined CONFIG_BIT32
 virt_address       = 0xf0000000;
 #elif defined CONFIG_CPU_VIRT
 virt_address       = 0x0000ffff40000000;
@@ -18,25 +19,23 @@ phys_offset        = virt_address - kernel_load_addr;
 #if defined CONFIG_BIT32
 OUTPUT_FORMAT("elf32-littlearm", "elf32-bigarm",
               "elf32-littlearm")
-
 OUTPUT_ARCH(arm)
-#define WORD_SIZE 4
-#define MWORD LONG
-
 #elif defined CONFIG_BIT64
-
 OUTPUT_FORMAT("elf64-littleaarch64", "elf64-bigaarch64",
               "elf64-littleaarch64")
-
 OUTPUT_ARCH(aarch64)
-#define WORD_SIZE 8
-#define MWORD QUAD
 #else
 # error Either CONFIG_BIT32 or CONFIG_BIT64 must be set
 #endif
 
-#if defined CONFIG_BIT32 && !defined CONFIG_CPU_VIRT
+#if defined CONFIG_BIT32 && !defined CONFIG_CPU_VIRT && defined CONFIG_MMU
 # define NEED_EXCPT
+#endif
+
+#if defined CONFIG_MMU
+# define PAGE_ALIGN 4K
+#else
+# define PAGE_ALIGN 64  // MPU region boundary
 #endif
 
 ENTRY(_start)
@@ -45,13 +44,17 @@ PHDRS {
   bstrap PT_LOAD;
   kip PT_LOAD;
   koptions PT_LOAD;
-  tramp PT_LOAD;
-  kernel PT_LOAD;
+  tramp_data PT_LOAD;
+  tramp_text PT_LOAD;
+  ktext PT_LOAD;
+  kdata PT_LOAD;
 #if defined NEED_EXCPT
   excpt PT_LOAD;
 #endif
-  initcall PT_LOAD;
+  initcall_data PT_LOAD;
+#if defined(CONFIG_MMU)
   dyn PT_DYNAMIC;
+#endif
   l4_kip 0x10;
   l4_koptions 0x11;
 }
@@ -81,12 +84,16 @@ SECTIONS {
     KEEP(*(.bootstrap.text))
   } :bstrap
 
+#if defined(CONFIG_MMU)
   /* Dummy dynamic section to appear as PIE to bootstrap. The real one is in
-   * .bootstrap.text. */
+   * .bootstrap.text. In fact, only the bootstrap stage of Fiasco is position
+   * independent. The rest is always linked position dependent. This makes
+   * a no-MMU kernel position dependent! */
   .dynamic : {
     QUAD(0)
     QUAD(0)
   } :bstrap :dyn
+#endif
 
   . = ALIGN(4K);
   end_of_loader = .;
@@ -104,15 +111,31 @@ SECTIONS {
     /* See KIP layout in abi/kip.cpp. The feature strings are terminated by '\0'! */
     ASSERT (_initkip_end < my_kernel_info_page + 0x800, "Kernel version strings too long");
     . = ALIGN(4K);
+    KEEP(*(.kernel_info_page.amp))
   } :kip :l4_kip
 
   .koptions : AT (ADDR(.koptions) - phys_offset) {
+    // No-MMU kernels map the KIP with a separate region! So the kernel image
+    // region actually starts from here in this case.
+    _kernel_kip_end = .;
     *(.koptions)
   } :koptions :l4_koptions
 
-  .mp_tramp : AT (ADDR(.mp_tramp) - phys_offset) {
-    KEEP(*(.mp_tramp))
-  } :tramp
+  .mp_tramp_data : AT (ADDR(.mp_tramp_data) - phys_offset) {
+    KEEP(*(.mp_tramp_data))
+  } :tramp_data
+
+  /*
+   * With the 2M alignment begins the executable part of the kernel address
+   * space.
+   */
+#if defined CONFIG_KERNEL_NX && defined CONFIG_BIT64
+  . = ALIGN(2M);
+#endif
+  _rx_start = .;
+  .mp_tramp_text : AT (ADDR(.mp_tramp_text) - phys_offset) {
+    KEEP(*(.mp_tramp_text))
+  } :tramp_text
 
   .text_kernel : AT (ADDR(.text_kernel) - phys_offset) {
     crt0.o(.text)
@@ -122,6 +145,14 @@ SECTIONS {
     *(.got .got.*)
     *(.fini)
 
+    /*
+     * As we are using 2M-PTEs, there is no point in using one for normal
+     * kernel text and another one for initcalls. In our case, there is enough
+     * room to put the initcalls under one PTE together with kernel text.
+     */
+    *(.initcall.text*)
+    *(.alt_insn_replacement)
+
     *(.text.jdb)
 
     PROVIDE (_ecode = .);
@@ -129,20 +160,34 @@ SECTIONS {
     *(.rodata .rodata.* .gnu.linkonce.r.* .rodata1)
     KEEP(*(.rodata.log.*))
 
-    . = ALIGN(WORD_SIZE);
-    JDB_TABLE(log);
+    DEFINE_WORKLOAD_SECTIONS
+
     . = ALIGN(WORD_SIZE);
     JDB_TABLE(typeinfo);
 
     . = ALIGN(0x40);
 
     PROVIDE (_etext = .);
-  } :kernel
+  } :ktext
 
-  __llvm_covmap : { KEEP(*(__llvm_covmap)) } :kernel
-  __llvm_covfun : { KEEP(*(__llvm_covfun)) } :kernel
-  __llvm_prf_data : { KEEP(*(__llvm_prf_data)) } :kernel
-  __llvm_prf_names : { KEEP(*(__llvm_prf_names)) } :kernel
+  __llvm_covmap : { KEEP(*(__llvm_covmap)) } :ktext
+  __llvm_covfun : { KEEP(*(__llvm_covfun)) } :ktext
+  __llvm_prf_data : { KEEP(*(__llvm_prf_data)) } :ktext
+  __llvm_prf_names : { KEEP(*(__llvm_prf_names)) } :ktext
+
+  /*
+   * This section serves the purpose of taking up the remainder of the last 2M
+   * up to a new 2M boundary without taking up any space in the file (the linker
+   * script can apparently do this only for writable sections). This way we tell
+   * the kernel this memory (i.e. the executable part of the kernel address
+   * space) is reserved and should not be used for anything.
+   */
+  .fill_kernel : AT (ADDR(.fill_kernel) - phys_offset) {
+#if defined CONFIG_KERNEL_NX && defined CONFIG_BIT64
+    . = ALIGN(2M);
+#endif
+  }
+  _rx_end = .;
 
   .data_kernel : AT (ADDR(.data_kernel) - phys_offset) {
     *(.data .data.* .gnu.linkonce.d.*)
@@ -153,15 +198,23 @@ SECTIONS {
     *(.anno)
     *(.data.jdb)
 
+#if defined(CONFIG_AMP)
+    ASSERT(. == _etext, "No DATA allowed");
+#endif
+
     *(.init.data)
 
     . = ALIGN(8);
     DEFINE_INIT_ARRAYS
 
-    PROVIDE(_edata  =  .);
-  } :kernel
+    . = ALIGN(WORD_SIZE);
+    JDB_TABLE(log);
 
-  __llvm_prf_cnts : { KEEP(*(__llvm_prf_cnts)) } :kernel
+    PROVIDE(_edata  =  .);
+  } :kdata
+
+  __llvm_prf_bits : { KEEP(*(__llvm_prf_bits)) } :kdata
+  __llvm_prf_cnts : { KEEP(*(__llvm_prf_cnts)) } :kdata
 
   . = ALIGN(8);
   .per_cpu_data : AT (ADDR(.per_cpu_data) - phys_offset) {
@@ -169,14 +222,14 @@ SECTIONS {
     *(.per_cpu.data)
     . = ALIGN(8);
     PROVIDE (_per_cpu_data_end = .);
-  } :kernel
+  } :kdata
 
   /* ARM AEABI */
   . = ALIGN(8);
   .ARM.exidx : { *(.ARM.exidx.*) }
   .ARM.extab : { *(.ARM.extab.*) }
 
-  . = ALIGN(4K);
+  . = ALIGN(8);
   .bss : AT (ADDR(.bss) - phys_offset) {
     PROVIDE(__bss_start = .);
     . = ALIGN(4);
@@ -186,38 +239,54 @@ SECTIONS {
     _per_cpu_ctor_data_end = .;
     *(.bss .bss.* COMMON .gnu.linkonce.b.*)
     *(.bss.jdb)
+#if defined(CONFIG_AMP)
+    ASSERT(. == __bss_start, "No BSS allowed");
+#endif
+    *(.init.bss)
     PROVIDE(__bss_end = .);
-    . = ALIGN(4K);
-  } :kernel
+  } :kdata
+
+#if defined(CONFIG_AMP)
+  . = ALIGN(PAGE_ALIGN);
+  .global_data : AT (ADDR(.global_data) - phys_offset) {
+    PROVIDE(__global_data_start = .);
+    *(.global_data)
+    . = ALIGN(64);
+    PROVIDE(__global_data_end = .);
+
+    . = . + (__global_data_end - __global_data_start) * (CONFIG_MP_MAX_CPUS - 1);
+  } :kdata
+#endif
+
   __end_of_the_kernel = .;
 
 #if defined NEED_EXCPT
-  ivt_start = ADDR(.bss) + SIZEOF(.bss) - phys_offset;
+  ivt_start = ALIGN(. - phys_offset, 4K);
   .excp 0xffff0000 : AT (ivt_start) {
     KEEP (*(.vect)) *(.excp.text)
     *(.vect.extra)
+    . = ALIGN(4K);
   } :excpt
 
-  . = __end_of_the_kernel + SIZEOF(.excp);
+  . = ivt_start + phys_offset + SIZEOF(.excp);
 #endif
 
   PROVIDE( _end = . );
 
-  . = ALIGN(4K);
-  .initcall : AT (ADDR(.initcall) - phys_offset) {
-    _initcall_start = .;
-    *(.initcall.*)
+  _initcall_start = .;
+  .initcall_data : AT (ADDR(.initcall_data) - phys_offset) {
+    *(.initcall.data*)
     PROVIDE (_alt_insns_begin = .);
     KEEP(*(SORT(.alt_insns)))
     PROVIDE (_alt_insns_end = .);
-    *(.alt_insn_replacement)
-    . = ALIGN(4K);
-    _initcall_end = .;
-  } :initcall
+    . = ALIGN(PAGE_ALIGN);
+  } :initcall_data
+  _initcall_end = .;
 
   /DISCARD/ :{
     *(.stab .stabstr .stab.excl .stab.exclstr)
     *(.stab.index .stab.indexstr .comment)
+    *(.eh_frame)
   }
 
 }

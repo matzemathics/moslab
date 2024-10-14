@@ -1,15 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classcxx_1_1Bits_1_1Bst.html" title="Basic binary search tree (BST)." alt="" coords="5,232,167,272"/>
-<area shape="rect" id="Node000001" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="221,5,410,75"/>
-<area shape="poly" id="edge19_Node000000_Node000001" title=" " alt="" coords="103,218,149,152,179,117,213,85,230,73,233,77,216,89,183,120,153,156,108,221"/>
-<area shape="rect" id="Node000002" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="217,99,413,168"/>
-<area shape="poly" id="edge20_Node000000_Node000002" title=" " alt="" coords="132,222,213,178,237,166,240,171,216,182,135,227"/>
-<area shape="rect" id="Node000003" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="236,192,395,232"/>
-<area shape="poly" id="edge21_Node000000_Node000003" title=" " alt="" coords="180,233,235,223,236,228,181,238"/>
-<area shape="rect" id="Node000004" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="215,256,416,325"/>
-<area shape="poly" id="edge22_Node000000_Node000004" title=" " alt="" coords="181,265,215,271,214,276,180,271"/>
-<area shape="rect" id="Node000005" href="$classcxx_1_1Avl__tree.html" title=" " alt="" coords="230,349,401,389"/>
-<area shape="poly" id="edge23_Node000000_Node000005" title=" " alt="" coords="125,278,168,308,216,335,244,347,242,352,213,340,165,312,122,283"/>
-<area shape="rect" id="Node000006" href="$classcxx_1_1Avl__tree.html" title="A generic AVL tree." alt="" coords="235,413,396,453"/>
-<area shape="poly" id="edge24_Node000000_Node000006" title=" " alt="" coords="109,282,153,342,183,373,216,399,238,411,235,416,213,404,179,376,149,345,104,285"/>
+<area shape="rect" id="Node000000" href="$classcxx_1_1Bits_1_1Bst.html" title=" " alt="" coords="5,5,263,60"/>
 </map>

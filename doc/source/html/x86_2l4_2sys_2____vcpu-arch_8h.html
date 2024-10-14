@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: x86/l4/sys/__vcpu-arch.h File Reference</title>
+<title>L4Re Operating System Framework: x86/l4/sys/__vcpu-arch.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -107,7 +110,7 @@ $(document).ready(function(){initNavTree('x86_2l4_2sys_2____vcpu-arch_8h.html','
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="x86_2l4_2sys_2____vcpu-arch_8h__incl.svg" width="535" height="330"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="x86_2l4_2sys_2____vcpu-arch_8h__incl.svg" width="506" height="330"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="x86_2l4_2sys_2____vcpu-arch_8h_source.html">Go to the source code of this file.</a></p>
@@ -141,17 +144,24 @@ typedef struct <a class="el" href="structl4__vcpu__ipc__regs__t.html">l4_vcpu_ip
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a1e8054db89feba236b2235d16d0bd1ad" id="r_a1e8054db89feba236b2235d16d0bd1ad"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="x86_2l4_2sys_2____vcpu-arch_8h.html#a1e8054db89feba236b2235d16d0bd1ada18f169cebe4da9364dc6e58a81184fc2">L4_VCPU_STATE_VERSION</a> = 0x43
+<tr class="memitem:a441c033e3d3f086db9e3901c0d66bd3d" id="r_a441c033e3d3f086db9e3901c0d66bd3d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="x86_2l4_2sys_2____vcpu-arch_8h.html#a441c033e3d3f086db9e3901c0d66bd3da18f169cebe4da9364dc6e58a81184fc2">L4_VCPU_STATE_VERSION</a> = 0x45
+, <b>L4_VCPU_STATE_SIZE</b> = 0x200
+, <b>L4_VCPU_STATE_EXT_SIZE</b> = L4_PAGESIZE
  }</td></tr>
-<tr class="separator:a1e8054db89feba236b2235d16d0bd1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a441c033e3d3f086db9e3901c0d66bd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa9c9426f606dfa123ace57a1081e4e1b" id="r_gaa9c9426f606dfa123ace57a1081e4e1b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__vcpu__api.html#gaa9c9426f606dfa123ace57a1081e4e1b">L4_vcpu_state_offset</a> { <a class="el" href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3">L4_VCPU_OFFSET_EXT_STATE</a> = 0x400
+, <a class="el" href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5">L4_VCPU_OFFSET_EXT_INFOS</a> = 0x200
+ }</td></tr>
+<tr class="memdesc:gaa9c9426f606dfa123ace57a1081e4e1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offsets for vCPU state layouts.  <a href="group__l4__vcpu__api.html#gaa9c9426f606dfa123ace57a1081e4e1b">More...</a><br /></td></tr>
+<tr class="separator:gaa9c9426f606dfa123ace57a1081e4e1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>x86-specific vCPU interface. </p>
 
 <p class="definition">Definition in file <a class="el" href="x86_2l4_2sys_2____vcpu-arch_8h_source.html">__vcpu-arch.h</a>.</p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a1e8054db89feba236b2235d16d0bd1ad" name="a1e8054db89feba236b2235d16d0bd1ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e8054db89feba236b2235d16d0bd1ad">&#9670;&#160;</a></span>anonymous enum</h2>
+<a id="a441c033e3d3f086db9e3901c0d66bd3d" name="a441c033e3d3f086db9e3901c0d66bd3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a441c033e3d3f086db9e3901c0d66bd3d">&#9670;&#160;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,7 +172,7 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1ada18f169cebe4da9364dc6e58a81184fc2" name="a1e8054db89feba236b2235d16d0bd1ada18f169cebe4da9364dc6e58a81184fc2"></a>L4_VCPU_STATE_VERSION&#160;</td><td class="fielddoc"><p>Architecture-specific version ID. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a441c033e3d3f086db9e3901c0d66bd3da18f169cebe4da9364dc6e58a81184fc2" name="a441c033e3d3f086db9e3901c0d66bd3da18f169cebe4da9364dc6e58a81184fc2"></a>L4_VCPU_STATE_VERSION&#160;</td><td class="fielddoc"><p>Architecture-specific version ID. </p>
 <p>This ID must match the version field in the <a class="el" href="structl4__vcpu__state__t.html" title="State of a vCPU.">l4_vcpu_state_t</a> structure after enabling vCPU mode or extended vCPU mode for a thread. </p>
 </td></tr>
 </table>
@@ -178,7 +188,7 @@ Enumerations</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d979004d17f5223e5cbcd0eb3b9cd5ac.html">x86</a></li><li class="navelem"><a class="el" href="dir_3fa9cbe562e25975b065e1d6353565fc.html">l4</a></li><li class="navelem"><a class="el" href="dir_d1a376e4e13c495211e57ea71486fb55.html">sys</a></li><li class="navelem"><a class="el" href="x86_2l4_2sys_2____vcpu-arch_8h.html">__vcpu-arch.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

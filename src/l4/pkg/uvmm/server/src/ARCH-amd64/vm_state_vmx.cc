@@ -5,6 +5,7 @@
  *            Philipp Eppelt <philipp.eppelt@kernkonzept.com>
  */
 
+#include <l4/re/env>
 #include "vm_state_vmx.h"
 #include "consts.h"
 #include "event_recorder.h"
@@ -32,6 +33,23 @@ enum : unsigned long
 
   Entry_ctrl_ia32e_bit = 1UL << 9,
 };
+
+Vmx_state::Vmx_state(void *vmcs)
+  :  _vmcs(vmcs),
+    _hw_vmcs(L4Re::chkcap(L4Re::Util::make_unique_cap<L4::Vcpu_context>(),
+                          "Failed to allocate hardware VMCS capability."))
+{
+  // Create the hardware VMCS
+  auto *env = L4Re::Env::env();
+  auto ret = env->factory()->create(_hw_vmcs.get(), L4_PROTO_VCPU_CONTEXT);
+  if (l4_error(ret) < 0)
+    L4Re::chksys(ret, "Cannot create guest VM hardware VMCS. Virtualization "
+                      "support may be missing.");
+
+  if (l4_vm_vmx_get_caps(vmcs, L4_VM_VMX_NESTED_REVISION) != 0)
+    info().printf("vCPU interface supports nested virtualization. However, "
+                  "uvmm does not implement nested virtualization.\n");
+}
 
 /**
  * Handle exits due to HW/SW exceptions, NMIs, and external interrupts.
@@ -131,10 +149,6 @@ Vmx_state::read_msr(unsigned msr, l4_uint64_t *value) const
           // Lock register so the guest does not try to enable anything.
           *value = 1U;
           break;
-        case 0xfe: // IA32_MTRRCAP
-        case 0x2ff: // IA32_MTRR_DEF_TYPE
-          *value = 0U;
-          break;
         case 0x277: // IA32_PAT
           *value = vmx_read(VMCS_GUEST_IA32_PAT);
           break;
@@ -183,16 +197,22 @@ Vmx_state::write_msr(unsigned msr, l4_uint64_t value, Event_recorder *ev_rec)
       // 0x2 and 0x3 are reserved encodings
       // usage of reserved bits and encodings results in a #GP
       if (value & 0xF8F8F8F8F8F8F8F8ULL)
-        return false;
+        {
+          ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
+          break;
+        }
+
       for (unsigned i = 0; i < 7; ++i)
-        if (((value & (0x7ULL << i*8)) >> i*8 == 0x2ULL)
-            || ((value & (0x7ULL << i*8)) >> i*8 == 0x3ULL))
-          return false;
+        {
+          l4_uint64_t const PAi_mask = (value & (0x7ULL << i * 8)) >> i * 8;
+          if ((PAi_mask == 0x2ULL) || (PAi_mask == 0x3ULL))
+            {
+              ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
+              break;
+            }
+        }
+
       vmx_write(VMCS_GUEST_IA32_PAT, value);
-      break;
-    case 0x2ff: // IA32_MTRR_DEF_TYPE
-      // We report no MTRRs in the IA32_MTRRCAP MSR. Thus we ignore writes here.
-      // MTRRs might also be disabled temporarily by the guest.
       break;
     case 0xc0000080: // efer
       {
@@ -237,12 +257,11 @@ Vmx_state::write_msr(unsigned msr, l4_uint64_t value, Event_recorder *ev_rec)
 }
 
 int
-Vmx_state::handle_cr_access(l4_vcpu_regs_t *regs, Event_recorder *ev_rec)
+Vmx_state::handle_cr_access(l4_vcpu_regs_t *regs)
 {
   auto qual = vmx_read(VMCS_EXIT_QUALIFICATION);
   int crnum;
   l4_umword_t newval;
-  long retval = Jump_instr;
 
   switch ((qual >> 4) & 3)
     {
@@ -297,10 +316,7 @@ Vmx_state::handle_cr_access(l4_vcpu_regs_t *regs, Event_recorder *ev_rec)
                 || (!(efer & Efer_lme_bit) && (cr4 & Cr4_la57_bit)))
               {
                 // inject GPF and do not write CR0
-                ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
-
-                retval = Retry;
-                break;
+                return General_protection;
               }
 
             // LA57:   Cr4.PAE,  EFER.LME,  Cr4.LA57
@@ -353,20 +369,14 @@ Vmx_state::handle_cr_access(l4_vcpu_regs_t *regs, Event_recorder *ev_rec)
             if ((newval & Cr4_la57_bit) != (old_cr4 & Cr4_la57_bit))
               {
                 // inject GPF and do not write CR4
-                ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
-
-                retval = Retry;
-                break;
+                return General_protection;
               }
 
             l4_uint64_t efer = vmx_read(VMCS_GUEST_IA32_EFER);
             if (!(newval & Cr4_pae_bit) && (efer & Efer_lme_bit))
               {
                 // inject GPF and do not write CR4
-                ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
-
-                retval = Retry;
-                break;
+                return General_protection;
               }
             // !EFER.LME means either PAE or 32-bit paging. Transitioning
             // between these two while Cr0.PG is set is allowed.
@@ -389,15 +399,23 @@ Vmx_state::handle_cr_access(l4_vcpu_regs_t *regs, Event_recorder *ev_rec)
 
     default:
       warn().printf("Unknown CR access.\n");
-      retval = -L4_EINVAL;
+      return -L4_EINVAL;
     }
-  return retval;
+
+  return Jump_instr;
 }
 
 int
 Vmx_state::handle_hardware_exception(Event_recorder *ev_rec, unsigned num,
                                      l4_uint32_t err_code)
 {
+  if (in_real_mode())
+    {
+      // In real mode, exceptions do not push an error code.
+      ev_rec->make_add_event<Real_mode_exc>(Event_prio::Exception, num);
+      return Retry;
+    }
+
   // Reflect all hardware exceptions to the guest. Exceptions pushing an error
   // code are handled specially.
   switch (num)
@@ -423,6 +441,12 @@ Vmx_state::handle_hardware_exception(Event_recorder *ev_rec, unsigned num,
     }
 
   return Retry;
+}
+
+bool
+Vmx_state::in_real_mode() const
+{
+  return (vmx_read(VMCS_GUEST_CR0) & Cr0_pe_bit) == 0;
 }
 
 } //namespace Vmm

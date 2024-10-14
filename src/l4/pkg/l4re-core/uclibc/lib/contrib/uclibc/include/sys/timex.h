@@ -1,5 +1,4 @@
-/* Copyright (C) 1995, 1996, 1997, 1999 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
+/* Copyright (C) 1995-2017 Free Software Foundation, Inc.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -20,14 +19,16 @@
 
 #include <features.h>
 #include <sys/time.h>
+#include <time.h>
 
-/* These definitions from linux/timex.h as of 2.2.0.  */
+/* These definitions from linux/timex.h as of 3.18.  */
 
 struct ntptimeval
 {
   struct timeval time;	/* current time (ro) */
   long int maxerror;	/* maximum error (us) (ro) */
   long int esterror;	/* estimated error (us) (ro) */
+  long int tai;		/* TAI offset (ro) */
 };
 
 struct timex
@@ -43,7 +44,6 @@ struct timex
   long int tolerance;	/* clock frequency tolerance (ppm) (read only) */
   struct timeval time;	/* (read only) */
   long int tick;	/* (modified) usecs between clock ticks */
-
   long int ppsfreq;	/* pps frequency (scaled ppm) (ro) */
   long int jitter;	/* pps jitter (us) (ro) */
   int shift;		/* interval duration (s) (shift) (ro) */
@@ -52,6 +52,8 @@ struct timex
   long int calcnt;	/* calibration intervals (ro) */
   long int errcnt;	/* calibration errors (ro) */
   long int stbcnt;	/* stability limit exceeded (ro) */
+
+  int tai;		/* TAI offset (ro) */
 
   /* ??? */
   int  :32; int  :32; int  :32; int  :32;
@@ -66,8 +68,12 @@ struct timex
 #define ADJ_ESTERROR		0x0008	/* estimated time error */
 #define ADJ_STATUS		0x0010	/* clock status */
 #define ADJ_TIMECONST		0x0020	/* pll time constant */
-#define ADJ_TICK		0x4000	/* tick value */
-#define ADJ_OFFSET_SINGLESHOT	0x8001	/* old-fashioned adjtime */
+#define ADJ_TAI			0x0080  /* set TAI offset */
+#define ADJ_MICRO		0x1000  /* select microsecond resolution */
+#define ADJ_NANO		0x2000  /* select nanosecond resolution */
+#define ADJ_TICK		0x4000  /* tick value */
+#define ADJ_OFFSET_SINGLESHOT	0x8001  /* old-fashioned adjtime */
+#define ADJ_OFFSET_SS_READ	0xa001  /* read-only adjtime */
 
 /* xntp 3.4 compatibility names */
 #define MOD_OFFSET	ADJ_OFFSET
@@ -78,6 +84,9 @@ struct timex
 #define MOD_TIMECONST	ADJ_TIMECONST
 #define MOD_CLKB	ADJ_TICK
 #define MOD_CLKA	ADJ_OFFSET_SINGLESHOT /* 0x8000 in original */
+#define MOD_TAI		ADJ_TAI
+#define MOD_MICRO	ADJ_MICRO
+#define MOD_NANO	ADJ_NANO
 
 
 /* Status codes (timex.status) */
@@ -97,9 +106,12 @@ struct timex
 #define STA_PPSERROR	0x0800	/* PPS signal calibration error (ro) */
 
 #define STA_CLOCKERR	0x1000	/* clock hardware fault (ro) */
+#define STA_NANO	0x2000	/* resolution (0 = us, 1 = ns) (ro) */
+#define STA_MODE	0x4000	/* mode (0 = PLL, 1 = FLL) (ro) */
+#define STA_CLK		0x8000	/* clock source (0 = A, 1 = B) (ro) */
 
 #define STA_RONLY (STA_PPSSIGNAL | STA_PPSJITTER | STA_PPSWANDER | \
-    STA_PPSERROR | STA_CLOCKERR) /* read-only bits */
+    STA_PPSERROR | STA_CLOCKERR | STA_NANO | STA_MODE | STA_CLK)
 
 /* Clock states (time_state) */
 #define TIME_OK		0	/* clock synchronized, no leap second */
@@ -115,9 +127,7 @@ struct timex
 
 __BEGIN_DECLS
 
-#if 0
 extern int __adjtimex (struct timex *__ntx) __THROW;
-#endif
 extern int adjtimex (struct timex *__ntx) __THROW;
 libc_hidden_proto(adjtimex)
 
@@ -125,7 +135,9 @@ libc_hidden_proto(adjtimex)
 extern int ntp_gettime (struct ntptimeval *__ntv) __THROW;
 extern int ntp_adjtime (struct timex *__tntx) __THROW;
 #endif
-
+#if defined __UCLIBC_HAS_REALTIME__
+extern int clock_adjtime (clockid_t __clock_id, struct timex *__ntx) __THROW;
+#endif
 __END_DECLS
 
 #endif /* sys/timex.h */

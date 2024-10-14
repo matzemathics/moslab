@@ -45,10 +45,10 @@ public:
   void activate(Return_frame *regs, void *cont_func)
   {
     save(regs);
-    regs->ip(Mword(cont_func));
+    regs->ip(reinterpret_cast<Mword>(cont_func));
     // interrupts must stay off, do not singlestep in kernel code
     regs->flags(regs->flags() & ~(EFLAGS_TF | EFLAGS_IF));
-    regs->sp((Address)(regs + 1));
+    regs->sp(reinterpret_cast<Address>(regs + 1));
     regs->ss(Gdt::gdt_data_kernel | Gdt::Selector_kernel);
     regs->cs(Gdt::gdt_code_kernel | Gdt::Selector_kernel);
   }

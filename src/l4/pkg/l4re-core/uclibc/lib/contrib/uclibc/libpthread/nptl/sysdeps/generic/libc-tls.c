@@ -26,7 +26,7 @@
 #include <link.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <sys/mman.h>
 
 #ifdef SHARED
  #error makefile bug, this file is for static only
@@ -42,7 +42,10 @@ extern size_t _dl_phnum;
 extern int __tdata_start;
 #endif
 
-static dtv_t static_dtv[2 + TLS_SLOTINFO_SURPLUS];
+#ifdef SHARED
+static
+#endif
+dtv_t static_dtv[2 + TLS_SLOTINFO_SURPLUS];
 
 
 static struct
@@ -114,6 +117,10 @@ init_static_tls (size_t memsz, size_t align)
   GL(dl_tls_static_nelem) = GL(dl_tls_max_dtv_idx);
 }
 
+#if !defined(__FDPIC__) && !defined(SHARED) && defined(STATIC_PIE)
+ElfW(Addr) _dl_load_base;
+#endif
+
 void __libc_setup_tls (size_t tcbsize, size_t tcbalign);
 void
 __libc_setup_tls (size_t tcbsize, size_t tcbalign)
@@ -140,8 +147,7 @@ __libc_setup_tls (size_t tcbsize, size_t tcbalign)
 #else
 	  initimage = (void *) phdr->p_vaddr;
 #if !defined(SHARED) && defined(STATIC_PIE)
-    extern ElfW(Addr) _dl_load_base;
-    initimage += _dl_load_base;
+	  initimage += _dl_load_base;
 #endif
 #endif
 	  align = phdr->p_align;
@@ -159,13 +165,32 @@ __libc_setup_tls (size_t tcbsize, size_t tcbalign)
      The initialized value of _dl_tls_static_size is provided by dl-open.c
      to request some surplus that permits dynamic loading of modules with
      IE-model TLS.  */
+  /* Use mmap instead of sbrk since this commit disables sbrk area
+     for FDPIC MMU-less platforms:
+     fs/binfmt_elf_fdpic.c: fix brk area overlap with stack on NOMMU
+     https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/fs/binfmt_elf_fdpic.c?id=4ac313111018cb44ecc250445de5ccb93026a980
+     Loading static PIE ELFs on noMMU is possible since the linux kernel commit
+     1bde925d2354 ("fs/binfmt_elf_fdpic.c: provide NOMMU loader for regular ELF binaries")
+     and it is subject to the same brk restriction.
+   */
 # if defined(TLS_TCB_AT_TP)
   tcb_offset = roundup (memsz + GL(dl_tls_static_size), tcbalign);
+#  if defined(__FDPIC__) || (!defined(__ARCH_USE_MMU__) && defined(STATIC_PIE))
+  tlsblock = mmap (NULL, tcb_offset + tcbsize + max_align,
+                   PROT_READ|PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+#  else
   tlsblock = sbrk (tcb_offset + tcbsize + max_align);
+#  endif
 # elif defined(TLS_DTV_AT_TP)
   tcb_offset = roundup (tcbsize, align ?: 1);
+#  if defined(__FDPIC__) || (!defined(__ARCH_USE_MMU__) && defined(STATIC_PIE))
+  tlsblock = mmap (NULL, tcb_offset + memsz + max_align + TLS_PRE_TCB_SIZE + GL(dl_tls_static_size),
+                   PROT_READ|PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+#  else
   tlsblock = sbrk (tcb_offset + memsz + max_align
 		     + TLS_PRE_TCB_SIZE + GL(dl_tls_static_size));
+#  endif
+  memset(tlsblock, '\0', tcb_offset + memsz + max_align + TLS_PRE_TCB_SIZE + GL(dl_tls_static_size));
   tlsblock += TLS_PRE_TCB_SIZE;
 # else
   /* In case a model with a different layout for the TCB and DTV
@@ -263,17 +288,6 @@ __attribute__ ((weak))
 __pthread_initialize_minimal (void)
 {
   __libc_setup_tls (TLS_INIT_TCB_SIZE, TLS_INIT_TCB_ALIGN);
-}
-
-#elif defined NONTLS_INIT_TP
-
-/* This is the minimal initialization function used when libpthread is
-   not used.  */
-void
-__attribute__ ((weak))
-__pthread_initialize_minimal (void)
-{
-  NONTLS_INIT_TP;
 }
 
 #endif

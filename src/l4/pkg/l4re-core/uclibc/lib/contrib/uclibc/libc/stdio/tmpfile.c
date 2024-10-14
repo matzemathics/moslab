@@ -35,7 +35,7 @@ FILE * tmpfile (void)
 
     if (__path_search (buf, FILENAME_MAX, NULL, "tmpf", 0))
 	return NULL;
-    fd = __gen_tempname (buf, __GT_FILE, S_IRUSR | S_IWUSR);
+    fd = __gen_tempname (buf, __GT_FILE, 0, 0, S_IRUSR | S_IWUSR);
     if (fd < 0)
 	return NULL;
 
@@ -48,6 +48,4 @@ FILE * tmpfile (void)
 
     return f;
 }
-#ifdef __UCLIBC_HAS_LFS__
 strong_alias(tmpfile,tmpfile64)
-#endif

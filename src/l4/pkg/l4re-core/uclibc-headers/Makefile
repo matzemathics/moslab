@@ -20,6 +20,7 @@ DST_HEADERS-ppc32   := asm/sockios.h asm/ioctl.h
 DST_HEADERS-mips    := asm/sockios.h asm/ioctl.h asm-generic/ioctl.h \
                        asm/param.h asm/sgidefs.h sgidefs.h \
                        sys/asm.h sys/regdef.h sys/tas.h
+DST_HEADERS-riscv   := sys/asm.h
 
 DST_HEADERS += $(DST_HEADERS-$(BUILD_ARCH))
 
@@ -33,11 +34,13 @@ all:: $(HEADERS_LST)
 
 DST_HEADERS   := $(addprefix $(HEADER_DIR)/,$(DST_HEADERS))
 
-$(DST_HEADERS): $(HEADER_DIR)/%: % FORCE
+$(DST_HEADERS): $(HEADER_DIR)/%: % FORCE $(HEADERS_LST) \
+                                         $(LIBCSRC_DIR)/make_vars.mk
 	$(VERBOSE)[ -d $(@D) ] || $(MKDIR) -p $(@D)
 	$(VERBOSE)$(LN) -sf $(call absfilename,$<) $@
 
-$(HEADER_DIR): $(GENERAL_D_LOC) $(SRC_DIR)/Makefile
+$(HEADER_DIR): $(GENERAL_D_LOC) $(SRC_DIR)/Makefile $(HEADERS_LST) \
+               $(LIBCSRC_DIR)/make_vars.mk
 	$(VERBOSE)$(RM) -r $@
 	$(VERBOSE)install -d $@
 	@$(INSTALL_LINK_MESSAGE)
@@ -50,4 +53,4 @@ include: $(HEADER_DIR)
 	$(VERBOSE)PKGDIR=$(LIBCSRC_DIR)/../libpthread/include \
 	  $(MAKE) $(MKFLAGS) -C $(LIBCSRC_DIR)/../libpthread/include
 
-clean cleanall:
+clean cleanall::

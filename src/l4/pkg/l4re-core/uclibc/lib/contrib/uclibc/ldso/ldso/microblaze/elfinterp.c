@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* microblaze ELF shared library loader suppport
  *
  * Copyright (c) 1994-2000 Eric Youngdale, Peter MacDonald,
@@ -34,13 +33,6 @@
 /* Program to load an ELF binary on a linux system, and run it.
    References to symbols in sharable libraries can be resolved by either
    an ELF sharable library or a linux style of shared library. */
-
-/* Disclaimer:  I have never seen any AT&T source code for SVr4, nor have
-   I ever taken any courses on internals.  This program was developed using
-   information available through the book "UNIX SYSTEM V RELEASE 4,
-   Programmers guide: Ansi C and Programming Support Tools", which did
-   a more than adequate job of explaining everything required to get this
-   working. */
 
 extern int _dl_linux_resolve(void);
 
@@ -133,13 +125,8 @@ _dl_parse(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 
 		if (unlikely(res < 0)) {
 			int reloc_type = ELF_R_TYPE(rpnt->r_info);
-
 			_dl_dprintf(2, "can't handle reloc type "
-#if defined (__SUPPORT_LD_DEBUG__)
-				    "%s\n", _dl_reltypes(reloc_type));
-#else
 				    "%x\n", reloc_type);
-#endif
 			_dl_exit(-res);
 		} else if (unlikely(res > 0)) {
 			_dl_dprintf(2, "can't resolve symbol\n");
@@ -214,16 +201,13 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 		case R_MICROBLAZE_NONE:
 		case R_MICROBLAZE_64_NONE:
 			break;
-
 		case R_MICROBLAZE_64:
 			*reloc_addr = symbol_addr + rpnt->r_addend;
 			break;
-
 		case R_MICROBLAZE_32:
 		case R_MICROBLAZE_32_LO:
 			*reloc_addr = symbol_addr + rpnt->r_addend;
 			break;
-
 		case R_MICROBLAZE_32_PCREL:
 		case R_MICROBLAZE_32_PCREL_LO:
 		case R_MICROBLAZE_64_PCREL:
@@ -231,16 +215,25 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 		case R_MICROBLAZE_SRW32:
 			*reloc_addr = symbol_addr + rpnt->r_addend;
 			break;
-
 		case R_MICROBLAZE_GLOB_DAT:
 		case R_MICROBLAZE_JUMP_SLOT:
 			*reloc_addr = symbol_addr + rpnt->r_addend;
 			break;
-/* Handled by elf_machine_relative */
 		case R_MICROBLAZE_REL:
 			*reloc_addr = (unsigned long)tpnt->loadaddr + rpnt->r_addend;
 			break;
-
+#if defined USE_TLS && USE_TLS
+		case R_MICROBLAZE_TLSDTPMOD32:
+			*reloc_addr = tls_tpnt->l_tls_modid;
+			break;
+		case R_MICROBLAZE_TLSDTPREL32:
+			*reloc_addr = symbol_addr;
+			break;
+		case R_MICROBLAZE_TLSTPREL32:
+			CHECK_STATIC_TLS ((struct link_map *) tls_tpnt);
+			*reloc_addr = tls_tpnt->l_tls_offset + symbol_addr + rpnt->r_addend;
+			break;
+#endif
 		case R_MICROBLAZE_COPY:
 			if (symbol_addr) {
 #if defined (__SUPPORT_LD_DEBUG__)
@@ -250,7 +243,6 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 						    symname, sym_ref.sym->st_size,
 						    symbol_addr, reloc_addr);
 #endif
-
 				_dl_memcpy((char *)reloc_addr,
 					   (char *)symbol_addr,
 					   sym_ref.sym->st_size);
@@ -260,7 +252,6 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 				_dl_dprintf(_dl_debug_file, "no symbol_addr to copy !?\n");
 #endif
 			break;
-
 		default:
 			return -1;	/* Calls _dl_exit(1). */
 	}
@@ -279,14 +270,12 @@ _dl_do_lazy_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 		  ELF_RELOC *rpnt, ElfW(Sym) *symtab, char *strtab)
 {
 	int reloc_type;
-	int symtab_index;
 	ElfW(Addr) *reloc_addr;
 #if defined (__SUPPORT_LD_DEBUG__)
 	ElfW(Addr) old_val;
 #endif
 
 	(void)scope;
-	symtab_index = ELF_R_SYM(rpnt->r_info);
 	(void)strtab;
 
 	reloc_addr = (ElfW(Addr)*)(tpnt->loadaddr + rpnt->r_offset);

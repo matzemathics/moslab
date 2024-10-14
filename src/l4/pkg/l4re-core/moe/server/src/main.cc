@@ -8,6 +8,8 @@
  * Please see the COPYING-GPL-2 file for details.
  */
 
+#include <l4/bid_config.h>
+#include <l4/util/kip.h>
 #include <l4/util/util.h>
 #include <l4/sigma0/sigma0.h>
 
@@ -67,6 +69,23 @@ static Dbg info(Dbg::Info);
 static Dbg boot(Dbg::Boot);
 static Dbg warn(Dbg::Warn);
 
+#ifdef CONFIG_BID_PIE
+static inline unsigned long elf_machine_dynamic()
+{
+  extern const unsigned long _GLOBAL_OFFSET_TABLE_[] __attribute__((visibility ("hidden")));
+  return _GLOBAL_OFFSET_TABLE_[0];
+}
+
+static inline unsigned long elf_machine_load_address()
+{
+  extern char _DYNAMIC[] __attribute__((visibility ("hidden")));
+    return (unsigned long)&_DYNAMIC - elf_machine_dynamic ();
+}
+#else
+static inline unsigned long elf_machine_load_address()
+{ return 0; }
+#endif
+
 static
 l4_kernel_info_t const *map_kip()
 {
@@ -81,27 +100,30 @@ l4_kernel_info_t const *map_kip()
     }
 
   boot.printf("KIP @%p\n", kip());
+  l4_global_kip = _current_kip;
   return kip();
 }
 
 static
 char *my_cmdline()
 {
-  l4util_l4mod_info const *_mbi_ = (l4util_l4mod_info const *)kip()->user_ptr;
+  auto *_mbi_ = reinterpret_cast<l4util_l4mod_info const *>(kip()->user_ptr);
   boot.printf("mbi @%p\n", _mbi_);
-  l4util_l4mod_mod const *modules = (l4util_l4mod_mod const *)_mbi_->mods_addr;
+  auto  *modules = reinterpret_cast<l4util_l4mod_mod const *>(_mbi_->mods_addr);
   unsigned num_modules = _mbi_->mods_count;
   char *cmdline = 0;
 
   for (unsigned mod = 0; mod < num_modules; ++mod)
     if ((modules[mod].flags & L4util_l4mod_mod_flag_mask) == L4util_l4mod_mod_flag_roottask)
       {
-        cmdline = (char *)(unsigned long)modules[mod].cmdline;
+        cmdline = reinterpret_cast<char *>(
+                    static_cast<unsigned long>(modules[mod].cmdline));
         break;
       }
 
   if (!cmdline)
-    cmdline = (char *)(unsigned long)_mbi_->cmdline;
+    cmdline = reinterpret_cast<char *>(
+                static_cast<unsigned long>(_mbi_->cmdline));
 
   static char default_cmdline[] = "";
 
@@ -118,10 +140,14 @@ char *my_cmdline()
 
 static void find_memory()
 {
-  using Moe::Pages::pages;
   l4_addr_t addr;
   l4_addr_t min_addr = ~0UL;
   l4_addr_t max_addr = 0;
+
+  Single_page_alloc_base::can_free = l4util_kip_kernel_has_feature(
+    const_cast<l4_kernel_info_t*>(kip()), "mapdb");
+  if (!Single_page_alloc_base::can_free)
+    info.printf("Fiasco mapdb not available! Memory cannot be given back!\n");
 
   for (unsigned order = 30 /*1G*/; order >= L4_LOG2_PAGESIZE; --order)
     {
@@ -138,15 +164,20 @@ static void find_memory()
                 continue;
             }
 
-          if (addr < min_addr) min_addr = addr;
-          if (addr + size > max_addr) max_addr = addr + size;
+          if (addr < min_addr)
+            min_addr = addr;
+          if (addr + size > max_addr)
+            max_addr = addr + size;
 
-          Single_page_alloc_base::_free((void*)addr, size, true);
+          Single_page_alloc_base::_free(reinterpret_cast<void*>(addr), size,
+                                        true);
         }
     }
 
   info.printf("found %ld KByte free memory\n",
               Single_page_alloc_base::_avail() / 1024);
+  info.printf("found RAM from %lx to %lx\n",
+              min_addr, max_addr);
 
   // adjust min_addr and max_addr to also contain boot modules
   for (auto const &md: L4::Kip::Mem_desc::all(kip()))
@@ -180,7 +211,10 @@ static void find_memory()
 
   assert(total_pages);
 
-  pages = (__typeof(pages))Single_page_alloc_base::_alloc(sizeof(*pages) * total_pages);
+#ifdef CONFIG_MMU
+  using Moe::Pages::pages;
+  pages = static_cast<__typeof(pages)>(
+            Single_page_alloc_base::_alloc(sizeof(*pages) * total_pages));
 
   if (pages == 0)
     {
@@ -193,10 +227,9 @@ static void find_memory()
   Moe::Pages::base_addr = min_addr;
   Moe::Pages::max_addr  = max_addr;
 
-  info.printf("found RAM from %lx to %lx\n",
-              min_addr, max_addr);
   info.printf("allocated %ld KByte for the page array @%p\n",
               sizeof(*pages) * total_pages / 1024, pages);
+#endif
 }
 
 l4_addr_t Moe::Virt_limit::start;
@@ -239,7 +272,7 @@ init_kip_ds()
       exit(1);
     }
 
-  object_pool.cap_alloc()->alloc(kip_ds);
+  object_pool.cap_alloc()->alloc(kip_ds, "moe-ds-kip");
 }
 
 static L4::Cap<void>
@@ -425,6 +458,13 @@ static void hdl_ldr_flags(cxx::String const &args)
   Moe::ldr_flags = lvl;
 }
 
+#ifndef CONFIG_MMU
+static void hdl_brk(cxx::String const &args)
+{
+  if (args.from_hex(&Single_page_alloc_base::default_mem_cfg.physmin) <= 0)
+    warn.printf("Invalid brk option: '%.*s'\n", args.len(), args.start());
+}
+#endif
 
 
 static Get_opt const _options[] = {
@@ -432,6 +472,9 @@ static Get_opt const _options[] = {
       {"--init=",      hdl_init },
       {"--l4re-dbg=",  hdl_l4re_dbg },
       {"--ldr-flags=", hdl_ldr_flags },
+#ifndef CONFIG_MMU
+      {"--brk=",       hdl_brk },
+#endif
       {0, 0}
 };
 
@@ -493,7 +536,7 @@ static void init_env()
 }
 
 static __attribute__((used, section(".preinit_array")))
-   const void *pre_init_env = (void *)init_env;
+   const void *pre_init_env = reinterpret_cast<void *>(init_env);
 
 static void init_emergency_memory()
 {
@@ -503,18 +546,17 @@ static void init_emergency_memory()
   static __attribute__((aligned(L4_PAGESIZE))) char buf[3 * L4_PAGESIZE];
   Single_page_alloc_base::_free(buf, sizeof(buf), true);
   // make sure the emergency memory is RWX for future reuse
-  int err = l4sigma0_map_mem(Sigma0_cap, (l4_addr_t) buf, (l4_addr_t) buf,
-                             sizeof(buf));
+  [[maybe_unused]] int err = l4sigma0_map_mem(Sigma0_cap, reinterpret_cast<l4_addr_t>(buf),
+                             reinterpret_cast<l4_addr_t>(buf), sizeof(buf));
   l4_assert(!err);
-  (void)err;
 }
 
 static __attribute__((used, section(".preinit_array")))
-   const void *pre_init_emergency_memory = (void *)init_emergency_memory;
+   const void *pre_init_emergency_memory
+     = reinterpret_cast<void *>(init_emergency_memory);
 
-int main(int argc, char**argv)
+int main(int /* argc */, char** /* argv */)
 {
-  (void)argc; (void)argv;
   Dbg::set_level(Dbg::Info | Dbg::Warn);
   //Dbg::set_level(Dbg::Info | Dbg::Warn | Dbg::Boot);
 
@@ -545,37 +587,9 @@ int main(int argc, char**argv)
       Moe::Boot_fs::init_stage1();
       find_memory();
       init_virt_limits();
-#if 0
-      extern unsigned page_alloc_debug;
-      page_alloc_debug = 1;
-#endif
-      Moe::Boot_fs::init_stage2();
-      init_vesa_fb((l4util_l4mod_info *)kip()->user_ptr);
-
-      root_name_space_obj = object_pool.cap_alloc()->alloc(root_name_space());
-
-      init_kip_ds();
-
-      object_pool.cap_alloc()->alloc(Allocator::root_allocator());
-
-      l4_debugger_set_object_name(L4_BASE_TASK_CAP,   "moe");
-      l4_debugger_set_object_name(L4_BASE_THREAD_CAP, "moe");
-      l4_debugger_set_object_name(L4_BASE_PAGER_CAP,  "moe->s0");
-
-      root_name_space()->register_obj("log", Entry::F_rw, L4_BASE_LOG_CAP);
-      root_name_space()->register_obj("icu", Entry::F_rw, L4_BASE_ICU_CAP);
-      if (L4::Cap<void>(L4_BASE_IOMMU_CAP).validate().label())
-        root_name_space()->register_obj("iommu", Entry::F_rw, L4_BASE_IOMMU_CAP);
-      if (L4::Cap<void>(L4_BASE_ARM_SMCCC_CAP).validate().label())
-        root_name_space()->register_obj("arm_smc", Entry::F_rw, L4_BASE_ARM_SMCCC_CAP);
-      root_name_space()->register_obj("sigma0", Entry::F_trusted | Entry::F_rw,
-                                      new_sigma0_cap());
-      root_name_space()->register_obj("mem", Entry::F_trusted | Entry::F_rw, Allocator::root_allocator());
-      if (L4::Cap<void>(L4_BASE_DEBUGGER_CAP).validate().label())
-        root_name_space()->register_obj("jdb", Entry::F_trusted | Entry::F_rw, L4_BASE_DEBUGGER_CAP);
-      root_name_space()->register_obj("kip", Entry::F_rw, kip_ds->obj_cap());
 
       char *cmdline = my_cmdline();
+      cxx::String init_args("");
 
       info.printf("cmdline: %s\n", cmdline);
 
@@ -591,22 +605,50 @@ int main(int argc, char**argv)
 
           if (a.first[0] != '-') // not an option start init
             {
-              elf_loader.start(_init_prog, cxx::String(a.first.start(),
-                                                       a.second.end()));
+              init_args = cxx::String(a.first.start(), a.second.end());
               break;
             }
 
           if (a.first == "--")
             {
-              elf_loader.start(_init_prog, a.second);
+              init_args = a.second;
               break;
             }
 
           parse_option(a.first);
         }
 
-      if (a.first.empty())
-        elf_loader.start(_init_prog, cxx::String(""));
+#if 0
+      extern unsigned page_alloc_debug;
+      page_alloc_debug = 1;
+#endif
+      Moe::Boot_fs::init_stage2();
+      init_vesa_fb((l4util_l4mod_info *)kip()->user_ptr);
+
+      root_name_space_obj = object_pool.cap_alloc()->alloc(root_name_space(), "moe-root-ns");
+
+      init_kip_ds();
+
+      object_pool.cap_alloc()->alloc(Allocator::root_allocator(), "moe-rootalloc");
+
+      l4_debugger_set_object_name(L4_BASE_TASK_CAP,   "moe");
+      l4_debugger_set_object_name(L4_BASE_THREAD_CAP, "moe");
+      l4_debugger_set_object_name(L4_BASE_PAGER_CAP,  "moe->s0");
+      l4_debugger_add_image_info(L4_BASE_TASK_CAP, elf_machine_load_address(),
+                                 "moe");
+
+      root_name_space()->register_obj("log", Entry::F_rw, L4_BASE_LOG_CAP);
+      root_name_space()->register_obj("icu", Entry::F_rw, L4_BASE_ICU_CAP);
+      if (L4::Cap<void>(L4_BASE_IOMMU_CAP).validate().label())
+        root_name_space()->register_obj("iommu", Entry::F_rw, L4_BASE_IOMMU_CAP);
+      if (L4::Cap<void>(L4_BASE_ARM_SMCCC_CAP).validate().label())
+        root_name_space()->register_obj("arm_smc", Entry::F_rw, L4_BASE_ARM_SMCCC_CAP);
+      root_name_space()->register_obj("sigma0", Entry::F_trusted | Entry::F_rw,
+                                      new_sigma0_cap());
+      root_name_space()->register_obj("mem", Entry::F_trusted | Entry::F_rw, Allocator::root_allocator());
+      if (L4::Cap<void>(L4_BASE_DEBUGGER_CAP).validate().label())
+        root_name_space()->register_obj("jdb", Entry::F_trusted | Entry::F_rw, L4_BASE_DEBUGGER_CAP);
+      root_name_space()->register_obj("kip", Entry::F_rw, kip_ds->obj_cap());
 
       // dump name space information
       if (boot.is_active())
@@ -614,6 +656,8 @@ int main(int argc, char**argv)
           boot.printf("dump of root name space:\n");
           root_name_space()->dump(1);
         }
+
+      elf_loader.start(_init_prog, init_args);
 
       // we handle our exceptions ourselves
       server.loop_noexc(My_dispatcher<L4::Basic_registry>());

@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Architecture specific code used by dl-startup.c
  * Copyright (C) 2005 by Erik Andersen <andersen@codepoet.org>
@@ -55,6 +54,9 @@ _dl_start_user:\n\
  * the address of the first argument, on other platforms we need to
  * do something a little more subtle here.  */
 #define GET_ARGV(ARGVP, ARGS) ARGVP = (((unsigned long *) ARGS) + 1)
+
+/* We can't call functions earlier in the dl startup process */
+#define NO_FUNCS_BEFORE_BOOTSTRAP
 
 /* Handle relocation of the symbols in the dynamic loader. */
 static __always_inline

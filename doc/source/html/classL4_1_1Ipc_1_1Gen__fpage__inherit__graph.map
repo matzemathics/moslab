@@ -1,0 +1,7 @@
+<map id="L4::Ipc::Gen_fpage" name="L4::Ipc::Gen_fpage">
+<area shape="rect" id="Node000001" title="Generic RPC base for L4 flex&#45;pages." alt="" coords="73,5,225,191"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc_1_1Rcv__fpage.html" title="Rcv flex&#45;page." alt="" coords="5,239,137,304"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,205,88,240,83,237,99,202"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Ipc_1_1Snd__fpage.html" title="Send flex&#45;page." alt="" coords="161,239,293,304"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,202,215,237,210,240,194,205"/>
+</map>

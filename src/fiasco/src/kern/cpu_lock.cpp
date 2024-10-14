@@ -1,14 +1,15 @@
 INTERFACE:
 
+#include <cxx/type_traits>
 #include "types.h"
 
-/** 
- * Global CPU lock. When held, irqs are disabled on the current CPU 
- * (preventing nested irq handling, and preventing the current 
+/**
+ * Global CPU lock. When held, IRQs are disabled on the current CPU
+ * (preventing nested IRQ handling, and preventing the current
  * thread from being preempted).  It must only be held for very short
  * amounts of time.
  *
- * A generic (cli, sti) implementation of the lock can be found in 
+ * A generic (cli, sti) implementation of the lock can be found in
  * cpu_lock-generic.cpp.
  */
 class Cpu_lock
@@ -17,7 +18,7 @@ public:
   /// The return type of test methods
   typedef Mword Status;
 
-  enum { Locked = 1, Not_locked = 0 };
+  enum : Status { Not_locked = 0 };
 
   /// ctor.
   inline Cpu_lock();
@@ -30,7 +31,7 @@ public:
 
   /**
    * Acquire the CPU lock.
-   * The CPU lock disables IRQ's it should be held only for a very
+   * The CPU lock disables IRQs. It should be held only for a very
    * short amount of time.
    */
   void lock();
@@ -48,6 +49,13 @@ public:
   Status test_and_set();
 
   /**
+   * Clear the CPU lock and return the old status.
+   * @return something else than 0 if the lock was held before and
+   *   0 if it was not held.
+   */
+  Status test_and_clear();
+
+  /**
    * Set the CPU lock according to the given status.
    * @param state the state to set (0 clear, else lock).
    */
@@ -61,20 +69,32 @@ private:
 /**
  * The global CPU lock, contains the locking data necessary for some
  * special implementations.
+ *
+ * The object must never be dereferenced. In case this is still done, the
+ * address is carefully chosen to be neither nullptr nor ~0UL, another pointer
+ * value for non-existing objects.
  */
-extern Cpu_lock cpu_lock;
+#define cpu_lock (*reinterpret_cast<Cpu_lock*>(~0UL - 255UL))
+
+static_assert(cxx::is_empty_v<Cpu_lock>, "Cpu_lock must not have any members");
 
 IMPLEMENTATION:
 
 #include "static_init.h"
-
-Cpu_lock cpu_lock INIT_PRIORITY(EARLY_INIT_PRIO);
 
 IMPLEMENT inline //NEEDS [Cpu_lock::lock, Cpu_lock::test]
 Cpu_lock::Status Cpu_lock::test_and_set()
 {
   Status ret = test();
   lock();
+  return ret;
+}
+
+IMPLEMENT inline //NEEDS [Cpu_lock::clear, Cpu_lock::test]
+Cpu_lock::Status Cpu_lock::test_and_clear()
+{
+  Status ret = test();
+  clear();
   return ret;
 }
 

@@ -19,6 +19,9 @@
 #include "internals.h"
 #include "spinlock.h"
 #include "restart.h"
+#include <bits/stackinfo.h>
+
+#include <stdio.h>
 
 #ifdef _STACK_GROWS_DOWN
 # define FRAME_LEFT(frame, other) ((char *) frame >= (char *) other)
@@ -28,8 +31,10 @@
 # error "Define either _STACK_GROWS_DOWN or _STACK_GROWS_UP"
 #endif
 
+libpthread_hidden_proto(pthread_setcancelstate)
+libpthread_hidden_proto(pthread_setcanceltype)
 
-int __pthread_setcancelstate(int state, int * oldstate)
+int pthread_setcancelstate(int state, int * oldstate)
 {
   pthread_descr self = thread_self();
   if (state < PTHREAD_CANCEL_ENABLE || state > PTHREAD_CANCEL_DISABLE)
@@ -42,9 +47,9 @@ int __pthread_setcancelstate(int state, int * oldstate)
     __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
   return 0;
 }
-strong_alias (__pthread_setcancelstate, pthread_setcancelstate)
+libpthread_hidden_def(pthread_setcancelstate)
 
-int __pthread_setcanceltype(int type, int * oldtype)
+int pthread_setcanceltype(int type, int * oldtype)
 {
   pthread_descr self = thread_self();
   if (type < PTHREAD_CANCEL_DEFERRED || type > PTHREAD_CANCEL_ASYNCHRONOUS)
@@ -57,33 +62,7 @@ int __pthread_setcanceltype(int type, int * oldtype)
     __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
   return 0;
 }
-strong_alias (__pthread_setcanceltype, pthread_setcanceltype)
-
-
-/* The next two functions are similar to pthread_setcanceltype() but
-   more specialized for the use in the cancelable functions like write().
-   They do not need to check parameters etc.  */
-int
-attribute_hidden
-__pthread_enable_asynccancel (void)
-{
-  pthread_descr self = thread_self();
-  int oldtype = THREAD_GETMEM(self, p_canceltype);
-  THREAD_SETMEM(self, p_canceltype, PTHREAD_CANCEL_ASYNCHRONOUS);
-  if (__builtin_expect (THREAD_GETMEM(self, p_canceled), 0) &&
-      THREAD_GETMEM(self, p_cancelstate) == PTHREAD_CANCEL_ENABLE)
-    __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
-  return oldtype;
-}
-
-void
-internal_function attribute_hidden
-__pthread_disable_asynccancel (int oldtype)
-{
-  pthread_descr self = thread_self();
-  THREAD_SETMEM(self, p_canceltype, oldtype);
-}
-
+libpthread_hidden_def(pthread_setcanceltype)
 
 int pthread_cancel(pthread_t thread)
 {
@@ -184,6 +163,7 @@ void _pthread_cleanup_push_defer(struct _pthread_cleanup_buffer * buffer,
   THREAD_SETMEM(self, p_canceltype, PTHREAD_CANCEL_DEFERRED);
   THREAD_SETMEM(self, p_cleanup, buffer);
 }
+strong_alias(_pthread_cleanup_push_defer,__pthread_cleanup_push_defer)
 
 void _pthread_cleanup_pop_restore(struct _pthread_cleanup_buffer * buffer,
 				  int execute)
@@ -197,41 +177,33 @@ void _pthread_cleanup_pop_restore(struct _pthread_cleanup_buffer * buffer,
       THREAD_GETMEM(self, p_canceltype) == PTHREAD_CANCEL_ASYNCHRONOUS)
     __pthread_do_exit(PTHREAD_CANCELED, CURRENT_STACK_FRAME);
 }
+strong_alias(_pthread_cleanup_pop_restore,__pthread_cleanup_pop_restore)
 
-extern void __rpc_thread_destroy(void);
+
 void __pthread_perform_cleanup(char *currentframe)
 {
   pthread_descr self = thread_self();
-  struct _pthread_cleanup_buffer *c = THREAD_GETMEM(self, p_cleanup);
-  struct _pthread_cleanup_buffer *last;
+  struct _pthread_cleanup_buffer * c;
 
-  if (c != NULL)
-    while (FRAME_LEFT (currentframe, c))
-      {
-	last = c;
-	c = c->__prev;
-
-	if (c == NULL || FRAME_LEFT (last, c))
-	  {
-	    c = NULL;
-	    break;
-	  }
-      }
-
-  while (c != NULL)
+  for (c = THREAD_GETMEM(self, p_cleanup); c != NULL; c = c->__prev)
     {
-      c->__routine(c->__arg);
-
-      last = c;
-      c = c->__prev;
-
-      if (FRAME_LEFT (last, c))
+#ifdef _STACK_GROWS_DOWN
+      if ((char *) c <= currentframe)
 	break;
-    }
-
-#ifdef __UCLIBC_HAS_RPC__
-  /* And the TSD which needs special help.  */
-  if (THREAD_GETMEM(self, p_libc_specific[_LIBC_TSD_KEY_RPC_VARS]) != NULL)
-      __rpc_thread_destroy ();
+#elif defined _STACK_GROWS_UP
+      if ((char *) c >= currentframe)
+	break;
+#else
+# error "Define either _STACK_GROWS_DOWN or _STACK_GROWS_UP"
 #endif
+      c->__routine(c->__arg);
+    }
 }
+
+#ifndef __PIC__
+/* We need a hook to force the cancellation wrappers to be linked in when
+   static libpthread is used.  */
+extern const char __pthread_provide_wrappers;
+static const char *const __pthread_require_wrappers =
+  &__pthread_provide_wrappers;
+#endif

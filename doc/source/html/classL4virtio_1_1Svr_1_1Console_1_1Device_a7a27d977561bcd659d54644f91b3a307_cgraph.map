@@ -1,0 +1,29 @@
+<map id="L4virtio::Svr::Console::Device::process_device_ready" name="L4virtio::Svr::Console::Device::process_device_ready">
+<area shape="rect" id="Node000001" title="Callback called on DEVICE_READY event." alt="" coords="5,65,232,105"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#a88e370a9d1c9e029a8de04f68e380457" title="Send a DEVICE_ADD message and update the internal state." alt="" coords="280,65,440,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,83,266,83,266,88,232,88"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#aabb98e78ce5301c2a15e116871046cfd" title="Return the specified port." alt="" coords="501,29,661,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="440,70,488,62,488,67,441,75"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#ade546fa843dcfb4a0412757fee9834d7" title="Send control message to driver." alt="" coords="488,94,675,149"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="441,96,475,101,474,107,440,101"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#aeba93ed1ee8f9abfe42542187e54cca0" title="Add a descriptor to the used ring, and notify an observer." alt="" coords="723,5,893,45"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="646,91,674,79,722,55,738,48,740,53,724,60,676,84,648,96"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#aa7e9493f7fe5bfa9ebaa5d80be8179cf" title="Get the next available descriptor from the available ring." alt="" coords="723,69,893,109"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="675,105,708,101,709,106,675,111"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Virtqueue.html#aa242e930433e8705c4ee00afaf58f686" title="Test if this queue is in working state." alt="" coords="737,133,879,173"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="675,132,723,139,723,144,675,137"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Svr_1_1Request__processor.html#abcf6a6b8bf80e0d73d45b5eb9e817abd" title="Start processing a new request." alt="" coords="727,197,889,237"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="642,146,724,183,741,190,739,195,722,188,639,151"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#af6577deb37b3685815f9ae52760390db" title="Put the given descriptor into the used ring." alt="" coords="945,5,1116,45"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="894,23,932,23,932,28,894,28"/>
+<area shape="rect" id="Node000010" href="$namespacecxx.html#ab148b2c460eb31462ced9a1eafd9667c" title="Read the value at an address at most once." alt="" coords="963,83,1098,109"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="872,195,892,183,907,168,915,152,923,135,940,119,952,112,955,116,943,123,928,138,919,154,911,171,895,187,875,199"/>
+<area shape="rect" id="Node000011" href="$classL4virtio_1_1Svr_1_1Virtqueue_1_1Head__desc.html#a98a4cc67f88052754fa54451b3d68e2d" title=" " alt="" coords="945,133,1116,173"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="878,195,947,175,948,180,879,200"/>
+<area shape="rect" id="Node000012" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#a9c3e815065cc8cf0c8fe2573c047dbb4" title="Get a descriptor from the descriptor list." alt="" coords="945,197,1116,237"/>
+<area shape="poly" id="edge11_Node000009_Node000012" title=" " alt="" coords="889,215,932,215,932,220,889,220"/>
+<area shape="rect" id="Node000013" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#afbe72e699f3403f80e62125754c69d14" title="Get the indirect bits ( 2 to 2 ) of raw." alt="" coords="949,261,1112,301"/>
+<area shape="poly" id="edge12_Node000009_Node000013" title=" " alt="" coords="879,235,948,255,947,260,878,240"/>
+<area shape="rect" id="Node000014" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="941,326,1120,351"/>
+<area shape="poly" id="edge13_Node000009_Node000014" title=" " alt="" coords="834,236,882,274,943,311,962,319,960,324,940,316,879,278,830,240"/>
+</map>

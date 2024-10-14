@@ -1,3 +1,11 @@
+INTERFACE [arm]:
+
+EXTENSION class Context
+{
+protected:
+  void sanitize_user_state(Return_frame *dst) const;
+};
+
 // ------------------------------------------------------------------------
 INTERFACE [arm_v6plus]:
 
@@ -56,6 +64,17 @@ void Context::switchin_context(Context *from)
   vcpu_aware_space()->switchin_context(from->vcpu_aware_space());
 
   Utcb_support::current(this->utcb().usr());
+}
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [arm && !cpu_virt]:
+
+IMPLEMENT inline
+void
+Context::sanitize_user_state(Return_frame *dst) const
+{
+  dst->psr &= ~(Proc::Status_mode_mask | Proc::Status_interrupts_mask);
+  dst->psr |= Proc::Status_mode_user | Proc::Status_always_mask;
 }
 
 // ------------------------------------------------------------------------
@@ -142,3 +161,24 @@ Context::tpidruro() const
   return 0;
 }
 
+// ------------------------------------------------------------------------
+IMPLEMENTATION [arm && mpu]:
+
+#include "kmem.h"
+
+PUBLIC
+void
+Context::init_mpu_state()
+{
+  auto const &kd = *Kmem::kdir;
+  _mpu_prbar2 = kd[Kpdir::Kernel_heap].prbar;
+  _mpu_prlar2 = kd[Kpdir::Kernel_heap].prlar;
+}
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [arm && !mpu]:
+
+PUBLIC inline
+void
+Context::init_mpu_state()
+{}

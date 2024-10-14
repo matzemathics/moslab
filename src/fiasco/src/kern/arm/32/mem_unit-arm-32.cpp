@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_v5]:
+IMPLEMENTATION [arm && mmu && arm_v5]:
 
 IMPLEMENT inline
 void Mem_unit::tlb_flush()
@@ -21,7 +21,7 @@ void Mem_unit::tlb_flush(void *va, unsigned long)
 {
   Mem::dsb();
   asm volatile("mcr p15, 0, %0, c8, c7, 1" // TLBIMVA
-               : : "r" ((unsigned long)va & 0xfffff000) : "memory");
+               : : "r" (reinterpret_cast<Address>(va) & 0xfffff000) : "memory");
   Mem::dsb();
 }
 
@@ -34,11 +34,11 @@ void Mem_unit::tlb_flush_kernel(Address va)
 {
   // No ASIDs on ARMv5, so just use the regular tlb_flush() implementation
   // passing a dummy ASID value that is ignored anyway.
-  tlb_flush((void *)va, 0);
+  tlb_flush(reinterpret_cast<void *>(va), 0);
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && (arm_v6 || (arm_v7 && !mp)) && !cpu_virt]:
+IMPLEMENTATION [arm && mmu && (arm_v6 || (arm_v7 && !mp)) && !cpu_virt]:
 
 IMPLEMENT inline
 void Mem_unit::tlb_flush()
@@ -68,7 +68,7 @@ void Mem_unit::tlb_flush(void *va, unsigned long asid)
   btc_flush();
   Mem::dsbst();
   asm volatile("mcr p15, 0, %0, c8, c7, 1" // TLBIMVA
-               : : "r" (((unsigned long)va & 0xfffff000) | asid) : "memory");
+               : : "r" ((reinterpret_cast<Address>(va) & 0xfffff000) | asid) : "memory");
   Mem::dsb();
 }
 
@@ -86,7 +86,7 @@ void Mem_unit::tlb_flush_kernel(Address)
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && ((arm_v7 && mp) || arm_v8) && !cpu_virt]:
+IMPLEMENTATION [arm && mmu && ((arm_v7 && mp) || arm_v8) && !cpu_virt]:
 
 IMPLEMENT inline
 void Mem_unit::tlb_flush()
@@ -116,7 +116,7 @@ void Mem_unit::tlb_flush(void *va, unsigned long asid)
   btc_flush();
   Mem::dsbst();
   asm volatile("mcr p15, 0, %0, c8, c3, 1" // TLBIMVAIS
-               : : "r" (((unsigned long)va & 0xfffff000) | asid) : "memory");
+               : : "r" ((reinterpret_cast<Address>(va) & 0xfffff000) | asid) : "memory");
   Mem::dsb();
 }
 
@@ -134,7 +134,7 @@ void Mem_unit::tlb_flush_kernel(Address va)
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_v7plus && cpu_virt]:
+IMPLEMENTATION [arm && mmu && arm_v7plus && cpu_virt]:
 
 IMPLEMENT inline
 void Mem_unit::tlb_flush()
@@ -179,7 +179,8 @@ void Mem_unit::tlb_flush(void *va, unsigned long asid)
       "dsb ish \n"
       "mcrr p15, 6, %[tmp1], %[tmp2], c2 \n" // restore VTTBR
       : [tmp1] "=&r" (t1), [tmp2] "=&r" (t2)
-      : [mva] "r" (((unsigned long)va & 0xfffff000)), [asid] "r" (asid << 16)
+      : [mva] "r" ((reinterpret_cast<unsigned long>(va) & 0xfffff000)),
+        [asid] "r" (asid << 16)
       : "memory");
 }
 
@@ -207,15 +208,16 @@ PUBLIC static inline
 void
 Mem_unit::make_coherent_to_pou(void const *start, size_t size)
 {
-  unsigned long end = (unsigned long)start + size;
+  unsigned long start_addr = reinterpret_cast<unsigned long>(start);
+  unsigned long end_addr = start_addr + size;
   unsigned long is = icache_line_size(), ds = dcache_line_size();
 
-  for (auto i = (unsigned long)start & ~(ds - 1U); i < end; i += ds)
+  for (auto i = start_addr & ~(ds - 1U); i < end_addr; i += ds)
     __asm__ __volatile__ ("mcr p15, 0, %0, c7, c11, 1" : : "r"(i));  // DCCMVAU
 
   Mem::dsb(); // make sure data cache changes are visible to instruction cache
 
-  for (auto i = (unsigned long)start & ~(is - 1U); i < end; i += is)
+  for (auto i = start_addr & ~(is - 1U); i < end_addr; i += is)
     __asm__ __volatile__ (
         "mcr p15, 0, %0, c7, c5, 1   \n"  // ICIMVAU
         "mcr p15, 0, %0, c7, c5, 7   \n"  // BPIMVA
@@ -223,3 +225,37 @@ Mem_unit::make_coherent_to_pou(void const *start, size_t size)
 
   Mem::dsb(); // ensure completion of instruction cache invalidation
 }
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu]:
+
+IMPLEMENT inline
+void Mem_unit::tlb_flush()
+{
+  btc_flush();
+  Mem::dsb();
+}
+
+IMPLEMENT inline
+void Mem_unit::tlb_flush(unsigned long /*asid*/)
+{
+  btc_flush();
+  Mem::dsb();
+}
+
+IMPLEMENT inline
+void Mem_unit::tlb_flush(void * /*va*/, unsigned long asid)
+{
+  if (asid == Asid_invalid)
+    return;
+  btc_flush();
+  Mem::dsb();
+}
+
+IMPLEMENT inline
+void Mem_unit::tlb_flush_kernel()
+{}
+
+IMPLEMENT inline
+void Mem_unit::tlb_flush_kernel(Address /*va*/)
+{}

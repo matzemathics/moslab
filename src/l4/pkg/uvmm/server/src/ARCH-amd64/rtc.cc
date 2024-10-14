@@ -10,7 +10,6 @@
 /**
  * Minimal viable implementation of a CMOS RTC (Motorola MC146818A).
  *
- * We do not support CMOS memory.
  * We do not support setting new time values.
  * We only support 24h mode (it is hard-wired).
  * We do not support the century byte.
@@ -47,6 +46,7 @@ namespace Vdev {
 
 class Rtc :
   public Vdev::Timer,
+  public Vdev::Pm_device,
   public Vmm::Io_device,
   public Vdev::Device
 {
@@ -70,6 +70,7 @@ class Rtc :
     // Cmos_ram
     Ram_start = 0xe,
     Ram_end = 0x80,
+    Ram_size = Ram_end - Ram_start,
   };
 
   enum Status_reg_c : l4_uint8_t
@@ -159,16 +160,53 @@ class Rtc :
 
   void handle_set_time(Status_reg_b r)
   {
-    bool set = _reg_b.set();
-    // if the guest toggled the set bit, it tried to set the time
-    if (set && r.set() == 0)
-      warn().printf("UNIMPLEMENTED: set time\n");
+    // As long as the set() bit is set, the guest assumes that the clock does
+    // not update. We redirect all writes to shadow registers, and those
+    // never get updated.
+
+    // The strategy for updating is:
+    // - the guest sets the set bit to 1
+    // - the guest writes the new time value to the shadow registers
+    // - the guest sets the set bit to 0
+    // - once the set bit is 0, Uvmm retrieves the new time value from the
+    //   shadow registers and updates its internal time.
+    bool old_set_bit = _reg_b.set().get();
+    bool new_set_bit = r.set().get();
+
+    if (!old_set_bit || new_set_bit)
+      return;
+
+    time_t seconds = ns_to_s(L4rtc_hub::ns_since_epoch());
+    struct tm *t = gmtime(&seconds);
+    if (!t)
+      {
+        warn().printf("Could not determine time.\n");
+        return;
+      }
+    t->tm_sec = _shadow_registers[Seconds];
+    t->tm_min = _shadow_registers[Minutes];
+    t->tm_hour = _shadow_registers[Hours];
+    t->tm_mday = _shadow_registers[Day_of_month];
+    t->tm_mon = _shadow_registers[Month] - 1;   // months start at '1'
+    int centuries_since_1900 = t->tm_year / 100 * 100;
+    // tm_year is defined as 'years since 1900'. The RTC spec instead
+    // specifies the Year register as 'year in the range of 0-99'. Here we use
+    // the previous centuries since 1900 (as calculated from "seconds since
+    // epoch") and add them to the register value from the guest.
+    t->tm_year = _shadow_registers[Year] + centuries_since_1900;
+
+    _seconds = timegm(t);
+    L4rtc_hub::set_ns_since_epoch(s_to_ns(_seconds));
+
+    trace().printf("set time to %04d-%02d-%02d %02d:%02d:%02d\n",
+                   t->tm_year + 1900, t->tm_mon, t->tm_mday,
+                   t->tm_hour, t->tm_min, t->tm_sec);
   }
 
   // return next timeout in seconds
   time_t calc_next_alarm()
   {
-    time_t seconds = ns_to_s(L4rtc_hub::get()->ns_since_epoch());
+    time_t seconds = ns_to_s(L4rtc_hub::ns_since_epoch());
     struct tm *alarm_time = gmtime(&seconds);
     struct tm *current_time = gmtime(&seconds);
 
@@ -304,7 +342,9 @@ class Rtc :
       default:
         if (_reg_sel <= Year)
           _shadow_registers[_reg_sel] = convert_from_guest(val);
-        else if (Ram_start > _reg_sel || _reg_sel > Ram_end)
+        else if (_reg_sel >= Ram_start && _reg_sel < Ram_end)
+          cmos_write(_reg_sel - Ram_start, val);
+        else
           warn().printf("Register write not handled (%u)\n", _reg_sel);
         break;
       }
@@ -342,7 +382,7 @@ class Rtc :
 
     // only update time if guest does not currently try to set a new time
     if (!_reg_b.set())
-      _seconds = ns_to_s(L4rtc_hub::get()->ns_since_epoch());
+      _seconds = ns_to_s(L4rtc_hub::ns_since_epoch());
 
     struct tm *t = gmtime(&_seconds);
     if (!t)
@@ -387,6 +427,8 @@ class Rtc :
       default:
         if (Ram_start > _reg_sel || _reg_sel > Ram_end)
           warn().printf("Unknown register read (%d)\n", _reg_sel);
+        else
+          ret = cmos_read(_reg_sel - Ram_start);
         break;
       }
     return ret;
@@ -394,7 +436,7 @@ class Rtc :
 
 public:
  Rtc(cxx::Ref_ptr<Gic::Ic> const &ic, int irq)
- : _alarm_timeout(this), _sink(ic, irq), _previous_alarm_second(0)
+ : Pm_device(), _alarm_timeout(this), _sink(ic, irq), _previous_alarm_second(0)
   {
     info().printf("Hello from RTC. Irq=%d\n", irq);
 #if !defined(CONFIG_UVMM_EXTERNAL_RTC) and !(CONFIG_RELEASE_MODE)
@@ -404,8 +446,21 @@ public:
       "source.\n");
 #endif
 
-    _seconds = ns_to_s(L4rtc_hub::get()->ns_since_epoch());
+    _seconds = ns_to_s(L4rtc_hub::ns_since_epoch());
   }
+
+  void pm_suspend() override
+  {}
+
+  void pm_resume() override
+  {
+    // tell the guest that the machine has resumed from suspend
+    // use the PS/2 shutdown status byte as expected by firmware
+    cmos_write(1, 0xfe);
+  }
+
+  char const *dev_name() const override
+  { return "RTC"; }
 
   /* IO write from the guest to device */
   void io_out(unsigned port, Vmm::Mem_access::Width, l4_uint32_t value) override
@@ -443,9 +498,7 @@ public:
 
   ~Rtc()
   {
-    // remove a potential reference to the local object.
     dequeue_timeout(&_alarm_timeout);
-    L4rtc_hub::destroy();
   }
 
 private:
@@ -453,8 +506,9 @@ private:
   static Dbg warn() { return Dbg(Dbg::Dev, Dbg::Warn, "RTC"); }
   static Dbg trace() { return Dbg(Dbg::Dev, Dbg::Trace, "RTC"); }
 
-  static l4_uint64_t ns_to_s(l4_uint64_t ns) { return ns / 1000000000; }
-  static l4_uint64_t s_to_us(l4_uint64_t s) { return s * 1000000; }
+  static l4_uint64_t ns_to_s(l4_uint64_t ns) { return ns / 1'000'000'000; }
+  static l4_uint64_t s_to_us(l4_uint64_t s) { return s * 1'000'000; }
+  static l4_uint64_t s_to_ns(l4_uint64_t s) { return s * 1'000'000'000; }
 
   /// Alarm registers with the highest bits set (0xC0 - 0xFF) are don't care.
   static bool dont_care_not_set(l4_uint8_t reg)
@@ -463,7 +517,21 @@ private:
     return (reg & Dont_care_bits) != Dont_care_bits;
   }
 
-  unsigned _reg_sel = 0;
+  void cmos_write(l4_uint8_t regsel, l4_uint16_t value)
+  {
+    assert(regsel < Ram_size);
+    trace().printf("cmos write(%u, 0x%x)\n", regsel, value);
+    _cmos[regsel] = value;
+  }
+
+  l4_uint16_t cmos_read(l4_uint8_t regsel)
+  {
+    assert(regsel < Ram_size);
+    trace().printf("cmos read(%u) = 0x%x\n", regsel, _cmos[regsel]);
+    return _cmos[regsel];
+  }
+
+  l4_uint8_t _reg_sel = 0;
   Status_reg_a _reg_a;
   Status_reg_b _reg_b;
   l4_uint8_t _reg_c = 0;
@@ -479,6 +547,8 @@ private:
 
   // seconds since epoch as determined by external clock source
   time_t _seconds;
+
+  l4_uint16_t _cmos[Ram_size];
 
   Vmm::Irq_sink _sink;
   l4_cpu_time_t _previous_alarm_second;

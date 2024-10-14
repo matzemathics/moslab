@@ -9,6 +9,7 @@ EXTENSION class Mmu
 public:
   static void btc_flush();
   static void btc_inv();
+  static void inv_cache();
 };
 
 //---------------------------------------------------------------------------
@@ -82,34 +83,33 @@ void Mmu<Flush_area, Ram>::flush_cache(void const * /*start*/,
 
 IMPLEMENT
 template< unsigned long Flush_area , bool Ram >
-FIASCO_NOINLINE void Mmu<Flush_area, Ram>::clean_dcache(void const *start, void const *end)
+FIASCO_NOINLINE void Mmu<Flush_area, Ram>::clean_dcache(void const * /*start*/,
+                                                        void const * /*end*/)
 {
-  (void)start; (void)end;
   clean_dcache();
 }
 
 IMPLEMENT
 template< unsigned long Flush_area , bool Ram >
-void Mmu<Flush_area, Ram>::clean_dcache(void const *va)
+void Mmu<Flush_area, Ram>::clean_dcache(void const * /*va*/)
 {
-  (void)va;
   clean_dcache();
 }
 
 IMPLEMENT
 template< unsigned long Flush_area, bool Ram >
-FIASCO_NOINLINE void Mmu<Flush_area, Ram>::flush_dcache(void const *start, void const *end)
+FIASCO_NOINLINE void Mmu<Flush_area, Ram>::flush_dcache(void const * /*start*/,
+                                                        void const * /*end*/)
 {
-  (void)start; (void)end;
   flush_dcache();
 }
 
 
 IMPLEMENT
 template< unsigned long Flush_area, bool Ram >
-FIASCO_NOINLINE void Mmu<Flush_area, Ram>::inv_dcache(void const *start, void const *end)
+FIASCO_NOINLINE void Mmu<Flush_area, Ram>::inv_dcache(void const * /*start*/,
+                                                      void const * /*end*/)
 {
-  (void)start; (void)end;
   // clean && invalidate dcache  ||| XXX: all
 #if 1
   for (unsigned long index = 0; index < (1 << (32 - 26)); ++index)
@@ -136,7 +136,7 @@ IMPLEMENT
 template< unsigned long Flush_area , bool Ram >
 FIASCO_NOINLINE void Mmu<Flush_area, Ram>::clean_dcache(void const *start, void const *end)
 {
-  if (((Address)end) - ((Address)start) >= 8192)
+  if (reinterpret_cast<Address>(end) - reinterpret_cast<Address>(start) >= 8192)
     clean_dcache();
   else
     {
@@ -164,7 +164,7 @@ IMPLEMENT
 template< unsigned long Flush_area, bool Ram >
 FIASCO_NOINLINE void Mmu<Flush_area, Ram>::flush_dcache(void const *start, void const *end)
 {
-  if (((Address)end) - ((Address)start) >= 8192)
+  if (reinterpret_cast<Address>(end) - reinterpret_cast<Address>(start) >= 8192)
     flush_dcache();
   else
     {
@@ -265,6 +265,18 @@ void Mmu<Flush_area, Ram>::clean_dcache()
 {
   Mem::dsb();
   set_way_full_loop(dc_csw);
+}
+
+IMPLEMENT
+template< unsigned long Flush_area, bool Ram >
+void Mmu<Flush_area, Ram>::inv_cache()
+{
+  // No need for a DSB here. The cache must be disabled when calling the
+  // function, otherwise dirty data would be lost. Therefore all memory
+  // accesses bypass the cache already and we don't have to wait for them to
+  // retire.
+  ic_iallu();
+  set_way_full_loop(dc_isw);
 }
 
 //-----------------------------------------------------------------------------

@@ -1,7 +1,9 @@
 <map id="L4virtio::Svr::Dev_config::status" name="L4virtio::Svr::Dev_config::status">
-<area shape="rect" id="Node000001" title="Get current device status (trusted)." alt="" coords="207,37,341,77"/>
-<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Device__t.html#a29f780ecb04509d8b72f4a155b073c74" title="Transition device into DEVICE_NEEDS_RESET state." alt="" coords="5,5,159,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,47,158,41,159,35,194,41"/>
-<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a01556f856334cea1ab98ef40559a5ead" title="Set device status register." alt="" coords="11,69,153,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,73,154,80,153,75,193,68"/>
+<area shape="rect" id="Node000001" title="Get current device status (trusted)." alt="" coords="224,69,359,109"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a7fb7334fc078f7c26c036ea1f5fbdbf3" title="Adds irq status bit." alt="" coords="5,5,176,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,68,153,48,155,43,216,63"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Device__t.html#a29f780ecb04509d8b72f4a155b073c74" title="Transition device into DEVICE_NEEDS_RESET state." alt="" coords="14,69,167,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,92,168,92,168,87,210,87"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a01556f856334cea1ab98ef40559a5ead" title="Set device status register." alt="" coords="19,133,162,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="216,116,155,136,153,131,214,111"/>
 </map>

@@ -111,7 +111,8 @@
           reg = <0x0 0x0 0x0 0x0>;
           interrupt-parent = <&IOAPIC>;
           interrupts = <4>;
-          l4vmm,vcon_cap = "uart";
+          /* Redirecting to another vcon channel is possible: */
+          /* l4vmm,vcon_cap = "uart"; */
         };
 
         l4rtc {
@@ -192,7 +193,7 @@
             //
             // Attention: the ranges property is parsed by uvmm and by the
             // firmware to detect the bridge windows!
-            ranges = <0x01000000 0x0 0x00006000 0x0 0x00006000 0x0    0xa000
+            ranges = <0x01000000 0x0 0x00006000 0x0 0x00006000 0x0    0x5000
                       0x02000000 0x0 0xaa000000 0x0 0xaa000000 0x0 0x1000000
                       0x03000000 0x3 0x00000000 0x3 0x00000000 0x1 0x00000000>;
 
@@ -216,6 +217,9 @@
                      0x01000014 0x0 0x0 0x0   0x80>;
               msi-parent = <&msi_ctrl>;
               l4vmm,vdev = "console";
+              /* Emulated UART is used by default for best bring-up
+              * experience */
+              status = "disabled";
             };
 
             virtio_net@1 {

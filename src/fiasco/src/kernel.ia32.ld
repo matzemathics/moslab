@@ -7,11 +7,6 @@
 _boot_sys_start = 0x300000;
 _kernel_image	= FIASCO_IMAGE_VIRT_START;	/* kernel link address */
 _load		= FIASCO_IMAGE_PHYS_START & 0x3fffff;
-/*
-_load		= 0x1000;	/* skip page 0 to preserve BIOS data and
-				 * page 1 to reserve space for the KIP */
-
-/*_fiasco_image_offset = 0xf0000000;*/
 _fiasco_image_offset = FIASCO_IMAGE_PHYS_OFFSET;
 
 ENTRY(bootstrap__boot_start)
@@ -31,6 +26,12 @@ PHDRS {
 }
 
 SECTIONS {
+  . = FIASCO_MP_TRAMP_PAGE;
+  .realmode_tramp : {
+      *(.realmode_tramp*)
+      . = ALIGN(0x1000);
+  } : tramp = 0x00
+
   /*
    * The correct section attribute would be NOLOAD but in that case ld.lld
    * would wrongly merge the ".bda" content with the "tramp" output section.
@@ -38,16 +39,11 @@ SECTIONS {
    * is still supported and does the right thing. See also the ld.lld docu:
    * "COPY, INFO, OVERLAY: clear the SHF_ALLOC bit in sh_flags."
    */
-  .bda 0x400 (INFO) : {
+  .bda FIASCO_BDA_PAGE + 0x400 (INFO) : {
     . += 0xe;
     ebda_segment = .;
+    . += 0x2;
   }
-
-  . = FIASCO_MP_TRAMP_PAGE;
-  .realmode_tramp : {
-      *(.realmode_tramp*)
-      . = ALIGN(0x1000);
-  } : tramp
 
   . = _boot_sys_start;
   .text_boot : ALIGN(0x1000) {
@@ -64,7 +60,7 @@ SECTIONS {
 
   . = ALIGN(0x10);
   .bss_boot : {
-      *(.bootstrap.bss .bootstrap.gnu.linkonce.b.*)
+      *(.bootstrap.bss .bootstrap.bss.* .bootstrap.gnu.linkonce.b.*)
   . = ALIGN(0x1000);
   PROVIDE(_boot_sys_end = .);
   } : bdata
@@ -109,6 +105,8 @@ SECTIONS {
     PROVIDE(__exc_table_start = .);
     KEEP(*(__exc_table __exc_table.*))
     PROVIDE(__exc_table_end = .);
+
+    DEFINE_WORKLOAD_SECTIONS
 
     KEEP(*(.rodata.log.*))
 

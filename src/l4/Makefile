@@ -7,8 +7,8 @@ L4DIR         ?= .
 PRJ_SUBDIRS   := pkg tests $(wildcard l4linux)
 BUILD_DIRS    := tool
 install-dirs  := tool pkg
-clean-dirs    := tool pkg tests doc
-cleanall-dirs := tool pkg tests doc
+clean-dirs    := tool pkg tests doc sysroot
+cleanall-dirs := tool pkg tests doc sysroot
 
 BUILD_TOOLS    = bash bison flex gawk perl tput \
                  $(foreach v,CC CXX LD HOST_CC HOST_CXX HOST_LD, \
@@ -17,17 +17,42 @@ BUILD_TOOLS    = bash bison flex gawk perl tput \
 BUILD_TOOLS_pkg/uvmm  := dtc
 
 CMDS_WITHOUT_OBJDIR := help checkbuild checkbuild.% check_build_tools
-CMDS_PROJECT_MK     := all clean cleanall install scrub cont doc help \
+CMDS_PROJECT_MK     := all clean cleanall install scrub cont doc help sysroot \
                        $(wildcard $(MAKECMDGOALS))
 
-# our default target is all::
+# Hack, see project.mk
+BID_DCOLON_TARGETS := all clean cleanall install scrub DROPSCONF_CONFIG_MK_POST_HOOK olddefconfig oldconfig config
+
+# This goes very early
+# TODO: should be done in mk/Makeconf to catch all make invocations (maybe
+#        there's a better way?)
+ifneq ($(if $(B)$(BID_SANDBOX_IN_PROGRESS),,$(SANDBOX_ENABLE)),)
+
+.PHONY: $(MAKECMDGOALS) do-all-make-targets
+
+do-all-make-targets:
+	$(VERBOSE)BID_SANDBOX_IN_PROGRESS=1 \
+	   $(L4DIR)/tool/bin/sandbox \
+	              --sys-dir "$(or $(SANDBOX_SYSDIR),/)" \
+	              --dir-rw "$(OBJ_DIR)" \
+	              --dir-ro "$(if $(L4DIR_ABS),$(L4DIR_ABS),$(PWD))" \
+	              --cmd "$(MAKE) -C $(OBJ_DIR) $(MAKECMDGOALS)"
+
+include $(L4DIR)/mk/Makeconf
+
+$(filter-out $(BID_DCOLON_TARGETS),$(MAKECMDGOALS)):  do-all-make-targets
+$(filter     $(BID_DCOLON_TARGETS),$(MAKECMDGOALS)):: do-all-make-targets
+
+else
 all::
 
 #####################
 # config-tool
 
 DROPSCONF               = y
-DROPSCONF_DEFCONFIG    ?= $(L4DIR)/mk/defconfig/config.amd64
+TEMPLDIR	       := mk/defconfig
+DFL_TEMPLATE           := amd64
+DROPSCONF_DEFCONFIG    ?= $(TEMPLDIR)/config.$(DFL_TEMPLATE)
 KCONFIG_FILE            = $(OBJ_BASE)/Kconfig.generated
 KCONFIG_FILE_DEPS       = $(OBJ_BASE)/.Kconfig.generated.d
 KCONFIG_FILE_SRC        = $(L4DIR)/mk/Kconfig
@@ -103,10 +128,19 @@ endif
 ifneq ($(strip $(B)),)
 BUILDDIR_TO_CREATE := $(B)
 endif
+
 ifneq ($(strip $(BUILDDIR_TO_CREATE)),)
-ifneq ($(wildcard $(L4DIR)/mk/defconfig/config.$(T)),)
-  DROPSCONF_DEFCONFIG=$(L4DIR)/mk/defconfig/config.$(T)
+
+# Use custom default configuration file if T is specified
+ifneq ($(T),)
+  DROPSCONF_DEFCONFIG_CANDIDATE=$(TEMPLDIR)/config.$(T)
+  ifneq ($(wildcard $(DROPSCONF_DEFCONFIG_CANDIDATE)),)
+    DROPSCONF_DEFCONFIG=$(DROPSCONF_DEFCONFIG_CANDIDATE)
+  else
+    $(error ERROR: Default configuration file $(DROPSCONF_DEFCONFIG_CANDIDATE) (derived from T=$(T)) not found)
+  endif
 endif
+
 all::
 	@echo "Creating build directory \"$(BUILDDIR_TO_CREATE)\"..."
 	@if [ -e $(BUILDDIR_TO_CREATE) ]; then \
@@ -116,6 +150,9 @@ all::
 	@mkdir -p $(BUILDDIR_TO_CREATE)
 	@cp $(DROPSCONF_DEFCONFIG) $(BUILDDIR_TO_CREATE)/.kconfig
 	@echo CONFIG_PLATFORM_TYPE_$(PT)=y >> $(BUILDDIR_TO_CREATE)/.kconfig
+ifneq ($(DROPSCONF_DEFCONFIG_OVERLAY),)
+	@cat $(DROPSCONF_DEFCONFIG_OVERLAY) >> $(BUILDDIR_TO_CREATE)/.kconfig
+endif
 	@$(MAKE) B= BUILDDIR_TO_CREATE= O=$(BUILDDIR_TO_CREATE) olddefconfig \
 	  || ( $(RM) -r $(BUILDDIR_TO_CREATE) ; exit 1 )
 	@echo "done."
@@ -166,8 +203,9 @@ cleanfast:
 	                  $(OBJ_BASE)/.tmp.bid_config.h;                   \
 	          fi
 	$(VERBOSE)$(RM) -r $(addprefix $(OBJ_BASE)/,bin include pkg tests    \
-	                               doc ext-pkg pc lib test l4defs.mk.inc \
-	                               l4defs.sh.inc .Makeconf.phys_reloc)   \
+	                               doc ext-pkg pc lib test               \
+	                               .Makeconf.phys_reloc sysroot )        \
+	                               $(L4DEFS_FILES)                       \
 	                               $(IMAGES_DIR)
 	$(VERBOSE)if [ -f $(OBJ_BASE)/.tmp.bid_config.h ]; then  \
 	            mkdir -p $(OBJ_BASE)/include/generated;      \
@@ -186,44 +224,42 @@ clean cleanall install::
 	            if [ -r $$i/Makefile -o -r $$i/GNUmakefile ]; then \
 	              PWD=$(PWD)/$$i $(MAKE) -C $$i $@; fi; done
 
-L4DEF_FILE_MK ?= $(OBJ_BASE)/l4defs.mk.inc
-L4DEF_FILE_SH ?= $(OBJ_BASE)/l4defs.sh.inc
-L4DEF_FILE_PL ?= $(OBJ_BASE)/l4defs.pl.inc
+l4defs_file  = $(OBJ_BASE)/l4defs$(if $(filter std,$(1)),,-$(1)).$(2).inc
 
-l4defs: $(L4DEF_FILE_MK) $(L4DEF_FILE_SH) $(L4DEF_FILE_PL)
+L4DEFS_FILES = $(foreach v,std $(VARIANTS_AVAILABLE),$(call l4defs_file,$(v),mk) $(call l4defs_file,$(v),sh) $(call l4defs_file,$(v),pl))
 
-generate_l4defs_files = \
-	$(VERBOSE)tmpdir=$(OBJ_BASE)/l4defs.gen.dir &&                 \
+l4defs: $(L4DEFS_FILES)
+
+generate_l4defs_files_step = \
+	tmpdir=$(OBJ_BASE)/l4defs.gen.dir &&                 \
 	mkdir -p $$tmpdir &&                                           \
 	echo "L4DIR = $(L4DIR_ABS)"                      > $$tmpdir/Makefile && \
 	echo "OBJ_BASE = $(OBJ_BASE)"                   >> $$tmpdir/Makefile && \
 	echo "L4_BUILDDIR = $(OBJ_BASE)"                >> $$tmpdir/Makefile && \
 	echo "SRC_DIR = $$tmpdir"                       >> $$tmpdir/Makefile && \
 	echo "PKGDIR_ABS = $(L4DIR_ABS)/l4defs.gen.dir" >> $$tmpdir/Makefile && \
+	echo "VARIANT = $(2)"                           >> $$tmpdir/Makefile && \
 	echo "BUILD_MESSAGE ="                          >> $$tmpdir/Makefile && \
 	cat $(L4DIR)/mk/export_defs.inc                 >> $$tmpdir/Makefile && \
 	PWD=$$tmpdir $(MAKE) -C $$tmpdir -f $$tmpdir/Makefile          \
-	  CALLED_FOR=$(1) L4DEF_FILE_MK=$(L4DEF_FILE_MK) L4DEF_FILE_SH=$(L4DEF_FILE_SH) L4DEF_FILE_PL=$(L4DEF_FILE_PL) && \
+	  CALLED_FOR=$(1) L4DEF_FILE_MK=$(call l4defs_file,$(2),mk) L4DEF_FILE_SH=$(call l4defs_file,$(2),sh) L4DEF_FILE_PL=$(call l4defs_file,$(2),pl) && \
 	$(RM) -r $$tmpdir
 
-$(L4DEF_FILE_MK): $(OBJ_DIR)/.Package.deps pkg/l4re-core \
-                  $(DROPSCONF_CONFIG_MK) $(L4DIR)/mk/export_defs.inc
-	+$(call generate_l4defs_files,static)
-	+$(call generate_l4defs_files,minimal)
-	+$(call generate_l4defs_files,shared)
-	+$(call generate_l4defs_files,sharedlib)
-	+$(call generate_l4defs_files,finalize)
+generate_l4defs_files = \
+	$(call generate_l4defs_files_step,static,$(1)); \
+	$(call generate_l4defs_files_step,minimal,$(1)); \
+	$(call generate_l4defs_files_step,shared,$(1)); \
+	$(call generate_l4defs_files_step,sharedlib,$(1)); \
+	$(call generate_l4defs_files_step,finalize,$(1))
 
-$(L4DEF_FILE_SH): $(L4DEF_FILE_MK)
+$(firstword $(L4DEFS_FILES)): $(OBJ_DIR)/.Package.deps pkg/l4re-core \
+                 $(DROPSCONF_CONFIG_MK) $(L4DIR)/mk/export_defs.inc
+	+$(VERBOSE)$(foreach v,std $(VARIANTS_AVAILABLE),$(call generate_l4defs_files,$(v));)
 
-$(L4DEF_FILE_PL): $(L4DEF_FILE_MK)
+$(wordlist 2,$(words $(L4DEFS_FILES)),$(L4DEFS_FILES)): $(firstword $(L4DEFS_FILES))
 
 regen_l4defs:
-	+$(call generate_l4defs_files,static)
-	+$(call generate_l4defs_files,minimal)
-	+$(call generate_l4defs_files,shared)
-	+$(call generate_l4defs_files,sharedlib)
-	+$(call generate_l4defs_files,finalize)
+	+$(VERBOSE)$(foreach v,std $(VARIANTS_AVAILABLE),$(call generate_l4defs_files,$(v));)
 
 COMPILE_COMMANDS_JSON = compile_commands.json
 
@@ -241,6 +277,32 @@ regen_compile_commands_json:
 	    $(L4DIR)/tool/bin/gen_ccj $(OBJ_DIR) $(COMPILE_COMMANDS_JSON); \
 	  fi;                                                              \
 	fi
+
+# Build a typical sysroot for use with external tooling such as a
+# L4Re-specific cross-compiler
+SYSROOT_LIBS = libgcc_s lib4re lib4re-c lib4re-c-util lib4re-util-nortti lib4re-util libc libc_be_l4re libc_be_l4refile libc_be_socket_noop libc_be_sig libc_be_sig_noop libc_support_misc libdl libl4re-vfs.o libl4sys libl4util libld-l4 libm_support libpthread libc_nonshared.p libssp_nonshared.p libmount
+sysroot: $(foreach p,l4re l4re_c l4re_vfs l4sys l4util ldso libc_backends uclibc,pkg/l4re-core/$(p))
+	$(GEN_MESSAGE)
+	$(VERBOSE)$(RM) -r $(OBJ_DIR)/sysroot
+	$(VERBOSE)$(MKDIR) $(OBJ_DIR)/sysroot
+	$(VERBOSE)$(MKDIR) $(OBJ_DIR)/sysroot/usr/include/l4
+	$(VERBOSE)$(MKDIR) $(OBJ_DIR)/sysroot/usr/include/l4-arch/l4
+	$(VERBOSE)$(MKDIR) $(OBJ_DIR)/sysroot/usr/lib
+	$(VERBOSE)$(CP) -Lr $(OBJ_DIR)/include/$(BUILD_ARCH)/l4/sys \
+	                    $(OBJ_DIR)/include/$(BUILD_ARCH)/l4/util \
+	                    $(OBJ_DIR)/sysroot/usr/include/l4-arch/l4
+	$(VERBOSE)$(CP) -Lr $(OBJ_DIR)/include/$(BUILD_ARCH)/l4f/l4 \
+	          $(OBJ_DIR)/sysroot/usr/include/l4-arch/
+	$(VERBOSE)$(CP) -Lr $(OBJ_DIR)/include/l4/{crtn,cxx,l4re_vfs,libc_backends,re,sys,util,bid_config.h} \
+	                    $(OBJ_DIR)/sysroot/usr/include/l4/
+	$(VERBOSE)$(CP) -Lr $(OBJ_DIR)/include/uclibc/* $(OBJ_DIR)/sysroot/usr/include/
+	$(VERBOSE)$(CP) -Lr $(OBJ_DIR)/lib/$(BUILD_ARCH)_$(CPU)/std/plain/crt* $(OBJ_DIR)/sysroot/usr/lib
+	$(VERBOSE)$(CP) -Lr $(wildcard $(foreach l,$(SYSROOT_LIBS),$(OBJ_DIR)/lib/$(BUILD_ARCH)_$(CPU)/std/l4f/$(l).a $(OBJ_DIR)/lib/$(BUILD_ARCH)_$(CPU)/std/l4f/$(l).so)) \
+	                    $(OBJ_DIR)/sysroot/usr/lib
+	$(VERBOSE)mv $(OBJ_DIR)/sysroot/usr/lib/libc_nonshared.p.a  $(OBJ_DIR)/sysroot/usr/lib/libc_nonshared.a
+	$(VERBOSE)mv $(OBJ_DIR)/sysroot/usr/lib/libm_support.a  $(OBJ_DIR)/sysroot/usr/lib/libm.a
+	$(VERBOSE)mv $(OBJ_DIR)/sysroot/usr/lib/libm_support.so $(OBJ_DIR)/sysroot/usr/lib/libm.so
+
 
 .PHONY: l4defs regen_l4defs compile_commands.json regen_compile_commands_json
 endif # empty $(S)
@@ -265,25 +327,40 @@ DROPSCONF_CONFIG_MK_POST_HOOK:: check_build_tools $(OBJ_DIR)/Makefile
 	$(VEROBSE)$(LN) -snf $(L4DIR_ABS) $(OBJ_BASE)/source
 	$(VERBOSE)$(MAKE) checkconf
 
+$(KCONFIG_FILE).defines: FORCE
+	$(VERBOSE)echo "# Automatically generated. Don't edit" >$@.tmp
+	$(VERBOSE)echo "BID_COMPILER_TYPE := $(call BID_COMPILER_TYPE_f)" >>$@.tmp
+	$(VERBOSE)$(call move_if_changed,$@,$@.tmp)
+
 KCONFIGS_ARCH     := $(wildcard $(L4DIR)/mk/arch/Kconfig.*.inc)
 KCONFIG_PLATFORMS := $(wildcard $(L4DIR)/mk/platforms/*.conf $(L4DIR)/conf/platforms/*.conf)
 
+# Cannot use $^ inside the $(KCONFIG_FILE).platforms recipe to refer to its
+# dependencies, as this would include obsolete dependencies stored in
+# $(KCONFIG_FILE_DEPS).platforms from the previous generation of it.
+KCONFIG_FILE_PLATFORMS_DEPS_CURRENT = $(KCONFIG_PLATFORMS) Makefile $(L4DIR)/tool/bin/gen_kconfig_includes
+
 $(addprefix $(KCONFIG_FILE)%,platform_types platforms platforms.list): \
-            Makefile $(L4DIR)/tool/bin/gen_kconfig_includes $(KCONFIG_PLATFORMS)
-	$(file >$(KCONFIG_FILE_DEPS).platforms,$@: \
-	  $(KCONFIG_PLATFORMS) Makefile $(L4DIR)/tool/bin/gen_kconfig_includes)
-	$(foreach f,$^,$(file >>$(KCONFIG_FILE_DEPS).platforms,$(f):))
+            $(KCONFIG_FILE_PLATFORMS_DEPS_CURRENT)
+	$(file >$(KCONFIG_FILE_DEPS).platforms,$@: $(KCONFIG_FILE_PLATFORMS_DEPS_CURRENT))
+	$(foreach f,$(KCONFIG_FILE_PLATFORMS_DEPS_CURRENT),$(file >>$(KCONFIG_FILE_DEPS).platforms,$(f):))
 	$(VERBOSE)MAKE="$(MAKE)"; $(L4DIR)/tool/bin/gen_kconfig_includes $(KCONFIG_FILE) $(KCONFIG_PLATFORMS)
 
 # Kconfig.L4 files must be next to the Control file
 PKG_DIRS := $(call find_prj_dirs,$(SRC_DIR))
 PKG_KCONFIG_L4_FILES := $(wildcard $(addsuffix /Kconfig.L4,$(PKG_DIRS)))
 
-$(KCONFIG_FILE): $(KCONFIG_FILE_SRC) $(PKG_KCONFIG_L4_FILES) Makefile \
-                 $(KCONFIGS_ARCH) $(L4DIR)/tool/bin/gen_kconfig \
-                 | $(KCONFIG_FILE).platform_types $(KCONFIG_FILE).platforms $(KCONFIG_FILE).platforms.list
-	$(file >$(KCONFIG_FILE_DEPS),$(KCONFIG_FILE): $^)
-	$(foreach f,$^,$(file >>$(KCONFIG_FILE_DEPS),$(f):))
+# Cannot use $^ inside the $(KCONFIG_FILE) recipe to refer to its dependencies,
+# as this would include obsolete dependencies stored in $(KCONFIG_FILE_DEPS)
+# from the previous generation of it.
+KCONFIG_FILE_DEPS_CURRENT = $(KCONFIG_FILE_SRC) $(PKG_KCONFIG_L4_FILES) Makefile \
+                            $(KCONFIGS_ARCH) $(L4DIR)/tool/bin/gen_kconfig
+
+$(KCONFIG_FILE): $(KCONFIG_FILE_DEPS_CURRENT) \
+                 | $(KCONFIG_FILE).platform_types $(KCONFIG_FILE).platforms \
+                   $(KCONFIG_FILE).platforms.list $(KCONFIG_FILE).defines
+	$(file >$(KCONFIG_FILE_DEPS),$(KCONFIG_FILE): $(KCONFIG_FILE_DEPS_CURRENT))
+	$(foreach f,$(KCONFIG_FILE_DEPS_CURRENT),$(file >>$(KCONFIG_FILE_DEPS),$(f):))
 	$(VERBOSE)$(L4DIR)/tool/bin/gen_kconfig \
 	         --kconfig-src-file $(KCONFIG_FILE_SRC) \
 	         --kconfig-obj-file $(KCONFIG_FILE) \
@@ -292,6 +369,9 @@ $(KCONFIG_FILE): $(KCONFIG_FILE_SRC) $(PKG_KCONFIG_L4_FILES) Makefile \
 	$(VERBOSE)$(L4DIR)/mk/pkgdeps -I -K $(OBJ_BASE)/Kconfig.generated.pkgs \
 	         genkconfig $(SRC_DIR) $(PKG_DIRS)
 
+# Include dependencies from the previous generation of $(KCONFIG_FILE) and
+# $(KCONFIG_FILE).platforms to detect if one of these dependencies has been
+# removed, in which case the files need to be regenerated.
 -include $(KCONFIG_FILE_DEPS) $(KCONFIG_FILE_DEPS).platforms
 
 ifeq ($(filter y 1,$(DISABLE_CC_CHECK)),)
@@ -324,6 +404,22 @@ checkconf:
 	  $(ECHO); \
 	  $(if $(DISABLE_CC_CHECK),,exit 1;) \
 	fi
+ifeq ($(CONFIG_COMPILER_RT_USE_TOOLCHAIN_LIBGCC),y)
+	$(VERBOSE)if ! $(OBJDUMP) -f $$(grep GCCLIB_HOST= $(DROPSCONF_CONFIG_MK) | cut -d= -f2) | grep -q $(OFORMAT); then \
+	  $(ECHO); \
+	  $(ECHO) "Missing the cross-compiler's libgcc variant for the target ($(OFORMAT))."; \
+	  $(ECHO) "Install it, or disable the \"Use libgcc from toolchain\" (BID_USE_TOOLCHAIN_LIBGCC) config option."; \
+	  $(ECHO); \
+	  exit 1; \
+	fi
+	$(VERBOSE)if ! $(OBJDUMP) -f $$(grep GCCLIB_EH_HOST= $(DROPSCONF_CONFIG_MK) | cut -d= -f2) | grep -q $(OFORMAT); then \
+	  $(ECHO); \
+	  $(ECHO) "Missing the cross-compiler's libgcc_eh variant for the target ($(OFORMAT))."; \
+	  $(ECHO) "Install it, or disable the \"Use libgcc from toolchain\" (BID_USE_TOOLCHAIN_LIBGCC) config option."; \
+	  $(ECHO); \
+	  exit 1; \
+	fi
+endif
 
 
 # caching of some variables. Others are determined directly.
@@ -334,17 +430,18 @@ CC := $(if $(filter sparc,$(ARCH)),$(if $(call GCCIS_sparc_leon_f),sparc-elf-gcc
 LD := $(if $(filter sparc,$(ARCH)),$(if $(call GCCIS_sparc_leon_f),sparc-elf-ld,$(LD)),$(LD))
 add_if_f = $(if $($(1)_f),$(1))
 Makeconf.bid.local-helper:
-	$(VERBOSE)echo BUILD_SYSTEMS="$(strip $(ARCH)_$(CPU)            \
+	$(VERBOSE)echo BUILD_SYSTEMS="$(strip $(ARCH)_$(CPU)-plain            \
 	               $(ARCH)_$(CPU)-$(BUILD_ABI))" >> $(DROPSCONF_CONFIG_MK)
 	$(VERBOSE)$(foreach v, BID_COMPILER_TYPE BID_LD_TYPE \
 	              CONDITIONAL_WARNINGS_FULL CONDITIONAL_WARNINGS_MEDIUM \
 	              GCCDIR GCCFORTRANAVAIL GCC_HAS_ATOMICS GCCINCFIXEDPATH \
-	              GCCLIBCAVAIL GCCLIB_EH GCCLIB_HOST GCCLIB_S_SO \
+	              GCCLIBCAVAIL GCCLIB_EH_HOST GCCLIB_HOST \
 	              GCCMAJORVERSION GCCMINORVERSION GCCNOSTACKPROTOPT \
 	              GCCPATCHLEVEL GCCPREFIXOPT GCCSTACKPROTALLOPT \
 	              GCCSTACKPROTOPT GCCSYSLIBDIRS GCCVERSION \
 	              GCCWNOC99DESIGNATOR GCCWNONOEXCEPTTYPE GCCWNOPSABI \
 	              GCCWNOUNUSEDPRIVATEFIELD LDNOWARNRWX LDVERSION \
+	              RISCV_ZICSR_ZIFENCEI CLANGVISNEWDELETEHIDDEN \
 	              $(call add_if_f,GCCARMV5TEFPOPT_$(ARCH)) \
 	              $(call add_if_f,GCCARMV6FPOPT_$(ARCH)) \
 	              $(call add_if_f,GCCARMV6T2FPOPT_$(ARCH)) \
@@ -358,10 +455,6 @@ Makeconf.bid.local-helper:
 	            echo $(v)=$(call $(v)_f,$(ARCH)) \
 	            >>$(DROPSCONF_CONFIG_MK);)
 	$(VERBOSE)echo '#include <generated/autoconf.h>' >$(OBJ_BASE)/include/l4/bid_config.h
-	$(VERBOSE)$(foreach v, crtbegin.o crtbeginS.o crtbeginT.o \
-	                       crtendS.o crtend.o, \
-	              echo GCCLIB_FILE_$(v)=$(call GCCLIB_file_f,$(v))   \
-	                >>$(DROPSCONF_CONFIG_MK);)
 	$(VERBOSE)$(foreach v, LD_GENDEP_PREFIX, echo $v=$($(v)) >>$(DROPSCONF_CONFIG_MK);)
 	$(VERBOSE)echo "HOST_SYSTEM=$(HOST_SYSTEM)" >>$(DROPSCONF_CONFIG_MK)
 	$(VERBOSE)# we need to call make again, because HOST_SYSTEM (set above) must be
@@ -415,7 +508,7 @@ ifneq ($(CONFIG_INT_CPP_NAME_SWITCH),)
 	$(VERBOSE)set -e; X="$(OBJ_BASE)/tmp.$$$$$$RANDOM.c" ;               \
 	          echo 'int main(void){}'>$$X ;                              \
 	          rm -f $$X.out; $(LD_GENDEP_PREFIX) GENDEP_SOURCE=$$X       \
-	          GENDEP_OUTPUT=$$X.out $(CC) $(CCXX_FLAGS) -c $$X -o $$X.o; \
+	          GENDEP_OUTPUT=$$X.out $(CC) $(CARCHFLAGS) $(CCXX_FLAGS) -c $$X -o $$X.o; \
 	          if [ ! -e $$X.out ]; then                                  \
 	            echo -e "\n\033[1;31mGendep did not generate output. Is the compiler ($(CC)) statically linked?\033[0m"; \
 	            echo -e "Please use a dynamically linked compiler.\n"; exit 1; \
@@ -505,7 +598,7 @@ define genimage
 	+$(VERBOSE)$(entryselection);                                                 \
 	$(MKDIR) $(IMAGES_DIR);                                                       \
 	PWD=$(PWD)/pkg/bootstrap/server/src $(common_envvars)                         \
-	    QEMU_BINARY_NAME="$(if $(QEMU_PATH),$(QEMU_PATH),$(QEMU_ARCH_MAP_$(ARCH)))" \
+	    QEMU_BINARY_NAME=$(if $(QEMU_PATH),$(QEMU_PATH),$(QEMU_ARCH_MAP_$(ARCH))) \
 	    $(MAKE) -C pkg/bootstrap/server/src ENTRY="$$e"                           \
 	            BOOTSTRAP_MODULES_LIST=$$ml $(1)                                  \
 	            BOOTSTRAP_MODULE_PATH_BINLIB="$(BUILDDIR_SEARCHPATH)"             \
@@ -517,8 +610,6 @@ endef
 
 define switch_ram_base_func
 	echo "  ... Regenerating RAM_BASE settings"; set -e; \
-	$(if $(PHYS_RELOC_DIR_LIST),,echo "Error: List of packages to rebuild is empty."; echo ""; \
-	echo "Please run make again in this build directory."; exit 1;) \
 	echo "# File semi-automatically generated by 'make switch_ram_base'" > $(OBJ_BASE)/Makeconf.ram_base; \
 	echo "RAM_BASE := $(1)"                                             >> $(OBJ_BASE)/Makeconf.ram_base; \
 	echo "RAM_BASE_SWITCH_PLATFORM_TYPE := $(PLATFORM_TYPE)"            >> $(OBJ_BASE)/Makeconf.ram_base; \
@@ -533,7 +624,7 @@ QEMU_KERNEL_FILE-itb       = $(IMAGES_DIR)/bootstrap.itb
 QEMU_KERNEL_FILE-rawimage  = $(IMAGES_DIR)/bootstrap.raw
 QEMU_KERNEL_FILE          ?= $(QEMU_KERNEL_FILE-$(QEMU_KERNEL_TYPE))
 
-QEMU_OPTIONS ?= -serial stdio
+FVP_KERNEL_FILE	 = $(IMAGES_DIR)/bootstrap.elf
 
 FASTBOOT_BOOT_CMD    ?= fastboot boot
 
@@ -594,18 +685,24 @@ efiimage: check_and_adjust_ram_base
 ifneq ($(filter $(ARCH),x86 amd64),)
 qemu:
 	$(VERBOSE)$(entryselection);                                      \
-	 qemu="$(if $(QEMU_PATH),$(QEMU_PATH),$(QEMU_ARCH_MAP_$(ARCH)))"; \
+	 qemu=$(QEMU_PATH);   \
 	 $(if $(filter -serial "-serial",$(QEMU_OPTIONS)),,echo "Warning: No -serial in QEMU_OPTIONS." >&2;) \
 	 QEMU=$$qemu QEMU_OPTIONS="$(QEMU_OPTIONS)"                       \
 	  $(tool_envvars) $(common_envvars)                               \
 	  $(L4DIR)/tool/bin/qemu-x86-launch $$ml "$$e"
 else
 qemu: $(QEMU_KERNEL_TYPE)
-	$(VERBOSE)qemu="$(if $(QEMU_PATH),$(QEMU_PATH),$(QEMU_ARCH_MAP_$(ARCH)))"; \
-	if [ -z "$$qemu" ]; then echo "Set QEMU_PATH!"; exit 1; fi;                \
+	$(VERBOSE)qemu=$(if $(QEMU_PATH),$(QEMU_PATH),$(QEMU_ARCH_MAP_$(ARCH))); \
+	if [ -z "$$qemu" ]; then echo "Set QEMU_PATH!"; exit 1; fi;              \
 	$(if $(filter -serial "-serial",$(QEMU_OPTIONS)),,echo "Warning: No -serial in QEMU_OPTIONS." >&2;) \
 	echo QEMU-cmd: $$qemu -kernel $(QEMU_KERNEL_FILE) $(QEMU_OPTIONS);    \
 	$$qemu -kernel $(QEMU_KERNEL_FILE) $(QEMU_OPTIONS)
+endif
+
+ifneq ($(filter $(ARCH),arm arm64),)
+fvp: elfimage
+	echo FVP-cmd: $(FVP_PATH) -a "cluster0*="$(FVP_KERNEL_FILE) $(FVP_OPTIONS);    \
+	$(FVP_PATH) -a "cluster0*="$(FVP_KERNEL_FILE) $(FVP_OPTIONS)
 endif
 
 vbox: $(if $(VBOX_ISOTARGET),$(VBOX_ISOTARGET),grub2iso)
@@ -665,7 +762,7 @@ exportpack: $(if $(filter $(ARCH),x86 amd64),,$(QEMU_KERNEL_TYPE))
 	  @echo Need to specific target directory as EXPORTPACKTARGETDIR=dir; exit 1)
 	$(VERBOSE)$(entryselection);                                      \
 	 TARGETDIR=$(EXPORTPACKTARGETDIR);                                \
-	 qemu="$(if $(QEMU_PATH),$(QEMU_PATH),$(QEMU_ARCH_MAP_$(ARCH)))"; \
+	 qemu=$(if $(QEMU_PATH),$(QEMU_PATH),$(QEMU_ARCH_MAP_$(ARCH)));   \
 	 QEMU=$$qemu L4DIR=$(L4DIR) QEMU_OPTIONS="$(QEMU_OPTIONS)"        \
 	 OUTPUT_DIR="$(BOOTSTRAP_OUTPUT_DIR)"                             \
 	 IMAGE_FILE="$(QEMU_KERNEL_FILE)"                                 \
@@ -686,6 +783,7 @@ help::
 	@echo "  grub1iso   - Generate an ISO using GRUB1 in images/<name>.iso [x86, amd64]" 
 	@echo "  grub2iso   - Generate an ISO using GRUB2 in images/<name>.iso [x86, amd64]" 
 	@echo "  qemu       - Use Qemu to run 'name'." 
+	@echo "  fvp        - Use Arm FVP to run 'name'. [arm, arm64]"
 	@echo "  exportpack - Export binaries with launch support." 
 	@echo "  vbox       - Use VirtualBox to run 'name'." 
 	@echo "  fastboot   - Call fastboot with the created rawimage."
@@ -703,7 +801,7 @@ listplatforms: $(KCONFIG_FILE).platforms.list
 .PHONY: elfimage rawimage uimage qemu vbox ux switch_ram_base \
         grub1iso grub2iso listentries shellcodeentry exportpack \
         fastboot fastboot_rawimage fastboot_uimage \
-	check_and_adjust_ram_base listplatforms itb
+	check_and_adjust_ram_base listplatforms itb fvp
 
 switch_ram_base:
 	$(VERBOSE)$(call switch_ram_base_func,$(RAM_BASE))
@@ -724,7 +822,7 @@ BID_CHECKBUILD_LOG_REDIR_f = $(if $(BID_CHECKBUILD_LOG), 1>>$(BID_CHECKBUILD_LOG
 checkbuild_prepare.%:
 	$(if $(CHECK_INCREMENTAL),,rm -rf $(CHECK_BASE_DIR)/$(patsubst checkbuild_prepare.%,config.%,$@))
 
-$(CHECK_BASE_DIR)/config.%/.kconfig: mk/defconfig/config.% checkbuild_prepare.%
+$(CHECK_BASE_DIR)/config.%/.kconfig: $(TEMPLDIR)/config.% checkbuild_prepare.%
 	mkdir -p $(@D)
 	cp $< $@
 
@@ -834,8 +932,8 @@ report:
 	@echo "Git:"
 	@git describe || true
 	@echo
-	@echo "CC       = $(CC) $(CCXX_FLAGS)"
-	@echo "CXX      = $(CXX) $(CCXX_FLAGS)"
+	@echo "CC       = $(CC) $(CARCHFLAGS) $(CCXX_FLAGS)"
+	@echo "CXX      = $(CXX) $(CARCHFLAGS) $(CCXX_FLAGS)"
 	@echo "HOST_CC  = $(HOST_CC)"
 	@echo "HOST_CXX = $(HOST_CXX)"
 	@echo "LD       = $(LD)"
@@ -881,7 +979,6 @@ help::
 	@echo "Miscellaneous targets:"
 	@echo "  switch_ram_base RAM_BASE=0xaddr"
 	@echo "                   - Switch physical RAM base of build to 'addr'."
-	@echo "  update           - Update working copy by using SVN."
 	@echo "  cont             - Continue building after fixing a build error."
 	@echo "  clean            - Call 'clean' target recursively."
 	@echo "  cleanfast        - Delete all directories created during build."
@@ -896,8 +993,10 @@ help::
 	@echo "                       excluding internal information."
 	@echo "  report           - Print out host configuration information."
 	@echo "  help             - Print this help text."
-	@echo "  test             - Run kernel and user-land tests. If 'TEST_KUNIT_DIR' is"
-	@echo "                     not provided, only user-land tests run."
+	@echo "  test             - Run user-land tests and optionally also kernel tests."
+	@echo "                     In order to run kernel tests, TEST_KUNIT_DIR must be set to"
+	@echo "                     the directory containing test binaries (usually 'utest' in"
+	@echo "                     the kernel build directory)."
 	@echo "                     Use make's -jX parameter to run tests in parallel."
 	@echo "  listplatforms    - List available platforms."
 
@@ -932,3 +1031,5 @@ test:
 	       $(addprefix bid-tests/,$(filter-out bid-tests/% kunit-tests/%,$(TESTS))) \
 	       ); \
 	rm -fr "$${test_tmp_dir}"
+
+endif

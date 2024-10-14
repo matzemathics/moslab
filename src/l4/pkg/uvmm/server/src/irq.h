@@ -15,20 +15,33 @@
 
 #include "device.h"
 #include "device_tree.h"
+#include "generic_vcpu_ptr.h"
 
 namespace Gic {
 
 /**
- * Interface for handlers of end-of-interrupt messages.
+ * Interface for handlers of interrupt sources.
  *
  * This is the generic interface for notifications from the
  * interrupt controller to an interrupt-emitting device.
  */
-struct Eoi_handler
+struct Irq_src_handler
 {
-  virtual void eoi() = 0;
+  /**
+   * Guest has issued end-of-interrupt message.
+   */
+  virtual void eoi() {}
+
+  /**
+   * Hint that the target vCPU of an IRQ source has changed.
+   *
+   * Might be used by the IRQ source to change the interrupt affinity
+   * accordingly.
+   */
+  virtual void irq_src_target(Vmm::Generic_vcpu_ptr) {}
+
 protected:
-  ~Eoi_handler() = default;
+  virtual ~Irq_src_handler() = default;
 };
 
 /**
@@ -40,28 +53,28 @@ struct Ic : public Vdev::Device
   virtual void clear(unsigned irq) = 0;
 
   /**
-   * Register a device source for forwarding downstream events.
+   * Register an IRQ source for forwarding downstream events.
    *
    * Only one device source can be registered, throws a runtime
-   * exception if the irq source is already bound
+   * exception if the IRQ source is already bound
    *
    * \param irq Irq number to connect the listener to.
-   * \param src Device source. If the irq is already bound it needs to
+   * \param src Device source. If the IRQ is already bound it needs to
    *            be the same device source as the already registered one.
    *            Set to nullptr to unbind a registered handler.
    *
-   * \note The caller is responsible to ensure that the eoi handler is
+   * \note The caller is responsible to ensure that the IRQ source handler is
    *       unbound before it is destructed.
    */
-  virtual void bind_eoi_handler(unsigned irq, Eoi_handler *src) = 0;
+  virtual void bind_irq_src_handler(unsigned irq, Irq_src_handler *src) = 0;
 
   /**
-   * Get the irq source currently bound to irq
+   * Get the IRQ source currently bound to irq
    *
    * \param irq Irq number
    * \return Irq source currently bound to irq
    */
-  virtual Eoi_handler *get_eoi_handler(unsigned irq) const = 0;
+  virtual Irq_src_handler *get_irq_src_handler(unsigned irq) const = 0;
 
   /**
    * Extract the interrupt id from a device tree property.
@@ -95,10 +108,10 @@ namespace Vmm {
 class Irq_sink
 {
 public:
-  Irq_sink() : _ic(nullptr), _state(false) {}
+  Irq_sink() : _ic(nullptr) {}
 
   Irq_sink(cxx::Ref_ptr<Gic::Ic> const &ic, unsigned irq)
-  : _irq(irq), _ic(ic), _state(false)
+  : _irq(irq), _ic(ic)
   {}
 
   Irq_sink(Irq_sink const &) = delete;
@@ -134,27 +147,27 @@ public:
   }
 
   /**
-   * Set the given end-of-interrupt handler at the connected IC.
+   * Set the given IRQ source handler at the connected IC.
    *
-   * \param handler  Handler to set for EOI notification.
+   * \param handler  Handler to set for IRQ source notification.
    *
-   * The function is only a forwarder to Ic::bind_eoi_handler(), the
+   * The function is only a forwarder to Ic::bind_irq_src_handler(), the
    * handler must still be managed by the caller. In particular, the caller
    * must make sure that the handler is unbound before the Irq_sink
    * object is destructed.
    *
    * If no IC has been bound yet, the function does nothing.
    */
-  void set_eoi_handler(Gic::Eoi_handler *handler) const
+  void set_irq_src_handler(Gic::Irq_src_handler *handler) const
   {
     if (_ic)
-      _ic->bind_eoi_handler(_irq, handler);
+      _ic->bind_irq_src_handler(_irq, handler);
   }
 
 private:
-  unsigned _irq;
+  unsigned _irq = 0;
   cxx::Ref_ptr<Gic::Ic> _ic;
-  bool _state;
+  bool _state = false;
 };
 
 /**

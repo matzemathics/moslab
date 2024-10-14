@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Irq Class Reference</title>
+<title>L4Re Operating System Framework: L4::Irq Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -128,7 +131,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a261be50ec061d893f96b9193af8f393d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unmask IRQ and (open) wait for any message.  <br /></td></tr>
 <tr class="separator:a261be50ec061d893f96b9193af8f393d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9719b8fca30723b52981bed686764901" id="r_a9719b8fca30723b52981bed686764901"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901">unmask</a> (<a class="el" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb=<a class="el" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</td></tr>
-<tr class="memdesc:a9719b8fca30723b52981bed686764901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unmask IRQ.  <br /></td></tr>
+<tr class="memdesc:a9719b8fca30723b52981bed686764901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unmask this IRQ.  <br /></td></tr>
 <tr class="separator:a9719b8fca30723b52981bed686764901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structL4_1_1Triggerable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structL4_1_1Triggerable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structL4_1_1Triggerable.html">L4::Triggerable</a></td></tr>
 <tr class="memitem:a7109ca8b4aeac0169639f973c91a3a6b inherit pub_methods_structL4_1_1Triggerable" id="r_a7109ca8b4aeac0169639f973c91a3a6b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4_1_1Triggerable.html#a7109ca8b4aeac0169639f973c91a3a6b">trigger</a> (<a class="el" href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a> *utcb=<a class="el" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>()) noexcept</td></tr>
@@ -271,7 +274,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag</dd></dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">-L4_EPERM</td><td>No <a class="el" href="group__l4__fpage__api.html#ggaee60789a48cab2782f5a368237591b39acb2b2e95f6be245f64937ac48a068066" title="Interface specific &#39;S&#39; right for capability flex-pages.">L4_CAP_FPAGE_S</a> rights on the capability used to invoke this operation. -L4_EBUSY A detach operation on this IRQ object by another thread was in progress. </td></tr>
+    <tr><td class="paramname">0</td><td>Successfully detached, there was no interrupt pending. </td></tr>
+    <tr><td class="paramname">1</td><td>Successfully detached, there was an interrupt pending. </td></tr>
+    <tr><td class="paramname">-L4_EPERM</td><td>No <a class="el" href="group__l4__fpage__api.html#ggaee60789a48cab2782f5a368237591b39acb2b2e95f6be245f64937ac48a068066" title="Interface specific &#39;S&#39; right for capability flex-pages.">L4_CAP_FPAGE_S</a> rights on the capability used to invoke this operation. </td></tr>
   </table>
   </dd>
 </dl>
@@ -371,7 +376,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </table>
 </div><div class="memdoc">
 
-<p>Unmask IRQ. </p>
+<p>Unmask this IRQ. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">utcb</td><td>UTCB to be used for this operation, shall be the UTCB of the calling thread. See <a class="el" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address.">l4_utcb</a>.</td></tr>
@@ -379,14 +384,13 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag for a send-only operation, this means there is no return value except <a class="el" href="group__l4__msgtag__api.html#gga16589e963a73c13aefd2760ce418e053aad1669664171cc979970b1e2300bd463" title="Error indicator flag.">L4_MSGTAG_ERROR</a> indicating success or failure of the send operation. Use <a class="el" href="group__l4__ipc__err__api.html#gad40f404217497793e95a10d77a47db39" title="Get the IPC error code for an IPC operation.">l4_ipc_error()</a> to check for errors and <b>do not</b> use <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call.">l4_error()</a>.</dd></dl>
-<p><a class="el" href="classL4_1_1Irq.html#a261be50ec061d893f96b9193af8f393d" title="Unmask IRQ and (open) wait for any message.">Irq::wait()</a> and <a class="el" href="classL4_1_1Irq.html#ad6e4134fba0e3d985f4ef988a524fa6d" title="Unmask and wait for this IRQ.">Irq::receive()</a> operations already include an <a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask IRQ.">unmask()</a>, do not use an extra <a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask IRQ.">unmask()</a> in these cases.</p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000009">Deprecated:</a></b></dt><dd>Use <a class="el" href="classL4_1_1Irq__eoi.html#a2143eb2495d0135bc432efc362845483" title="Unmask the given interrupt line.">L4::Irq_eoi::unmask()</a> </dd></dl>
+<p><a class="el" href="classL4_1_1Irq.html#a261be50ec061d893f96b9193af8f393d" title="Unmask IRQ and (open) wait for any message.">Irq::wait()</a> and <a class="el" href="classL4_1_1Irq.html#ad6e4134fba0e3d985f4ef988a524fa6d" title="Unmask and wait for this IRQ.">Irq::receive()</a> operations already include an <a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask this IRQ.">unmask()</a>, do not use an extra <a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask this IRQ.">unmask()</a> in these cases. </p>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00195">195</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00193">193</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 
-<p class="reference">References <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, and <a class="el" href="irq_source.html#l00195">unmask()</a>.</p>
+<p class="reference">References <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, and <a class="el" href="irq_source.html#l00193">unmask()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="irq_source.html#l00195">unmask()</a>, and <a class="el" href="irq_source.html#l00176">wait()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="irq_source.html#l00193">unmask()</a>, and <a class="el" href="irq_source.html#l00176">wait()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -457,7 +461,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 
 <p class="definition">Definition at line <a class="el" href="irq_source.html#l00176">176</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 
-<p class="reference">References <a class="el" href="irq_source.html#l00195">unmask()</a>.</p>
+<p class="reference">References <a class="el" href="irq_source.html#l00193">unmask()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -478,7 +482,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="classL4_1_1Irq.html">Irq</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -21,14 +21,14 @@ void Kern_lib_page::init()
   extern char kern_lib_start;
   auto pte = Kmem::kdir->walk(Virt_addr(Kmem_space::Kern_lib_base),
                               Pdir::Depth, true,
-                              Kmem_alloc::q_allocator(Ram_quota::root));
+                              Kmem_alloc::q_allocator(Ram_quota::root.unwrap()));
 
   if (pte.level == 0) // allocation of second level faild
-    panic("Error mapping kernel-lib page to %p", (void *)Kmem_space::Kern_lib_base);
+    panic("Error mapping kernel-lib page to %p",
+          reinterpret_cast<void *>(Kmem_space::Kern_lib_base));
 
-  pte.set_page(pte.make_page(Phys_mem_addr(Kmem::kdir->virt_to_phys((Address)&kern_lib_start)),
-                             Page::Attr(Page::Rights::URX(), Page::Type::Normal(),
-                                        Page::Kern::Global())));
+  pte.set_page(Phys_mem_addr(Kmem::kdir->virt_to_phys(reinterpret_cast<Address>(&kern_lib_start))),
+               Page::Attr::kern_global(Page::Rights::URX()));
   pte.write_back_if(true);
   Mem_unit::tlb_flush_kernel(Kmem_space::Kern_lib_base);
 }
@@ -40,6 +40,7 @@ IMPLEMENTATION [arm && !arm_v6plus]:
 
 asm (
     ".p2align 12                         \n"
+    ".arm                                \n"
     "kern_lib_start:                     \n"
 
     // atomic add
@@ -91,6 +92,7 @@ IMPLEMENTATION [arm && arm_v6plus]:
 
 asm (
     ".p2align 12                         \n"
+    ".arm                                \n"
     ".global kern_lib_start              \n" // need this for mem_space.cpp
     "kern_lib_start:                     \n"
 

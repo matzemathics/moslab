@@ -2,6 +2,7 @@ var classL4virtio_1_1Svr_1_1Device__t =
 [
     [ "Device_t", "classL4virtio_1_1Svr_1_1Device__t.html#a7ce755ee0579fb70926d762ba67bb66f", null ],
     [ "add_trusted_dataspaces", "classL4virtio_1_1Svr_1_1Device__t.html#a38406c5353e2f96de8c667a6d5c5f5f1", null ],
+    [ "cfg_changed", "classL4virtio_1_1Svr_1_1Device__t.html#a2c191fe0524b519a6262f557ebf9f2be", null ],
     [ "check_features", "classL4virtio_1_1Svr_1_1Device__t.html#a858188800d304a06069db6c04020fc47", null ],
     [ "check_queues", "classL4virtio_1_1Svr_1_1Device__t.html#afd67e955eac6db54cbe5a479102b1a95", null ],
     [ "device_error", "classL4virtio_1_1Svr_1_1Device__t.html#a29f780ecb04509d8b72f4a155b073c74", null ],
@@ -18,6 +19,6 @@ var classL4virtio_1_1Svr_1_1Device__t =
     [ "reset", "classL4virtio_1_1Svr_1_1Device__t.html#a4350f6e35f43df84584ec30740f5a7aa", null ],
     [ "reset_queue_config", "classL4virtio_1_1Svr_1_1Device__t.html#aedbe988112e98750e5409a8c92358dcf", null ],
     [ "setup_queue", "classL4virtio_1_1Svr_1_1Device__t.html#ab906b4cc61026fd815a8056f07bef10e", null ],
-    [ "trigger_driver_config_irq", "classL4virtio_1_1Svr_1_1Device__t.html#a52d70a46453eb678e8656dbf790835e8", null ],
+    [ "trigger_driver_config_irq", "classL4virtio_1_1Svr_1_1Device__t.html#a4555e9697f41bc44c313496af829d215", null ],
     [ "_mem_info", "classL4virtio_1_1Svr_1_1Device__t.html#a4ff8b5e4425d1b720b9751fbe501f68d", null ]
 ];

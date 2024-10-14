@@ -32,7 +32,7 @@
 # if defined __USE_XOPEN || defined __USE_XOPEN2K
 #  define __need_time_t
 # endif
-# if defined __USE_MISC || defined __USE_ATFILE
+# if defined __USE_MISC || defined __USE_ATFILE || defined __USE_XOPEN2K8
 #  define __need_timespec
 # endif
 # include <time.h>		/* For time_t resp. timespec.  */
@@ -117,7 +117,8 @@ __BEGIN_DECLS
 # ifdef __S_IFLNK
 #  define S_IFLNK	__S_IFLNK
 # endif
-# if (defined __USE_BSD || defined __USE_MISC || defined __USE_UNIX98) \
+# if (defined __USE_BSD || defined __USE_MISC || defined __USE_UNIX98 \
+      || defined __USE_XOPEN2K) \
      && defined __S_IFSOCK
 #  define S_IFSOCK	__S_IFSOCK
 # endif
@@ -142,7 +143,7 @@ __BEGIN_DECLS
 # define S_ISLNK(mode)  0
 #endif
 
-#if (defined __USE_BSD || defined __USE_UNIX98) \
+#if (defined __USE_BSD || defined __USE_UNIX98 || defined __USE_XOPEN2K) \
     && defined __S_IFSOCK
 # define S_ISSOCK(mode) __S_ISTYPE((mode), __S_IFSOCK)
 #endif
@@ -301,7 +302,7 @@ extern int lchmod (const char *__file, __mode_t __mode)
 #endif
 
 /* Set file access permissions of the file FD is open on to MODE.  */
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K
 extern int fchmod (int __fd, __mode_t __mode) __THROW;
 #endif
 
@@ -370,7 +371,7 @@ extern int mkfifo (const char *__path, __mode_t __mode)
 extern int mkfifoat (int __fd, const char *__path, __mode_t __mode)
      __THROW __nonnull ((2));
 #endif
-
+
 #ifdef __USE_ATFILE
 /* Set file access and modification times relative to directory file
    descriptor.  */
@@ -385,13 +386,20 @@ libc_hidden_proto(utimensat)
 /* Set file access and modification times of the file associated with FD.  */
 extern int futimens (int __fd, const struct timespec __times[2]) __THROW;
 #endif
-
+
 /* on uClibc we have unversioned struct stat and mknod.
  * bits/stat.h is filled with wrong info, so we undo it here.  */
 #undef _STAT_VER
 #define _STAT_VER 0
 #undef _MKNOD_VER
 #define _MKNOD_VER 0
+
+#ifdef __UCLIBC_HAVE_STATX__
+#ifdef __USE_GNU
+# include <bits/statx.h>
+#endif
+#endif
+
 
 __END_DECLS
 

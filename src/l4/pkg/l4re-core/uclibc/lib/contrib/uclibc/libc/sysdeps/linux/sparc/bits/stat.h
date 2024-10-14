@@ -1,5 +1,4 @@
 /* Copyright (C) 1992, 1995-2002, 2006, 2009 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -35,12 +34,7 @@
 struct stat
   {
     __dev_t st_dev;			/* Device.  */
-#if __WORDSIZE == 64 || !defined __USE_FILE_OFFSET64
-    unsigned short int __pad1;
-    __ino_t st_ino;			/* File serial number.	*/
-#else
     __ino64_t st_ino;			/* File serial number.	*/
-#endif
     __mode_t st_mode;			/* File mode.  */
     __nlink_t st_nlink;			/* Link count.  */
     __uid_t st_uid;			/* User ID of the file's owner.	*/
@@ -80,17 +74,14 @@ struct stat
     __time_t st_ctime;			/* Time of last status change.  */
     unsigned long int st_ctimensec;	/* Nsecs of last status change.  */
 #endif
-    unsigned long int __unused4;
-    unsigned long int __unused5;
+    unsigned long int __uclibc_unused4;
+    unsigned long int __uclibc_unused5;
   };
 
 #ifdef __USE_LARGEFILE64
 struct stat64
   {
     __dev_t st_dev;			/* Device.  */
-#if __WORDSIZE == 64
-    unsigned short int __pad1;
-#endif
     __ino64_t st_ino;			/* File serial number.	*/
     __mode_t st_mode;			/* File mode.  */
     __nlink_t st_nlink;			/* Link count.  */
@@ -123,8 +114,8 @@ struct stat64
     __time_t st_ctime;			/* Time of last status change.  */
     unsigned long int st_ctimensec;	/* Nsecs of last status change.  */
 #endif
-    unsigned long int __unused4;
-    unsigned long int __unused5;
+    unsigned long int __uclibc_unused4;
+    unsigned long int __uclibc_unused5;
   };
 #endif
 

@@ -140,7 +140,7 @@ var group__l4util__elf =
     [ "Elf64_Sxword", "group__l4util__elf.html#gad496eaf2b73a9e043b7de2f88b36faba", null ],
     [ "Elf64_Word", "group__l4util__elf.html#gac96c0a26c78b0179b4bc6c9b09b404ab", null ],
     [ "Elf64_Xword", "group__l4util__elf.html#gac6538aaecd9fc028fd8729cce1bbd7f2", [
-      [ "EI_NIDENT", "group__l4util__elf.html#ggadc29c2ff13d900c2f185ee95427fb06caf0fb70219e42cb17f443b5a058e21f57", null ]
+      [ "EI_NIDENT", "group__l4util__elf.html#ggaff3701dfcc246bf08b07f25a2cfd9e6daf0fb70219e42cb17f443b5a058e21f57", null ]
     ] ],
     [ "Elf_ARM_SBs", "group__l4util__elf.html#ga608192e00eb321e214fed11f98ae547b", [
       [ "PF_ARM_SB", "group__l4util__elf.html#gga608192e00eb321e214fed11f98ae547ba652bc70c9ef5f3e4229f0dae740bdce8", null ]
@@ -331,7 +331,8 @@ var group__l4util__elf =
       [ "EM_AARCH64", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a7b9053c5e4c306885841eab134535d54", null ],
       [ "EM_TILEPRO", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a23b51c44c8ee877cf66fb6332224c810", null ],
       [ "EM_MICROBLAZE", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84aec759ae74c2e74e48349bdb2366feb98", null ],
-      [ "EM_TILEGX", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a3024c4adf13472e2cf73c8f0d8b27251", null ]
+      [ "EM_TILEGX", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a3024c4adf13472e2cf73c8f0d8b27251", null ],
+      [ "EM_RISCV", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84ae7291e24e22d05c77a14576b858af8c8", null ]
     ] ],
     [ "Elf_ETs", "group__l4util__elf.html#ga1f1765cb83b2bcca9b7d84c955929d52", [
       [ "ET_NONE", "group__l4util__elf.html#gga1f1765cb83b2bcca9b7d84c955929d52a16ec634ec16b5750f108673917d231a8", null ],

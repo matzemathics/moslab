@@ -1,4 +1,14 @@
-IMPLEMENTATION [arm && !cpu_virt]:
+IMPLEMENTATION [arm && !mmu]:
+
+PROTECTED inline
+int
+Mem_space::sync_kernel()
+{
+  return 0;
+}
+
+//----------------------------------------------------------------------------
+IMPLEMENTATION [arm && mmu && !cpu_virt]:
 
 PROTECTED inline NEEDS["kmem_alloc.h"]
 int
@@ -12,7 +22,7 @@ Mem_space::sync_kernel()
 }
 
 //----------------------------------------------------------------------------
-IMPLEMENTATION [arm && 32bit && cpu_virt]:
+IMPLEMENTATION [arm && mmu && 32bit && cpu_virt]:
 
 static Address __mem_space_syscall_page;
 
@@ -20,7 +30,8 @@ PROTECTED static
 void
 Mem_space::set_syscall_page(void *p)
 {
-  __mem_space_syscall_page = pmem_to_phys((Address)p);
+  __mem_space_syscall_page =
+    Mem_layout::pmem_to_phys(reinterpret_cast<Address>(p));
 }
 
 PROTECTED
@@ -34,9 +45,9 @@ Mem_space::sync_kernel()
 
   extern char kern_lib_start[];
 
-  Phys_mem_addr pa(Kmem::kdir->virt_to_phys((Address)kern_lib_start));
-  pte.set_page(pte.make_page(pa, Page::Attr(Page::Rights::URX(),
-                                            Page::Type::Normal())));
+  Phys_mem_addr pa(Kmem::kdir->virt_to_phys(
+                     reinterpret_cast<Address>(kern_lib_start)));
+  pte.set_page(pa, Page::Attr::space_local(Page::Rights::URX()));
 
   pte.write_back_if(true, c_asid());
 
@@ -47,8 +58,7 @@ Mem_space::sync_kernel()
     return -1;
 
   pa = Phys_mem_addr(__mem_space_syscall_page);
-  pte.set_page(pte.make_page(pa, Page::Attr(Page::Rights::URX(),
-                                            Page::Type::Normal())));
+  pte.set_page(pa, Page::Attr::space_local(Page::Rights::URX()));
 
   pte.write_back_if(true, c_asid());
 
@@ -56,7 +66,7 @@ Mem_space::sync_kernel()
 }
 
 //-----------------------------------------------------------------------------
-IMPLEMENTATION [arm_v6]:
+IMPLEMENTATION [arm_v6 && mmu]:
 
 IMPLEMENT inline NEEDS[Mem_space::asid]
 void Mem_space::make_current(Switchin_flags)
@@ -79,7 +89,7 @@ void Mem_space::make_current(Switchin_flags)
 }
 
 //-----------------------------------------------------------------------------
-IMPLEMENTATION [(arm_v7 || arm_v8) && !arm_lpae]:
+IMPLEMENTATION [(arm_v7 || arm_v8) && mmu && !arm_lpae]:
 
 IMPLEMENT inline NEEDS[Mem_space::asid]
 void
@@ -103,7 +113,7 @@ Mem_space::make_current(Switchin_flags)
 }
 
 //----------------------------------------------------------------------------
-IMPLEMENTATION [(arm_v7 || arm_v8) && arm_lpae && !cpu_virt]:
+IMPLEMENTATION [(arm_v7 || arm_v8) && mmu && arm_lpae && !cpu_virt]:
 
 IMPLEMENT inline NEEDS[Mem_space::asid]
 void
@@ -123,7 +133,7 @@ Mem_space::make_current(Switchin_flags)
 }
 
 //----------------------------------------------------------------------------
-IMPLEMENTATION [(arm_v7 || arm_v8) && arm_lpae && cpu_virt]:
+IMPLEMENTATION [(arm_v7 || arm_v8) && mmu && arm_lpae && cpu_virt]:
 
 IMPLEMENT inline NEEDS[Mem_space::asid]
 void
@@ -142,4 +152,50 @@ Mem_space::make_current(Switchin_flags)
       : "r1");
 
   _current.current() = this;
+}
+
+//----------------------------------------------------------------------------
+IMPLEMENTATION [arm_v8 && mpu && !cpu_virt]:
+
+#include "mpu.h"
+
+IMPLEMENT
+void
+Mem_space::make_current(Switchin_flags)
+{
+  asm volatile (
+      "mcr p15, 0, %0, c13, c0, 1"  // CONTEXTIDR - set new ASID value
+      :
+      : "r"(asid()));
+  _current.current() = this;
+
+  auto guard = lock_guard(_lock);
+
+  // No need for an isb here. This is done implicitly on exception return and
+  // the kernel does not access these regions.
+  Mpu::update(*_dir);
+  mpu_state_mark_in_sync();
+}
+
+//----------------------------------------------------------------------------
+IMPLEMENTATION [arm_v8 && mpu && cpu_virt]:
+
+#include "mpu.h"
+
+IMPLEMENT
+void
+Mem_space::make_current(Switchin_flags)
+{
+  asm volatile (
+      "mcr p15, 4, %0, c2, c0, 0" // VSCTLR - set new VMID value
+      :
+      : "r"(asid() << 16));
+  _current.current() = this;
+
+  auto guard = lock_guard(_lock);
+
+  // No need for an isb here. This is done implicitly on exception return and
+  // the kernel does not access these regions.
+  Mpu::update(*_dir);
+  mpu_state_mark_in_sync();
 }

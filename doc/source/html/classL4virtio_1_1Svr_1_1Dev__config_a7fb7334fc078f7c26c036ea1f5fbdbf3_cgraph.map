@@ -1,0 +1,9 @@
+<map id="L4virtio::Svr::Dev_config::add_irq_status" name="L4virtio::Svr::Dev_config::add_irq_status">
+<area shape="rect" id="Node000001" title="Adds irq status bit." alt="" coords="5,37,176,77"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a35714a3ebce252eb16a40033cf97d0fe" title="Get a read&#45;only pointer to the config header." alt="" coords="224,5,359,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,41,210,36,211,41,177,46"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a96ad6d40f04894e7a0ef8ce33a4f8416" title="Get current device status (trusted)." alt="" coords="224,69,359,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="177,68,211,74,210,79,176,74"/>
+<area shape="rect" id="Node000003" href="$classL4Re_1_1Rm_1_1Unique__region.html#a301d5bd597f8c1e3b98bc52659f13dbe" title="Return the address." alt="" coords="407,13,621,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,23,393,23,393,28,359,28"/>
+</map>

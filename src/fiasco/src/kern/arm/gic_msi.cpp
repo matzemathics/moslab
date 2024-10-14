@@ -112,6 +112,8 @@ private:
 
     Irq_base *irq() const { return _irq; }
 
+    Cpu_number cpu() const { return _cpu; }
+
   private:
     void reset()
     {
@@ -224,6 +226,19 @@ Gic_msi::set_cpu(Mword pin, Cpu_number cpu) override
 
 PUBLIC
 void
+Gic_msi::migrate_lpis(Cpu_number from, Cpu_number to)
+{
+  for (Mword pin = 0; pin < _lpis.size(); ++pin)
+    {
+      Lpi &lpi = _lpis[pin];
+      auto g = lock_guard(lpi.lock);
+      if (lpi.cpu() == from)
+        lpi.set_cpu(to);
+    }
+}
+
+PUBLIC
+void
 Gic_msi::unbind(Irq_base *irq) override
 {
   with_lpi(irq->pin(), &Lpi::free);
@@ -235,7 +250,7 @@ bool
 Gic_msi::reserve(Mword pin) override
 {
   bool success = false;
-  with_lpi(pin, &Lpi::alloc, (Irq_base*)1, success);
+  with_lpi(pin, &Lpi::alloc, reinterpret_cast<Irq_base*>(1), success);
   return success;
 }
 

@@ -32,7 +32,8 @@ class Cpu_dev
   };
 
 public:
-  enum { Max_cpus = 8 };
+  // CPU 255 is used as "invalid CPU" by the GIC code...
+  enum { Max_cpus = 254 };
 
   enum
   {
@@ -102,7 +103,7 @@ public:
   /**
    * Stop a CPU
    */
-  void L4_NORETURN stop();
+  void L4_NORETURN stop() override;
 
   /**
    * Get the online state of a CPU.
@@ -148,7 +149,7 @@ public:
    * Mark CPU as On_prepared.
    *
    * The vCPU entry has been setup and the guest is about to be entered
-   * again. This state is only used when restarting a CPU that was prevously
+   * again. This state is only used when restarting a CPU that was previously
    * powered off.
    */
   void mark_on_prepared()
@@ -219,6 +220,7 @@ private:
   l4_umword_t _dt_vpidr = 0;
   std::atomic<Cpu_state> _online{Cpu_state::Off};
   Restart_event _restart_event;
+  bool _pmsa = false;
 };
 
 }

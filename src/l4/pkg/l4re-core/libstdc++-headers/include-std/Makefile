@@ -31,8 +31,8 @@ LIBSUPC_H           += initializer_list bits/exception_ptr.h bits/nested_excepti
 
 STDCXX_CSTD_HEADERS := \
   cassert cctype cerrno cfloat ciso646 climits clocale cmath csetjmp csignal \
-  cstdarg cstddef cstdio cstdlib cstring ctime cwchar cwctype cstdint
-
+  cstdarg cstddef cstdio cstdlib cstring ctime cwchar cwctype cstdint \
+  ccomplex cfenv cinttypes cstdalign cstdbool ctgmath cuchar
 
 STDCXX_CSTD_HEADERS += $(patsubst std_%.h,%,$(notdir $(wildcard $(INCSRC_DIR)/std/*)))
 
@@ -43,6 +43,7 @@ INSTALL_INCDIR_X = $(INSTALLDIR_LOCAL)/$(INSTALL_INC_PREFIX)
 SRCDIR_X         = $(STDCXX_CONTRIB_DIR)
 
 CTYPE_HEADERS := $(filter-out %/os_defines.h,$(wildcard $(SRCDIR_X)/config/os/generic/*))
+BACKWARD_HEADERS := $(filter-out %.h,$(wildcard $(SRCDIR_X)/include/backward/*))
 
 install_header_x = $(MKDIR) $(dir $(INSTALL_INCDIR_X)/$(strip $(2))) && $(LN) -sf $(call absfilename,$(strip $(1)) $(INSTALL_INCDIR_X)/$(strip $(2)))
 install_header   = $(MKDIR) $(dir $(INSTALL_INCDIR_X)/$(strip $(2))) && $(LN) -sf $(SRCDIR_X)/$(strip $(1)) $(INSTALL_INCDIR_X)/$(strip $(2))
@@ -65,7 +66,10 @@ choose_std_header = $(word 1, $(wildcard $(foreach DIR,$(STDCXX_STD_DIRS),$(addp
 
 $(STDCXX_CSTD_HEADERS_ABS): %: $(BID_ROOT_CONF) | $(INSTALL_INCDIR_X)
 	@$(INSTALL_LINK_MESSAGE) $@
-	$(VERBOSE)$(LN) -sf $(call choose_std_header,$(notdir $@)) $@
+	$(VERBOSE)src_hdr="$(call choose_std_header,$(notdir $@))"; \
+	  [ -e "$$src_hdr" ] || \
+	    { echo "Source file \"$$src_hdr\" for \"$@\" not found."; exit 1; }; \
+	  $(LN) -sf "$$src_hdr" $@
 
 $(LIBSUPC_HI): %: $(BID_ROOT_CONF) | $(INSTALL_INCDIR_X)
 	@$(INSTALL_LINK_MESSAGE) $@
@@ -84,6 +88,7 @@ all:: $(LIBSUPC_HI) $(STDCXX_CSTD_HEADERS_ABS) $(BID_ROOT_CONF) | $(INSTALL_INCD
 	$(call install_cpu_header, cxxabi_tweaks.h)
 	$(call install_cpu_header, opt/bits/opt_random.h)
 	$(VERBOSE)$(foreach H,$(CTYPE_HEADERS), $(call install_header_x, $(H), bits/$(notdir $(H))); )
+	$(VERBOSE)$(foreach H,$(BACKWARD_HEADERS), $(call install_header_x, $(H), ext/$(notdir $(H))); )
 	$(VERBOSE)$(call install_config_header, $(TIME_MEMBERS_H),  time_members.h)
 	$(VERBOSE)$(call install_config_header, $(MESSAGES_MEMBERS_H),  messages_members.h)
 	$(VERBOSE)$(call install_config_header, $(BASIC_FILE_H), basic_file.h)

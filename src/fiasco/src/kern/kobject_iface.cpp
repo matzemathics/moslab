@@ -2,6 +2,7 @@ INTERFACE:
 
 #include "l4_types.h"
 #include <cxx/dyn_cast>
+#include "global_data.h"
 
 class Kobject;
 class Kobject_dbg;
@@ -35,9 +36,10 @@ public:
   typedef Kobject_iface *Factory_func(Ram_quota *q,
                                       Space *current_space,
                                       L4_msg_tag tag,
-                                      Utcb const *utcb, int *err);
+                                      Utcb const *utcb, Utcb *out,
+                                      int *err, unsigned *words);
   enum { Max_factory_index = -L4_msg_tag::Max_factory_label };
-  static Factory_func *factory[Max_factory_index + 1];
+  static Global_data<Factory_func *[Max_factory_index + 1]> factory;
 };
 
 IMPLEMENTATION:
@@ -46,7 +48,9 @@ IMPLEMENTATION:
 
 IMPLEMENT inline Kobject_common::~Kobject_common() {}
 
-Kobject_iface::Factory_func *Kobject_iface::factory[Max_factory_index + 1];
+DEFINE_GLOBAL
+Global_data<Kobject_iface::Factory_func *[Kobject_iface::Max_factory_index + 1]>
+Kobject_iface::factory;
 
 PUBLIC static inline
 L4_msg_tag
@@ -67,8 +71,8 @@ Kobject_iface::commit_error(Utcb const *utcb, L4_error const &e,
 
 PUBLIC virtual
 Kobject_iface *
-Kobject_iface::downgrade(unsigned long del_attribs)
-{ (void)del_attribs; return this; }
+Kobject_iface::downgrade(unsigned long /* del_attribs */)
+{ return this; }
 
 PUBLIC static
 void
@@ -80,7 +84,7 @@ Kobject_iface::set_factory(long label, Factory_func *f)
 
   if (factory[-label])
     panic("error: factory for protocol/label %ld already registered: %p\n",
-          label, factory[-label]);
+          label, reinterpret_cast<void *>(factory[-label]));
 
   factory[-label] = f;
 }
@@ -89,17 +93,18 @@ PUBLIC static inline
 Kobject_iface *
 Kobject_iface::manufacture(long label, Ram_quota *q,
                            Space *current_space,
-                           L4_msg_tag tag, Utcb const *utcb, int *err)
+                           L4_msg_tag tag, Utcb const *utcb, Utcb *out,
+                           int *err, unsigned *words)
 {
   *err = L4_err::ENodev;
   if (EXPECT_FALSE(label > 0 || -label > Max_factory_index
                    || !factory[-label]))
     return 0;
 
-  return factory[-label](q, current_space, tag, utcb, err);
+  return factory[-label](q, current_space, tag, utcb, out, err, words);
 }
 
 // ------------------------------------------------------------------------
-IMPLEMENTATION [debug]:
+IMPLEMENTATION [rt_dbg]:
 
 PUBLIC virtual Kobject_dbg *Kobject_common::dbg_info() const = 0;

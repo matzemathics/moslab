@@ -1,6 +1,5 @@
 <map id="l4_touch_rw" name="l4_touch_rw">
-<area shape="rect" id="Node000001" title="Touch data areas to force mapping (read&#45;write)" alt="" coords="5,29,105,55"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="29,31,24,21,27,11,38,5,55,3,77,6,86,15,82,19,74,11,55,8,39,10,31,15,29,20,34,28"/>
-<area shape="rect" id="Node000002" href="$group__l4__memory__api.html#ga70b72ae96c18cb49a3445198711bba0d" title="Round an address down to the next lower page boundary." alt="" coords="153,29,267,55"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="106,39,139,39,139,45,106,45"/>
+<area shape="rect" id="Node000001" title="Touch data areas to force mapping (read&#45;write)" alt="" coords="5,5,105,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__memory__api.html#ga70b72ae96c18cb49a3445198711bba0d" title="Round an address down to the next lower page boundary." alt="" coords="153,5,267,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,15,139,15,139,21,106,21"/>
 </map>

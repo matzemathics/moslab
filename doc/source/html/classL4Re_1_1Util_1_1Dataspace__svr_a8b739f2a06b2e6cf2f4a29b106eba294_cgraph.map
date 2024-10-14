@@ -1,0 +1,13 @@
+<map id="L4Re::Util::Dataspace_svr::map" name="L4Re::Util::Dataspace_svr::map">
+<area shape="rect" id="Node000001" title="Map a region of the dataspace." alt="" coords="5,97,168,137"/>
+<area shape="rect" id="Node000002" href="$group__l4__fpage__api.html#ga48705696780cda4e2f04dbdb54946f75" title="Create a memory flex page." alt="" coords="258,5,337,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,94,162,66,215,40,244,29,246,34,217,44,165,71,119,99"/>
+<area shape="rect" id="Node000003" href="$group__l4__memory__api.html#ga96e3b2d8e69308aecbb11d1d24f61662" title="Round address up to the next page." alt="" coords="239,55,356,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="168,95,228,81,230,86,169,100"/>
+<area shape="rect" id="Node000004" href="$group__l4__memory__api.html#ga70b72ae96c18cb49a3445198711bba0d" title="Round an address down to the next lower page boundary." alt="" coords="241,104,354,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,114,226,114,226,119,168,119"/>
+<area shape="rect" id="Node000005" href="$group__l4__memory__api.html#ga792959ba1e87fecf90018876f32d7bc9" title="Round an address down to the next lower flex page with size bits." alt="" coords="244,153,351,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="169,133,231,148,230,153,168,138"/>
+<area shape="rect" id="Node000006" href="$classL4Re_1_1Util_1_1Dataspace__svr.html#ab49090298fcecc7395ce01282a28bd7e" title="A hook that is called for acquiring the data to be mapped." alt="" coords="216,203,379,243"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="122,134,217,188,234,195,232,200,215,192,119,139"/>
+</map>

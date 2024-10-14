@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Copyright (C) 2000-2005 by Erik Andersen <andersen@codepoet.org>
  *
@@ -9,6 +8,12 @@
 #define _LDSO_H
 
 #include <features.h>
+
+#ifdef __ARCH_USE_MMU__
+# define _MAP_UNINITIALIZED 0
+#else
+# define _MAP_UNINITIALIZED MAP_UNINITIALIZED
+#endif
 
 /* Prepare for the case that `__builtin_expect' is not available.  */
 #if defined __GNUC__ && __GNUC__ == 2 && __GNUC_MINOR__ < 96
@@ -43,7 +48,7 @@
 /* Pull in the MIN macro */
 #include <sys/param.h>
 /* Pull in the ldso syscalls and string functions */
-#ifndef __ARCH_HAS_NO_SHARED__
+#if !defined(__ARCH_HAS_NO_SHARED__) || !defined(__ARCH_HAS_NO_LDSO__)
 #include <dl-syscall.h>
 #include <dl-string.h>
 /* Now the ldso specific headers */
@@ -104,6 +109,7 @@ extern char *_dl_debug_reloc;
 extern char *_dl_debug_detail;
 extern char *_dl_debug_nofixups;
 extern char *_dl_debug_bindings;
+extern char *_dl_debug_vdso;
 extern int   _dl_debug_file;
 # define __dl_debug_dprint(fmt, args...) \
 	_dl_dprintf(_dl_debug_file, "%s:%i: " fmt, __func__, __LINE__, ## args);
@@ -143,6 +149,7 @@ extern int   _dl_debug_file;
 #define NULL ((void *) 0)
 #endif
 
+
 extern void *_dl_malloc(size_t size);
 extern void *_dl_calloc(size_t __nmemb, size_t __size);
 extern void *_dl_realloc(void *__ptr, size_t __size);
@@ -171,13 +178,8 @@ extern void _dl_dprintf(int, const char *, ...) __attribute__((format(printf, 2,
 # define DL_GET_READY_TO_RUN_EXTRA_ARGS
 #endif
 
-#ifndef __NOT_FOR_L4__
-/* function to be called before running the init functions of ldso */
-extern void _dl_setup_malloc(ElfW(auxv_t) auxvt[AT_EGID + 1]);
-#endif
-
 extern void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE load_addr,
-		ElfW(auxv_t) auxvt[AT_EGID + 1], char **envp, char **argv
+		char **envp, char **argv
 		DL_GET_READY_TO_RUN_EXTRA_PARMS);
 
 #ifdef HAVE_DL_INLINES_H
@@ -186,6 +188,18 @@ extern void *_dl_get_ready_to_run(struct elf_resolve *tpnt, DL_LOADADDR_TYPE loa
 
 #else /* __ARCH_HAS_NO_SHARED__ */
 #include <dl-defs.h>
+#include <dl-elf.h>
+
+#endif
+
+#define AUX_MAX_AT_ID 40
+extern ElfW(auxv_t) _dl_auxvt[AUX_MAX_AT_ID];
+
+void load_vdso(void *sys_info_ehdr, char **envp );
+
+#ifndef __NOT_FOR_L4__
+/* function to be called before running the init functions of ldso */
+extern void _dl_setup_malloc(ElfW(auxv_t) auxvt[AUX_MAX_AT_ID]);
 #endif
 
 #endif /* _LDSO_H */

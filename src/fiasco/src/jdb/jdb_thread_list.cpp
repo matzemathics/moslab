@@ -238,7 +238,7 @@ Jdb_thread_list::sc_wfq_iter_next(Sched_context *t)
   if (!rl || rl == RQP::idle(rq))
     return RQP::cnt(rq) ? RQP::heap(rq)[0] : *RQP::idle(rq);
 
-  if ((unsigned)(rl - RQP::heap(rq)) >= RQP::cnt(rq))
+  if (static_cast<unsigned>(rl - RQP::heap(rq)) >= RQP::cnt(rq))
     return *RQP::idle(rq);
 
   return *(rl + 1);
@@ -576,7 +576,7 @@ Jdb_thread_list::action(int cmd, void *&argbuf, char const *&fmt, int &) overrid
 	  return EXTRA_INPUT;
 	}
 
-      Thread *t = Jdb::get_current_active();
+      Thread *t = Jdb::get_thread(Cpu_number::boot_cpu());
       switch (subcmd)
 	{
         case 'r': cpu = Cpu_number::first(); list_threads(t, 'r'); break;
@@ -595,7 +595,7 @@ Jdb_thread_list::action(int cmd, void *&argbuf, char const *&fmt, int &) overrid
     }
   else if (cmd == 1)
     {
-      Thread *t = Jdb::get_current_active();
+      Thread *t = Jdb::get_thread(Cpu_number::boot_cpu());
 
       {
         // Hm, we are in JDB, however we have to make the assertion in
@@ -625,7 +625,7 @@ Jdb_thread_list::print_thread_name(Kobject_common const * o, int len)
 
   if (nx)
     {
-      len = min((int)nx->max_len(), len);
+      len = min(nx->max_len(), len);
       printf("%-*.*s", len, len, nx->name());
     }
   else
@@ -635,11 +635,8 @@ Jdb_thread_list::print_thread_name(Kobject_common const * o, int len)
 static void
 Jdb_thread_list::list_threads_show_thread(Thread *t)
 {
-  char to[24];
   int  waiting_for = 0;
   int  plen = 0;
-
-  *to = '\0';
 
   Kconsole::console()->getchar_chance();
 
@@ -656,7 +653,7 @@ Jdb_thread_list::list_threads_show_thread(Thread *t)
   print_thread_name(t, 15);
   plen += 15;
 
-  plen += printf("  %2lx ", (unsigned long)get_prio(t));
+  plen += printf("  %2lx ", get_prio(t));
 
   if (get_space_dbgid(t) == ~0L)
     plen += printf(" ----- ");
@@ -678,31 +675,22 @@ Jdb_thread_list::list_threads_show_thread(Thread *t)
     putstr("      ");
   plen += 6;
 
+  String_buf<8> to;
   if (waiting_for)
     {
       if (t->_timeout && t->_timeout->is_set())
 	{
 	  Signed64 diff = (t->_timeout->get_timeout(Kip::k()->clock()));
 	  if (diff < 0)
-	    strcpy(to, " over");
-	  else if (diff >= 100000000LL)
-	    strcpy(to, " >99s");
-	  else
-	    {
-	      int us = (int)diff;
-	      if (us < 0)
-		us = 0;
-	      if (us >= 1000000)
-		snprintf(to, sizeof(to), " %3ds", us / 1000000);
-	      else if (us >= 1000)
-		snprintf(to, sizeof(to), " %3dm", us / 1000);
-	      else
-		snprintf(to, sizeof(to), " %3du", us);
-	    }
+	    to.printf("over");
+          else if (diff > 100'000'000)
+            to.printf(">99s");
+          else
+            Jdb::write_us_shortfmt(&to, static_cast<Unsigned32>(diff));
 	}
     }
 
-  plen += printf("%-6s", to);
+  plen += printf(" %-5s", to.c_str());
 
   if (long_output)
     {
@@ -714,7 +702,7 @@ Jdb_thread_list::list_threads_show_thread(Thread *t)
       if (Config::Stack_depth)
 	{
 	  Mword i, stack_depth;
-	  char *c  = (char*)t + sizeof (Thread);
+	  char *c  = reinterpret_cast<char*>(t) + sizeof (Thread);
 	  for (i = sizeof (Thread), stack_depth = Context::Size;
 	      i < Context::Size;
 	      i++, stack_depth--, c++)
@@ -724,7 +712,7 @@ Jdb_thread_list::list_threads_show_thread(Thread *t)
 	  plen += printf("(%4lu) ", stack_depth - sizeof (Thread));
 	}
 
-      if ((int)Jdb_screen::width() > plen)
+      if (static_cast<int>(Jdb_screen::width()) > plen)
 	Jdb_thread::print_state_long(t, Jdb_screen::width() - plen);
       putstr("\033[K\n");
     }

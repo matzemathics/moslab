@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Icu Class Reference</title>
+<title>L4Re Operating System Framework: L4::Icu Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -190,7 +193,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <div class="ttc" id="aicu_html"><div class="ttname"><a href="icu.html">icu</a></div><div class="ttdoc">Interrupt controller.</div></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00259">259</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00257">257</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ada7541da586ea09b925b4d90d7dc357e" name="ada7541da586ea09b925b4d90d7dc357e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ada7541da586ea09b925b4d90d7dc357e">&#9670;&#160;</a></span>bind()</h2>
@@ -241,7 +244,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Syscall return tag. The caller should check the return value using <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call.">l4_error()</a> to check for errors and to identify the correct method for unmasking the interrupt. Return values <code>&lt; 0</code> indicate an error. A return value of <code>0</code> means a direct unmask via the IRQ object using <a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask IRQ.">L4::Irq::unmask</a>. A return value of <code>1</code> means that the interrupt has to be unmasked via the ICU using <a class="el" href="classL4_1_1Irq__eoi.html#a2143eb2495d0135bc432efc362845483" title="Unmask the given interrupt line.">L4::Icu::unmask</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Syscall return tag. The caller should check the return value using <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call.">l4_error()</a> to check for errors and to identify the correct method for unmasking the interrupt. Return values <code>&lt; 0</code> indicate an error. A return value of <code>0</code> means a direct unmask via the IRQ object using <a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask this IRQ.">L4::Irq::unmask</a>. A return value of <code>1</code> means that the interrupt has to be unmasked via the ICU using <a class="el" href="classL4_1_1Irq__eoi.html#a2143eb2495d0135bc432efc362845483" title="Unmask the given interrupt line.">L4::Icu::unmask</a>.</dd></dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">-L4_EINVAL</td><td><code>irq</code> is bound to an interrupt source. </td></tr>
@@ -251,9 +254,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </dl>
 <p>In case the <code>irq</code> is already bound to an interrupt source, it is unbound first. In case the <code>irq</code> is bound and the interrupt source is bound to a different <a class="el" href="classL4_1_1Irq.html" title="C++ Irq interface, see IRQs for the C interface.">L4::Irq</a> object, only the unbinding happens. An <a class="el" href="classL4_1_1Irq.html" title="C++ Irq interface, see IRQs for the C interface.">L4::Irq</a> object that is bound to an interrupt source will get unbound if the <a class="el" href="classL4_1_1Irq.html" title="C++ Irq interface, see IRQs for the C interface.">L4::Irq</a> object is deleted. </p>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00318">318</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00316">316</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 
-<p class="reference">References <a class="el" href="capability_8h_source.html#l00052">L4::Cap_base::cap()</a>, and <a class="el" href="icu_8h_source.html#l00404">l4_icu_bind_u()</a>.</p>
+<p class="reference">References <a class="el" href="capability_8h_source.html#l00049">L4::Cap_base::cap()</a>, and <a class="el" href="icu_8h_source.html#l00404">l4_icu_bind_u()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="client_2l4virtio_source.html#l00129">L4virtio::Driver::Device::bind_notification_irq()</a>, and <a class="el" href="client_2l4virtio_source.html#l00056">L4virtio::Driver::Device::driver_connect()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -317,11 +320,11 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00353">353</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00351">351</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 
-<p class="reference">References <a class="el" href="irq_source.html#l00353">info()</a>, and <a class="el" href="icu_8h_source.html#l00428">l4_icu_info_u()</a>.</p>
+<p class="reference">References <a class="el" href="irq_source.html#l00351">info()</a>, and <a class="el" href="icu_8h_source.html#l00428">l4_icu_info_u()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="irq_source.html#l00353">info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="irq_source.html#l00351">info()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -397,7 +400,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag. If <code>label</code> is NULL, this function performs an IPC send-only operation and there is no return value except <a class="el" href="group__l4__msgtag__api.html#gga16589e963a73c13aefd2760ce418e053aad1669664171cc979970b1e2300bd463" title="Error indicator flag.">L4_MSGTAG_ERROR</a> indicating success or failure of the send operation. In this case use <a class="el" href="group__l4__ipc__err__api.html#gad40f404217497793e95a10d77a47db39" title="Get the IPC error code for an IPC operation.">l4_ipc_error()</a> to check for errors and <b>do not</b> use <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call.">l4_error()</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00401">401</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00399">399</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 
 <p class="reference">References <a class="el" href="icu_8h_source.html#l00491">l4_icu_mask_u()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -506,7 +509,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00429">429</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00427">427</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 
 <p class="reference">References <a class="el" href="icu_8h_source.html#l00465">l4_icu_set_mode_u()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -570,9 +573,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00336">336</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00334">334</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 
-<p class="reference">References <a class="el" href="capability_8h_source.html#l00052">L4::Cap_base::cap()</a>, and <a class="el" href="icu_8h_source.html#l00416">l4_icu_unbind_u()</a>.</p>
+<p class="reference">References <a class="el" href="capability_8h_source.html#l00049">L4::Cap_base::cap()</a>, and <a class="el" href="icu_8h_source.html#l00416">l4_icu_unbind_u()</a>.</p>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
@@ -593,7 +596,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="classL4_1_1Icu.html">Icu</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

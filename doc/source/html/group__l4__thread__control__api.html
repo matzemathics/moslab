@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Thread control</title>
+<title>L4Re Operating System Framework: Thread control</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -175,10 +178,10 @@ Functions</h2></td></tr>
 </dl>
 <p>For a thread in alien mode the kernel produces just an exception IPC for each IPC and exception caused by the alien thread instead of handling these events regularly. (Page faults of alien threads and interrupts occuring while the alien thread is running are always handled regularly.) While the alien thread is blocking, the execption handler can inspect and modify the state of the alien thread and potentially also the systemcall arguments. If the exception handler replies with <a class="el" href="group__l4__msgtag__api.html#gga9ac8443c5696208bb0539dd659ea1c92ac9e6947daeaab9c1e21efebda2fd38f0" title="Allow an alien the system call.">L4_PROTO_ALLOW_SYSCALL</a> as message tag, the kernel handles the next IPC or exception of the alien thread in a regular way. If the exception handler leaves certain thread state unchanged (in particular the instruction pointer), this will be the IPC or exception that caused the call of the exception handler. For a regularly processed IPC or exception of the alien thread the kernel also performs an exception IPC on kernel exit.</p>
 <p>This feature can be used to attach a debugger to a thread and trace all object invocations and their results. It could also be used to handle other systems that use the same syscall instruction as <a class="el" href="namespaceL4Re.html" title="L4Re C++ Interfaces.">L4Re</a>. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a29">examples/sys/aliens/main.c</a>, and <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a12">examples/sys/singlestep/main.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a30">examples/sys/aliens/main.c</a>, and <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a14">examples/sys/singlestep/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00946">946</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00951">951</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -236,10 +239,10 @@ Functions</h2></td></tr>
 <dl class="section pre"><dt>Precondition</dt><dd>The thread must not be bound to a task yet.</dd></dl>
 <p>A thread may execute code in the context of a task if and only if the thread is bound to the task. To actually start execution, <a class="el" href="group__l4__thread__api.html#ga1ea29499c679caeae810516d16f4347c" title="Exchange basic thread registers.">l4_thread_ex_regs()</a> needs to be used. Execution in the context of the task means that the code has access to all the task’s resources (and only those). The executed code itself must be one of those resources. A thread can be bound at most once to a task.</p>
 <dl class="section note"><dt>Note</dt><dd>The UTCBs of different threads in the same task should not overlap in order to prevent data corruption. </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a28">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a11">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a13">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a24">examples/sys/utcb-ipc/main.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a29">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a13">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a13">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a24">examples/sys/utcb-ipc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00940">940</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00945">945</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -292,10 +295,10 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a30">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a13">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a14">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a25">examples/sys/utcb-ipc/main.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a31">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a15">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a14">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a25">examples/sys/utcb-ipc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00958">958</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00963">963</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -340,10 +343,10 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>The exception-handler capability selector is interpreted in the task the thread is bound to (executes in). </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a27">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a10">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a12">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a23">examples/sys/utcb-ipc/main.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a28">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a12">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a12">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a23">examples/sys/utcb-ipc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00933">933</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00938">938</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -388,10 +391,10 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>The pager capability selector is interpreted in the task the thread is bound to (executes in). </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a26">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a9">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a11">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a22">examples/sys/utcb-ipc/main.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a27">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a11">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a11">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a22">examples/sys/utcb-ipc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00927">927</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00932">932</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -438,10 +441,10 @@ Functions</h2></td></tr>
 </ul>
 <p>To commit the changes to the thread <a class="el" href="group__l4__thread__control__api.html#ga7d07c9032fdd3dd59bcad35ca51176e8" title="Commit the thread control parameters.">l4_thread_control_commit()</a> must be called in the end.</p>
 <dl class="section note"><dt>Note</dt><dd>The thread control API calls store the parameters for the thread in the UTCB of the caller (see <a class="el" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644" title="Get the UTCB address.">l4_utcb()</a>), this means between <a class="el" href="group__l4__thread__control__api.html#gae37baad7d9eaae8c2d90be7cfadb4271" title="Start a thread control API sequence.">l4_thread_control_start()</a> and <a class="el" href="group__l4__thread__control__api.html#ga7d07c9032fdd3dd59bcad35ca51176e8" title="Commit the thread control parameters.">l4_thread_control_commit()</a> no functions that modify the UTCB contents must be called. </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a25">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a8">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a10">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a21">examples/sys/utcb-ipc/main.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2sys_2aliens_2main_8c-example.html#a26">examples/sys/aliens/main.c</a>, <a class="el" href="examples_2sys_2singlestep_2main_8c-example.html#a10">examples/sys/singlestep/main.c</a>, <a class="el" href="examples_2sys_2start-with-exc_2main_8c-example.html#a10">examples/sys/start-with-exc/main.c</a>, and <a class="el" href="examples_2sys_2utcb-ipc_2main_8c-example.html#a21">examples/sys/utcb-ipc/main.c</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00921">921</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00926">926</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -488,7 +491,7 @@ Functions</h2></td></tr>
 <dl class="section pre"><dt>Precondition</dt><dd>Running on Fiasco-UX</dd></dl>
 <p>This enables the thread to do host system calls. This feature is only available in Fiasco-UX and ignored in other environments. </p>
 
-<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00952">952</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2thread_8h_source.html#l00957">957</a> of file <a class="el" href="l4_2sys_2thread_8h_source.html">thread.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -507,7 +510,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

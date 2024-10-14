@@ -19,7 +19,7 @@ Per_cpu_array<Syscall_entry_data> Cpu::_syscall_entry_data;
 IMPLEMENT inline NEEDS["tss.h"]
 Address volatile &
 Cpu::kernel_sp() const
-{ return *reinterpret_cast<Address volatile *>(&get_tss()->_rsp0); }
+{ return *reinterpret_cast<Address volatile *>(&get_tss()->_hw.ctx.rsp0); }
 
 PUBLIC inline
 void
@@ -28,10 +28,10 @@ Cpu::setup_sysenter()
   extern Per_cpu_array<Syscall_entry_text> syscall_entry_text;
 
   wrmsr(0, GDT_CODE_KERNEL | ((GDT_CODE_USER32 | 3) << 16), MSR_STAR);
-  wrmsr((Unsigned64)&syscall_entry_text[id()], MSR_LSTAR);
-  wrmsr((Unsigned64)&syscall_entry_text[id()], MSR_CSTAR);
+  wrmsr(reinterpret_cast<Unsigned64>(&syscall_entry_text[id()]), MSR_LSTAR);
+  wrmsr(reinterpret_cast<Unsigned64>(&syscall_entry_text[id()]), MSR_CSTAR);
   wrmsr(~0U, MSR_SFMASK);
-  _syscall_entry_data[id()].set_rsp((Address)&kernel_sp());
+  _syscall_entry_data[id()].set_rsp(reinterpret_cast<Address>(&kernel_sp()));
 }
 
 IMPLEMENTATION[amd64 && kernel_isolation]:
@@ -44,8 +44,9 @@ void
 Cpu::setup_sysenter() const
 {
   wrmsr(0, GDT_CODE_KERNEL | ((GDT_CODE_USER32 | 3) << 16), MSR_STAR);
-  wrmsr((Unsigned64)Mem_layout::Kentry_cpu_syscall_entry, MSR_LSTAR);
-  wrmsr((Unsigned64)Mem_layout::Kentry_cpu_syscall_entry, MSR_CSTAR);
+  wrmsr(Mem_layout::Kentry_cpu_syscall_entry, MSR_LSTAR);
+  wrmsr(Mem_layout::Kentry_cpu_syscall_entry,
+        MSR_CSTAR);
   wrmsr(~0U, MSR_SFMASK);
 }
 
@@ -56,8 +57,6 @@ Cpu::kernel_sp() const
 
 IMPLEMENTATION[amd64]:
 
-extern "C" void entry_sys_fast_ipc_c();
-
 PUBLIC FIASCO_INIT_AND_PM
 void
 Cpu::init_sysenter()
@@ -67,47 +66,47 @@ Cpu::init_sysenter()
 }
 
 
-PUBLIC inline
+PUBLIC inline FIASCO_CONST
 Unsigned64
 Cpu::ns_to_tsc(Unsigned64 ns) const
 {
   Unsigned64 tsc, dummy;
-  __asm__
+  asm inline
       ("                              \n\t"
        "mulq   %3                      \n\t"
        "shrd  $27, %%rdx, %%rax       \n\t"
        :"=a" (tsc), "=d" (dummy)
-       :"a" (ns), "r" ((Unsigned64)scaler_ns_to_tsc)
+       :"a" (ns), "r" (Unsigned64{scaler_ns_to_tsc})
       );
   return tsc;
 }
 
-PUBLIC inline
+PUBLIC inline FIASCO_CONST
 Unsigned64
 Cpu::tsc_to_ns(Unsigned64 tsc) const
 {
   Unsigned64 ns, dummy;
-  __asm__
+  asm inline
       ("                               \n\t"
        "mulq   %3                      \n\t"
        "shrd  $27, %%rdx, %%rax       \n\t"
        :"=a" (ns), "=d"(dummy)
-       :"a" (tsc), "r" ((Unsigned64)scaler_tsc_to_ns)
+       :"a" (tsc), "r" (Unsigned64{scaler_tsc_to_ns})
       );
   return ns;
 }
 
-PUBLIC inline
+PUBLIC inline FIASCO_CONST
 Unsigned64
 Cpu::tsc_to_us(Unsigned64 tsc) const
 {
   Unsigned64 ns, dummy;
-  __asm__
+  asm inline
       ("                               \n\t"
        "mulq   %3                      \n\t"
        "shrd  $32, %%rdx, %%rax       \n\t"
        :"=a" (ns), "=d" (dummy)
-       :"a" (tsc), "r" ((Unsigned64)scaler_tsc_to_us)
+       :"a" (tsc), "r" (Unsigned64{scaler_tsc_to_us})
       );
   return ns;
 }
@@ -117,14 +116,14 @@ PUBLIC inline
 void
 Cpu::tsc_to_s_and_ns(Unsigned64 tsc, Unsigned32 *s, Unsigned32 *ns) const
 {
-  __asm__
+  asm inline
       ("                                \n\t"
        "mulq   %3                       \n\t"
        "shrd  $27, %%rdx, %%rax         \n\t"
        "xorq  %%rdx, %%rdx              \n\t"
        "divq  %4                        \n\t"
        :"=a" (*s), "=&d" (*ns)
-       : "a" (tsc), "r" ((Unsigned64)scaler_tsc_to_ns),
+       : "a" (tsc), "r" (Unsigned64{scaler_tsc_to_ns}),
          "rm"(1000000000ULL)
       );
 }
@@ -133,26 +132,29 @@ PUBLIC static inline
 Unsigned64
 Cpu::rdtsc()
 {
-  Unsigned64 tsc;
-  asm volatile (
-         "rdtsc				\n\t"
-	 "and   %1,%%rax		\n\t"
-	 "shl   $32,%%rdx		\n\t"
-	 "or	%%rdx,%%rax		\n\t"
-	: "=&a" (tsc)
-	: "r" (0xffffffffUL)
-	:"rdx"
-	);
-  return tsc;
+  Unsigned64 h, l;
+  asm inline volatile ("rdtsc" : "=a" (l), "=d" (h));
+  return (h << 32) | l;
 }
 
+/**
+ * Support for RDTSCP is indicated by CPUID.80000001H:EDX[27].
+ */
+PUBLIC static inline
+Unsigned64
+Cpu::rdtscp()
+{
+  Unsigned64 h, l;
+  asm inline volatile ("rdtscp" : "=a" (l), "=d" (h) :: "rcx");
+  return (h << 32) | l;
+}
 
 PUBLIC static inline
 Unsigned64
 Cpu::get_flags()
 {
   Unsigned64 efl;
-  asm volatile ("pushf ; popq %0" : "=r"(efl));
+  asm inline volatile ("pushf ; popq %0" : "=r"(efl));
   return efl;
 }
 
@@ -161,7 +163,7 @@ PUBLIC static inline
 void
 Cpu::set_flags(Unsigned64 efl)
 {
-  asm volatile ("pushq %0 ; popf" : : "rm" (efl) : "memory");
+  asm inline volatile ("pushq %0 ; popf" : : "rm" (efl) : "memory");
 }
 
 
@@ -234,26 +236,26 @@ extern "C" Address dbf_stack_top;
 
 PUBLIC FIASCO_INIT_CPU
 void
-Cpu::init_tss(Address tss_mem, size_t tss_size)
+Cpu::init_tss(Tss *tss)
 {
-  tss = reinterpret_cast<Tss*>(tss_mem);
+  _tss = tss;
 
-  gdt->set_entry_tss(Gdt::gdt_tss / 8, tss_mem, tss_size);
+  gdt->set_entry_tss(Gdt::gdt_tss / 8, reinterpret_cast<Address>(_tss),
+                     Tss::Segment_limit);
 
   // XXX setup pointer for clean double fault stack
-  tss->_ist1 = (Address)&dbf_stack_top;
-  assert(Mem_layout::Io_bitmap - tss_mem
-         < (1 << (sizeof(tss->_io_bit_map_offset) * 8)));
-  tss->_io_bit_map_offset = Mem_layout::Io_bitmap - tss_mem;
+  _tss->_hw.ctx.ist1 = reinterpret_cast<Address>(&dbf_stack_top);
+  _tss->_hw.io.bitmap_delimiter = 0xffU;
+
+  reset_io_bitmap();
   init_sysenter();
 }
-
 
 PUBLIC FIASCO_INIT_CPU
 void
 Cpu::init_gdt(Address gdt_mem, Address user_max)
 {
-  gdt = new ((void *)gdt_mem) Gdt();
+  gdt = new (reinterpret_cast<void *>(gdt_mem)) Gdt();
 
   // make sure kernel cs/ds and user cs/ds are placed in the same
   // cache line, respectively; pre-set all "accessed" flags so that
@@ -280,7 +282,6 @@ Cpu::init_gdt(Address gdt_mem, Address user_max)
                     Gdt_entry::User, Gdt_entry::Code_compat,
                     Gdt_entry::Size_32);
 }
-
 
 PUBLIC static inline
 Mword

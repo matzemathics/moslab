@@ -14,6 +14,7 @@ var rm_8h =
       [ "L4RE_RM_F_SEARCH_ADDR", "group__api__l4re__c__rm.html#ggac609573c52697470006edc27089517bca3c2457461189acefcb93c2cfc4bd5777", null ],
       [ "L4RE_RM_F_IN_AREA", "group__api__l4re__c__rm.html#ggac609573c52697470006edc27089517bcaa264ed930b4942a64ec654b76c5b5421", null ],
       [ "L4RE_RM_F_EAGER_MAP", "group__api__l4re__c__rm.html#ggac609573c52697470006edc27089517bcacde8454411a637912922926034f5dc93", null ],
+      [ "L4RE_RM_F_NO_EAGER_MAP", "group__api__l4re__c__rm.html#ggac609573c52697470006edc27089517bca2cc9d5ee55bcfc71b3d21644b4c2eafb", null ],
       [ "L4RE_RM_F_ATTACH_FLAGS", "group__api__l4re__c__rm.html#ggac609573c52697470006edc27089517bcab8fddcb70f4703ff7c9f91f8b3705776", null ]
     ] ],
     [ "l4re_rm_attach", "group__api__l4re__c__rm.html#ga1dba5ddbe73ff2dbcf4865657ae5f9e8", null ],

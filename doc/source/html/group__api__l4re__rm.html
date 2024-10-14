@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Region map API</title>
+<title>L4Re Operating System Framework: Region map API</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -123,6 +126,7 @@ Data Structures</h2></td></tr>
 <p>Note that regions may live outside of areas and that an area does not necessarily contain any region.</p>
 <p>Areas can be reserved for special use or for attaching a dataspace at a later time. When attaching a dataspace, the user can instruct the region map to search for an appropriate range to attach to. Regions are skipped in this search since they already have dataspaces attached to them, and, depending on <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041af80cdbdea8dc3a8e155be2ad2c3e5579" title="Search only in area, or map into area.">L4Re::Rm::F::In_area</a>, areas are skipped because they are reserved. Amongst others, areas can be used to attach several dataspaces inside a certain range of addresses without interference from other threads.</p>
 <p>When a region map receives a page fault IPC, the region map will check if the faulting virtual address lies in a region. If yes, it will answer the page fault IPC with a mapping from the backing dataspace. If not, an error is returned.</p>
+<p>Depending on the system type, an attached dataspace might or might not be mapped eagerly. MMU-based systems resort to lazy mapping while systems without MMU do eager mappings by default. The <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd" title="Eagerly map the attached data space in.">L4Re::Rm::F::Eager_map</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a41addbf24fe21f95397c06210f9c0d6c" title="Prevent eager mapping of the attached data space.">L4Re::Rm::F::No_eager_map</a> flags can be used to force the respective behaviour, independent of the underlying system. In case both flags are given, the <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a41addbf24fe21f95397c06210f9c0d6c" title="Prevent eager mapping of the attached data space.">L4Re::Rm::F::No_eager_map</a> flag wins.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classL4Re_1_1Dataspace.html" title="Interface for memory-like objects.">L4Re::Dataspace</a>, <a class="el" href="classL4Re_1_1Rm.html" title="Region map.">L4Re::Rm</a>, </dd>
 <dd>
 <a class="el" href="l4re_concepts_ds_rm.html">Memory management - Data Spaces and the Region Map</a> </dd></dl>
@@ -132,7 +136,7 @@ Data Structures</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

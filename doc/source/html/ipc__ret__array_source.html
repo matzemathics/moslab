@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/cxx/ipc_ret_array Source File</title>
+<title>L4Re Operating System Framework: l4/sys/cxx/ipc_ret_array Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -129,8 +132,8 @@ $(document).ready(function(){initNavTree('ipc__ret__array_source.html',''); init
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>{</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keyword">typedef</span> T <span class="keyword">const</span> **ptr_type;</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  T *value;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keywordtype">unsigned</span> max;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  T *value = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keywordtype">unsigned</span> max = 0;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <a class="code hl_struct" href="structL4_1_1Ipc_1_1Ret__array.html">Ret_array</a>() {}</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <a class="code hl_struct" href="structL4_1_1Ipc_1_1Ret__array.html">Ret_array</a>(T *v, <span class="keywordtype">unsigned</span> max) : value(v), max(max) {}</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>};</div>
@@ -209,11 +212,11 @@ $(document).ready(function(){initNavTree('ipc__ret__array_source.html',''); init
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>} <span class="comment">// namespace Msg</span></div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}}</div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga3df4200910f2664b97397c23693beeb0"><div class="ttname"><a href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a></div><div class="ttdeci">#define L4_UNLIKELY(x)</div><div class="ttdoc">Expression is unlikely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00285">compiler.h:285</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00221">compiler.h:221</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga3df4200910f2664b97397c23693beeb0"><div class="ttname"><a href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a></div><div class="ttdeci">#define L4_UNLIKELY(x)</div><div class="ttdoc">Expression is unlikely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00296">compiler.h:296</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00231">compiler.h:231</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Ret__array_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Ret__array.html">L4::Ipc::Ret_array</a></div><div class="ttdoc">Dynamically sized output array of type T.</div><div class="ttdef"><b>Definition</b> <a href="ipc__ret__array_source.html#l00034">ipc_ret_array:35</a></div></div>
-<div class="ttc" id="astructL4_1_1Types_1_1False_html"><div class="ttname"><a href="structL4_1_1Types_1_1False.html">L4::Types::False</a></div><div class="ttdoc">False meta value.</div><div class="ttdef"><b>Definition</b> <a href="types_source.html#l00308">types:308</a></div></div>
+<div class="ttc" id="astructL4_1_1Types_1_1False_html"><div class="ttname"><a href="structL4_1_1Types_1_1False.html">L4::Types::False</a></div><div class="ttdoc">False meta value.</div><div class="ttdef"><b>Definition</b> <a href="types_source.html#l00307">types:307</a></div></div>
 <div class="ttc" id="atypes_html"><div class="ttname"><a href="types.html">types</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -222,7 +225,7 @@ $(document).ready(function(){initNavTree('ipc__ret__array_source.html',''); init
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="dir_b5e85b2e6f5fea110cbdaa2fa3e12366.html">cxx</a></li><li class="navelem"><b>ipc_ret_array</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

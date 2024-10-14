@@ -41,14 +41,11 @@ namespace L4Re { namespace Util {
  * Capability allocator.
  *
  * This is the instance of the capability allocator that is used
- * by usual applications.  The actual implementation of the allocator
- * depends on the configuration of the system.
+ * by usual applications.
  *
- * Per default we use Counting_cap_alloc, a reference-counting
- * capability allocator, that
- * keeps a reference counter for each managed capability selector.
- *
- * \note This capability allocator is not thread-safe.
+ * The capability allocator uses the Counting_cap_alloc, a
+ * reference-counting thread-safe capability allocator, that keeps a
+ * reference counter for each managed capability selector.
  */
 extern _Cap_alloc &cap_alloc;
 
@@ -60,7 +57,7 @@ class Smart_cap_auto
 {
 public:
   /**
-   * Free operation for L4::Smart_cap.
+   * Free the provided capability.
    */
   static void free(L4::Cap_base &c)
   {
@@ -72,7 +69,7 @@ public:
   }
 
   /**
-   * Invalidate operation for L4::Smart_cap.
+   * Invalidate the provided capability.
    */
   static void invalidate(L4::Cap_base &c)
   {
@@ -80,15 +77,6 @@ public:
       c.invalidate();
   }
 
-  /**
-   * Copy operation for L4::Smart_cap.
-   */
-  static L4::Cap_base copy(L4::Cap_base const &src)
-  {
-    L4::Cap_base r = src;
-    invalidate(const_cast<L4::Cap_base &>(src));
-    return r;
-  }
 };
 
 

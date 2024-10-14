@@ -22,11 +22,11 @@
 <area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="701,587,625,566,627,561,702,582"/>
 <area shape="rect" id="Node000016" href="$classL4_1_1Factory.html#aac0a160a20464a6917f2f614d5b86407" title="Create a new IPC gate." alt="" coords="468,589,644,614"/>
 <area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="678,604,644,604,644,599,678,599"/>
-<area shape="rect" id="Node000017" href="$classL4_1_1Factory.html#a5a2119bba3ea97bfb0f10897c1c64ecb" title="Create a new task." alt="" coords="469,638,643,663"/>
+<area shape="rect" id="Node000017" href="$classL4_1_1Factory.html#a491c8f5113bb68cd402db1eb59ac76ea" title="Create a new task." alt="" coords="469,638,643,663"/>
 <area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="695,620,610,641,609,635,694,615"/>
 <area shape="rect" id="Node000018" href="$classL4_1_1Task.html#a6cc499337ace36c2cec41da182c905fc" title="Release capability and delete object." alt="" coords="481,687,631,713"/>
 <area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="734,624,693,652,645,678,614,690,612,685,643,674,691,648,731,620"/>
-<area shape="rect" id="Node000019" href="$classL4Re_1_1Util_1_1Smart__cap__auto.html#a4dfba4f2c4731689f1a53992c83371a6" title="Free operation for L4::Smart_cap." alt="" coords="475,737,637,777"/>
+<area shape="rect" id="Node000019" href="$classL4Re_1_1Util_1_1Smart__cap__auto.html#a4dfba4f2c4731689f1a53992c83371a6" title="Free the provided capability." alt="" coords="475,737,637,777"/>
 <area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="745,627,703,677,676,704,645,728,624,739,621,735,643,723,672,700,700,673,741,623"/>
 <area shape="rect" id="Node000020" href="$classL4_1_1Task.html#a2712eda0c02dca9b9e5324e93326f704" title="Map resources available in the source task to a destination task." alt="" coords="501,802,611,827"/>
 <area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="754,628,738,664,715,708,684,753,646,792,613,808,610,803,642,787,680,750,711,706,734,662,749,626"/>

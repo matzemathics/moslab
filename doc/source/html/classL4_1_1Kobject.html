@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Kobject Class Reference</title>
+<title>L4Re Operating System Framework: L4::Kobject Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -107,7 +110,7 @@ $(document).ready(function(){initNavTree('classL4_1_1Kobject.html',''); initResi
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Kobject__inherit__graph.svg" width="4650" height="958"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Kobject__inherit__graph.svg" width="4868" height="958"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for L4::Kobject:</div>
@@ -134,7 +137,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section user"><dt>Include File</dt><dd><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="capability.html">l4/sys/capability</a>&gt;</span> </div>
 <div class="ttc" id="acapability_html"><div class="ttname"><a href="capability.html">capability</a></div><div class="ttdoc">L4::Cap related definitions.</div></div>
 </div><!-- fragment --></dd></dl>
-<p>This is the base class for all remote objects accessible using RPC. However, subclasses doe not directly inherit from <a class="el" href="classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities.">L4::Kobject</a> but <em>must</em> use <a class="el" href="classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class.">L4::Kobject_t</a> (L4::Kobject_0t, <a class="el" href="classL4_1_1Kobject__2t.html" title="Helper class to create an L4Re interface class that is derived from two base classes (see L4::Kobject...">L4::Kobject_2t</a>, <a class="el" href="structL4_1_1Kobject__3t.html" title="Helper class to create an L4Re interface class that is derived from three base classes (see L4::Kobje...">L4::Kobject_3t</a>, or <a class="el" href="structL4_1_1Kobject__x.html" title="Generic Kobject inheritance template.">L4::Kobject_x</a>) for inheritance, otherwise these classes cannot be used as RPC interfaces.</p>
+<p>This is the base class for all remote objects accessible using RPC. However, subclasses do not directly inherit from <a class="el" href="classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities.">L4::Kobject</a> but <em>must</em> use <a class="el" href="classL4_1_1Kobject__t.html" title="Helper class to create an L4Re interface class that is derived from a single base class.">L4::Kobject_t</a> (L4::Kobject_0t, <a class="el" href="classL4_1_1Kobject__2t.html" title="Helper class to create an L4Re interface class that is derived from two base classes (see L4::Kobject...">L4::Kobject_2t</a>, <a class="el" href="structL4_1_1Kobject__3t.html" title="Helper class to create an L4Re interface class that is derived from three base classes (see L4::Kobje...">L4::Kobject_3t</a>, or <a class="el" href="structL4_1_1Kobject__x.html" title="Generic Kobject inheritance template.">L4::Kobject_x</a>) for inheritance, otherwise these classes cannot be used as RPC interfaces.</p>
 <dl class="section attention"><dt>Attention</dt><dd>Objects derived from <a class="el" href="classL4_1_1Kobject.html" title="Base class for all kinds of kernel objects and remote objects, referenced by capabilities.">Kobject</a> <em>must</em> never add any data to those objects. Kobjects can act only as proxy object for encapsulating object invocations. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="kobject_source.html#l00046">46</a> of file <a class="el" href="kobject_source.html">kobject</a>.</p>
@@ -168,13 +171,13 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="kobject_source.html#l00079">79</a> of file <a class="el" href="kobject_source.html">kobject</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task_source.html#l00253">L4::Task::add_ku_mem()</a>, <a class="el" href="task_source.html#l00225">L4::Task::cap_equal()</a>, <a class="el" href="task_source.html#l00208">L4::Task::cap_valid()</a>, <a class="el" href="sys_2thread_source.html#l00249">L4::Thread::control()</a>, <a class="el" href="factory_source.html#l00308">L4::Factory::create()</a>, <a class="el" href="factory_source.html#l00274">L4::Factory::create()</a>, <a class="el" href="factory_source.html#l00377">L4::Factory::create_factory()</a>, <a class="el" href="factory_source.html#l00410">L4::Factory::create_gate()</a>, <a class="el" href="factory_source.html#l00344">L4::Factory::create_task()</a>, <a class="el" href="task_source.html#l00168">L4::Task::delete_obj()</a>, <a class="el" href="sys_2thread_source.html#l00123">L4::Thread::ex_regs()</a>, <a class="el" href="sys_2thread_source.html#l00090">L4::Thread::ex_regs()</a>, <a class="el" href="debugger_source.html#l00159">L4::Debugger::get_object_name()</a>, <a class="el" href="debugger_source.html#l00082">L4::Debugger::global_id()</a>, <a class="el" href="debugger_source.html#l00094">L4::Debugger::kobj_to_id()</a>, <a class="el" href="task_source.html#l00095">L4::Task::map()</a>, <a class="el" href="sys_2thread_source.html#l00498">L4::Thread::modify_senders()</a>, <a class="el" href="debugger_source.html#l00127">L4::Debugger::query_log_name()</a>, <a class="el" href="debugger_source.html#l00108">L4::Debugger::query_log_typeid()</a>, <a class="el" href="sys_2thread_source.html#l00414">L4::Thread::register_del_irq()</a>, <a class="el" href="task_source.html#l00187">L4::Task::release_cap()</a>, <a class="el" href="debugger_source.html#l00070">L4::Debugger::set_object_name()</a>, <a class="el" href="sys_2thread_source.html#l00270">L4::Thread::stats_time()</a>, <a class="el" href="debugger_source.html#l00144">L4::Debugger::switch_log()</a>, <a class="el" href="sys_2thread_source.html#l00259">L4::Thread::switch_to()</a>, <a class="el" href="task_source.html#l00123">L4::Task::unmap()</a>, <a class="el" href="task_source.html#l00142">L4::Task::unmap_batch()</a>, <a class="el" href="sys_2thread_source.html#l00354">L4::Thread::vcpu_control()</a>, <a class="el" href="sys_2thread_source.html#l00387">L4::Thread::vcpu_control_ext()</a>, <a class="el" href="sys_2thread_source.html#l00330">L4::Thread::vcpu_resume_commit()</a>, and <a class="el" href="____vm-arm_8h_source.html#l00041">L4::Vm::vgicc_map()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="debugger_source.html#l00172">L4::Debugger::add_image_info()</a>, <a class="el" href="task_source.html#l00255">L4::Task::add_ku_mem()</a>, <a class="el" href="task_source.html#l00225">L4::Task::cap_equal()</a>, <a class="el" href="task_source.html#l00208">L4::Task::cap_valid()</a>, <a class="el" href="sys_2thread_source.html#l00249">L4::Thread::control()</a>, <a class="el" href="factory_source.html#l00308">L4::Factory::create()</a>, <a class="el" href="factory_source.html#l00274">L4::Factory::create()</a>, <a class="el" href="factory_source.html#l00381">L4::Factory::create_factory()</a>, <a class="el" href="factory_source.html#l00414">L4::Factory::create_gate()</a>, <a class="el" href="factory_source.html#l00348">L4::Factory::create_task()</a>, <a class="el" href="task_source.html#l00168">L4::Task::delete_obj()</a>, <a class="el" href="sys_2thread_source.html#l00123">L4::Thread::ex_regs()</a>, <a class="el" href="sys_2thread_source.html#l00090">L4::Thread::ex_regs()</a>, <a class="el" href="debugger_source.html#l00159">L4::Debugger::get_object_name()</a>, <a class="el" href="debugger_source.html#l00082">L4::Debugger::global_id()</a>, <a class="el" href="debugger_source.html#l00094">L4::Debugger::kobj_to_id()</a>, <a class="el" href="task_source.html#l00095">L4::Task::map()</a>, <a class="el" href="sys_2thread_source.html#l00501">L4::Thread::modify_senders()</a>, <a class="el" href="debugger_source.html#l00127">L4::Debugger::query_log_name()</a>, <a class="el" href="debugger_source.html#l00108">L4::Debugger::query_log_typeid()</a>, <a class="el" href="sys_2thread_source.html#l00414">L4::Thread::register_del_irq()</a>, <a class="el" href="task_source.html#l00187">L4::Task::release_cap()</a>, <a class="el" href="debugger_source.html#l00070">L4::Debugger::set_object_name()</a>, <a class="el" href="sys_2thread_source.html#l00270">L4::Thread::stats_time()</a>, <a class="el" href="debugger_source.html#l00144">L4::Debugger::switch_log()</a>, <a class="el" href="sys_2thread_source.html#l00259">L4::Thread::switch_to()</a>, <a class="el" href="task_source.html#l00123">L4::Task::unmap()</a>, <a class="el" href="task_source.html#l00142">L4::Task::unmap_batch()</a>, <a class="el" href="sys_2thread_source.html#l00354">L4::Thread::vcpu_control()</a>, <a class="el" href="sys_2thread_source.html#l00387">L4::Thread::vcpu_control_ext()</a>, <a class="el" href="sys_2thread_source.html#l00330">L4::Thread::vcpu_resume_commit()</a>, and <a class="el" href="____vm-arm_8h_source.html#l00041">L4::Vm::vgicc_map()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Kobject_a4f2117ae76762f4084e6a1adb915863c_icgraph.svg" width="411" height="1624"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Kobject_a4f2117ae76762f4084e6a1adb915863c_icgraph.svg" width="411" height="1674"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -239,7 +242,7 @@ Protected Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="classL4_1_1Kobject.html">Kobject</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

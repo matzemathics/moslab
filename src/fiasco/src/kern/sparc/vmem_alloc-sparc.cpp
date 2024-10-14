@@ -30,15 +30,14 @@ void *Vmem_alloc::page_alloc(void *address, Zero_fill zf, unsigned mode)
 
   auto pte = Kmem::kdir->walk(Virt_addr(address),
                               Pdir::Depth, true,
-                              Kmem_alloc::q_allocator(Ram_quota::root));
+                              Kmem_alloc::q_allocator(Ram_quota::root.unwrap()));
 
   Page::Rights r = Page::Rights::RWX();
   if (mode & User)
     r |= Page::Rights::U();
 
-  pte.create_page(Phys_mem_addr(page),
-                  Page::Attr(r, Page::Type::Normal(), Page::Kern::Global()));
-  pte.write_back_if(true, 0 /*Mem_unit::Asid_kernel*/);
+  pte.create_page(Phys_mem_addr(page), Page::Attr::kern_global(r));
+  pte.write_back_if(true);
   //Mem_unit::dtlb_flush(address);
 
   if (zf == ZERO_FILL)

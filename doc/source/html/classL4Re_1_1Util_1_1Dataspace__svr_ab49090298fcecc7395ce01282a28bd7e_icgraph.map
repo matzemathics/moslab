@@ -1,0 +1,5 @@
+<map id="L4Re::Util::Dataspace_svr::map_hook" name="L4Re::Util::Dataspace_svr::map_hook">
+<area shape="rect" id="Node000001" title="A hook that is called for acquiring the data to be mapped." alt="" coords="216,5,379,45"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Util_1_1Dataspace__svr.html#a8b739f2a06b2e6cf2f4a29b106eba294" title="Map a region of the dataspace." alt="" coords="5,5,168,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,28,168,28,168,23,202,23"/>
+</map>

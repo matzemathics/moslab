@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: cxx::Base_slab_static&lt; Obj_size, Slab_size, Max_free, Alloc &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: cxx::Base_slab_static&lt; Obj_size, Slab_size, Max_free, Alloc &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -119,12 +122,12 @@ $(document).ready(function(){initNavTree('classcxx_1_1Base__slab__static.html','
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a44742dbe0dc9e7432103167263b2338b" id="r_a44742dbe0dc9e7432103167263b2338b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Base__slab__static.html#a44742dbe0dc9e7432103167263b2338bad3d1cac8f380cbf73963702295264922">object_size</a> = Obj_size
-, <a class="el" href="classcxx_1_1Base__slab__static.html#a44742dbe0dc9e7432103167263b2338baa07f8bedddb5beff7ac2cae01fc661b9">slab_size</a> = Slab_size
-, <a class="el" href="classcxx_1_1Base__slab__static.html#a44742dbe0dc9e7432103167263b2338baaa418f7ffc4da2c0622cf0c34f322bc8">objects_per_slab</a> = _A::objects_per_slab
-, <a class="el" href="classcxx_1_1Base__slab__static.html#a44742dbe0dc9e7432103167263b2338ba6dc84eb87654a77812372af101503430">max_free_slabs</a> = Max_free
+<tr class="memitem:a3801671a35173700995982f40f502071" id="r_a3801671a35173700995982f40f502071"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Base__slab__static.html#a3801671a35173700995982f40f502071ad3d1cac8f380cbf73963702295264922">object_size</a> = Obj_size
+, <a class="el" href="classcxx_1_1Base__slab__static.html#a3801671a35173700995982f40f502071aa07f8bedddb5beff7ac2cae01fc661b9">slab_size</a> = Slab_size
+, <a class="el" href="classcxx_1_1Base__slab__static.html#a3801671a35173700995982f40f502071aaa418f7ffc4da2c0622cf0c34f322bc8">objects_per_slab</a> = _A::objects_per_slab
+, <a class="el" href="classcxx_1_1Base__slab__static.html#a3801671a35173700995982f40f502071a6dc84eb87654a77812372af101503430">max_free_slabs</a> = Max_free
  }</td></tr>
-<tr class="separator:a44742dbe0dc9e7432103167263b2338b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a3801671a35173700995982f40f502071"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -157,8 +160,8 @@ class cxx::Base_slab_static&lt; Obj_size, Slab_size, Max_free, Alloc &gt;</div><
 
 <p class="definition">Definition at line <a class="el" href="slab__alloc_source.html#l00399">399</a> of file <a class="el" href="slab__alloc_source.html">slab_alloc</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a44742dbe0dc9e7432103167263b2338b" name="a44742dbe0dc9e7432103167263b2338b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44742dbe0dc9e7432103167263b2338b">&#9670;&#160;</a></span>anonymous enum</h2>
+<a id="a3801671a35173700995982f40f502071" name="a3801671a35173700995982f40f502071"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3801671a35173700995982f40f502071">&#9670;&#160;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,13 +174,13 @@ template&lt;int Obj_size, int Slab_size = L4_PAGESIZE, int Max_free = 2, templat
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a44742dbe0dc9e7432103167263b2338bad3d1cac8f380cbf73963702295264922" name="a44742dbe0dc9e7432103167263b2338bad3d1cac8f380cbf73963702295264922"></a>object_size&#160;</td><td class="fielddoc"><p>Size of an object. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3801671a35173700995982f40f502071ad3d1cac8f380cbf73963702295264922" name="a3801671a35173700995982f40f502071ad3d1cac8f380cbf73963702295264922"></a>object_size&#160;</td><td class="fielddoc"><p>Size of an object. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a44742dbe0dc9e7432103167263b2338baa07f8bedddb5beff7ac2cae01fc661b9" name="a44742dbe0dc9e7432103167263b2338baa07f8bedddb5beff7ac2cae01fc661b9"></a>slab_size&#160;</td><td class="fielddoc"><p>Size of a slab. </p>
+<tr><td class="fieldname"><a id="a3801671a35173700995982f40f502071aa07f8bedddb5beff7ac2cae01fc661b9" name="a3801671a35173700995982f40f502071aa07f8bedddb5beff7ac2cae01fc661b9"></a>slab_size&#160;</td><td class="fielddoc"><p>Size of a slab. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a44742dbe0dc9e7432103167263b2338baaa418f7ffc4da2c0622cf0c34f322bc8" name="a44742dbe0dc9e7432103167263b2338baaa418f7ffc4da2c0622cf0c34f322bc8"></a>objects_per_slab&#160;</td><td class="fielddoc"><p>Number of objects per slab. </p>
+<tr><td class="fieldname"><a id="a3801671a35173700995982f40f502071aaa418f7ffc4da2c0622cf0c34f322bc8" name="a3801671a35173700995982f40f502071aaa418f7ffc4da2c0622cf0c34f322bc8"></a>objects_per_slab&#160;</td><td class="fielddoc"><p>Number of objects per slab. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a44742dbe0dc9e7432103167263b2338ba6dc84eb87654a77812372af101503430" name="a44742dbe0dc9e7432103167263b2338ba6dc84eb87654a77812372af101503430"></a>max_free_slabs&#160;</td><td class="fielddoc"><p>Maximum number of free slabs. </p>
+<tr><td class="fieldname"><a id="a3801671a35173700995982f40f502071a6dc84eb87654a77812372af101503430" name="a3801671a35173700995982f40f502071a6dc84eb87654a77812372af101503430"></a>max_free_slabs&#160;</td><td class="fielddoc"><p>Maximum number of free slabs. </p>
 </td></tr>
 </table>
 
@@ -369,7 +372,7 @@ template&lt;int Obj_size, int Slab_size = L4_PAGESIZE, int Max_free = 2, templat
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecxx.html">cxx</a></li><li class="navelem"><a class="el" href="classcxx_1_1Base__slab__static.html">Base_slab_static</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

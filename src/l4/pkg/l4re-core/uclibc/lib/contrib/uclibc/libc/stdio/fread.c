@@ -15,7 +15,7 @@ size_t fread_unlocked(void * __restrict ptr, size_t size, size_t nmemb,
 						FILE * __restrict stream)
 {
 	__STDIO_STREAM_VALIDATE(stream);
-	assert(stream->__filedes >= -1);
+	assert(stream->__filedes >= -2);
 
 	/* Note: If nmbem * size > SIZE_MAX then there is an application
 	 * bug since no array can be larger than SIZE_MAX in size. */
@@ -62,9 +62,6 @@ size_t fread_unlocked(void * __restrict ptr, size_t size, size_t nmemb,
 			}
 #endif
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: should we refill and read from the buffer sometimes?
-#endif
 			while ((avail = __stdio_READ(stream, buffer, todo)) > 0) {
 				buffer += avail;
 				if (!(todo -= avail)) {

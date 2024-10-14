@@ -42,14 +42,8 @@
 #define __setmntent                    setmntent
 #define __statfs                       statfs
 #define __libc_close                   close
-#ifdef __UCLIBC_HAS_LFS__
-# define __libc_open                    open64
-# define __fxstat64(vers, fd, buf)		fstat64(fd, buf)
-#else
-# define __libc_open                    open
-# define __fxstat64(vers, fd, buf)		fstat(fd, buf)
-# define stat64							stat
-#endif
+#define __libc_open                    open64
+#define __fxstat64(vers, fd, buf)      fstat64(fd, buf)
 #define __libc_write                   write
 
 
@@ -78,7 +72,9 @@ __where_is_shmfs (void)
 
   /* The canonical place is /dev/shm.  This is at least what the
      documentation tells everybody to do.  */
-  if (__statfs (defaultmount, &f) == 0 && f.f_type == SHMFS_SUPER_MAGIC)
+  if (__statfs (defaultmount, &f) == 0
+      && (f.f_type == SHMFS_SUPER_MAGIC_WITH_MMU
+	  || f.f_type == SHMFS_SUPER_MAGIC_WITHOUT_MMU))
     {
       /* It is in the normal place.  */
       mountpoint.dir = (char *) defaultdir;
@@ -112,7 +108,9 @@ __where_is_shmfs (void)
 	/* First make sure this really is the correct entry.  At least
 	   some versions of the kernel give wrong information because
 	   of the implicit mount of the shmfs for SysV IPC.  */
-	if (__statfs (mp->mnt_dir, &f) != 0 || f.f_type != SHMFS_SUPER_MAGIC)
+	if (__statfs (mp->mnt_dir, &f) != 0
+	    || (f.f_type != SHMFS_SUPER_MAGIC_WITH_MMU
+		&& f.f_type != SHMFS_SUPER_MAGIC_WITHOUT_MMU))
 	  continue;
 
 	namelen = strlen (mp->mnt_dir);
@@ -149,11 +147,11 @@ __sem_search (const void *a, const void *b)
 
   if (as->ino != bs->ino)
     /* Cannot return the difference the type is larger than int.  */
-    return as->ino < bs->ino ? -1 : (as->ino == bs->ino ? 0 : 1);
+    return as->ino < bs->ino ? -1 : 1;
 
   if (as->dev != bs->dev)
     /* Cannot return the difference the type is larger than int.  */
-    return as->dev < bs->dev ? -1 : (as->dev == bs->dev ? 0 : 1);
+    return as->dev < bs->dev ? -1 : 1;
 
   return strcmp (as->name, bs->name);
 }
@@ -336,7 +334,7 @@ sem_open (const char *name, int oflag, ...)
       mempcpy (mempcpy (tmpfname, mountpoint.dir, mountpoint.dirlen),
 	"XXXXXX", 7);
 
-      fd = __gen_tempname (tmpfname, __GT_FILE, mode);
+      fd = __gen_tempname (tmpfname, __GT_FILE, 0, 0, mode);
       if (fd == -1)
         return SEM_FAILED;
 

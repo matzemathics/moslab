@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['unique_5fcap_0',['unique_cap',['../namespaceL4Re.html#a8ba3c0c69b12452800d37ba0ad4141e1',1,'L4Re::Unique_cap'],['../namespaceL4Re_1_1Util.html#ac7d70158f2a291040dd41cd23f311079',1,'L4Re::Util::Unique_cap'],['../namespaceL4Re.html#a75dd11d338b8a7b5e691e9a11ba0421a',1,'L4Re::unique_cap'],['../namespaceL4Re_1_1Util.html#a2030c7705219f47dec5eb222bc280cf2',1,'L4Re::Util::unique_cap']]],
-  ['unique_5fdel_5fcap_1',['unique_del_cap',['../namespaceL4Re.html#aa2cbe5335b5e0a0ccf5eb5770c48c2a9',1,'L4Re::unique_del_cap'],['../namespaceL4Re_1_1Util.html#a5b5d07f5cbac491483ff098dcec37549',1,'L4Re::Util::unique_del_cap'],['../namespaceL4Re.html#a1560c8ca81fc03625322405b1203d70f',1,'L4Re::Unique_del_cap'],['../namespaceL4Re_1_1Util.html#ad4110db3586b47b443384acb489fe4eb',1,'L4Re::Util::Unique_del_cap']]],
-  ['unique_5fptr_5flist_2',['Unique_ptr_list',['../namespacecxx.html#a5efbbc5b07150bd41b110acc69033de0',1,'cxx']]],
-  ['unique_5fptr_5flist_5fitem_3',['Unique_ptr_list_item',['../namespacecxx.html#aedd8c320a29433dd65b538dbecbbee70',1,'cxx']]]
+  ['tag_0',['Tag',['../classL4_1_1Ipc_1_1Varg.html#a3765d59f14c34c60eb2fec5a7d2ac563',1,'L4::Ipc::Varg']]],
+  ['timeout_1',['Timeout',['../classL4_1_1Ipc__svr_1_1Timeout__queue.html#a2c17bae1e09ef3a565a994acb96fd165',1,'L4::Ipc_svr::Timeout_queue']]],
+  ['token_5fbfm_5ft_2',['token_bfm_t',['../structL4virtio_1_1Svr_1_1Scmi_1_1Scmi__hdr__t.html#a69fb7064bda6d5e21ca5be215920f5dd',1,'L4virtio::Svr::Scmi::Scmi_hdr_t']]],
+  ['type_3',['type',['../structL4_1_1Typeid_1_1Detail_1_1__Rpcs_3_01OPCODE_00_01O_00_01R_00_01X_8_8_8_01_4.html#a584bb32b689057ea68a8ec048467e5fe',1,'L4::Typeid::Detail::_Rpcs&lt; OPCODE, O, R, X... &gt;::type'],['../classL4_1_1Types_1_1Flags.html#aec872ed27683044c69ec5decc678b04d',1,'L4::Types::Flags::type'],['../structL4_1_1Types_1_1Int__for__type.html#aa54da98732e4baf6e106d0da3bcbe413',1,'L4::Types::Int_for_type::type'],['../structL4_1_1Types_1_1Bool.html#a7d69e66ff711af3043cd9ef61e54ee6e',1,'L4::Types::Bool::type']]]
 ];

@@ -1,6 +1,7 @@
 INTERFACE [libuart]:
 
 #include "io_regblock.h"
+#include "global_data.h"
 #include "types.h"
 
 EXTENSION class Uart
@@ -10,15 +11,15 @@ private:
   void bsp_init();
 
   int _irq = -1;
-  static L4::Uart *_uart;
+  static Global_data<L4::Uart *> _uart;
 };
 
 //------------------------------------------------------
 IMPLEMENTATION [libuart]:
 
-Static_object<FIASCO_UART_TYPE> _the_uart;
+DEFINE_GLOBAL Global_data<Static_object<FIASCO_UART_TYPE>> _the_uart;
 
-L4::Uart *Uart::_uart;
+DEFINE_GLOBAL Global_data<L4::Uart *> Uart::_uart;
 
 IMPLEMENT
 Uart::Uart() : Console(DISABLED) {}
@@ -35,13 +36,15 @@ Uart::bsp_init()
 {}
 
 PROTECTED bool
-Uart::startup(L4::Io_register_block const *reg, int irq, Unsigned32 base_baud)
+Uart::startup(L4::Io_register_block const *reg, int irq, Unsigned32 base_baud,
+              bool resume)
 {
   _irq = irq;
 
   bsp_init();
 
-  init_uart_instance(base_baud);
+  if (!resume)
+    init_uart_instance(base_baud);
 
   if (!_uart->startup(reg))
     return false;

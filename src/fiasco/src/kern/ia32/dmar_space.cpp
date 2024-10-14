@@ -53,7 +53,7 @@ private:
       R r = R::UR();
       if (raw & 2) r |= R::W();
 
-      return Attr(r, Page::Type::Normal());
+      return Attr::space_local(r);
     }
 
     bool add_attribs(Page::Attr attr)
@@ -91,7 +91,7 @@ private:
       if (r & L4_fpage::Rights::W())
         {
           auto p = access_once(&e->v);
-          auto o = p & ~(Unsigned64)2;
+          auto o = p & ~2ULL;
           if (o != p)
             {
               write_now(&e->v, p);
@@ -110,7 +110,7 @@ private:
       typedef L4_fpage::Rights R;
 
       assert(level <= Dmar_pt::Depth);
-      Unsigned64 r = (level == Dmar_pt::Depth) ? 0 : (Unsigned64)(1<<7);
+      Unsigned64 r = (level == Dmar_pt::Depth) ? 0ULL : (1ULL << 7);
       r |= 1; // Read
       if (attr.rights & R::W()) r |= 2;
 
@@ -129,11 +129,11 @@ private:
 
 public:
   enum { Max_nr_did = 0x10000 };
-  virtual void *debug_dir() const { return (void *)_dmarpt; }
+  virtual void *debug_dir() const { return _dmarpt; }
   static void create_identity_map();
   static Dmar_pt *identity_map;
 
-  void tlb_flush(bool) override;
+  void tlb_flush_current_cpu() override;
 
 private:
   Dmar_pt *_dmarpt;
@@ -154,6 +154,7 @@ IMPLEMENTATION [iommu]:
 #include "intel_iommu.h"
 #include "kmem_slab.h"
 #include "warn.h"
+#include "paging_bits.h"
 
 JDB_DEFINE_TYPENAME(Dmar_space, "DMA");
 
@@ -161,6 +162,7 @@ Dmar_space::Dmar_pt *Dmar_space::identity_map;
 bool Dmar_space::_initialized;
 Dmar_space::Did_map *Dmar_space::_free_dids;
 unsigned Dmar_space::_max_did;
+static Kmem_slab_t<Dmar_space> _dmar_allocator("Dmar_space");
 
 
 PUBLIC
@@ -185,6 +187,22 @@ Dmar_space::get_root(Dmar_pt *pt, unsigned aw_level)
   return i.next_level();
 }
 
+/**
+ * Get the root page table for the given address width.
+ *
+ * The root page table is either the entire _dmarpt page table (4-level page
+ * table) or the page table under its first entry (3-level page table).
+ *
+ * \param aw_level  1 if the IOMMU uses 3-level page table.
+ *                  2 if the IOMMU uses 4-level page table.
+ *
+ * \return  The root page table of this Dmar_space.
+ *
+ * \note `Dmar_space::initialize()` pre-allocates the _dmarpt page table and the
+ *       page table under its first entry. Therefore, it is safe to invoke
+ *       `Dmar_space::get_root()` even while someone else is modifying the
+ *       Dmar_space's page table.
+ */
 PUBLIC inline
 Mword
 Dmar_space::get_root(int aw_level) const
@@ -284,7 +302,7 @@ Dmar_space::get_did()
       if (EXPECT_FALSE(ndid == ~0U))
         return ~0UL;
 
-      if (!cas(&_did, (unsigned long)0, (unsigned long)ndid))
+      if (!cas<unsigned long>(&_did, 0UL, ndid))
         free_did(ndid);
     }
   return _did;
@@ -310,15 +328,15 @@ Dmar_space::create_identity_map()
 
   Unsigned64 epfn;
   epfn = min(1ULL << (Intel::Io_mmu::hw_addr_width - Config::PAGE_SHIFT),
-             (max_phys + Config::PAGE_SIZE - 1) >> Config::PAGE_SHIFT);
+             Pg::count(max_phys + Config::PAGE_SIZE - 1));
 
-  printf("IOMMU: identity map 0 - 0x%llx (%lldGB)\n", epfn << Config::PAGE_SHIFT,
-         (epfn << Config::PAGE_SHIFT) >> 30);
+  printf("IOMMU: identity map 0 - 0x%llx (%llu GiB)\n", Pg::size(epfn),
+         Pg::size(epfn) >> 30);
   for (Unsigned64 pfn = 0; pfn <= epfn; ++pfn)
     {
       auto i = identity_map->walk(Mem_space::V_pfn(pfn),
                                   Dmar_pt::Depth, false,
-                                  Kmem_alloc::q_allocator(Ram_quota::root));
+                                  Kmem_alloc::q_allocator(Ram_quota::root.unwrap()));
       if (i.page_order() != 12)
         panic("IOMMU: cannot allocate identity IO page table, OOM\n");
 
@@ -350,7 +368,7 @@ Dmar_space::Dmar_ptr::page_addr() const
 
 IMPLEMENT
 void
-Dmar_space::tlb_flush(bool)
+Dmar_space::tlb_flush_current_cpu()
 {
   if (_did)
     Intel::Io_mmu::queue_and_wait_on_all_iommus(
@@ -384,7 +402,7 @@ PUBLIC
 Mem_space::Status
 Dmar_space::v_insert(Mem_space::Phys_addr phys, Mem_space::Vaddr virt,
                      Mem_space::Page_order order,
-                     Mem_space::Attr page_attribs) override
+                     Mem_space::Attr page_attribs, bool) override
 {
   assert (cxx::is_zero(cxx::get_lsb(Mem_space::Phys_addr(phys), order)));
   assert (cxx::is_zero(cxx::get_lsb(Virt_addr(virt), order)));
@@ -463,11 +481,16 @@ Dmar_space::add_page_size(Mem_space::Page_order o)
   __dmar_ps.add_page_size(o);
 }
 
+PUBLIC static
+Dmar_space *Dmar_space::alloc(Ram_quota *q)
+{
+  return _dmar_allocator.q_new(q, q);
+}
+
 PUBLIC
 void *
-Dmar_space::operator new (size_t size, void *p) throw()
+Dmar_space::operator new ([[maybe_unused]] size_t size, void *p) noexcept
 {
-  (void)size;
   assert (size == sizeof (Dmar_space));
   return p;
 }
@@ -476,8 +499,8 @@ PUBLIC
 void
 Dmar_space::operator delete (void *ptr)
 {
-  Dmar_space *t = reinterpret_cast<Dmar_space *>(ptr);
-  Kmem_slab_t<Dmar_space>::q_free(t->ram_quota(), ptr);
+  Dmar_space *t = static_cast<Dmar_space *>(ptr);
+  _dmar_allocator.q_free(t->ram_quota(), ptr);
 }
 
 PUBLIC inline
@@ -500,7 +523,7 @@ Dmar_space::remove_from_all_iommus()
   if (!cas(&_did, did, 0ul))
     return;
 
-  bool need_wait[Intel::Io_mmu::iommus.size()];
+  bool need_wait[Intel::Io_mmu::Max_iommus];
   for (auto &mmu: Intel::Io_mmu::iommus)
     {
       need_wait[mmu.idx()] = false;
@@ -564,10 +587,13 @@ Dmar_space::~Dmar_space()
 }
 
 namespace {
-static inline void __attribute__((constructor)) FIASCO_INIT
+
+static inline
+void __attribute__((constructor)) FIASCO_INIT_SFX(dmar_space_register_factory)
 register_factory()
 {
   Kobject_iface::set_factory(L4_msg_tag::Label_dma_space,
                              &Task::generic_factory<Dmar_space>);
 }
+
 }

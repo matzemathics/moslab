@@ -4,6 +4,16 @@
 
 #pragma once
 
+#include "globalconfig.h"
+
+#if defined CONFIG_BIT64
+# define WORD_SIZE 8
+# define MWORD QUAD
+#else
+# define WORD_SIZE 4
+# define MWORD LONG
+#endif
+
 #define JDB_TABLE(name) \
   . = ALIGN(32);                               \
   PROVIDE(_jdb_ ## name ## _table = .);        \
@@ -80,6 +90,19 @@
     KEEP (*(SORT_BY_INIT_PRIORITY (.ctors.*)))  \
     KEEP (*(.ctors))                            \
     __CTOR_END__ = .;
+
+/*
+ * Use SORT_BY_INIT_PRIORITY to perform sorting by the numbers following the
+ * dot.
+ */
+#define DEFINE_WORKLOAD_SECTIONS                              \
+    . = ALIGN(WORD_SIZE);                                     \
+    PROVIDE(_init_workload_table = .);                        \
+    KEEP (*(SORT_BY_INIT_PRIORITY(.init_workload.*)))         \
+    MWORD(0)                                                  \
+    PROVIDE(_init_workload_app_cpu_table = .);                \
+    KEEP (*(SORT_BY_INIT_PRIORITY(.init_workload_app_cpu.*))) \
+    MWORD(0)
 
 #if defined(CONFIG_COV)
 EXTERN(cov_print)

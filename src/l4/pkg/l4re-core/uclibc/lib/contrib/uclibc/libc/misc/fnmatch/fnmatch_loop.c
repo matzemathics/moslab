@@ -204,6 +204,8 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
 	case L('['):
 	  {
 	    /* Nonzero if the sense of the character class is inverted.  */
+	    const CHAR *p_init = p;
+	    const CHAR *n_init = n;
 	    register int not;
 	    CHAR cold;
 	    UCHAR fn;
@@ -409,8 +411,13 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
 		  }
 #endif
 		else if (c == L('\0'))
-		  /* [ (unterminated) loses.  */
-		  return FNM_NOMATCH;
+		  {
+		    /* [ unterminated, treat as normal character.  */
+		    p = p_init;
+		    n = n_init;
+		    c = L('[');
+		    goto normal_match;
+		  }
 		else
 		  {
 		    int is_range = 0;
@@ -613,7 +620,7 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
 
 		    if (c == L('-') && *p != L(']'))
 		      {
-#if _LIBC
+#ifdef _LIBC
 			/* We have to find the collation sequence
 			   value for C.  Collation sequence is nothing
 			   we can regularly access.  The sequence
@@ -910,7 +917,6 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
 		  }
 		else if (c == L('[') && *p == L('.'))
 		  {
-		    ++p;
 		    while (1)
 		      {
 			c = *++p;
@@ -922,6 +928,8 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
 		      }
 		    p += 2;
 		    c = *p++;
+		    if (c == '\0')
+		      return FNM_NOMATCH;
 		  }
 	      }
 	    while (c != L(']'));

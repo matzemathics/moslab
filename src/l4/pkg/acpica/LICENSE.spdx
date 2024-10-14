@@ -4,16 +4,17 @@
 ## For more information about this file format visit the SPDX website at
 ## https://spdx.org
 
-SPDXVersion: SPDX-2.1
+SPDXVersion: SPDX-2.3
 DataLicense: CC0-1.0
-SPDXID: SPDXRef-Document
+SPDXID: SPDXRef-DOCUMENT
 DocumentNamespace: spdx:kernkonzept/acpica-0556455a-e7e7-11e8-856f-28d24461b5b9
 DocumentName: acpica
-
 Creator: Organization: Kernkonzept GmbH (info@kernkonzept.com)
+Created: 2018-11-13T00:00:00Z
 
 ## Package Information
 PackageName: acpica
+SPDXID: SPDXRef-acpica
 PackageOriginator: Organization: Kernkonzept GmbH (info@kernkonzept.com)
 PackageLicenseDeclared: (GPL-2.0-only OR BSD-3-Clause OR Intel-ACPI)
 PackageLicenseConcluded: (GPL-2.0-only OR BSD-3-Clause OR Intel-ACPI)

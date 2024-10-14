@@ -9,8 +9,9 @@ DEFINES             += -DL4_MINIMAL_LIBC
 DEFAULT_RELOC_x86   := 0x00100000
 DEFAULT_RELOC_amd64 := 0x00100000
 DEFAULT_RELOC_arm   := 0x00200000
-DEFAULT_RELOC_arm64 := 0x00200000
+DEFAULT_RELOC_arm64 := 0x00600000
 DEFAULT_RELOC_mips  := 0x00200000
+DEFAULT_RELOC_riscv := 0x00500000
 DEFAULT_RELOC_sparc := 0x01200000
 DEFAULT_RELOC_ppc32 := 0x00100000
 RELOC_PHYS          := y
@@ -29,12 +30,16 @@ SRC_CC_amd64-l4f := ioports_x86.cc
 SRC_CC_arm-l4f   := ioports_none.cc
 SRC_CC_arm64-l4f := ioports_none.cc
 SRC_CC_mips-l4f  := ioports_none.cc
+SRC_CC_riscv-l4f := ioports_none.cc
 SRC_CC_ppc32-l4f := ioports_none.cc
 SRC_CC_sparc-l4f := ioports_none.cc
 SRC_C  := support.c
 SRC_S  := $(addprefix ARCH-$(ARCH)/, crt0.S)
 
 LDFLAGS += -nocrt1
+
+DEFAULT_HEAP_SIZE = 0
+DEFAULT_STACK_SIZE = 0
 
 include $(L4DIR)/mk/prog.mk
 

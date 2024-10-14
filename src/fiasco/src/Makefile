@@ -1,6 +1,25 @@
 srcdir		?= NOT_SET
 tooldir		:= $(srcdir)/../tool
 
+ifneq ($(if $(SANDBOX_IN_PROGRESS),,$(SANDBOX_ENABLE)),)
+
+.PHONY: $(MAKECMDGOALS) do-all-make-targets
+
+do-all-make-targets:
+	$(VERBOSE)SANDBOX_IN_PROGRESS=1 \
+	   $(tooldir)/sandbox \
+	              --sys-dir "$(or $(SANDBOX_SYSDIR),/)" \
+	              --dir-rw "$(objbase)" \
+	              --dir-ro "$(srcdir)/.." \
+	              --cmd "$(MAKE) -C $(objbase) $(MAKECMDGOALS)"
+
+$(MAKECMDGOALS): do-all-make-targets
+
+# For VERBOSE
+include $(srcdir)/Makeconf
+
+else
+
 .PHONY: all do-all test-all config textconfig menuconfig xconfig \
         oldconfig regenconfig mrproper doc help update nconfig \
         savedefconfig listnewconfig oldnoconfig oldaskconfig FORCE
@@ -24,6 +43,7 @@ help:
 	@echo "  DEPS.tred.ps   - transitive reduction of DEPS.ps"
 	@echo "  DEPS.tred.svg  - transitive reduction of DEPS.svg"
 	@echo "  doc            - doxygen HTML documentation into docs/"
+	@echo "  report         - show host configuration information"
 	@echo "  TAGS tags      - create tags files"
 
 
@@ -259,20 +279,21 @@ endif
 	$(foreach subsys, $(SUBSYSTEMS), cleanall-$(subsys))
 
 clean: $(foreach subsys, $(SUBSYSTEMS), clean-$(subsys))
-	$(RM) $(ALL)
-	$(RM) *.o fiasco
-	$(RM) auto/*.cc auto/*.h auto/*.S auto/stamp-*.ready
-	$(RM) .Clean-auto .Compiler-config .$(KCONFIG_FILE).parts
+	$(VERBOSE)$(RM) $(strip $(ALL))
+	$(VERBOSE)$(RM) *.o fiasco fiasco.map
+	$(VERBOSE)$(RM) auto/*.cc auto/*.h auto/*.S auto/stamp-*.ready
+	$(VERBOSE)$(RM) .Clean-auto .Compiler-config .$(KCONFIG_FILE).parts
 
 cleanall: clean $(foreach subsys, $(SUBSYSTEMS), cleanall-$(subsys))
-	$(foreach subdir, $(SUBDIRS), $(RM) $(subdir)/*.d $(subdir)/.*.d)
-	$(RM) *.d .*.d .*.d.new *.d.new *~
-	$(RM) globalconfig.h globalconfig.tags globalconfig.h.old Circular
-	$(RM) .Modules.deps source
+	$(foreach subdir, $(SUBDIRS), $(VERBOSE)$(RM) $(subdir)/*.d $(subdir)/.*.d)
+	$(VERBOSE)$(RM) *.d .*.d .*.d.new *.d.new *~
+	$(VERBOSE)$(RM) globalconfig.h globalconfig.tags globalconfig.h.old Circular
+	$(VERBOSE)$(RM) .Modules.deps source
+	$(VERBOSE)$(RM_R) scripts
 
 mrproper: cleanall
-	$(RM_R) globalconfig.out Modules.* DEPS*
-	$(RM_R) auto docs config scripts
+	$(VERBOSE)$(RM_R) globalconfig.out Modules.* DEPS*
+	$(VERBOSE)$(RM_R) auto docs config
 
 endif # clean, cleanall, mrproper
 
@@ -284,3 +305,24 @@ endif # srcdir != NOT_SET
 
 endif # MAKECMDGOALS != help
 
+
+define _ver_fun
+	@echo "$(strip $1) $(or $2,-v):"
+	@$1 $(or $2,-v) $3 || true
+	@echo
+
+endef
+
+define _ver_fun_var
+	@echo -n "$1: "
+	$(call _ver_fun,$($1),$2,$3)
+endef
+
+_ver_fun_vars=$(foreach v,$1,$(call _ver_fun_var,$v,$2,$3))
+
+report:
+	$(call _ver_fun,make)
+	$(call _ver_fun_vars,CC CXX HOST_CC HOST_CXX,-v, 2>&1)
+	$(call _ver_fun_var,LD)
+
+endif

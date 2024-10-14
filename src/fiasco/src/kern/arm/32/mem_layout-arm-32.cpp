@@ -1,4 +1,4 @@
-INTERFACE [arm && !kern_start_0xd && !cpu_virt]:
+INTERFACE [arm && mmu && !kern_start_0xd && !cpu_virt]:
 
 EXTENSION class Mem_layout
 {
@@ -10,7 +10,7 @@ public:
 
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && kern_start_0xd]:
+INTERFACE [arm && mmu & kern_start_0xd]:
 
 EXTENSION class Mem_layout
 {
@@ -21,7 +21,7 @@ public:
 
 };
 //---------------------------------------------------------------------------
-INTERFACE [arm && cpu_virt]:
+INTERFACE [arm && (!mmu || cpu_virt)]:
 
 EXTENSION class Mem_layout
 {
@@ -33,7 +33,7 @@ public:
 
 
 //---------------------------------------------------------------------------
-INTERFACE [arm]:
+INTERFACE [arm && mmu]:
 
 #include "config.h"
 
@@ -43,7 +43,6 @@ public:
   enum Virt_layout : Address {
     Kern_lib_base	 = 0xffffe000,
     Syscalls		 = 0xfffff000,
-    Utcb_addr            = User_max + 1 - 0x10000,
 
     Service_page         = 0xeac00000,
     Tbuf_status_page     = Service_page + 0x5000,
@@ -63,7 +62,20 @@ public:
 };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && !cpu_virt]:
+INTERFACE [arm && !mmu]:
+
+#include "config.h"
+
+EXTENSION class Mem_layout
+{
+public:
+  enum Virt_layout : Address {
+    Cache_flush_area     = 0x00000000, // dummy
+  };
+};
+
+//---------------------------------------------------------------------------
+INTERFACE [arm && mmu && !cpu_virt]:
 
 #include "template_math.h"
 
@@ -84,7 +96,7 @@ public:
 };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && cpu_virt]:
+INTERFACE [arm && mmu && cpu_virt]:
 
 EXTENSION class Mem_layout
 {
@@ -107,8 +119,9 @@ Mem_layout::_read_special_safe(Mword const *a)
 {
   // Counterpart: Thread::pagein_tcb_request()
   register Mword const *res __asm__ ("r14") = a;
-  __asm__ __volatile__ ("ldr %0, [%0]\n" : "=r" (res) : "r" (res) : "cc" );
-  return Mword(res);
+  __asm__ __volatile__ (INST32("ldr") " %0, [%0]\n"
+                        : "=r" (res) : "r" (res) : "cc" );
+  return reinterpret_cast<Mword>(res);
 }
 
 //---------------------------------
@@ -120,14 +133,14 @@ bool
 Mem_layout::_read_special_safe(Mword const *address, Mword &v)
 {
   // Counterpart: Thread::pagein_tcb_request()
-  register Mword a asm("r14") = (Mword)address;
+  register Mword a asm("r14") = reinterpret_cast<Mword>(address);
   Mword ret;
-  asm volatile ("msr cpsr_f, #0    \n" // clear flags
-                "ldr %[a], [%[a]]  \n"
-		"movne %[ret], #1      \n"
-		"moveq %[ret], #0      \n"
+  asm volatile ("msr cpsr_f, %[zero]          \n" // clear flags
+                INST32("ldr") " %[a], [%[a]]  \n"
+                "movne %[ret], #1             \n"
+                "moveq %[ret], #0             \n"
                 : [a] "=r" (a), [ret] "=r" (ret)
-                : "0" (a)
+                : "0" (a), [zero] "r" (0)
                 : "cc");
   v = a;
   return ret;

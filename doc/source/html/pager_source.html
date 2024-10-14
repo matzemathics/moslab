@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/pager Source File</title>
+<title>L4Re Operating System Framework: l4/sys/pager Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -133,7 +136,7 @@ $(document).ready(function(){initNavTree('pager_source.html',''); initResizable(
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  <a class="code hl_define" href="ipc__iface.html#a5772eb61b611f8f17bbc89e02e534ca1">L4_INLINE_RPC</a>(</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>      <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a>, io_page_fault, (<a class="code hl_union" href="unionl4__fpage__t.html">l4_fpage_t</a> io_pfa, <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pc,</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                                   <a class="code hl_typedef" href="namespaceL4_1_1Ipc.html#a6452f912e9d39ed9e47bb7709280e528">L4::Ipc::Rcv_fpage</a> rwin,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                                   <a class="code hl_class" href="classL4_1_1Ipc_1_1Rcv__fpage.html">L4::Ipc::Rcv_fpage</a> rwin,</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classL4_1_1Io__pager.html#ab8ef03145d4a68d63400b049c225e07d">   83</a></span>                                   <a class="code hl_struct" href="structL4_1_1Ipc_1_1Opt.html">L4::Ipc::Opt&lt;L4::Ipc::Snd_fpage &amp;&gt;</a> fp));</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>  <span class="keyword">typedef</span> <a class="code hl_struct" href="structL4_1_1Typeid_1_1Rpc__nocode.html">L4::Typeid::Rpc_nocode&lt;io_page_fault_t&gt;</a> <a class="code hl_struct" href="structL4_1_1Typeid_1_1Rpc__nocode.html">Rpcs</a>;</div>
@@ -147,7 +150,7 @@ $(document).ready(function(){initNavTree('pager_source.html',''); initResizable(
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>  <a class="code hl_define" href="ipc__iface.html#a5772eb61b611f8f17bbc89e02e534ca1">L4_INLINE_RPC</a>(</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>      <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a>, page_fault, (<a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pfa, <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pc,</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                                <a class="code hl_typedef" href="namespaceL4_1_1Ipc.html#a6452f912e9d39ed9e47bb7709280e528">L4::Ipc::Rcv_fpage</a> rwin,</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                                <a class="code hl_class" href="classL4_1_1Ipc_1_1Rcv__fpage.html">L4::Ipc::Rcv_fpage</a> rwin,</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="classL4_1_1Pager.html#aaa34a869ae386ec2f6a9f92309a22f36">  137</a></span>                                <a class="code hl_struct" href="structL4_1_1Ipc_1_1Opt.html">L4::Ipc::Opt&lt;L4::Ipc::Snd_fpage &amp;&gt;</a> fp));</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>  <span class="keyword">typedef</span> <a class="code hl_struct" href="structL4_1_1Typeid_1_1Rpc__nocode.html">L4::Typeid::Rpc_nocode&lt;page_fault_t&gt;</a> <a class="code hl_struct" href="structL4_1_1Typeid_1_1Rpc__nocode.html">Rpcs</a>;</div>
@@ -157,19 +160,19 @@ $(document).ready(function(){initNavTree('pager_source.html',''); initResizable(
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>}</div>
 <div class="ttc" id="acapability_html"><div class="ttname"><a href="capability.html">capability</a></div><div class="ttdoc">L4::Cap related definitions.</div></div>
 <div class="ttc" id="aclassL4_1_1Io__pager_html"><div class="ttname"><a href="classL4_1_1Io__pager.html">L4::Io_pager</a></div><div class="ttdoc">Io_pager interface.</div><div class="ttdef"><b>Definition</b> <a href="pager_source.html#l00061">pager:63</a></div></div>
-<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00759">__typeinfo.h:760</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Rcv__fpage_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Rcv__fpage.html">L4::Ipc::Rcv_fpage</a></div><div class="ttdoc">Rcv flex-page.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00459">ipc_types:460</a></div></div>
+<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00760">__typeinfo.h:761</a></div></div>
 <div class="ttc" id="aclassL4_1_1Pager_html"><div class="ttname"><a href="classL4_1_1Pager.html">L4::Pager</a></div><div class="ttdoc">Pager interface including the Io_pager interface.</div><div class="ttdef"><b>Definition</b> <a href="pager_source.html#l00098">pager:100</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00221">compiler.h:221</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00231">compiler.h:231</a></div></div>
 <div class="ttc" id="aipc__iface_html"><div class="ttname"><a href="ipc__iface.html">ipc_iface</a></div><div class="ttdoc">Interface Definition Language.</div></div>
 <div class="ttc" id="aipc__iface_html_a5772eb61b611f8f17bbc89e02e534ca1"><div class="ttname"><a href="ipc__iface.html#a5772eb61b611f8f17bbc89e02e534ca1">L4_INLINE_RPC</a></div><div class="ttdeci">#define L4_INLINE_RPC(res, name, args, attr...)</div><div class="ttdoc">Define an inline RPC call (type and callable).</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00469">ipc_iface:469</a></div></div>
 <div class="ttc" id="aipc__types_html"><div class="ttname"><a href="ipc__types.html">ipc_types</a></div></div>
 <div class="ttc" id="al4_2sys_2types_8h_html"><div class="ttname"><a href="l4_2sys_2types_8h.html">types.h</a></div><div class="ttdoc">Common L4 ABI Data Types.</div></div>
-<div class="ttc" id="anamespaceL4_1_1Ipc_html_a6452f912e9d39ed9e47bb7709280e528"><div class="ttname"><a href="namespaceL4_1_1Ipc.html#a6452f912e9d39ed9e47bb7709280e528">L4::Ipc::Rcv_fpage</a></div><div class="ttdeci">Gen_fpage&lt; Buf_item &gt; Rcv_fpage</div><div class="ttdoc">Rcv flex-page.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00483">ipc_types:483</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Opt_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Opt.html">L4::Ipc::Opt</a></div><div class="ttdoc">Attribute for defining an optional RPC argument.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00147">ipc_types:148</a></div></div>
-<div class="ttc" id="astructL4_1_1Typeid_1_1Rpc__nocode_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpc__nocode.html">L4::Typeid::Rpc_nocode</a></div><div class="ttdoc">List of RPCs of an interface using a single operation without an opcode.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00464">__typeinfo.h:464</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
+<div class="ttc" id="astructL4_1_1Typeid_1_1Rpc__nocode_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpc__nocode.html">L4::Typeid::Rpc_nocode</a></div><div class="ttdoc">List of RPCs of an interface using a single operation without an opcode.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00465">__typeinfo.h:465</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
 <div class="ttc" id="aunionl4__fpage__t_html"><div class="ttname"><a href="unionl4__fpage__t.html">l4_fpage_t</a></div><div class="ttdoc">L4 flexpage type.</div><div class="ttdef"><b>Definition</b> <a href="____l4__fpage_8h_source.html#l00085">__l4_fpage.h:85</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -178,7 +181,7 @@ $(document).ready(function(){initNavTree('pager_source.html',''); initResizable(
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="pager.html">pager</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

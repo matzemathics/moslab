@@ -11,6 +11,7 @@
  * Written by Miles Bader <miles@gnu.org>
  */
 
+#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/mman.h>
@@ -37,6 +38,11 @@ memalign (size_t alignment, size_t size)
   void *mem, *base;
   unsigned long tot_addr, tot_end_addr, addr, end_addr;
   struct heap_free_area **heap = &__malloc_heap;
+
+  if (unlikely(size > PTRDIFF_MAX)) {
+    __set_errno(ENOMEM);
+    return NULL;
+  }
 
   /* Make SIZE something we like.  */
   size = HEAP_ADJUST_SIZE (size);
@@ -77,7 +83,9 @@ memalign (size_t alignment, size_t size)
 	  init_size = addr - tot_addr;
 	}
 
+      __heap_lock (&__malloc_heap_lock);
       __heap_free (heap, base, init_size);
+      __heap_unlock (&__malloc_heap_lock);
 
       /* Remember that we've freed the initial part of MEM.  */
       base += init_size;
@@ -85,12 +93,15 @@ memalign (size_t alignment, size_t size)
 
   /* Return the end part of MEM to the heap, unless it's too small.  */
   end_addr = addr + size;
-  if (end_addr + MALLOC_REALLOC_MIN_FREE_SIZE < tot_end_addr)
+  if (end_addr + MALLOC_REALLOC_MIN_FREE_SIZE < tot_end_addr) {
+    __heap_lock (&__malloc_heap_lock);
     __heap_free (heap, (void *)end_addr, tot_end_addr - end_addr);
-  else
+    __heap_unlock (&__malloc_heap_lock);
+  } else
     /* We didn't free the end, so include it in the size.  */
     end_addr = tot_end_addr;
 
   return MALLOC_SETUP (base, end_addr - (unsigned long)base);
 }
+weak_alias(memalign, aligned_alloc)
 libc_hidden_def(memalign)

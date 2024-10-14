@@ -92,6 +92,8 @@ noexcept(noexcept(mremap(old_addr, old_size, new_size, flags)))
   return resptr;
 }
 
+/* Use mmap from VFS unless the heap is provided by libc_be_static_heap. */
+#ifndef CONFIG_BID_STATIC_HEAP
 static void *current_morecore_end;
 
 void *uclibc_morecore(long bytes)
@@ -110,5 +112,69 @@ void *uclibc_morecore(long bytes)
 
   current_morecore_end = static_cast<char *>(b) + s;
   return b;
+}
+#endif
+
+/* should be in mman.h -- will come with uclibc update */
+int mlock2(const void *__addr, size_t len, unsigned int flags) noexcept;
+int mlock2([[maybe_unused]] const void *__addr, [[maybe_unused]] size_t len,
+           [[maybe_unused]] unsigned int flags) noexcept
+{
+  /* Implementation:
+   * - Search for all regions between __addr and __addr+len
+   *   - for each region:
+   *     - page it in if flags != MLOCK_ONFAULT
+   *     - tag range in dataspace that it is locked now
+   *       - for that, add API to dataspace to lock+unlock pages
+   *         (consider that dataspaces can be used from multiple tasks and
+   *         that locking is a individual task-decision that needs to be
+   *         considered for munlock, use a counter per page?)
+   */
+
+  return 0;
+}
+
+int mlock(const void *__addr, size_t __len) noexcept
+{
+  return mlock2(__addr, __len, 0);
+}
+
+int munlock([[maybe_unused]] const void *addr, [[maybe_unused]] size_t len) noexcept
+{
+  /* Implementation:
+   * - Search for all regions between __addr and __addr+len
+   *   - for each region:
+   *     - unlock range in dataspace
+   *       - for that, add API to dataspace to lock+unlock pages
+   */
+  return 0;
+}
+
+int mlockall([[maybe_unused]] int flags) noexcept
+{
+  /* Implementation:
+   * - Search for all regions
+   *   - For reach region
+   *     if flags | MCL_CURRENT:
+   *       go to dataspace and lock range
+   *     if flags | MCL_FUTURE:
+   *       go to rm and tell it to map all future pages with lock-flag
+   *       (API extension here!)
+   *     if flags | MCL_ONFAULT:
+   *       see manpage...
+   */
+
+  return 0;
+}
+
+int munlockall(void) noexcept
+{
+  /* Implementation:
+   * - Search for all regions
+   *   - For each region
+   *     go to dataspace and unlock range
+   *     go to rm to remove unlock flag for mappings
+   */
+  return 0;
 }
 

@@ -19,7 +19,7 @@
 struct Internal_module_base
 {
   Internal_module_base(const char *cmdline)
-  : _cmdline(cmdline)
+  : _next(nullptr), _cmdline(cmdline)
   {}
 
   unsigned cmdline_size() const { return strlen(_cmdline) + 1; }
@@ -29,7 +29,7 @@ struct Internal_module_base
 
   void set(l4util_l4mod_mod *m, char *cmdline_store) const
   {
-    m->cmdline = (l4_addr_t)cmdline_store;
+    m->cmdline = reinterpret_cast<l4_addr_t>(cmdline_store);
     memcpy(cmdline_store, _cmdline, cmdline_size());
     set_region(m);
     m->flags = 0;
@@ -64,19 +64,16 @@ struct Internal_module_list
 class Boot_modules
 {
 public:
-  enum { Num_base_modules = 3 };
-
   /// Main information for each module.
   struct Module
   {
     char const *start;          ///< The first byte of the module binary.
     char const *end;            ///< The first byte after the module binary.
     char const *cmdline;        ///< Pointer to the module command line.
+    Mod_attr_list attrs;        ///< List of module attributes
 
     unsigned long size() const { return end - start; }
   };
-
-  static char const *const Mod_reg;
 
   virtual ~Boot_modules() = 0;
   virtual void reserve() = 0;
@@ -84,16 +81,12 @@ public:
   virtual unsigned num_modules() const = 0;
   virtual l4util_l4mod_info *construct_mbi(unsigned long mod_addr, Internal_module_list const &mods) = 0;
   virtual void move_module(unsigned index, void *dest) = 0;
-  virtual int base_mod_idx(Mod_info_flags mod_info_mod_type) = 0;
+  virtual int base_mod_idx(Mod_info_flags mod_info_mod_type,
+                           unsigned node = 0) = 0;
   void move_modules(unsigned long modaddr);
   Region mod_region(unsigned index, l4_addr_t start, l4_addr_t size,
                     Region::Type type = Region::Boot);
   void merge_mod_regions();
-  static bool is_base_module(const Mod_info *mod)
-  {
-    unsigned v = mod->flags & Mod_info_flag_mod_mask;
-    return v > 0 && v <= Num_base_modules;
-  };
 
 protected:
   void _move_module(unsigned index, void *dest, void const *src,
@@ -114,10 +107,8 @@ public:
   unsigned num_modules() const override;
   void move_module(unsigned index, void *dest) override;
   l4util_l4mod_info *construct_mbi(unsigned long mod_addr, Internal_module_list const &mods) override;
-  int base_mod_idx(Mod_info_flags mod_info_module_flag) override;
+  int base_mod_idx(Mod_info_flags mod_info_module_flag, unsigned node = 0) override;
 
 private:
-  void decompress_mods(unsigned mod_count,
-                       l4_addr_t total_size, l4_addr_t mod_addr);
+  void decompress_mods(l4_addr_t total_size, l4_addr_t mod_addr);
 };
-

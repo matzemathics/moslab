@@ -56,6 +56,11 @@ extern "C" void leave_by_vcpu_upcall(Trap_state *ts)
   c->vcpu_return_to_kernel(vcpu->_entry_ip, vcpu->_sp, c->vcpu_state().usr().get());
 }
 
+bool is_permission_fault(Mword error)
+{
+  return (error & 0x3c) == 0xc;
+}
+
 IMPLEMENT
 void
 Thread::arm_kernel_sync_entry(Trap_state *ts)
@@ -78,10 +83,27 @@ Thread::arm_kernel_sync_entry(Trap_state *ts)
 
   switch (esr.ec())
     {
+    case 0x21: // instruction abort from kernel mode
+      if (is_permission_fault(esr.raw()))
+        {
+          ts->dump();
+          panic("kernel data execution\n");
+        }
+      ts->pf_address = get_fault_pfa(esr, true, false);
+      call_nested_trap_handler(ts);
+      break;
     case 0x25: // data abort from kernel mode
       if (EXPECT_FALSE(!handle_cap_area_fault(ts)))
         {
           ts->pf_address = get_fault_pfa(esr, false, false);
+          if (is_transient_mpu_fault(ts, esr))
+            return;
+
+          if (!PF::is_read_error(esr.raw()) && is_permission_fault(esr.raw()))
+            {
+              ts->dump();
+              panic("kernel code modification\n");
+            }
           call_nested_trap_handler(ts);
         }
       break;
@@ -120,9 +142,12 @@ Thread::handle_svc(Trap_state *ts)
         {
           state_del_dirty(Thread_dis_alien);
           do_syscall();
-
           ts->error_code |= 1 << 16; // ts->esr().alien_after_syscall() = 1;
         }
+      else
+        // Before syscall was executed. Adjust PC to be on SVC/HVC insn so that
+        // the instruction can be restarted.
+        ts->pc -= Arm_esr(ts->error_code).il() ? 4 : 2;
 
       slowtrap_entry(ts);
       return;
@@ -141,12 +166,12 @@ Thread::copy_utcb_to_ts(L4_msg_tag const &tag, Thread *snd, Thread *rcv,
   if (EXPECT_FALSE(tag.words() < (sizeof(Trex) / sizeof(Mword))))
     return true;
 
-  Trap_state *ts = (Trap_state*)rcv->_utcb_handler;
+  Trap_state *ts = static_cast<Trap_state*>(rcv->_utcb_handler);
   Utcb *snd_utcb = snd->utcb().access();
 
   Trex const *r = reinterpret_cast<Trex const *>(snd_utcb->values);
   // this skips the eret/continuation work already
-  ts->copy_and_sanitize(&r->s);
+  rcv->copy_and_sanitize_trap_state(ts, &r->s);
   rcv->set_tpidruro(r);
   rcv->set_tpidrurw(r);
 
@@ -159,15 +184,14 @@ Thread::copy_utcb_to_ts(L4_msg_tag const &tag, Thread *snd, Thread *rcv,
   return ret;
 }
 
-PRIVATE static inline NEEDS[Thread::save_fpu_state_to_utcb,
-                            Thread::store_tpidruro,
+PRIVATE static inline NEEDS[Thread::store_tpidruro,
                             Thread::store_tpidrurw,
                             "trap_state.h"]
 bool FIASCO_WARN_RESULT
 Thread::copy_ts_to_utcb(L4_msg_tag const &, Thread *snd, Thread *rcv,
                         L4_fpage::Rights rights)
 {
-  Trap_state *ts = (Trap_state*)snd->_utcb_handler;
+  Trap_state *ts = static_cast<Trap_state*>(snd->_utcb_handler);
 
   {
     auto guard = lock_guard(cpu_lock);
@@ -185,14 +209,9 @@ Thread::copy_ts_to_utcb(L4_msg_tag const &, Thread *snd, Thread *rcv,
   return true;
 }
 
-PRIVATE inline
-bool
-Thread::check_and_handle_undef_syscall(Return_frame *)
-{ return false; }
-
 PUBLIC static inline bool Thread::is_fsr_exception(Arm_esr) { return false; }
 PUBLIC static inline bool Thread::is_debug_exception(Arm_esr) { return false; }
-PUBLIC static inline void Thread::handle_debug_exception(Trap_state *) {}
+PUBLIC inline void Thread::handle_debug_exception(Trap_state *) {}
 PUBLIC static inline bool Thread::is_debug_exception_fsr(Mword) { return false; }
 
 // ------------------------------------------------------------------------
@@ -407,7 +426,7 @@ Thread::pagein_tcb_request(Return_frame *regs)
   assert (regs->esr.il());        // must be a 32bit wide insn
   // we assume the instruction is a ldr with the target register
   // in the lower 5 bits
-  unsigned rt = *(Mword*)regs->pc & 0x1f;
+  unsigned rt = *reinterpret_cast<Mword*>(regs->pc) & 0x1f;
 
   // skip faulting instruction
   regs->pc += 4;
@@ -417,3 +436,56 @@ Thread::pagein_tcb_request(Return_frame *regs)
 
   return true;
 }
+
+//--------------------------------------------------------------------------
+IMPLEMENTATION [arm && 64bit && mpu]:
+
+#include "kmem.h"
+
+/**
+ * Check for transient MPU fault caused by optimized entry code.
+ *
+ * The entry code manipulates the kernel heap-, kip- and ku_mem-MPU-regions.
+ * Legally, an ISB instruction would be required but this is practically not
+ * needed and would impose an undue performance penalty. Instead, handle such
+ * data aborts gracefully in case they ever happen.
+ */
+PRIVATE static inline NEEDS["kmem.h"]
+bool
+Thread::is_transient_mpu_fault(Trap_state *ts, Arm_esr esr)
+{
+  switch (esr.pf_fsc())
+    {
+    case 0b000100:  // level 0 translation fault
+      // Only kernel heap region start/end is adapted on entry
+      if (!(*Kmem::kdir)[Kpdir::Kernel_heap].contains(ts->pf_address))
+        return false;
+      break;
+    case 0b001100:  // level 0 permission fault
+      // Only the KIP permissions are manipulated.
+      if (!(*Kmem::kdir)[Kpdir::Kip].contains(ts->pf_address))
+        return false;
+      break;
+    default:
+      return false;
+    }
+
+  Mem::isb();
+
+  static bool has_warned = false;
+  if (!has_warned)
+    {
+      has_warned = true;
+      WARN("Unexpected in-kernel data abort. Add an ISB to entry path?\n");
+    }
+
+  return true;
+}
+
+//--------------------------------------------------------------------------
+IMPLEMENTATION [arm && 64bit && !mpu]:
+
+PRIVATE static inline
+bool
+Thread::is_transient_mpu_fault(Trap_state *, Arm_esr)
+{ return false; }

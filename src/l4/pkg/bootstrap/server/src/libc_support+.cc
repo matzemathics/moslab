@@ -15,6 +15,9 @@
  * Please see the COPYING-GPL-2 file for details.
  */
 
+#define NOT_IN_libc
+#include <libc-symbols.h>
+
 #include <unistd.h>
 #include <string.h>
 #include <strings.h>
@@ -109,7 +112,7 @@ ctor_init()
 }
 
 
-void exit(int c) throw()
+void exit(int c) noexcept
 {
   _exit(c);
 }
@@ -140,7 +143,7 @@ write(int fd, const void *buf, size_t count)
 
   if (fd == STDOUT_FILENO || fd == STDERR_FILENO)
     {
-      char *b = (char *)buf;
+      char const *b = reinterpret_cast<char const *>(buf);
       int i = count;
       while (i--)
         {
@@ -172,6 +175,11 @@ getchar(void)
 }
 
 off_t lseek(int /*fd*/, off_t /*offset*/, int /*whence*/) __THROW
+{
+  return 0;
+}
+
+off64_t lseek64(int /*fd*/, off64_t /*offset*/, int /*whence*/) __THROW
 {
   return 0;
 }

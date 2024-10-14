@@ -9,6 +9,8 @@ INTERFACE:
 class Gic_redist
 {
 private:
+  bool cmp_affinity(Unsigned32 x, Unsigned32 y);
+
   Mmio_register_block _redist;
 
 public:
@@ -79,7 +81,7 @@ private:
 
   struct Propbaser
   {
-    Unsigned64 raw;
+    Unsigned64 raw = 0;
     Propbaser() = default;
     explicit Propbaser(Unsigned64 v) : raw(v) {}
     CXX_BITFIELD_MEMBER          ( 0,  4, id_bits, raw);
@@ -90,7 +92,7 @@ private:
 
   struct Pendbaser
   {
-    Unsigned64 raw;
+    Unsigned64 raw = 0;
     Pendbaser() = default;
     explicit Pendbaser(Unsigned64 v) : raw(v) {}
     CXX_BITFIELD_MEMBER          ( 7,  9, cacheability, raw);
@@ -117,6 +119,11 @@ IMPLEMENTATION:
 #include <cstdio>
 #include <string.h>
 
+IMPLEMENT_DEFAULT inline
+bool
+Gic_redist::cmp_affinity(Unsigned32 x, Unsigned32 y)
+{ return x == y; }
+
 PUBLIC
 void
 Gic_redist::find(Address base, Unsigned64 mpidr, Cpu_number cpu)
@@ -133,8 +140,8 @@ Gic_redist::find(Address base, Unsigned64 mpidr, Cpu_number cpu)
         // No GICv3 and no GICv4
         break;
 
-      gicr_typer.raw = r.read<Unsigned64>(GICR_TYPER);
-      if (gicr_typer.affinity() == typer_aff)
+      gicr_typer.raw = r.read_non_atomic<Unsigned64>(GICR_TYPER);
+      if (cmp_affinity(gicr_typer.affinity(), typer_aff))
         {
           printf("CPU%d: GIC Redistributor at %lx for 0x%llx\n",
                  cxx::int_value<Cpu_number>(cpu),
@@ -181,6 +188,22 @@ Gic_redist::cpu_init()
 
   for (unsigned g = 0; g < 32; g += 4)
     _redist.write<Unsigned32>(0xa0a0a0a0, GICR_IPRIORITYR0 + g);
+}
+
+PUBLIC
+void
+Gic_redist::disable()
+{
+  unsigned val = _redist.read<Unsigned32>(GICR_WAKER);
+  val |= GICR_WAKER_Processor_sleep;
+  _redist.write<Unsigned32>(val, GICR_WAKER);
+
+  L4::Poll_timeout_counter i(5000000);
+  while (i.test(!(_redist.read<Unsigned32>(GICR_WAKER) & GICR_WAKER_Children_asleep)))
+    Proc::pause();
+
+  if (i.timed_out())
+    panic("GIC: redistributor still active\n");
 }
 
 PUBLIC
@@ -278,7 +301,7 @@ PUBLIC
 void
 Gic_redist::cpu_init_lpi()
 {
-  Typer gicr_typer(_redist.read<Unsigned64>(GICR_TYPER));
+  Typer gicr_typer(_redist.read_non_atomic<Unsigned64>(GICR_TYPER));
   if (!gicr_typer.plpis())
     panic("GIC: Redistributor does not support physical LPIs.\n");
 
@@ -332,5 +355,16 @@ PUBLIC inline
 unsigned
 Gic_redist::get_processor_nr() const
 {
-  return Typer(_redist.read<Unsigned64>(GICR_TYPER)).processor_nr();
+  return Typer(_redist.read_non_atomic<Unsigned64>(GICR_TYPER)).processor_nr();
+}
+
+//-------------------------------------------------------------------
+IMPLEMENTATION[arm_cortex_r52]:
+
+IMPLEMENT_OVERRIDE inline
+bool
+Gic_redist::cmp_affinity(Unsigned32 x, Unsigned32 y)
+{
+  // Arm erraturm 2743885 workaround for broken Aff1/2 field on clusters.
+  return (x & 0xffU) == (y & 0xffU);
 }

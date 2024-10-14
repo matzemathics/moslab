@@ -29,7 +29,7 @@ var namespacecxx =
     [ "static_vector", "classcxx_1_1static__vector.html", "classcxx_1_1static__vector" ],
     [ "String", "classcxx_1_1String.html", "classcxx_1_1String" ],
     [ "Weak_ref", "classcxx_1_1Weak__ref.html", null ],
-    [ "Weak_ref_base", "classcxx_1_1Weak__ref__base.html", null ],
+    [ "Weak_ref_base", "classcxx_1_1Weak__ref__base.html", "classcxx_1_1Weak__ref__base" ],
     [ "H_list_item", "namespacecxx.html#a808b2bc56f24c4146f03aa6696d80c65", null ],
     [ "Ref_ptr_list", "namespacecxx.html#a4bd81d0e4a1f4c28aa69099cc8eced64", null ],
     [ "Ref_ptr_list_item", "namespacecxx.html#ae76df13fec5c6ceff28eeaa549c8bf9d", null ],
@@ -37,7 +37,9 @@ var namespacecxx =
     [ "Unique_ptr_list_item", "namespacecxx.html#aedd8c320a29433dd65b538dbecbbee70", null ],
     [ "access_once", "namespacecxx.html#ab148b2c460eb31462ced9a1eafd9667c", null ],
     [ "clamp", "group__cxx__api.html#ga3af01832fd9bfa1ea526f705a8aa0680", null ],
-    [ "max", "group__cxx__api.html#ga1d7a566ab5b06016155d693f91a7ee2d", null ],
-    [ "min", "group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b", null ],
+    [ "max", "group__cxx__api.html#ga6b40508618e1b52959e20850cf820dc9", null ],
+    [ "max", "group__cxx__api.html#ga46630b12dffccbfe3bb39758c3d844a6", null ],
+    [ "min", "group__cxx__api.html#ga6c502a1807d77feaaff27dc8ff58bd45", null ],
+    [ "min", "group__cxx__api.html#ga02e5de4cc0616778a1858f3cc288fe0e", null ],
     [ "write_now", "namespacecxx.html#a7f2e154fabb0f6bc7fe788d6debf4338", null ]
 ];

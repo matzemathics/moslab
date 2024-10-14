@@ -198,12 +198,13 @@ Note: all assert statements generate a single TAP line with the same
 
 ## Write a test
 
-Define the symbol `void init_unittest()` and place your code in this function.
+Define the symbol `extern "C" void init_unittest()` and place your code in this
+function.
 
 ```
 #include "utest_fw.h"
 
-void
+extern "C" void
 init_unittest()
 {
   Utest_fw::tap_log.start();
@@ -228,7 +229,11 @@ This allows to create a TAP line for each finished test.
 For tooling purposes, either directly define the `group_name` in the call to
 `new_test()` or use a variable of `static char const *` type.
 
-You need to call `Utest_fw::tap_log.finish()` at the end of the test suite.
+You need to call `Utest_fw::tap_log.finish()` at the end of the test suite. If
+you don't run any tests between `Utest_fw::tap_log.start()` and
+`Utest_fw::tap_log.finish()`, e.g. when the test is not applicable, you should
+provide a reason as to why the test was skipped:
+`Utest_fw::tap_log.finish("Reason here")`
 
 All supported `UTEST_` macros are listed in `utest_fw.cpp`.
 
@@ -237,13 +242,16 @@ filename to `INTERFACES_UTEST` list in the `Modules.utest` file of your test
 directory.
 
 
-## Tests using multiple cores
+## Tests using multiple CPU cores
 
-To use multiple cores in your test you need to define `void
-init_unittest_app_core()`.
-Each core which is not the boot core will invoke this function if it is
-defined.
-When `init_unittest_app_core()` returns the core goes into idle.
+To use multiple CPU cores in your test you need to define
+```
+INIT_WORKLOAD_APP_CPU(INIT_WORKLOAD_PRIO_UNIT_TEST, init_unittest_app_core)
+void init_unittest_app_core()
+```
+Each CPU core which is not the boot core will invoke this function if such a
+function is defined and announced by the `INIT_WORKLOAD_APP_CPU` macro. When
+`init_unittest_app_core()` returns, the CPU core goes into idle.
 
 Your test needs to decide which core shall do what.
 It can decide to only use a single additional core, or all that register with

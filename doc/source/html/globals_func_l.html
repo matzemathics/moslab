@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Globals</title>
+<title>L4Re Operating System Framework: Globals</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -109,6 +112,7 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4_calibrate_tsc()&#160;:&#160;<a class="el" href="group__l4util__tsc.html#ga53b924044edf80cf8cab1e6599fc03a7">rdtsc.h</a></li>
 <li>l4_capability_equal()&#160;:&#160;<a class="el" href="group__l4__cap__api.html#ga1c7adeae7771d1f6cad2501d94d1104b">types.h</a></li>
 <li>l4_capability_next()&#160;:&#160;<a class="el" href="l4_2sys_2types_8h.html#a37e4607b071d9ca118bd7ac4f51b663f">types.h</a></li>
+<li>l4_debugger_add_image_info()&#160;:&#160;<a class="el" href="group__l4__debugger__api.html#ga26d3c64b1f5641a742e031c8293e914d">debugger.h</a></li>
 <li>l4_debugger_get_object_name()&#160;:&#160;<a class="el" href="group__l4__debugger__api.html#ga0cf4ccc8d042b0a0a5a4e19aca37fed3">debugger.h</a></li>
 <li>l4_debugger_global_id()&#160;:&#160;<a class="el" href="group__l4__debugger__api.html#gadfa30ada361d59a07b0187fbc006f56d">debugger.h</a></li>
 <li>l4_debugger_kobj_to_id()&#160;:&#160;<a class="el" href="group__l4__debugger__api.html#ga3caffa3020eed1d69c3c73fd8a332a5d">debugger.h</a></li>
@@ -121,8 +125,9 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4_factory_create_factory()&#160;:&#160;<a class="el" href="group__l4__factory__api.html#ga63c20eadfff54bdc3087e7157dcd7129">factory.h</a></li>
 <li>l4_factory_create_gate()&#160;:&#160;<a class="el" href="group__l4__factory__api.html#ga15e3ccc0f2ac38b98bfc943bfbcbfc57">factory.h</a></li>
 <li>l4_factory_create_irq()&#160;:&#160;<a class="el" href="group__l4__factory__api.html#ga31a4707e4932e045960ad18b4fa07c66">factory.h</a></li>
-<li>l4_factory_create_task()&#160;:&#160;<a class="el" href="group__l4__factory__api.html#gaa68cf0ef0a5f11b15e5f77e241ff0b2a">factory.h</a></li>
+<li>l4_factory_create_task()&#160;:&#160;<a class="el" href="group__l4__factory__api.html#ga8df376951e0b9233d6232b02bfaadd9c">factory.h</a></li>
 <li>l4_factory_create_thread()&#160;:&#160;<a class="el" href="group__l4__factory__api.html#ga26aad57304812d2a73597b591f1b3630">factory.h</a></li>
+<li>l4_factory_create_vcpu_context()&#160;:&#160;<a class="el" href="group__l4__factory__api.html#ga495f007f1b769fa929ba0f035a6b04bd">factory.h</a></li>
 <li>l4_factory_create_vm()&#160;:&#160;<a class="el" href="group__l4__factory__api.html#gaaa9565a45b0bb3621ce0d3c7994d0710">factory.h</a></li>
 <li>l4_get_hz()&#160;:&#160;<a class="el" href="group__l4util__tsc.html#ga266c344d6613a7dde4a2c7de29fb10e5">rdtsc.h</a></li>
 <li>l4_icu_bind()&#160;:&#160;<a class="el" href="group__l4__icu__api.html#ga793c534597fd98ee93cbaf24ad08a615">icu.h</a></li>
@@ -152,8 +157,8 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4_ipc_send()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#ga7de45eb59ce852466362ea85da00299e">ipc.h</a></li>
 <li>l4_ipc_send_and_wait()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#ga72ee1f322b3f633fb885905ce213e2b5">ipc.h</a></li>
 <li>l4_ipc_sleep()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#gac3b4a3b13e77b799dc154c57a04cdd9b">ipc.h</a></li>
-<li>l4_ipc_sleep_ms()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#ga46347a153dfcc368ef76b022dc70a83d">ipc.h</a></li>
-<li>l4_ipc_sleep_us()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#ga7c75873cd265368610e39db5aefabe43">ipc.h</a></li>
+<li>l4_ipc_sleep_ms()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#gaf7beb30ebd9a71fbafeda9d1be057d88">ipc.h</a></li>
+<li>l4_ipc_sleep_us()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#ga5a466a7ca3fa167baadbd824238ad7cc">ipc.h</a></li>
 <li>l4_ipc_to_errno()&#160;:&#160;<a class="el" href="l4_2sys_2ipc_8h.html#a92b8e935d6fa1222f0358a477f539367">ipc.h</a></li>
 <li>l4_ipc_wait()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#gade81ef7ed9cb9e08bec716e640eabe04">ipc.h</a></li>
 <li>l4_irq_detach()&#160;:&#160;<a class="el" href="group__l4__irq__api.html#ga1d9b0812f3bc01d6d5ff7010df231e56">irq.h</a></li>
@@ -217,17 +222,15 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4_round_size()&#160;:&#160;<a class="el" href="group__l4__memory__api.html#gae876a4c6e0f21b2ecbf17863dc7d11e4">consts.h</a></li>
 <li>l4_sched_cpu_set()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#ga25d36547d6902c482c747b0face8781c">scheduler.h</a></li>
 <li>l4_sched_param()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#ga97fc9fce99006ce7011a25bb8d014c8d">scheduler.h</a></li>
-<li>l4_scheduler_idle_time()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#gae0309103240230e4727245121002d2ac">scheduler.h</a></li>
-<li>l4_scheduler_info()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#ga680dbcb3627dffba0aa691fc261a273d">scheduler.h</a></li>
-<li>l4_scheduler_info_with_classes()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#ga832a364e4af998d5a427931eb050ab62">scheduler.h</a></li>
+<li>l4_scheduler_idle_time()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#gac5d528967873205c13c35b00bf150b60">scheduler.h</a></li>
+<li>l4_scheduler_info()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#ga6a05c8f9abbeb3926c3aff26a4ec1316">scheduler.h</a></li>
+<li>l4_scheduler_info_with_classes()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#gaa294eedd2f352bc060b7e16403ccac44">scheduler.h</a></li>
 <li>l4_scheduler_is_online()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#ga062a1dfac473eb080c0cdca494c5be8c">scheduler.h</a></li>
-<li>l4_scheduler_run_thread()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#gad2a9662639b3bc122d551dab6a1c9aca">scheduler.h</a></li>
+<li>l4_scheduler_run_thread()&#160;:&#160;<a class="el" href="group__l4__scheduler__api.html#ga529821cb75f0c3d17ec66e4357f0f72c">scheduler.h</a></li>
 <li>l4_semaphore_down()&#160;:&#160;<a class="el" href="group__l4__semaphore__api.html#ga93dd91476859488c579de1caae8058e8">semaphore.h</a></li>
 <li>l4_semaphore_up()&#160;:&#160;<a class="el" href="group__l4__semaphore__api.html#ga7fc3931fba29e35a6690639c74774c43">semaphore.h</a></li>
-<li>l4_sleep()&#160;:&#160;<a class="el" href="amd64_2l4_2util_2util_8h.html#a3c1ffd9369bfe26eddbfb6ee4777cc27">util.h</a></li>
-<li>l4_sleep_forever()&#160;:&#160;<a class="el" href="group__l4util__api.html#ga3a74b4dee439a339ed5a6368845cad37">util.h</a></li>
 <li>l4_sndfpage_add()&#160;:&#160;<a class="el" href="group__l4__ipc__api.html#gad2fef5fd3d173495d89c122883e909d6">ipc.h</a></li>
-<li>l4_task_add_ku_mem()&#160;:&#160;<a class="el" href="group__l4__task__api.html#ga616af00101b9c34b428836715a90409d">task.h</a></li>
+<li>l4_task_add_ku_mem()&#160;:&#160;<a class="el" href="group__l4__task__api.html#ga433356d17f678aa259c6b616aeb476ef">task.h</a></li>
 <li>l4_task_cap_equal()&#160;:&#160;<a class="el" href="group__l4__task__api.html#ga0cadc0abbf54ac249bae17239c9cfb81">task.h</a></li>
 <li>l4_task_cap_valid()&#160;:&#160;<a class="el" href="group__l4__task__api.html#ga829a1b5cb4d5dba33ffee57534a505af">task.h</a></li>
 <li>l4_task_delete_obj()&#160;:&#160;<a class="el" href="group__l4__task__api.html#gaf0ce40ee0426a016cb344370d20d2fcd">task.h</a></li>
@@ -338,6 +341,7 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4re_ds_copy_in()&#160;:&#160;<a class="el" href="group__api__l4re__c__ds.html#ga9b11138a09e2661ed2a2f35999d160c6">dataspace.h</a></li>
 <li>l4re_ds_flags()&#160;:&#160;<a class="el" href="group__api__l4re__c__ds.html#ga63730a8dfcf9722f63e85272919656a8">dataspace.h</a></li>
 <li>l4re_ds_info()&#160;:&#160;<a class="el" href="group__api__l4re__c__ds.html#ga03eb3f67fc6d769900ba9029f54dc124">dataspace.h</a></li>
+<li>l4re_ds_map_info()&#160;:&#160;<a class="el" href="group__api__l4re__c__ds.html#ga3d74c479b8994fd11afa4e51ab47f2a8">dataspace.h</a></li>
 <li>l4re_ds_size()&#160;:&#160;<a class="el" href="group__api__l4re__c__ds.html#ga9bc4f9dbfd28822e4b6adb61e1ea398b">dataspace.h</a></li>
 <li>l4re_env()&#160;:&#160;<a class="el" href="group__api__l4re__env.html#gac103498c48310ccea751065ca4d1678a">env.h</a></li>
 <li>l4re_env_get_cap()&#160;:&#160;<a class="el" href="group__api__l4re__env.html#ga1413d41707d888eb9121f6efe1682504">env.h</a></li>
@@ -362,6 +366,7 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4re_ns_query_srv()&#160;:&#160;<a class="el" href="group__api__l4re__c__ns.html#ga336da71d50c3dd5f089a70812c89b700">namespace.h</a></li>
 <li>l4re_ns_query_to_srv()&#160;:&#160;<a class="el" href="group__api__l4re__c__ns.html#gaab75eab7d3ad14018378835df1206b4a">namespace.h</a></li>
 <li>l4re_ns_register_obj_srv()&#160;:&#160;<a class="el" href="group__api__l4re__c__ns.html#ga6022184053822c4e03af3115c7a13821">namespace.h</a></li>
+<li>l4re_parent_signal()&#160;:&#160;<a class="el" href="parent_8h.html#a7473464d0d9646e5848863ee07bb3dcb">parent.h</a></li>
 <li>l4re_rm_attach()&#160;:&#160;<a class="el" href="group__api__l4re__c__rm.html#ga1dba5ddbe73ff2dbcf4865657ae5f9e8">rm.h</a></li>
 <li>l4re_rm_attach_srv()&#160;:&#160;<a class="el" href="group__api__l4re__c__rm.html#ga728010b4091174202914d58a79c56767">rm.h</a></li>
 <li>l4re_rm_detach()&#160;:&#160;<a class="el" href="group__api__l4re__c__rm.html#ga5d553540131111a12f66712bb6d4d449">rm.h</a></li>
@@ -482,7 +487,6 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4util_cmpxchg()&#160;:&#160;<a class="el" href="group__l4util__atomic.html#ga929dc4219f96656545bb658d95b0c7c2">atomic.h</a></li>
 <li>l4util_cmpxchg16()&#160;:&#160;<a class="el" href="group__l4util__atomic.html#ga2690923e89bf236e2e2008be26522ead">atomic.h</a></li>
 <li>l4util_cmpxchg32()&#160;:&#160;<a class="el" href="group__l4util__atomic.html#gacb4a5e47fea67cc4c61b488fc374df62">atomic.h</a></li>
-<li>l4util_cmpxchg64()&#160;:&#160;<a class="el" href="group__l4util__atomic.html#ga515d734c74512f8fe83143ffdd412017">atomic.h</a></li>
 <li>l4util_cmpxchg8()&#160;:&#160;<a class="el" href="group__l4util__atomic.html#ga2654b6ee96ea71c241feac5a6ee68fa3">atomic.h</a></li>
 <li>l4util_complement_bit()&#160;:&#160;<a class="el" href="group__l4util__bitops.html#gaf84c2a88f1ff6e02fd813a5c8c8210ea">bitops.h</a></li>
 <li>l4util_cpu_capabilities()&#160;:&#160;<a class="el" href="group__l4util__cpu.html#ga8c07254a927cdb66b4639c7b977eeead">cpu.h</a></li>
@@ -511,11 +515,10 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4util_ins8()&#160;:&#160;<a class="el" href="group__l4util__portio.html#ga6f5c8c79cc1054b28ff44776ccc7524d">port_io.h</a></li>
 <li>l4util_iodelay()&#160;:&#160;<a class="el" href="group__l4util__portio.html#gab5d3461ee69dbfebe91c6ad4a8627173">port_io.h</a></li>
 <li>l4util_ioport_map()&#160;:&#160;<a class="el" href="x86_2l4f_2l4_2util_2port__io_8h.html#a38a37fdbed4dd2dca75ce192d506a2d4">port_io.h</a></li>
-<li>l4util_irq_acknowledge()&#160;:&#160;<a class="el" href="amd64_2l4_2util_2irq_8h.html#a1a46ec6ca729dc1c48c4c19cfea1b6ec">irq.h</a></li>
+<li>l4util_irq_acknowledge()&#160;:&#160;<a class="el" href="x86_2l4_2util_2irq_8h.html#a1a46ec6ca729dc1c48c4c19cfea1b6ec">irq.h</a></li>
 <li>l4util_kip_kernel_abi_version()&#160;:&#160;<a class="el" href="group__l4util__kip__api.html#gabb39cbc849671199be3f4548b3de1144">kip.h</a></li>
 <li>l4util_kip_kernel_has_feature()&#160;:&#160;<a class="el" href="group__l4util__kip__api.html#gad9e616883617aec0f577f64d4b8309a0">kip.h</a></li>
 <li>l4util_kip_kernel_is_ux()&#160;:&#160;<a class="el" href="group__l4util__kip__api.html#gae8c5edefdffbc4f5f0abee303b44974b">kip.h</a></li>
-<li>l4util_micros2l4to()&#160;:&#160;<a class="el" href="amd64_2l4_2util_2util_8h.html#ab8c26d7d9fb6d7626f9ad82e8c3cec8b">util.h</a></li>
 <li>l4util_next_power2()&#160;:&#160;<a class="el" href="group__l4util__bitops.html#ga30375b2869622616b5b5957261e9cb64">bitops.h</a></li>
 <li>l4util_or16()&#160;:&#160;<a class="el" href="group__l4util__atomic.html#ga6193b99dc0138955c8b2d2b133e0c4b4">atomic.h</a></li>
 <li>l4util_or16_res()&#160;:&#160;<a class="el" href="group__l4util__atomic.html#ga2142acca70d2ecfc5bd51deab68a5323">atomic.h</a></li>
@@ -551,7 +554,7 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <li>l4vbus_get_device_by_hid()&#160;:&#160;<a class="el" href="group__l4vbus__module.html#gacbe93125b6db6b5dbfb7cb5352ee9013">vbus.h</a></li>
 <li>l4vbus_get_hid()&#160;:&#160;<a class="el" href="group__l4vbus__module.html#ga49e5eea787382be584322a537f3e0bdd">vbus.h</a></li>
 <li>l4vbus_get_next_device()&#160;:&#160;<a class="el" href="group__l4vbus__module.html#ga1510914cb12bcd56b4caa65be360ee3c">vbus.h</a></li>
-<li>l4vbus_get_resource()&#160;:&#160;<a class="el" href="group__l4vbus__module.html#gac60ae2d46f8158a887ce4b8a1bf447bd">vbus.h</a></li>
+<li>l4vbus_get_resource()&#160;:&#160;<a class="el" href="group__l4vbus__module.html#ga73c4138ed1d2d56edb5eabdbcc5da65d">vbus.h</a></li>
 <li>l4vbus_interface_opcode()&#160;:&#160;<a class="el" href="vbus__interfaces_8h.html#a64bdccce554bb2f5b803a8294364fc3e">vbus_interfaces.h</a></li>
 <li>l4vbus_is_compatible()&#160;:&#160;<a class="el" href="group__l4vbus__module.html#gada51cecbba0d25a6d05e810b737f3df5">vbus.h</a></li>
 <li>l4vbus_release_ioport()&#160;:&#160;<a class="el" href="group__l4vbus__module.html#gaf6d8f34fe76d15c0e3e614c275be84dd">vbus.h</a></li>
@@ -584,7 +587,7 @@ $(document).ready(function(){initNavTree('globals_func_l.html',''); initResizabl
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:34 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/__ktrace-impl.h Source File</title>
+<title>L4Re Operating System Framework: l4/sys/__ktrace-impl.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -181,7 +184,7 @@ $(document).ready(function(){initNavTree('____ktrace-impl_8h_source.html',''); i
 <div class="ttc" id="agroup__fiasco__trace__api_html_gacec61dde47b1cf788fcc51614bcc1a2f"><div class="ttname"><a href="group__fiasco__trace__api.html#gacec61dde47b1cf788fcc51614bcc1a2f">fiasco_tbuf_log_binary</a></div><div class="ttdeci">l4_umword_t fiasco_tbuf_log_binary(const unsigned char *data)</div><div class="ttdoc">Create new trace-buffer entry with binary data.</div><div class="ttdef"><b>Definition</b> <a href="____ktrace-impl_8h_source.html#l00065">__ktrace-impl.h:65</a></div></div>
 <div class="ttc" id="agroup__fiasco__trace__api_html_gafcdf20a03560ad5e63462e59cd55d55c"><div class="ttname"><a href="group__fiasco__trace__api.html#gafcdf20a03560ad5e63462e59cd55d55c">fiasco_tbuf_dump</a></div><div class="ttdeci">void fiasco_tbuf_dump(void)</div><div class="ttdoc">Dump trace-buffer to kernel console.</div><div class="ttdef"><b>Definition</b> <a href="____ktrace-impl_8h_source.html#l00058">__ktrace-impl.h:58</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__err__api_html_ga05c11e3e10b6c2aa941396ac2018899f"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f">l4_error</a></div><div class="ttdeci">long l4_error(l4_msgtag_t tag) L4_NOTHROW</div><div class="ttdoc">Get IPC error code if any or message tag label otherwise for an IPC call.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00636">ipc.h:636</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__err__api_html_ga05c11e3e10b6c2aa941396ac2018899f"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f">l4_error</a></div><div class="ttdeci">long l4_error(l4_msgtag_t tag) L4_NOTHROW</div><div class="ttdoc">Get IPC error code if any or message tag label otherwise for an IPC call.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00657">ipc.h:657</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
 <div class="ttc" id="akdebug_8h_html"><div class="ttname"><a href="kdebug_8h.html">kdebug.h</a></div><div class="ttdoc">Functionality for invoking the kernel debugger.</div></div>
 <div class="ttc" id="akdebug_8h_html_a05f504b0c16b751c78927a464615a746"><div class="ttname"><a href="kdebug_8h.html#a05f504b0c16b751c78927a464615a746">__kdebug_3_text</a></div><div class="ttdeci">l4_msgtag_t __kdebug_3_text(unsigned op, char const *text, unsigned len, l4_umword_t v1, l4_umword_t v2, l4_umword_t v3) L4_NOTHROW</div><div class="ttdoc">Invoke a text output operation with 3 additional machine word arguments on the base debugger capabili...</div><div class="ttdef"><b>Definition</b> <a href="kdebug_8h_source.html#l00137">kdebug.h:137</a></div></div>
@@ -195,7 +198,7 @@ $(document).ready(function(){initNavTree('____ktrace-impl_8h_source.html',''); i
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="____ktrace-impl_8h.html">__ktrace-impl.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

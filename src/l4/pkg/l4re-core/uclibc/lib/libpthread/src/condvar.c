@@ -16,6 +16,7 @@
 /* Condition variables */
 
 #include <errno.h>
+#include <sched.h>
 #include <stddef.h>
 #include <sys/time.h>
 #include "pthread.h"
@@ -27,7 +28,7 @@
 int
 attribute_hidden
 __pthread_cond_init(pthread_cond_t *cond,
-                        const pthread_condattr_t *cond_attr)
+                        const pthread_condattr_t *cond_attr attribute_unused)
 {
   __pthread_init_lock(&cond->__c_lock);
   cond->__c_waiting = NULL;
@@ -49,7 +50,7 @@ strong_alias (__pthread_cond_destroy, pthread_cond_destroy)
 
 static int cond_extricate_func(void *obj, pthread_descr th)
 {
-  __volatile__ pthread_descr self = thread_self();
+  volatile pthread_descr self = thread_self();
   pthread_cond_t *cond = obj;
   int did_remove = 0;
 
@@ -64,7 +65,7 @@ int
 attribute_hidden
 __pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
 {
-  __volatile__ pthread_descr self = thread_self();
+  volatile pthread_descr self = thread_self();
   pthread_extricate_if extr;
   int already_canceled = 0;
   int spurious_wakeup_count;
@@ -286,7 +287,7 @@ strong_alias (__pthread_cond_broadcast, pthread_cond_broadcast)
 
 int
 attribute_hidden
-__pthread_condattr_init(pthread_condattr_t *attr)
+__pthread_condattr_init(pthread_condattr_t *attr attribute_unused)
 {
   return 0;
 }
@@ -294,19 +295,19 @@ strong_alias (__pthread_condattr_init, pthread_condattr_init)
 
 int
 attribute_hidden
-__pthread_condattr_destroy(pthread_condattr_t *attr)
+__pthread_condattr_destroy(pthread_condattr_t *attr attribute_unused)
 {
   return 0;
 }
 strong_alias (__pthread_condattr_destroy, pthread_condattr_destroy)
 
-int pthread_condattr_getpshared (const pthread_condattr_t *attr, int *pshared)
+int pthread_condattr_getpshared (const pthread_condattr_t *attr attribute_unused, int *pshared)
 {
   *pshared = PTHREAD_PROCESS_PRIVATE;
   return 0;
 }
 
-int pthread_condattr_setpshared (pthread_condattr_t *attr, int pshared)
+int pthread_condattr_setpshared (pthread_condattr_t *attr attribute_unused, int pshared)
 {
   if (pshared != PTHREAD_PROCESS_PRIVATE && pshared != PTHREAD_PROCESS_SHARED)
     return EINVAL;

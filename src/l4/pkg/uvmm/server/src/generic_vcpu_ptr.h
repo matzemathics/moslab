@@ -15,10 +15,10 @@
 #include <l4/re/util/cap_alloc>
 #include <l4/sys/thread>
 #include <l4/sys/vcpu.h>
-#include <l4/re/util/object_registry>
 #include <l4/re/util/br_manager>
 
 #include "debug.h"
+#include "vcpu_obj_registry.h"
 
 namespace Vmm {
 
@@ -35,7 +35,7 @@ public:
 
   void control_ext(L4::Cap<L4::Thread> thread)
   {
-    if (l4_error(thread->vcpu_control_ext((l4_addr_t)_s)))
+    if (l4_error(thread->vcpu_control_ext(reinterpret_cast<l4_addr_t>(_s))))
       {
         Err().printf("FATAL: Could not create vCPU. "
                      "Running virtualization-enabled kernel?\n");
@@ -59,10 +59,10 @@ public:
   void set_vcpu_id(unsigned id)
   { _s->user_data[Reg_vcpu_id] = id; }
 
-  L4Re::Util::Object_registry *get_ipc_registry() const
-  { return reinterpret_cast<L4Re::Util::Object_registry *>(_s->user_data[Reg_ipc_registry]); }
+  Vcpu_obj_registry *get_ipc_registry() const
+  { return reinterpret_cast<Vcpu_obj_registry *>(_s->user_data[Reg_ipc_registry]); }
 
-  void set_ipc_registry(L4Re::Util::Object_registry *registry)
+  void set_ipc_registry(Vcpu_obj_registry *registry)
   { _s->user_data[Reg_ipc_registry] = reinterpret_cast<l4_umword_t>(registry); }
 
   L4Re::Util::Br_manager *get_bm() const
@@ -84,7 +84,31 @@ public:
     if ((label & ~3UL) == 0)
       return;
 
-    l4_msgtag_t r = get_ipc_registry()->dispatch(tag, label, utcb);
+    l4_msgtag_t r = l4_msgtag(-L4_ENOREPLY, 0, 0, 0);
+
+    try
+      {
+        r = get_ipc_registry()->dispatch(tag, label, utcb);
+      }
+    catch (L4::Runtime_error &e)
+      {
+        warn().printf("Runtime exception in ipc path: %s(%ld)",
+                      e.str(), e.err_no());
+        r = l4_msgtag(e.err_no(), 0, 0, 0);
+      }
+    catch (int err)
+      {
+        warn().printf("Runtime exception in ipc path: %d",
+                      err);
+        r = l4_msgtag(err, 0, 0, 0);
+      }
+    catch (long err)
+      {
+        warn().printf("Runtime exception in ipc path: %ld",
+                      err);
+        r = l4_msgtag(err, 0, 0, 0);
+      }
+
     if (r.label() != -L4_ENOREPLY)
       l4_ipc_send(L4_INVALID_CAP | L4_SYSF_REPLY, utcb, r,
                   L4_IPC_SEND_TIMEOUT_0);
@@ -134,18 +158,18 @@ protected:
       {
         switch (size)
           {
-          case 0: return (l4_mword_t)((l4_int8_t)value);
-          case 1: return (l4_mword_t)((l4_int16_t)value);
-          case 2: return (l4_mword_t)((l4_int32_t)value);
+          case 0: return static_cast<l4_mword_t>(static_cast<l4_int8_t>(value));
+          case 1: return static_cast<l4_mword_t>(static_cast<l4_int16_t>(value));
+          case 2: return static_cast<l4_mword_t>(static_cast<l4_int32_t>(value));
           default: return value;
           }
       }
 
     switch (size)
       {
-      case 0: return (l4_umword_t)((l4_uint8_t)value);
-      case 1: return (l4_umword_t)((l4_uint16_t)value);
-      case 2: return (l4_umword_t)((l4_uint32_t)value);
+      case 0: return static_cast<l4_umword_t>(static_cast<l4_uint8_t>(value));
+      case 1: return static_cast<l4_umword_t>(static_cast<l4_uint16_t>(value));
+      case 2: return static_cast<l4_umword_t>(static_cast<l4_uint32_t>(value));
       default: return value;
       }
   }

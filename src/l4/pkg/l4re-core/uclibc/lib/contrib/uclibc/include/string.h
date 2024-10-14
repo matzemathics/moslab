@@ -141,7 +141,8 @@ extern size_t strxfrm_l (char *__dest, const char *__src, size_t __n,
 libc_hidden_proto(strxfrm_l)
 #endif
 
-#if defined __USE_SVID || defined __USE_BSD || defined __USE_XOPEN_EXTENDED
+#if defined __USE_SVID || defined __USE_BSD || \
+	defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K8
 /* Duplicate S, returning an identical malloc'd string.  */
 extern char *strdup (const char *__s)
      __THROW __attribute_malloc__ __nonnull ((1));
@@ -258,7 +259,9 @@ extern void *memmem (const void *__haystack, size_t __haystacklen,
 
 /* Copy N bytes of SRC to DEST, return pointer to bytes after the
    last written byte.  */
-#if 0 /* uClibc: disabled */
+#if __GNUC_PREREQ (3, 4)
+# define __mempcpy(dest, src, n) __builtin_mempcpy(dest, src, n)
+#else /* uClibc: disabled */
 extern void *__mempcpy (void *__restrict __dest,
 			const void *__restrict __src, size_t __n)
      __THROW __nonnull ((1, 2));
@@ -341,6 +344,7 @@ extern void __bzero (void *__s, size_t __n) __THROW __nonnull ((1));
 #endif
 
 #ifdef __USE_BSD
+extern void explicit_bzero (void *__d, size_t __n);
 # ifdef __UCLIBC_SUSV3_LEGACY__
 /* Copy N bytes of SRC to DEST (like memmove, but args reversed).  */
 extern void bcopy (const void *__src, void *__dest, size_t __n)
@@ -360,18 +364,40 @@ extern char *index (const char *__s, int __c)
 /* Find the last occurrence of C in S (same as strrchr).  */
 extern char *rindex (const char *__s, int __c)
      __THROW __attribute_pure__ __nonnull ((1));
-# else
-#  ifdef __UCLIBC_SUSV3_LEGACY_MACROS__
+# elif defined(__UCLIBC_SUSV3_LEGACY_MACROS__) && !defined(_STRINGS_H)
 /* bcopy/bzero/bcmp/index/rindex are marked LEGACY in SuSv3.
  * They are replaced as proposed by SuSv3. Don't sync this part
  * with glibc and keep it in sync with strings.h.  */
 
-#  define bcopy(src,dest,n) (memmove((dest), (src), (n)), (void) 0)
-#  define bzero(s,n) (memset((s), '\0', (n)), (void) 0)
-#  define bcmp(s1,s2,n) memcmp((s1), (s2), (size_t)(n))
-#  define index(s,c) strchr((s), (c))
-#  define rindex(s,c) strrchr((s), (c))
-#  endif
+/* Copy N bytes of SRC to DEST (like memmove, but args reversed).  */
+static __inline__ void bcopy (__const void *__src, void *__dest, size_t __n)
+{
+	memmove(__dest, __src, __n);
+}
+
+/* Set N bytes of S to 0.  */
+static __inline__ void bzero (void *__s, size_t __n)
+{
+	memset(__s, 0, __n);
+}
+
+/* Compare N bytes of S1 and S2 (same as memcmp).  */
+static __inline__ int bcmp (__const void *__s1, __const void *__s2, size_t __n)
+{
+	return memcmp(__s1, __s2, __n);
+}
+
+/* Find the first occurrence of C in S (same as strchr).  */
+static __inline__ char *index (__const char *__s, int __c)
+{
+	return strchr(__s, __c);
+}
+
+/* Find the last occurrence of C in S (same as strrchr).  */
+static __inline__ char *rindex (__const char *__s, int __c)
+{
+	return strrchr(__s, __c);
+}
 # endif
 
 /* Return the position of the first bit set in I, or 0 if none are set.
@@ -486,7 +512,7 @@ libc_hidden_proto(strlcpy)
 __END_DECLS
 
 
-#if defined(_LIBC) && defined(__UCLIBC_HAS_STRING_ARCH_OPT__)
+#if defined(_LIBC) && defined(__UCLIBC_HAS_STRING_ARCH_OPT__) && !defined(NOT_IN_libc)
 # if defined __i386__
 #  include <../libc/string/i386/string.h>
 # endif

@@ -9,14 +9,14 @@ var group__l4cxx__exceptions =
     ] ],
     [ "L4::Base_exception", "classL4_1_1Base__exception.html", [
       [ "Base_exception", "classL4_1_1Base__exception.html#a749bf88c609df1a1ff608ea626c7db37", null ],
-      [ "~Base_exception", "classL4_1_1Base__exception.html#ac6c0bd868e5472031d2827239dd44050", null ],
-      [ "str", "classL4_1_1Base__exception.html#a94c6a493c4c04c30c4cd48ea545c69af", null ]
+      [ "~Base_exception", "classL4_1_1Base__exception.html#a330fcbff9221e9c33f3f7f769972faae", null ],
+      [ "str", "classL4_1_1Base__exception.html#a09302fe0a795333562c1ff58189771cb", null ]
     ] ],
     [ "L4::Runtime_error", "classL4_1_1Runtime__error.html", [
-      [ "Runtime_error", "classL4_1_1Runtime__error.html#a6b0843d3aada1999afc7ba1b13cf429f", null ],
+      [ "Runtime_error", "classL4_1_1Runtime__error.html#aa6fd09a68ac8b75d5d169b76954c615c", null ],
       [ "err_no", "classL4_1_1Runtime__error.html#a1972805d80c19c85d92b507af9d39b3e", null ],
       [ "extra_str", "classL4_1_1Runtime__error.html#a21e062e4f38af487e64a3488bbb22705", null ],
-      [ "str", "classL4_1_1Runtime__error.html#a7fe40842ece7daaf98b1c16fc8bfa404", null ]
+      [ "str", "classL4_1_1Runtime__error.html#ac3f870114683bac7328d0f14a9e2235f", null ]
     ] ],
     [ "L4::Out_of_memory", "classL4_1_1Out__of__memory.html", [
       [ "Out_of_memory", "classL4_1_1Out__of__memory.html#a4f749bee6d834617c30eb7accac71037", null ],

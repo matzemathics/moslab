@@ -58,9 +58,11 @@ private:
 
 public:
   Virtio_cons(std::string const &name, int color, size_t bufsz, Key key,
-              L4Re::Util::Object_registry *r)
+              bool line_buffering, unsigned line_buffering_ms,
+              L4Re::Util::Object_registry *r, L4::Ipc_svr::Server_iface *sif)
   : L4virtio::Svr::Device(&_dev_config),
-    Client(name, color, 512, bufsz < 512 ? _dfl_obufsz : bufsz, key),
+    Client(name, color, 512, bufsz < 512 ? _dfl_obufsz : bufsz, key,
+           line_buffering, line_buffering_ms, sif),
     _host_irq(this),
     _dev_config(0x44, L4VIRTIO_ID_CONSOLE, 0x20, 2)
   {
@@ -80,8 +82,9 @@ public:
     L4Re::chksys(server_iface()->realloc_rcv_cap(0));
   }
 
-  void trigger_driver_config_irq() const override
+  void trigger_driver_config_irq() override
   {
+    _dev_config.add_irq_status(L4VIRTIO_IRQ_STATUS_CONFIG);
     kick_guest_irq->trigger();
   }
 
@@ -127,9 +130,7 @@ public:
     if (queue->no_notify_guest())
       return;
 
-    // we do not care about this anywhere, so skip
-    // _device_config->irq_status |= 1;
-
+    _dev_config.add_irq_status(L4VIRTIO_IRQ_STATUS_VRING);
     kick_guest_irq->trigger();
   }
 

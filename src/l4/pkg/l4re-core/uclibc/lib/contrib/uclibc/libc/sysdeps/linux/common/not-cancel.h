@@ -19,6 +19,7 @@
 
 #include <sys/types.h>
 #include <sysdep.h>
+#include <time.h>
 
 #ifdef NOT_IN_libc
 
@@ -70,7 +71,7 @@ extern int __openat64_nocancel (int fd, const char *fname, int oflag,
 #define read_not_cancel(fd, buf, n) \
   INLINE_SYSCALL (read, 3, (fd), (buf), (n))
 
-#ifdef __LINUXTHREADS_NEW__
+#ifdef __UCLIBC_HAS_THREADS__
 /* Uncancelable write.  */
 #define write_not_cancel(fd, buf, n) \
   INLINE_SYSCALL (write, 3, (fd), (buf), (n))
@@ -87,7 +88,7 @@ extern int __openat64_nocancel (int fd, const char *fname, int oflag,
   __fcntl_nocancel (fd, cmd, val)
 #endif
 
-#ifdef __LINUXTHREADS_NEW__
+#ifdef __UCLIBC_HAS_LINUXTHREADS__
 /* Uncancelable waitpid.  */
 #if 0 /*def __NR_waitpid*/
 # define waitpid_not_cancel(pid, stat_loc, options) \
@@ -113,9 +114,10 @@ extern __typeof(pause) __pause_nocancel;
 #ifdef __NR_nanosleep
 # define nanosleep_not_cancel(requested_time, remaining) \
   INLINE_SYSCALL (nanosleep, 2, requested_time, remaining)
-/*#else
+#else
+extern int __nanosleep_nocancel (const struct timespec *requested_time, struct timespec *remaining);
 # define nanosleep_not_cancel(requested_time, remaining) \
-  __nanosleep_nocancel (requested_time, remaining)*/
+  __nanosleep_nocancel (requested_time, remaining)
 #endif
 
 #if 0

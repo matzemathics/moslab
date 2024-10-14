@@ -1,0 +1,5 @@
+<map id="L4virtio::Svr::Console::Virtio_con::reset_device" name="L4virtio::Svr::Console::Virtio_con::reset_device">
+<area shape="rect" id="Node000001" title="Reset the state of the actual console device." alt="" coords="213,5,400,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#a6af9e7a53e9707319c9b46425e583594" title="reset callback, called for doing a device reset" alt="" coords="5,5,165,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,28,166,28,166,23,200,23"/>
+</map>

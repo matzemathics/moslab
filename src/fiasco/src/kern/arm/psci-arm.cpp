@@ -1,6 +1,7 @@
 INTERFACE [arm]:
 
 #include <types.h>
+#include "std_macros.h"
 
 class Psci
 {
@@ -115,7 +116,7 @@ Psci::psci_fn(unsigned fn)
 }
 
 PUBLIC static inline NEEDS ["alternatives.h", "smc_call.h"]
-Psci::Result
+Psci::Result FIASCO_ARM_THUMB2_NO_FRAME_PTR
 Psci::psci_call(Mword fn_id,
                 Mword a0 = 0, Mword a1 = 0,
                 Mword a2 = 0, Mword a3 = 0,
@@ -157,7 +158,7 @@ Psci::init(Cpu_number cpu)
     {
       r = psci_call(Psci_features, psci_fn(Psci_cpu_suspend));
       if (r.res[0] & (1UL << 31))
-        printf("PSCI: CPU_Suspend not supported (%d)\n", (int)r.res[0]);
+        printf("PSCI: CPU_Suspend not supported (%ld)\n", r.res[0]);
       else
         printf("PSCI: CPU_SUSPEND format %s, %s OS-initiated mode\n",
                r.res[0] & 2 ? "extended" : "original v0.2",

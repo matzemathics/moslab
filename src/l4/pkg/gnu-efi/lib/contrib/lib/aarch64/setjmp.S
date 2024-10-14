@@ -38,7 +38,9 @@ BASIS,
 setjmp:
 	mov	x16, sp
 	GPR_LAYOUT
+#ifndef BID_VARIANT_FLAG_NOFPU
 	FPR_LAYOUT
+#endif
 	mov	w0, #0
 	ret
 
@@ -52,7 +54,9 @@ setjmp:
 	.type	longjmp, @function
 longjmp:
 	GPR_LAYOUT
+#ifndef BID_VARIANT_FLAG_NOFPU
 	FPR_LAYOUT
+#endif
 	mov	sp, x16
 	cmp	w1, #0
 	mov	w0, #1

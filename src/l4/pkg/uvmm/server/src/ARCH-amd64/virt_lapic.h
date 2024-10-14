@@ -9,6 +9,7 @@
 #include <atomic>
 #include <mutex>
 #include <tuple>
+#include <vector>
 #include <queue>
 
 #include <l4/re/dataspace>
@@ -198,54 +199,6 @@ public:
   }
 
   /**
-   * An incoming INIT IPI will place the CPU in INIT mode.
-   */
-  void init_ipi()
-  {
-    _cpu->set_cpu_state(Vmm::Cpu_dev::Cpu_state::Init);
-
-    // If the CPU is already running, we must force execution from the guest
-    // to Uvmm and place the thread in an open wait.
-    _lapic_irq->trigger();
-  }
-
-  /**
-   * Handle STARTUP IPIs
-   *
-   * Intel specifies that the correct sequence is INIT, STARTUP, STARTUP.
-   * So we make sure to only act on the second STARTUP IPI.
-   */
-  void startup_ipi(Vdev::Msix::Data_register_format data)
-  {
-    // a startup ipi without an init ipi shall be ignored
-    if (_cpu->get_cpu_state() != Vmm::Cpu_dev::Cpu_state::Init)
-      {
-        warn().printf("STARTUP IPI without INIT IPI. Ignoring.\n");
-        return;
-      }
-    // only act on the second SIPI
-    if (!_sipi_cnt)
-      {
-        ++_sipi_cnt;
-        return;
-      }
-    _sipi_cnt = 0;
-
-    enum : l4_uint32_t
-    {
-      Icr_startup_page_shift = 12
-    };
-
-    l4_addr_t start_eip = data.vector() << Icr_startup_page_shift;
-    start_cpu(start_eip);
-    _cpu->set_cpu_state(Vmm::Cpu_dev::Cpu_state::Running);
-
-    // the target CPU is likely to be blocked in wait_for_ipc()
-    // the IRQ will release it
-    _lapic_irq->trigger();
-  }
-
-  /**
    * Clear all APIC irqs. This shall be used when entering INIT state.
    */
   void clear_irq_state()
@@ -264,8 +217,8 @@ public:
   // Overload for MSIs
   void set(Vdev::Msix::Data_register_format data);
 
-  void bind_eoi_handler(unsigned irq, Eoi_handler *handler) override;
-  Eoi_handler *get_eoi_handler(unsigned irq) const override;
+  void bind_irq_src_handler(unsigned irq, Irq_src_handler *handler) override;
+  Irq_src_handler *get_irq_src_handler(unsigned irq) const override;
 
   int dt_get_interrupt(fdt32_t const *prop, int propsz, int *read) const override;
 
@@ -327,35 +280,35 @@ public:
   l4_uint32_t id() const { return _lapic_x2_id; }
   l4_uint32_t task_prio_class() const { return _regs.tpr & 0xf0; }
 
-  /**
-   * Start an Application Processor.
-   *
-   * \param entry  Real Mode entry address.
-   */
-  void start_cpu(l4_addr_t entry)
-  {
-    Vmm::Vcpu_ptr vcpu = _cpu->vcpu();
-    vcpu->r.sp = 0;
-    vcpu->r.ip = entry;
-
-    // reset CPU
-    vcpu.vm_state()->init_state();
-    vcpu.vm_state()->setup_real_mode(vcpu->r.ip);
-
-    info().printf("Starting CPU %u on EIP 0x%lx\n",
-                  _lapic_x2_id, entry);
-    _cpu->reschedule();
-  }
-
   cxx::Ref_ptr<Apic_timer> timer()
   { return _apic_timer; }
 
   bool x2apic_mode() const { return _x2apic_enabled; }
 
+  Vcpu_obj_registry *registry() const { return _registry; }
+
 private:
   static Dbg trace() { return Dbg(Dbg::Irq, Dbg::Trace, "LAPIC"); }
   static Dbg warn() { return Dbg(Dbg::Irq, Dbg::Warn, "LAPIC"); }
   static Dbg info() { return Dbg(Dbg::Irq, Dbg::Info, "LAPIC"); }
+
+  /// An incoming INIT IPI will place the CPU in INIT mode.
+  void init_ipi();
+
+  /**
+   * Handle STARTUP IPIs
+   *
+   * Intel specifies that the correct sequence is INIT, STARTUP, STARTUP.
+   * So we make sure to only act on the second STARTUP IPI.
+   */
+  void startup_ipi(Vdev::Msix::Data_register_format data);
+
+  /**
+   * Start an Application Processor.
+   *
+   * \param entry  Real Mode entry address.
+   */
+  void start_cpu(l4_addr_t entry);
 
   cxx::Ref_ptr<Apic_timer> _apic_timer;
   L4Re::Util::Unique_cap<L4::Irq> _lapic_irq; /// IRQ to notify VCPU
@@ -365,9 +318,10 @@ private:
   LAPIC_registers _regs;
   bool _x2apic_enabled;
   std::atomic<bool> _nmi_pending;
-  Eoi_handler *_sources[256] = {};
+  Irq_src_handler *_sources[256] = {};
   std::queue<unsigned> _non_irr_irqs;
   cxx::Ref_ptr<Vmm::Cpu_dev> _cpu;
+  Vcpu_obj_registry * const _registry;
   unsigned _sipi_cnt = 0;
 }; // class Virt_lapic
 
@@ -376,8 +330,6 @@ class Lapic_array
 : public Vdev::Device,
   public Monitor::Lapic_cmd_handler<Monitor::Enabled, Lapic_array>
 {
-  enum { Max_lapics = Vmm::Cpu_dev::Max_cpus };
-
 public:
   /**
    * Process MSI data and destination ID in physical addressing mode.
@@ -385,12 +337,15 @@ public:
    * \param did   Destination ID as defined in the MSI/-X address.
    * \param data  MSI/-X data value.
    *
+   * \return The destination vCPU IPC registry or nullptr.
+   *
    * \pre MSI addressing format is physical.
    */
-  void physical_mode(l4_uint32_t did, Vdev::Msix::Data_register_format data)
+  Vcpu_obj_registry *physical_mode(l4_uint32_t did,
+                                   Vdev::Msix::Data_register_format data)
   {
     if (handle_broadcast(did, data))
-      return;
+      return nullptr;
 
     auto lapic = get(did);
     if (lapic)
@@ -399,6 +354,8 @@ public:
       info().printf("No LAPIC for DID 0x%x with physical addressing. Data "
                     "0x%llx\n",
                     did, data.raw);
+
+    return lapic ? lapic->registry() : nullptr;
   }
 
   /**
@@ -408,45 +365,50 @@ public:
    * \param data  MSI/-X data value.
    * \param lp    MSI requests lowest priority arbitration.
    *
+   * \return The destination vCPU IPC registry or nullptr.
+   *
    * \pre MSI addressing format is logical.
    */
-  void logical_mode(l4_uint32_t did, Vdev::Msix::Data_register_format data,
-                    bool lowest_prio)
+  Vcpu_obj_registry *logical_mode(l4_uint32_t did,
+                                  Vdev::Msix::Data_register_format data,
+                                  bool lowest_prio)
   {
     if (lowest_prio)
-      {
-        logical_mode_lp(did, data);
-        return;
-      }
+      return logical_mode_lp(did, data);
 
     if (handle_broadcast(did, data))
-      return;
+      return nullptr;
 
-    bool sent = false;
+    Vcpu_obj_registry *reg = nullptr;
     for (auto &lapic : _lapics)
       if (lapic && lapic->match_ldr(did))
         {
           lapic->set(data);
-          sent = true;
+          reg = lapic->registry();
         }
 
-    if (!sent)
+    if (!reg)
       info().printf("No matching logical DestID: 0x%x, data 0x%llx\n", did,
                     data.raw);
+
+    return reg;
   }
 
   cxx::Ref_ptr<Virt_lapic> get(unsigned core_no) const
   {
-    return (core_no < Max_lapics) ? _lapics[core_no] : nullptr;
+    return (core_no < _lapics.size()) ? _lapics[core_no] : nullptr;
   }
 
   void register_core(unsigned core_no, cxx::Ref_ptr<Vmm::Cpu_dev> cpu)
   {
-    if (_lapics[core_no])
+    if (core_no < _lapics.size() && _lapics[core_no])
       {
         Dbg().printf("Local APIC for core %u already registered\n", core_no);
         return;
       }
+
+    if (core_no >= _lapics.size())
+      _lapics.resize(core_no + 1);
 
     _lapics[core_no] = Vdev::make_device<Virt_lapic>(core_no, cpu);
   }
@@ -486,7 +448,8 @@ private:
   }
 
   /// Handle logical mode MSI with lowest priority arbitration.
-  void logical_mode_lp(l4_uint32_t did, Vdev::Msix::Data_register_format data)
+  Vcpu_obj_registry *logical_mode_lp(l4_uint32_t did,
+                                     Vdev::Msix::Data_register_format data)
   {
     Virt_lapic *lowest = nullptr;
     for (auto &lapic : _lapics)
@@ -505,9 +468,13 @@ private:
       warn().printf("Lowest priority aribitration for MSI failed. DestId 0x%x, "
                     "Data 0x%llx\n",
                     did, data.raw);
+
+    // The assumption is that rebinding the interrupt is just not worth the
+    // effort because the target changes dynamically.
+    return nullptr;
   }
 
-  cxx::Ref_ptr<Virt_lapic> _lapics[Vmm::Cpu_dev::Max_cpus];
+  std::vector<cxx::Ref_ptr<Virt_lapic>> _lapics;
 }; // class Lapic_array
 
 /**
@@ -561,7 +528,7 @@ public:
 
   bool read(unsigned msr, l4_uint64_t *value, unsigned vcpu_no) const
   {
-    assert(vcpu_no < Vmm::Cpu_dev::Max_cpus);
+    assert(vcpu_no < _icr.size());
 
     switch (msr)
       {
@@ -578,7 +545,7 @@ public:
 
   bool write(unsigned msr, l4_uint64_t value, unsigned vcpu_no, bool mmio)
   {
-    assert(vcpu_no < Vmm::Cpu_dev::Max_cpus);
+    assert(vcpu_no < _icr.size());
 
     switch (msr)
       {
@@ -606,9 +573,14 @@ public:
    * Register the CPU device array with the IPI handler.
    *
    * \param cpus  Pointer to the CPU container.
+   *
+   * \pre The `cpus` array has already been populated.
    */
   void register_cpus(cxx::Ref_ptr<Vmm::Cpu_dev_array> const &cpus)
-  { _cpus = cpus; }
+  {
+    _cpus = cpus;
+    _icr.resize(cpus->size());
+  }
 
   /**
    * Register the MSI-X Controller with the IPI handler.
@@ -620,6 +592,7 @@ public:
 
 private:
   static Dbg info() { return Dbg(Dbg::Irq, Dbg::Info, "IPI"); }
+  static Dbg trace() { return Dbg(Dbg::Irq, Dbg::Trace, "IPI"); }
 
   enum : l4_uint32_t { Data_register_format_mask = 0x0000c7ffU };
 
@@ -650,6 +623,15 @@ private:
     if (data.delivery_mode() == Vdev::Msix::Delivery_mode::Dm_init
         || data.delivery_mode() == Vdev::Msix::Delivery_mode::Dm_startup)
       {
+        // filter deassert IPIs; HW does not support these since Pentium D.
+        if (data.delivery_mode() == Vdev::Msix::Delivery_mode::Dm_init
+            && icr.trigger_mode() == 1 && icr.trigger_level() == 0)
+          {
+            trace().printf("{INIT,STARTUP} IPI: INIT deassert filtered. ICR: "
+                           "0x%llx\n", icr.raw);
+            return;
+          }
+
         // filter unsupported destination modes
         switch (icr.dest_shorthand())
           {
@@ -705,7 +687,7 @@ private:
       }
   }
 
-  l4_uint64_t _icr[Vmm::Cpu_dev::Max_cpus] = { 0, };
+  std::vector<l4_uint64_t> _icr;
   cxx::Ref_ptr<Vmm::Cpu_dev_array> _cpus;
   cxx::Ref_ptr<Msix_controller> _msix_ctrl;
 }; // class Icr_handler
@@ -774,6 +756,8 @@ public:
                            Vmm::Region_type::Virtual);
   }
 
+  char const *dev_name() const override { return "Lapic_access_handler"; }
+
 private:
   /**
    * Forward an MSR-encoded write to the ICR handler or to a local APIC.
@@ -823,8 +807,8 @@ public:
   Msix_control(cxx::Ref_ptr<Lapic_array> apics) : _apics(apics) {}
 
   /// Analyse the MSI-X message and send it to the specified local APIC.
-  void send(l4_uint64_t msix_addr, l4_uint64_t msix_data,
-            l4_uint32_t) const override
+  Vcpu_obj_registry *send(l4_uint64_t msix_addr, l4_uint64_t msix_data,
+                          l4_uint32_t) const override
   {
     Vdev::Msix::Interrupt_request_compat addr(msix_addr);
     Vdev::Msix::Data_register_format data(msix_data);
@@ -837,7 +821,7 @@ public:
     if (addr.fixed() != Vdev::Msix::Address_interrupt_prefix)
       {
         trace().printf("Interrupt request prefix invalid; MSI dropped.\n");
-        return;
+        return nullptr;
       }
 
   // If RH is set, we do lowest priority arbitration!
@@ -852,10 +836,10 @@ public:
         addr.redirect_hint()
         || (data.delivery_mode() == Vdev::Msix::Dm_lowest_prio);
 
-      _apics->logical_mode(id, data, lowest_prio);
+      return _apics->logical_mode(id, data, lowest_prio);
     }
   else
-    _apics->physical_mode(id, data);
+    return _apics->physical_mode(id, data);
   }
 
 private:
@@ -936,11 +920,11 @@ class Apic_timer: public Vdev::Timer,
 
     void print()
     {
-      Dbg().printf("timer: %s %s %s vector: %u\n",
-                   mode_string(),
-                   masked() ? "masked" : "unmasked",
-                   pending() ? "pending" : "",
-                   vector().get());
+      warn().printf("timer: %s %s %s vector: %u\n",
+                    mode_string(),
+                    masked() ? "masked" : "unmasked",
+                    pending() ? "pending" : "",
+                    vector().get());
     }
   };
 
@@ -1147,15 +1131,22 @@ public:
     dequeue_timeout(this);
 
     bool tsc_deadline_mode;
+    bool masked = false;
     {
       std::lock_guard<std::mutex> lock(_tmr_mutex);
       tsc_deadline_mode = _lvt_reg.tsc_deadline();
+      masked = _lvt_reg.masked();
       _tsc_deadline = target_tsc;
+
     }
 
     if (!tsc_deadline_mode)
       {
-        Dbg().printf("guest programmed tsc deadline but tsc deadline mode not set\n");
+        if (!masked)
+          warn()
+            .printf("guest programmed tsc deadline, but tsc deadline mode not "
+                    "set. new_tsc 0x%llx, LVT: %s\n",
+                    target_tsc, _lvt_reg.mode_string());
         return;
       }
 
@@ -1181,6 +1172,8 @@ public:
   }
 
 private:
+  static Dbg warn() { return Dbg(Dbg::Irq, Dbg::Warn, "LAPIC-Timer"); }
+
   void irq_trigger(l4_uint32_t irq)
   { _virt_lapic->irq_trigger(irq); }
 

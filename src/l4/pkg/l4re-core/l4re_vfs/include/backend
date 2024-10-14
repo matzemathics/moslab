@@ -53,7 +53,7 @@ public:
   { return 0; }
 
   // for mmap
-  L4::Cap<L4Re::Dataspace> data_space() const noexcept override
+  L4::Cap<L4Re::Dataspace> data_space() noexcept override
   { return L4::Cap<L4Re::Dataspace>::Invalid; }
 
   /// Default backend for POSIX read and readv functions.
@@ -217,6 +217,9 @@ public:
 
   ~Be_file() noexcept = 0;
 
+  int select(int, fd_set *, fd_set *, fd_set *, struct timeval *) throw()
+  { return -EOPNOTSUPP; }
+
 private:
   /// Default backend for POSIX openat, open.
   int get_entry(const char *, int, mode_t, cxx::Ref_ptr<File> *) noexcept override
@@ -293,7 +296,7 @@ public:
   ssize_t pwritev(const struct iovec *v, int iovcnt, off64_t) noexcept override
   { return writev(v, iovcnt); }
 
-  ~Be_file_stream() throw () = 0;
+  ~Be_file_stream() noexcept = 0;
 
 };
 

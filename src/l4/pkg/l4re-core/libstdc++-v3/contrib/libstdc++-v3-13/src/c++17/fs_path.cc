@@ -447,8 +447,11 @@ path::_List::reserve(int newcap, bool exact = false)
 
   if (curcap < newcap)
     {
-      if (!exact && newcap < int(1.5 * curcap))
-	newcap = 1.5 * curcap;
+      // L4 change {
+      const int nextcap = curcap + curcap / 2;
+      if (!exact && newcap < nextcap)
+        newcap = nextcap;
+      // L4 change }
 
       void* p = ::operator new(sizeof(_Impl) + newcap * sizeof(value_type));
       std::unique_ptr<_Impl, _Impl_deleter> newptr(::new(p) _Impl{newcap});
@@ -1947,7 +1950,7 @@ path::_M_split_cmpts()
 
 path::string_type
 path::_S_convert_loc(const char* __first, const char* __last,
-		     const std::locale& __loc)
+		     [[maybe_unused]] const std::locale& __loc)
 {
 #if _GLIBCXX_USE_WCHAR_T
   auto& __cvt = std::use_facet<codecvt<wchar_t, char, mbstate_t>>(__loc);

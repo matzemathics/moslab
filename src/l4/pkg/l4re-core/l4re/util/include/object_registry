@@ -288,7 +288,8 @@ public:
     // make sure unhandled ipc ends up with the null handler
     L4::Thread::Modify_senders todo;
     todo.add(~3UL, reinterpret_cast<l4_umword_t>(o),
-             ~0UL, reinterpret_cast<l4_umword_t>((L4::Epiface*)&_null_handler));
+             ~0UL, reinterpret_cast<l4_umword_t>
+                   (static_cast<L4::Epiface *>(&_null_handler)));
     _server->modify_senders(todo);
 
     // we use bit 4 to indicated an internally allocated cap
@@ -328,7 +329,7 @@ public:
    * please do not supply the UTCB pointer, it's not used.
    */
   Registry_server(l4_utcb_t *, L4::Cap<L4::Thread> server,
-                  L4::Cap<L4::Factory> factory)
+                  L4::Cap<L4::Factory> factory) L4_DEPRECATED("Omit UTCB pointer argument")
   : _registry(this, server, factory)
   {}
 

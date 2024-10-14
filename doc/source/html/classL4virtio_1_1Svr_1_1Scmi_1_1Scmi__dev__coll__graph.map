@@ -1,0 +1,5 @@
+<map id="L4virtio::Svr::Scmi::Scmi_dev" name="L4virtio::Svr::Scmi::Scmi_dev">
+<area shape="rect" id="Node000001" title="A server implementation of the virtio&#45;scmi protocol." alt="" coords="24,348,156,428"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Device__t.html" title="Server&#45;side L4&#45;VIRTIO device stub." alt="" coords="5,5,175,300"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,313,93,348,87,348,87,313"/>
+</map>

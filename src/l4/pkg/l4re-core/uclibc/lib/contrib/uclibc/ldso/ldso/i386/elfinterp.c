@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* i386 ELF shared library loader suppport
  *
  * Copyright (c) 1994-2000 Eric Youngdale, Peter MacDonald,
@@ -34,13 +33,6 @@
 /* Program to load an ELF binary on a linux system, and run it.
    References to symbols in sharable libraries can be resolved by either
    an ELF sharable library or a linux style of shared library. */
-
-/* Disclaimer:  I have never seen any AT&T source code for SVr4, nor have
-   I ever taken any courses on internals.  This program was developed using
-   information available through the book "UNIX SYSTEM V RELEASE 4,
-   Programmers guide: Ansi C and Programming Support Tools", which did
-   a more than adequate job of explaining everything required to get this
-   working. */
 
 extern int _dl_linux_resolve(void);
 
@@ -137,14 +129,8 @@ _dl_parse(struct elf_resolve *tpnt, struct r_scope_elem *scope,
 
 		if (unlikely(res < 0)) {
 			int reloc_type = ELF_R_TYPE(rpnt->r_info);
-
-#if defined (__SUPPORT_LD_DEBUG__)
-			_dl_dprintf(2, "can't handle reloc type '%s' in lib '%s'\n",
-				    _dl_reltypes(reloc_type), tpnt->libname);
-#else
 			_dl_dprintf(2, "can't handle reloc type %x in lib '%s'\n",
 				    reloc_type, tpnt->libname);
-#endif
 			return res;
 		} else if (unlikely(res > 0)) {
 			_dl_dprintf(2, "can't resolve symbol in lib '%s'.\n", tpnt->libname);

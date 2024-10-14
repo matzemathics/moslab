@@ -160,11 +160,14 @@ l4_kip_clock(l4_kernel_info_t const *kip) L4_NOTHROW;
  *
  * \return Lower machine word of clock value from the KIP.
  *
+ * \deprecated Use l4_kip_clock() instead.
+ *
  * This function will always provide the least significant machine word of the
  * clock value from the KIP, regardless of the kernel configuration.
  */
 L4_INLINE l4_umword_t
-l4_kip_clock_lw(l4_kernel_info_t const *kip) L4_NOTHROW;
+l4_kip_clock_lw(l4_kernel_info_t const *kip) L4_NOTHROW
+  L4_DEPRECATED("Use l4_kip_clock() instead");
 
 /**
  * Return current clock using the KIP in nanoseconds.
@@ -190,14 +193,7 @@ l4_kip_clock_ns(l4_kernel_info_t const *kip) L4_NOTHROW;
 
 L4_INLINE l4_kernel_info_t const*
 l4_kip(void) L4_NOTHROW
-{
-#ifdef __PIC__
-  return l4_global_kip;
-#else
-  extern char __L4_KIP_ADDR__[];
-  return (l4_kernel_info_t const *)__L4_KIP_ADDR__;
-#endif
-}
+{ return l4_global_kip; }
 
 L4_INLINE l4_umword_t
 l4_kip_version(l4_kernel_info_t const *kip) L4_NOTHROW
@@ -217,7 +213,7 @@ l4_kip_clock(l4_kernel_info_t const *kip) L4_NOTHROW
   // Use kernel-provided code to determine the current clock.
   typedef l4_uint64_t (*kip_time_fn_read_us)(void);
   kip_time_fn_read_us read_us =
-    (kip_time_fn_read_us)((l4_uint8_t*)kip + L4_KIP_OFFS_READ_US);
+    (kip_time_fn_read_us)((l4_uint8_t const*)kip + L4_KIP_OFFS_READ_US);
   return read_us();
 }
 
@@ -226,21 +222,14 @@ l4_kip_clock_ns(l4_kernel_info_t const *kip) L4_NOTHROW
 {
   typedef l4_uint64_t (*kip_time_fn_read_ns)(void);
   kip_time_fn_read_ns read_ns =
-    (kip_time_fn_read_ns)((l4_uint8_t*)kip + L4_KIP_OFFS_READ_NS);
+    (kip_time_fn_read_ns)((l4_uint8_t const*)kip + L4_KIP_OFFS_READ_NS);
   return read_ns();
 }
 
 L4_INLINE l4_umword_t
 l4_kip_clock_lw(l4_kernel_info_t const *kip) L4_NOTHROW
 {
-  union Clock_field
-  {
-    l4_cpu_time_t t;
-    unsigned long l;
-  };
-  union Clock_field c = { kip->_clock_val };
-  l4_mb();
-  return c.l;
+  return l4_kip_clock(kip);
 }
 
 /**

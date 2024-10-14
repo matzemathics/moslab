@@ -6,6 +6,7 @@ var dir_d458d878e154568f8572c436e514c759 =
     [ "__kip-64bit.h", "____kip-64bit_8h_source.html", null ],
     [ "__ktrace-impl.h", "____ktrace-impl_8h.html", "____ktrace-impl_8h" ],
     [ "__l4_fpage.h", "____l4__fpage_8h_source.html", null ],
+    [ "__platform_control-arm.h", "____platform__control-arm_8h_source.html", null ],
     [ "__task-arm.h", "____task-arm_8h_source.html", null ],
     [ "__timeout.h", "____timeout_8h_source.html", null ],
     [ "__typeinfo.h", "____typeinfo_8h.html", "____typeinfo_8h" ],
@@ -45,7 +46,7 @@ var dir_d458d878e154568f8572c436e514c759 =
     [ "meta", "sys_2meta.html", "sys_2meta" ],
     [ "pager", "pager.html", "pager" ],
     [ "platform_control", "platform__control.html", "platform__control" ],
-    [ "platform_control.h", "platform__control_8h.html", "platform__control_8h" ],
+    [ "platform_control.h", "l4_2sys_2platform__control_8h.html", "l4_2sys_2platform__control_8h" ],
     [ "rcv_endpoint", "rcv__endpoint.html", "rcv__endpoint" ],
     [ "rcv_endpoint.h", "rcv__endpoint_8h.html", "rcv__endpoint_8h" ],
     [ "scheduler", "scheduler.html", "scheduler" ],
@@ -63,6 +64,8 @@ var dir_d458d878e154568f8572c436e514c759 =
     [ "vcon", "vcon.html", "vcon" ],
     [ "vcon.h", "vcon_8h.html", "vcon_8h" ],
     [ "vcpu.h", "sys_2vcpu_8h.html", "sys_2vcpu_8h" ],
+    [ "vcpu_context", "vcpu__context.html", null ],
+    [ "vcpu_context.h", "vcpu__context_8h_source.html", null ],
     [ "vhw.h", "vhw_8h.html", "vhw_8h" ],
     [ "vm", "l4_2sys_2vm.html", null ]
 ];

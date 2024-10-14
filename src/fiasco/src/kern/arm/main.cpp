@@ -24,8 +24,9 @@ IMPLEMENTATION [arm]:
 #include "terminate.h"
 
 #include "processor.h"
+#include "global_data.h"
 
-static int exit_question_active = 0;
+static DEFINE_GLOBAL Global_data<int> exit_question_active;
 
 extern "C" void __attribute__ ((noreturn))
 _exit(int)
@@ -85,10 +86,11 @@ kernel_main()
   //  pic_disable_all();
 
   // create kernel thread
-  static Kernel_thread *kernel = new (Ram_quota::root) Kernel_thread(Ram_quota::root);
+  Kernel_thread *kernel = new (Ram_quota::root) Kernel_thread(Ram_quota::root);
   Task *const ktask = Kernel_task::kernel_task();
   kernel->kbind(ktask);
-  assert(((Mword)kernel->init_stack() & 7) == 0);
+  kernel->init_mpu_state();
+  assert((reinterpret_cast<Mword>(kernel->init_stack()) & 7) == 0);
 
   Mem_unit::tlb_flush();
 
@@ -97,6 +99,25 @@ kernel_main()
   Thread::arm_fast_exit(kernel->init_stack(), call_bootstrap, kernel);
 
   // never returns here
+}
+
+//------------------------------------------------------------------------
+IMPLEMENTATION[arm && mp && !mpu]:
+
+static void init_ap_cpu_mpu()
+{}
+
+//------------------------------------------------------------------------
+IMPLEMENTATION[arm && mp && mpu]:
+
+#include "kmem.h"
+#include "mpu.h"
+
+static void init_ap_cpu_mpu()
+{
+  Mpu::init();
+  Mpu::sync(*Kmem::kdir, Kmem::kdir->used(), true);
+  Cpu::init_sctlr();
 }
 
 //------------------------------------------------------------------------
@@ -120,6 +141,8 @@ void FIASCO_NORETURN boot_ap_cpu() __asm__("BOOT_AP_CPU");
 
 void boot_ap_cpu()
 {
+  init_ap_cpu_mpu();
+
   static Cpu_number last_cpu; // keep track of the last cpu ever appeared
 
   Cpu_number _cpu = Cpu::cpus.find_cpu(Cpu::By_phys_id(Proc::cpu_id()));
@@ -147,17 +170,20 @@ void boot_ap_cpu()
   if (cpu_is_new)
     Per_cpu_data::run_ctors(_cpu);
 
-  Cpu::cpus.cpu(_cpu).init(!cpu_is_new, false);
+  Cpu &cpu = Cpu::cpus.cpu(_cpu);
+  cpu.init(!cpu_is_new, false);
+
   Pic::init_ap(_cpu, !cpu_is_new);
   Thread::init_per_cpu(_cpu, !cpu_is_new);
   Platform_control::init(_cpu);
   Ipi::init(_cpu);
   Timer::init(_cpu);
   Timer::init_system_clock_ap(_cpu);
-  Perf_cnt::init_ap();
+  Perf_cnt::init_ap(cpu);
 
   // create kernel thread
   Kernel_thread *kernel = App_cpu_thread::may_be_create(_cpu, cpu_is_new);
+  kernel->init_mpu_state();
 
   void *sp = kernel->init_stack();
     {

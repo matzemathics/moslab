@@ -14,6 +14,15 @@ EXTENSION class Thread
 public:
   typedef void (*Dbg_extension_entry)(Thread *t, Trap_state *ts);
   static Dbg_extension_entry dbg_extension[64];
+
+  /**
+   * Call a trap handler supposed to enter a debugger.
+   * Use a separate stack (per-CPU dbg_stack).
+   *
+   * \param ts  Trap state.
+   * \retval 0 trap has been consumed by the handler.
+   * \retval -1 trap could not be handled.
+   */
   static int call_nested_trap_handler(Trap_state *ts);
 
   enum Kernel_entry_op
@@ -62,7 +71,7 @@ extern "C" void sys_kdb_ke()
       return;
 
     case Thread::Op_kdebug_text:
-      strncpy(str, (char *)(arg), sizeof(str));
+      strncpy(str, reinterpret_cast<char *>(arg), sizeof(str));
       str[sizeof(str)-1] = 0;
       break;
 
@@ -102,9 +111,9 @@ Thread::call_nested_trap_handler(Trap_state *ts)
 
   Mword dummy1, tmp, ret;
   {
-    register Mword _ts asm("$4") = (Mword)ts;      // $4 == a0
-    register Mword res asm("$2");                  // $2 == v0
-    register Cpu_number _lcpu asm("$5") = log_cpu; // $5 == a1
+    register Mword _ts asm("$4") = reinterpret_cast<Mword>(ts); // $4 == a0
+    register Mword res asm("$2");                               // $2 == v0
+    register Cpu_number _lcpu asm("$5") = log_cpu;              // $5 == a1
 
     asm volatile(
         ".set push                        \n"

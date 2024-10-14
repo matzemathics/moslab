@@ -10,7 +10,14 @@ namespace Vmm {
 
 bool Event_exc::inject(Vm_state *vm)
 {
-  vm->inject_event(Injection_event(ev_num, 3, error_valid, error_val));
+  vm->inject_event(
+    Injection_event(ev_num, 3, error_val != Invalid_error, error_val));
+  return true;
+}
+
+bool Real_mode_exc::inject(Vm_state *vm)
+{
+  vm->inject_event(Injection_event(ev_num, 3, false));
   return true;
 }
 

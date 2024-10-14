@@ -1,0 +1,9 @@
+<map id="L4virtio::Svr::Console::Virtio_con::port_remove" name="L4virtio::Svr::Console::Virtio_con::port_remove">
+<area shape="rect" id="Node000001" title="Send a DEVICE_REMOVE message and update the internal state." alt="" coords="503,41,689,81"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a7dde9e63b6fb498c87b6c1ed9e60198f" title="Callback called on PORT_READY event." alt="" coords="244,5,455,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="489,48,455,43,455,38,490,43"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a5f8d5752548def0f7db1cbade7918d6a" title="Try to resend a stalled control message and update the port and global state accordingly." alt="" coords="260,70,439,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="490,80,439,87,439,82,489,74"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a7df13c65e5b01e4bd8140a1c9b6b3858" title="Receive new control messages and resend stalled ones." alt="" coords="5,77,196,117"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="246,100,196,100,196,95,246,95"/>
+</map>

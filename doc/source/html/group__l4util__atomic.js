@@ -18,7 +18,6 @@ var group__l4util__atomic =
     [ "l4util_cmpxchg", "group__l4util__atomic.html#ga929dc4219f96656545bb658d95b0c7c2", null ],
     [ "l4util_cmpxchg16", "group__l4util__atomic.html#ga2690923e89bf236e2e2008be26522ead", null ],
     [ "l4util_cmpxchg32", "group__l4util__atomic.html#gacb4a5e47fea67cc4c61b488fc374df62", null ],
-    [ "l4util_cmpxchg64", "group__l4util__atomic.html#ga515d734c74512f8fe83143ffdd412017", null ],
     [ "l4util_cmpxchg8", "group__l4util__atomic.html#ga2654b6ee96ea71c241feac5a6ee68fa3", null ],
     [ "l4util_dec16", "group__l4util__atomic.html#ga05a1236598cce89213b5a755601b62b7", null ],
     [ "l4util_dec16_res", "group__l4util__atomic.html#gaa2cbfc2598186e43938e93149c6bc43c", null ],

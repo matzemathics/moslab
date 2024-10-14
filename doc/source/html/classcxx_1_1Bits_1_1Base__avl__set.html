@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -126,13 +129,13 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a6676c1d4d97693ef7ee349328fefb862" id="r_a6676c1d4d97693ef7ee349328fefb862"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862a265ef3ba86548d8bf7ca76f93cde094b">E_noent</a> = 2
-, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862a9a570c997ff2eac13f3bbc5dceb8c2fc">E_exist</a> = 17
-, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862a4de38aa9739ebc166603bc6c11bcefac">E_nomem</a> = 12
-, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862ab5343fd6bbe1a001c65774de917b1f00">E_inval</a> = 22
+<tr class="memitem:ad8991702e21c3db4c282a8ab1090deb8" id="r_ad8991702e21c3db4c282a8ab1090deb8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8a265ef3ba86548d8bf7ca76f93cde094b">E_noent</a> = 2
+, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8a9a570c997ff2eac13f3bbc5dceb8c2fc">E_exist</a> = 17
+, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8a4de38aa9739ebc166603bc6c11bcefac">E_nomem</a> = 12
+, <a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8ab5343fd6bbe1a001c65774de917b1f00">E_inval</a> = 22
  }</td></tr>
-<tr class="memdesc:a6676c1d4d97693ef7ee349328fefb862"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return status constants.  <a href="classcxx_1_1Bits_1_1Base__avl__set.html#a6676c1d4d97693ef7ee349328fefb862">More...</a><br /></td></tr>
-<tr class="separator:a6676c1d4d97693ef7ee349328fefb862"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ad8991702e21c3db4c282a8ab1090deb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return status constants.  <a href="classcxx_1_1Bits_1_1Base__avl__set.html#ad8991702e21c3db4c282a8ab1090deb8">More...</a><br /></td></tr>
+<tr class="separator:ad8991702e21c3db4c282a8ab1090deb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b1494f45a5e96e9387c737be16f99d4" id="r_a6b1494f45a5e96e9387c737be16f99d4"><td class="memItemLeft" align="right" valign="top"><a id="a6b1494f45a5e96e9387c737be16f99d4" name="a6b1494f45a5e96e9387c737be16f99d4"></a>
 typedef ITEM_TYPE&#160;</td><td class="memItemRight" valign="bottom"><b>Item_type</b></td></tr>
 <tr class="memdesc:a6b1494f45a5e96e9387c737be16f99d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type for the items store in the set. <br /></td></tr>
@@ -236,10 +239,10 @@ class cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;</div><
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00131">131</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00133">133</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a6676c1d4d97693ef7ee349328fefb862" name="a6676c1d4d97693ef7ee349328fefb862"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6676c1d4d97693ef7ee349328fefb862">&#9670;&#160;</a></span>anonymous enum</h2>
+<a id="ad8991702e21c3db4c282a8ab1090deb8" name="ad8991702e21c3db4c282a8ab1090deb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8991702e21c3db4c282a8ab1090deb8">&#9670;&#160;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -255,17 +258,17 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Return status constants. </p>
 <p>These constants are compatible with the <a class="el" href="namespaceL4.html" title="L4 low-level kernel interface.">L4</a> error codes, see <a class="el" href="group__l4__error__api.html#gab4c8abc71ffa221a25c1ca5840a354f9" title="L4 error codes.">l4_error_code_t</a>. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6676c1d4d97693ef7ee349328fefb862a265ef3ba86548d8bf7ca76f93cde094b" name="a6676c1d4d97693ef7ee349328fefb862a265ef3ba86548d8bf7ca76f93cde094b"></a>E_noent&#160;</td><td class="fielddoc"><p>Item does not exist. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad8991702e21c3db4c282a8ab1090deb8a265ef3ba86548d8bf7ca76f93cde094b" name="ad8991702e21c3db4c282a8ab1090deb8a265ef3ba86548d8bf7ca76f93cde094b"></a>E_noent&#160;</td><td class="fielddoc"><p>Item does not exist. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a6676c1d4d97693ef7ee349328fefb862a9a570c997ff2eac13f3bbc5dceb8c2fc" name="a6676c1d4d97693ef7ee349328fefb862a9a570c997ff2eac13f3bbc5dceb8c2fc"></a>E_exist&#160;</td><td class="fielddoc"><p>Item exists already. </p>
+<tr><td class="fieldname"><a id="ad8991702e21c3db4c282a8ab1090deb8a9a570c997ff2eac13f3bbc5dceb8c2fc" name="ad8991702e21c3db4c282a8ab1090deb8a9a570c997ff2eac13f3bbc5dceb8c2fc"></a>E_exist&#160;</td><td class="fielddoc"><p>Item exists already. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a6676c1d4d97693ef7ee349328fefb862a4de38aa9739ebc166603bc6c11bcefac" name="a6676c1d4d97693ef7ee349328fefb862a4de38aa9739ebc166603bc6c11bcefac"></a>E_nomem&#160;</td><td class="fielddoc"><p>Memory allocation failed. </p>
+<tr><td class="fieldname"><a id="ad8991702e21c3db4c282a8ab1090deb8a4de38aa9739ebc166603bc6c11bcefac" name="ad8991702e21c3db4c282a8ab1090deb8a4de38aa9739ebc166603bc6c11bcefac"></a>E_nomem&#160;</td><td class="fielddoc"><p>Memory allocation failed. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a6676c1d4d97693ef7ee349328fefb862ab5343fd6bbe1a001c65774de917b1f00" name="a6676c1d4d97693ef7ee349328fefb862ab5343fd6bbe1a001c65774de917b1f00"></a>E_inval&#160;</td><td class="fielddoc"><p>Internal error. </p>
+<tr><td class="fieldname"><a id="ad8991702e21c3db4c282a8ab1090deb8ab5343fd6bbe1a001c65774de917b1f00" name="ad8991702e21c3db4c282a8ab1090deb8ab5343fd6bbe1a001c65774de917b1f00"></a>E_inval&#160;</td><td class="fielddoc"><p>Internal error. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00140">140</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00144">144</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
 </div>
 </div>
@@ -305,7 +308,7 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 </dl>
 <p>Create an empty set (AVL-tree based). </p>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00246">246</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00254">254</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
 </div>
 </div>
@@ -344,9 +347,9 @@ template&lt;typename Item , class Compare , template&lt; typename A &gt; class A
 </dl>
 <p>Creates a deep copy of the set with all its items. </p>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00402">402</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00413">413</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="avl__set_source.html#l00345">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::begin()</a>, <a class="el" href="avl__set_source.html#l00350">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::end()</a>, and <a class="el" href="avl__set_source.html#l00412">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::insert()</a>.</p>
+<p class="reference">References <a class="el" href="avl__set_source.html#l00356">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::begin()</a>, <a class="el" href="avl__set_source.html#l00361">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::end()</a>, and <a class="el" href="avl__set_source.html#l00423">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::insert()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -386,9 +389,9 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Get the mutable forward iterator for the first element of the set. </p>
 <dl class="section return"><dt>Returns</dt><dd>The mutable forward iterator for the first element of the set. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00356">356</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00367">367</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00179">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::begin()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00183">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::begin()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -427,11 +430,11 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Get the constant forward iterator for the first element in the set. </p>
 <dl class="section return"><dt>Returns</dt><dd>Constant forward iterator for the first element in the set. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00345">345</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00356">356</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00179">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::begin()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00183">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::begin()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00402">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::Base_avl_set()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00413">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::Base_avl_set()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -477,9 +480,9 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Get the end marker for the mutable forward iterator. </p>
 <dl class="section return"><dt>Returns</dt><dd>The end marker for mutable forward iterator. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00361">361</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00372">372</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00184">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::end()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00188">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::end()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -518,11 +521,11 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Get the end marker for the constant forward iterator. </p>
 <dl class="section return"><dt>Returns</dt><dd>The end marker for the constant forward iterator. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00350">350</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00361">361</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00184">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::end()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00188">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::end()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00402">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::Base_avl_set()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00413">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::Base_avl_set()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-7-summary" class="dynsummary" style="display:block;">
@@ -574,9 +577,9 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00313">313</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00324">324</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="avl__set_source.html#l00295">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::remove()</a>.</p>
+<p class="reference">References <a class="el" href="avl__set_source.html#l00306">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::remove()</a>.</p>
 <div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-9-summary" class="dynsummary" style="display:block;">
@@ -622,11 +625,11 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A smart pointer to the element found. If no element was found the smart pointer will be invalid. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00324">324</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00335">335</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00276">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::find_node()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00280">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::find_node()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="avl__map_source.html#l00130">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::operator[]()</a>, and <a class="el" href="avl__map_source.html#l00118">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::operator[]()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="avl__map_source.html#l00134">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::operator[]()</a>, and <a class="el" href="avl__map_source.html#l00122">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::operator[]()</a>.</p>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-10-summary" class="dynsummary" style="display:block;">
@@ -672,11 +675,11 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <dl class="section return"><dt>Returns</dt><dd>A pair of iterator (<code>first</code>) and return value (<code>second</code>). <code>second</code> will be 0 if the element was inserted into the set and <code>-#E_exist</code> if the element was already in the set and the set was therefore not updated. In both cases, <code>first</code> contains an iterator that points to the element. <code>second</code> may also be <code>-#E_nomem</code> when memory for the node could not be allocated. <code>first</code> is then invalid.</dd></dl>
 <p>Insert a new item into the set, each item can only be once in the set. </p>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00412">412</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00423">423</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="pair_source.html#l00044">cxx::Pair&lt; First, Second &gt;::first</a>, <a class="el" href="avl__tree_source.html#l00227">cxx::Avl_tree&lt; Node, Get_key, Compare &gt;::insert()</a>, and <a class="el" href="pair_source.html#l00046">cxx::Pair&lt; First, Second &gt;::second</a>.</p>
+<p class="reference">References <a class="el" href="pair_source.html#l00046">cxx::Pair&lt; First, Second &gt;::first</a>, <a class="el" href="avl__tree_source.html#l00231">cxx::Avl_tree&lt; Node, Get_key, Compare &gt;::insert()</a>, and <a class="el" href="pair_source.html#l00048">cxx::Pair&lt; First, Second &gt;::second</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00402">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::Base_avl_set()</a>, and <a class="el" href="avl__map_source.html#l00110">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::insert()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00413">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::Base_avl_set()</a>, and <a class="el" href="avl__map_source.html#l00110">cxx::Avl_map&lt; KEY_TYPE, DATA_TYPE, COMPARE, ALLOC &gt;::insert()</a>.</p>
 <div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-12-summary" class="dynsummary" style="display:block;">
@@ -729,9 +732,9 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Smart pointer to the first node greater or equal to <code>key</code>. Will be invalid if no such element was found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00335">335</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00346">346</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00292">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::lower_bound_node()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00296">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::lower_bound_node()</a>.</p>
 <div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-14-summary" class="dynsummary" style="display:block;">
@@ -770,9 +773,9 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Get the mutable backward iterator for the last element of the set. </p>
 <dl class="section return"><dt>Returns</dt><dd>The mutable backward iterator for the last element of the set. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00378">378</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00389">389</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00201">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::rbegin()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00205">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::rbegin()</a>.</p>
 <div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-15-summary" class="dynsummary" style="display:block;">
@@ -811,9 +814,9 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Get the constant backward iterator for the last element in the set. </p>
 <dl class="section return"><dt>Returns</dt><dd>The constant backward iterator for the last element in the set. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00367">367</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00378">378</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00201">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::rbegin()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00205">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::rbegin()</a>.</p>
 <div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-16-summary" class="dynsummary" style="display:block;">
@@ -865,11 +868,11 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00295">295</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00306">306</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="avl__set_source.html#l00142">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::E_noent</a>, and <a class="el" href="avl__tree_source.html#l00289">cxx::Avl_tree&lt; Node, Get_key, Compare &gt;::remove()</a>.</p>
+<p class="reference">References <a class="el" href="avl__set_source.html#l00146">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::E_noent</a>, and <a class="el" href="avl__tree_source.html#l00293">cxx::Avl_tree&lt; Node, Get_key, Compare &gt;::remove()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00313">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::erase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00324">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::erase()</a>.</p>
 <div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-17-summary" class="dynsummary" style="display:block;">
@@ -915,9 +918,9 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Get the end marker for the mutable backward iterator. </p>
 <dl class="section return"><dt>Returns</dt><dd>The end marker for mutable backward iterator. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00383">383</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00394">394</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00206">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::rend()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00210">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::rend()</a>.</p>
 <div id="dynsection-19" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-19-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-19-summary" class="dynsummary" style="display:block;">
@@ -956,9 +959,9 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <p>Get the end marker for the constant backward iterator. </p>
 <dl class="section return"><dt>Returns</dt><dd>The end marker for the constant backward iterator. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00372">372</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__set_source.html#l00383">383</a> of file <a class="el" href="avl__set_source.html">avl_set</a>.</p>
 
-<p class="reference">References <a class="el" href="bst_8h_source.html#l00206">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::rend()</a>.</p>
+<p class="reference">References <a class="el" href="bst_8h_source.html#l00210">cxx::Bits::Bst&lt; Node, Get_key, Compare &gt;::rend()</a>.</p>
 <div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-20-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-20-summary" class="dynsummary" style="display:block;">
@@ -979,7 +982,7 @@ template&lt;typename ITEM_TYPE , class COMPARE , template&lt; typename A &gt; cl
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecxx.html">cxx</a></li><li class="navelem"><a class="el" href="namespacecxx_1_1Bits.html">Bits</a></li><li class="navelem"><a class="el" href="classcxx_1_1Bits_1_1Base__avl__set.html">Base_avl_set</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

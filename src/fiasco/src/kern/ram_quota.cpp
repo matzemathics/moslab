@@ -2,11 +2,12 @@ INTERFACE:
 
 #include <cstddef>
 #include <types.h>
+#include "global_data.h"
 
 class Ram_quota
 {
 public:
-  static Ram_quota *root;
+  static Global_data<Ram_quota *> root;
   virtual ~Ram_quota() = 0;
 
 private:
@@ -24,7 +25,7 @@ IMPLEMENTATION:
 
 #include "atomic.h"
 
-Ram_quota *Ram_quota::root;
+DEFINE_GLOBAL Global_data<Ram_quota *> Ram_quota::root;
 
 IMPLEMENT inline Ram_quota::~Ram_quota() {}
 
@@ -39,7 +40,7 @@ Ram_quota::check_max(Mword max)
 
 PUBLIC inline NEEDS[<cstddef>]
 void *
-Ram_quota::operator new (size_t, void *b) throw()
+Ram_quota::operator new (size_t, void *b) noexcept
 { return b; }
 
 PUBLIC

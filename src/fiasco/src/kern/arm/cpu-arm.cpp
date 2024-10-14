@@ -78,10 +78,13 @@ private:
   void init_hyp_mode();
   static void early_init_platform();
 
-  static Cpu *_boot_cpu;
+  static Global_data<Cpu *> _boot_cpu;
 
+  // 32 bits: 24..31: Aff3 (0 for ARM32); 16..23: Aff2; 8..15: Aff1; 0..7: Aff0
   Cpu_phys_id _phys_id;
   Ids _cpu_id;
+
+  bool has_hpmn0() const;
 };
 
 // ------------------------------------------------------------------------
@@ -174,7 +177,7 @@ public:
 
 
 // ------------------------------------------------------------------------
-INTERFACE [arm && (arm_v7 || arm_v8)]:
+INTERFACE [arm && (arm_v7 || arm_v8) && mmu]:
 
 EXTENSION class Cpu
 {
@@ -199,6 +202,98 @@ public:
   };
 };
 
+// ------------------------------------------------------------------------
+INTERFACE [arm && (arm_v7 || arm_v8) && mpu]:
+
+EXTENSION class Cpu
+{
+public:
+  enum {
+    Cp15_c1_nmfi            = 1 << 27,
+    Cp15_c1_rao_sbop        = (0xf << 3) | (1 << 16) | (1 << 18) | (1 << 22) | (1 << 23),
+
+    Cp15_c1_cache_bits      = Cp15_c1_cache
+                              | Cp15_c1_insn_cache,
+
+    Cp15_c1_generic         = Cp15_c1_mmu
+                              | (Config::Cp15_c1_use_alignment_check ?  Cp15_c1_alignment_check : 0)
+                              | Cp15_c1_branch_predict
+                              | Cp15_c1_rao_sbop,
+  };
+};
+
+//--------------------------------------------------------
+INTERFACE [arm && cpu_virt]:
+
+EXTENSION class Cpu
+{
+public:
+  enum
+  {
+    // HDCR[31:0] (arm32) is architecturally mapped to MDCR_EL2[31:0] (arm64).
+    Mdcr_hpmn_mask = 0xf,
+    Mdcr_tpmcr     = 1UL << 5,
+    Mdcr_tpm       = 1UL << 6,
+    Mdcr_hpme      = 1UL << 7,
+    Mdcr_tde       = 1UL << 8,
+    Mdcr_tda       = 1UL << 9,
+    Mdcr_tdosa     = 1UL << 10,
+    Mdcr_tdra      = 1UL << 11,
+  };
+};
+
+//--------------------------------------------------------
+INTERFACE [arm && cpu_virt && arm_v7]:
+
+EXTENSION class Cpu
+{
+public:
+  enum Hstr_values
+  {
+    Hstr_non_vm = 0x39f6f, // ALL but crn=13,7 (TPIDxxR, DSB) CP15 traped
+    Hstr_vm = 0x0, // none
+  };
+
+};
+
+//--------------------------------------------------------
+INTERFACE [arm && cpu_virt && arm_v8]:
+
+EXTENSION class Cpu
+{
+public:
+  enum Hstr_values
+  {
+    Hstr_non_vm = 0x9f6f, // ALL but crn=13,7 (TPIDxxR, DSB) CP15 traped
+    Hstr_vm = 0x0, // none
+  };
+};
+
+// ------------------------------------------------------------------------
+INTERFACE [arm && (arm_v7 || arm_v8) && mpu && cpu_virt]:
+
+EXTENSION class Cpu
+{
+public:
+  enum {
+    Hsctlr_res1 = (3 << 28) | (3 << 22) | (1 << 18) | (1 << 16) | (1 << 11)
+                | (3 << 3),
+
+    Hsctlr_cache_bits = (1 << 12) | (1 << 2),
+    Hsctlr_alignment_check = 1 << 1,
+    Hsctlr_cp15ben = 1 << 5,
+    Hsctlr_mpu = 1 << 0,
+    Hsctlr_fi = 1 << 21,
+
+    Hsctlr = (Config::Cp15_c1_use_alignment_check ?  Hsctlr_alignment_check : 0)
+           | (Config::Cache_enabled ? Hsctlr_cache_bits : 0)
+           | (Config::Fast_interrupts ? Hsctlr_fi : 0)
+           | Hsctlr_cp15ben
+           | Hsctlr_mpu
+           | Hsctlr_res1,
+  };
+};
+
 // -------------------------------------------------------------------------------
 INTERFACE [arm]:
 
@@ -214,6 +309,13 @@ IMPLEMENTATION [arm]:
 IMPLEMENT_DEFAULT static inline
 void
 Cpu::bsp_init(bool) {}
+
+IMPLEMENT_DEFAULT inline
+bool
+Cpu::has_hpmn0() const
+{
+  return false;
+}
 
 IMPLEMENTATION [arm && arm_v6]: // -----------------------------------------
 
@@ -245,7 +347,7 @@ static void modify_cpuectl(Unsigned64 mask, Unsigned64 value)
 {
   Mword ectlh, ectll;
   asm volatile ("mrrc p15, 1, %0, %1, c15" : "=r"(ectll), "=r"(ectlh));
-  Unsigned64 ectl = (((Unsigned64)ectlh) << 32) | ectll;
+  Unsigned64 ectl = (Unsigned64{ectlh} << 32) | ectll;
   if ((ectl & mask) != value)
     asm volatile ("mcrr p15, 1, %0, %1, c15" : :
                   "r"((ectll & mask) | value),
@@ -261,7 +363,7 @@ struct Midr_match
   void (*func)(Unsigned64 mask, Unsigned64 value);
 };
 
-static Midr_match _enable_smp[] =
+static Midr_match constexpr _enable_smp[] =
 {
   { 0xff0ffff0, 0x410fc050, 0x41, 0x41, &modify_actl },   // Cortex-A5
   { 0xff0ffff0, 0x410fc070, 0x40, 0x40, &modify_actl },   // Cortex-A7
@@ -368,7 +470,7 @@ IMPLEMENTATION [arm]:
 #include "ram_quota.h"
 
 DEFINE_PER_CPU_P(0) Per_cpu<Cpu> Cpu::cpus(Per_cpu_data::Cpu_num);
-Cpu *Cpu::_boot_cpu;
+DEFINE_GLOBAL Global_data<Cpu *> Cpu::_boot_cpu;
 
 IMPLEMENT_DEFAULT inline void Cpu::early_init_platform() {}
 
@@ -456,21 +558,6 @@ Cpu::init_hyp_mode()
 {}
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && !arm_lpae]:
-
-PUBLIC static inline unsigned Cpu::phys_bits() { return 32; }
-
-//---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_lpae && !arm_pt_48]:
-
-PUBLIC static inline unsigned Cpu::phys_bits() { return 40; }
-
-//---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_lpae && arm_pt_48]:
-
-PUBLIC static inline unsigned Cpu::phys_bits() { return 48; }
-
-//---------------------------------------------------------------------------
 IMPLEMENTATION [arm && !arm_v6plus]:
 
 IMPLEMENT
@@ -549,6 +636,18 @@ Cpu::init_errata_workarounds()
           if (rev < 0x30)
             set_c15_c0_1(1 << 11);
         }
+
+      if (part == 0xd13)  // Cortex R52
+        {
+          if (Config::Fast_interrupts)
+            {
+              // Erratum 2918152 (LDM data corruption if HSCTLR.FI set)
+              Unsigned64 v;
+              asm("mrrc p15, 0, %Q0, %R0, c15" : "=r"(v)); // CPUACTLR
+              v |= Unsigned64{1} << 45; // OOODIVDIS
+              asm("mcrr p15, 0, %Q0, %R0, c15" : : "r"(v)); // CPUACTLR
+            }
+        }
     }
 }
 
@@ -584,7 +683,7 @@ Cpu::init_tz()
     panic("Non-maskable FIQs (NMFI) detected, cannot use TZ mode");
 
   // set monitor vector base address
-  assert(!((Mword)&monitor_vector_base & 31));
+  assert(!(reinterpret_cast<Mword>(&monitor_vector_base) & 31));
   asm volatile ("mcr p15, 0, %0, c12, c0, 1" : : "r" (&monitor_vector_base));
 
   Mword dummy;
@@ -636,26 +735,44 @@ Cpu::tz_switch_to_ns(Mword *nonsecure_state)
 {
   extern char go_nonsecure[];
 
-  register Mword r0 asm("r0") = (Mword)nonsecure_state;
-  register Mword r1 asm("r1") = (Mword)go_nonsecure;
+  register Mword r0 asm("r0") = reinterpret_cast<Mword>(nonsecure_state);
+  register Mword r1 asm("r1") = reinterpret_cast<Mword>(go_nonsecure);
 
-  asm volatile("push   {r11}      \n"
+  asm volatile(
+#ifdef __thumb__
+               "push   {r7}       \n"
+#else
+               "push   {r11}      \n"
+#endif
                "stmdb sp!, {r0}   \n"
                "mov    r2, sp     \n" // copy sp_svc to sp_mon
                "cps    #0x16      \n" // switch to monitor mode
                "mov    sp, r2     \n"
-               "adr    r3, 1f     \n" // save return eip
                "mrs    r4, cpsr   \n" // save return psr
-               "mov    pc, r1     \n" // go nonsecure!
+#ifdef __thumb__
+               "adr    r3, (1f + 1)\n" // save return eip
+#else
+               "adr    r3, 1f     \n" // save return eip
+#endif
+               "bx     r1         \n" // go nonsecure!
                "1:                \n"
                "mov    r0, sp     \n" // copy sp_mon to sp_svc
                "cps    #0x13      \n" // switch to svc mode
                "mov    sp, r0     \n"
                "ldmia  sp!, {r0}  \n"
+#ifdef __thumb__
+               "pop    {r7}       \n"
+#else
                "pop    {r11}      \n"
+#endif
                : : "r" (r0), "r" (r1)
-               : "r2", "r3", "r4", "r5", "r6", "r7",
-                 "r8", "r9", "r10", "r12", "r14", "memory");
+               : "r2", "r3", "r4", "r5", "r6", "r8", "r9", "r10", "r12", "r14",
+#ifdef __thumb__
+                 "r11",
+#else
+                 "r7",
+#endif
+                 "memory");
 }
 
 PUBLIC static inline
@@ -675,47 +792,6 @@ Cpu::tz_scr(Mword val)
 }
 
 // ------------------------------------------------------------------------
-IMPLEMENTATION [!debug]:
-
-PUBLIC inline
-void
-Cpu::print_infos() const
-{}
-
-// ------------------------------------------------------------------------
-IMPLEMENTATION [debug && arm_v6plus]:
-
-PRIVATE
-void
-Cpu::id_print_infos() const
-{
-  printf("ID_PFR[01]:  %08lx %08lx", _cpu_id._pfr[0], _cpu_id._pfr[1]);
-  printf(" ID_[DA]FR0: %08lx %08lx\n", _cpu_id._dfr0, _cpu_id._afr0);
-  printf("ID_MMFR[04]: %08lx %08lx %08lx %08lx\n",
-         _cpu_id._mmfr[0], _cpu_id._mmfr[1], _cpu_id._mmfr[2], _cpu_id._mmfr[3]);
-}
-
-// ------------------------------------------------------------------------
-IMPLEMENTATION [debug && !arm_v6plus]:
-
-PRIVATE
-void
-Cpu::id_print_infos() const
-{
-}
-
-// ------------------------------------------------------------------------
-IMPLEMENTATION [debug]:
-
-PUBLIC
-void
-Cpu::print_infos() const
-{
-  printf("Cache config: %s\n", Config::Cache_enabled ? "ON" : "OFF");
-  id_print_infos();
-}
-
-// ------------------------------------------------------------------------
 IMPLEMENTATION [bit64]:
 
 IMPLEMENT_OVERRIDE inline
@@ -724,4 +800,57 @@ Cpu::is_canonical_address(Address addr)
 {
   // cf. ARMv8-A Address Translation
   return addr >= 0xffff000000000000UL || addr <= 0x0000ffffffffffffUL;
+}
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [arm && cpu_virt]:
+
+#include "feature.h"
+
+KIP_KERNEL_FEATURE("arm:hyp");
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [!debug]:
+
+PUBLIC inline
+void
+Cpu::print_infos() const
+{}
+
+PUBLIC static inline
+void
+Cpu::print_boot_infos()
+{}
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [debug && arm_v6plus]:
+
+PUBLIC
+void
+Cpu::print_infos() const
+{
+  int n = cxx::int_value<Cpu_number>(current_cpu());
+  printf("CPU%u: ID_PFR[01]:  %08lx %08lx ID_[DA]FR0: %08lx %08lx\n"
+         "%*s ID_MMFR[04]: %08lx %08lx %08lx %08lx\n",
+         n, _cpu_id._pfr[0], _cpu_id._pfr[1], _cpu_id._dfr0, _cpu_id._afr0,
+         n > 9 ? 6 : 5, "",
+         _cpu_id._mmfr[0], _cpu_id._mmfr[1], _cpu_id._mmfr[2], _cpu_id._mmfr[3]);
+}
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [debug && !arm_v6plus]:
+
+PRIVATE
+void
+Cpu::print_infos() const
+{}
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [debug]:
+
+PUBLIC static
+void
+Cpu::print_boot_infos()
+{
+  printf("Cache config: %s\n", Config::Cache_enabled ? "ON" : "OFF");
 }

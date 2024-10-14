@@ -26,6 +26,7 @@
 #pragma once
 
 #include <l4/re/util/item_alloc>
+#include <l4/sys/assert.h>
 #include <l4/sys/capability>
 #include <l4/sys/task.h>
 
@@ -42,8 +43,14 @@ private:
   Item_alloc_base _items;
 
 public:
+  template <unsigned COUNT>
+  struct Storage
+  {
+    typename Bitmap_base::Word<COUNT>::Type _bits[Bitmap_base::Word<COUNT>::Size];
+  };
+
   enum State { Free = 0, Allocated, Unknown };
-  Cap_alloc_base(long max, void *mem, long bias = 0)
+  Cap_alloc_base(long max, void *mem, long bias = 0, void * = 0)
     noexcept : _bias(bias), _items(max, mem) {}
 
   L4::Cap<void> alloc() noexcept
@@ -72,6 +79,9 @@ public:
       return Unknown;
 
     idx -= _bias;
+    if (idx >= _items.size())
+      return Unknown;
+
     return _items.is_allocated(idx) ? Allocated : Free;
   }
 
@@ -87,18 +97,22 @@ public:
       return;
 
     idx -= _bias;
+    if (idx >= _items.size())
+      return;
 
-    _items.free(idx);
+    l4_assert(_items.is_allocated(idx));
 
     if (l4_is_valid_cap(task))
       l4_task_unmap(task, cap.fpage(), unmap_flags | 2);
+
+    _items.free(idx);
   }
 
   // since we have no counters assume counter always > 0
   void take(L4::Cap<void>) noexcept {}
-  bool release(L4::Cap<void>, l4_cap_idx_t task = L4_INVALID_CAP,
-               unsigned unmap_flags = L4_FP_ALL_SPACES) noexcept
-  { (void)task; (void)unmap_flags; return false; }
+  bool release(L4::Cap<void>, l4_cap_idx_t /*task*/ = L4_INVALID_CAP,
+               unsigned /*unmap_flags*/ = L4_FP_ALL_SPACES) noexcept
+  { return false; }
 
   long last() noexcept
   {

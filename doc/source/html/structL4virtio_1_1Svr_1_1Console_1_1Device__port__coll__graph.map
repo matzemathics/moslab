@@ -1,0 +1,29 @@
+<map id="L4virtio::Svr::Console::Device_port" name="L4virtio::Svr::Console::Device_port">
+<area shape="rect" id="Node000001" title="A console port with associated read/write state." alt="" coords="415,1779,567,1879"/>
+<area shape="rect" id="Node000002" href="$structL4virtio_1_1Svr_1_1Console_1_1Port.html" title="Representation of a Virtio console port." alt="" coords="327,1536,479,1716"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="450,1728,471,1777,467,1779,445,1730"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Virtqueue.html" title="Virtqueue implementation for the device." alt="" coords="321,1233,484,1459"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="405,1459,405,1519,400,1519,400,1459"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Virtqueue.html" title="Low&#45;level Virtqueue." alt="" coords="326,679,479,1184"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="405,1198,405,1233,400,1233,400,1198"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Virtqueue_1_1Desc.html" title="Descriptor in the descriptor table." alt="" coords="177,516,311,616"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="268,615,322,739,317,741,263,617"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Ptr.html" title=" " alt="" coords="5,261,152,386"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="121,385,166,452,201,501,197,504,162,455,117,388"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Ptr.html" title="Pointer used in virtio descriptors." alt="" coords="15,5,142,131"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="81,145,81,260,76,260,76,145"/>
+<area shape="rect" id="Node000008" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html" title="Type for descriptor flags." alt="" coords="177,193,311,453"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="247,453,247,500,241,500,241,453"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Virtqueue_1_1Avail.html" title="Type of available ring, this is read&#45;only for the host." alt="" coords="335,516,470,616"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="405,616,405,662,400,662,400,616"/>
+<area shape="rect" id="Node000010" href="$structL4virtio_1_1Virtqueue_1_1Avail_1_1Flags.html" title="Flags of the available ring." alt="" coords="335,253,470,393"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="405,393,405,500,400,500,400,393"/>
+<area shape="rect" id="Node000011" href="$classL4virtio_1_1Virtqueue_1_1Used.html" title="Used ring." alt="" coords="494,526,629,606"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="547,607,489,740,484,738,542,605"/>
+<area shape="rect" id="Node000012" href="$structL4virtio_1_1Virtqueue_1_1Used_1_1Flags.html" title="flags for the used ring." alt="" coords="494,253,629,393"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="564,393,564,510,559,510,559,393"/>
+<area shape="rect" id="Node000013" href="$structL4virtio_1_1Virtqueue_1_1Used__elem.html" title="Type of an element of the used ring." alt="" coords="653,273,787,373"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="694,375,644,455,602,514,598,511,639,452,689,372"/>
+<area shape="rect" id="Node000014" href="$classL4virtio_1_1Svr_1_1Request__processor.html" title="Encapsulate the state for processing a VIRTIO request." alt="" coords="503,1546,657,1706"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="547,1707,522,1765,517,1762,542,1705"/>
+</map>

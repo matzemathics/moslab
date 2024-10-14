@@ -26,8 +26,8 @@ public:
   {
     if (l4input_init(0xff, 0) == 0)
       {
-	_core = core;
-	core->add_input_source(this);
+        _core = core;
+        core->add_input_source(this);
       }
   }
 
@@ -37,9 +37,9 @@ public:
     L4Re::Event_buffer::Event _evb[N];
     while (l4input_ispending())
       {
-	L4Re::Event_buffer::Event *e = _evb;
-	for (int max = l4input_flush(_evb, N); max; --max, ++e)
-	  post_event(e);
+        L4Re::Event_buffer::Event *e = _evb;
+        for (int max = l4input_flush(_evb, N); max; --max, ++e)
+          post_event(e);
       }
   }
 

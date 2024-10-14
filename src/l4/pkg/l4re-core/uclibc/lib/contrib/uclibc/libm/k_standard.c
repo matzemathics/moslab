@@ -1,3 +1,4 @@
+/* @(#)k_standard.c 5.1 93/09/24 */
 /*
  * ====================================================
  * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
@@ -9,11 +10,15 @@
  * ====================================================
  */
 
+#if defined(LIBM_SCCS) && !defined(lint)
+static char rcsid[] = "$NetBSD: k_standard.c,v 1.6 1995/05/10 20:46:35 jtc Exp $";
+#endif
+
 #include <math.h>
 #include "math_private.h"
 #include <errno.h>
 
-#ifndef _IEEE_LIBM
+#include <assert.h>
 
 #ifndef _USE_WRITE
 #include <stdio.h>			/* fputs(), stderr */
@@ -24,7 +29,14 @@
 #undef fflush
 #endif	/* !defined(_USE_WRITE) */
 
+/* XXX gcc versions until now don't delay the 0.0/0.0 division until
+   runtime but produce NaN at compile time.  This is wrong since the
+   exceptions are not set correctly.  */
+#if 0
 static const double zero = 0.0;	/* used as const */
+#else
+static double zero = 0.0;	/* used as const */
+#endif
 
 /*
  * Standard conformance (non-IEEE) on exception cases.
@@ -55,8 +67,8 @@ static const double zero = 0.0;	/* used as const */
  *	24-- pow(neg,non-integral)
  *	25-- sinh(finite) overflow
  *	26-- sqrt(negative)
- *      27-- fmod(x,0)
- *      28-- remainder(x,0)
+ *	27-- fmod(x,0)
+ *	28-- remainder(x,0)
  *	29-- acosh(x<1)
  *	30-- atanh(|x|>1)
  *	31-- atanh(|x|=1)
@@ -68,12 +80,22 @@ static const double zero = 0.0;	/* used as const */
  *	37-- y1(x>X_TLOSS)
  *	38-- jn(|x|>X_TLOSS, n)
  *	39-- yn(x>X_TLOSS, n)
- *	40-- gamma(finite) overflow
- *	41-- gamma(-integer)
+ *	40-- tgamma(finite) overflow
+ *	41-- tgamma(-integer)
  *	42-- pow(NaN,0.0)
+ *	43-- +0**neg
+ *	44-- exp2 overflow	done
+ *	45-- exp2 underflow	done
+ *	46-- exp10 overflow
+ *	47-- exp10 underflow
+ *	48-- log2(0)
+ *	49-- log2(x<0)
+ *	50-- tgamma(+-0)
  */
 
-double __kernel_standard(double x, double y, int type)
+
+double
+__kernel_standard(double x, double y, int type)
 {
 	struct exception exc;
 #ifndef HUGE_VAL	/* this is the only routine that uses HUGE_VAL */
@@ -83,6 +105,11 @@ double __kernel_standard(double x, double y, int type)
 	SET_HIGH_WORD(inf,0x7ff00000);	/* set inf to infinite */
 #endif
 
+	/* The SVID struct exception uses a field "char *name;".  */
+#define CSTR(func) ((char *) (type < 100				\
+			      ? func					\
+			      : (type < 200 ? func "f" : func "l")))
+
 #ifdef _USE_WRITE
 	(void) fflush(stdout);
 #endif
@@ -91,339 +118,369 @@ double __kernel_standard(double x, double y, int type)
 	switch(type) {
 	    case 1:
 	    case 101:
+	    case 201:
 		/* acos(|x|>1) */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "acos" : "acosf";
-		exc.retval = zero;
+		exc.name = CSTR ("acos");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = HUGE;
+		else
+		  exc.retval = NAN;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if(_LIB_VERSION == _SVID_) {
 		    (void) WRITE2("acos: DOMAIN error\n", 19);
 		  }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 2:
 	    case 102:
+	    case 202:
 		/* asin(|x|>1) */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "asin" : "asinf";
-		exc.retval = zero;
+		exc.name = CSTR ("asin");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = HUGE;
+		else
+		  exc.retval = NAN;
 		if(_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if(_LIB_VERSION == _SVID_) {
-		    	(void) WRITE2("asin: DOMAIN error\n", 19);
+			(void) WRITE2("asin: DOMAIN error\n", 19);
 		  }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 3:
 	    case 103:
+	    case 203:
 		/* atan2(+-0,+-0) */
 		exc.arg1 = y;
 		exc.arg2 = x;
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "atan2" : "atan2f";
-		exc.retval = zero;
+		exc.name = CSTR ("atan2");
+		assert (_LIB_VERSION == _SVID_);
+		exc.retval = HUGE;
 		if(_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if(_LIB_VERSION == _SVID_) {
 			(void) WRITE2("atan2: DOMAIN error\n", 20);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 4:
 	    case 104:
+	    case 204:
 		/* hypot(finite,finite) overflow */
 		exc.type = OVERFLOW;
-		exc.name = type < 100 ? "hypot" : "hypotf";
+		exc.name = CSTR ("hypot");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = HUGE;
 		else
 		  exc.retval = HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 5:
 	    case 105:
+	    case 205:
 		/* cosh(finite) overflow */
 		exc.type = OVERFLOW;
-		exc.name = type < 100 ? "cosh" : "coshf";
+		exc.name = CSTR ("cosh");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = HUGE;
 		else
 		  exc.retval = HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 6:
 	    case 106:
+	    case 206:
 		/* exp(finite) overflow */
 		exc.type = OVERFLOW;
-		exc.name = type < 100 ? "exp" : "expf";
+		exc.name = CSTR ("exp");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = HUGE;
 		else
 		  exc.retval = HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 7:
 	    case 107:
+	    case 207:
 		/* exp(finite) underflow */
 		exc.type = UNDERFLOW;
-		exc.name = type < 100 ? "exp" : "expf";
+		exc.name = CSTR ("exp");
 		exc.retval = zero;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 8:
 	    case 108:
+	    case 208:
 		/* y0(0) = -inf */
 		exc.type = DOMAIN;	/* should be SING for IEEE */
-		exc.name = type < 100 ? "y0" : "y0f";
+		exc.name = CSTR ("y0");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
 		  exc.retval = -HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("y0: DOMAIN error\n", 17);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 9:
 	    case 109:
+	    case 209:
 		/* y0(x<0) = NaN */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "y0" : "y0f";
+		exc.name = CSTR ("y0");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = NAN;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("y0: DOMAIN error\n", 17);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 10:
 	    case 110:
+	    case 210:
 		/* y1(0) = -inf */
 		exc.type = DOMAIN;	/* should be SING for IEEE */
-		exc.name = type < 100 ? "y1" : "y1f";
+		exc.name = CSTR ("y1");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
 		  exc.retval = -HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("y1: DOMAIN error\n", 17);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 11:
 	    case 111:
+	    case 211:
 		/* y1(x<0) = NaN */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "y1" : "y1f";
+		exc.name = CSTR ("y1");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = NAN;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("y1: DOMAIN error\n", 17);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 12:
 	    case 112:
+	    case 212:
 		/* yn(n,0) = -inf */
 		exc.type = DOMAIN;	/* should be SING for IEEE */
-		exc.name = type < 100 ? "yn" : "ynf";
+		exc.name = CSTR ("yn");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = ((x < 0 && ((int) x & 1) != 0)
+				? HUGE_VAL
+				: -HUGE_VAL);
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("yn: DOMAIN error\n", 17);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 13:
 	    case 113:
+	    case 213:
 		/* yn(x<0) = NaN */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "yn" : "ynf";
+		exc.name = CSTR ("yn");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = NAN;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("yn: DOMAIN error\n", 17);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 14:
 	    case 114:
+	    case 214:
 		/* lgamma(finite) overflow */
 		exc.type = OVERFLOW;
-		exc.name = type < 100 ? "lgamma" : "lgammaf";
-                if (_LIB_VERSION == _SVID_)
-                  exc.retval = HUGE;
-                else
-                  exc.retval = HUGE_VAL;
-                if (_LIB_VERSION == _POSIX_)
-			errno = ERANGE;
-                else if (!matherr(&exc)) {
-                        errno = ERANGE;
+		exc.name = CSTR ("lgamma");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = HUGE;
+		else
+		  exc.retval = HUGE_VAL;
+		if (_LIB_VERSION == _POSIX_)
+			__set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 15:
 	    case 115:
+	    case 215:
 		/* lgamma(-integer) or lgamma(0) */
 		exc.type = SING;
-		exc.name = type < 100 ? "lgamma" : "lgammaf";
-                if (_LIB_VERSION == _SVID_)
-                  exc.retval = HUGE;
-                else
-                  exc.retval = HUGE_VAL;
+		exc.name = CSTR ("lgamma");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = HUGE;
+		else
+		  exc.retval = HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("lgamma: SING error\n", 19);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 16:
 	    case 116:
+	    case 216:
 		/* log(0) */
 		exc.type = SING;
-		exc.name = type < 100 ? "log" : "logf";
+		exc.name = CSTR ("log");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
 		  exc.retval = -HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("log: SING error\n", 16);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 17:
 	    case 117:
+	    case 217:
 		/* log(x<0) */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "log" : "logf";
+		exc.name = CSTR ("log");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = NAN;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("log: DOMAIN error\n", 18);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 18:
 	    case 118:
+	    case 218:
 		/* log10(0) */
 		exc.type = SING;
-		exc.name = type < 100 ? "log10" : "log10f";
+		exc.name = CSTR ("log10");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
 		  exc.retval = -HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("log10: SING error\n", 18);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 19:
 	    case 119:
+	    case 219:
 		/* log10(x<0) */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "log10" : "log10f";
+		exc.name = CSTR ("log10");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = NAN;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("log10: DOMAIN error\n", 20);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 20:
 	    case 120:
+	    case 220:
 		/* pow(0.0,0.0) */
 		/* error only if _LIB_VERSION == _SVID_ */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "pow" : "powf";
+		exc.name = CSTR ("pow");
 		exc.retval = zero;
 		if (_LIB_VERSION != _SVID_) exc.retval = 1.0;
 		else if (!matherr(&exc)) {
 			(void) WRITE2("pow(0,0): DOMAIN error\n", 23);
-			errno = EDOM;
+			__set_errno (EDOM);
 		}
 		break;
 	    case 21:
 	    case 121:
+	    case 221:
 		/* pow(x,y) overflow */
 		exc.type = OVERFLOW;
-		exc.name = type < 100 ? "pow" : "powf";
+		exc.name = CSTR ("pow");
 		if (_LIB_VERSION == _SVID_) {
 		  exc.retval = HUGE;
 		  y *= 0.5;
@@ -434,343 +491,483 @@ double __kernel_standard(double x, double y, int type)
 		  if(x<zero&&rint(y)!=y) exc.retval = -HUGE_VAL;
 		}
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 22:
 	    case 122:
+	    case 222:
 		/* pow(x,y) underflow */
 		exc.type = UNDERFLOW;
-		exc.name = type < 100 ? "pow" : "powf";
+		exc.name = CSTR ("pow");
 		exc.retval =  zero;
+		y *= 0.5;
+		if (x < zero && rint (y) != y)
+		  exc.retval = -zero;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 23:
 	    case 123:
-		/* 0**neg */
+	    case 223:
+		/* -0**neg */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "pow" : "powf";
+		exc.name = CSTR ("pow");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = zero;
 		else
 		  exc.retval = -HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("pow(0,neg): DOMAIN error\n", 25);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
+		}
+		break;
+	    case 43:
+	    case 143:
+	    case 243:
+		/* +0**neg */
+		exc.type = DOMAIN;
+		exc.name = CSTR ("pow");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = zero;
+		else
+		  exc.retval = HUGE_VAL;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_) {
+			(void) WRITE2("pow(0,neg): DOMAIN error\n", 25);
+		      }
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 24:
 	    case 124:
+	    case 224:
 		/* neg**non-integral */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "pow" : "powf";
+		exc.name = CSTR ("pow");
 		if (_LIB_VERSION == _SVID_)
 		    exc.retval = zero;
 		else
 		    exc.retval = zero/zero;	/* X/Open allow NaN */
 		if (_LIB_VERSION == _POSIX_)
-		   errno = EDOM;
+		   __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("neg**non-integral: DOMAIN error\n", 32);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 25:
 	    case 125:
+	    case 225:
 		/* sinh(finite) overflow */
 		exc.type = OVERFLOW;
-		exc.name = type < 100 ? "sinh" : "sinhf";
+		exc.name = CSTR ("sinh");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = ( (x>zero) ? HUGE : -HUGE);
 		else
 		  exc.retval = ( (x>zero) ? HUGE_VAL : -HUGE_VAL);
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 26:
 	    case 126:
+	    case 226:
 		/* sqrt(x<0) */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "sqrt" : "sqrtf";
+		exc.name = CSTR ("sqrt");
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = zero;
 		else
 		  exc.retval = zero/zero;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
 			(void) WRITE2("sqrt: DOMAIN error\n", 19);
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
-            case 27:
+	    case 27:
 	    case 127:
-                /* fmod(x,0) */
-                exc.type = DOMAIN;
-                exc.name = type < 100 ? "fmod" : "fmodf";
-                if (_LIB_VERSION == _SVID_)
-                    exc.retval = x;
+	    case 227:
+		/* fmod(x,0) */
+		exc.type = DOMAIN;
+		exc.name = CSTR ("fmod");
+		if (_LIB_VERSION == _SVID_)
+		    exc.retval = x;
 		else
 		    exc.retval = zero/zero;
-                if (_LIB_VERSION == _POSIX_)
-                  errno = EDOM;
-                else if (!matherr(&exc)) {
-                  if (_LIB_VERSION == _SVID_) {
-                    (void) WRITE2("fmod:  DOMAIN error\n", 20);
-                  }
-                  errno = EDOM;
-                }
-                break;
-            case 28:
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (EDOM);
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_) {
+		    (void) WRITE2("fmod:  DOMAIN error\n", 20);
+		  }
+		  __set_errno (EDOM);
+		}
+		break;
+	    case 28:
 	    case 128:
-                /* remainder(x,0) */
-                exc.type = DOMAIN;
-                exc.name = type < 100 ? "remainder" : "remainderf";
-                exc.retval = zero/zero;
-                if (_LIB_VERSION == _POSIX_)
-                  errno = EDOM;
-                else if (!matherr(&exc)) {
-                  if (_LIB_VERSION == _SVID_) {
-                    (void) WRITE2("remainder: DOMAIN error\n", 24);
-                  }
-                  errno = EDOM;
-                }
-                break;
-            case 29:
+	    case 228:
+		/* remainder(x,0) */
+		exc.type = DOMAIN;
+		exc.name = CSTR ("remainder");
+		exc.retval = zero/zero;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (EDOM);
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_) {
+		    (void) WRITE2("remainder: DOMAIN error\n", 24);
+		  }
+		  __set_errno (EDOM);
+		}
+		break;
+	    case 29:
 	    case 129:
-                /* acosh(x<1) */
-                exc.type = DOMAIN;
-                exc.name = type < 100 ? "acosh" : "acoshf";
-                exc.retval = zero/zero;
-                if (_LIB_VERSION == _POSIX_)
-                  errno = EDOM;
-                else if (!matherr(&exc)) {
-                  if (_LIB_VERSION == _SVID_) {
-                    (void) WRITE2("acosh: DOMAIN error\n", 20);
-                  }
-                  errno = EDOM;
-                }
-                break;
-            case 30:
+	    case 229:
+		/* acosh(x<1) */
+		exc.type = DOMAIN;
+		exc.name = CSTR ("acosh");
+		exc.retval = zero/zero;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (EDOM);
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_) {
+		    (void) WRITE2("acosh: DOMAIN error\n", 20);
+		  }
+		  __set_errno (EDOM);
+		}
+		break;
+	    case 30:
 	    case 130:
-                /* atanh(|x|>1) */
-                exc.type = DOMAIN;
-                exc.name = type < 100 ? "atanh" : "atanhf";
-                exc.retval = zero/zero;
-                if (_LIB_VERSION == _POSIX_)
-                  errno = EDOM;
-                else if (!matherr(&exc)) {
-                  if (_LIB_VERSION == _SVID_) {
-                    (void) WRITE2("atanh: DOMAIN error\n", 20);
-                  }
-                  errno = EDOM;
-                }
-                break;
-            case 31:
+	    case 230:
+		/* atanh(|x|>1) */
+		exc.type = DOMAIN;
+		exc.name = CSTR ("atanh");
+		exc.retval = zero/zero;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (EDOM);
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_) {
+		    (void) WRITE2("atanh: DOMAIN error\n", 20);
+		  }
+		  __set_errno (EDOM);
+		}
+		break;
+	    case 31:
 	    case 131:
-                /* atanh(|x|=1) */
-                exc.type = SING;
-                exc.name = type < 100 ? "atanh" : "atanhf";
+	    case 231:
+		/* atanh(|x|=1) */
+		exc.type = SING;
+		exc.name = CSTR ("atanh");
 		exc.retval = x/zero;	/* sign(x)*inf */
-                if (_LIB_VERSION == _POSIX_)
-                  errno = EDOM;
-                else if (!matherr(&exc)) {
-                  if (_LIB_VERSION == _SVID_) {
-                    (void) WRITE2("atanh: SING error\n", 18);
-                  }
-                  errno = EDOM;
-                }
-                break;
-# ifdef __UCLIBC_SUSV3_LEGACY__
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_) {
+		    (void) WRITE2("atanh: SING error\n", 18);
+		  }
+		  __set_errno (EDOM);
+		}
+		break;
 	    case 32:
 	    case 132:
+	    case 232:
 		/* scalb overflow; SVID also returns +-HUGE_VAL */
 		exc.type = OVERFLOW;
-		exc.name = type < 100 ? "scalb" : "scalbf";
+		exc.name = CSTR ("scalb");
 		exc.retval = x > zero ? HUGE_VAL : -HUGE_VAL;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
 	    case 33:
 	    case 133:
+	    case 233:
 		/* scalb underflow */
 		exc.type = UNDERFLOW;
-		exc.name = type < 100 ? "scalb" : "scalbf";
+		exc.name = CSTR ("scalb");
 		exc.retval = copysign(zero,x);
 		if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
+		  __set_errno (ERANGE);
 		else if (!matherr(&exc)) {
-			errno = ERANGE;
+			__set_errno (ERANGE);
 		}
 		break;
-# endif
 	    case 34:
 	    case 134:
+	    case 234:
 		/* j0(|x|>X_TLOSS) */
-                exc.type = TLOSS;
-                exc.name = type < 100 ? "j0" : "j0f";
-                exc.retval = zero;
-                if (_LIB_VERSION == _POSIX_)
-                        errno = ERANGE;
-                else if (!matherr(&exc)) {
-                        if (_LIB_VERSION == _SVID_) {
-                                (void) WRITE2(exc.name, 2);
-                                (void) WRITE2(": TLOSS error\n", 14);
-                        }
-                        errno = ERANGE;
-                }
+		exc.type = TLOSS;
+		exc.name = CSTR ("j0");
+		exc.retval = zero;
+		if (_LIB_VERSION == _POSIX_)
+			__set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			if (_LIB_VERSION == _SVID_) {
+				(void) WRITE2(exc.name, 2);
+				(void) WRITE2(": TLOSS error\n", 14);
+			}
+			__set_errno (ERANGE);
+		}
 		break;
 	    case 35:
 	    case 135:
+	    case 235:
 		/* y0(x>X_TLOSS) */
-                exc.type = TLOSS;
-                exc.name = type < 100 ? "y0" : "y0f";
-                exc.retval = zero;
-                if (_LIB_VERSION == _POSIX_)
-                        errno = ERANGE;
-                else if (!matherr(&exc)) {
-                        if (_LIB_VERSION == _SVID_) {
-                                (void) WRITE2(exc.name, 2);
-                                (void) WRITE2(": TLOSS error\n", 14);
-                        }
-                        errno = ERANGE;
-                }
+		exc.type = TLOSS;
+		exc.name = CSTR ("y0");
+		exc.retval = zero;
+		if (_LIB_VERSION == _POSIX_)
+			__set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			if (_LIB_VERSION == _SVID_) {
+				(void) WRITE2(exc.name, 2);
+				(void) WRITE2(": TLOSS error\n", 14);
+			}
+			__set_errno (ERANGE);
+		}
 		break;
 	    case 36:
 	    case 136:
+	    case 236:
 		/* j1(|x|>X_TLOSS) */
-                exc.type = TLOSS;
-                exc.name = type < 100 ? "j1" : "j1f";
-                exc.retval = zero;
-                if (_LIB_VERSION == _POSIX_)
-                        errno = ERANGE;
-                else if (!matherr(&exc)) {
-                        if (_LIB_VERSION == _SVID_) {
-                                (void) WRITE2(exc.name, 2);
-                                (void) WRITE2(": TLOSS error\n", 14);
-                        }
-                        errno = ERANGE;
-                }
+		exc.type = TLOSS;
+		exc.name = CSTR ("j1");
+		exc.retval = zero;
+		if (_LIB_VERSION == _POSIX_)
+			__set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			if (_LIB_VERSION == _SVID_) {
+				(void) WRITE2(exc.name, 2);
+				(void) WRITE2(": TLOSS error\n", 14);
+			}
+			__set_errno (ERANGE);
+		}
 		break;
 	    case 37:
 	    case 137:
+	    case 237:
 		/* y1(x>X_TLOSS) */
-                exc.type = TLOSS;
-                exc.name = type < 100 ? "y1" : "y1f";
-                exc.retval = zero;
-                if (_LIB_VERSION == _POSIX_)
-                        errno = ERANGE;
-                else if (!matherr(&exc)) {
-                        if (_LIB_VERSION == _SVID_) {
-                                (void) WRITE2(exc.name, 2);
-                                (void) WRITE2(": TLOSS error\n", 14);
-                        }
-                        errno = ERANGE;
-                }
+		exc.type = TLOSS;
+		exc.name = CSTR ("y1");
+		exc.retval = zero;
+		if (_LIB_VERSION == _POSIX_)
+			__set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			if (_LIB_VERSION == _SVID_) {
+				(void) WRITE2(exc.name, 2);
+				(void) WRITE2(": TLOSS error\n", 14);
+			}
+			__set_errno (ERANGE);
+		}
 		break;
 	    case 38:
 	    case 138:
+	    case 238:
 		/* jn(|x|>X_TLOSS) */
-                exc.type = TLOSS;
-                exc.name = type < 100 ? "jn" : "jnf";
-                exc.retval = zero;
-                if (_LIB_VERSION == _POSIX_)
-                        errno = ERANGE;
-                else if (!matherr(&exc)) {
-                        if (_LIB_VERSION == _SVID_) {
-                                (void) WRITE2(exc.name, 2);
-                                (void) WRITE2(": TLOSS error\n", 14);
-                        }
-                        errno = ERANGE;
-                }
+		exc.type = TLOSS;
+		exc.name = CSTR ("jn");
+		exc.retval = zero;
+		if (_LIB_VERSION == _POSIX_)
+			__set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			if (_LIB_VERSION == _SVID_) {
+				(void) WRITE2(exc.name, 2);
+				(void) WRITE2(": TLOSS error\n", 14);
+			}
+			__set_errno (ERANGE);
+		}
 		break;
 	    case 39:
 	    case 139:
+	    case 239:
 		/* yn(x>X_TLOSS) */
-                exc.type = TLOSS;
-                exc.name = type < 100 ? "yn" : "ynf";
-                exc.retval = zero;
-                if (_LIB_VERSION == _POSIX_)
-                        errno = ERANGE;
-                else if (!matherr(&exc)) {
-                        if (_LIB_VERSION == _SVID_) {
-                                (void) WRITE2(exc.name, 2);
-                                (void) WRITE2(": TLOSS error\n", 14);
-                        }
-                        errno = ERANGE;
-                }
+		exc.type = TLOSS;
+		exc.name = CSTR ("yn");
+		exc.retval = zero;
+		if (_LIB_VERSION == _POSIX_)
+			__set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			if (_LIB_VERSION == _SVID_) {
+				(void) WRITE2(exc.name, 2);
+				(void) WRITE2(": TLOSS error\n", 14);
+			}
+			__set_errno (ERANGE);
+		}
 		break;
 	    case 40:
 	    case 140:
-		/* gamma(finite) overflow */
+	    case 240:
+		/* tgamma(finite) overflow */
 		exc.type = OVERFLOW;
-		exc.name = type < 100 ? "gamma" : "gammaf";
-                if (_LIB_VERSION == _SVID_)
-                  exc.retval = HUGE;
-                else
-                  exc.retval = HUGE_VAL;
-                if (_LIB_VERSION == _POSIX_)
-		  errno = ERANGE;
-                else if (!matherr(&exc)) {
-                  errno = ERANGE;
-                }
+		exc.name = CSTR ("tgamma");
+		exc.retval = copysign (HUGE_VAL, x);
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+		  __set_errno (ERANGE);
+		}
 		break;
 	    case 41:
 	    case 141:
-		/* gamma(-integer) or gamma(0) */
+	    case 241:
+		/* tgamma(-integer) */
 		exc.type = SING;
-		exc.name = type < 100 ? "gamma" : "gammaf";
-                if (_LIB_VERSION == _SVID_)
-                  exc.retval = HUGE;
-                else
-                  exc.retval = HUGE_VAL;
+		exc.name = CSTR ("tgamma");
+		exc.retval = NAN;
 		if (_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
-			(void) WRITE2("gamma: SING error\n", 18);
+			(void) WRITE2("tgamma: SING error\n", 18);
+			exc.retval = HUGE_VAL;
 		      }
-		  errno = EDOM;
+		  __set_errno (EDOM);
 		}
 		break;
 	    case 42:
 	    case 142:
+	    case 242:
 		/* pow(NaN,0.0) */
 		/* error only if _LIB_VERSION == _SVID_ & _XOPEN_ */
 		exc.type = DOMAIN;
-		exc.name = type < 100 ? "pow" : "powf";
+		exc.name = CSTR ("pow");
 		exc.retval = x;
 		if (_LIB_VERSION == _IEEE_ ||
 		    _LIB_VERSION == _POSIX_) exc.retval = 1.0;
 		else if (!matherr(&exc)) {
-			errno = EDOM;
+			__set_errno (EDOM);
 		}
 		break;
-	    default:
-		/* Assure the compiler that this internal function is not called
-		   with unhanded exception type. */
-		__builtin_unreachable();
+
+	    case 44:
+	    case 144:
+	    case 244:
+		/* exp(finite) overflow */
+		exc.type = OVERFLOW;
+		exc.name = CSTR ("exp2");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = HUGE;
+		else
+		  exc.retval = HUGE_VAL;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			__set_errno (ERANGE);
+		}
+		break;
+	    case 45:
+	    case 145:
+	    case 245:
+		/* exp(finite) underflow */
+		exc.type = UNDERFLOW;
+		exc.name = CSTR ("exp2");
+		exc.retval = zero;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			__set_errno (ERANGE);
+		}
+		break;
+
+	    case 46:
+	    case 146:
+	    case 246:
+		/* exp(finite) overflow */
+		exc.type = OVERFLOW;
+		exc.name = CSTR ("exp10");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = HUGE;
+		else
+		  exc.retval = HUGE_VAL;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			__set_errno (ERANGE);
+		}
+		break;
+	    case 47:
+	    case 147:
+	    case 247:
+		/* exp(finite) underflow */
+		exc.type = UNDERFLOW;
+		exc.name = CSTR ("exp10");
+		exc.retval = zero;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+			__set_errno (ERANGE);
+		}
+		break;
+	    case 48:
+	    case 148:
+	    case 248:
+		/* log2(0) */
+		exc.type = SING;
+		exc.name = CSTR ("log2");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = -HUGE;
+		else
+		  exc.retval = -HUGE_VAL;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+		  __set_errno (EDOM);
+		}
+		break;
+	    case 49:
+	    case 149:
+	    case 249:
+		/* log2(x<0) */
+		exc.type = DOMAIN;
+		exc.name = CSTR ("log2");
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = -HUGE;
+		else
+		  exc.retval = NAN;
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (EDOM);
+		else if (!matherr(&exc)) {
+		  __set_errno (EDOM);
+		}
+		break;
+	    case 50:
+	    case 150:
+	    case 250:
+		/* tgamma(+-0) */
+		exc.type = SING;
+		exc.name = CSTR ("tgamma");
+		exc.retval = copysign (HUGE_VAL, x);
+		if (_LIB_VERSION == _POSIX_)
+		  __set_errno (ERANGE);
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_)
+		    (void) WRITE2("tgamma: SING error\n", 18);
+		  __set_errno (ERANGE);
+		}
+		break;
+
+		/* #### Last used is 50/150/250 ### */
 	}
 	return exc.retval;
 }
-#endif /* _IEEE_LIBM */

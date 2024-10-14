@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Irq_mux Struct Reference</title>
+<title>L4Re Operating System Framework: L4::Irq_mux Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -181,11 +184,11 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IRQ multiplexer for shared IRQs. </p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000008">Deprecated:</a></b></dt><dd>IRQ muxer objects are no longer supported by the kernel.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>IRQ muxer objects are no longer supported by the kernel.</dd></dl>
 <p>This interface allows broadcasting of shared IRQs to multiple triggerables. The IRQ multiplexer is responsible for the correct mask and unmask logic for such shared IRQs.</p>
 <p>The semantics are that each of the slave IRQs is triggered whenever the multiplexer IRQ is triggered. As shared IRQs are usually level-triggered, the real IRQ source will be masked automatically when an IRQ is delivered and shall be unmasked when all attached slave IRQs are unmasked. </p>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00214">214</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00212">212</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="acfd63279449d20bef4226da9a01e5da9" name="acfd63279449d20bef4226da9a01e5da9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acfd63279449d20bef4226da9a01e5da9">&#9670;&#160;</a></span>chain()</h2>
@@ -232,9 +235,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag</dd></dl>
 <p>The chaining feature of IRQ objects allows to deal with shared IRQs. For chaining IRQs there must be an IRQ multiplexer (<a class="el" href="structL4_1_1Irq__mux.html" title="IRQ multiplexer for shared IRQs.">Irq_mux</a>) bound to the real IRQ source. This function allows to add slave IRQs to this multiplexer. </p>
 
-<p class="definition">Definition at line <a class="el" href="irq_source.html#l00229">229</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
+<p class="definition">Definition at line <a class="el" href="irq_source.html#l00227">227</a> of file <a class="el" href="irq_source.html">irq</a>.</p>
 
-<p class="reference">References <a class="el" href="capability_8h_source.html#l00052">L4::Cap_base::cap()</a>, and <a class="el" href="l4_2sys_2irq_8h_source.html#l00242">l4_irq_mux_chain_u()</a>.</p>
+<p class="reference">References <a class="el" href="capability_8h_source.html#l00049">L4::Cap_base::cap()</a>, and <a class="el" href="l4_2sys_2irq_8h_source.html#l00242">l4_irq_mux_chain_u()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -255,7 +258,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="structL4_1_1Irq__mux.html">Irq_mux</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

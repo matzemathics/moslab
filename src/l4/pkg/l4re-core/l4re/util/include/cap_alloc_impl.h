@@ -24,8 +24,9 @@
 
 #pragma once
 
-//#define L4RE_STATIC_CAP_ALLOC
-#if defined(L4RE_STATIC_CAP_ALLOC)
+#include <l4/bid_config.h>
+
+#if defined(CONFIG_L4RE_BITMAP_CAP_ALLOC)
 
 #include <l4/re/util/bitmap_cap_alloc>
 
@@ -35,21 +36,29 @@ typedef Cap_alloc_base _Cap_alloc;
 
 }}
 
-#else
+#elif defined(CONFIG_L4RE_COUNTING_CAP_ALLOC)
+
 #include <l4/re/util/counting_cap_alloc>
+#include <l4/re/util/debug>
 
 namespace L4Re { namespace Util {
 
-#if defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_1) || defined(ARCH_arm)
-typedef Counting_cap_alloc<L4Re::Util::Counter_atomic<unsigned char> > _Cap_alloc;
+// RISC-V does not natively support subword atomics, such as __atomic_load_1.
+// The RISC-V gcc developers have decided to emulate these via libatomic, which
+// is automatically linked against.
+#if defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_1) || defined(ARCH_arm) || defined(ARCH_riscv)
+typedef Counting_cap_alloc<L4Re::Util::Counter_atomic<unsigned char>,
+                           L4Re::Util::Dbg > _Cap_alloc;
 #elif defined(ARCH_sparc)
-typedef Counting_cap_alloc<L4Re::Util::Counter<unsigned char> > _Cap_alloc;
+typedef Counting_cap_alloc<L4Re::Util::Counter<unsigned char>,
+                           L4Re::Util::Dbg > _Cap_alloc;
 #warning "Thread-safe capability allocator not available!"
 #else
 #error "Unsupported platform"
 #endif
 
 }}
+
+#else
+#error "No supported capability allocator selected"
 #endif
-
-

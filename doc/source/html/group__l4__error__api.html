@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Error codes</title>
+<title>L4Re Operating System Framework: Error codes</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -126,21 +129,22 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a0230b4251e0ab6c7bf80054fb55465bb">L4_EEXIST</a> = 17
 , <br />
 &#160;&#160;<a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a96c4464d149a63301a5314ecd1ff53d9">L4_ENODEV</a> = 19
+, <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a2d5d219174a3b22a5eb889a5ec859341">L4_ENOTDIR</a> = 20
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8">L4_EINVAL</a> = 22
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a9d1627a9c88949c991fcd81f1f3da133">L4_ENOSPC</a> = 28
-, <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a226d93ada42b58951cfe40102ae169c8">L4_ERANGE</a> = 34
 , <br />
-&#160;&#160;<a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a90c12e88a6083af2fb30630dc6786d53">L4_ENAMETOOLONG</a> = 36
+&#160;&#160;<a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a226d93ada42b58951cfe40102ae169c8">L4_ERANGE</a> = 34
+, <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a90c12e88a6083af2fb30630dc6786d53">L4_ENAMETOOLONG</a> = 36
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a29002561c97b1d3664caf3b0fe120553">L4_ENOSYS</a> = 38
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9afaebb9a6af2e5bb94216533d8e4988bf">L4_EBADPROTO</a> = 39
-, <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9ae4960cbc3e60329260f4a17af3694d63">L4_EADDRNOTAVAIL</a> = 99
 , <br />
-&#160;&#160;<a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a9fc9d6b67edd89d4a2fea25cdb43ef9f">L4_ERRNOMAX</a> = 100
+&#160;&#160;<a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9ae4960cbc3e60329260f4a17af3694d63">L4_EADDRNOTAVAIL</a> = 99
+, <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a9fc9d6b67edd89d4a2fea25cdb43ef9f">L4_ERRNOMAX</a> = 100
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a680679fbebc1e0ac1f9ec607c43319e0">L4_ENOREPLY</a> = 1000
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af9925caf2489bbd5c97705fe0ee7b698">L4_EMSGTOOSHORT</a> = 1001
-, <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a8992e4e5316985693c1b43ae4d9c461f">L4_EMSGTOOLONG</a> = 1002
 , <br />
-&#160;&#160;<a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a7837de2be20d006506b055c02e2d7d30">L4_EMSGMISSARG</a> = 1003
+&#160;&#160;<a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a8992e4e5316985693c1b43ae4d9c461f">L4_EMSGTOOLONG</a> = 1002
+, <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a7837de2be20d006506b055c02e2d7d30">L4_EMSGMISSARG</a> = 1003
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9abca9ec6a352a4bc8856751834d732ef6">L4_EIPC_LO</a> = 2000
 , <a class="el" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a325defb4d4674d9a9492ba83f27b0855">L4_EIPC_HI</a> = 2000 + 0x1f
 <br />
@@ -195,6 +199,8 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ggab4c8abc71ffa221a25c1ca5840a354f9a96c4464d149a63301a5314ecd1ff53d9" name="ggab4c8abc71ffa221a25c1ca5840a354f9a96c4464d149a63301a5314ecd1ff53d9"></a>L4_ENODEV&#160;</td><td class="fielddoc"><p>No such thing. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ggab4c8abc71ffa221a25c1ca5840a354f9a2d5d219174a3b22a5eb889a5ec859341" name="ggab4c8abc71ffa221a25c1ca5840a354f9a2d5d219174a3b22a5eb889a5ec859341"></a>L4_ENOTDIR&#160;</td><td class="fielddoc"><p>Not a directory. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8" name="ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8"></a>L4_EINVAL&#160;</td><td class="fielddoc"><p>Invalid argument. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggab4c8abc71ffa221a25c1ca5840a354f9a9d1627a9c88949c991fcd81f1f3da133" name="ggab4c8abc71ffa221a25c1ca5840a354f9a9d1627a9c88949c991fcd81f1f3da133"></a>L4_ENOSPC&#160;</td><td class="fielddoc"><p>No space left on device. </p>
@@ -235,7 +241,7 @@ Enumerations</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -26,13 +26,7 @@ void *malloc(size_t size)
 	void *result;
 
 	if (unlikely(size == 0)) {
-#if defined(__MALLOC_GLIBC_COMPAT__)
 		size++;
-#else
-		/* Some programs will call malloc (0).  Lets be strict and return NULL */
-		__set_errno(ENOMEM);
-		return NULL;
-#endif
 	}
 
 	/* prevent Undefined Behaviour for pointer arithmetic (substract) of too big pointers
@@ -52,8 +46,10 @@ void *malloc(size_t size)
 
 	result = mmap((void *) 0, size + sizeof(size_t), PROT_READ | PROT_WRITE,
 	              MMAP_FLAGS, 0, 0);
-	if (result == MAP_FAILED)
+	if (result == MAP_FAILED) {
+		__set_errno(ENOMEM);
 		return 0;
+	}
 	* (size_t *) result = size;
 	return(result + sizeof(size_t));
 }

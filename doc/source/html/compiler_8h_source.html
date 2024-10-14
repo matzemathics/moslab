@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/compiler.h Source File</title>
+<title>L4Re Operating System Framework: l4/sys/compiler.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -185,125 +188,138 @@ $(document).ready(function(){initNavTree('compiler_8h_source.html',''); initResi
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="preprocessor">#  define L4_DEFAULT_PARAM(x) = x</span></div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#endif </span><span class="comment">/* __cplusplus */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#gab2364b91355f435e015c5b85b7d93a73">  208</a></span><span class="preprocessor">#define L4_NORETURN __attribute__((noreturn))</span></div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="preprocessor">#define L4_PURE __attribute__((pure))</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga4dcf33a0e0c2cb199673614b4236ec87">  216</a></span><span class="preprocessor">#define L4_NOINSTRUMENT __attribute__((no_instrument_function))</span></div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="preprocessor">#ifndef L4_HIDDEN</span></div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#gacd71f0ba2a27d5dfb679c2e8b6b20fee">  218</a></span><span class="preprocessor">#  define L4_HIDDEN __attribute__((visibility(&quot;hidden&quot;)))</span></div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="preprocessor">#if !defined L4_EXPORT || defined DOXYGEN</span></div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">  221</a></span><span class="preprocessor">#  define L4_EXPORT __attribute__((visibility(&quot;default&quot;)))</span></div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="preprocessor">#ifndef L4_EXPORT_TYPE</span></div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="preprocessor">#  ifdef __cplusplus</span></div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="preprocessor">#    define L4_EXPORT_TYPE __attribute__((visibility(&quot;default&quot;)))</span></div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span><span class="preprocessor">#  else</span></div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="preprocessor">#    define L4_EXPORT_TYPE</span></div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="preprocessor">#  endif</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="preprocessor">#if defined __cplusplus &amp;&amp; __cplusplus &gt;= 201402L</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="preprocessor"># define L4_CONSTEXPR constexpr</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">  211</a></span><span class="preprocessor"># define L4_CONSTEXPR</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#gab2364b91355f435e015c5b85b7d93a73">  218</a></span><span class="preprocessor">#define L4_NORETURN __attribute__((noreturn))</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="preprocessor">#define L4_PURE __attribute__((pure))</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga4dcf33a0e0c2cb199673614b4236ec87">  226</a></span><span class="preprocessor">#define L4_NOINSTRUMENT __attribute__((no_instrument_function))</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="preprocessor">#ifndef L4_HIDDEN</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#gacd71f0ba2a27d5dfb679c2e8b6b20fee">  228</a></span><span class="preprocessor">#  define L4_HIDDEN __attribute__((visibility(&quot;hidden&quot;)))</span></div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="preprocessor">#define L4_STRONG_ALIAS(name, aliasname) L4__STRONG_ALIAS(name, aliasname)</span></div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="preprocessor">#define L4__STRONG_ALIAS(name, aliasname) \</span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="preprocessor">  extern __typeof (name) aliasname __attribute__ ((alias (#name)));</span></div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="preprocessor">#if defined(ARCH_x86) || defined(ARCH_amd64) || \</span></div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="preprocessor">  defined(ARCH_arm) || defined(ARCH_arm64) || \</span></div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="preprocessor">  defined(ARCH_mips) || defined(ARCH_ppc32) || defined(ARCH_sparc)</span></div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="preprocessor"># define L4_STACK_ALIGN         __BIGGEST_ALIGNMENT__</span></div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="preprocessor"># error Define L4_STACK_ALIGN for this target!</span></div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="preprocessor">#if defined(ARCH_x86) || defined(ARCH_amd64)</span></div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_function" href="group__l4sys__defines.html#ga5fa71e3c259e42d171bdb65a5e708b82">l4_align_stack_for_direct_fncall</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> stack)</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>{</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  <span class="keywordflow">if</span> ((stack &amp; (L4_STACK_ALIGN - 1)) == (L4_STACK_ALIGN - <span class="keyword">sizeof</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)))</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    <span class="keywordflow">return</span> stack;</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>  <span class="keywordflow">return</span> (stack &amp; ~(L4_STACK_ALIGN)) - <span class="keyword">sizeof</span>(<span class="keywordtype">unsigned</span> long);</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>}</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="preprocessor">#else</span></div>
-<div class="foldopen" id="foldopen00274" data-start="{" data-end="}">
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga5fa71e3c259e42d171bdb65a5e708b82">  274</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_function" href="group__l4sys__defines.html#ga5fa71e3c259e42d171bdb65a5e708b82">l4_align_stack_for_direct_fncall</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> stack)</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>{</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  <span class="keywordflow">return</span> stack &amp; ~(L4_STACK_ALIGN);</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>}</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="preprocessor">#if !defined L4_EXPORT || defined DOXYGEN</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">  231</a></span><span class="preprocessor">#  define L4_EXPORT __attribute__((visibility(&quot;default&quot;)))</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="preprocessor">#ifndef L4_EXPORT_TYPE</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#  ifdef __cplusplus</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">#    define L4_EXPORT_TYPE __attribute__((visibility(&quot;default&quot;)))</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">#  else</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="preprocessor">#    define L4_EXPORT_TYPE</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="preprocessor">#  endif</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="preprocessor">#define L4_STRONG_ALIAS(name, aliasname) L4__STRONG_ALIAS(name, aliasname)</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="preprocessor">#define L4__STRONG_ALIAS(name, aliasname) \</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="preprocessor">  extern __typeof (name) aliasname __attribute__ ((alias (#name)));</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="preprocessor">#if defined(__i386__) || defined(__amd64__) || \</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="preprocessor">  defined(__arm__) || defined(__aarch64__) || \</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="preprocessor">  defined(__mips__) || defined(__riscv) || \</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="preprocessor">  defined(__powerpc__) || defined(__sparc__)</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="preprocessor"># define L4_STACK_ALIGN         __BIGGEST_ALIGNMENT__</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="preprocessor"># error Define L4_STACK_ALIGN for this target!</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="preprocessor">#if defined(__i386__) || defined(__amd64__)</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_function" href="group__l4sys__defines.html#ga5fa71e3c259e42d171bdb65a5e708b82">l4_align_stack_for_direct_fncall</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> stack)</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>{</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>  <span class="keywordflow">if</span> ((stack &amp; (L4_STACK_ALIGN - 1)) == (L4_STACK_ALIGN - <span class="keyword">sizeof</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)))</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="keywordflow">return</span> stack;</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>  <span class="keywordflow">return</span> (stack &amp; ~(L4_STACK_ALIGN)) - <span class="keyword">sizeof</span>(<span class="keywordtype">unsigned</span> long);</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>}</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="preprocessor">#else</span></div>
+<div class="foldopen" id="foldopen00285" data-start="{" data-end="}">
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga5fa71e3c259e42d171bdb65a5e708b82">  285</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_function" href="group__l4sys__defines.html#ga5fa71e3c259e42d171bdb65a5e708b82">l4_align_stack_for_direct_fncall</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> stack)</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>{</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>  <span class="keywordflow">return</span> stack &amp; ~(L4_STACK_ALIGN);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>}</div>
 </div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span><span class="preprocessor">#endif </span><span class="comment">/* !__ASSEMBLY__ */</span><span class="preprocessor"></span></div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="preprocessor">#include &lt;l4/sys/linkage.h&gt;</span></div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">  284</a></span><span class="preprocessor">#define L4_LIKELY(x)  __builtin_expect((x),1)   </span></div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">  285</a></span><span class="preprocessor">#define L4_UNLIKELY(x)  __builtin_expect((x),0)   </span></div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="comment">/* Make sure that the function is not removed by optimization. Without the</span></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="comment"> * &quot;used&quot; attribute, unreferenced static functions are removed. */</span></div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga97a5414eb11311e9bf949c750faf738b">  289</a></span><span class="preprocessor">#define L4_STICKY(x)     __attribute__((used)) x         </span></div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#gac61263de7580bce70e1f518201a7f83a">  290</a></span><span class="preprocessor">#define L4_DEPRECATED(s) __attribute__((deprecated(s)))  </span></div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span> </div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="preprocessor">#ifndef static_assert</span></div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span><span class="preprocessor"># if !defined(__cplusplus)</span></div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span><span class="preprocessor">#  define static_assert(x, y) _Static_assert(x, y)</span></div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="preprocessor"># elif __cplusplus &lt; 201103L</span></div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span><span class="preprocessor">#  define static_assert(x, y) \</span></div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="preprocessor">   extern int l4_static_assert[-(!(x))] __attribute__((unused))</span></div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="preprocessor"># endif</span></div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga05c9b0615ef872ca9eb4b25b02fcf4b6">  301</a></span><span class="preprocessor">#define L4_stringify_helper(x) #x                       </span></div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga0038ee4d61fca8060b76f7d3de894eca">  302</a></span><span class="preprocessor">#define L4_stringify(x)        L4_stringify_helper(x)   </span></div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="preprocessor">#ifndef __ASSEMBLER__</span></div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span> </div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">l4_mb</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="preprocessor">#endif </span><span class="comment">/* !__ASSEMBLY__ */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span><span class="preprocessor">#include &lt;l4/sys/linkage.h&gt;</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#gac76599eba5afa89a12c44176cbfa90cb">  295</a></span><span class="preprocessor">#define L4_LIKELY(x)  __builtin_expect((x),1)   </span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">  296</a></span><span class="preprocessor">#define L4_UNLIKELY(x)  __builtin_expect((x),0)   </span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="comment">/* Make sure that the function is not removed by optimization. Without the</span></div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span><span class="comment"> * &quot;used&quot; attribute, unreferenced static functions are removed. */</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga97a5414eb11311e9bf949c750faf738b">  300</a></span><span class="preprocessor">#define L4_STICKY(x)     __attribute__((used)) x         </span></div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#gac61263de7580bce70e1f518201a7f83a">  301</a></span><span class="preprocessor">#define L4_DEPRECATED(s) __attribute__((deprecated(s)))  </span></div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span><span class="preprocessor">#ifndef static_assert</span></div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="preprocessor"># if !defined(__cplusplus)</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="preprocessor">#  define static_assert(x, y) _Static_assert(x, y)</span></div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="preprocessor"># elif __cplusplus &lt; 201103L</span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="preprocessor">#  define static_assert(x, y) \</span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span><span class="preprocessor">   extern int l4_static_assert[-(!(x))] __attribute__((unused))</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span><span class="preprocessor"># endif</span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga05c9b0615ef872ca9eb4b25b02fcf4b6">  312</a></span><span class="preprocessor">#define L4_stringify_helper(x) #x                       </span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga0038ee4d61fca8060b76f7d3de894eca">  313</a></span><span class="preprocessor">#define L4_stringify(x)        L4_stringify_helper(x)   </span></div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">l4_wmb</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <a class="code hl_define" href="group__l4sys__defines.html#gab2364b91355f435e015c5b85b7d93a73">L4_NORETURN</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga7e0662663afd5c5b43c5dd66576e5cff">l4_infinite_loop</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span> </div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span><span class="comment">/* Implementations */</span></div>
-<div class="foldopen" id="foldopen00327" data-start="{" data-end="}">
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">  327</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>{</div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>  __asm__ __volatile__ (<span class="stringliteral">&quot;&quot;</span> : : : <span class="stringliteral">&quot;memory&quot;</span>);</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>}</div>
-</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="preprocessor">#ifdef __has_builtin</span></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="preprocessor">#define L4_HAS_BUILTIN(def) __has_builtin(def)</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span><span class="preprocessor">#define L4_HAS_BUILTIN(def) 0</span></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span><span class="preprocessor">#ifndef __ASSEMBLER__</span></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span> </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">l4_mb</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span> </div>
-<div class="foldopen" id="foldopen00332" data-start="{" data-end="}">
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">  332</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">l4_mb</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>{</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>  __asm__ __volatile__ (<span class="stringliteral">&quot;&quot;</span> : : : <span class="stringliteral">&quot;memory&quot;</span>);</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>}</div>
-</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">l4_wmb</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
-<div class="foldopen" id="foldopen00337" data-start="{" data-end="}">
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">  337</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">l4_wmb</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>{</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>  __asm__ __volatile__ (<span class="stringliteral">&quot;&quot;</span> : : : <span class="stringliteral">&quot;memory&quot;</span>);</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>}</div>
-</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <a class="code hl_define" href="group__l4sys__defines.html#gab2364b91355f435e015c5b85b7d93a73">L4_NORETURN</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga7e0662663afd5c5b43c5dd66576e5cff">l4_infinite_loop</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
-<div class="foldopen" id="foldopen00342" data-start="{" data-end="}">
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga7e0662663afd5c5b43c5dd66576e5cff">  342</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <a class="code hl_define" href="group__l4sys__defines.html#gab2364b91355f435e015c5b85b7d93a73">L4_NORETURN</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga7e0662663afd5c5b43c5dd66576e5cff">l4_infinite_loop</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>{</div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>  <span class="keywordflow">while</span> (1)</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    <a class="code hl_function" href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a>();</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>}</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span><span class="comment">/* Implementations */</span></div>
+<div class="foldopen" id="foldopen00344" data-start="{" data-end="}">
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">  344</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>{</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>  __asm__ __volatile__ (<span class="stringliteral">&quot;&quot;</span> : : : <span class="stringliteral">&quot;memory&quot;</span>);</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>}</div>
 </div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="preprocessor">#endif </span><span class="comment">/* !__L4_COMPILER_H__ */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga095f2ab26de8289771dae829f4637fc0"><div class="ttname"><a href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">l4_wmb</a></div><div class="ttdeci">void l4_wmb(void)</div><div class="ttdoc">Write memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00337">compiler.h:337</a></div></div>
+<div class="foldopen" id="foldopen00349" data-start="{" data-end="}">
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">  349</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">l4_mb</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>{</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>  __asm__ __volatile__ (<span class="stringliteral">&quot;&quot;</span> : : : <span class="stringliteral">&quot;memory&quot;</span>);</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>}</div>
+</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span> </div>
+<div class="foldopen" id="foldopen00354" data-start="{" data-end="}">
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">  354</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">l4_wmb</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>{</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>  __asm__ __volatile__ (<span class="stringliteral">&quot;&quot;</span> : : : <span class="stringliteral">&quot;memory&quot;</span>);</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>}</div>
+</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
+<div class="foldopen" id="foldopen00359" data-start="{" data-end="}">
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno"><a class="line" href="group__l4sys__defines.html#ga7e0662663afd5c5b43c5dd66576e5cff">  359</a></span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <a class="code hl_define" href="group__l4sys__defines.html#gab2364b91355f435e015c5b85b7d93a73">L4_NORETURN</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__l4sys__defines.html#ga7e0662663afd5c5b43c5dd66576e5cff">l4_infinite_loop</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>{</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>  <span class="keywordflow">while</span> (1)</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>    <a class="code hl_function" href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a>();</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>}</div>
+</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span> </div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span><span class="preprocessor">#endif </span><span class="comment">/* !__L4_COMPILER_H__ */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga095f2ab26de8289771dae829f4637fc0"><div class="ttname"><a href="group__l4sys__defines.html#ga095f2ab26de8289771dae829f4637fc0">l4_wmb</a></div><div class="ttdeci">void l4_wmb(void)</div><div class="ttdoc">Write memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00354">compiler.h:354</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga4accdcabe8bddb4964f8986855e7c728"><div class="ttname"><a href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a></div><div class="ttdeci">void l4_barrier(void)</div><div class="ttdoc">Memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00327">compiler.h:327</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga5d5bbbe36a0d144d1f465dbca715718e"><div class="ttname"><a href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">l4_mb</a></div><div class="ttdeci">void l4_mb(void)</div><div class="ttdoc">Memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00332">compiler.h:332</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga5fa71e3c259e42d171bdb65a5e708b82"><div class="ttname"><a href="group__l4sys__defines.html#ga5fa71e3c259e42d171bdb65a5e708b82">l4_align_stack_for_direct_fncall</a></div><div class="ttdeci">unsigned long l4_align_stack_for_direct_fncall(unsigned long stack)</div><div class="ttdoc">Specify the desired alignment of the stack pointer.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00274">compiler.h:274</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga7e0662663afd5c5b43c5dd66576e5cff"><div class="ttname"><a href="group__l4sys__defines.html#ga7e0662663afd5c5b43c5dd66576e5cff">l4_infinite_loop</a></div><div class="ttdeci">L4_NORETURN void l4_infinite_loop(void)</div><div class="ttdoc">Infinite loop.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00342">compiler.h:342</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_gab2364b91355f435e015c5b85b7d93a73"><div class="ttname"><a href="group__l4sys__defines.html#gab2364b91355f435e015c5b85b7d93a73">L4_NORETURN</a></div><div class="ttdeci">#define L4_NORETURN</div><div class="ttdoc">Noreturn function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00208">compiler.h:208</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga4accdcabe8bddb4964f8986855e7c728"><div class="ttname"><a href="group__l4sys__defines.html#ga4accdcabe8bddb4964f8986855e7c728">l4_barrier</a></div><div class="ttdeci">void l4_barrier(void)</div><div class="ttdoc">Memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00344">compiler.h:344</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga5d5bbbe36a0d144d1f465dbca715718e"><div class="ttname"><a href="group__l4sys__defines.html#ga5d5bbbe36a0d144d1f465dbca715718e">l4_mb</a></div><div class="ttdeci">void l4_mb(void)</div><div class="ttdoc">Memory barrier.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00349">compiler.h:349</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga5fa71e3c259e42d171bdb65a5e708b82"><div class="ttname"><a href="group__l4sys__defines.html#ga5fa71e3c259e42d171bdb65a5e708b82">l4_align_stack_for_direct_fncall</a></div><div class="ttdeci">unsigned long l4_align_stack_for_direct_fncall(unsigned long stack)</div><div class="ttdoc">Specify the desired alignment of the stack pointer.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00285">compiler.h:285</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga7e0662663afd5c5b43c5dd66576e5cff"><div class="ttname"><a href="group__l4sys__defines.html#ga7e0662663afd5c5b43c5dd66576e5cff">l4_infinite_loop</a></div><div class="ttdeci">L4_NORETURN void l4_infinite_loop(void)</div><div class="ttdoc">Infinite loop.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00359">compiler.h:359</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_gab2364b91355f435e015c5b85b7d93a73"><div class="ttname"><a href="group__l4sys__defines.html#gab2364b91355f435e015c5b85b7d93a73">L4_NORETURN</a></div><div class="ttdeci">#define L4_NORETURN</div><div class="ttdoc">Noreturn function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00218">compiler.h:218</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -311,7 +327,7 @@ $(document).ready(function(){initNavTree('compiler_8h_source.html',''); initResi
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="compiler_8h.html">compiler.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

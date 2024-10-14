@@ -8,6 +8,7 @@
  */
 #pragma once
 
+#include <l4/cxx/ref_ptr>
 #include <l4/re/log>
 #include <l4/re/env>
 #include <l4/re/rm>
@@ -23,6 +24,7 @@ class App_task :
 {
 private:
   long _ref_cnt;
+  inline static l4_uint32_t apps_running = 0;
 
   /**
    * Helper to receive the task exit signal in a separate thread.
@@ -63,6 +65,11 @@ private:
 
   Parent_receiver _parent_receiver;
 
+  /// `Ref_ptr` to `this` or `nullptr`.
+  /// Used to keep reference count up for preventing deletion of instance while
+  /// `L4Re::Parent` still needs to be served.
+  cxx::Ref_ptr<App_task> _self;
+
   void reset();
 
 protected:
@@ -72,10 +79,14 @@ public:
   State state() const { return _state; }
   unsigned long exit_code() const { return _exit_code; }
   bool exit_code_valid() const { return _exit_code_valid; }
-  void running()
+  static bool has_apps_running() { return apps_running != 0; }
+
+  // Instance is passed via `Ref_ptr` to hamper accidental usage of this
+  // function on stack allocated objects.
+  static void running(cxx::Ref_ptr<App_task> self)
   {
-    _state = Running;
-    add_ref();
+    self->_state = Running;
+    self->_self = self;
   }
 
   App_task(L4Re::Util::Ref_cap<L4::Factory>::Cap const &alloc);

@@ -13,12 +13,11 @@ var dir_b080fbfc44463f036af256b25228453b =
     [ "l4_macros.h", "l4_2util_2l4__macros_8h.html", null ],
     [ "l4mod.h", "l4mod_8h.html", "l4mod_8h" ],
     [ "list_alloc.h", "list__alloc_8h.html", "list__alloc_8h" ],
-    [ "llulc.h", "llulc_8h_source.html", null ],
     [ "lock.h", "lock_8h.html", null ],
     [ "mb_info.h", "mb__info_8h.html", "mb__info_8h" ],
     [ "parse_cmd.h", "parse__cmd_8h.html", "parse__cmd_8h" ],
     [ "rand.h", "rand_8h.html", "rand_8h" ],
     [ "splitlog2.h", "splitlog2_8h.html", "splitlog2_8h" ],
     [ "thread.h", "l4_2util_2thread_8h.html", "l4_2util_2thread_8h" ],
-    [ "util.h", "l4_2util_2util_8h_source.html", null ]
+    [ "util.h", "util_8h_source.html", null ]
 ];

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Interrupt controller</title>
+<title>L4Re Operating System Framework: Interrupt controller</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -362,7 +365,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Syscall return tag. The caller should check the return value using <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call.">l4_error()</a> to check for errors and to identify the correct method for unmasking the interrupt. Return values <code>&lt; 0</code> indicate an error. A return value of <code>0</code> means a direct unmask via the IRQ object using <a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask IRQ.">L4::Irq::unmask</a>. A return value of <code>1</code> means that the interrupt has to be unmasked via the ICU using <a class="el" href="classL4_1_1Irq__eoi.html#a2143eb2495d0135bc432efc362845483" title="Unmask the given interrupt line.">L4::Icu::unmask</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Syscall return tag. The caller should check the return value using <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call.">l4_error()</a> to check for errors and to identify the correct method for unmasking the interrupt. Return values <code>&lt; 0</code> indicate an error. A return value of <code>0</code> means a direct unmask via the IRQ object using <a class="el" href="classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask this IRQ.">L4::Irq::unmask</a>. A return value of <code>1</code> means that the interrupt has to be unmasked via the ICU using <a class="el" href="classL4_1_1Irq__eoi.html#a2143eb2495d0135bc432efc362845483" title="Unmask the given interrupt line.">L4::Icu::unmask</a>.</dd></dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">-L4_EINVAL</td><td><code>irq</code> is bound to an interrupt source. </td></tr>
@@ -374,9 +377,9 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="icu_8h_source.html#l00404">404</a> of file <a class="el" href="icu_8h_source.html">icu.h</a>.</p>
 
-<p class="reference">References <a class="el" href="____l4__fpage_8h_source.html#l00209">L4_CAP_FPAGE_RWS</a>, <a class="el" href="icu_8h_source.html#l00113">L4_ICU_OP_BIND</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="____l4__fpage_8h_source.html#l00714">l4_map_obj_control()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, <a class="el" href="____l4__fpage_8h_source.html#l00680">l4_obj_fpage()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>, and <a class="el" href="____l4__fpage_8h_source.html#l00087">l4_fpage_t::raw</a>.</p>
+<p class="reference">References <a class="el" href="____l4__fpage_8h_source.html#l00209">L4_CAP_FPAGE_RWS</a>, <a class="el" href="icu_8h_source.html#l00113">L4_ICU_OP_BIND</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="____l4__fpage_8h_source.html#l00714">l4_map_obj_control()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, <a class="el" href="____l4__fpage_8h_source.html#l00680">l4_obj_fpage()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>, and <a class="el" href="____l4__fpage_8h_source.html#l00087">l4_fpage_t::raw</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="irq_source.html#l00318">L4::Icu::bind()</a>, and <a class="el" href="icu_8h_source.html#l00504">l4_icu_bind()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="irq_source.html#l00316">L4::Icu::bind()</a>, and <a class="el" href="icu_8h_source.html#l00504">l4_icu_bind()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -504,9 +507,9 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="icu_8h_source.html#l00428">428</a> of file <a class="el" href="icu_8h_source.html">icu.h</a>.</p>
 
-<p class="reference">References <a class="el" href="icu_8h_source.html#l00127">L4_ICU_OP_INFO</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
+<p class="reference">References <a class="el" href="icu_8h_source.html#l00127">L4_ICU_OP_INFO</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="irq_source.html#l00353">L4::Icu::info()</a>, and <a class="el" href="icu_8h_source.html#l00512">l4_icu_info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="irq_source.html#l00351">L4::Icu::info()</a>, and <a class="el" href="icu_8h_source.html#l00512">l4_icu_info()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -662,7 +665,7 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="icu_8h_source.html#l00491">491</a> of file <a class="el" href="icu_8h_source.html">icu.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="irq_source.html#l00401">L4::Icu::mask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="irq_source.html#l00399">L4::Icu::mask()</a>.</p>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
@@ -811,7 +814,7 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="icu_8h_source.html#l00442">442</a> of file <a class="el" href="icu_8h_source.html">icu.h</a>.</p>
 
-<p class="reference">References <a class="el" href="icu_8h_source.html#l00134">L4_ICU_OP_MSI_INFO</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00456">l4_msgtag_has_error()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00443">l4_msgtag_words()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, <a class="el" href="compiler_8h_source.html#l00285">L4_UNLIKELY</a>, <a class="el" href="l4_2sys_2utcb_8h_source.html#l00386">l4_utcb_mr64_idx()</a>, <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00081">l4_msg_regs_t::mr64</a>.</p>
+<p class="reference">References <a class="el" href="icu_8h_source.html#l00134">L4_ICU_OP_MSI_INFO</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00457">l4_msgtag_has_error()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00444">l4_msgtag_words()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, <a class="el" href="compiler_8h_source.html#l00296">L4_UNLIKELY</a>, <a class="el" href="l4_2sys_2utcb_8h_source.html#l00386">l4_utcb_mr64_idx()</a>, <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00081">l4_msg_regs_t::mr64</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="icu_8h_source.html#l00516">l4_icu_msi_info()</a>.</p>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -955,9 +958,9 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="icu_8h_source.html#l00465">465</a> of file <a class="el" href="icu_8h_source.html">icu.h</a>.</p>
 
-<p class="reference">References <a class="el" href="icu_8h_source.html#l00155">L4_ICU_OP_SET_MODE</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
+<p class="reference">References <a class="el" href="icu_8h_source.html#l00155">L4_ICU_OP_SET_MODE</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, and <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="icu_8h_source.html#l00531">l4_icu_set_mode()</a>, and <a class="el" href="irq_source.html#l00429">L4::Icu::set_mode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="icu_8h_source.html#l00531">l4_icu_set_mode()</a>, and <a class="el" href="irq_source.html#l00427">L4::Icu::set_mode()</a>.</p>
 <div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-13-summary" class="dynsummary" style="display:block;">
@@ -1099,9 +1102,9 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="icu_8h_source.html#l00416">416</a> of file <a class="el" href="icu_8h_source.html">icu.h</a>.</p>
 
-<p class="reference">References <a class="el" href="____l4__fpage_8h_source.html#l00209">L4_CAP_FPAGE_RWS</a>, <a class="el" href="icu_8h_source.html#l00120">L4_ICU_OP_UNBIND</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00550">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00082">L4_IPC_NEVER</a>, <a class="el" href="____l4__fpage_8h_source.html#l00714">l4_map_obj_control()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00427">l4_msgtag()</a>, <a class="el" href="____l4__fpage_8h_source.html#l00680">l4_obj_fpage()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>, and <a class="el" href="____l4__fpage_8h_source.html#l00087">l4_fpage_t::raw</a>.</p>
+<p class="reference">References <a class="el" href="____l4__fpage_8h_source.html#l00209">L4_CAP_FPAGE_RWS</a>, <a class="el" href="icu_8h_source.html#l00120">L4_ICU_OP_UNBIND</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00576">l4_ipc_call()</a>, <a class="el" href="____timeout_8h_source.html#l00084">L4_IPC_NEVER</a>, <a class="el" href="____l4__fpage_8h_source.html#l00714">l4_map_obj_control()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00428">l4_msgtag()</a>, <a class="el" href="____l4__fpage_8h_source.html#l00680">l4_obj_fpage()</a>, <a class="el" href="l4_2sys_2types_8h_source.html#l00055">L4_PROTO_IRQ</a>, <a class="el" href="l4_2sys_2utcb_8h_source.html#l00080">l4_msg_regs_t::mr</a>, and <a class="el" href="____l4__fpage_8h_source.html#l00087">l4_fpage_t::raw</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="icu_8h_source.html#l00508">l4_icu_unbind()</a>, and <a class="el" href="irq_source.html#l00336">L4::Icu::unbind()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="icu_8h_source.html#l00508">l4_icu_unbind()</a>, and <a class="el" href="irq_source.html#l00334">L4::Icu::unbind()</a>.</p>
 <div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-16-summary" class="dynsummary" style="display:block;">
@@ -1272,7 +1275,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -40,8 +40,9 @@ public:
   virtual bool setup_drv(Prog_args *pa, L4Re::Util::Object_registry *r) = 0;
   void setup_ds(char const *name);
 
-  int map_hook(l4_addr_t offs, unsigned long flags,
-               l4_addr_t min, l4_addr_t max);
+  int map_hook(L4Re::Dataspace::Offset offs, unsigned order,
+               L4Re::Dataspace::Flags flags, L4Re::Dataspace::Map_addr *base,
+               unsigned *send_order) override;
 
   bool running() { return _vidmem_start; };
 

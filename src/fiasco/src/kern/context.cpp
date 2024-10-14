@@ -57,14 +57,14 @@ public:
   Context_ptr_base(Context_ptr_base<T> const &o) : Context_ptr(o) {}
   template< typename X >
   Context_ptr_base(Context_ptr_base<X> const &o) : Context_ptr(o)
-  { X*x = 0; T*t = x; (void)t; }
+  { X*x = 0; T*t = x; static_cast<void>(t); }
 
   Context_ptr_base<T> const &operator = (Context_ptr_base<T> const &o)
   { Context_ptr::operator = (o); return *this; }
 
   template< typename X >
   Context_ptr_base<T> const &operator = (Context_ptr_base<X> const &o)
-  { X*x=0; T*t=x; (void)t; Context_ptr::operator = (o); return *this; }
+  { X*x=0; T*t=x; static_cast<void>(t); Context_ptr::operator = (o); return *this; }
 };
 
 class Context_space_ref
@@ -84,13 +84,13 @@ public:
   Space *vcpu_aware() const { return user_mode() ? vcpu_user() : space(); }
 
   void space(Space *s) { _s.set_unused(s); }
-  void vcpu_user(Space *s) { _v = (Address)s; }
+  void vcpu_user(Space *s) { _v = reinterpret_cast<Address>(s); }
   void user_mode(bool enable)
   {
     if (enable)
-      _v |= (Address)1;
+      _v |= static_cast<Address>(1);
     else
-      _v &= (Address)(~1);
+      _v &= static_cast<Address>(~1);
   }
 };
 
@@ -107,6 +107,7 @@ class Context :
   friend class Jdb_thread_list;
   friend class Context_ptr;
   friend class Jdb_utcb;
+  friend class Context_tester;
 
   struct State_request
   {
@@ -123,6 +124,7 @@ protected:
   virtual void finish_migration() = 0;
   virtual bool initiate_migration() = 0;
 
+  void save_fpu_state_to_utcb(Trap_state *, Utcb *);
 
 public:
   /**
@@ -180,8 +182,8 @@ public:
     enum Wait_mode { No_wait = 0, Wait = 1 };
     // enum State { Idle = 0, Handled = 1, Reply_handled = 2 };
 
-    Request_func *func;
-    void *arg;
+    Request_func *func = nullptr;
+    void *arg          = nullptr;
     // State state;
   };
 
@@ -200,13 +202,21 @@ public:
     bool execute_request(Drq *r, bool local);
   };
 
+  /**
+   * Information for setting scheduler parameters including the thread's home
+   * CPU.
+   */
   struct Migration
   {
     Cpu_number cpu;
     L4_sched_param const *sp;
-    bool in_progress;
+    /**
+     * The caller does not return until this variable is set to `true`
+     * preventing this data structure from going out of scope.
+     */
+    bool caller_may_return;
 
-    Migration() : in_progress(false) {}
+    Migration() : sp(nullptr), caller_may_return(false) {}
   };
 
   template<typename T>
@@ -215,32 +225,32 @@ public:
     MEMBER_OFFSET();
 
   private:
-    typename User<T>::Ptr _u;
+    User_ptr<T> _u;
     T *_k;
 
   public:
     Ku_mem_ptr() : _u(0), _k(0) {}
-    Ku_mem_ptr(typename User<T>::Ptr const &u, T *k) : _u(u), _k(k) {}
+    Ku_mem_ptr(User_ptr<T> const &u, T *k) : _u(u), _k(k) {}
 
-    void set(typename User<T>::Ptr const &u, T *k)
+    void set(User_ptr<T> const &u, T *k)
     { _u = u; _k = k; }
 
     T *access(bool is_current = false) const
     {
       // assert (!is_current || current() == context());
       if (is_current
-          && (int)Config::Access_user_mem == Config::Access_user_mem_direct)
+          && int{Config::Access_user_mem} == Config::Access_user_mem_direct)
         return _u.get();
 
       Cpu_number const cpu = current_cpu();
-      if ((int)Config::Access_user_mem == Config::Must_access_user_mem_direct
+      if (int{Config::Access_user_mem} == Config::Must_access_user_mem_direct
           && cpu == context()->home_cpu()
           && Mem_space::current_mem_space(cpu) == context()->space())
         return _u.get();
       return _k;
     }
 
-    typename User<T>::Ptr usr() const { return _u; }
+    User_ptr<T> usr() const { return _u; }
     T* kern() const { return _k; }
   };
 
@@ -351,7 +361,7 @@ protected:
   // timeout (Irq::_irq_thread is of type Receiver).
   Timeout *_timeout;
 
-  struct Kernel_drq : Drq { Context *src; };
+  struct Kernel_drq : Drq { Context *src = nullptr; };
 
 private:
   static Per_cpu<Clock> _clock;
@@ -410,7 +420,7 @@ public:
       return o->has_partner();
     }
   };
-
+  static_assert(sizeof(Drq_log) <= Tb_entry::Tb_entry_size);
 
   struct Vcpu_log : public Tb_entry
   {
@@ -423,6 +433,7 @@ public:
     unsigned char trap;
     void print(String_buffer *buf) const;
   };
+  static_assert(sizeof(Vcpu_log) <= Tb_entry::Tb_entry_size);
 };
 
 // --------------------------------------------------------------------------
@@ -450,7 +461,7 @@ DEFINE_PER_CPU Per_cpu<Clock> Context::_clock(Per_cpu_data::Cpu_num);
 DEFINE_PER_CPU Per_cpu<Context *> Context::_kernel_ctxt;
 DEFINE_PER_CPU Per_cpu<Context::Kernel_drq> Context::_kernel_drq;
 
-IMPLEMENT inline NEEDS["assert.h"]
+IMPLEMENT inline NEEDS[<cassert>]
 Kobject_iface * __attribute__((nonnull(2, 3)))
 Context_ptr::ptr(Space *s, L4_fpage::Rights *rights) const
 {
@@ -474,7 +485,7 @@ Context_ptr::ptr(Space *s, L4_fpage::Rights *rights) const
  */
 PUBLIC inline NEEDS ["atomic.h", "entry_frame.h", <cstdio>]
 Context::Context()
-: _kernel_sp(reinterpret_cast<Mword*>(regs())),
+: _kernel_sp(reinterpret_cast<Mword *>(regs())),
   // TCBs are zero initialized. Thus, members not explictly initialized can be
   // assumed to be zero-initialized, unless their default constructor does
   // something different.
@@ -489,7 +500,7 @@ PUBLIC inline
 void
 Context::reset_kernel_sp()
 {
-  _kernel_sp = reinterpret_cast<Mword*>(regs());
+  _kernel_sp = reinterpret_cast<Mword *>(regs());
 }
 
 
@@ -508,16 +519,17 @@ Context::check_for_current_cpu() const
   if (0 && EXPECT_FALSE(!r)) // debug output disabled
     printf("FAIL: cpu=%u (current=%u) %p current=%p\n",
            cxx::int_value<Cpu_number>(hc),
-           cxx::int_value<Cpu_number>(current_cpu()), this, current());
+           cxx::int_value<Cpu_number>(current_cpu()),
+           static_cast<void const *>(this),
+           static_cast<void *>(current()));
   return r;
 }
 
 
 PUBLIC inline
 Mword
-Context::state(bool check = false) const
+Context::state([[maybe_unused]] bool check = false) const
 {
-  (void)check;
   assert(!check || check_for_current_cpu());
   return _state;
 }
@@ -537,21 +549,9 @@ Context::kernel_context(Cpu_number cpu, Context *ctxt)
 //@{
 //-
 
-
 /**
- * Does the context exist? .
- * @return true if this context has been initialized.
- */
-PUBLIC inline NEEDS [Context::is_invalid]
-Mword
-Context::exists() const
-{
-  return !is_invalid();
-}
-
-/**
- * Is the context about to be deleted.
- * @return true if this context is in deletion.
+ * Check if the context is inactive, i.e. has not yet been started or was killed.
+ * @return true if this context is inactive.
  */
 PUBLIC inline NEEDS ["thread_state.h"]
 bool
@@ -582,9 +582,8 @@ Context::state_add(Mword bits)
  */
 PUBLIC inline
 void
-Context::state_add_dirty(Mword bits, bool check = true)
+Context::state_add_dirty(Mword bits, [[maybe_unused]] bool check = true)
 {
-  (void)check;
   assert(!check || check_for_current_cpu());
   _state |= bits;
 }
@@ -610,9 +609,8 @@ Context::state_del(Mword bits)
  */
 PUBLIC inline
 void
-Context::state_del_dirty(Mword bits, bool check = true)
+Context::state_del_dirty(Mword bits, [[maybe_unused]] bool check = true)
 {
-  (void)check;
   assert(!check || check_for_current_cpu());
   _state &= ~bits;
 }
@@ -666,9 +664,9 @@ Context::state_change(Mword mask, Mword bits)
  */
 PUBLIC inline
 void
-Context::state_change_dirty(Mword mask, Mword bits, bool check = true)
+Context::state_change_dirty(Mword mask, Mword bits,
+                            [[maybe_unused]] bool check = true)
 {
-  (void)check;
   assert(!check || check_for_current_cpu());
   _state &= mask;
   _state |= bits;
@@ -979,7 +977,7 @@ Context::consumed_time()
  * @param t Destination thread whose scheduling context and execution context
  *          should be activated.
  */
-PROTECTED inline NEEDS ["assert.h", Context::switch_handle_drq]
+PROTECTED inline NEEDS [<cassert>, Context::switch_handle_drq]
 Context::Switch FIASCO_WARN_RESULT
 Context::schedule_switch_to_locked(Context *t)
 {
@@ -1057,8 +1055,7 @@ Context::switch_exec_locked(Context *t, enum Helping_mode mode)
   assert (current() == this);
 
   // only for logging
-  Context *t_orig = t;
-  (void)t_orig;
+  [[maybe_unused]] Context *t_orig = t;
 
   // Time-slice lending: if t is locked, switch to its locker
   // instead, this is transitive
@@ -1110,8 +1107,7 @@ Context::switch_exec_helping(Context *t, Mword const *lock, Mword val)
   assert (current() == this);
 
   // only for logging
-  Context *t_orig = t;
-  (void)t_orig;
+  [[maybe_unused]] Context *t_orig = t;
 
   // we actually hold locks
   if (!t->need_help(lock, val))
@@ -1151,7 +1147,7 @@ Context *
 Context::Context_member::context() const
 { return context_of(this); }
 
-IMPLEMENT inline NEEDS["lock_guard.h", "assert.h"]
+IMPLEMENT inline NEEDS["lock_guard.h", <cassert>]
 void
 Context::Drq_q::enq(Drq *rq)
 {
@@ -1167,13 +1163,17 @@ Context::Drq_q::execute_request(Drq *r, bool local)
   bool need_resched = false;
   Context *const self = context();
   if (0)
-    printf("CPU[%2u:%p]: context=%p: handle request for %p (func=%p, arg=%p)\n", cxx::int_value<Cpu_number>(current_cpu()), current(), context(), r->context(), r->func, r->arg);
+    printf("CPU[%2u:%p]: context=%p: handle request for %p (func=%p, arg=%p)\n",
+           cxx::int_value<Cpu_number>(current_cpu()),
+           static_cast<void *>(current()), static_cast<void *>(context()),
+           static_cast<void *>(r->context()), reinterpret_cast<void *>(r->func),
+           static_cast<void *>(r->arg));
   if (r->context() == self)
     {
       LOG_TRACE("DRQ handling", "drq", current(), Drq_log,
           l->type = Drq_log::Type::Do_reply;
           l->rq = r;
-          l->func = (void*)r->func;
+          l->func = reinterpret_cast<void *>(r->func);
           l->thread = r->context();
           l->target_cpu = current_cpu();
           l->wait = 0;
@@ -1188,7 +1188,7 @@ Context::Drq_q::execute_request(Drq *r, bool local)
       LOG_TRACE("DRQ handling", "drq", current(), Drq_log,
           l->type = Drq_log::Type::Do_request;
           l->rq = r;
-          l->func = (void*)r->func;
+          l->func = reinterpret_cast<void *>(r->func);
           l->thread = r->context();
           l->target_cpu = current_cpu();
           l->wait = 0;
@@ -1234,7 +1234,9 @@ bool
 Context::Drq_q::handle_requests()
 {
   if (0)
-    printf("CPU[%2u:%p]: > Context::Drq_q::handle_requests() context=%p\n", cxx::int_value<Cpu_number>(current_cpu()), current(), context());
+    printf("CPU[%2u:%p]: > Context::Drq_q::handle_requests() context=%p\n",
+           cxx::int_value<Cpu_number>(current_cpu()),
+           static_cast<void *>(current()), static_cast<void *>(context()));
   bool need_resched = false;
   while (1)
     {
@@ -1250,7 +1252,11 @@ Context::Drq_q::handle_requests()
 
       Drq *r = static_cast<Drq*>(qi);
       if (0)
-        printf("CPU[%2u:%p]: context=%p: handle request for %p (func=%p, arg=%p)\n", cxx::int_value<Cpu_number>(current_cpu()), current(), context(), r->context(), r->func, r->arg);
+        printf("CPU[%2u:%p]: context=%p: handle request for %p (func=%p, arg=%p)\n",
+               cxx::int_value<Cpu_number>(current_cpu()),
+               static_cast<void *>(current()), static_cast<void *>(context()),
+               static_cast<void *>(r->context()), reinterpret_cast<void *>(r->func),
+               static_cast<void *>(r->arg));
       need_resched |= execute_request(r, false);
     }
 }
@@ -1277,11 +1283,15 @@ Context::try_finish_migration()
 
 
 /**
- * \brief Handle all pending DRQs.
- * \pre cpu_lock.test() (The CPU lock must be held).
- * \pre current() == this (only the currently running context is allowed to
- *      call this function).
- * \return true if re-scheduling is needed (ready queue has changed),
+ * Handle all pending DRQs for this context.
+ *
+ * \pre The CPU lock must be held: `cpu_lock.test()`
+ * \pre The context must be either on the current CPU or on an offline CPU:
+ *      `current_cpu() == home_cpu() || !Cpu::online(home_cpu())`
+ * \pre If `!Cpu::online(home_cpu())`, the lock of the home CPU's _pending_rqq
+ *      must be held: `_pending_rqq.cpu(home_cpu()).q_lock()->test()`
+ *
+ * \return True if re-scheduling is needed (ready queue has changed),
  *         false if not.
  */
 PUBLIC //inline
@@ -1384,6 +1394,10 @@ Context::set_home_cpu(Cpu_number cpu)
  * \brief Queue a DRQ for changing the contexts state.
  * \param mask bit mask for the state (state &= mask).
  * \param add bits to add to the state (state |= add).
+ * \returns True if a reschedule is necessary (a de-blocked scheduling context
+ *          can preempt the currently running scheduling context) -- this can
+ *          only happen if `add` has any bit of `Thread_ready_mask` set.
+ *
  * \note This function is a preemption point.
  *
  * This function must be used to change the state of contexts that are
@@ -1416,7 +1430,9 @@ Context::xcpu_state_change(Mword mask, Mword add, bool lazy_q = false)
 
 /**
  * \brief Initiate a DRQ for the context.
- * \param drq   The DRQ context.
+ *
+ * \param drq   The DRQ request to enqueue (typically the `Context::_drq` member
+ *              of the sending context).
  * \param func  The DRQ handler.
  * \param arg   The argument for the DRQ handler.
  * \param wait  On `Drq::Wait`, this function waits for the result of DRQ
@@ -1431,6 +1447,10 @@ Context::xcpu_state_change(Mword mask, Mword add, bool lazy_q = false)
  * after switching to a context in Context::switch_exec_locked().
  *
  * This function enqueues a DRQ and blocks the current context for a reply DRQ.
+ *
+ * \post        If `wait == Drq::Wait`, this function might wait for a remote
+ *              DRQ reply and must therefore be considered a potential
+ *              preemption point.
  */
 PUBLIC inline NEEDS[Context::enqueue_drq, "logdefs.h", "thread_state.h"]
 void
@@ -1439,18 +1459,20 @@ Context::drq(Drq *drq, Drq::Request_func *func, void *arg,
 {
   if (0)
     printf("CPU[%2u:%p]: > Context::drq(this=%p, func=%p, arg=%p)\n",
-           cxx::int_value<Cpu_number>(current_cpu()), current(), this, func, arg);
+           cxx::int_value<Cpu_number>(current_cpu()),
+           static_cast<void *>(current()), static_cast<void *>(this),
+           reinterpret_cast<void *>(func), static_cast<void *>(arg));
   Context *cur = current();
   LOG_TRACE("DRQ handling", "drq", cur, Drq_log,
       l->type = Drq_log::Type::Send;
       l->rq = drq;
-      l->func = (void*)func;
+      l->func = reinterpret_cast<void *>(func);
       l->thread = this;
       l->target_cpu = home_cpu();
       l->wait = wait;
   );
-  assert(!(wait == Drq::Wait && (cur->state() & Thread_drq_ready)) || cur->home_cpu() == home_cpu());
-  assert(!((wait == Drq::Wait || drq == &_drq) && cur->state() & Thread_drq_wait));
+  assert(wait != Drq::Wait || !(cur->state() & Thread_drq_ready) || cur->home_cpu() == home_cpu());
+  assert((wait != Drq::Wait && drq != &_drq) || !(cur->state() & Thread_drq_wait));
   assert(!drq->queued());
 
   drq->func = func;
@@ -1469,7 +1491,7 @@ Context::drq(Drq *drq, Drq::Request_func *func, void *arg,
   LOG_TRACE("DRQ handling", "drq", cur, Drq_log,
       l->type = Drq_log::Type::Done;
       l->rq = drq;
-      l->func = (void*)func;
+      l->func = reinterpret_cast<void *>(func);
       l->thread = this;
       l->target_cpu = home_cpu();
       l->wait = wait;
@@ -1496,6 +1518,11 @@ Context::kernel_context_drq(Drq::Request_func *func, void *arg)
   return schedule_switch_to_locked(kc) != Switch::Ok;
 }
 
+/**
+ * Initiate a DRQ for this context with the DRQ item of the current context.
+ *
+ * \see `Context::drq`
+ */
 PUBLIC inline NEEDS[Context::drq]
 void
 Context::drq(Drq::Request_func *func, void *arg,
@@ -1539,6 +1566,11 @@ Context::copy_and_sanitize_trap_state(Trap_state *dst,
 PUBLIC inline
 bool Context::migration_pending() const { return _migration; }
 
+IMPLEMENT_DEFAULT inline
+void
+Context::save_fpu_state_to_utcb(Trap_state *, Utcb *)
+{}
+
 //----------------------------------------------------------------------------
 IMPLEMENTATION [recover_jmpbuf]:
 
@@ -1563,7 +1595,6 @@ PROTECTED inline void Context::clear_recover_jmpbuf() {}
 //----------------------------------------------------------------------------
 IMPLEMENTATION [!mp]:
 
-#include "assert.h"
 #include "warn.h"
 
 PRIVATE inline
@@ -1619,7 +1650,7 @@ Context::enqueue_drq(Drq *rq)
       l->type = rq->context() == this
                                  ? Drq_log::Type::Send_reply
                                  : Drq_log::Type::Do_send;
-      l->func = (void*)rq->func;
+      l->func = reinterpret_cast<void*>(rq->func);
       l->thread = this;
       l->target_cpu = home_cpu();
       l->wait = 0;
@@ -1702,7 +1733,7 @@ private:
      */
     bool try_to_help()
     {
-      if (_s)
+      if (_s != Not_running)
         return false; // either running or already trying
 
       bool ret = cas(&_s, Not_running, Trying);
@@ -1725,7 +1756,7 @@ private:
      */
     bool try_dispatch()
     {
-      if (access_once(&_s))
+      if (access_once(&_s) != Not_running)
         return false;
 
       bool ret = cas(&_s, Not_running, Running);
@@ -1770,7 +1801,7 @@ private:
     }
 
     /// Check the current running under lock state.
-    operator bool () const { return _s; }
+    explicit operator bool () const { return _s != Not_running; }
   };
 
   /**
@@ -1783,6 +1814,12 @@ private:
 
 protected:
 
+  /**
+   * Request queue for per-CPU pending requests.
+   *
+   * Used for cross-CPU migration, cross-CPU state change (xcpu_state_change()),
+   * and cross-CPU DRQ execution (Context::enqueue_drq()).
+   */
   class Pending_rqq : public Queue
   {
   public:
@@ -1792,14 +1829,12 @@ protected:
   class Pending_rq : public Queue_item, public Context_member
   {} _pending_rq;
 
-protected:
   static Per_cpu<Pending_rqq> _pending_rqq;
 };
 
 //----------------------------------------------------------------------------
 IMPLEMENTATION [mp]:
 
-#include "assert.h"
 #include "cpu_call.h"
 #include "globals.h"
 #include "ipi.h"
@@ -1887,7 +1922,9 @@ Context::Pending_rqq::handle_requests(Context **mq)
 {
   //LOG_MSG_3VAL(current(), "phq", current_cpu(), 0, 0);
   if (0)
-    printf("CPU[%2u:%p]: Context::Pending_rqq::handle_requests() this=%p\n", cxx::int_value<Cpu_number>(current_cpu()), current(), this);
+    printf("CPU[%2u:%p]: Context::Pending_rqq::handle_requests() this=%p\n",
+           cxx::int_value<Cpu_number>(current_cpu()),
+           static_cast<void *>(current()), static_cast<void *>(this));
   bool resched = false;
   Context *curr = current();
   while (1)
@@ -1984,12 +2021,11 @@ Context::take_cpu_offline(Cpu_number cpu, bool drain_rqq = false)
   // called during system suspend only), the loop safely drains all the RCU
   // queues of the current CPU without race conditions. And the enter_idle()
   // does safely remove the CPU from the list of active CPUs.
-  do
+  while (!Rcu::idle(cpu))
     {
       Rcu::do_pending_work(cpu);
       Proc::pause();
     }
-  while (!Rcu::idle(cpu));
   Rcu::enter_idle(cpu);
 
   Cpu_call::handle_global_requests();
@@ -2041,13 +2077,32 @@ Context::pending_rqq_enqueue()
     Ipi::send(Ipi::Request, current_cpu(), cpu);
 }
 
+/**
+ * Execute given DRQ for this context, must be on current or offline CPU.
+ *
+ * \param rq           DRQ to execute.
+ * \param offline_cpu  Whether home CPU of context is an offline CPU.
+ *
+ * \pre The context must be either on the current CPU or on an offline CPU:
+ *      `home_cpu() == current_cpu() || offline_cpu`
+ * \pre If offline_cpu is true, the lock of the home CPU's _pending_rqq must be
+ *      held: `_pending_rqq.cpu(home_cpu()).q_lock()->test()`
+ *
+ * \return True if re-scheduling is needed (ready queue has changed),
+ *         false if not.
+ *
+ * \post The DRQ function might be preemptible for local DRQ execution, i.e.
+ *       `home_cpu() == current_cpu()`, in that case the home CPU can change.
+ */
 PRIVATE inline
 bool
 Context::_execute_drq(Drq *rq, bool offline_cpu = false)
 {
   bool do_sched = _drq_q.execute_request(rq, true);
-  // the DRQ function executed above might be preemptible in the case
-  // of local execution
+
+  // The DRQ function executed above might be preemptible in the case
+  // of local execution. For example the IRQ shortcut in
+  // Irq_sender::handle_remote_hit().
   if (EXPECT_FALSE(!offline_cpu && home_cpu() != current_cpu()))
     return false;
 
@@ -2063,6 +2118,22 @@ Context::_execute_drq(Drq *rq, bool offline_cpu = false)
   return do_sched;
 }
 
+/**
+ * Dequeue given DRQ from DRQ queue of this context, must be on current or
+ * offline CPU, update the context's DRQ ready state and execute the DRQ.
+ *
+ * \param rq           DRQ to execute.
+ * \param offline_cpu  Whether home CPU of context is an offline CPU.
+ * \pre The context must be either on the current CPU or on an offline CPU:
+ *      `home_cpu() == current_cpu() || offline_cpu`
+ * \pre if (offline_cpu) _pending_rqq.cpu(home_cpu()).q_lock() must be held.
+ *
+ * \return True if re-scheduling is needed (ready queue has changed),
+ *         false if not.
+ *
+ * \post The DRQ function might be preemptible for local DRQ execution, i.e.
+ *       `home_cpu() == current_cpu()`, in that case the home CPU can change.
+ */
 PRIVATE inline
 bool
 Context::_deq_exec_drq(Drq *rq, bool offline_cpu = false)
@@ -2089,7 +2160,7 @@ Context::enqueue_drq(Drq *rq)
       l->type = rq->context() == this
                                  ? Drq_log::Type::Send_reply
                                  : Drq_log::Type::Do_send;
-      l->func = (void*)rq->func;
+      l->func = reinterpret_cast<void*>(rq->func);
       l->thread = this;
       l->target_cpu = cpu;
       l->wait = 0;
@@ -2217,9 +2288,8 @@ Context::spill_fpu_if_owner()
 
 PUBLIC static
 void
-Context::spill_current_fpu(Cpu_number cpu)
+Context::spill_current_fpu([[maybe_unused]] Cpu_number cpu)
 {
-  (void)cpu;
   assert (cpu == current_cpu());
 
   Fpu &f = Fpu::fpu.current();
@@ -2289,9 +2359,8 @@ Context::spill_fpu_if_owner()
 
 PUBLIC static
 void
-Context::spill_current_fpu(Cpu_number cpu)
+Context::spill_current_fpu([[maybe_unused]] Cpu_number cpu)
 {
-  (void)cpu;
   assert (cpu == current_cpu());
 
   current()->spill_fpu();
@@ -2351,7 +2420,7 @@ public:
   Mword from_prio;
   void print(String_buffer *buf) const;
 };
-
+static_assert(sizeof(Tb_entry_ctx_sw) <= Tb_entry::Tb_entry_size);
 
 
 // --------------------------------------------------------------------------
@@ -2375,12 +2444,13 @@ Context::Drq_log::print(String_buffer *buf) const
     { "send", "do send", "do request", "send reply", "do reply", "done" };
 
   char const *t = "unk";
-  if ((unsigned)type < sizeof(_types)/sizeof(_types[0]))
-    t = _types[(unsigned)type];
+  if (static_cast<unsigned>(type) < cxx::size(_types))
+    t = _types[static_cast<unsigned>(type)];
 
   buf->printf("%s(%s) rq=%p to ctxt=%lx/%p (func=%p) cpu=%u",
-      t, wait ? "wait" : "no-wait", rq, Kobject_dbg::pointer_to_id(thread),
-      thread, func, cxx::int_value<Cpu_number>(target_cpu));
+      t, wait ? "wait" : "no-wait", static_cast<void const *>(rq),
+      Kobject_dbg::pointer_to_id(thread), static_cast<void *>(thread), func,
+      cxx::int_value<Cpu_number>(target_cpu));
 }
 
 // context switch

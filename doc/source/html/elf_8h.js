@@ -216,7 +216,8 @@ var elf_8h =
       [ "EM_AARCH64", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a7b9053c5e4c306885841eab134535d54", null ],
       [ "EM_TILEPRO", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a23b51c44c8ee877cf66fb6332224c810", null ],
       [ "EM_MICROBLAZE", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84aec759ae74c2e74e48349bdb2366feb98", null ],
-      [ "EM_TILEGX", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a3024c4adf13472e2cf73c8f0d8b27251", null ]
+      [ "EM_TILEGX", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a3024c4adf13472e2cf73c8f0d8b27251", null ],
+      [ "EM_RISCV", "group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84ae7291e24e22d05c77a14576b858af8c8", null ]
     ] ],
     [ "Elf_ETs", "group__l4util__elf.html#ga1f1765cb83b2bcca9b7d84c955929d52", [
       [ "ET_NONE", "group__l4util__elf.html#gga1f1765cb83b2bcca9b7d84c955929d52a16ec634ec16b5750f108673917d231a8", null ],

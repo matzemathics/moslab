@@ -49,11 +49,7 @@
 #define globfree(pglob) globfree64 (pglob)
 #else
 #define __readdir readdir
-#ifdef __UCLIBC_HAS_LFS__
 #define __readdir64 readdir64
-#else
-#define __readdir64 readdir
-#endif
 #define struct_stat64          struct stat
 #define __stat64(fname, buf)   stat (fname, buf)
 #endif
@@ -341,7 +337,7 @@ static int glob_in_dir (const char *pattern, const char *directory, int flags,
 		{
 		  const char *name;
 		  size_t len;
-#if defined __UCLIBC_HAS_LFS__ && !defined COMPILE_GLOB64
+#if !defined COMPILE_GLOB64
 		  struct dirent64 *d;
 		  union
 		    {
@@ -628,6 +624,7 @@ glob (
   filename = strrchr (pattern, '/');
   if (filename == NULL)
     {
+#if defined ENABLE_GLOB_TILDE_EXPANSION
       /* This can mean two things: a simple name or "~name".  The latter
 	 case is nothing but a notation for a directory.  */
       if ((flags & (GLOB_TILDE|GLOB_TILDE_CHECK)) && pattern[0] == '~')
@@ -646,6 +643,11 @@ glob (
 	  dirname = ".";
 	  dirlen = 0;
 	}
+#else
+      filename = pattern;
+      dirname = ".";
+      dirlen = 0;
+#endif
     }
   else if (filename == pattern)
     {

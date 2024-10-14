@@ -40,6 +40,8 @@
    _SVID_SOURCE		ISO C, POSIX, and SVID things.
    _ATFILE_SOURCE	Additional *at interfaces.
    _GNU_SOURCE		All of the above, plus GNU extensions.
+   _DEFAULT_SOURCE	Equivalent to defining _BSD_SOURCE and _SVID_SOURCE,
+			as well as _POSIX_C_SOURCE=200809L.
    _REENTRANT		Select additionally reentrant object.
    _THREAD_SAFE		Same as _REENTRANT, often used by other systems.
    _FORTIFY_SOURCE	If set to numeric value > 0 additional security
@@ -55,6 +57,7 @@
    These are defined by this file and are used by the
    header files to decide what to declare or define:
 
+   __USE_ISOC11		Define ISO C11 things.
    __USE_ISOC99		Define ISO C99 things.
    __USE_ISOC95		Define ISO C90 AMD1 (C95) things.
    __USE_POSIX		Define IEEE Std 1003.1 things.
@@ -76,7 +79,6 @@
    __USE_GNU		Define GNU extensions.
    __USE_REENTRANT	Define reentrant/thread-safe *_r functions.
    __USE_FORTIFY_LEVEL	Additional security measures used, according to level.
-   __FAVOR_BSD		Favor 4.3BSD things in cases of conflict.
 
    The macros `__GNU_LIBRARY__', `__GLIBC__', and `__GLIBC_MINOR__' are
    defined by this file unconditionally.  `__GNU_LIBRARY__' is provided
@@ -91,6 +93,7 @@
 
 
 /* Undefine everything, so we get a clean slate.  */
+#undef	__USE_ISOC11
 #undef	__USE_ISOC99
 #undef	__USE_ISOC95
 #undef	__USE_POSIX
@@ -112,7 +115,6 @@
 #undef	__USE_GNU
 #undef	__USE_REENTRANT
 #undef	__USE_FORTIFY_LEVEL
-#undef	__FAVOR_BSD
 #undef	__KERNEL_STRICT_NAMES
 
 /* Suppress kernel-name space pollution unless user expressedly asks
@@ -138,19 +140,42 @@
 # define __GNUC_PREREQ(maj, min) 0
 #endif
 
+/* Convenience macro to test the version of clang.
+   Use like this:
+   #if __CLANG_PREREQ(3,2)
+   ... code requiring clang 3.2 or later ...
+   #endif */
+#if defined __clang__
+# define __CLANG_PREREQ(maj, min) \
+	((__clang_major__ << 16) + __clang_minor__ >= ((maj) << 16) + (min))
+#else
+# define __CLANG_PREREQ(maj, min) 0
+#endif
 
-/* If _BSD_SOURCE was defined by the user, favor BSD over POSIX.  */
-#if defined _BSD_SOURCE && \
-    !(defined _POSIX_SOURCE || defined _POSIX_C_SOURCE || \
-      defined _XOPEN_SOURCE || defined _XOPEN_SOURCE_EXTENDED || \
-      defined _GNU_SOURCE || defined _SVID_SOURCE)
-# define __FAVOR_BSD	1
+/* Whether to use feature set F.  */
+#define __GLIBC_USE(F)  __GLIBC_USE_ ## F
+
+/* _DEFAULT_SOURCE is equivalent to defining _BSD_SOURCE, _SVID_SOURCE
+ * and _POSIX_C_SOURCE=200809L and vice versa. */
+#if defined _DEFAULT_SOURCE || defined _BSD_SOURCE || defined _SVID_SOURCE
+# undef _DEFAULT_SOURCE
+# define _DEFAULT_SOURCE 1
+# undef  _BSD_SOURCE
+# define _BSD_SOURCE	1
+# undef  _SVID_SOURCE
+# define _SVID_SOURCE	1
+# if _POSIX_C_SOURCE < 200809L
+#  undef _POSIX_C_SOURCE
+#  define _POSIX_C_SOURCE 200809L
+# endif
 #endif
 
 /* If _GNU_SOURCE was defined by the user, turn on all the other features.  */
 #ifdef _GNU_SOURCE
 # undef  _ISOC99_SOURCE
 # define _ISOC99_SOURCE	1
+# undef  _ISOC11_SOURCE
+# define _ISOC11_SOURCE	1
 # undef  _POSIX_SOURCE
 # define _POSIX_SOURCE	1
 # undef  _POSIX_C_SOURCE
@@ -199,9 +224,8 @@
 /* disable unsupported features */
 # undef __LDBL_COMPAT
 
-# ifndef __UCLIBC_HAS_FORTIFY__
-#  undef _FORTIFY_SOURCE
-# endif
+/* no support for FORTIFY */
+# undef _FORTIFY_SOURCE
 
 # ifndef __UCLIBC_HAS_THREADS__
 #  if defined _REENTRANT || defined _THREAD_SAFE
@@ -211,16 +235,6 @@
 #  endif
 # endif
 
-# ifndef __UCLIBC_HAS_LFS__
-#  undef _LARGEFILE64_SOURCE
-/* NOTE: This is probably incorrect on a 64-bit arch... */
-#  if defined _FILE_OFFSET_BITS && _FILE_OFFSET_BITS == 64
-#   error It appears you have defined _FILE_OFFSET_BITS=64.  Unfortunately, \
-uClibc was built without large file support enabled.
-#  endif
-# elif defined __BCC__
-#  error BCC does not support LFS, please disable it
-# endif
 #endif /* __UCLIBC__ */
 
 /* If nothing (other than _GNU_SOURCE) is defined,
@@ -233,11 +247,14 @@ uClibc was built without large file support enabled.
 # define _SVID_SOURCE	1
 #endif
 
-/* This is to enable the ISO C99 extension.  Also recognize the old macro
-   which was used prior to the standard acceptance.  This macro will
-   eventually go away and the features enabled by default once the ISO C99
-   standard is widely adopted.  */
-#if (defined _ISOC99_SOURCE || defined _ISOC9X_SOURCE \
+/* This is to enable the ISO C11 extension.  */
+#if (defined _ISOC11_SOURCE \
+     || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 201112L))
+# define __USE_ISOC11	1
+#endif
+
+/* This is to enable the ISO C99 extension.  */
+#if (defined _ISOC99_SOURCE || defined _ISOC11_SOURCE \
      || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L))
 # define __USE_ISOC99	1
 #endif
@@ -351,17 +368,6 @@ uClibc was built without large file support enabled.
 # define __USE_REENTRANT	1
 #endif
 
-#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 \
-    && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0
-# if _FORTIFY_SOURCE > 1
-#  define __USE_FORTIFY_LEVEL 2
-# else
-#  define __USE_FORTIFY_LEVEL 1
-# endif
-#else
-# define __USE_FORTIFY_LEVEL 0
-#endif
-
 /* We do support the IEC 559 math functionality, real and complex.  */
 #ifdef __UCLIBC_HAS_FLOATS__
 #define __STDC_IEC_559__		1
@@ -419,9 +425,7 @@ uClibc was built without large file support enabled.
    __USE_FILE_OFFSET64 but not __USE_LARGEFILE[64]. */
 # if defined __USE_FILE_OFFSET64 && !defined __REDIRECT
 #  define __USE_LARGEFILE	1
-#  ifdef __UCLIBC_HAS_LFS__
 #  define __USE_LARGEFILE64	1
-#  endif
 # endif
 
 #endif	/* !ASSEMBLER */
@@ -440,11 +444,13 @@ uClibc was built without large file support enabled.
 #endif
 
 #ifdef _LIBC
-# ifdef __UCLIBC_HAS_LFS__
 #  undef _FILE_OFFSET_BITS
 #  undef __USE_FILE_OFFSET64
-# endif
 # include <libc-internal.h>
+#endif
+
+#if defined(__UCLIBC_USE_TIME64__) || __TARGET_ARCH_BITS__ == 64
+#define __USE_TIME_BITS64 1
 #endif
 
 #endif	/* features.h  */

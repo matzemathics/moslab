@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Copyright (C) 2000-2005 by Erik Andersen <andersen@codepoet.org>
  *
@@ -12,8 +11,11 @@
  * been dynamicly linked in yet. */
 #include "sys/syscall.h"
 extern int _dl_errno;
+
+#ifdef UCLIBC_LDSO
 #undef __set_errno
 #define __set_errno(X) {(_dl_errno) = (X);}
+#endif
 
 /* Pull in the arch specific syscall implementation */
 #include <dl-syscalls.h>
@@ -22,15 +24,11 @@ extern int _dl_errno;
 #define _SYS_MMAN_H 1
 #include <bits/mman.h>
 
-#ifdef __ARCH_HAS_DEPRECATED_SYSCALLS__
+#if defined(__ARCH_HAS_DEPRECATED_SYSCALLS__) && (!defined(__UCLIBC_USE_TIME64__) || defined(__sparc__))
 /* Pull in whatever this particular arch's kernel thinks the kernel version of
  * struct stat should look like.  It turns out that each arch has a different
  * opinion on the subject, and different kernel revs use different names... */
-#if defined(__sparc_v9__) && (__WORDSIZE == 64)
-#define kernel_stat64 stat
-#else
 #define kernel_stat stat
-#endif
 #include <bits/kernel_stat.h>
 #include <bits/kernel_types.h>
 
@@ -42,9 +40,40 @@ extern int _dl_errno;
 /* 1. common-generic ABI doesn't need kernel_stat translation
  * 3. S_IS?ID already provided by stat.h
  */
+#include <fcntl.h>
 #include <sys/stat.h>
+#include <dl-string.h>
+
+#include <bits/uClibc_arch_features.h>
+#if defined __UCLIBC_HAVE_STATX__
+static __always_inline void
+__cp_stat_statx (struct stat *to, struct statx *from)
+{
+  _dl_memset (to, 0, sizeof (struct stat));
+  to->st_dev = ((from->stx_dev_minor & 0xff) | (from->stx_dev_major << 8)
+		| ((from->stx_dev_minor & ~0xff) << 12));
+  to->st_rdev = ((from->stx_rdev_minor & 0xff) | (from->stx_rdev_major << 8)
+		 | ((from->stx_rdev_minor & ~0xff) << 12));
+  to->st_ino = from->stx_ino;
+  to->st_mode = from->stx_mode;
+  to->st_nlink = from->stx_nlink;
+  to->st_uid = from->stx_uid;
+  to->st_gid = from->stx_gid;
+  to->st_atime = from->stx_atime.tv_sec;
+  to->st_atim.tv_nsec = from->stx_atime.tv_nsec;
+  to->st_mtime = from->stx_mtime.tv_sec;
+  to->st_mtim.tv_nsec = from->stx_mtime.tv_nsec;
+  to->st_ctime = from->stx_ctime.tv_sec;
+  to->st_ctim.tv_nsec = from->stx_ctime.tv_nsec;
+  to->st_size = from->stx_size;
+  to->st_blocks = from->stx_blocks;
+  to->st_blksize = from->stx_blksize;
+}
+#endif
 #endif
 
+#define AT_NO_AUTOMOUNT       0x800
+#define AT_EMPTY_PATH         0x1000 
 
 /* Here are the definitions for some syscalls that are used
    by the dynamic linker.  The idea is that we want to be able
@@ -53,7 +82,15 @@ extern int _dl_errno;
    dynamic linking at all, so we cannot return any error codes.
    We just punt if there is an error. */
 #define __NR__dl_exit __NR_exit
-static __always_inline _syscall1(void, _dl_exit, int, status)
+static __always_inline attribute_noreturn __cold void _dl_exit(int status)
+{
+	INLINE_SYSCALL(_dl_exit, 1, status);
+#if __GNUC_PREREQ(4, 5)
+	__builtin_unreachable(); /* shut up warning: 'noreturn' function does return*/
+#else
+	while (1);
+#endif
+}
 
 #define __NR__dl_close __NR_close
 static __always_inline _syscall1(int, _dl_close, int, fd)
@@ -83,7 +120,7 @@ static __always_inline _syscall3(unsigned long, _dl_read, int, fd,
 static __always_inline _syscall3(int, _dl_mprotect, const void *, addr,
                         unsigned long, len, int, prot)
 
-#if defined __NR_fstatat64 && !defined __NR_stat
+#if defined __NR_fstatat64 && !defined __NR_stat && (!defined(__UCLIBC_USE_TIME64__) || defined(__sparc__))
 # define __NR__dl_fstatat64 __NR_fstatat64
 static __always_inline _syscall4(int, _dl_fstatat64, int, fd, const char *,
 				 fn, struct stat *, stat, int, flags)
@@ -93,18 +130,62 @@ static __always_inline int _dl_stat(const char *file_name,
 {
 	return _dl_fstatat64(AT_FDCWD, file_name, buf, 0);
 }
-#elif defined __NR_stat
+#elif defined __NR_newfstatat && !defined __NR_stat && (!defined(__UCLIBC_USE_TIME64__) || defined(__sparc__))
+# define __NR__dl_newfstatat __NR_newfstatat
+static __always_inline _syscall4(int, _dl_newfstatat, int, fd, const char *,
+				 fn, struct stat *, stat, int, flags)
+
+static __always_inline int _dl_stat(const char *file_name,
+                        struct stat *buf)
+{
+	return _dl_newfstatat(AT_FDCWD, file_name, buf, 0);
+}
+#elif defined __NR_stat && (!defined(__UCLIBC_USE_TIME64__) || defined(__sparc__))
 # define __NR__dl_stat __NR_stat
 static __always_inline _syscall2(int, _dl_stat, const char *, file_name,
                         struct stat *, buf)
+
+#elif defined __NR_statx && defined __UCLIBC_HAVE_STATX__
+# define __NR__dl_statx __NR_statx
+# include <fcntl.h>
+# include <statx_cp.h>
+
+static __always_inline _syscall5(int, _dl_statx, int, fd, const char *, file_name, int, flags,
+			         unsigned int, mask, struct statx *, buf);
+
+static __always_inline int _dl_stat(const char *file_name,
+                        struct stat *buf)
+{
+	struct statx tmp;
+	int rc = _dl_statx(AT_FDCWD, file_name, AT_NO_AUTOMOUNT, STATX_BASIC_STATS, &tmp);
+	if (rc == 0)
+		__cp_stat_statx ((struct stat *)buf, &tmp);
+	return rc;
+}
 #endif
 
-#if defined __NR_fstat64 && !defined __NR_fstat
+#if defined __NR_fstat64 && !defined __NR_fstat && (!defined(__UCLIBC_USE_TIME64__) || defined(__sparc__))
 # define __NR__dl_fstat __NR_fstat64
+static __always_inline _syscall2(int, _dl_fstat, int, fd, struct stat *, buf)
 #elif defined __NR_fstat
 # define __NR__dl_fstat __NR_fstat
-#endif
 static __always_inline _syscall2(int, _dl_fstat, int, fd, struct stat *, buf)
+#elif defined __NR_statx && defined __UCLIBC_HAVE_STATX__
+# define __NR__dl_fstatx __NR_statx
+static __always_inline _syscall5(int, _dl_fstatx, int, fd, const char *, file_name, int, flags, unsigned int, mask, struct statx *, buf);
+
+static __always_inline int _dl_fstat(int fd,
+                        struct stat *buf)
+{
+	struct statx tmp;
+	int rc = _dl_fstatx(fd, "", AT_EMPTY_PATH, STATX_BASIC_STATS, &tmp);
+	if (rc == 0)
+		__cp_stat_statx ((struct stat *)buf, &tmp);
+	return rc;
+}
+#else
+static __always_inline _syscall2(int, _dl_fstat, int, fd, struct stat *, buf)
+#endif
 
 #define __NR__dl_munmap __NR_munmap
 static __always_inline _syscall2(int, _dl_munmap, void *, start, unsigned long, length)
@@ -139,26 +220,33 @@ static __always_inline _syscall0(gid_t, _dl_getegid)
 #define __NR__dl_getpid __NR_getpid
 static __always_inline _syscall0(gid_t, _dl_getpid)
 
-#if defined __NR_readlinkat && !defined __NR_readlink
+#if defined __NR_readlinkat
 # define __NR__dl_readlink __NR_readlinkat
 static __always_inline _syscall4(int, _dl_readlink, int, id, const char *, path,
 						char *, buf, size_t, bufsiz)
-#elif defined __NR_readlink
-# define __NR__dl_readlink __NR_readlink
-static __always_inline _syscall3(int, _dl_readlink, const char *, path, char *, buf,
-                        size_t, bufsiz)
 #endif
 
 #ifdef __NR_pread64
 #define __NR___syscall_pread __NR_pread64
+#ifdef __UCLIBC_SYSCALL_ALIGN_64BIT__
+static __always_inline _syscall6(ssize_t, __syscall_pread, int, fd, void *, buf, size_t, dummy,
+			size_t, count, off_t, offset_hi, off_t, offset_lo)
+
+static __always_inline ssize_t
+_dl_pread(int fd, void *buf, size_t count, off_t offset)
+{
+	return __syscall_pread(fd, buf, count, 0, __LONG_LONG_PAIR((offset >> 32), (offset & 0xffffffff)));
+}
+#else
 static __always_inline _syscall5(ssize_t, __syscall_pread, int, fd, void *, buf,
 			size_t, count, off_t, offset_hi, off_t, offset_lo)
 
 static __always_inline ssize_t
 _dl_pread(int fd, void *buf, size_t count, off_t offset)
 {
-	return __syscall_pread(fd, buf, count, offset, offset >> 31);
+	return __syscall_pread(fd, buf, count, __LONG_LONG_PAIR(offset >> 31, offset));
 }
+#endif
 #elif defined __NR_pread
 #define __NR___syscall_pread __NR_pread
 static __always_inline _syscall5(ssize_t, __syscall_pread, int, fd, void *, buf,

@@ -148,13 +148,6 @@ enum __ptrace_request
   PTRACE_LISTEN = 0x4208
 };
 
-
-/* Flag for PTRACE_LISTEN.  */
-enum __ptrace_flags
-{
-  PTRACE_SEIZE_DEVEL = 0x80000000
-};
-
 /* Options set using PTRACE_SETOPTIONS.  */
 enum __ptrace_setoptions
 {
@@ -178,7 +171,7 @@ enum __ptrace_eventcodes
   PTRACE_EVENT_EXEC	= 4,
   PTRACE_EVENT_VFORK_DONE = 5,
   PTRACE_EVENT_EXIT	= 6,
-  PTRAVE_EVENT_SECCOMP  = 7
+  PTRACE_EVENT_SECCOMP  = 7
 };
 
 /* Perform process tracing functions.  REQUEST is one of the values

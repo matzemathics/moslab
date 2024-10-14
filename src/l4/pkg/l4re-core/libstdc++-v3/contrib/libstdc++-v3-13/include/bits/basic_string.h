@@ -344,13 +344,23 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       // Ensure that _M_local_buf is the active member of the union.
       __attribute__((__always_inline__))
       _GLIBCXX14_CONSTEXPR
-      pointer
-      _M_use_local_data() _GLIBCXX_NOEXCEPT
+      void
+      _M_init_local_buf() _GLIBCXX_NOEXCEPT
       {
 #if __cpp_lib_is_constant_evaluated
 	if (std::is_constant_evaluated())
 	  for (size_type __i = 0; __i <= _S_local_capacity; ++__i)
 	    _M_local_buf[__i] = _CharT();
+#endif
+      }
+
+      __attribute__((__always_inline__))
+      _GLIBCXX14_CONSTEXPR
+      pointer
+      _M_use_local_data() _GLIBCXX_NOEXCEPT
+      {
+#if __cpp_lib_is_constant_evaluated
+	_M_init_local_buf();
 #endif
 	return _M_local_data();
       }
@@ -513,7 +523,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       _GLIBCXX_NOEXCEPT_IF(is_nothrow_default_constructible<_Alloc>::value)
       : _M_dataplus(_M_local_data())
       {
-	_M_use_local_data();
+	_M_init_local_buf();
 	_M_set_length(0);
       }
 
@@ -525,7 +535,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
       : _M_dataplus(_M_local_data(), __a)
       {
-	_M_use_local_data();
+	_M_init_local_buf();
 	_M_set_length(0);
       }
 
@@ -669,6 +679,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       {
 	if (__str._M_is_local())
 	  {
+	    _M_init_local_buf();
 	    traits_type::copy(_M_local_buf, __str._M_local_buf,
 			      __str.length() + 1);
 	  }
@@ -682,7 +693,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	// basic_stringbuf relies on writing into unallocated capacity so
 	// we mess up the contents if we put a '\0' in the string.
 	_M_length(__str.length());
-	__str._M_data(__str._M_local_data());
+	__str._M_data(__str._M_use_local_data());
 	__str._M_set_length(0);
       }
 
@@ -708,6 +719,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       {
 	if (__str._M_is_local())
 	  {
+	    _M_init_local_buf();
 	    traits_type::copy(_M_local_buf, __str._M_local_buf,
 			      __str.length() + 1);
 	    _M_length(__str.length());
@@ -719,7 +731,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	    _M_data(__str._M_data());
 	    _M_length(__str.length());
 	    _M_capacity(__str._M_allocated_capacity);
-	    __str._M_data(__str._M_local_buf);
+	    __str._M_data(__str._M_use_local_data());
 	    __str._M_set_length(0);
 	  }
 	else
@@ -892,7 +904,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 		__str._M_capacity(__capacity);
 	      }
 	    else
-	      __str._M_data(__str._M_local_buf);
+	      __str._M_data(__str._M_use_local_data());
 	  }
 	else // Need to do a deep copy
 	  assign(__str);
@@ -4129,6 +4141,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
   { return __gnu_cxx::__stoa(&std::strtoull, "stoull", __str.c_str(),
 			     __idx, __base); }
 
+#ifndef BID_VARIANT_FLAG_NOFPU
   // NB: strtof vs strtod.
   inline float
   stof(const string& __str, size_t* __idx = 0)
@@ -4141,6 +4154,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
   inline long double
   stold(const string& __str, size_t* __idx = 0)
   { return __gnu_cxx::__stoa(&std::strtold, "stold", __str.c_str(), __idx); }
+#endif
 #endif // _GLIBCXX_USE_C99_STDLIB
 
   // DR 1261. Insufficent overloads for to_string / to_wstring
@@ -4281,6 +4295,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
   { return __gnu_cxx::__stoa(&std::wcstoull, "stoull", __str.c_str(),
 			     __idx, __base); }
 
+#ifndef BID_VARIANT_FLAG_NOFPU
   // NB: wcstof vs wcstod.
   inline float
   stof(const wstring& __str, size_t* __idx = 0)
@@ -4293,6 +4308,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
   inline long double
   stold(const wstring& __str, size_t* __idx = 0)
   { return __gnu_cxx::__stoa(&std::wcstold, "stold", __str.c_str(), __idx); }
+#endif
 
 #ifndef _GLIBCXX_HAVE_BROKEN_VSWPRINTF
   // DR 1261.
@@ -4346,6 +4362,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 					    L"%f", __val);
   }
 
+#ifndef BID_VARIANT_FLAG_NOFPU
   _GLIBCXX_NODISCARD
   inline wstring
   to_wstring(double __val)
@@ -4365,6 +4382,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     return __gnu_cxx::__to_xstring<wstring>(&std::vswprintf, __n,
 					    L"%Lf", __val);
   }
+#endif
 #endif // _GLIBCXX_HAVE_BROKEN_VSWPRINTF
 #endif // _GLIBCXX_USE_WCHAR_T && _GLIBCXX_USE_C99_WCHAR
 

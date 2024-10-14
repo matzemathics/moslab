@@ -10,15 +10,16 @@
 #include <mutex>
 
 #include <l4/cxx/unique_ptr>
-#include <l4/re/util/object_registry>
 
 #include "debug.h"
+#include "vcpu_obj_registry.h"
 #include "mem_access.h"
 #include "pci_device.h"
 #include "msix.h"
 #include "msi_allocator.h"
 #include "ds_mmio_handling.h"
 #include "msi_controller.h"
+#include "msi_irq_src.h"
 
 namespace Vdev { namespace Msix {
 
@@ -27,26 +28,25 @@ namespace Vdev { namespace Msix {
  * the Msix_controller.
  */
 class Msix_src
-: public L4::Irqep_t<Msix_src>,
+: public Msi_irq_src<Msix_src>,
   public virtual Vdev::Dev_ref
 {
 public:
-  explicit Msix_src(Table_entry const *entry,
+  explicit Msix_src(cxx::Ref_ptr<Vdev::Msi::Allocator> msi_alloc,
                     Gic::Msix_dest const &msix_dest,
-                    l4_uint32_t io_irq)
-  : _entry(entry), _msix_dest(msix_dest), _io_irq(io_irq)
+                    Vcpu_obj_registry *registry,
+                    Table_entry const *entry)
+  : Msi_irq_src<Msix_src>(msi_alloc, msix_dest, registry), _entry(entry)
   {}
 
-  void handle_irq() const
-  { _msix_dest.send_msix(_entry->addr, _entry->data); }
+  l4_uint64_t msi_vec_addr() const
+  { return _entry->addr; }
 
-  l4_uint32_t io_irq() const
-  { return _io_irq; }
+  l4_uint64_t msi_vec_data() const
+  { return _entry->data; }
 
 private:
   Table_entry const *_entry;
-  Gic::Msix_dest _msix_dest;
-  l4_uint32_t const _io_irq;
 };
 
 /**
@@ -72,7 +72,7 @@ public:
    */
   Virt_msix_table(cxx::Ref_ptr<Vdev::Mmio_ds_converter> &&con,
                   cxx::Ref_ptr<Vdev::Msi::Allocator> msi_alloc,
-                  L4Re::Util::Object_registry *registry,
+                  Vcpu_obj_registry *registry,
                   l4_uint64_t src_id,
                   unsigned num_entries,
                   Gic::Msix_dest const &msix_dest)
@@ -84,18 +84,6 @@ public:
     _msix_dest(msix_dest),
     _virt_table(cxx::make_unique<Table_entry[]>(num_entries))
   {}
-
-  ~Virt_msix_table()
-  {
-    for (auto &msi : _msi_irqs)
-      if (msi != nullptr)
-        {
-          _msi_alloc->icu()->unbind(msi->io_irq() | L4_ICU_FLAG_MSI,
-                                    msi->obj_cap());
-          _msi_alloc->free_msi(msi->io_irq());
-          _registry->unregister_obj(msi.get());
-        }
-  }
 
   /// Read from the emulated MSI-X memory.
   l4_umword_t read(unsigned reg, char size, unsigned) const
@@ -124,6 +112,8 @@ public:
       msi_entry_mask_ctrl(reg_to_entry(reg), true);
     // else: PCIe brings TPH Requester fields for vector control.
   }
+
+  char const *dev_name() const override { return "Virt_msix_table"; }
 
 protected:
   static Dbg warn() { return Dbg(Dbg::Dev, Dbg::Warn, "PassThrough"); }
@@ -241,35 +231,13 @@ private:
     trace().printf("Configure MSI-X entry number %u for entry (0x%llx, 0x%x)\n",
                    idx, entry->addr, entry->data);
 
-    // Allocate the number with the vBus ICU
-    long msi =
-      L4Re::chksys(_msi_alloc->alloc_msi(),
-                   "MSI-X vector allocation failed. "
-                   "Please increase the 'Property.num_msis' on vbus.");
-
     // allocate IRQ object and bind it to the ICU
-    auto msi_src = Vdev::make_device<Msix_src>(entry, _msix_dest, msi);
-    _registry->register_irq_obj(msi_src.get());
-
-    long label = L4Re::chksys(_msi_alloc->icu()->bind(msi | L4_ICU_FLAG_MSI,
-                                                      msi_src->obj_cap()),
-                              "Bind MSI-IRQ to vBUS ICU.");
-
-    // Currently, this doesn't happen for MSIs as IO's ICU doesn't manage them.
-    // VMM Failure is not an option, as this is called during guest runtime.
-    // What would be the graceful case?
-    if (label > 0)
-      warn().printf("ICU bind returned %li. Unexpected unmask via vBus ICU "
-                    "necessary.\n", label);
+    auto msi_src = Vdev::make_device<Msix_src>(_msi_alloc, _msix_dest,
+                                               _registry, entry);
 
     // get MSI info
     l4_icu_msi_info_t msiinfo;
-    L4Re::chksys(_msi_alloc->icu()->msi_info(msi | L4_ICU_FLAG_MSI, _src_id,
-                                             &msiinfo),
-                 "Acquire MSI entry from vBus.");
-
-    trace().printf("msi address: 0x%llx, data 0x%x\n", msiinfo.msi_addr,
-                   msiinfo.msi_data);
+    msi_src->msi_info(_src_id, &msiinfo);
 
     // write to device memory
     write_dev_msix_entry(idx, msiinfo);
@@ -280,7 +248,7 @@ private:
   }
 
   cxx::Ref_ptr<Vdev::Mmio_ds_converter> _con;
-  L4Re::Util::Object_registry *_registry;
+  Vcpu_obj_registry *_registry;
   cxx::Ref_ptr<Vdev::Msi::Allocator> _msi_alloc;
   std::vector<cxx::Ref_ptr<Msix_src>> _msi_irqs;
   l4_uint64_t const _src_id;

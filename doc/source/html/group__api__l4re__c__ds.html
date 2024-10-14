@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Dataspace interface</title>
+<title>L4Re Operating System Framework: Dataspace interface</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -150,6 +153,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga03eb3f67fc6d769900ba9029f54dc124" id="r_ga03eb3f67fc6d769900ba9029f54dc124"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__api__l4re__c__ds.html#ga03eb3f67fc6d769900ba9029f54dc124">l4re_ds_info</a> (<a class="el" href="group__api__l4re__c__ds.html#ga067feec0fd93ee6feb4b212d92b7ba8a">l4re_ds_t</a> ds, <a class="el" href="structl4re__ds__stats__t.html">l4re_ds_stats_t</a> *stats) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
 <tr class="memdesc:ga03eb3f67fc6d769900ba9029f54dc124"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get information on the dataspace.    <br /></td></tr>
 <tr class="separator:ga03eb3f67fc6d769900ba9029f54dc124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3d74c479b8994fd11afa4e51ab47f2a8" id="r_ga3d74c479b8994fd11afa4e51ab47f2a8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__api__l4re__c__ds.html#ga3d74c479b8994fd11afa4e51ab47f2a8">l4re_ds_map_info</a> (<a class="el" href="group__api__l4re__c__ds.html#ga067feec0fd93ee6feb4b212d92b7ba8a">l4re_ds_t</a> ds, <a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> *start_addr, <a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> *end_addr) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga3d74c479b8994fd11afa4e51ab47f2a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get mapping range of dataspace.    <br /></td></tr>
+<tr class="separator:ga3d74c479b8994fd11afa4e51ab47f2a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Dataspace C interface. </p>
@@ -442,6 +448,66 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga3d74c479b8994fd11afa4e51ab47f2a8" name="ga3d74c479b8994fd11afa4e51ab47f2a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3d74c479b8994fd11afa4e51ab47f2a8">&#9670;&#160;</a></span>l4re_ds_map_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int l4re_ds_map_info </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__api__l4re__c__ds.html#ga067feec0fd93ee6feb4b212d92b7ba8a">l4re_ds_t</a>&#160;</td>
+          <td class="paramname"><em>ds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> *&#160;</td>
+          <td class="paramname"><em>start_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> *&#160;</td>
+          <td class="paramname"><em>end_addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get mapping range of dataspace.   </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ds</td><td>Dataspace capability.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>In case of a MMU-less system, the dataspace must be mapped at the correct address in the task because virtual and physical address must match. This method returns the start and end address of the physically contiguous buffer backing the dataspace.</p>
+<p>On MMU-enabled system any page aligned address is permissible. On such systems the method is just a stub.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">start_addr</td><td>Start address of dataspace. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">end_addr</td><td>End address (inclusive) of dataspace.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">&gt;0</td><td>Start/end address have been set and need to be obeyed. </td></tr>
+    <tr><td class="paramname">0</td><td>No constraint of mapping address. </td></tr>
+    <tr><td class="paramname">-L4_EPERM</td><td>Cannot infer mapping address. Dataspace not mappable. </td></tr>
+    <tr><td class="paramname">&lt;0</td><td>IPC errors.   </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga9bc4f9dbfd28822e4b6adb61e1ea398b" name="ga9bc4f9dbfd28822e4b6adb61e1ea398b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga9bc4f9dbfd28822e4b6adb61e1ea398b">&#9670;&#160;</a></span>l4re_ds_size()</h2>
 
@@ -475,7 +541,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

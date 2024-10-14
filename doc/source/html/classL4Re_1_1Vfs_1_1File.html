@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re::Vfs::File Class Reference</title>
+<title>L4Re Operating System Framework: L4Re::Vfs::File Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -133,9 +136,9 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memdesc:ab75e94708610d22be8b8bb98ca4c54c8 inherit pub_methods_classL4Re_1_1Vfs_1_1Generic__file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set file status flags (fcntl F_SETFL).  <br /></td></tr>
 <tr class="separator:ab75e94708610d22be8b8bb98ca4c54c8 inherit pub_methods_classL4Re_1_1Vfs_1_1Generic__file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classL4Re_1_1Vfs_1_1Regular__file"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classL4Re_1_1Vfs_1_1Regular__file')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classL4Re_1_1Vfs_1_1Regular__file.html">L4Re::Vfs::Regular_file</a></td></tr>
-<tr class="memitem:a72a0fffffb6460e91826115d36d553d3 inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file" id="r_a72a0fffffb6460e91826115d36d553d3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Vfs_1_1Regular__file.html#a72a0fffffb6460e91826115d36d553d3">data_space</a> () const noexcept=0</td></tr>
-<tr class="memdesc:a72a0fffffb6460e91826115d36d553d3 inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an <a class="el" href="classL4Re_1_1Dataspace.html" title="Interface for memory-like objects.">L4Re::Dataspace</a> object for the file.  <br /></td></tr>
-<tr class="separator:a72a0fffffb6460e91826115d36d553d3 inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cbfa1844e4539e2ca32838805308f7f inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file" id="r_a2cbfa1844e4539e2ca32838805308f7f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Vfs_1_1Regular__file.html#a2cbfa1844e4539e2ca32838805308f7f">data_space</a> () noexcept=0</td></tr>
+<tr class="memdesc:a2cbfa1844e4539e2ca32838805308f7f inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an <a class="el" href="classL4Re_1_1Dataspace.html" title="Interface for memory-like objects.">L4Re::Dataspace</a> object for the file.  <br /></td></tr>
+<tr class="separator:a2cbfa1844e4539e2ca32838805308f7f inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34c44ed58158cd6750d90171999b29c0 inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file" id="r_a34c44ed58158cd6750d90171999b29c0"><td class="memItemLeft" align="right" valign="top">virtual ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Vfs_1_1Regular__file.html#a34c44ed58158cd6750d90171999b29c0">readv</a> (const struct iovec *, int iovcnt) noexcept=0</td></tr>
 <tr class="memdesc:a34c44ed58158cd6750d90171999b29c0 inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read one or more blocks of data from the file.  <br /></td></tr>
 <tr class="separator:a34c44ed58158cd6750d90171999b29c0 inherit pub_methods_classL4Re_1_1Vfs_1_1Regular__file"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,7 +206,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4Re.html">L4Re</a></li><li class="navelem"><a class="el" href="namespaceL4Re_1_1Vfs.html">Vfs</a></li><li class="navelem"><a class="el" href="classL4Re_1_1Vfs_1_1File.html">File</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

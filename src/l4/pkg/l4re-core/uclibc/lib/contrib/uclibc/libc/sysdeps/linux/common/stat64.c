@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * stat64() for uClibc
  *
@@ -11,15 +10,29 @@
 #include <sys/syscall.h>
 #include <sys/stat.h>
 
-#if defined __UCLIBC_HAS_LFS__
-
-# if defined __NR_fstatat64 && !defined __NR_stat64
-# include <fcntl.h>
-# include <unistd.h>
+#if defined __NR_fstatat64 && !defined __NR_stat64 && !defined(__UCLIBC_USE_TIME64__)
+#include <fcntl.h>
+#include <unistd.h>
 
 int stat64(const char *file_name, struct stat64 *buf)
 {
 	return fstatat64(AT_FDCWD, file_name, buf, 0);
+}
+libc_hidden_def(stat64)
+
+#elif __NR_statx && defined __UCLIBC_HAVE_STATX__
+# include <fcntl.h>
+# include <statx_cp.h>
+
+int stat64(const char *file_name, struct stat64 *buf)
+{
+	struct statx tmp;
+	int rc = INLINE_SYSCALL (statx, 5, AT_FDCWD, file_name, AT_NO_AUTOMOUNT,
+                                STATX_BASIC_STATS, &tmp);
+	if (rc == 0)
+		__cp_stat64_statx ((struct stat64 *)buf, &tmp);
+
+	return rc;
 }
 libc_hidden_def(stat64)
 
@@ -42,6 +55,4 @@ int stat64(const char *file_name, struct stat64 *buf)
 	return result;
 }
 libc_hidden_def(stat64)
-# endif
-
-#endif /* __UCLIBC_HAS_LFS__ */
+#endif

@@ -152,21 +152,21 @@ static void brain_damaged_fillrand(unsigned char *buf, unsigned int len)
 	for (i = 0; i < len; ++i) {
 		rh = high % NUM_LETTERS;
 		high /= NUM_LETTERS;
-#define L ((UINT32_MAX % NUM_LETTERS + 1) % NUM_LETTERS)
-		k = (low % NUM_LETTERS) + (L * rh);
-#undef L
-#define H ((UINT32_MAX / NUM_LETTERS) + ((UINT32_MAX % NUM_LETTERS + 1) / NUM_LETTERS))
-		low = (low / NUM_LETTERS) + (H * rh) + (k / NUM_LETTERS);
-#undef H
+#define _L ((UINT32_MAX % NUM_LETTERS + 1) % NUM_LETTERS)
+		k = (low % NUM_LETTERS) + (_L * rh);
+#undef _L
+#define _H ((UINT32_MAX / NUM_LETTERS) + ((UINT32_MAX % NUM_LETTERS + 1) / NUM_LETTERS))
+		low = (low / NUM_LETTERS) + (_H * rh) + (k / NUM_LETTERS);
+#undef _H
 		k %= NUM_LETTERS;
 		buf[i] = letters[k];
 	}
 }
 
-/* Generate a temporary file name based on TMPL.  TMPL must match the
-   rules for mk[s]temp (i.e. end in "XXXXXX").  The name constructed
-   does not exist at the time of the call to __gen_tempname.  TMPL is
-   overwritten with the result.
+/* Generate a temporary file name based on TMPL. TMPL must match the
+   rules for mk[s]temp[s] (i.e. end in "prefixXXXXXXsuffix"). The name
+   constructed does not exist at the time of the call to __gen_tempname.
+   TMPL is overwritten with the result.
 
    KIND may be one of:
    __GT_NOCREATE:       simply verify that the name does not exist
@@ -177,7 +177,8 @@ static void brain_damaged_fillrand(unsigned char *buf, unsigned int len)
    __GT_DIR:            create a directory with given mode.
 
 */
-int attribute_hidden __gen_tempname (char *tmpl, int kind, mode_t mode)
+int attribute_hidden __gen_tempname (char *tmpl, int kind, int flags,
+                                     int suffixlen, mode_t mode)
 {
     char *XXXXXX;
     unsigned int i;
@@ -187,8 +188,9 @@ int attribute_hidden __gen_tempname (char *tmpl, int kind, mode_t mode)
 
     len = strlen (tmpl);
     /* This is where the Xs start.  */
-    XXXXXX = tmpl + len - 6;
-    if (len < 6 || strcmp (XXXXXX, "XXXXXX"))
+    XXXXXX = tmpl + len - 6 - suffixlen;
+    if (len < 6 || suffixlen < 0 || suffixlen > (ssize_t)len - 6
+        || strncmp (XXXXXX, "XXXXXX", 6))
     {
 	__set_errno (EINVAL);
 	return -1;
@@ -216,16 +218,15 @@ int attribute_hidden __gen_tempname (char *tmpl, int kind, mode_t mode)
 			    /* Give up now. */
 			    return -1;
 		    } else
-			fd = 0;
+			/* File already exists, so return with non-zero value */
+			return -1;
 		}
 	    case __GT_FILE:
-		fd = open (tmpl, O_RDWR | O_CREAT | O_EXCL, mode);
+		fd = open (tmpl, O_RDWR | O_CREAT | O_EXCL | flags, mode);
 		break;
-#if defined __UCLIBC_HAS_LFS__
 	    case __GT_BIGFILE:
-		fd = open64 (tmpl, O_RDWR | O_CREAT | O_EXCL, mode);
+		fd = open64 (tmpl, O_RDWR | O_CREAT | O_EXCL | flags, mode);
 		break;
-#endif
 	    case __GT_DIR:
 		fd = mkdir (tmpl, mode);
 		break;

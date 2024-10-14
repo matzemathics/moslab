@@ -1,0 +1,7 @@
+<map id="l4_vm_vmx_clear" name="l4_vm_vmx_clear">
+<area shape="rect" id="Node000001" title="Saves cached state from the kernel software VMCS to the user software VMCS." alt="" coords="5,31,143,56"/>
+<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#ga68d8576e1d43f45fb1286b7d716fb33f" title="Get the hardware VMCS object capability associated with the software VMCS." alt="" coords="191,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,33,177,28,178,34,143,38"/>
+<area shape="rect" id="Node000003" href="$group__l4__vm__vmx__api.html#gaf3a8561834bf99b27397eab48320d9e9" title="Associate the software VMCS with a hardware VMCS object capability." alt="" coords="191,55,385,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,48,178,52,177,58,142,54"/>
+</map>

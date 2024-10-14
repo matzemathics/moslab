@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/shmc/ringbuf.h Source File</title>
+<title>L4Re Operating System Framework: l4/shmc/ringbuf.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -161,13 +164,13 @@ $(document).ready(function(){initNavTree('ringbuf_8h_source.html',''); initResiz
 </div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="ringbuf_8h.html#a75dc43d355685aac61623e1e7d3c2d73">  104</a></span><span class="preprocessor">#define L4SHMC_RINGBUF_HEAD(ringbuf)       ((l4shmc_ringbuf_head_t*)((ringbuf)-&gt;_addr))</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="group__api__l4shm__ringbuf__internal.html#ga75dc43d355685aac61623e1e7d3c2d73">  104</a></span><span class="preprocessor">#define L4SHMC_RINGBUF_HEAD(ringbuf)       ((l4shmc_ringbuf_head_t*)((ringbuf)-&gt;_addr))</span></div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="ringbuf_8h.html#aad2b2ff15bf620c4fb587ef97c389a97">  113</a></span><span class="preprocessor">#define L4SHMC_RINGBUF_DATA(ringbuf)       (L4SHMC_RINGBUF_HEAD(ringbuf)-&gt;data)</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="group__api__l4shm__ringbuf__internal.html#gaad2b2ff15bf620c4fb587ef97c389a97">  113</a></span><span class="preprocessor">#define L4SHMC_RINGBUF_DATA(ringbuf)       (L4SHMC_RINGBUF_HEAD(ringbuf)-&gt;data)</span></div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="ringbuf_8h.html#a110e33bc1a57463cc5e77372bf140fee">  122</a></span><span class="preprocessor">#define L4SHMC_RINGBUF_DATA_SIZE(ringbuf)  ((ringbuf)-&gt;_size - sizeof(l4shmc_ringbuf_head_t))</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="group__api__l4shm__ringbuf__internal.html#ga110e33bc1a57463cc5e77372bf140fee">  122</a></span><span class="preprocessor">#define L4SHMC_RINGBUF_DATA_SIZE(ringbuf)  ((ringbuf)-&gt;_size - sizeof(l4shmc_ringbuf_head_t))</span></div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keyword">enum</span> lock_content</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>{</div>
@@ -258,12 +261,12 @@ $(document).ready(function(){initNavTree('ringbuf_8h_source.html',''); initResiz
 <div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span><a class="code hl_define" href="group__l4sys__defines.html#ga115472f6d0d1035f1885658ce0821537">__END_DECLS</a></div>
 <div class="ttc" id="agroup__l4__basic__types_html_gac1d09f3e382e711b776931f10e6e1e5a"><div class="ttname"><a href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a></div><div class="ttdeci">unsigned int l4_uint32_t</div><div class="ttdoc">Unsigned 32bit value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00040">l4int.h:40</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
-<div class="ttc" id="agroup__l4__thread__api_html_ga5e47131f486f920826b5f72dad82bafe"><div class="ttname"><a href="group__l4__thread__api.html#ga5e47131f486f920826b5f72dad82bafe">l4_thread_yield</a></div><div class="ttdeci">l4_msgtag_t l4_thread_yield(void) L4_NOTHROW</div><div class="ttdoc">Yield current time slice.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2thread_8h_source.html#l00856">thread.h:856</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
+<div class="ttc" id="agroup__l4__thread__api_html_ga5e47131f486f920826b5f72dad82bafe"><div class="ttname"><a href="group__l4__thread__api.html#ga5e47131f486f920826b5f72dad82bafe">l4_thread_yield</a></div><div class="ttdeci">l4_msgtag_t l4_thread_yield(void) L4_NOTHROW</div><div class="ttdoc">Yield current time slice.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2thread_8h_source.html#l00861">thread.h:861</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga115472f6d0d1035f1885658ce0821537"><div class="ttname"><a href="group__l4sys__defines.html#ga115472f6d0d1035f1885658ce0821537">__END_DECLS</a></div><div class="ttdeci">#define __END_DECLS</div><div class="ttdoc">End section with C types and functions.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00199">compiler.h:199</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga2469cd44710705e9f0a5832e060ec48a"><div class="ttname"><a href="group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a">L4_CV</a></div><div class="ttdeci">#define L4_CV</div><div class="ttdoc">Define calling convention.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2linkage_8h_source.html#l00044">linkage.h:44</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga568e6bde99652b7fd271ad206cfe38f5"><div class="ttname"><a href="group__l4sys__defines.html#ga568e6bde99652b7fd271ad206cfe38f5">__BEGIN_DECLS</a></div><div class="ttdeci">#define __BEGIN_DECLS</div><div class="ttdoc">Start section with C types and functions.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00196">compiler.h:196</a></div></div>
-<div class="ttc" id="agroup__l4util__atomic_html_gacb4a5e47fea67cc4c61b488fc374df62"><div class="ttname"><a href="group__l4util__atomic.html#gacb4a5e47fea67cc4c61b488fc374df62">l4util_cmpxchg32</a></div><div class="ttdeci">int l4util_cmpxchg32(volatile l4_uint32_t *dest, l4_uint32_t cmp_val, l4_uint32_t new_val)</div><div class="ttdoc">Atomic compare and exchange (32 bit version)</div><div class="ttdef"><b>Definition</b> <a href="l4_2util_2atomic_8h_source.html#l00343">atomic.h:343</a></div></div>
+<div class="ttc" id="agroup__l4util__atomic_html_gacb4a5e47fea67cc4c61b488fc374df62"><div class="ttname"><a href="group__l4util__atomic.html#gacb4a5e47fea67cc4c61b488fc374df62">l4util_cmpxchg32</a></div><div class="ttdeci">int l4util_cmpxchg32(volatile l4_uint32_t *dest, l4_uint32_t cmp_val, l4_uint32_t new_val)</div><div class="ttdoc">Atomic compare and exchange (32 bit version)</div><div class="ttdef"><b>Definition</b> <a href="l4_2util_2atomic_8h_source.html#l00357">atomic.h:357</a></div></div>
 <div class="ttc" id="aringbuf_8h_html_a067b3060edda0c1183fadc7d85581f8c"><div class="ttname"><a href="ringbuf_8h.html#a067b3060edda0c1183fadc7d85581f8c">l4shmc_rb_sender_commit_packet</a></div><div class="ttdeci">void l4shmc_rb_sender_commit_packet(l4shmc_ringbuf_t *buf)</div><div class="ttdoc">Tell the consumer that new data is available.</div></div>
 <div class="ttc" id="aringbuf_8h_html_a2c68578859e87f953c52c8fe156758ea"><div class="ttname"><a href="ringbuf_8h.html#a2c68578859e87f953c52c8fe156758ea">l4shmc_rb_sender_alloc_packet</a></div><div class="ttdeci">char * l4shmc_rb_sender_alloc_packet(l4shmc_ringbuf_head_t *head, unsigned psize)</div><div class="ttdoc">Allocate a packet of a given size within the ring buffer.</div></div>
 <div class="ttc" id="aringbuf_8h_html_a2cecfddbe9f68848aa14cd9c0b5e2cb8"><div class="ttname"><a href="ringbuf_8h.html#a2cecfddbe9f68848aa14cd9c0b5e2cb8">l4shmc_rb_attach_sender</a></div><div class="ttdeci">int l4shmc_rb_attach_sender(l4shmc_ringbuf_t *buf, char const *signal_name, l4_cap_idx_t owner)</div><div class="ttdoc">Attach to sender signal of a ring buffer.</div></div>
@@ -301,7 +304,7 @@ $(document).ready(function(){initNavTree('ringbuf_8h_source.html',''); initResiz
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_4720fcac3b01e025220c92790c02ac45.html">shmc</a></li><li class="navelem"><a class="el" href="ringbuf_8h.html">ringbuf.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

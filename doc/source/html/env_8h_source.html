@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/env.h Source File</title>
+<title>L4Re Operating System Framework: l4/re/env.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -137,7 +140,7 @@ $(document).ready(function(){initNavTree('env_8h_source.html',''); initResizable
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="structl4re__env__cap__entry__t.html#a475787b73b8a4b82a42f9fa5e1098118">   66</a></span>  <span class="keywordtype">char</span> <a class="code hl_variable" href="structl4re__env__cap__entry__t.html#a475787b73b8a4b82a42f9fa5e1098118">name</a>[16];</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#ifdef __cplusplus</span></div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="structl4re__env__cap__entry__t.html#a089b71c69254476f1dd1bd0f6c7ef93c">   72</a></span>  <a class="code hl_function" href="structl4re__env__cap__entry__t.html#a089b71c69254476f1dd1bd0f6c7ef93c">l4re_env_cap_entry_t</a>() <a class="code hl_define" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a> : <a class="code hl_variable" href="structl4re__env__cap__entry__t.html#a2027e219842d2e7f2bca77b5839d07b4">cap</a>(<a class="code hl_enumvalue" href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102">L4_INVALID_CAP</a>), <a class="code hl_variable" href="structl4re__env__cap__entry__t.html#a5f227cfec50b9447d1bfcbade86ca422">flags</a>(~0) {}</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="structl4re__env__cap__entry__t.html#a089b71c69254476f1dd1bd0f6c7ef93c">   72</a></span>  <a class="code hl_function" href="structl4re__env__cap__entry__t.html#a089b71c69254476f1dd1bd0f6c7ef93c">l4re_env_cap_entry_t</a>() <a class="code hl_define" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a> : <a class="code hl_variable" href="structl4re__env__cap__entry__t.html#a2027e219842d2e7f2bca77b5839d07b4">cap</a>(<a class="code hl_enumvalue" href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102">L4_INVALID_CAP</a>), <a class="code hl_variable" href="structl4re__env__cap__entry__t.html#a5f227cfec50b9447d1bfcbade86ca422">flags</a>(~0UL) {}</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
 <div class="foldopen" id="foldopen00081" data-start="{" data-end="}">
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="structl4re__env__cap__entry__t.html#a53c4cef86202949f88e1d43535556773">   81</a></span>  <a class="code hl_function" href="structl4re__env__cap__entry__t.html#a53c4cef86202949f88e1d43535556773">l4re_env_cap_entry_t</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> *n, <a class="code hl_typedef" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> c, <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> f = 0) <a class="code hl_define" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div>
@@ -263,9 +266,9 @@ $(document).ready(function(){initNavTree('env_8h_source.html',''); initResizable
 <div class="ttc" id="agroup__api__l4re__env_html_gadb38a15f6070f3c4e264532f3779d3bc"><div class="ttname"><a href="group__api__l4re__env.html#gadb38a15f6070f3c4e264532f3779d3bc">l4re_env_get_cap_l</a></div><div class="ttdeci">l4re_env_cap_entry_t const * l4re_env_get_cap_l(char const *name, unsigned l, l4re_env_t const *e) L4_NOTHROW</div><div class="ttdoc">Get the full l4re_env_cap_entry_t for the object named name.</div><div class="ttdef"><b>Definition</b> <a href="env_8h_source.html#l00198">env.h:198</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga4087b991c40c0d2fcde9ca331049a4d4"><div class="ttname"><a href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a></div><div class="ttdeci">unsigned long l4_addr_t</div><div class="ttdoc">Address type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00045">l4int.h:45</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4__cap__api_html_ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102"><div class="ttname"><a href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102">L4_INVALID_CAP</a></div><div class="ttdeci">@ L4_INVALID_CAP</div><div class="ttdoc">Invalid capability selector.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00168">consts.h:168</a></div></div>
-<div class="ttc" id="agroup__l4__kip__api_html_ga6e23586433097cca1631cf085c396b95"><div class="ttname"><a href="group__l4__kip__api.html#ga6e23586433097cca1631cf085c396b95">l4_kip</a></div><div class="ttdeci">l4_kernel_info_t const * l4_kip(void) L4_NOTHROW</div><div class="ttdoc">Get Kernel Info Page.</div><div class="ttdef"><b>Definition</b> <a href="sys_2kip_8h_source.html#l00192">kip.h:192</a></div></div>
+<div class="ttc" id="agroup__l4__kip__api_html_ga6e23586433097cca1631cf085c396b95"><div class="ttname"><a href="group__l4__kip__api.html#ga6e23586433097cca1631cf085c396b95">l4_kip</a></div><div class="ttdeci">l4_kernel_info_t const * l4_kip(void) L4_NOTHROW</div><div class="ttdoc">Get Kernel Info Page.</div><div class="ttdef"><b>Definition</b> <a href="sys_2kip_8h_source.html#l00195">kip.h:195</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga362dfa378e662dd04f710a23fc7ea931"><div class="ttname"><a href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div><div class="ttdeci">#define L4_NOTHROW</div><div class="ttdoc">Mark a function declaration and definition as never throwing an exception.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00188">compiler.h:188</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
 <div class="ttc" id="al4_2re_2consts_8h_html"><div class="ttname"><a href="l4_2re_2consts_8h.html">consts.h</a></div><div class="ttdoc">Constants.</div></div>
@@ -298,7 +301,7 @@ $(document).ready(function(){initNavTree('env_8h_source.html',''); initResizable
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="env_8h.html">env.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

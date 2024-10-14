@@ -18,19 +18,17 @@ class Thread;
 class Irq : public Irq_base, public cxx::Dyn_castable<Irq, Kobject>
 {
   MEMBER_OFFSET();
-  typedef Slab_cache Allocator;
+  Irq() = delete;
 
 public:
   enum Op
   {
-    Op_eoi_1      = 0, // Irq_sender + Irq_semaphore
     Op_trigger    = 2, // Irq_sender + Irq_semaphore
-    Op_eoi_2      = 4, // Icu + Irq_sender + Irq_semaphore
+    Op_eoi        = 4, // Icu + Irq_sender + Irq_semaphore
   };
 
 protected:
   Ram_quota *_q;
-  Context::Drq _drq;
 };
 
 
@@ -39,8 +37,11 @@ protected:
  */
 class Irq_sender
 : public Kobject_h<Irq_sender, Irq>,
-  public Ipc_sender<Irq_sender>
+  public Ipc_sender<Irq_sender>,
+  public Ref_cnt_obj
 {
+  friend struct Irq_sender_test;
+
 public:
   enum Op {
     Op_attach = 0,
@@ -49,26 +50,27 @@ public:
   };
 
 protected:
-  static Thread *detach_in_progress()
-  { return reinterpret_cast<Thread *>(1); }
-
   static bool is_valid_thread(Thread const *t)
-  { return t > detach_in_progress(); }
+  { return t != nullptr; }
 
   Smword _queued;
   Thread *_irq_thread;
 
 private:
   Mword _irq_id;
+  // Must only be used for sending async DRQs (no answer), because for regular
+  // DRQs the DRQ reply is sent to Drq::context(), which assumes that the Drq
+  // object is member of a Context.
+  Context::Drq _drq;
 };
 
 
 //-----------------------------------------------------------------------------
 IMPLEMENTATION:
 
-#include "assert_opt.h"
 #include "atomic.h"
 #include "config.h"
+#include "cpu.h"
 #include "cpu_lock.h"
 #include "entry_frame.h"
 #include "globals.h"
@@ -82,6 +84,7 @@ IMPLEMENTATION:
 #include "thread_state.h"
 #include "l4_buf_iter.h"
 #include "vkey.h"
+#include "global_data.h"
 
 JDB_DEFINE_TYPENAME(Irq_sender, "\033[37mIRQ ipc\033[m");
 
@@ -116,8 +119,7 @@ Irq::dispatch_irq_proto(Unsigned16 op, bool may_unmask)
 {
   switch (op)
     {
-    case Op_eoi_1:
-    case Op_eoi_2:
+    case Op_eoi:
       if (may_unmask)
         unmask();
       return L4_msg_tag(L4_msg_tag::Schedule); // no reply
@@ -132,50 +134,39 @@ Irq::dispatch_irq_proto(Unsigned16 op, bool may_unmask)
     }
 }
 
+PUBLIC virtual
+bool
+Irq_sender::put() override
+{ return dec_ref() == 0; }
+
 /**
- * Bind a receiver to this device interrupt.
- * \param t           the receiver that wants to receive IPC messages for this
- *                    IRQ
- * \param rl[in,out]  the list of objects that have to be destroyed. The
- *                    operation might append objects to this list if it is in
- *                    charge of deleting the old receiver that used to be
- *                    attached to this IRQ.
+ * Replace old target thread with a new one.
  *
- * \retval 0        on success, `t` is the new IRQ handler thread
- * \retval -EINVAL  if `t` is not a valid thread.
- * \retval -EBUSY   if another detach operation is in progress or object already
- *                  destroyed.
+ * \pre               The existence_lock must be locked to guard against
+ *                    concurrent reconfiguration.
+ *
+ * \param target      The receiver that wants to receive IPC messages for this
+ *                    IRQ. Might be nullptr to unbind.
+ * \param irq_id      The label for the IPC send operation.
+ *
+ * \retval 0          On success, `target` is the new IRQ handler thread. IPC
+ *                    was not pending.
+ * \retval 1          On success, `target` is the new IRQ handler thread. IPC
+ *                    was pending on old target thread.
  */
-PUBLIC inline NEEDS ["atomic.h", "cpu_lock.h", "lock_guard.h"]
+PRIVATE
 int
-Irq_sender::alloc(Thread *t, Kobject ***rl)
+Irq_sender::replace_irq_thread(Thread *target, Mword irq_id)
 {
-  if (t == nullptr)
-    return -L4_err::EInval;
+  Thread *old = _irq_thread;
+  int result = 0;
 
-  Lock_guard<Lock> guard;
-  if (!guard.check_and_lock(&existence_lock))
-    return -L4_err::EBusy;
-
-  Thread *old;
-  for (;;)
-    {
-      old = access_once(&_irq_thread);
-
-      if (old == t)
-        return 0;
-
-      if (EXPECT_FALSE(old == detach_in_progress()))
-        return -L4_err::EBusy;
-
-      if (cas(&_irq_thread, old, t))
-        break;
-    }
-
-  Mem::mp_acquire();
-
-  auto g = lock_guard(cpu_lock);
-  bool reinject = false;
+  // note: this is a possible race on user-land where the label of an IRQ might
+  // become inconsistent with the attached thread. The user is responsible to
+  // synchronize Irq::attach calls to prevent this.
+  _irq_id = irq_id;
+  Mem::mp_wmb();  // pairs with read barrier in send()/handle_remote_hit()
+  _irq_thread = target;
 
   if (is_valid_thread(old))
     {
@@ -185,7 +176,7 @@ Irq_sender::alloc(Thread *t, Kobject ***rl)
           break; // was not queued
 
         case Receiver::Abt_ipc_cancel:
-          reinject = true;
+          result = 1; // was queued
           break;
 
         default:
@@ -195,22 +186,58 @@ Irq_sender::alloc(Thread *t, Kobject ***rl)
           panic("IRQ IPC flagged as in progress");
         }
 
-      old->put_n_reap(rl);
+      if (old->dec_ref() == 0)
+        delete old;
     }
+
+  return result;
+}
+
+/**
+ * Bind a receiver to this device interrupt.
+ *
+ * \param t           the receiver that wants to receive IPC messages for this
+ *                    IRQ
+ * \param utcb        The input UTCB
+ * \param utcb_out    The output UTCB
+ *
+ * \retval 0        on success, `t` is the new IRQ handler thread
+ *
+ * \retval L4_error::Not_existent  Irq_sender object was deleted
+ */
+PUBLIC inline
+L4_msg_tag
+Irq_sender::bind_irq_thread(Thread *t, Utcb const *utcb, Utcb *utcb_out)
+{
+  // The object must not disappear while binding the Irq_sender to the Thread.
+  // Grab the existence lock to prevent concurrent destroy() from squashing it.
+  // Guards against concurrent bind/unbinds too.
+  Ref_ptr self(this);
+  Lock_guard<Lock> guard;
+  if (!guard.check_and_lock(&existence_lock))
+    return commit_error(utcb_out, L4_error::Not_existent);
+
+  auto g = lock_guard(cpu_lock);
+
+  Mword irq_id = access_once(&utcb->values[1]);
+
+  if (_irq_thread == t)
+    {
+      _irq_id = irq_id;
+      return commit_result(0);
+    }
+
+  int ret = replace_irq_thread(t, irq_id);
 
   t->inc_ref();
   if (Cpu::online(t->home_cpu()))
     _chip->set_cpu(pin(), t->home_cpu());
 
-  if (reinject)
-    {
-      // might have changed between the CAS and taking the lock
-      t = access_once(&_irq_thread);
-      if (EXPECT_TRUE(is_valid_thread(t)))
-        send(t);
-    }
+  // re-inject if it was queued before
+  if (ret > 0)
+    send(t);
 
-  return 0;
+  return commit_result(0);
 }
 
 PUBLIC
@@ -219,53 +246,35 @@ Irq_sender::owner() const { return _irq_thread; }
 
 /**
  * Release an interrupt.
- * \param rl[in,out]  The list of objects that have to be destroyed.
- *                    The operation might append objects to this list if it is
- *                    in charge of deleting the receiver that used to be
- *                    attached to this IRQ.
  *
- * \retval 0        on success.
- * \retval -ENOENT  if there was no receiver attached.
- * \retval -EBUSY   when there is another detach operation in progress.
+ * \pre               The existence_lock must be locked to guard against
+ *                    concurrent reconfiguration and that the object does not
+ *                    disappear.
+ *
+ * \retval 0        on success, interrupt was inactive.
+ * \retval 1        on success, interrupt was pending.
  */
 PRIVATE
 int
-Irq_sender::free(Kobject ***rl)
+Irq_sender::detach_irq_thread()
 {
-  Mem::mp_release();
-  Thread *t;
-  for (;;)
-    {
-      t = access_once(&_irq_thread);
+  auto g = lock_guard(cpu_lock);
 
-      if (t == detach_in_progress())
-        return -L4_err::EBusy;
+  if (_irq_thread == nullptr)
+    return -L4_err::ENoent;
 
-      if (t == nullptr)
-        return -L4_err::ENoent;
-
-      if (EXPECT_TRUE(cas(&_irq_thread, t, detach_in_progress())))
-        break;
-    }
-
-  auto guard = lock_guard(cpu_lock);
   mask();
 
-  t->Receiver::abort_send(this);
-
-  Mem::mp_release();
-  write_now(&_irq_thread, nullptr);
-  // release cpu-lock early, actually before delete
-  guard.reset();
-
-  t->put_n_reap(rl);
-  return 0;
+  return replace_irq_thread(0, ~0UL);
 }
 
 PUBLIC explicit
-Irq_sender::Irq_sender(Ram_quota *q = 0)
+Irq_sender::Irq_sender(Ram_quota *q)
 : Kobject_h<Irq_sender, Irq>(q), _queued(0), _irq_thread(0), _irq_id(~0UL)
 {
+  // Capability reference (released when last capability to Irq_sender object is
+  // dropped).
+  inc_ref();
   hit_func = &hit_level_irq;
 }
 
@@ -284,8 +293,8 @@ Irq_sender::destroy(Kobject ***rl) override
   Irq::destroy(rl);
   // Must be done _after_ returning from Irq::destroy() to make sure that the
   // existence lock was finally released by the last owner (the existence lock
-  // was already invalidated before) -- see also Irq_sender::alloc().
-  (void)free(rl);
+  // was already invalidated before) -- see also Irq_sender::bind_irq_thread().
+  static_cast<void>(detach_irq_thread());
 }
 
 
@@ -370,17 +379,27 @@ Irq_sender::modify_label(Mword const *todo, int cnt) override
     }
 }
 
+PRIVATE bool
+Irq_sender::send_local(Thread *t, bool is_xcpu)
+{
+  // Pairs with write barrier in set_irq_thread(). Prevents to read the _irq_id
+  // before _irq_thread.
+  Mem::mp_rmb();
+
+  return send_msg(t, is_xcpu);
+}
 
 PRIVATE static
 Context::Drq::Result
 Irq_sender::handle_remote_hit(Context::Drq *, Context *target, void *arg)
 {
-  Irq_sender *irq = (Irq_sender*)arg;
+  Irq_sender *irq = static_cast<Irq_sender*>(arg);
   irq->set_cpu(current_cpu());
   auto t = access_once(&irq->_irq_thread);
+
   if (EXPECT_TRUE(t == target))
     {
-      if (EXPECT_TRUE(irq->send_msg(t, true)))
+      if (EXPECT_TRUE(irq->send_local(t, true)))
         return Context::Drq::no_answer_resched();
     }
   else if (EXPECT_TRUE(is_valid_thread(t)))
@@ -408,7 +427,7 @@ Irq_sender::send(Thread *t)
   if (EXPECT_FALSE(t->home_cpu() != current_cpu()))
     t->drq(&_drq, handle_remote_hit, this, Context::Drq::No_wait);
   else
-    send_msg(t, false);
+    send_local(t, false);
 }
 
 
@@ -489,7 +508,7 @@ Irq_sender::hit_edge_irq(Irq_base *i, Upstream_irq const *ui)
 PRIVATE
 L4_msg_tag
 Irq_sender::sys_bind(L4_msg_tag tag, L4_fpage::Rights rights, Utcb const *utcb,
-                     Syscall_frame *)
+                     Utcb *utcb_out)
 {
   if (EXPECT_FALSE(!(rights & L4_fpage::Rights::CS())))
     return commit_result(-L4_err::EPerm);
@@ -504,37 +523,30 @@ Irq_sender::sys_bind(L4_msg_tag tag, L4_fpage::Rights rights, Utcb const *utcb,
   if (EXPECT_FALSE(!(t_rights & L4_fpage::Rights::CS())))
     return commit_result(-L4_err::EPerm);
 
-  Reap_list rl;
-  int res = alloc(thread, rl.list());
-
-  // note: this is a possible race on user-land where the label of an IRQ might
-  // become inconsistent with the attached thread. The user is responsible to
-  // synchronize Irq::attach calls to prevent this.
-  if (res == 0)
-    _irq_id = access_once(&utcb->values[1]);
-
-  return commit_result(res);
+  return bind_irq_thread(thread, utcb, utcb_out);
 }
 
 PRIVATE
 L4_msg_tag
-Irq_sender::sys_detach(L4_fpage::Rights rights)
+Irq_sender::sys_detach(L4_fpage::Rights rights, Utcb *utcb)
 {
   if (EXPECT_FALSE(!(rights & L4_fpage::Rights::CS())))
     return commit_result(-L4_err::EPerm);
 
-  Reap_list rl;
-  auto res = free(rl.list());
-  _irq_id = ~0UL;
+  // Grab the existence lock to guard against concurrent bind/unbinds.
+  Ref_ptr self(this);
+  Lock_guard<Lock> guard;
+  if (!guard.check_and_lock(&existence_lock))
+    return commit_error(utcb, L4_error::Not_existent);
 
-  return commit_result(res);
+  return commit_result(detach_irq_thread());
 }
 
 
 PUBLIC
 L4_msg_tag
 Irq_sender::kinvoke(L4_obj_ref, L4_fpage::Rights rights, Syscall_frame *f,
-                    Utcb const *utcb, Utcb *)
+                    Utcb const *utcb, Utcb *utcb_out)
 {
   L4_msg_tag tag = f->tag();
   int op = get_irq_opcode(tag, utcb);
@@ -548,7 +560,7 @@ Irq_sender::kinvoke(L4_obj_ref, L4_fpage::Rights rights, Syscall_frame *f,
       switch (op)
         {
         case Op_bind: // the Rcv_endpoint opcode (equal to Ipc_gate::bind_thread)
-          return sys_bind(tag, rights, utcb, f);
+          return sys_bind(tag, rights, utcb, utcb_out);
         default:
           return commit_result(-L4_err::ENosys);
         }
@@ -560,7 +572,7 @@ Irq_sender::kinvoke(L4_obj_ref, L4_fpage::Rights rights, Syscall_frame *f,
       switch (op)
         {
         case Op_detach:
-          return sys_detach(rights);
+          return sys_detach(rights, utcb_out);
 
         default:
           return commit_result(-L4_err::ENosys);
@@ -580,13 +592,17 @@ Irq_sender::id() const
 
  // Irq implementation
 
-static Kmem_slab _irq_allocator(sizeof (Irq_sender),
-                                __alignof__ (Irq), "Irq");
+static DEFINE_GLOBAL Global_data<Kmem_slab_t<Irq_sender>> _irq_allocator("Irq");
 
 PRIVATE static
-Irq::Allocator *
-Irq::allocator()
-{ return &_irq_allocator; }
+void *
+Irq::q_alloc(Ram_quota *q)
+{ return _irq_allocator->q_alloc(q); }
+
+PRIVATE static
+void
+Irq::q_free(Ram_quota *q, void *f)
+{ _irq_allocator->q_free(q, f); }
 
 PUBLIC inline
 void *
@@ -597,19 +613,18 @@ PUBLIC
 void
 Irq::operator delete (void *_l)
 {
-  Irq *l = reinterpret_cast<Irq*>(_l);
-  if (l->_q)
-    allocator()->q_free(l->_q, l);
-  else
-    allocator()->free(l);
+  Irq *l = static_cast<Irq *>(_l);
+  assert(l->_q);
+  asm ("" : "=m"(*l));
+  q_free(l->_q, l);
 }
 
-PUBLIC template<typename T> inline NEEDS[Irq::allocator, Irq::operator new]
+PUBLIC template<typename T> inline NEEDS[Irq::q_alloc, Irq::operator new]
 static
 T*
 Irq::allocate(Ram_quota *q)
 {
-  void *nq =allocator()->q_alloc(q);
+  void *nq = q_alloc(q);
   if (nq)
     return new (nq) T(q);
 
@@ -617,8 +632,11 @@ Irq::allocate(Ram_quota *q)
 }
 
 
-PUBLIC explicit inline
-Irq::Irq(Ram_quota *q = 0) : _q(q) {}
+PUBLIC explicit inline __attribute__((nonnull))
+Irq::Irq(Ram_quota *q) : _q(q)
+{
+  assert(q);
+}
 
 PUBLIC
 void
@@ -634,18 +652,21 @@ Irq::destroy(Kobject ***rl) override
 }
 
 namespace {
+
 static Kobject_iface * FIASCO_FLATTEN
 irq_sender_factory(Ram_quota *q, Space *,
-                   L4_msg_tag, Utcb const *,
-                   int *err)
+                   L4_msg_tag, Utcb const *, Utcb *,
+                   int *err, unsigned *)
 {
   *err = L4_err::ENomem;
   return Irq::allocate<Irq_sender>(q);
 }
 
-static inline void __attribute__((constructor)) FIASCO_INIT
+static inline
+void __attribute__((constructor)) FIASCO_INIT_SFX(irq_sender_register_factory)
 register_factory()
 {
   Kobject_iface::set_factory(L4_msg_tag::Label_irq_sender, irq_sender_factory);
 }
+
 }

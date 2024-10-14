@@ -98,8 +98,12 @@
 
 /* Cache handling for not-yet free stacks.  */
 
-/* Maximum size in kB of cache.  */
-static size_t stack_cache_maxsize = 40 * 1024 * 1024; /* 40MiBi by default.  */
+/*
+   Maximum size in kB of cache. GNU libc default is 40MiB
+   embedded systems don't have enough ram for big dirty stack caches,
+   reduce it to 16MiB. 4 does not work, f.e. tst-kill4 segfaults.
+*/
+static size_t stack_cache_maxsize = 16 * 1024 * 1024;
 static size_t stack_cache_actsize;
 
 /* Mutex protecting this variable.  */
@@ -324,8 +328,10 @@ change_stack_perm (struct pthread *pd
 #else
 # error "Define either _STACK_GROWS_DOWN or _STACK_GROWS_UP"
 #endif
+#ifdef __ARCH_USE_MMU__
   if (mprotect (stack, len, PROT_READ | PROT_WRITE | PROT_EXEC) != 0)
     return errno;
+#endif
 
   return 0;
 }
@@ -413,9 +419,6 @@ allocate_stack (const struct pthread_attr *attr, struct pthread **pdp,
       /* Copy the sysinfo value from the parent.  */
       THREAD_SYSINFO(pd) = THREAD_SELF_SYSINFO;
 #endif
-
-      /* The process ID is also the same as that of the caller.  */
-      pd->pid = THREAD_GETMEM (THREAD_SELF, pid);
 
       /* Allocate the DTV for this thread.  */
       if (_dl_allocate_tls (TLS_TPADJ (pd)) == NULL)
@@ -552,9 +555,6 @@ allocate_stack (const struct pthread_attr *attr, struct pthread **pdp,
 	  THREAD_SYSINFO(pd) = THREAD_SELF_SYSINFO;
 #endif
 
-	  /* The process ID is also the same as that of the caller.  */
-	  pd->pid = THREAD_GETMEM (THREAD_SELF, pid);
-
 	  /* Allocate the DTV for this thread.  */
 	  if (_dl_allocate_tls (TLS_TPADJ (pd)) == NULL)
 	    {
@@ -595,10 +595,13 @@ allocate_stack (const struct pthread_attr *attr, struct pthread **pdp,
 #elif defined _STACK_GROWS_UP
 	  char *guard = (char *) (((uintptr_t) pd - guardsize) & ~pagesize_m1);
 #endif
+#ifdef __ARCH_USE_MMU__
 	  if (mprotect (guard, guardsize, PROT_NONE) != 0)
 	    {
 	      int err;
+#ifdef NEED_SEPARATE_REGISTER_STACK
 	    mprot_error:
+#endif
 	      err = errno;
 
 	      lll_lock (stack_cache_lock, LLL_PRIVATE);
@@ -620,6 +623,7 @@ allocate_stack (const struct pthread_attr *attr, struct pthread **pdp,
 
 	      return err;
 	    }
+#endif
 
 	  pd->guardsize = guardsize;
 	}
@@ -632,6 +636,7 @@ allocate_stack (const struct pthread_attr *attr, struct pthread **pdp,
 	  char *guard = mem + (((size - guardsize) / 2) & ~pagesize_m1);
 	  char *oldguard = mem + (((size - pd->guardsize) / 2) & ~pagesize_m1);
 
+#ifdef __ARCH_USE_MMU__
 	  if (oldguard < guard
 	      && mprotect (oldguard, guard - oldguard, prot) != 0)
 	    goto mprot_error;
@@ -648,6 +653,7 @@ allocate_stack (const struct pthread_attr *attr, struct pthread **pdp,
 	  if (mprotect ((char *) (((uintptr_t) pd - pd->guardsize) & ~pagesize_m1),
 			pd->guardsize - guardsize, prot) != 0)
 	    goto mprot_error;
+#endif
 #endif
 
 	  pd->guardsize = guardsize;
@@ -786,7 +792,7 @@ __reclaim_stacks (void)
   if (in_flight_stack != 0)
     {
       bool add_p = in_flight_stack & 1;
-      list_t *elem = (list_t *) (in_flight_stack & ~UINTMAX_C (1));
+      list_t *elem = (list_t *)(uintptr_t)(in_flight_stack & ~UINTMAX_C (1));
 
       if (add_p)
 	{
@@ -829,9 +835,6 @@ __reclaim_stacks (void)
 	  /* This marks the stack as free.  */
 	  curp->tid = 0;
 
-	  /* The PID field must be initialized for the new process.  */
-	  curp->pid = self->pid;
-
 	  /* Account for the size of the stack.  */
 	  stack_cache_actsize += curp->stackblock_size;
 
@@ -856,13 +859,6 @@ __reclaim_stacks (void)
 		  }
 	    }
 	}
-    }
-
-  /* Reset the PIDs in any cached stacks.  */
-  list_for_each (runp, &stack_cache)
-    {
-      struct pthread *curp = list_entry (runp, struct pthread, list);
-      curp->pid = self->pid;
     }
 
   /* Add the stack of all running threads to the cache.  */
@@ -890,54 +886,6 @@ __reclaim_stacks (void)
   /* Initialize the lock.  */
   stack_cache_lock = LLL_LOCK_INITIALIZER;
 }
-
-
-#if HP_TIMING_AVAIL
-# undef __find_thread_by_id
-/* Find a thread given the thread ID.  */
-attribute_hidden
-struct pthread *
-__find_thread_by_id (pid_t tid)
-{
-  struct pthread *result = NULL;
-
-  lll_lock (stack_cache_lock, LLL_PRIVATE);
-
-  /* Iterate over the list with system-allocated threads first.  */
-  list_t *runp;
-  list_for_each (runp, &stack_used)
-    {
-      struct pthread *curp;
-
-      curp = list_entry (runp, struct pthread, list);
-
-      if (curp->tid == tid)
-	{
-	  result = curp;
-	  goto out;
-	}
-    }
-
-  /* Now the list with threads using user-allocated stacks.  */
-  list_for_each (runp, &__stack_user)
-    {
-      struct pthread *curp;
-
-      curp = list_entry (runp, struct pthread, list);
-
-      if (curp->tid == tid)
-	{
-	  result = curp;
-	  goto out;
-	}
-    }
-
- out:
-  lll_unlock (stack_cache_lock, LLL_PRIVATE);
-
-  return result;
-}
-#endif
 
 
 static void
@@ -991,19 +939,9 @@ setxid_signal_thread (struct xid_command *cmdp, struct pthread *t)
     return 0;
 
   int val;
+  pid_t pid = getpid ();
   INTERNAL_SYSCALL_DECL (err);
-#if defined (__ASSUME_TGKILL) && __ASSUME_TGKILL
-  val = INTERNAL_SYSCALL (tgkill, err, 3, THREAD_GETMEM (THREAD_SELF, pid),
-			  t->tid, SIGSETXID);
-#else
-# ifdef __NR_tgkill
-  val = INTERNAL_SYSCALL (tgkill, err, 3, THREAD_GETMEM (THREAD_SELF, pid),
-			  t->tid, SIGSETXID);
-  if (INTERNAL_SYSCALL_ERROR_P (val, err)
-      && INTERNAL_SYSCALL_ERRNO (val, err) == ENOSYS)
-# endif
-    val = INTERNAL_SYSCALL (tkill, err, 2, t->tid, SIGSETXID);
-#endif
+  val = INTERNAL_SYSCALL (tgkill, err, 3, pid, t->tid, SIGSETXID);
 
   /* If this failed, it must have had not started yet or else exited.  */
   if (!INTERNAL_SYSCALL_ERROR_P (val, err))

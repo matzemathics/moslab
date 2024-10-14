@@ -17,7 +17,7 @@ namespace Vmm {
 
 Vcpu_ptr Generic_cpu_dev::_main_vcpu(nullptr);
 L4Re::Util::Br_manager Generic_cpu_dev::_main_bm;
-L4Re::Util::Object_registry Generic_cpu_dev::_main_registry(&Generic_cpu_dev::_main_bm);
+Vcpu_obj_registry Generic_cpu_dev::_main_registry(&Generic_cpu_dev::_main_bm);
 bool Generic_cpu_dev::_main_vcpu_used = false;
 
 void
@@ -54,7 +54,7 @@ Generic_cpu_dev::powerup_cpu()
       pattr.create_flags |= PTHREAD_L4_ATTR_NO_START;
       err = pthread_create(&_thread, &pattr, [](void *cpu) {
           reinterpret_cast<Generic_cpu_dev *>(cpu)->startup();
-          return (void *)nullptr;
+          return static_cast<void *>(nullptr);
         }, this);
 
       if (L4_UNLIKELY(pthread_attr_destroy(&pattr)))
@@ -77,8 +77,8 @@ void
 Generic_cpu_dev::reschedule()
 {
   Dbg(Dbg::Cpu, Dbg::Info)
-    .printf("reschedule(): Initiating cpu startup for %lx\n",
-            Pthread::L4::cap(_thread).cap());
+    .printf("reschedule(): Initiating cpu startup for cap 0x%lx/core %u\n",
+            Pthread::L4::cap(_thread).cap(), _vcpu.get_vcpu_id());
 
   l4_sched_param_t sp = l4_sched_param(2);
   sp.affinity = l4_sched_cpu_set(_phys_cpu_id, 0);

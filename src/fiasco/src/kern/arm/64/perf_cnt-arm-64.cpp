@@ -42,10 +42,10 @@ private:
 
 
   static void evtsel(Mword val)
-  { asm volatile ("msr PMXEVCNTR_EL0, %0" : : "r" (val)); }
+  { asm volatile ("msr PMXEVTYPER_EL0, %0" : : "r" (val)); }
 
   static Mword evtsel()
-  { Mword val; asm volatile ("mrs %0, PMXEVCNTR_EL0" : "=r" (val)); return val;}
+  { Mword val; asm volatile ("mrs %0, PMXEVTYPER_EL0" : "=r" (val)); return val;}
 
 
   static void pmcnt(Mword val)
@@ -69,7 +69,7 @@ private:
   { Mword val; asm volatile ("mrs %0, PMINTENSET_EL1" : "=r" (val)); return val;}
 
   static void intenc(Mword val)
-  { asm volatile ("msr PMINTENCLR_E1, %0" : : "r" (val)); }
+  { asm volatile ("msr PMINTENCLR_EL1, %0" : : "r" (val)); }
 
   enum
   {

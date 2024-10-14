@@ -32,6 +32,29 @@ $(GENERAL_D_LOC): $(L4DIR)/mk/binary.inc $(L4DIR)/mk/modes.inc $(L4DIR)/mk/rules
 # our default Makefile-name in the OBJ-Subdirs
 BID_OBJ_Makefile ?= Makefile
 
+include $(OBJ_BASE)/.Package.deps
+
+# Building variants:
+# progs build 'std', except the prog tells us otherwise
+ifeq ($(ROLE),prog.mk)
+  VARIANTS ?= std
+endif
+# tests build 'std', except the test tells us otherwise
+ifeq ($(ROLE),test.mk)
+  VARIANTS ?= std
+endif
+ifeq ($(ROLE),assets.mk)
+  VARIANTS ?= std
+endif
+# libs build std (default) and variants required by other packages
+# package may override default by setting VARIANTS
+ifeq ($(ROLE),lib.mk)
+  VARIANTS ?= std
+  VARIANTS += $(VARIANTS_$(PKGDIR_ABS:$(L4DIR_ABS)/%=%))
+endif
+
+$(if $(VARIANTS),,$(error No variants defined))
+
 ifeq ($(SYSTEM),) # if we have no system yet, build the subdirs
 #################################################################
 #
@@ -98,7 +121,7 @@ FILTER_SYSTEM = $(shell echo $(2)|$(AWKP) '\
 #   the resulting system matches $(1). If so, print the according pattern from
 #   SYSTEMS and exit
 BID_ORIG_SYSTEM = $(shell echo $(2)|$(AWKP) '\
-		    BEGIN{m=s="$(1)";sub("_[^-]*","",m)}\
+		    BEGIN{s="$(1)";sub("-[^-]*","",s);m=s;sub("_[^-]*","",m)}\
 		    {for(i=1;i<=NF;i++){\
 		 	if(m==$$i||s==$$i){print $$i;exit};\
 		 	if(index(m,$$i)==1||index(s,$$i)==1)\
@@ -108,10 +131,22 @@ BID_ORIG_SYSTEM = $(shell echo $(2)|$(AWKP) '\
 TARGET_SYSTEMS := $(sort $(foreach sys,$(BUILD_SYSTEMS),\
 			$(call FILTER_SYSTEM,$(sys),$(SYSTEMS))))
 
+# Add Variant infix -- helper
+TARGET_SYSTEMS_ADD_VARIANT = $(firstword $(1))-$(2)-$(word 2,$(1))
+# Add Variant infix to TARGET_SYSTEMS
+TARGET_SYSTEMS := $(strip \
+                    $(foreach ts,$(TARGET_SYSTEMS), \
+                      $(foreach v,$(sort $(VARIANTS)), \
+                        $(call TARGET_SYSTEMS_ADD_VARIANT,$(subst -,$(BID_SPACE),$(ts)),$(v)) \
+                       ) \
+                     ) \
+                   )
+
 DIR_FROM_SUB = $(firstword $(addprefix ../,$(patsubst /%,,$(1))) $(1))
 SYSTEM_TO_ARCH = $(shell echo $(1)|$(SED) -e 's/[_-].*//')
 SYSTEM_TO_CPU = $(shell echo $(1)|$(SED) -ne 's/[^-_]*_\([^-]*\).*/\1/p')
-SYSTEM_TO_L4API = $(shell echo $(1)|$(SED) -ne 's/.*-\(.*\)/\1/p')
+SYSTEM_TO_L4API = $(word 3,$(subst -,$(BID_SPACE),$(1)))
+SYSTEM_TO_VARIANT = $(word 2,$(subst -,$(BID_SPACE),$(1)))
 
 $(foreach sys,$(TARGET_SYSTEMS),$(OBJ_DIR)/OBJ-$(sys)/$(BID_OBJ_Makefile)):$(OBJ_DIR)/OBJ-%/$(BID_OBJ_Makefile):$(OBJ_DIR)/.general.d $(L4DIR_ABS)/mk/binary.inc
 	@install -d $(dir $@)
@@ -128,6 +163,7 @@ $(foreach sys,$(TARGET_SYSTEMS),$(OBJ_DIR)/OBJ-$(sys)/$(BID_OBJ_Makefile)):$(OBJ
 	@echo 'ARCH=$(call SYSTEM_TO_ARCH,$*)'>>$@
 	@echo 'CPU=$(call SYSTEM_TO_CPU,$*)'>>$@
 	@echo 'L4API=$(call SYSTEM_TO_L4API,$*)'>>$@
+	@echo 'VARIANT=$(call SYSTEM_TO_VARIANT,$*)'>>$@
 	@for ext in .c .cc .cpp $(FORTRAN_FILE_EXTENSIONS) $(BID_ASM_FILE_EXTENSIONS) .y .l .ld .dpe .dts; \
 	  do echo "vpath %$$ext $(VPATH_SRC_BASE)">>$@ ; done
 	@echo '.general.d: $(SRC_DIR)/$(if $(wildcard Make.rules),Make.rules,Makefile)'>>$@
@@ -191,12 +227,12 @@ L4INCDIR ?=	$(addprefix $(OBJ_BASE)/include/$(ARCH)/,$(L4API)) \
                 $(DROPS_STDDIR)/include/$(ARCH) \
                 $(DROPS_STDDIR)/include
 
-L4LIBDIR ?=	$(addprefix $(OBJ_BASE)/lib/$(ARCH)_$(CPU)/,$(L4API)) \
-                $(OBJ_BASE)/lib/$(ARCH)_$(CPU) \
-                $(OBJ_BASE)/lib \
-                $(addprefix $(DROPS_STDDIR)/lib/$(ARCH)_$(CPU)/,$(L4API)) \
-                $(DROPS_STDDIR)/lib/$(ARCH)_$(CPU) \
-                $(DROPS_STDDIR)/lib
+L4LIBDIR ?=	$(addprefix $(OBJ_BASE)/lib/$(ARCH)_$(CPU)/$(VARIANT)/,$(L4API)) \
+                $(OBJ_BASE)/lib/$(ARCH)_$(CPU)/$(VARIANT)/plain \
+                $(OBJ_BASE)/lib/$(VARIANT) \
+                $(addprefix $(DROPS_STDDIR)/lib/$(ARCH)_$(CPU)/$(VARIANT)/,$(L4API)) \
+                $(DROPS_STDDIR)/lib/$(ARCH)_$(CPU)/$(VARIANT)/plain \
+                $(DROPS_STDDIR)/lib/$(VARIANT)
 
 else
 
@@ -205,9 +241,9 @@ L4INCDIR ?=	$(addprefix $(OBJ_BASE)/include/$(ARCH)/,$(L4API)) \
                 $(OBJ_BASE)/include/$(ARCH) \
                 $(OBJ_BASE)/include
 
-L4LIBDIR ?=     $(addprefix $(OBJ_BASE)/lib/$(ARCH)_$(CPU)/,$(L4API)) \
-                $(OBJ_BASE)/lib/$(ARCH)_$(CPU) \
-                $(OBJ_BASE)/lib
+L4LIBDIR ?=     $(addprefix $(OBJ_BASE)/lib/$(ARCH)_$(CPU)/$(VARIANT)/,$(L4API)) \
+                $(OBJ_BASE)/lib/$(ARCH)_$(CPU)/$(VARIANT)/plain \
+                $(OBJ_BASE)/lib/$(VARIANT)
 endif
 
 #
@@ -258,14 +294,17 @@ LIBCLIBDIR    ?= $(call BID_mode_var,LIBCLIBDIR)
 LDSCRIPT      ?= $(call BID_mode_var,LDSCRIPT)
 LDFLAGS       += $(call BID_mode_var,LDFLAGS)
 REQUIRES_LIBS += $(call BID_mode_var,REQUIRES_LIBS)
+REQUIRES_CFLAGS += $(call BID_mode_var,REQUIRES_CFLAGS)
 
-CARCHFLAGS += $(CARCHFLAGS_$(ARCH)) $(CARCHFLAGS_$(ARCH)_$(CPU))
+CARCHFLAGS += $(CARCHFLAGS-variant-$(VARIANT))
 
-
-LDFLAGS       += $(LDFLAGS-y) $(LDFLAGS_$(OSYSTEM)) $(LDFLAGS_$(OSYSTEM)-y) \
+LDFLAGS       += $(LDFLAGS-y) $(LDFLAGS_$(ARCH)) $(LDFLAGS_$(ARCH)-y) \
+                 $(LDFLAGS_$(OSYSTEM)) $(LDFLAGS_$(OSYSTEM)-y) \
                  $(LDFLAGS_$@) $(LDFLAGS_$@-y) $(LDFLAGS_$@_$(OSYSTEM)) $(LDFLAGS_$@_$(OSYSTEM)-y) \
                  $(LDFLAGS_$(<F)_$(OSYSTEM)) $(LDFLAGS_$(<F)_$(OSYSTEM)-y)
-REQUIRES_LIBS += $(REQUIRES_LIBS-y) $(REQUIRES_LIBS_$(OSYSTEM)) $(REQUIRES_LIBS_$(OSYSTEM)-y)
+REQUIRES_LIBS += $(REQUIRES_LIBS-y) \
+                 $(REQUIRES_LIBS_$(ARCH)) $(REQUIRES_LIBS_$(ARCH)-y) \
+                 $(REQUIRES_LIBS_$(OSYSTEM)) $(REQUIRES_LIBS_$(OSYSTEM)-y)
 
 # ---------------------------------
 
@@ -370,8 +409,13 @@ endif
 
 # -----------------------
 
+# TEMP-only
+$(if $(filter x86 arm arm64 amd64 mips sparc ppc32,$(SYSTEMS)), $(error Please appends "-plain" to each architecture in SYSTEMS ))
 
-bid_flag_variants = $($(1)-y) $($(1)_$(OSYSTEM)) $($(1)_$(OSYSTEM)-y) \
+LDFLAGS += $(if $(CONFIG_BID_LD_EMIT_UNWIND),--eh-frame-hdr,)
+
+bid_flag_variants = $($(1)-y) $($(1)_$(ARCH)) $($(1)_$(ARCH)-y) \
+                    $($(1)_$(OSYSTEM)) $($(1)_$(OSYSTEM)-y) \
                     $($(1)_$@) $($(1)_$@-y) $($(1)_$@_$(OSYSTEM)) $($(1)_$@_$(OSYSTEM)-y) \
                     $($(1)_$(@D)) $($(1)_$<) $($(1)_$(@D)/$(<F)) \
                     $($(1)_$(<F)) $($(1)_$(<F)_$(OSYSTEM)) $($(1)_$(<F)_$(OSYSTEM)-y) \
@@ -379,7 +423,8 @@ bid_flag_variants = $($(1)-y) $($(1)_$(OSYSTEM)) $($(1)_$(OSYSTEM)-y) \
 
 OPTS_DEBUG-$(CONFIG_BID_DEBUG_INFO) = -g
 OPTS_DEBUG       ?= $(OPTS_DEBUG-y)
-OPTS             ?= $(OPTS_DEBUG) -O2 -fno-strict-aliasing
+OPTS             ?= $(OPTS_DEBUG) $(if $(CONFIG_BID_OPTIMIZE_SIZE),-Os,-O2) \
+                    -fno-strict-aliasing
 
 WARNINGS_MINIMAL ?= -Wall $(call bid_flag_variants,WARNINGS)
 WARNINGS_MEDIUM  ?= -Wall -Wstrict-prototypes $(CONDITIONAL_WARNINGS_MEDIUM) \
@@ -431,9 +476,21 @@ default_reloc_base = $(firstword $(DEFAULT_RELOC_$(1)) \
                                  $(DEFAULT_RELOC) \
                                  $(if $(NO_DEFAULT_RELOC),,0x01000000))
 default_reloc = $(if $(call default_reloc_base,$(1)),\
-                     $(if $(RELOC_PHYS), \
+                     $(if $(if $(CONFIG_MMU),$(RELOC_PHYS),y), \
 		          $(shell printf "0x%x" $$(($(RAM_BASE) + $(call default_reloc_base,$(1))))), \
 			  $(call default_reloc_base,$(1))))
+
+default_heap_size = $(if $(if $(NO_DEFAULT_RELOC),,$(CONFIG_BID_STATIC_HEAP)),\
+                         $(firstword $(DEFAULT_HEAP_SIZE_$(1)) \
+                                     $(DEFAULT_HEAP_SIZE_$(ARCH)) \
+                                     $(DEFAULT_HEAP_SIZE) \
+                                     0x10000))
+
+default_stack_size = $(if $(if $(NO_DEFAULT_RELOC),,$(CONFIG_BID_STATIC_STACK)),\
+                          $(firstword $(DEFAULT_STACK_SIZE_$(1)) \
+                                      $(DEFAULT_STACK_SIZE_$(ARCH)) \
+                                      $(DEFAULT_STACK_SIZE) \
+                                      0x1000))
 
 CCXX_FLAGS += $(if $(CONFIG_FULL_PATH_NAMES_IN_BINARIES),,$(GCCPREFIXOPT))
 
@@ -441,20 +498,24 @@ CCXX_FLAGS += $(if $(CONFIG_FULL_PATH_NAMES_IN_BINARIES),,$(GCCPREFIXOPT))
 CFLAGS_C99 ?= -std=gnu99
 
 ifneq ($(MODE),host)
-CFLAGS_L4_GENERIC += $(CCXX_FLAGS) $(CARCHFLAGS) $(GCCSTACKPROTECTOROPT)
+CFLAGS_L4_GENERIC += $(CARCHFLAGS) $(CCXX_FLAGS) $(GCCSTACKPROTECTOROPT)
+CFLAGS_L4_GENERIC += -ffunction-sections -fdata-sections
 CFLAGS_L4_NOPIC   += $(call BID_mode_var,NOPICFLAGS)
 CFLAGS_L4_PIC     += $(PICFLAGS)
 endif
 
-
 CFLAGS  += $(if $(CONFIG_BID_GCC_OMIT_FP),-fomit-frame-pointer,-fno-omit-frame-pointer)
+CFLAGS  += $(if $(CONFIG_BID_LD_EMIT_UNWIND),-funwind-tables,-fno-unwind-tables)
 CFLAGS	+= $(OPTS) $(WARNINGS)
 CFLAGS  += -fno-common
 CFLAGS  += $(CFLAGS_C99)
 CFLAGS  += $(CFLAGS_L4_GENERIC)
 CFLAGS	+= $(call bid_flag_variants,CFLAGS)
 DEFINES += -DSYSTEM_$(subst -,_,$(SYSTEM)) -DARCH_$(ARCH) -DCPUTYPE_$(CPU) -DL4API_$(L4API)
-DEFINES += -D_GNU_SOURCE $(if $(L4API),,-DL4_MINIMAL_LIBC)
+DEFINES += -D_GNU_SOURCE
+DEFINES-l4api-plain := -DL4_MINIMAL_LIBC
+DEFINES += $(DEFINES-l4api-$(L4API))
+DEFINES += $(DEFINES-variant-$(VARIANT))
 ifdef DEBUG
 ifneq (,$(filter 0 n N, $(DEBUG)))
 DEFINES	+= -DNDEBUG
@@ -462,14 +523,19 @@ endif
 endif
 DEFINES += $(call bid_flag_variants,DEFINES)
 
+ifneq ($(MODE),host)
+CPPFLAGS_L4_GENERIC += $(CARCHFLAGS)
+endif
+
 CPPFLAGS-DEBUG_MODE = \
-    $(if $(L4API), \
+    $(if $(filter l4f,$(L4API)), \
       $(addprefix -include ,$(OBJ_BASE)/include/l4/sys/kdebug.h \
                             $(OBJ_BASE)/include/l4/sys/ktrace.h \
                             $(OBJ_BASE)/include/l4/util/kprintf.h \
                             $(OBJ_BASE)/include/l4/sys/debugger.h))
 
 CPPFLAGS+= $(DEFINES)
+CPPFLAGS+= $(CPPFLAGS_L4_GENERIC)
 CPPFLAGS+= $(addprefix -I,  $(PRIVATE_INCDIR) $(call bid_flag_variants,PRIVATE_INCDIR))
 CPPFLAGS+= $(if $(CONTRIB_INCDIR),$(addprefix -I$(OBJ_BASE)/include/contrib/,$(CONTRIB_INCDIR)))
 CPPFLAGS+= $(BID_PKG_CONFIG_CFLAGS)
@@ -481,15 +547,20 @@ CPPFLAGS+= $(LIBCINCDIR)
 CPPFLAGS+= $(call bid_flag_variants,CPPFLAGS)
 
 ifneq ($(MODE),host)
+CPPFLAGS += -include l4/bid_config.h
 CXXFLAGS_L4_GENERIC += $(CARCHFLAGS) $(CCXX_FLAGS)
 CXXFLAGS_L4_GENERIC += $(if $(GCC_HAS_ATOMICS),-DL4_GCC_HAS_ATOMICS)
 CXXFLAGS_L4_GENERIC += $(GCCSTACKPROTECTOROPT)
-CXXFLAGS_L4_GENERIC += -fuse-cxa-atexit
+CXXFLAGS_L4_GENERIC += -fuse-cxa-atexit -ffunction-sections -fdata-sections
 CXXFLAGS_L4_NOPIC   += $(call BID_mode_var,NOPICFLAGS)
 CXXFLAGS_L4_PIC     += $(PICFLAGS)
 endif
 
+CXXFLAGS_EARLY += $(if $(filter 1-15,$(BID_COMPILER_IS_CLANG)-$(GCCVERSION)),-std=gnu++17)
+CXXFLAGS_EARLY += $(if $(filter 1-9 1-10,$(BID_COMPILER_IS_GCC)-$(GCCVERSION)),-std=gnu++17)
+
 CXXFLAGS+= $(if $(CONFIG_BID_GCC_OMIT_FP),-fomit-frame-pointer,-fno-omit-frame-pointer)
+CXXFLAGS+= $(if $(CONFIG_BID_LD_EMIT_UNWIND),-funwind-tables,-fno-unwind-tables)
 CXXFLAGS+= $(OPTS) $(filter-out $(foreach w,-Wbad-function-cast -Wstrict-prototypes -Wmissing-prototypes,\
                                             $(w) $(patsubst -W%,-Wno-%,$(w))),\
                                 $(WARNINGS))
@@ -519,7 +590,7 @@ ASFLAGS_L4_GENERIC += $(CARCHFLAGS) $(CCXX_FLAGS)
 endif
 
 ASFLAGS += $(OPTS) $(ASFLAGS_L4_GENERIC)
-ASFLAGS += $(ASFLAGS_$(ARCH)) $(ASFLAGS_$(@:.o=.S)) $(ASFLAGS_$(@:.o=.S)_$(OSYSTEM))
+ASFLAGS += $(call bid_flag_variants,ASFLAGS)
 
 ALLOBJS  = $(OBJS) $(foreach target,$(TARGET) $(TARGET_$(OSYSTEM)),\
                              $(OBJS_$(target)) $(OBJS_$(target)_$(OSYSTEM)))
@@ -553,6 +624,7 @@ convert_cc_to_o_file = $(patsubst %.cc,%$(2).o, $(filter %.cc,$(1)))     \
 #
 get_target_var = $(strip                                                 \
                    $($(1)) $($(1)-y)                                     \
+                   $($(1)_$(ARCH)) $($(1)_$(ARCH)-y)                     \
                    $(if $(OSYSTEM),                                      \
                      $($(1)_$(OSYSTEM)) $($(1)_$(OSYSTEM)-y))            \
                    $($(1)_$(2)) $($(1)_$(2)-y)                           \
@@ -656,6 +728,12 @@ ifneq ($(MODE),shared)
     define make_per_target_reloc
       $$(error DEFAULT_RELOC / DEFAULT_RELOC_$(1) must not be set if MODE is l4linux or host)
     endef
+    define make_per_target_heap_size
+      $$(error DEFAULT_HEAP_SIZE / DEFAULT_HEAP_SIZE_$(1) must not be set if MODE is l4linux or host)
+    endef
+    define make_per_target_stack_size
+      $$(error DEFAULT_STACK_SIZE / DEFAULT_STACK_SIZE_$(1) must not be set if MODE is l4linux or host)
+    endef
   else
     define make_per_target_reloc
       $(1): $$(BID_RAM_BASE_DEP)
@@ -663,9 +741,19 @@ ifneq ($(MODE),shared)
                          --image-base=$$(firstword $$(call default_reloc,$(1))),\
                          -Ttext-segment=$$(firstword $$(call default_reloc,$(1))))
     endef
+    define make_per_target_heap_size
+      LDFLAGS_$(1) += --defsym=__heap_size=$$(firstword $$(call default_heap_size,$(1)))
+    endef
+    define make_per_target_stack_size
+      LDFLAGS_$(1) += --defsym=__stack_size=$$(firstword $$(call default_stack_size,$(1)))
+    endef
   endif
 else
   define make_per_target_reloc
+  endef
+  define make_per_target_heap_size
+  endef
+  define make_per_target_stack_size
   endef
 endif
 
@@ -684,7 +772,9 @@ define gen_target_vars_and_deps
   $(foreach src,$(call get_target_var,SRC_C,$(1))            \
                 $(call get_target_var,SRC_CC,$(1)),          \
                 $(call gen_src_to_dpe_deps,$(src)))          \
-  $(if $(call default_reloc,$(1)),$(eval $(call make_per_target_reloc,$(1))))
+  $(if $(call default_reloc,$(1)),$(eval $(call make_per_target_reloc,$(1)))) \
+  $(if $(call default_heap_size,$(1)),$(eval $(call make_per_target_heap_size,$(1))))
+  $(if $(call default_stack_size,$(1)),$(eval $(call make_per_target_stack_size,$(1))))
 endef
 
 # Generate dependency rules and target-specific variables for all

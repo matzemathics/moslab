@@ -44,7 +44,7 @@ public:
 
 private:
   Fpsid _fpsid;
-  static bool save_32r;
+  static Global_data<bool> save_32r;
 };
 
 class Fpu_state : public Fpu::Fpu_regs {};
@@ -59,16 +59,6 @@ public:
   {
   };
 };
-
-// ------------------------------------------------------------------------
-IMPLEMENTATION [arm && !fpu]:
-
-#include "trap_state.h"
-
-PUBLIC static inline NEEDS["trap_state.h"]
-void
-Fpu::save_user_exception_state(bool, Fpu_state *, Trap_state *, Exception_state_user *)
-{}
 
 // ------------------------------------------------------------------------
 IMPLEMENTATION [arm && fpu && !arm_v6plus]:
@@ -119,8 +109,9 @@ IMPLEMENTATION [arm && fpu]:
 #include "mem.h"
 #include "processor.h"
 #include "trap_state.h"
+#include "global_data.h"
 
-bool Fpu::save_32r;
+DEFINE_GLOBAL Global_data<bool> Fpu::save_32r;
 
 PUBLIC static inline
 Mword
@@ -243,6 +234,9 @@ Fpu::emulate_insns(Mword opcode, Trap_state *ts)
       return false;
     }
 
+  // FPU insns are 32bit, even for thumb
+  ts->pc += 4;
+
   return true;
 }
 
@@ -277,7 +271,7 @@ Fpu::save_fpu_regs(Fpu_regs *r)
                "beq 1f                 \n"
                "vstm   %0!, {d16-d31}  \n"
                "1:                     \n"
-               : "=r" (tmp) : "0" (r->state), "r" (save_32r));
+               : "=r" (tmp) : "0" (r->state), "r" (save_32r.unwrap()));
 }
 
 PRIVATE static inline
@@ -291,7 +285,7 @@ Fpu::restore_fpu_regs(Fpu_regs const *r)
                "beq 1f                 \n"
                "vldm   %0!, {d16-d31} \n"
                "1:                     \n"
-               : "=r" (tmp) : "0" (r->state), "r" (save_32r));
+               : "=r" (tmp) : "0" (r->state), "r" (save_32r.unwrap()));
 }
 
 IMPLEMENT
@@ -421,9 +415,9 @@ Fpu::show(Cpu_number cpu)
 {
   const Fpsid s = fpu.cpu(cpu)._fpsid;
   printf("FPU%d: Subarch: %x, Part: %x, Rev: %x, Var: %x, Impl: %x\n",
-         cxx::int_value<Cpu_number>(cpu),
-         (int)s.sub_arch(), (int)s.part_number(),
-         (int)s.rev(), (int)s.variant(), (int)s.implementer());
+         cxx::int_value<Cpu_number>(cpu), s.sub_arch().get(),
+         s.part_number().get(), s.rev().get(), s.variant().get(),
+         s.implementer().get());
 }
 
 //-------------------------------------------------------------------------

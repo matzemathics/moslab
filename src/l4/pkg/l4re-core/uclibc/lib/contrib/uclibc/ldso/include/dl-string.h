@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Copyright (C) 2000-2005 by Erik Andersen <andersen@codepoet.org>
  *
@@ -104,7 +103,7 @@ static __always_inline char * _dl_strstr(const char *s1, const char *s2)
 
 	do {
 		if (!*p)
-			return (char *) s1;;
+			return (char *) s1;
 		if (*p == *s) {
 			++p;
 			++s;
@@ -204,7 +203,9 @@ static __always_inline char * _dl_get_last_path_component(char *path)
 # define _dl_strcat strcat
 # define _dl_strcpy strcpy
 # define _dl_strcmp strcmp
+# define _dl_strchr strchr
 # define _dl_strrchr strrchr
+# define _dl_strstr strstr
 # define _dl_memcpy memcpy
 # define _dl_memcmp memcmp
 # define _dl_memset memset
@@ -255,7 +256,8 @@ static __always_inline char * _dl_simple_ltoahex(char *local, unsigned long i)
 
 /* On some (wierd) arches, none of this stuff works at all, so
  * disable the whole lot... */
-#if defined(__mips__)
+/* The same applies for ARM FDPIC at least for the moment.  */
+#if defined(__mips__) || defined(__FDPIC__)
 
 # define SEND_STDERR(X)
 # define SEND_ADDRESS_STDERR(X, add_a_newline)

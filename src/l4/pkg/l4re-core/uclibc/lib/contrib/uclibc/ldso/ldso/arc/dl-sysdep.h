@@ -69,11 +69,19 @@ do {									\
 } while(0)
 
 /* Here we define the magic numbers that this dynamic loader should accept */
+#ifdef __A7__
 #define MAGIC1 EM_ARCOMPACT
+#define ELF_TARGET "ARCompact"	/* For error messages */
+#elif defined(__HS__)
+#define MAGIC1 EM_ARCV2
+#define ELF_TARGET "ARCv2"	/* For error messages */
+#elif defined(__ARC64_ARCH32__)
+#define MAGIC1 EM_ARCV3_32
+#define ELF_TARGET "ARCv3_32"	/* For error messages */
+#endif
+
 #undef  MAGIC2
 
-/* Used for error messages */
-#define ELF_TARGET "ARC"
 
 struct elf_resolve;
 extern unsigned long _dl_linux_resolver(struct elf_resolve * tpnt,
@@ -81,6 +89,8 @@ extern unsigned long _dl_linux_resolver(struct elf_resolve * tpnt,
 
 extern unsigned __udivmodsi4(unsigned, unsigned) attribute_hidden;
 
+#ifdef __A7__
+/* using "C" causes an indirection via __umodsi3 -> __udivmodsi4 */
 #define do_rem(result, n, base)  ((result) =				\
 									\
 	__builtin_constant_p (base) ? (n) % (unsigned) (base) :		\
@@ -95,43 +105,51 @@ extern unsigned __udivmodsi4(unsigned, unsigned) attribute_hidden;
 		r1;							\
 	})								\
 )
+#elif defined(__HS__)
+/* ARCv2 has hardware assisted divide/mod */
+#define do_rem(result, n, base)  ((result) = (n) % (unsigned) (base))
+#endif
 
-/* ELF_RTYPE_CLASS_PLT iff TYPE describes relocation of a PLT entry, so
-   PLT entries should not be allowed to define the value.
+/* ELF_RTYPE_CLASS_PLT iff TYPE describes relocation of a PLT entry or
+   TLS variable so PLT entries should not be allowed to define the value.
+
    ELF_RTYPE_CLASS_NOCOPY iff TYPE should not be allowed to resolve to one
    of the main executable's symbols, as for a COPY reloc.  */
 #define elf_machine_type_class(type) \
-  ((((type) == R_ARC_JMP_SLOT) * ELF_RTYPE_CLASS_PLT)	\
+  ((((type) == R_ARC_JMP_SLOT || (type) == R_ARC_TLS_DTPMOD ||	\
+     (type) == R_ARC_TLS_DTPOFF || (type) == R_ARC_TLS_TPOFF)	\
+   * ELF_RTYPE_CLASS_PLT)					\
    | (((type) == R_ARC_COPY) * ELF_RTYPE_CLASS_COPY))
 
 /*
- * Get the runtime address of GOT[0]
+ * Get build time address of .dynamic as setup in GOT[0]
+ * This is called very early in _dl_start() so it has not been relocated to
+ * runtime value
  */
 static __always_inline Elf32_Addr elf_machine_dynamic(void)
 {
-	Elf32_Addr dyn;
-
-	__asm__("ld %0,[pcl,_DYNAMIC@gotpc]\n\t" : "=r" (dyn));
-	return dyn;
-
-/*
- * Another way would have been to simply return GP, which due to some
- * PIC reference would be automatically setup by gcc in caller
- *	register Elf32_Addr *got __asm__ ("gp"); return *got;
- */
+	extern const Elf32_Addr _GLOBAL_OFFSET_TABLE_[] attribute_hidden;
+	return _GLOBAL_OFFSET_TABLE_[0];
 }
 
 /* Return the run-time load address of the shared object.  */
 static __always_inline Elf32_Addr elf_machine_load_address(void)
 {
-    /* To find the loadaddr we subtract the runtime addr of any symbol
-     * say _dl_start from it's build-time addr.
+    /* To find the loadaddr we subtract the runtime addr of a non-local symbol
+     * say _DYNAMIC from it's build-time addr.
+     * N.B., gotpc loads get optimized by the linker if it finds the symbol
+     * is resolved locally.
+     * A more robust - and efficient - solution would be to use a symbol
+     * set by the linker.  To make it actually save space, we'd have to
+     * suppress the unwanted text relocation in the linked dso, though.
+     * (I.e. in ldso.so.*, though it's just another dso as far as bfd/ld
+     * are concerned.)
      */
 	Elf32_Addr addr, tmp;
 	__asm__ (
-        "ld  %1, [pcl, _dl_start@gotpc] ;build addr of _dl_start   \n"
-        "add %0, pcl, _dl_start-.+(.&2) ;runtime addr of _dl_start \n"
-        "sub %0, %0, %1                 ;delta                     \n"
+        "ld  %1, [pcl, _dl_start@gotpc] ;build addr of _DYNAMIC"   "\n"
+        "add %0, pcl, _dl_start@pcl     ;runtime addr of _DYNAMIC" "\n"
+        "sub %0, %0, %1                ;delta"                    "\n"
         : "=&r" (addr), "=r"(tmp)
     );
 	return addr;
@@ -141,7 +159,7 @@ static __always_inline void
 elf_machine_relative (Elf32_Addr load_off, const Elf32_Addr rel_addr,
 		      Elf32_Word relative_count)
 {
-	 Elf32_Rel * rpnt = (void *) rel_addr;
+	 Elf32_Rela * rpnt = (void *) rel_addr;
 	--rpnt;
 	do {
 		Elf32_Addr *const reloc_addr = (void *) (load_off + (++rpnt)->r_offset);

@@ -90,6 +90,8 @@ public:
     if (_config->version != 2)
       L4Re::chksys(-L4_ENODEV, "Require virtio version of 2");
 
+    _guest_irq = guest_irq;
+
     _host_irq = L4Re::chkcap(L4Re::Util::make_unique_cap<L4::Irq>(),
                              "Allocating cap for host irq");
 
@@ -108,8 +110,9 @@ public:
     _queue_irqs.resize(_config->num_queues);
 
     // Flush initial config page content
-    l4_cache_clean_data((l4_addr_t)_config.get(),
-                        (l4_addr_t)_config.get() + _config_page_size);
+    l4_cache_clean_data(reinterpret_cast<l4_addr_t>(_config.get()),
+                        reinterpret_cast<l4_addr_t>(_config.get())
+                        + _config_page_size);
   }
 
 
@@ -135,7 +138,8 @@ public:
   {
     if (l4virtio_get_feature(_config->dev_features_map,
                              L4VIRTIO_FEATURE_CMD_CONFIG))
-      return _config->config_queue(num, _host_irq.get(), _guest_irq.get());
+      // Do busy waiting, because the irq could arrive on any CPU
+      return _config->config_queue(num, _host_irq.get(), L4::Cap<L4::Triggerable>());
 
     _config->queues()[num].driver_notify_index = 0;
 
@@ -171,7 +175,11 @@ public:
 
   void virtio_queue_notify(unsigned num)
   {
-    if (num < _queue_irqs.size())
+    if (l4virtio_get_feature(_config->dev_features_map,
+                             L4VIRTIO_FEATURE_CMD_CONFIG))
+      // Do busy waiting, because the irq could arrive on any CPU
+      _config->notify_queue(num, _host_irq.get(), L4::Cap<L4::Triggerable>());
+    else if (num < _queue_irqs.size())
       _queue_irqs[num]->trigger();
   }
 
@@ -187,9 +195,22 @@ public:
                            L4VIRTIO_FEATURE_CMD_CONFIG);
 
     if (use_irq)
-      _config->set_status(status, _host_irq.get(), _guest_irq.get());
+      // Do busy waiting, because the irq could arrive on any CPU
+      _config->set_status(status, _host_irq.get(), L4::Cap<L4::Triggerable>());
     else
       _device->set_status(status);
+  }
+
+  void cfg_changed(unsigned reg)
+  {
+    bool use_irq = l4virtio_get_feature(_config->dev_features_map,
+                                        L4VIRTIO_FEATURE_CMD_CONFIG);
+
+    if (use_irq)
+      // Do busy waiting, because the irq could arrive on any CPU
+      _config->cfg_changed(reg, _host_irq.get(), L4::Cap<L4::Triggerable>());
+    else
+      L4Re::throw_error(-L4_EINVAL, "Direct config change not supported in L4Virtio protocol.");
   }
 
   ~Device()
@@ -205,7 +226,7 @@ public:
 protected:
   L4::Cap<L4virtio::Device> _device;
   L4Re::Rm::Unique_region<L4virtio::Device::Config_hdr *> _config;
-  L4Re::Util::Unique_cap<L4::Irq> _guest_irq;
+  L4::Cap<L4::Irq> _guest_irq;
 
 private:
   std::vector<L4Re::Util::Unique_cap<L4::Irq> > _queue_irqs;
@@ -270,14 +291,18 @@ public:
     // FIXME: our L4 transport supports just a single IRQ, so trigger event 1
     //        for all queues until we implemented per-queue events.
     //        And use event index 0 for config events.
-    auto s = 1; // FIXME: correctly set irq_status in devices: _dev.irq_status();
-    if (s & 1)
-      ev.set(1); // set event index 1 for all queue events
+    auto s = _dev.device_config()->irq_status;
+    if (s & L4VIRTIO_IRQ_STATUS_CONFIG)
+      {
+        _irq_status_shadow |= L4VIRTIO_IRQ_STATUS_CONFIG;
+        ev.set(0);
+      }
+    if (s & L4VIRTIO_IRQ_STATUS_VRING)
+      {
+        _irq_status_shadow |= L4VIRTIO_IRQ_STATUS_VRING;
+        ev.set(1); // set event index 1 for all queue events
+      }
 
-    if (s & 2)
-      ev.set(0);
-
-    _irq_status_shadow |= 1;
     if (_dev.device_config()->irq_status != _irq_status_shadow)
       dev()->set_irq_status(_irq_status_shadow);
 
@@ -305,8 +330,8 @@ public:
   l4virtio_config_hdr_t *virtio_cfg()
   { return _dev.device_config(); }
 
-  void virtio_device_config_written(unsigned)
-  {}
+  void virtio_device_config_written(unsigned reg)
+  { _dev.cfg_changed(reg); }
 
   L4virtio::Device::Config_queue *virtqueue_config(unsigned qn)
   {
@@ -365,6 +390,8 @@ public:
   {}
 
   Virtio::Event_connector_irq *event_connector() { return &_evcon; }
+
+  char const *dev_name() const override { return "Virtio_proxy_mmio"; }
 
 private:
   Virtio::Event_connector_irq _evcon;

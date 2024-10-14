@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * __syscall_fcntl64() for uClibc
  *
@@ -23,16 +22,19 @@ int fcntl64(int fd, int cmd, ...)
 {
 	long arg;
 	va_list list;
+# ifdef __NEW_THREADS
+	int oldtype, result;
+# endif
 
 	va_start(list, cmd);
 	arg = va_arg(list, long);
 	va_end(list);
 
-	if (SINGLE_THREAD_P || (cmd != F_SETLKW64))
+	if (SINGLE_THREAD_P || (cmd != F_SETLKW && cmd != F_SETLKW64))
 		return __NC(fcntl64)(fd, cmd, arg);
 # ifdef __NEW_THREADS
-	int oldtype = LIBC_CANCEL_ASYNC();
-	int result = __NC(fcntl64)(fd, cmd, arg);
+	oldtype = LIBC_CANCEL_ASYNC();
+	result = __NC(fcntl64)(fd, cmd, arg);
 	LIBC_CANCEL_RESET(oldtype);
 	return result;
 # endif

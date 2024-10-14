@@ -1,0 +1,6 @@
+<map id="L4Re::Util::Names::Name_space::free_dynamic_entry" name="L4Re::Util::Names::Name_space::free_dynamic_entry">
+<area shape="rect" id="Node000001" title="Free an entry previously allocated with alloc_dynamic_entry()." alt="" coords="248,29,492,69"/>
+<area shape="rect" id="Node000002" href="$classL4Re_1_1Util_1_1Names_1_1Name__space.html#af7c92e05493887466de5be8c8774e274" title="Free epiface previously acquired with get_epiface()." alt="" coords="5,29,200,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,52,200,52,200,47,234,47"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="148,18,132,11,103,8,77,10,61,15,55,21,58,28,53,30,50,20,58,10,76,5,103,3,134,5,150,13"/>
+</map>

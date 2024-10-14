@@ -1,6 +1,8 @@
 var group__l4util__bitops =
 [
+    [ "bitops_arch.h", "amd64_2l4_2util_2bitops__arch_8h.html", null ],
     [ "bitops.h", "bitops_8h.html", null ],
+    [ "bitops_arch.h", "x86_2l4_2util_2bitops__arch_8h.html", null ],
     [ "l4util_bsf", "group__l4util__bitops.html#ga3906818d29569abd0c82fc7ec35687f7", null ],
     [ "l4util_bsr", "group__l4util__bitops.html#ga530be11fa91000db4c4539558e115bd2", null ],
     [ "l4util_btc", "group__l4util__bitops.html#ga473ec530a3eb2d06a2d13a9df3184229", null ],

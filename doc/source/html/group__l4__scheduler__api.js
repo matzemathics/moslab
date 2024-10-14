@@ -25,9 +25,9 @@ var group__l4__scheduler__api =
     ] ],
     [ "l4_sched_cpu_set", "group__l4__scheduler__api.html#ga25d36547d6902c482c747b0face8781c", null ],
     [ "l4_sched_param", "group__l4__scheduler__api.html#ga97fc9fce99006ce7011a25bb8d014c8d", null ],
-    [ "l4_scheduler_idle_time", "group__l4__scheduler__api.html#gae0309103240230e4727245121002d2ac", null ],
-    [ "l4_scheduler_info", "group__l4__scheduler__api.html#ga680dbcb3627dffba0aa691fc261a273d", null ],
-    [ "l4_scheduler_info_with_classes", "group__l4__scheduler__api.html#ga832a364e4af998d5a427931eb050ab62", null ],
+    [ "l4_scheduler_idle_time", "group__l4__scheduler__api.html#gac5d528967873205c13c35b00bf150b60", null ],
+    [ "l4_scheduler_info", "group__l4__scheduler__api.html#ga6a05c8f9abbeb3926c3aff26a4ec1316", null ],
+    [ "l4_scheduler_info_with_classes", "group__l4__scheduler__api.html#gaa294eedd2f352bc060b7e16403ccac44", null ],
     [ "l4_scheduler_is_online", "group__l4__scheduler__api.html#ga062a1dfac473eb080c0cdca494c5be8c", null ],
-    [ "l4_scheduler_run_thread", "group__l4__scheduler__api.html#gad2a9662639b3bc122d551dab6a1c9aca", null ]
+    [ "l4_scheduler_run_thread", "group__l4__scheduler__api.html#ga529821cb75f0c3d17ec66e4357f0f72c", null ]
 ];

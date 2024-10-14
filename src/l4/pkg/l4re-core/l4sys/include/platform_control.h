@@ -43,6 +43,10 @@
 /**
  * Enter suspend to RAM.
  *
+ * \pre Must only be invoked on the boot CPU. Furthermore it must be ensured
+ *      that the invoking thread is not migrated to a different CPU during the
+ *      suspend.
+ *
  * \param pfc     Capability selector for the platform-control object.
  * \param extras  Some extra platform-specific information needed to enter
  *                suspend to RAM. On x86 platforms and when using the
@@ -170,6 +174,8 @@ enum L4_platform_ctl_ops
   L4_PLATFORM_CTL_CPU_ALLOW_SHUTDOWN_OP = 2UL, /**< allow CPU shutdown */
   L4_PLATFORM_CTL_CPU_ENABLE_OP         = 3UL, /**< enable an offline CPU */
   L4_PLATFORM_CTL_CPU_DISABLE_OP        = 4UL, /**< disable an online CPU */
+
+  L4_PLATFORM_CTL_SET_TASK_ASID_OP      = 0x10UL, /**< Arm: set task ASID */
 };
 
 /**

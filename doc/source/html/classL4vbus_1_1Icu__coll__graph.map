@@ -1,16 +1,16 @@
 <map id="L4vbus::Icu" name="L4vbus::Icu">
-<area shape="rect" id="Node000001" title="Vbus Interrupt controller API." alt="" coords="141,1251,228,1316"/>
-<area shape="rect" id="Node000002" href="$classL4vbus_1_1Device.html" title="Device on a L4vbus::Vbus." alt="" coords="119,936,251,1201"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,1216,187,1250,182,1250,182,1216"/>
-<area shape="rect" id="Node000003" href="$classL4vbus_1_1Pm.html" title=" " alt="" coords="5,728,169,813"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="108,826,144,935,139,936,103,828"/>
-<area shape="rect" id="Node000004" href="$classL4vbus_1_1Pm.html" title="Power&#45;management API mixin." alt="" coords="14,460,161,545"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="90,559,90,728,85,728,85,559"/>
-<area shape="rect" id="Node000005" href="$classL4_1_1Cap.html" title=" " alt="" coords="194,668,373,873"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="252,874,236,921,231,920,247,873"/>
-<area shape="rect" id="Node000006" href="$classL4_1_1Cap__base.html" title="Base class for all kinds of capabilities." alt="" coords="209,5,325,351"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="273,364,279,605,282,668,276,668,274,605,268,364"/>
-<area shape="rect" id="Node000007" href="$classL4_1_1Cap.html" title="C++ interface for capabilities." alt="" coords="289,400,398,605"/>
-<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="314,363,322,399,317,401,308,365"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="320,619,309,669,304,667,315,618"/>
+<area shape="rect" id="Node000001" title="Vbus Interrupt controller API." alt="" coords="145,1331,232,1396"/>
+<area shape="rect" id="Node000002" href="$classL4vbus_1_1Device.html" title="Device on a L4vbus::Vbus." alt="" coords="123,1016,255,1281"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,1296,191,1330,186,1330,186,1296"/>
+<area shape="rect" id="Node000003" href="$classL4vbus_1_1Pm.html" title=" " alt="" coords="5,788,169,873"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="108,886,149,1015,144,1017,102,888"/>
+<area shape="rect" id="Node000004" href="$classL4vbus_1_1Pm.html" title="Power&#45;management API mixin." alt="" coords="14,480,161,565"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="90,579,90,788,85,788,85,579"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Cap.html" title=" " alt="" coords="194,708,389,953"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="254,954,239,1001,234,1000,249,953"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Cap__base.html" title="Base class for all kinds of capabilities." alt="" coords="215,5,331,351"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="278,364,285,645,287,708,282,708,279,645,272,365"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Cap.html" title="C++ interface for capabilities." alt="" coords="294,400,489,645"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="338,359,352,399,347,400,333,361"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="350,659,334,709,329,707,345,658"/>
 </map>

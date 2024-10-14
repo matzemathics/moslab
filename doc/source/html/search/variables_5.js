@@ -20,11 +20,12 @@ var searchData=
   ['ecx_17',['ecx',['../structl4__exc__regs__t.html#ae6f6f9e5f345d34aafec026b2d7d2c4e',1,'l4_exc_regs_t']]],
   ['edi_18',['edi',['../structl4__exc__regs__t.html#afaad7b04e313f9f8c51f0fdc9584132a',1,'l4_exc_regs_t']]],
   ['edx_19',['edx',['../structl4__exc__regs__t.html#abc77dd39b2ae89e0f4bd646d4686bd05',1,'l4_exc_regs_t']]],
-  ['end_20',['end',['../structL4Re_1_1Rm_1_1Range.html#a453fb582bac1d4466ead6d6a5f723d59',1,'L4Re::Rm::Range::end'],['../structl4vbus__resource__t.html#ac41cdfbe074902b5a31ec9a16366239c',1,'l4vbus_resource_t::end']]],
+  ['end_20',['end',['../structl4vbus__resource__t.html#ac41cdfbe074902b5a31ec9a16366239c',1,'l4vbus_resource_t::end'],['../structL4Re_1_1Rm_1_1Range.html#a453fb582bac1d4466ead6d6a5f723d59',1,'L4Re::Rm::Range::end']]],
   ['entry_5fip_21',['entry_ip',['../structl4__vcpu__state__t.html#ad38f88918b67a3e83aff1218ab7a9de0',1,'l4_vcpu_state_t']]],
   ['entry_5fsp_22',['entry_sp',['../structl4__vcpu__state__t.html#a1f45174954aa47bb2f21b7b90bed250e',1,'l4_vcpu_state_t']]],
   ['err_23',['err',['../structl4__vcpu__regs__t.html#a1a7a4e5198caf269f1afdcdfbf6475d4',1,'l4_vcpu_regs_t::err'],['../structl4__exc__regs__t.html#ac102c96b13a77cf49c2bceb395e3bc49',1,'l4_exc_regs_t::err']]],
   ['error_24',['error',['../structl4__thread__regs__t.html#a5938a98c49f9b75e46046b36e6f65e89',1,'l4_thread_regs_t']]],
   ['es_25',['es',['../structl4__vcpu__regs__t.html#ad2afac5e032ce5dc0b3c7f7d5f1104ec',1,'l4_vcpu_regs_t::es'],['../structl4__exc__regs__t.html#a01d7e84288196ecb75ce92d19dca81ac',1,'l4_exc_regs_t::es']]],
-  ['esi_26',['esi',['../structl4__exc__regs__t.html#ad634ebd5e95e9adbbeb164b8506a49a1',1,'l4_exc_regs_t']]]
+  ['esi_26',['esi',['../structl4__exc__regs__t.html#ad634ebd5e95e9adbbeb164b8506a49a1',1,'l4_exc_regs_t']]],
+  ['event_27',['event',['../structL4virtio_1_1Svr_1_1Console_1_1Control__message.html#ad91664d695fdec86bcbfb826a07be1d7',1,'L4virtio::Svr::Console::Control_message']]]
 ];

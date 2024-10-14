@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4virtio::Svr::Dev_config Class Reference</title>
+<title>L4Re Operating System Framework: L4virtio::Svr::Dev_config Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -102,23 +105,27 @@ $(document).ready(function(){initNavTree('classL4virtio_1_1Svr_1_1Dev__config.ht
 
 <p><code>#include &lt;<a class="el" href="server_2l4virtio_source.html">l4virtio</a>&gt;</code></p>
 
-<p>Inherited by L4virtio::Svr::Dev_config_t&lt; l4virtio_block_config_t &gt;, and L4virtio::Svr::Dev_config_t&lt; PRIV_CONFIG &gt;.</p>
+<p>Inherited by L4virtio::Svr::Dev_config_t&lt; l4virtio_block_config_t &gt;, L4virtio::Svr::Dev_config_t&lt; Serial_config_space &gt;, L4virtio::Svr::Dev_config_t&lt; L4virtio::Svr::No_custom_data &gt;, and L4virtio::Svr::Dev_config_t&lt; PRIV_CONFIG &gt;.</p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for L4virtio::Svr::Dev_config:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config__coll__graph.svg" width="206" height="291"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config__coll__graph.svg" width="180" height="291"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a663b81f49e6ce03f9b7e136d6646bf89" id="r_a663b81f49e6ce03f9b7e136d6646bf89"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a663b81f49e6ce03f9b7e136d6646bf89">Dev_config</a> (<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> vendor, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> device, unsigned cfg_size, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> num_queues=0)</td></tr>
+<tr class="memitem:a663b81f49e6ce03f9b7e136d6646bf89" id="r_a663b81f49e6ce03f9b7e136d6646bf89"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a663b81f49e6ce03f9b7e136d6646bf89">Dev_config</a> (<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> vendor, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> device, unsigned cfg_size, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> <a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a9c4009f53b93a29f3e19d676085d99dd">num_queues</a>=0)</td></tr>
 <tr class="memdesc:a663b81f49e6ce03f9b7e136d6646bf89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a L4-Virtio config data space.  <br /></td></tr>
 <tr class="separator:a663b81f49e6ce03f9b7e136d6646bf89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0a15fe6ca82defa26c36e37447275eb" id="r_ac0a15fe6ca82defa26c36e37447275eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#ac0a15fe6ca82defa26c36e37447275eb">Dev_config</a> (Cfg_cap const &amp;cfg, <a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> cfg_offset, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> vendor, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> device, unsigned cfg_size, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> num_queues=0)</td></tr>
+<tr class="memitem:ac0a15fe6ca82defa26c36e37447275eb" id="r_ac0a15fe6ca82defa26c36e37447275eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#ac0a15fe6ca82defa26c36e37447275eb">Dev_config</a> (Cfg_cap const &amp;cfg, <a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> cfg_offset, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> vendor, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> device, unsigned cfg_size, <a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> <a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a9c4009f53b93a29f3e19d676085d99dd">num_queues</a>=0)</td></tr>
 <tr class="memdesc:ac0a15fe6ca82defa26c36e37447275eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup an L4-Virtio config space in an existing data space.  <br /></td></tr>
 <tr class="separator:ac0a15fe6ca82defa26c36e37447275eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c4009f53b93a29f3e19d676085d99dd" id="r_a9c4009f53b93a29f3e19d676085d99dd"><td class="memItemLeft" align="right" valign="top"><a id="a9c4009f53b93a29f3e19d676085d99dd" name="a9c4009f53b93a29f3e19d676085d99dd"></a>
+<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>num_queues</b> () const</td></tr>
+<tr class="memdesc:a9c4009f53b93a29f3e19d676085d99dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of queues currently usable. <br /></td></tr>
+<tr class="separator:a9c4009f53b93a29f3e19d676085d99dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae141610d4be24a07911dff2ba21dbe0a" id="r_ae141610d4be24a07911dff2ba21dbe0a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#ae141610d4be24a07911dff2ba21dbe0a">guest_features</a> (unsigned idx) const</td></tr>
 <tr class="memdesc:ae141610d4be24a07911dff2ba21dbe0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a specific set of guest features.  <br /></td></tr>
 <tr class="separator:ae141610d4be24a07911dff2ba21dbe0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,10 +144,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a01556f856334cea1ab98ef40559a5ead" id="r_a01556f856334cea1ab98ef40559a5ead"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a01556f856334cea1ab98ef40559a5ead">set_status</a> (<a class="el" href="structL4virtio_1_1Svr_1_1Dev__status.html">Status</a> <a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a96ad6d40f04894e7a0ef8ce33a4f8416">status</a>)</td></tr>
 <tr class="memdesc:a01556f856334cea1ab98ef40559a5ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set device status register.  <br /></td></tr>
 <tr class="separator:a01556f856334cea1ab98ef40559a5ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fb7334fc078f7c26c036ea1f5fbdbf3" id="r_a7fb7334fc078f7c26c036ea1f5fbdbf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a7fb7334fc078f7c26c036ea1f5fbdbf3">add_irq_status</a> (<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> <a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a96ad6d40f04894e7a0ef8ce33a4f8416">status</a>)</td></tr>
+<tr class="memdesc:a7fb7334fc078f7c26c036ea1f5fbdbf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds irq status bit.  <br /></td></tr>
+<tr class="separator:a7fb7334fc078f7c26c036ea1f5fbdbf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc2b3a6d213dc5fbaf7e500f784b5076" id="r_afc2b3a6d213dc5fbaf7e500f784b5076"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#afc2b3a6d213dc5fbaf7e500f784b5076">set_device_needs_reset</a> ()</td></tr>
 <tr class="memdesc:afc2b3a6d213dc5fbaf7e500f784b5076"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set DEVICE_NEEDS_RESET bit in device status register.  <br /></td></tr>
 <tr class="separator:afc2b3a6d213dc5fbaf7e500f784b5076"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e2930c86af691b5379cf45f253bad1d" id="r_a6e2930c86af691b5379cf45f253bad1d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a6e2930c86af691b5379cf45f253bad1d">change_queue_config</a> (<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> num_queues)</td></tr>
+<tr class="memitem:a6e2930c86af691b5379cf45f253bad1d" id="r_a6e2930c86af691b5379cf45f253bad1d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a6e2930c86af691b5379cf45f253bad1d">change_queue_config</a> (<a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a> <a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#a9c4009f53b93a29f3e19d676085d99dd">num_queues</a>)</td></tr>
 <tr class="memdesc:a6e2930c86af691b5379cf45f253bad1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup new queue configuration.  <br /></td></tr>
 <tr class="separator:a6e2930c86af691b5379cf45f253bad1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa47cc92da20edf7757449a0917f30997" id="r_aa47cc92da20edf7757449a0917f30997"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4virtio__config__queue__t.html">l4virtio_config_queue_t</a> volatile const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html#aa47cc92da20edf7757449a0917f30997">qconfig</a> (unsigned index) const</td></tr>
@@ -319,6 +329,52 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7fb7334fc078f7c26c036ea1f5fbdbf3" name="a7fb7334fc078f7c26c036ea1f5fbdbf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fb7334fc078f7c26c036ea1f5fbdbf3">&#9670;&#160;</a></span>add_irq_status()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void L4virtio::Svr::Dev_config::add_irq_status </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a>&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds irq status bit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>The value to add to the irq status register.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function adds the status bit to the irq status register. </p>
+
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00265">265</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+
+<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00368">hdr()</a>, and <a class="el" href="server_2l4virtio_source.html#l00222">status()</a>.</p>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a7fb7334fc078f7c26c036ea1f5fbdbf3_cgraph.svg" width="627" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a6e2930c86af691b5379cf45f253bad1d" name="a6e2930c86af691b5379cf45f253bad1d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6e2930c86af691b5379cf45f253bad1d">&#9670;&#160;</a></span>change_queue_config()</h2>
 
@@ -351,15 +407,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00269">269</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00286">286</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="l4_2sys_2consts_8h_source.html#l00380">L4_PAGESIZE</a>, and <a class="el" href="server_2l4virtio_source.html#l00301">reset_hdr()</a>.</p>
-<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+<p class="reference">References <a class="el" href="l4_2sys_2consts_8h_source.html#l00380">L4_PAGESIZE</a>, <a class="el" href="server_2l4virtio_source.html#l00184">num_queues()</a>, and <a class="el" href="server_2l4virtio_source.html#l00318">reset_hdr()</a>.</p>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a6e2930c86af691b5379cf45f253bad1d_cgraph.svg" width="367" height="66"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a6e2930c86af691b5379cf45f253bad1d_cgraph.svg" width="388" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -390,7 +446,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 <p>Get data-space capability for the shared config data space. </p>
 <dl class="section return"><dt>Returns</dt><dd>Capability for the shared config data space. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00358">358</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00375">375</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
 </div>
 </div>
@@ -420,23 +476,23 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 <p>Get the value from the <code>cmd</code> register. </p>
 <p>Note, the most significant eight bits are the command (0 is nothing to do). The upper eight bit are reset to zero after the command was handled. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00224">224</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00230">230</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="virtio_8h_source.html#l00185">l4virtio_config_hdr_t::cmd</a>, and <a class="el" href="server_2l4virtio_source.html#l00351">hdr()</a>.</p>
+<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00368">hdr()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l01129">L4virtio::Svr::Device_t&lt; DATA &gt;::handle_mem_cmd_write()</a>.</p>
-<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a64313e8e41c209f12bd104442751753d_cgraph.svg" width="591" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l01148">L4virtio::Svr::Device_t&lt; DATA &gt;::handle_mem_cmd_write()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a64313e8e41c209f12bd104442751753d_cgraph.svg" width="591" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a64313e8e41c209f12bd104442751753d_icgraph.svg" width="396" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -481,7 +537,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 </dl>
 <p>This function returns a specific 32bit set of features enabled by the guest/driver. <code>idx</code> is the index in the guest features array, resp. the 32 bit set to return. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00192">192</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00198">198</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
 </div>
 </div>
@@ -511,24 +567,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 <p>Get a read-only pointer to the config header. </p>
 <dl class="section return"><dt>Returns</dt><dd>Read-only pointer to the shared config header. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00351">351</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00368">368</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="rm_source.html#l00486">L4Re::Rm::Unique_region&lt; T &gt;::get()</a>.</p>
+<p class="reference">References <a class="el" href="rm_source.html#l00508">L4Re::Rm::Unique_region&lt; T &gt;::get()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00224">get_cmd()</a>, <a class="el" href="server_2l4virtio_source.html#l00235">reset_cmd()</a>, <a class="el" href="server_2l4virtio_source.html#l00259">set_device_needs_reset()</a>, and <a class="el" href="server_2l4virtio_source.html#l00247">set_status()</a>.</p>
-<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a35714a3ebce252eb16a40033cf97d0fe_cgraph.svg" width="408" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00265">add_irq_status()</a>, <a class="el" href="server_2l4virtio_source.html#l00230">get_cmd()</a>, <a class="el" href="server_2l4virtio_source.html#l00241">reset_cmd()</a>, <a class="el" href="server_2l4virtio_source.html#l00276">set_device_needs_reset()</a>, and <a class="el" href="server_2l4virtio_source.html#l00253">set_status()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a35714a3ebce252eb16a40033cf97d0fe_icgraph.svg" width="591" height="259"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a35714a3ebce252eb16a40033cf97d0fe_cgraph.svg" width="408" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a35714a3ebce252eb16a40033cf97d0fe_icgraph.svg" width="615" height="323"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -572,7 +628,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 </dl>
 <p>This function returns a specific 32-bit set of features negotiated by the guest/driver and host/device. <code>idx</code> is the index in the guest/host features array, resp. the 32-bit set to return. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00206">206</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00212">212</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
 </div>
 </div>
@@ -609,24 +665,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Read-only pointer to the config of the queue with the given <em>index</em>, or NULL if <em>index</em> is out of range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00286">286</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00303">303</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="rm_source.html#l00486">L4Re::Rm::Unique_region&lt; T &gt;::get()</a>, and <a class="el" href="compiler_8h_source.html#l00285">L4_UNLIKELY</a>.</p>
+<p class="reference">References <a class="el" href="rm_source.html#l00508">L4Re::Rm::Unique_region&lt; T &gt;::get()</a>, and <a class="el" href="compiler_8h_source.html#l00296">L4_UNLIKELY</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00328">reset_queue()</a>, and <a class="el" href="server_2l4virtio_source.html#l01022">L4virtio::Svr::Device_t&lt; DATA &gt;::setup_queue()</a>.</p>
-<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_aa47cc92da20edf7757449a0917f30997_cgraph.svg" width="408" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00345">reset_queue()</a>, and <a class="el" href="server_2l4virtio_source.html#l01041">L4virtio::Svr::Device_t&lt; DATA &gt;::setup_queue()</a>.</p>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-8-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_aa47cc92da20edf7757449a0917f30997_icgraph.svg" width="566" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_aa47cc92da20edf7757449a0917f30997_cgraph.svg" width="408" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_aa47cc92da20edf7757449a0917f30997_icgraph.svg" width="600" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -657,23 +713,23 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 <p>Reset the <code>cmd</code> register after execution of a command. </p>
 <p>This function resets the <code>cmd</code> register in order for the client to detect that the command was executed by the device. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00235">235</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00241">241</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="virtio_8h_source.html#l00185">l4virtio_config_hdr_t::cmd</a>, and <a class="el" href="server_2l4virtio_source.html#l00351">hdr()</a>.</p>
+<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00368">hdr()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l01129">L4virtio::Svr::Device_t&lt; DATA &gt;::handle_mem_cmd_write()</a>.</p>
-<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-9-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a988f5859320f66b6479d338c5b15660f_cgraph.svg" width="600" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l01148">L4virtio::Svr::Device_t&lt; DATA &gt;::handle_mem_cmd_write()</a>.</p>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-10-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-10-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a988f5859320f66b6479d338c5b15660f_cgraph.svg" width="600" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a988f5859320f66b6479d338c5b15660f_icgraph.svg" width="406" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -730,23 +786,23 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true on success, or false when <em>index</em> is out of range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00328">328</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00345">345</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="compiler_8h_source.html#l00285">L4_UNLIKELY</a>, <a class="el" href="virtio_8h_source.html#l00211">l4virtio_config_queue_t::num</a>, <a class="el" href="virtio_8h_source.html#l00209">l4virtio_config_queue_t::num_max</a>, <a class="el" href="server_2l4virtio_source.html#l00286">qconfig()</a>, and <a class="el" href="virtio_8h_source.html#l00214">l4virtio_config_queue_t::ready</a>.</p>
+<p class="reference">References <a class="el" href="compiler_8h_source.html#l00296">L4_UNLIKELY</a>, <a class="el" href="virtio_8h_source.html#l00225">l4virtio_config_queue_t::num</a>, <a class="el" href="virtio_8h_source.html#l00223">l4virtio_config_queue_t::num_max</a>, <a class="el" href="server_2l4virtio_source.html#l00303">qconfig()</a>, and <a class="el" href="virtio_8h_source.html#l00228">l4virtio_config_queue_t::ready</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00973">L4virtio::Svr::Device_t&lt; DATA &gt;::reset_queue_config()</a>.</p>
-<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-11-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a23076c47a39c091db853262e9db32f1c_cgraph.svg" width="612" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00996">L4virtio::Svr::Device_t&lt; DATA &gt;::reset_queue_config()</a>.</p>
 <div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-12-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-12-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a23076c47a39c091db853262e9db32f1c_cgraph.svg" width="612" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-13-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a23076c47a39c091db853262e9db32f1c_icgraph.svg" width="383" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -778,23 +834,23 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 <p>Set DEVICE_NEEDS_RESET bit in device status register. </p>
 <p>This function sets the internal status register and also the status register in the shared memory to DEVICE_NEEDS_RESET. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00259">259</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00276">276</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="virtio_source.html#l00045">L4virtio::Svr::Dev_status::device_needs_reset()</a>, <a class="el" href="server_2l4virtio_source.html#l00351">hdr()</a>, <a class="el" href="virtio_source.html#l00034">L4virtio::Svr::Dev_status::raw</a>, and <a class="el" href="virtio_8h_source.html#l00164">l4virtio_config_hdr_t::status</a>.</p>
+<p class="reference">References <a class="el" href="virtio_source.html#l00045">L4virtio::Svr::Dev_status::device_needs_reset()</a>, <a class="el" href="server_2l4virtio_source.html#l00368">hdr()</a>, and <a class="el" href="virtio_source.html#l00034">L4virtio::Svr::Dev_status::raw</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00995">L4virtio::Svr::Device_t&lt; DATA &gt;::device_error()</a>.</p>
-<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-13-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_afc2b3a6d213dc5fbaf7e500f784b5076_cgraph.svg" width="675" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l01018">L4virtio::Svr::Device_t&lt; DATA &gt;::device_error()</a>.</p>
 <div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-14-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-14-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_afc2b3a6d213dc5fbaf7e500f784b5076_cgraph.svg" width="675" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-15-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_afc2b3a6d213dc5fbaf7e500f784b5076_icgraph.svg" width="359" height="66"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -833,14 +889,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 </dl>
 <p>This function sets the internal status register and also the status register in the shared memory to <em>status</em>. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00247">247</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00253">253</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00351">hdr()</a>, <a class="el" href="virtio_source.html#l00034">L4virtio::Svr::Dev_status::raw</a>, <a class="el" href="server_2l4virtio_source.html#l00216">status()</a>, and <a class="el" href="virtio_8h_source.html#l00164">l4virtio_config_hdr_t::status</a>.</p>
-<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
+<p class="reference">References <a class="el" href="server_2l4virtio_source.html#l00368">hdr()</a>, <a class="el" href="virtio_source.html#l00034">L4virtio::Svr::Dev_status::raw</a>, and <a class="el" href="server_2l4virtio_source.html#l00222">status()</a>.</p>
+<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-15-content" class="dyncontent" style="display:none;">
+<div id="dynsection-16-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a01556f856334cea1ab98ef40559a5ead_cgraph.svg" width="599" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -873,15 +929,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 <dl class="section return"><dt>Returns</dt><dd>Current device status register (trusted).</dd></dl>
 <p>The status returned by this function is value stored internally and cannot be written by the guest (i.e., the value can be taken as trusted.) </p>
 
-<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00216">216</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_2l4virtio_source.html#l00222">222</a> of file <a class="el" href="server_2l4virtio_source.html">l4virtio</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00995">L4virtio::Svr::Device_t&lt; DATA &gt;::device_error()</a>, and <a class="el" href="server_2l4virtio_source.html#l00247">set_status()</a>.</p>
-<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
+<p class="reference">Referenced by <a class="el" href="server_2l4virtio_source.html#l00265">add_irq_status()</a>, <a class="el" href="server_2l4virtio_source.html#l01018">L4virtio::Svr::Device_t&lt; DATA &gt;::device_error()</a>, and <a class="el" href="server_2l4virtio_source.html#l00253">set_status()</a>.</p>
+<div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-16-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a96ad6d40f04894e7a0ef8ce33a4f8416_icgraph.svg" width="347" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div id="dynsection-17-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4virtio_1_1Svr_1_1Dev__config_a96ad6d40f04894e7a0ef8ce33a4f8416_icgraph.svg" width="364" height="179"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -896,7 +952,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_hdr</b> (bool i
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4virtio.html">L4virtio</a></li><li class="navelem"><b>Svr</b></li><li class="navelem"><a class="el" href="classL4virtio_1_1Svr_1_1Dev__config.html">Dev_config</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

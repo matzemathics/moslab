@@ -90,8 +90,13 @@ timer_helper_thread (void *arg)
 
       /* XXX The size argument hopefully will have to be changed to the
 	 real size of the user-level sigset_t.  */
+#if defined(__NR_rt_sigtimedwait_time64) && defined(__UCLIBC_USE_TIME64__)
+      int result = INLINE_SYSCALL (rt_sigtimedwait_time64, 4, &ss, &si, NULL,
+				   _NSIG / 8);
+#else
       int result = INLINE_SYSCALL (rt_sigtimedwait, 4, &ss, &si, NULL,
 				   _NSIG / 8);
+#endif
 
       LIBC_CANCEL_RESET (oldtype);
 
@@ -164,7 +169,7 @@ __start_helper_thread (void)
      and should go away automatically when canceled.  */
   pthread_attr_t attr;
   (void) pthread_attr_init (&attr);
-  (void) pthread_attr_setstacksize (&attr, PTHREAD_STACK_MIN);
+  (void) pthread_attr_setstacksize (&attr, __pthread_get_minstack (&attr));
 
   /* Block all signals in the helper thread but SIGSETXID.  To do this
      thoroughly we temporarily have to block all signals here.  The

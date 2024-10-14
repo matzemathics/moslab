@@ -45,12 +45,17 @@
 #define O_FSYNC		 O_SYNC
 #define O_ASYNC		 0x1000
 
-#ifdef __USE_GNU
+#ifdef __USE_XOPEN2K8
 # define O_NOFOLLOW	0x20000	/* Do not follow links.	 */
-# define O_DIRECT	0x8000	/* Direct disk access hint.  */
 # define O_DIRECTORY	0x10000	/* Must be a directory.	 */
+# define O_CLOEXEC     02000000 /* set close_on_exec */
+#endif
+
+#ifdef __USE_GNU
+# define O_DIRECT	0x8000	/* Direct disk access hint.  */
 # define O_NOATIME	0x40000	/* Do not set atime.  */
-# define O_CLOEXEC	02000000 /* set close_on_exec */
+# define O_PATH       010000000 /* Resolve pathname but do not open file.  */
+# define O_TMPFILE     0x410000 /* Atomically create nameless file.  */
 #endif
 
 /* For now Linux has no synchronisity options for data and read operations.
@@ -109,6 +114,10 @@
 # define F_SETLEASE	1024	/* Set a lease.	 */
 # define F_GETLEASE	1025	/* Enquire what lease is active.  */
 # define F_NOTIFY	1026	/* Request notfications on a directory.	 */
+# define F_SETPIPE_SZ	1031    /* Set pipe page size array.  */
+# define F_GETPIPE_SZ	1032    /* Get pipe page size array.  */
+#endif
+#if defined __USE_XOPEN2K8 || defined __USE_GNU
 # define F_DUPFD_CLOEXEC 1030	/* Duplicate file descriptor with
 				   close-on-exit set on new fd.  */
 #endif

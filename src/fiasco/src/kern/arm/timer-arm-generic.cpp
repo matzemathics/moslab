@@ -2,6 +2,7 @@
 INTERFACE [arm && arm_generic_timer]:
 
 #include "generic_timer.h"
+#include "global_data.h"
 
 EXTENSION class Timer
 {
@@ -19,8 +20,8 @@ private:
   static void bsp_init(Cpu_number);
   static Unsigned32 frequency();
 
-  static Mword _interval;
-  static Mword _freq0;
+  static Global_data<Mword> _interval;
+  static Global_data<Mword> _freq0;
 };
 
 // --------------------------------------------------------------
@@ -30,9 +31,10 @@ IMPLEMENTATION [arm && arm_generic_timer]:
 #include "config.h"
 #include "cpu.h"
 #include "io.h"
+#include "panic.h"
 
-Mword Timer::_interval;
-Mword Timer::_freq0;
+DEFINE_GLOBAL Global_data<Mword> Timer::_interval;
+DEFINE_GLOBAL Global_data<Mword> Timer::_freq0;
 
 IMPLEMENT_OVERRIDE
 Irq_chip::Mode Timer::irq_mode()
@@ -49,7 +51,8 @@ Unsigned32 Timer::frequency()
 { return Gtimer::frequency(); }
 
 IMPLEMENT
-void Timer::init(Cpu_number cpu)
+void
+Timer::init(Cpu_number cpu)
 {
   if (!Cpu::cpus.cpu(cpu).has_generic_timer())
     panic("CPU does not support the ARM generic timer");
@@ -64,8 +67,9 @@ void Timer::init(Cpu_number cpu)
   if (cpu == Cpu_number::boot_cpu())
     {
       _freq0 = frequency();
-      _interval = (Unsigned64)_freq0 * Config::Scheduler_granularity / 1000000;
-      printf("ARM generic timer: freq=%ld interval=%ld cnt=%lld\n", _freq0, _interval, Gtimer::counter());
+      _interval = Unsigned64{_freq0} * Config::Scheduler_granularity / 1000000;
+      printf("ARM generic timer: freq=%ld interval=%ld cnt=%lld\n",
+             _freq0.unwrap(), _interval.unwrap(), Gtimer::counter());
       assert(_freq0);
 
       freq_to_scaler_shift(1000000000, _freq0,
@@ -125,7 +129,7 @@ IMPLEMENT_OVERRIDE
 void
 Timer::switch_freq_jdb()
 {
-  if (cas(&_using_interval_jdb, (Mword)false, (Mword)true))
+  if (cas(&_using_interval_jdb, Mword{false}, Mword{true}))
     _interval *= 10;
 }
 
@@ -133,6 +137,6 @@ IMPLEMENT_OVERRIDE
 void
 Timer::switch_freq_system()
 {
-  if (cas(&_using_interval_jdb, (Mword)true, (Mword)false))
+  if (cas(&_using_interval_jdb, Mword{true}, Mword{false}))
     _interval /= 10;
 }

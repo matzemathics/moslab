@@ -9,6 +9,7 @@ IMPLEMENTATION[ia32,amd64]:
 #include "koptions.h"
 #include "mem_layout.h"
 #include "pic.h"
+#include "platform_control.h"
 #include "trap_state.h"
 #include "watchdog.h"
 
@@ -26,6 +27,19 @@ Kernel_thread::free_initcall_section()
     }
 }
 
+PRIVATE static
+void
+Kernel_thread::system_resume_handler()
+{
+  assert(current_cpu() == Cpu_number::boot_cpu());
+
+  Fpu::init(current_cpu(), true);
+
+  Timer::init(current_cpu());
+  Timer_tick::enable(current_cpu());
+  boot_app_cpus();
+}
+
 
 IMPLEMENT FIASCO_INIT
 void
@@ -37,10 +51,13 @@ Kernel_thread::bootstrap_arch()
   nested_trap_handler      = Trap_state::base_handler;
   Trap_state::base_handler = thread_handle_trap;
 
+  Platform_control::set_system_resume_handler(
+    &Kernel_thread::system_resume_handler);
+
   // initialize the profiling timer
   bool user_irq0 = Koptions::o()->opt(Koptions::F_irq0);
 
-  if ((int)Config::Scheduler_mode == Config::SCHED_PIT && user_irq0)
+  if (int{Config::Scheduler_mode} == Config::SCHED_PIT && user_irq0)
     panic("option -irq0 not possible since irq 0 is used for scheduling");
 
   boot_app_cpus();
@@ -59,6 +76,7 @@ Kernel_thread::boot_app_cpus()
 IMPLEMENTATION [mp]:
 
 #include "acpi.h"
+#include "mem.h"
 #include "per_cpu_data.h"
 
 EXTENSION class Kernel_thread
@@ -219,7 +237,7 @@ Kernel_thread::boot_app_cpus()
   _tramp_mp_startup_cr0 = Cpu::get_cr0();
   _tramp_mp_startup_gdt_pdesc = Kmem::get_realmode_startup_gdt_pdesc();
 
-  __asm__ __volatile__ ("" : : : "memory");
+  Mem::barrier();
 
   Acpi_madt const *madt = Io_apic::madt();
 
@@ -254,7 +272,7 @@ Kernel_thread::boot_app_cpus()
           if (last_cpu == Cpu_number::boot_cpu())
             ++last_cpu;
 
-          Unsigned32 aid = ((Unsigned32)lapic->apic_id) << 24;
+          Unsigned32 aid = lapic->apic_id << 24;
 
           // the boot CPU already has a CPU number assigned
           if (aid == boot_apic_id)
@@ -278,7 +296,7 @@ Kernel_thread::boot_app_cpus()
           if (last_cpu == Cpu_number::boot_cpu())
             ++last_cpu;
 
-          _cpu_num_to_apic_id[last_cpu++] = ((Unsigned32)lapic->apic_id) << 24;
+          _cpu_num_to_apic_id[last_cpu++] = lapic->apic_id << 24;
         }
     }
 
@@ -286,7 +304,7 @@ Kernel_thread::boot_app_cpus()
   printf("MP: detecting APs...\n");
 
   // broadcast an AP startup via the APIC (let run the self-registration code)
-  tramp_page = (Address)&(_tramp_mp_entry[0]);
+  tramp_page = reinterpret_cast<Address>(&_tramp_mp_entry[0]);
 
   if (!boot_app_cpus_in_order(tramp_page))
     // Send IPI-Sequency to startup the APs

@@ -1,12 +1,18 @@
-IMPLEMENTATION [arm]:
+IMPLEMENTATION [arm && mmu]:
 
-typedef Unsigned64 K_ptab_array[512] __attribute__((aligned(0x1000)));
+#include "kmem.h"
+
+union K_ptab_array
+{
+  Kpdir kpdir;
+  Unsigned64 storage[512];
+} __attribute__((aligned(0x1000)));
 
 // initialize the kernel space (page table)
 IMPLEMENT inline void Kmem_space::init() {}
 
 // -----------------------------------------------------------------
-IMPLEMENTATION [arm && !cpu_virt]:
+IMPLEMENTATION [arm && mmu && !cpu_virt]:
 
 #include "boot_infos.h"
 
@@ -19,19 +25,20 @@ static K_ptab_array kernel_l0_vdir;
 enum { Num_scratch_pages = 8 };
 static K_ptab_array pdir_scratch[Num_scratch_pages];
 
-Kpdir *Mem_layout::kdir = (Kpdir *)&kernel_l0_vdir;
+DEFINE_GLOBAL_CONSTINIT Global_data<Kpdir *> Kmem::kdir(&kernel_l0_vdir.kpdir);
 
-// provide the initial infos for bootstrap.cpp
+// Provide the initial information for bootstrap.cpp. The kernel linker script
+// overlays the Boot_paging_info member variable in Bootstrap_info with this.
 static Boot_paging_info FIASCO_BOOT_PAGING_INFO _bs_pgin_dta =
 {
-  kernel_l0_dir,
-  kernel_l0_vdir,
+  kernel_l0_dir.storage,
+  kernel_l0_vdir.storage,
   pdir_scratch,
   (1 << Num_scratch_pages) - 1
 };
 
 // -----------------------------------------------------------------
-IMPLEMENTATION [arm && cpu_virt]:
+IMPLEMENTATION [arm && mmu && cpu_virt]:
 
 #include "boot_infos.h"
 
@@ -42,12 +49,20 @@ K_ptab_array kernel_l0_dir;
 enum { Num_scratch_pages = 8 };
 static K_ptab_array pdir_scratch[Num_scratch_pages];
 
-Kpdir *Mem_layout::kdir = (Kpdir *)&kernel_l0_dir;
+DEFINE_GLOBAL_CONSTINIT Global_data<Kpdir *> Kmem::kdir(&kernel_l0_dir.kpdir);
 
-// provide the initial infos for bootstrap.cpp
+// Provide the initial information for bootstrap.cpp. The kernel linker script
+// overlays the Boot_paging_info member variable in Bootstrap_info with this.
 static Boot_paging_info FIASCO_BOOT_PAGING_INFO _bs_pgin_dta =
 {
-  kernel_l0_dir,
+  kernel_l0_dir.storage,
   pdir_scratch,
   (1 << Num_scratch_pages) - 1
 };
+
+// -----------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu]:
+
+IMPLEMENT inline
+void Kmem_space::init()
+{}

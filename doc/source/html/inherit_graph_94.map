@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classL4_1_1Ipc_1_1Gen__fpage.html" title="Generic RPC wrapper for L4 flex&#45;pages." alt="" coords="5,5,185,31"/>
+<area shape="rect" id="Node000000" href="$classL4_1_1Ipc_1_1Gen__fpage.html" title="Generic RPC base for L4 flex&#45;pages." alt="" coords="5,31,148,56"/>
+<area shape="rect" id="Node000001" href="$classL4_1_1Ipc_1_1Rcv__fpage.html" title="Rcv flex&#45;page." alt="" coords="196,5,336,31"/>
+<area shape="poly" id="edge81_Node000000_Node000001" title=" " alt="" coords="161,29,195,25,196,30,162,35"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Ipc_1_1Snd__fpage.html" title="Send flex&#45;page." alt="" coords="196,55,336,80"/>
+<area shape="poly" id="edge82_Node000000_Node000002" title=" " alt="" coords="162,51,196,56,195,61,161,57"/>
 </map>

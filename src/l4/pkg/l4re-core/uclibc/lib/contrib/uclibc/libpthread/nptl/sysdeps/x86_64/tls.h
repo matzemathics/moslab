@@ -58,7 +58,7 @@ typedef struct
 # ifndef __ASSUME_PRIVATE_FUTEX
   int private_futex;
 # else
-  int __unused1;
+  int __uclibc_unused1;
 # endif
 # if __WORDSIZE == 64
   int rtld_must_xmm_save;
@@ -66,7 +66,7 @@ typedef struct
   /* Reservation of some values for the TM ABI.  */
   void *__private_tm[5];
 # if __WORDSIZE == 64
-  long int __unused2;
+  long int __uclibc_unused2;
   /* Have space for the post-AVX register size.  */
   __m128 rtld_savespace_sse[8][4];
 
@@ -347,18 +347,6 @@ typedef struct
 	    else							      \
 	      /* Not necessary for other sizes in the moment.  */	      \
 	      abort (); })
-
-
-# define CALL_THREAD_FCT(descr) \
-  ({ void *__res;							      \
-     __asm__ __volatile__ ("movq %%fs:%P2, %%rdi\n\t"				      \
-		   "callq *%%fs:%P1"					      \
-		   : "=a" (__res)					      \
-		   : "i" (offsetof (struct pthread, start_routine)),	      \
-		     "i" (offsetof (struct pthread, arg))		      \
-		   : "di", "si", "cx", "dx", "r8", "r9", "r10", "r11",	      \
-		     "memory", "cc");					      \
-     __res; })
 
 
 /* Set the stack guard field in TCB head.  */

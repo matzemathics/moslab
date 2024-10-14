@@ -3,6 +3,7 @@ INTERFACE:
 #include "context.h"
 #include "icu_helper.h"
 #include "types.h"
+#include "global_data.h"
 
 class Scheduler : public Icu_h<Scheduler>, public Irq_chip_virt<1>
 {
@@ -18,7 +19,7 @@ public:
     Idle_time  = 2,
   };
 
-  static Scheduler scheduler;
+  static Global_data<Scheduler> scheduler;
 
 private:
   L4_RPC(Info,      sched_info, (L4_cpu_set_descr set, Mword *rm,
@@ -37,7 +38,7 @@ IMPLEMENTATION:
 
 
 JDB_DEFINE_TYPENAME(Scheduler, "\033[34mSched\033[m");
-Scheduler Scheduler::scheduler;
+DEFINE_GLOBAL Global_data<Scheduler> Scheduler::scheduler;
 
 PUBLIC void
 Scheduler::operator delete (void *)
@@ -49,7 +50,7 @@ Scheduler::operator delete (void *)
 PUBLIC inline
 Scheduler::Scheduler()
 {
-  initial_kobjects.register_obj(this, Initial_kobjects::Scheduler);
+  initial_kobjects->register_obj(this, Initial_kobjects::Scheduler);
 }
 
 
@@ -70,10 +71,10 @@ Scheduler::sys_run(L4_fpage::Rights, Syscall_frame *f, Utcb const *utcb)
   if (!thread)
     return tag;
 
-  Mword _store[sz / sizeof(Mword)];
-  memcpy(_store, &utcb->values[1], sz);
+  Mword _store[(Sched_context::max_param_size() + sizeof(Mword) - 1) / sizeof(Mword)];
+  memcpy(_store, &utcb->values[1], min<unsigned>(sz, sizeof(_store)));
 
-  L4_sched_param const *sched_param = reinterpret_cast<L4_sched_param const *>(_store);
+  auto *sched_param = reinterpret_cast<L4_sched_param const *>(_store);
 
   if (!sched_param->is_legacy())
     if (EXPECT_FALSE(sched_param->length > sz))

@@ -50,24 +50,6 @@ double __ieee754_acosh(double x)
 	    return __ieee754_log(2.0*x-one/(x+__ieee754_sqrt(t-one)));
 	} else {			/* 1<x<2 */
 	    t = x-one;
-	    return log1p(t+sqrt(2.0*t+t*t));
+	    return log1p(t+__ieee754_sqrt(2.0*t+t*t));
 	}
 }
-
-/*
- * wrapper acosh(x)
- */
-#ifndef _IEEE_LIBM
-double acosh(double x)
-{
-	double z = __ieee754_acosh(x);
-	if (_LIB_VERSION == _IEEE_ || isnan(x))
-		return z;
-	if (x < 1.0)
-		return __kernel_standard(x, x, 29); /* acosh(x<1) */
-	return z;
-}
-#else
-strong_alias(__ieee754_acosh, acosh)
-#endif
-libm_hidden_def(acosh)

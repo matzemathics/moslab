@@ -127,8 +127,8 @@ class Legacy_pic : public Gic::Ic
     l4_uint8_t _offset = 0;
     l4_uint8_t _slave_at = 0;
 
-    struct ICW1 _icw1; // store to keep track of single mode and icw4
-    struct ICW4 _icw4; // store to keep track of aeoi mode
+    struct ICW1 _icw1 {0}; // store to keep track of single mode and icw4
+    struct ICW4 _icw4 {0}; // store to keep track of aeoi mode
 
     bool _is_master;
     Legacy_pic *_pic;
@@ -138,6 +138,9 @@ class Legacy_pic : public Gic::Ic
     {
       _icw4.aeoi() = 1;
     }
+
+    char const *dev_name() const override
+    { return "PIC"; }
 
     /// Check interrupt mask/in-service and return the IRQ number with offset.
     int trigger(unsigned irq)
@@ -164,6 +167,7 @@ class Legacy_pic : public Gic::Ic
   public:
     /// Handle read accesses on the PICs command and data ports.
     void io_in(unsigned port, Vmm::Mem_access::Width width, l4_uint32_t *value)
+      override
     {
       *value = -1U;
 
@@ -190,6 +194,7 @@ class Legacy_pic : public Gic::Ic
 
     /// Handle write accesses on the PICs command and data ports.
     void io_out(unsigned port, Vmm::Mem_access::Width width, l4_uint32_t value)
+      override
     {
       if (width != Vmm::Mem_access::Width::Wd8)
         return;
@@ -425,7 +430,7 @@ public:
 
   void clear(unsigned) override {}
 
-  void bind_eoi_handler(unsigned irq, Gic::Eoi_handler *handler) override
+  void bind_irq_src_handler(unsigned irq, Gic::Irq_src_handler *handler) override
   {
     assert(irq < Num_irqs);
     if (handler && _sources[irq])
@@ -434,7 +439,7 @@ public:
     _sources[irq] = handler;
   }
 
-  Gic::Eoi_handler *get_eoi_handler(unsigned irq) const override
+  Gic::Irq_src_handler *get_irq_src_handler(unsigned irq) const override
   {
     assert(irq < Num_irqs);
     return _sources[irq];
@@ -474,7 +479,7 @@ private:
   cxx::Ref_ptr<Chip> _master;
   cxx::Ref_ptr<Chip> _slave;
   cxx::Ref_ptr<Gic::Msix_controller> _distr;
-  Gic::Eoi_handler *_sources[Num_irqs] = {};
+  Gic::Irq_src_handler *_sources[Num_irqs] = {};
 };
 
 } // namespace Vdev

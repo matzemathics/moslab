@@ -69,8 +69,6 @@ int fclose(register FILE *stream)
 	stream->__modeflags |= (__FLAG_READONLY|__FLAG_WRITEONLY);
 
 #ifndef NDEBUG
-	__STDIO_STREAM_RESET_GCS(stream);
-
 	/* Reinitialize everything (including putc since fflush could fail). */
 	__STDIO_STREAM_DISABLE_GETC(stream);
 	__STDIO_STREAM_DISABLE_PUTC(stream);
@@ -87,9 +85,6 @@ int fclose(register FILE *stream)
 	__STDIO_AUTO_THREADUNLOCK(stream);
 
 	__STDIO_STREAM_FREE_BUFFER(stream);
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning REMINDER: inefficient - locks and unlocks twice and walks whole list
-#endif
 #if defined(__UCLIBC_HAS_THREADS__) && defined(__STDIO_BUFFERS)
 	/* inefficient - locks/unlocks twice and walks whole list */
 	__STDIO_OPENLIST_INC_DEL_CNT;

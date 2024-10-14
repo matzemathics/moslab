@@ -61,17 +61,29 @@ QEMU_OPTIONS-arm-rv_vexpress_a15 += -M vexpress-a15 -m 2047 -cpu cortex-a15 \
                                     -smp 4
 QEMU_OPTIONS-arm-rv_pbx          += realview-pbx-a9 -m 512 -cpu cortex-a9 -smp 4
 QEMU_OPTIONS-arm-arm_virt        += -M virt,virtualization=true -cpu cortex-a15 -m 1024
+QEMU_OPTIONS-arm-arm_mps3_an536  += -M mps3-an536 -smp 2
+# Have to add additional serial devices to see output of UARTs other than UART0.
+# UART0: Exclusively accessible to CPU0.
+# UART1: Exclusively accessible to CPU1.
+# UART2/3/4/5: Shared between CPU0 and CPU1.
+# The following adds serial devices for UART0-3 and muxes them all into stdio.
+# Must not be combined with the usual "-serial stdio".
+# QEMU_OPTIONS-arm-arm_mps3_an536  += -chardev stdio,mux=on,id=stdio-mux -serial chardev:stdio-mux -serial chardev:stdio-mux -serial chardev:stdio-mux -serial chardev:stdio-mux
 
-QEMU_OPTIONS-arm64-arm_virt      += -M virt,virtualization=true -cpu cortex-a57 -m 1024
+QEMU_OPTIONS-arm64-arm_virt      += -M virt,virtualization=true,iommu=smmuv3 -cpu cortex-a57 -m 1024
 
-QEMU_OPTIONS-mips-malta          += -M malta -m 256 -cpu P5600
+QEMU_OPTIONS-mips-malta          += -M malta -m 1024 -cpu P5600
+
+QEMU_OPTIONS-riscv-riscv_virt    += -bios default -M virt -m 1024 -smp 4
+QEMU_OPTIONS-riscv-sifive_u      += -bios default -M sifive_u -m 1024 -smp 4
 
 QEMU_OPTIONS-arm   += $(QEMU_OPTIONS-arm-$(PLATFORM_TYPE))
 QEMU_OPTIONS-arm64 += $(QEMU_OPTIONS-arm64-$(PLATFORM_TYPE))
 QEMU_OPTIONS-mips  += $(QEMU_OPTIONS-mips-$(PLATFORM_TYPE))
+QEMU_OPTIONS-riscv += $(QEMU_OPTIONS-riscv-$(PLATFORM_TYPE))
 QEMU_OPTIONS-x86   += -m 512 -M q35
 QEMU_OPTIONS-amd64 += -m 512 -M q35
-#QEMU_OPTIONS-amd64 += -m 1024 -M q35 -enable-kvm -cpu host
+#QEMU_OPTIONS-amd64 += -m 1024 -enable-kvm -M q35,kernel_irqchip=split -cpu host -device intel-iommu,intremap=on,eim=on
 QEMU_OPTIONS       += $(QEMU_OPTIONS-$(ARCH))
 
 # The path to the QEMU binary - optional
@@ -79,6 +91,45 @@ QEMU_OPTIONS       += $(QEMU_OPTIONS-$(ARCH))
 #QEMU_PATH-amd64 = /path/to/qemu-system-x86_64
 #QEMU_PATH       = $(QEMU_PATH-$(ARCH))
 
+# Arm FVP: Specific configuration for 'fvp' target (make fvp E=xxx'):
+
+FVP_OPTIONS += -C cluster0.NUM_CORES=1 -C pctl.startup=0.0.*.*
+
+# Basic settings for bare-metal boot without an ATF
+FVP_OPTIONS += -C bp.refcounter.non_arch_start_at_default=1
+FVP_OPTIONS += -C gic_distributor.has-two-security-states=0
+
+# Speed up simulation
+FVP_OPTIONS += -C cache_state_modelled=0
+FVP_OPTIONS += -C bp.vis.disable_visualisation=1
+
+# UART output. You probably want to disable telnet when running tests...
+FVP_OPTIONS += -C bp.pl011_uart0.out_file=-
+#FVP_OPTIONS += -C bp.terminal_0.start_telnet=0
+
+# A-profile specific settings. Required because we boot witout ATF.
+FVP_OPTIONS-arm_fvp_base += -C bp.secure_memory=false
+FVP_OPTIONS-arm_fvp_base += -C cluster0.has_el3=0 -C cluster0.has_secure_el2=0
+
+# R-profile specific settings.
+FVP_OPTIONS-arm_fvp_base_r += -C gic_distributor.GICD_CTLR-DS-1-means-secure-only=1
+FVP_OPTIONS-arm_fvp_base_r += -C gic_distributor.has-two-security-states=0
+FVP_OPTIONS-arm_fvp_base_r += -C cci400.force_on_from_start=1
+FVP_OPTIONS-arm_fvp_base_r += -C bp.exclusive_monitor.monitor_access_level=1
+
+# Armv8-R VMSA is only supported on AArch64
+FVP_OPTIONS-arm-arm_fvp_base_r   += -C cluster0.VMSA_supported=0
+FVP_OPTIONS-arm64-arm_fvp_base_r += -C cluster0.VMSA_supported=1
+
+FVP_OPTIONS-arm   += -C cluster0.has_aarch64=0
+FVP_OPTIONS-arm64 += -C cluster0.has_aarch64=1
+
+FVP_OPTIONS       += $(FVP_OPTIONS-$(ARCH))
+FVP_OPTIONS       += $(FVP_OPTIONS-$(PLATFORM_TYPE))
+FVP_OPTIONS       += $(FVP_OPTIONS-$(ARCH)-$(PLATFORM_TYPE))
+
+# Set path to FVP binary if model is not in $PATH - optional
+#FVP_PATH = /path/to/FVP_Base_RevC-2xAEMvA
 
 # Fiasco-UX: Specific configuration for 'ux' target ('make ux E=xxx'):
 #

@@ -1,6 +1,5 @@
 /* This file defines standard ELF types, structures, and macros.
-   Copyright (C) 1995-2003, 2004, 2005 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
+   Copyright (C) 1995-2018 Free Software Foundation, Inc.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -61,6 +60,9 @@ typedef uint16_t Elf64_Section;
 typedef Elf32_Half Elf32_Versym;
 typedef Elf64_Half Elf64_Versym;
 
+/* Type for relative relocations in DT_RELR format */
+typedef Elf32_Word  Elf32_Relr;
+typedef Elf64_Xword Elf64_Relr;
 
 /* The ELF file header.  This appears at the start of every ELF file.  */
 
@@ -257,22 +259,30 @@ typedef struct
 #define EM_MN10300	89		/* Matsushita MN10300 */
 #define EM_MN10200	90		/* Matsushita MN10200 */
 #define EM_PJ		91		/* picoJava */
-#define EM_OPENRISC	92		/* OpenRISC 32-bit embedded processor */
-#define EM_ARC_A5	93		/* ARC Cores Tangent-A5 */
+#define EM_OR1K		92		/* OpenRISC 32-bit embedded processor */
 #define EM_ARCOMPACT	93		/* ARCompact ISA based Cores: ARC 700 */
 #define EM_XTENSA	94		/* Tensilica Xtensa Architecture */
 #define EM_IP2K		101		/* Ubicom IP2022 micro controller */
 #define EM_CR		103		/* National Semiconductor CompactRISC */
 #define EM_MSP430	105		/* TI msp430 micro controller */
 #define EM_BLACKFIN	106		/* Analog Devices Blackfin */
-#define EM_ALTERA_NIOS2	113	/* Altera Nios II soft-core processor */
+#define EM_ALTERA_NIOS2	113		/* Altera Nios II soft-core processor */
 #define EM_CRX		114		/* National Semiconductor CRX */
+#define EM_TI_C6000	140
+#define EM_NDS32	167		/* Andes Tech NDS32 */
+#define EM_METAG	174		/* Imagination Technologies Meta */
 #define EM_AARCH64	183		/* ARM AARCH64 */
 #define EM_TILEPRO	188		/* Tilera TILEPro */
-#define EM_MICROBLAZE	189		/* Xilinx MicroBlaze */
+#define EM_MICROBLAZE	189		/* Xilinx Microblaze */
 #define EM_TILEGX	191		/* Tilera TILE-Gx */
-#define EM_NUM		192
-#define EM_TI_C6000	140
+#define EM_ARCV2	195		/* Synopsys ARCv2 Cores */
+#define EM_RISCV        243     	/* RISC-V */
+#define EM_CSKY		252		/* C-SKY Cores */
+#define EM_ARCV3_32	255		/* Synopsys ARCv3 32-bit Cores */
+#define EM_KVX		256		/* Kalray VLIW core of the MPPA processor family */
+
+/* NEXT FREE NUMBER: Increment this after adding your official arch number */
+#define EM_NUM		257
 
 /* If it is necessary to assign new unofficial EM_* values, please pick large
    random numbers (0x8523, 0xa7f2, etc.) to minimize the chances of collision
@@ -286,21 +296,8 @@ typedef struct
    unofficial e_machine number should eventually ask registry@caldera.com for
    an officially blessed number to be added to the list above.  */
 
-/* Imagination Technologies Meta */
-#define EM_METAG        174
-
-/* picoJava */
-#define EM_PJ_OLD	99
-
 /* Cygnus PowerPC ELF backend.  Written in the absence of an ABI.  */
 #define EM_CYGNUS_POWERPC 0x9025
-
-/* Old version of Sparc v9, from before the ABI; this should be
-   removed shortly.  */
-#define EM_OLD_SPARCV9	11
-
-/* Old version of PowerPC, this should be removed shortly. */
-#define EM_PPC_OLD	17
 
 /* (Deprecated) Temporary number for the OpenRISC processor.  */
 #define EM_OR32		0x8472
@@ -374,14 +371,6 @@ typedef struct
 
 /* V850 backend magic number.  Written in the absense of an ABI.  */
 #define EM_CYGNUS_V850 0x9080
-
-/* Xilinx Microblaze (unofficial). Note that there is now an official microblaze
- * magic number, but all the toolchains currently in existence use the old number
- */
-#define EM_MICROBLAZE_OLD   0xbaab
-
-/* Xilinx Microblaze (official) */
-#define EM_MICROBLAZE   189
 
 /* Legal values for e_version (version).  */
 
@@ -569,6 +558,7 @@ typedef struct
 #define STB_WEAK	2		/* Weak symbol */
 #define	STB_NUM		3		/* Number of defined types.  */
 #define STB_LOOS	10		/* Start of OS-specific */
+#define STB_GNU_UNIQUE	10		/* Unique symbol.  */
 #define STB_HIOS	12		/* End of OS-specific */
 #define STB_LOPROC	13		/* Start of processor-specific */
 #define STB_HIPROC	15		/* End of processor-specific */
@@ -584,6 +574,7 @@ typedef struct
 #define STT_TLS		6		/* Symbol is thread-local data object*/
 #define	STT_NUM		7		/* Number of defined types.  */
 #define STT_LOOS	10		/* Start of OS-specific */
+#define STT_GNU_IFUNC	10		/* Symbol is indirect code object */
 #define STT_HIOS	12		/* End of OS-specific */
 #define STT_LOPROC	13		/* Start of processor-specific */
 #define STT_HIPROC	15		/* End of processor-specific */
@@ -743,6 +734,31 @@ typedef struct
 #define NT_LWPSTATUS	16		/* Contains copy of lwpstatus struct */
 #define NT_LWPSINFO	17		/* Contains copy of lwpinfo struct */
 #define NT_PRFPXREG	20		/* Contains copy of fprxregset struct*/
+#define NT_SIGINFO	0x53494749	/* Contains copy of siginfo_t,
+					   size might increase */
+#define NT_FILE		0x46494c45	/* Contains information about mapped
+					   files */
+#define NT_PRXFPREG	0x46e62b7f	/* Contains copy of user_fxsr_struct */
+#define NT_PPC_VMX	0x100		/* PowerPC Altivec/VMX registers */
+#define NT_PPC_SPE	0x101		/* PowerPC SPE/EVR registers */
+#define NT_PPC_VSX	0x102		/* PowerPC VSX registers */
+#define NT_386_TLS	0x200		/* i386 TLS slots (struct user_desc) */
+#define NT_386_IOPERM	0x201		/* x86 io permission bitmap (1=deny) */
+#define NT_X86_XSTATE	0x202		/* x86 extended state using xsave */
+#define NT_S390_HIGH_GPRS	0x300	/* s390 upper register halves */
+#define NT_S390_TIMER	0x301		/* s390 timer register */
+#define NT_S390_TODCMP	0x302		/* s390 TOD clock comparator register */
+#define NT_S390_TODPREG	0x303		/* s390 TOD programmable register */
+#define NT_S390_CTRS	0x304		/* s390 control registers */
+#define NT_S390_PREFIX	0x305		/* s390 prefix register */
+#define NT_S390_LAST_BREAK	0x306	/* s390 breaking event address */
+#define NT_S390_SYSTEM_CALL	0x307	/* s390 system call restart data */
+#define NT_S390_TDB	0x308		/* s390 transaction diagnostic block */
+#define NT_ARM_VFP	0x400		/* ARM VFP/NEON registers */
+#define NT_ARM_TLS	0x401		/* ARM TLS register */
+#define NT_ARM_HW_BREAK	0x402		/* ARM hardware breakpoint registers */
+#define NT_ARM_HW_WATCH	0x403		/* ARM hardware watchpoint registers */
+#define NT_ARM_SYSTEM_CALL	0x404	/* ARM system call number */
 
 /* Legal values for the note segment descriptor types for object files.  */
 
@@ -807,7 +823,10 @@ typedef struct
 #define DT_ENCODING	32		/* Start of encoded range */
 #define DT_PREINIT_ARRAY 32		/* Array with addresses of preinit fct*/
 #define DT_PREINIT_ARRAYSZ 33		/* size in bytes of DT_PREINIT_ARRAY */
-#define	DT_NUM		34		/* Number used */
+#define DT_RELRSZ          35   	/* Size in bytes, of DT_RELR table */
+#define DT_RELR            36   	/* Address of Relr relocs */
+#define DT_RELRENT         37   	/* Size in bytes of one DT_RELR entry */
+#define DT_NUM		   38   	/* Number used */
 #define DT_LOOS		0x6000000d	/* Start of OS-specific */
 #define DT_HIOS		0x6ffff000	/* End of OS-specific */
 #define DT_LOPROC	0x70000000	/* Start of processor-specific */
@@ -1104,6 +1123,15 @@ typedef struct
 
 #define	AT_SECURE	23		/* Boolean, was exec setuid-like?  */
 
+#define AT_BASE_PLATFORM 24		/* String identifying real platforms.*/
+
+#define AT_RANDOM	25		/* Address of 16 random bytes.  */
+
+#define AT_HWCAP2	26		/* More machine-dependent hints about
+					   processor capabilities.  */
+
+#define AT_EXECFN	31		/* Filename of executable.  */
+
 /* Pointer to the global system page used for system calls and other
    nice things.  */
 #define AT_SYSINFO	32
@@ -1165,6 +1193,49 @@ typedef struct
 #define ELF_NOTE_OS_SOLARIS2	2
 #define ELF_NOTE_OS_FREEBSD	3
 
+/* Synthetic hwcap information.  The descriptor begins with two words:
+   word 0: number of entries
+   word 1: bitmask of enabled entries
+   Then follow variable-length entries, one byte followed by a
+   '\0'-terminated hwcap name string.  The byte gives the bit
+   number to test if enabled, (1U << bit) & bitmask.  */
+#define NT_GNU_HWCAP	2
+
+/* Build ID bits as generated by ld --build-id.
+   The descriptor consists of any nonzero number of bytes.  */
+#define NT_GNU_BUILD_ID	3
+
+/* Version note generated by GNU gold containing a version string.  */
+#define NT_GNU_GOLD_VERSION	4
+
+/* Program property.  */
+#define NT_GNU_PROPERTY_TYPE_0 5
+
+/* Note section name of program property.   */
+#define NOTE_GNU_PROPERTY_SECTION_NAME ".note.gnu.property"
+
+/* Synthetic hwcap information.  The descriptor begins with two words:
+   word 0: number of entries
+   word 1: bitmask of enabled entries
+   Then follow variable-length entries, one byte followed by a
+   '\0'-terminated hwcap name string.  The byte gives the bit
+   number to test if enabled, (1U << bit) & bitmask.  */
+#define NT_GNU_HWCAP	2
+
+/* Build ID bits as generated by ld --build-id.
+   The descriptor consists of any nonzero number of bytes.  */
+#define NT_GNU_BUILD_ID	3
+
+/* Version note generated by GNU gold containing a version string.  */
+#define NT_GNU_GOLD_VERSION	4
+
+/* Program property.  */
+#define NT_GNU_PROPERTY_TYPE_0 5
+
+/* Note section name of program property.   */
+#define NOTE_GNU_PROPERTY_SECTION_NAME ".note.gnu.property"
+
+
 
 /* Move records.  */
 typedef struct
@@ -1194,6 +1265,151 @@ typedef struct
 #define ELF64_M_SIZE(info)	ELF32_M_SIZE (info)
 #define ELF64_M_INFO(sym, size)	ELF32_M_INFO (sym, size)
 
+/* KVX relocs */
+#define R_KVX_NONE                                   0
+#define R_KVX_16                                     1
+#define R_KVX_32                                     2
+#define R_KVX_64                                     3
+#define R_KVX_S16_PCREL                              4
+#define R_KVX_PCREL17                                5
+#define R_KVX_PCREL27                                6
+#define R_KVX_32_PCREL                               7
+#define R_KVX_S37_PCREL_LO10                         8
+#define R_KVX_S37_PCREL_UP27                         9
+#define R_KVX_S43_PCREL_LO10                        10
+#define R_KVX_S43_PCREL_UP27                        11
+#define R_KVX_S43_PCREL_EX6                         12
+#define R_KVX_S64_PCREL_LO10                        13
+#define R_KVX_S64_PCREL_UP27                        14
+#define R_KVX_S64_PCREL_EX27                        15
+#define R_KVX_64_PCREL                              16
+#define R_KVX_S16                                   17
+#define R_KVX_S32_LO5                               18
+#define R_KVX_S32_UP27                              19
+#define R_KVX_S37_LO10                              20
+#define R_KVX_S37_UP27                              21
+#define R_KVX_S37_GOTOFF_LO10                       22
+#define R_KVX_S37_GOTOFF_UP27                       23
+#define R_KVX_S43_GOTOFF_LO10                       24
+#define R_KVX_S43_GOTOFF_UP27                       25
+#define R_KVX_S43_GOTOFF_EX6                        26
+#define R_KVX_32_GOTOFF                             27
+#define R_KVX_64_GOTOFF                             28
+#define R_KVX_32_GOT                                29
+#define R_KVX_S37_GOT_LO10                          30
+#define R_KVX_S37_GOT_UP27                          31
+#define R_KVX_S43_GOT_LO10                          32
+#define R_KVX_S43_GOT_UP27                          33
+#define R_KVX_S43_GOT_EX6                           34
+#define R_KVX_64_GOT                                35
+#define R_KVX_GLOB_DAT                              36
+#define R_KVX_COPY                                  37
+#define R_KVX_JMP_SLOT                              38
+#define R_KVX_RELATIVE                              39
+#define R_KVX_S43_LO10                              40
+#define R_KVX_S43_UP27                              41
+#define R_KVX_S43_EX6                               42
+#define R_KVX_S64_LO10                              43
+#define R_KVX_S64_UP27                              44
+#define R_KVX_S64_EX27                              45
+#define R_KVX_S37_GOTADDR_LO10                      46
+#define R_KVX_S37_GOTADDR_UP27                      47
+#define R_KVX_S43_GOTADDR_LO10                      48
+#define R_KVX_S43_GOTADDR_UP27                      49
+#define R_KVX_S43_GOTADDR_EX6                       50
+#define R_KVX_S64_GOTADDR_LO10                      51
+#define R_KVX_S64_GOTADDR_UP27                      52
+#define R_KVX_S64_GOTADDR_EX27                      53
+#define R_KVX_64_DTPMOD                             54
+#define R_KVX_64_DTPOFF                             55
+#define R_KVX_S37_TLS_DTPOFF_LO10                   56
+#define R_KVX_S37_TLS_DTPOFF_UP27                   57
+#define R_KVX_S43_TLS_DTPOFF_LO10                   58
+#define R_KVX_S43_TLS_DTPOFF_UP27                   59
+#define R_KVX_S43_TLS_DTPOFF_EX6                    60
+#define R_KVX_S37_TLS_GD_LO10                       61
+#define R_KVX_S37_TLS_GD_UP27                       62
+#define R_KVX_S43_TLS_GD_LO10                       63
+#define R_KVX_S43_TLS_GD_UP27                       64
+#define R_KVX_S43_TLS_GD_EX6                        65
+#define R_KVX_S37_TLS_LD_LO10                       66
+#define R_KVX_S37_TLS_LD_UP27                       67
+#define R_KVX_S43_TLS_LD_LO10                       68
+#define R_KVX_S43_TLS_LD_UP27                       69
+#define R_KVX_S43_TLS_LD_EX6                        70
+#define R_KVX_64_TPOFF                              71
+#define R_KVX_S37_TLS_IE_LO10                       72
+#define R_KVX_S37_TLS_IE_UP27                       73
+#define R_KVX_S43_TLS_IE_LO10                       74
+#define R_KVX_S43_TLS_IE_UP27                       75
+#define R_KVX_S43_TLS_IE_EX6                        76
+#define R_KVX_S37_TLS_LE_LO10                       77
+#define R_KVX_S37_TLS_LE_UP27                       78
+#define R_KVX_S43_TLS_LE_LO10                       79
+#define R_KVX_S43_TLS_LE_UP27                       80
+#define R_KVX_S43_TLS_LE_EX6                        81
+
+/* C-SKY relocs. */
+
+#define R_CKCORE_NONE               0
+#define R_CKCORE_ADDR32             1
+#define R_CKCORE_PCRELIMM8BY4       2
+#define R_CKCORE_PCRELIMM11BY2      3
+#define R_CKCORE_PCRELIMM4BY2       4
+#define R_CKCORE_PCREL32            5
+#define R_CKCORE_PCRELJSR_IMM11BY2  6
+#define R_CKCORE_GNU_VTINHERIT      7
+#define R_CKCORE_GNU_VTENTRY        8
+#define R_CKCORE_RELATIVE           9
+#define R_CKCORE_COPY               10
+#define R_CKCORE_GLOB_DAT           11
+#define R_CKCORE_JUMP_SLOT          12
+#define R_CKCORE_GOTOFF             13
+#define R_CKCORE_GOTPC              14
+#define R_CKCORE_GOT32              15
+#define R_CKCORE_PLT32              16
+#define R_CKCORE_ADDRGOT            17
+#define R_CKCORE_ADDRPLT            18
+#define R_CKCORE_PCREL_IMM26BY2     19
+#define R_CKCORE_PCREL_IMM16BY2     20
+#define R_CKCORE_PCREL_IMM16BY4     21
+#define R_CKCORE_PCREL_IMM10BY2     22
+#define R_CKCORE_PCREL_IMM10BY4     23
+#define R_CKCORE_ADDR_HI16          24
+#define R_CKCORE_ADDR_LO16          25
+#define R_CKCORE_GOTPC_HI16         26
+#define R_CKCORE_GOTPC_LO16         27
+#define R_CKCORE_GOTOFF_HI16        28
+#define R_CKCORE_GOTOFF_LO16        29
+#define R_CKCORE_GOT12              30
+#define R_CKCORE_GOT_HI16           31
+#define R_CKCORE_GOT_LO16           32
+#define R_CKCORE_PLT12              33
+#define R_CKCORE_PLT_HI16           34
+#define R_CKCORE_PLT_LO16           35
+#define R_CKCORE_ADDRGOT_HI16       36
+#define R_CKCORE_ADDRGOT_LO16       37
+#define R_CKCORE_ADDRPLT_HI16       38
+#define R_CKCORE_ADDRPLT_LO16       39
+#define R_CKCORE_PCREL_JSR_IMM26BY2 40
+#define R_CKCORE_TOFFSET_LO16       41
+#define R_CKCORE_DOFFSET_LO16       42
+#define R_CKCORE_PCREL_IMM18BY2     43
+#define R_CKCORE_DOFFSET_IMM18      44
+#define R_CKCORE_DOFFSET_IMM18BY2   45
+#define R_CKCORE_DOFFSET_IMM18BY4   46
+#define R_CKCORE_GOTOFF_IMM18       47
+#define R_CKCORE_GOT_IMM18BY4       48
+#define R_CKCORE_PLT_IMM18BY4       49
+#define R_CKCORE_PCREL_IMM7BY4      50
+#define R_CKCORE_TLS_LE32           51
+#define R_CKCORE_TLS_IE32           52
+#define R_CKCORE_TLS_GD32           53
+#define R_CKCORE_TLS_LDM32          54
+#define R_CKCORE_TLS_LDO32          55
+#define R_CKCORE_TLS_DTPMOD32       56
+#define R_CKCORE_TLS_DTPOFF32       57
+#define R_CKCORE_TLS_TPOFF32        58
 
 /* Motorola 68k specific definitions.  */
 
@@ -1225,8 +1441,29 @@ typedef struct
 #define R_68K_GLOB_DAT	20		/* Create GOT entry */
 #define R_68K_JMP_SLOT	21		/* Create PLT entry */
 #define R_68K_RELATIVE	22		/* Adjust by program base */
+#define R_68K_TLS_GD32      25          /* 32 bit GOT offset for GD */
+#define R_68K_TLS_GD16      26          /* 16 bit GOT offset for GD */
+#define R_68K_TLS_GD8       27          /* 8 bit GOT offset for GD */
+#define R_68K_TLS_LDM32     28          /* 32 bit GOT offset for LDM */
+#define R_68K_TLS_LDM16     29          /* 16 bit GOT offset for LDM */
+#define R_68K_TLS_LDM8      30          /* 8 bit GOT offset for LDM */
+#define R_68K_TLS_LDO32     31          /* 32 bit module-relative offset */
+#define R_68K_TLS_LDO16     32          /* 16 bit module-relative offset */
+#define R_68K_TLS_LDO8      33          /* 8 bit module-relative offset */
+#define R_68K_TLS_IE32      34          /* 32 bit GOT offset for IE */
+#define R_68K_TLS_IE16      35          /* 16 bit GOT offset for IE */
+#define R_68K_TLS_IE8       36          /* 8 bit GOT offset for IE */
+#define R_68K_TLS_LE32      37          /* 32 bit offset relative to
+					   static TLS block */
+#define R_68K_TLS_LE16      38          /* 16 bit offset relative to
+					   static TLS block */
+#define R_68K_TLS_LE8       39          /* 8 bit offset relative to
+					   static TLS block */
+#define R_68K_TLS_DTPMOD32  40          /* 32 bit module number */
+#define R_68K_TLS_DTPREL32  41          /* 32 bit module-relative offset */
+#define R_68K_TLS_TPREL32   42          /* 32 bit TP-relative offset */
 /* Keep this the last entry.  */
-#define R_68K_NUM	23
+#define R_68K_NUM	43
 
 /* Intel 80386 specific definitions.  */
 
@@ -2366,6 +2603,11 @@ typedef Elf32_Addr Elf32_Conflict;
 #define SHF_ARM_COMDEF     0x80000000   /* Section may be multiply defined
 					   in the input to a link step */
 
+#define SHT_ARM_EXIDX           (SHT_LOPROC + 1) /* ARM unwind section.  */
+#define SHT_ARM_PREEMPTMAP      (SHT_LOPROC + 2) /* Preemption details.  */
+#define SHT_ARM_ATTRIBUTES      (SHT_LOPROC + 3) /* ARM attributes section.  */
+
+
 /* ARM-specific program header flags */
 #define PF_ARM_SB          0x10000000   /* Segment contains the location
 					   addressed by the static base */
@@ -2373,65 +2615,8 @@ typedef Elf32_Addr Elf32_Conflict;
 /* Processor specific values for the Phdr p_type field.  */
 #define PT_ARM_EXIDX	0x70000001	/* .ARM.exidx segment */
 
-/* ARM relocs.  */
-
-#define R_ARM_NONE		0	/* No reloc */
-#define R_ARM_PC24		1	/* PC relative 26 bit branch */
-#define R_ARM_ABS32		2	/* Direct 32 bit  */
-#define R_ARM_REL32		3	/* PC relative 32 bit */
-#define R_ARM_PC13		4
-#define R_ARM_ABS16		5	/* Direct 16 bit */
-#define R_ARM_ABS12		6	/* Direct 12 bit */
-#define R_ARM_THM_ABS5		7
-#define R_ARM_ABS8		8	/* Direct 8 bit */
-#define R_ARM_SBREL32		9
-#define R_ARM_THM_PC22		10
-#define R_ARM_THM_PC8		11
-#define R_ARM_AMP_VCALL9	12
-#define R_ARM_SWI24		13
-#define R_ARM_THM_SWI8		14
-#define R_ARM_XPC25		15
-#define R_ARM_THM_XPC22		16
-#define R_ARM_TLS_DTPMOD32	17
-#define R_ARM_TLS_DTPOFF32	18
-#define R_ARM_TLS_TPOFF32	19
-#define R_ARM_COPY		20	/* Copy symbol at runtime */
-#define R_ARM_GLOB_DAT		21	/* Create GOT entry */
-#define R_ARM_JUMP_SLOT		22	/* Create PLT entry */
-#define R_ARM_RELATIVE		23	/* Adjust by program base */
-#define R_ARM_GOTOFF		24	/* 32 bit offset to GOT */
-#define R_ARM_GOTPC		25	/* 32 bit PC relative offset to GOT */
-#define R_ARM_GOT32		26	/* 32 bit GOT entry */
-#define R_ARM_PLT32		27	/* 32 bit PLT address */
-#define R_ARM_ALU_PCREL_7_0	32
-#define R_ARM_ALU_PCREL_15_8	33
-#define R_ARM_ALU_PCREL_23_15	34
-#define R_ARM_LDR_SBREL_11_0	35
-#define R_ARM_ALU_SBREL_19_12	36
-#define R_ARM_ALU_SBREL_27_20	37
-#define R_ARM_GNU_VTENTRY	100
-#define R_ARM_GNU_VTINHERIT	101
-#define R_ARM_THM_PC11		102	/* thumb unconditional branch */
-#define R_ARM_THM_PC9		103	/* thumb conditional branch */
-#define R_ARM_TLS_GD32		104
-#define R_ARM_TLS_LDM32		105
-#define R_ARM_TLS_LDO32		106
-#define R_ARM_TLS_IE32		107
-#define R_ARM_TLS_LE32		108
-#define R_ARM_TLS_LDO12		109
-#define R_ARM_TLS_LE12		110
-#define R_ARM_TLS_IE12GP	111
-#define R_ARM_RXPC25		249
-#define R_ARM_RSBREL32		250
-#define R_ARM_THM_RPC22		251
-#define R_ARM_RREL32		252
-#define R_ARM_RABS22		253
-#define R_ARM_RPC24		254
-#define R_ARM_RBASE		255
-/* Keep this the last entry.  */
-#define R_ARM_NUM		256
-
 /* AArch64 relocs.  */
+
 #define R_AARCH64_NONE            0	/* No relocation.  */
 
 /* ILP32 AArch64 relocs.  */
@@ -2569,6 +2754,66 @@ typedef Elf32_Addr Elf32_Conflict;
 #define R_AARCH64_TLS_TPREL    1030	/* TP-relative offset, 64 bit.  */
 #define R_AARCH64_TLSDESC      1031	/* TLS Descriptor.  */
 #define R_AARCH64_IRELATIVE	1032	/* STT_GNU_IFUNC relocation.  */
+
+/* ARM relocs.  */
+
+#define R_ARM_NONE		0	/* No reloc */
+#define R_ARM_PC24		1	/* PC relative 26 bit branch */
+#define R_ARM_ABS32		2	/* Direct 32 bit  */
+#define R_ARM_REL32		3	/* PC relative 32 bit */
+#define R_ARM_PC13		4
+#define R_ARM_ABS16		5	/* Direct 16 bit */
+#define R_ARM_ABS12		6	/* Direct 12 bit */
+#define R_ARM_THM_ABS5		7
+#define R_ARM_ABS8		8	/* Direct 8 bit */
+#define R_ARM_SBREL32		9
+#define R_ARM_THM_PC22		10
+#define R_ARM_THM_PC8		11
+#define R_ARM_AMP_VCALL9	12
+#define R_ARM_SWI24		13
+#define R_ARM_THM_SWI8		14
+#define R_ARM_XPC25		15
+#define R_ARM_THM_XPC22		16
+#define R_ARM_TLS_DTPMOD32	17
+#define R_ARM_TLS_DTPOFF32	18
+#define R_ARM_TLS_TPOFF32	19
+#define R_ARM_COPY		20	/* Copy symbol at runtime */
+#define R_ARM_GLOB_DAT		21	/* Create GOT entry */
+#define R_ARM_JUMP_SLOT		22	/* Create PLT entry */
+#define R_ARM_RELATIVE		23	/* Adjust by program base */
+#define R_ARM_GOTOFF		24	/* 32 bit offset to GOT */
+#define R_ARM_GOTPC		25	/* 32 bit PC relative offset to GOT */
+#define R_ARM_GOT32		26	/* 32 bit GOT entry */
+#define R_ARM_PLT32		27	/* 32 bit PLT address */
+#define R_ARM_ALU_PCREL_7_0	32
+#define R_ARM_ALU_PCREL_15_8	33
+#define R_ARM_ALU_PCREL_23_15	34
+#define R_ARM_LDR_SBREL_11_0	35
+#define R_ARM_ALU_SBREL_19_12	36
+#define R_ARM_ALU_SBREL_27_20	37
+#define R_ARM_GNU_VTENTRY	100
+#define R_ARM_GNU_VTINHERIT	101
+#define R_ARM_THM_PC11		102	/* thumb unconditional branch */
+#define R_ARM_THM_PC9		103	/* thumb conditional branch */
+#define R_ARM_TLS_GD32		104
+#define R_ARM_TLS_LDM32		105
+#define R_ARM_TLS_LDO32		106
+#define R_ARM_TLS_IE32		107
+#define R_ARM_TLS_LE32		108
+#define R_ARM_TLS_LDO12		109
+#define R_ARM_TLS_LE12		110
+#define R_ARM_TLS_IE12GP	111
+#define R_ARM_FUNCDESC		163
+#define R_ARM_FUNCDESC_VALUE	164
+#define R_ARM_RXPC25		249
+#define R_ARM_RSBREL32		250
+#define R_ARM_THM_RPC22		251
+#define R_ARM_RREL32		252
+#define R_ARM_RABS22		253
+#define R_ARM_RPC24		254
+#define R_ARM_RBASE		255
+/* Keep this the last entry.  */
+#define R_ARM_NUM		256
 
 /* IA-64 specific declarations.  */
 
@@ -2971,53 +3216,6 @@ typedef Elf32_Addr Elf32_Conflict;
 #define R_M32R_GOTOFF_LO	64	/* Low 16 bit offset to GOT */
 #define R_M32R_NUM		256	/* Keep this the last entry. */
 
-/* i960 Relocations */
-#define R_960_NONE      0
-#define R_960_12        1
-#define R_960_32        2
-#define R_960_IP24      3
-#define R_960_SUB       4
-#define R_960_OPTCALL   5
-#define R_960_OPTCALLX  6
-#define R_960_OPTCALLXA 7
-/* Keep this the last entry.  */
-#define R_960_NUM	8
-
-
-/* v850 relocations.  */
-#define R_V850_NONE		0
-#define R_V850_9_PCREL		1
-#define R_V850_22_PCREL		2
-#define R_V850_HI16_S		3
-#define R_V850_HI16		4
-#define R_V850_LO16		5
-#define R_V850_32		6
-#define R_V850_16		7
-#define R_V850_8		8
-#define R_V850_SDA_16_16_OFFSET	9	/* For ld.b, st.b, set1, clr1,
-					   not1, tst1, movea, movhi */
-#define R_V850_SDA_15_16_OFFSET	10	/* For ld.w, ld.h, ld.hu, st.w, st.h */
-#define R_V850_ZDA_16_16_OFFSET	11	/* For ld.b, st.b, set1, clr1,
-					   not1, tst1, movea, movhi */
-#define R_V850_ZDA_15_16_OFFSET	12	/* For ld.w, ld.h, ld.hu, st.w, st.h */
-#define R_V850_TDA_6_8_OFFSET	13	/* For sst.w, sld.w */
-#define R_V850_TDA_7_8_OFFSET	14	/* For sst.h, sld.h */
-#define R_V850_TDA_7_7_OFFSET	15	/* For sst.b, sld.b */
-#define R_V850_TDA_16_16_OFFSET	16	/* For set1, clr1, not1, tst1,
-					   movea, movhi */
-/* CYGNUS LOCAL v850e */
-#define R_V850_TDA_4_5_OFFSET		17	/* For sld.hu */
-#define R_V850_TDA_4_4_OFFSET		18	/* For sld.bu */
-#define R_V850_SDA_16_16_SPLIT_OFFSET	19	/* For ld.bu */
-#define R_V850_ZDA_16_16_SPLIT_OFFSET	20	/* For ld.bu */
-#define R_V850_CALLT_6_7_OFFSET		21	/* For callt */
-#define R_V850_CALLT_16_16_OFFSET	22	/* For callt */
-/* END CYGNUS LOCAL */
-#define R_V850_GNU_VTINHERIT	23
-#define R_V850_GNU_VTENTRY	24
-/* Keep this the last entry.  */
-#define R_V850_NUM		25
-
 /* Atmel AVR32 relocations.  */
 #define R_AVR32_NONE           0
 #define R_AVR32_32             1
@@ -3114,53 +3312,227 @@ typedef Elf32_Addr Elf32_Conflict;
 #define R_H8_ABS32A16 127
 #define R_H8_NUM      128
 
-/* NIOS relocations. */
-#define R_NIOS_NONE				0
-#define R_NIOS_32				1	/* A 32 bit absolute relocation.*/
-#define R_NIOS_LO16_LO5			2	/* A LO-16 5 bit absolute relocation.  */
-#define R_NIOS_LO16_HI11		3	/* A LO-16 top 11 bit absolute relocation.  */
-#define R_NIOS_HI16_LO5			4	/* A HI-16 5 bit absolute relocation.  */
-#define R_NIOS_HI16_HI11		5	/* A HI-16 top 11 bit absolute relocation.  */
-#define R_NIOS_PCREL6			6	/* A 6 bit relative relocation.  */
-#define R_NIOS_PCREL8			7	/* An 8 bit relative relocation.  */
-#define R_NIOS_PCREL11			8	/* An 11 bit relative relocation.  */
-#define R_NIOS_16				9	/* A 16 bit absolute relocation.  */
-#define R_NIOS_H_LO5			10	/* Low 5-bits of absolute relocation in halfwords.  */
-#define R_NIOS_H_HI11			11	/* Top 11 bits of 16-bit absolute relocation in halfwords.  */
-#define R_NIOS_H_XLO5			12	/* Low 5 bits of top 16-bits of 32-bit absolute relocation in halfwords.  */
-#define R_NIOS_H_XHI11			13	/* Top 11 bits of top 16-bits of 32-bit absolute relocation in halfwords.  */
-#define R_NIOS_H_16				14	/* Half-word @h value */
-#define R_NIOS_H_32				15	/* Word @h value */
-#define R_NIOS_GNU_VTINHERIT	200	/* GNU extension to record C++ vtable hierarchy */
-#define R_NIOS_GNU_VTENTRY		201	/* GNU extension to record C++ vtable member usage */
-/* Keep this the last entry.  */
-#define R_NIOS_NUM				202
+/* NDS32 relocs.  */
+#define R_NDS32_NONE			0
+/* REL relocations */
+#define R_NDS32_16			1
+#define R_NDS32_32			2
+#define R_NDS32_20			3
+#define R_NDS32_9_PCREL			4
+#define R_NDS32_15_PCREL			5
+#define R_NDS32_17_PCREL			6
+#define R_NDS32_25_PCREL			7
+#define R_NDS32_HI20			8
+#define R_NDS32_LO12S3			9
+#define R_NDS32_LO12S2			10
+#define R_NDS32_LO12S1			11
+#define R_NDS32_LO12S0			12
+#define R_NDS32_SDA15S3			13
+#define R_NDS32_SDA15S2			14
+#define R_NDS32_SDA15S1			15
+#define R_NDS32_SDA15S0			16
+#define R_NDS32_GNU_VTINHERIT			17
+#define R_NDS32_GNU_VTENTRY			18
 
-/* NIOS II relocations */
-#define R_NIOS2_NONE			0
-#define R_NIOS2_S16				1
-#define R_NIOS2_U16				2
-#define R_NIOS2_PCREL16			3
-#define R_NIOS2_CALL26			4
-#define R_NIOS2_IMM5			5
-#define R_NIOS2_CACHE_OPX		6
-#define R_NIOS2_IMM6			7
-#define R_NIOS2_IMM8			8
-#define R_NIOS2_HI16			9
-#define R_NIOS2_LO16			10
-#define R_NIOS2_HIADJ16		11
-#define R_NIOS2_BFD_RELOC_32	12
-#define R_NIOS2_BFD_RELOC_16	13
-#define R_NIOS2_BFD_RELOC_8	14
-#define R_NIOS2_GPREL			15
-#define R_NIOS2_GNU_VTINHERIT	16
-#define R_NIOS2_GNU_VTENTRY	17
-#define R_NIOS2_UJMP			18
-#define R_NIOS2_CJMP			19
-#define R_NIOS2_CALLR			20
-#define R_NIOS2_ALIGN			21
-/* Keep this the last entry.  */
-#define R_NIOS2_NUM				22
+/* RELA relocations */
+#define R_NDS32_16_RELA			19
+#define R_NDS32_32_RELA			20
+#define R_NDS32_20_RELA			21
+#define R_NDS32_9_PCREL_RELA			22
+#define R_NDS32_15_PCREL_RELA			23
+#define R_NDS32_17_PCREL_RELA			24
+#define R_NDS32_25_PCREL_RELA			25
+#define R_NDS32_HI20_RELA			26
+#define R_NDS32_LO12S3_RELA			27
+#define R_NDS32_LO12S2_RELA			28
+#define R_NDS32_LO12S1_RELA			29
+#define R_NDS32_LO12S0_RELA			30
+#define R_NDS32_SDA15S3_RELA			31
+#define R_NDS32_SDA15S2_RELA			32
+#define R_NDS32_SDA15S1_RELA			33
+#define R_NDS32_SDA15S0_RELA			34
+#define R_NDS32_RELA_GNU_VTINHERIT			35
+#define R_NDS32_RELA_GNU_VTENTRY			36
+#define R_NDS32_GOT20			37
+#define R_NDS32_25_PLTREL			38
+#define R_NDS32_COPY			39
+#define R_NDS32_GLOB_DAT			40
+#define R_NDS32_JMP_SLOT			41
+#define R_NDS32_RELATIVE			42
+#define R_NDS32_GOTOFF			43
+#define R_NDS32_GOTPC20			44
+#define R_NDS32_GOT_HI20			45
+#define R_NDS32_GOT_LO12			46
+#define R_NDS32_GOTPC_HI20			47
+#define R_NDS32_GOTPC_LO12			48
+#define R_NDS32_GOTOFF_HI20			49
+#define R_NDS32_GOTOFF_LO12			50
+#define R_NDS32_INSN16			51
+#define R_NDS32_LABEL			52
+#define R_NDS32_LONGCALL1			53
+#define R_NDS32_LONGCALL2			54
+#define R_NDS32_LONGCALL3			55
+#define R_NDS32_LONGJUMP1			56
+#define R_NDS32_LONGJUMP2			57
+#define R_NDS32_LONGJUMP3			58
+#define R_NDS32_LOADSTORE			59
+#define R_NDS32_9_FIXED_RELA			60
+#define R_NDS32_15_FIXED_RELA			61
+#define R_NDS32_17_FIXED_RELA			62
+#define R_NDS32_25_FIXED_RELA			63
+#define R_NDS32_PLTREL_HI20			64
+#define R_NDS32_PLTREL_LO12			65
+#define R_NDS32_PLT_GOTREL_HI20			66
+#define R_NDS32_PLT_GOTREL_LO12			67
+#define R_NDS32_TLS_TPOFF                       102
+#define R_NDS32_TLS_DESC                        119
+
+
+/* Processor specific section indices.  These sections do not actually
+   exist.  Symbols with a st_shndx field corresponding to one of these
+   values have a special meaning.  */
+
+/* Small common symbol.  */
+#define SHN_NDS32_SCOMMON	0xff00
+
+/* Processor specific section flags.  */
+
+/* This section contains sufficient relocs to be relaxed.
+   When relaxing, even relocs of branch instructions the assembler could
+   complete must be present because relaxing may cause the branch target to
+   move.  */
+#define SHF_NDS32_CAN_RELAX	0x10000000
+
+/* ----------------------------------------------------------- */
+/* Processor specific flags for the ELF header e_flags field.  */
+/* ----------------------------------------------------------- */
+/* 31   28 27                 8 7   4 3       0  */
+/* ---------------------------------------------- */
+/* | ARCH | CONFUGURAION FIELD | ABI | VERSION | */
+/* ---------------------------------------------- */
+
+/* ----------------------------------------------------------- */
+/* ARCHITECHURE DEFINITION                                     */
+/* ----------------------------------------------------------- */
+/* 4-bit (b31-b28) nds32 architecture field.  */
+/* we can have up to 15 architectures; 0000 is for unknown */
+#define EF_NDS_ARCH            0xF0000000
+/* 0x80000000 is for no 16-bit */
+/* there could be more architectures. but for now, only n1 and n1h */
+#define E_NDS_ARCH_STAR_RESERVED	0x00000000  /* for future extension */
+#define E_NDS_ARCH_STAR_V1_0	         0x10000000
+#define E_NDS_ARCH_STAR_V0_9	         0x90000000	/* old arch */
+
+/* n1 code. */
+#define E_N1_ARCH                E_NDS_ARCH_STAR_V0_9
+/* n1h code. */
+#define E_N1H_ARCH               E_NDS_ARCH_STAR_V1_0
+
+/* ----------------------------------------------------------- */
+/* CONFIGURATION FIELD DEFINITION FOR EACH ARCHITECTURE        */
+/* ----------------------------------------------------------- */
+#define EF_NDS_INST            0x0FFFFF00
+
+/* E_NDS_ARCH_STAR_V1_0 configuration fields */
+
+/* MFUSR rt, PC and correct ISYNC, MSYNC instructions. */
+/* old N1213HC has no such instructions */
+#define E_NDS32_HAS_MFUSR_PC_INST     0x00000100
+/* C/C++ performance extension instructions. */
+#define E_NDS32_HAS_EXT_INST     0x00000200
+/* performance extension set II instructions. */
+#define E_NDS32_HAS_EXT2_INST     0x00000400
+/* Floating point processor instructions. */
+#define E_NDS32_HAS_FPU_INST     0x00000800
+/* audio instructions. */
+#define E_NDS32_HAS_AUDIO_INST     0x00001000
+/* DIV instructions. */
+#define E_NDS32_HAS_DIV_INST     0x00002000
+/* 16-bit instructions. */
+#define E_NDS32_HAS_16BIT_INST     0x00004000
+/* string operation instructions. */
+#define E_NDS32_HAS_STRING_INST        0x00008000
+/* reduced register file */
+#define E_NDS32_HAS_REDUCED_REGS	0x00010000
+/* video instructions */
+#define E_NDS32_HAS_VIDEO_INST     0x00020000
+/* encription instructions */
+#define E_NDS32_HAS_ENCRIPT_INST     0x00040000
+/* Single/Doulbe Precision Floating point processor instructions. */
+#define E_NDS32_HAS_FPU_DP_INST     0x00080000
+/* no MAC instruction used */
+#define E_NDS32_HAS_NO_MAC_INST     0x00100000
+/* L2 cache instruction */
+#define E_NDS32_HAS_L2C_INST    0x00200000
+
+
+/* 4-bit for ABI signature, allow up to 16 ABIs */
+/* 0 is for OLD ABI V0, 1 is for V1, the rest is reserved */
+/* only old N1213HC use V0 */
+/* New ABI is used due to return register is changed to r0 from r5 */
+#define EF_NDS_ABI		0x000000F0
+#define E_NDS_ABI_V0     0x00000000
+#define E_NDS_ABI_V1     0x00000010
+
+/* this flag signifies the version of Andes ELF */
+/* some more information may exist somewhere which is TBD */
+#define EF_NDS32_ELF_VERSION		0x0000000F
+
+/* Andes ELF Version 1.2 and before */
+#define E_NDS32_ELF_VER_1_2			0x0
+/* Andes ELF Version 1.3 and after */
+#define E_NDS32_ELF_VER_1_3			0x1
+
+/* Legal values for d_tag (dynamic entry type).  */
+#define DT_NIOS2_GP             0x70000002 /* Address of _gp.  */
+
+/* Nios II relocations.  */
+#define R_NIOS2_NONE		0	/* No reloc.  */
+#define R_NIOS2_S16		1	/* Direct signed 16 bit.  */
+#define R_NIOS2_U16		2	/* Direct unsigned 16 bit.  */
+#define R_NIOS2_PCREL16		3	/* PC relative 16 bit.  */
+#define R_NIOS2_CALL26		4	/* Direct call.  */
+#define R_NIOS2_IMM5		5	/* 5 bit constant expression.  */
+#define R_NIOS2_CACHE_OPX	6	/* 5 bit expression, shift 22.  */
+#define R_NIOS2_IMM6		7	/* 6 bit constant expression.  */
+#define R_NIOS2_IMM8		8	/* 8 bit constant expression.  */
+#define R_NIOS2_HI16		9	/* High 16 bit.  */
+#define R_NIOS2_LO16		10	/* Low 16 bit.  */
+#define R_NIOS2_HIADJ16		11	/* High 16 bit, adjusted.  */
+#define R_NIOS2_BFD_RELOC_32	12	/* 32 bit symbol value + addend.  */
+#define R_NIOS2_BFD_RELOC_16	13	/* 16 bit symbol value + addend.  */
+#define R_NIOS2_BFD_RELOC_8	14	/* 8 bit symbol value + addend.  */
+#define R_NIOS2_GPREL		15	/* 16 bit GP pointer offset.  */
+#define R_NIOS2_GNU_VTINHERIT	16	/* GNU C++ vtable hierarchy.  */
+#define R_NIOS2_GNU_VTENTRY	17	/* GNU C++ vtable member usage.  */
+#define R_NIOS2_UJMP		18	/* Unconditional branch.  */
+#define R_NIOS2_CJMP		19	/* Conditional branch.  */
+#define R_NIOS2_CALLR		20	/* Indirect call through register.  */
+#define R_NIOS2_ALIGN		21	/* Alignment requirement for linker relaxation.  */
+#define R_NIOS2_GOT16		22	/* 16 bit GOT entry.  */
+#define R_NIOS2_CALL16		23	/* 16 bit GOT entry for function.  */
+#define R_NIOS2_GOTOFF_LO	24	/* %lo of offset to GOT pointer.  */
+#define R_NIOS2_GOTOFF_HA	25	/* %hiadj of offset to GOT pointer.  */
+#define R_NIOS2_PCREL_LO	26	/* %lo of PC relative offset.  */
+#define R_NIOS2_PCREL_HA	27	/* %hiadj of PC relative offset.  */
+#define R_NIOS2_TLS_GD16	28	/* 16 bit GOT offset for TLS GD.  */
+#define R_NIOS2_TLS_LDM16	29	/* 16 bit GOT offset for TLS LDM.  */
+#define R_NIOS2_TLS_LDO16	30	/* 16 bit module relative offset.  */
+#define R_NIOS2_TLS_IE16	31	/* 16 bit GOT offset for TLS IE.  */
+#define R_NIOS2_TLS_LE16	32	/* 16 bit LE TP-relative offset.  */
+#define R_NIOS2_TLS_DTPMOD	33	/* Module number.  */
+#define R_NIOS2_TLS_DTPREL	34	/* Module-relative offset.  */
+#define R_NIOS2_TLS_TPREL	35	/* TP-relative offset.  */
+#define R_NIOS2_COPY		36	/* Copy symbol at runtime.  */
+#define R_NIOS2_GLOB_DAT	37	/* Create GOT entry.  */
+#define R_NIOS2_JUMP_SLOT	38	/* Create PLT entry.  */
+#define R_NIOS2_RELATIVE	39	/* Adjust by program base.  */
+#define R_NIOS2_GOTOFF		40	/* 16 bit offset to GOT pointer.  */
+#define R_NIOS2_CALL26_NOAT	41	/* Direct call in .noat section.  */
+#define R_NIOS2_GOT_LO		42	/* %lo() of GOT entry.  */
+#define R_NIOS2_GOT_HA		43	/* %hiadj() of GOT entry.  */
+#define R_NIOS2_CALL_LO		44	/* %lo() of function GOT entry.  */
+#define R_NIOS2_CALL_HA		45	/* %hiadj() of function GOT entry.  */
 
 /* Xtensa-specific declarations */
 
@@ -3217,8 +3589,15 @@ typedef Elf32_Addr Elf32_Conflict;
 #define R_XTENSA_SLOT12_ALT	47
 #define R_XTENSA_SLOT13_ALT	48
 #define R_XTENSA_SLOT14_ALT	49
+#define R_XTENSA_TLSDESC_FN	50
+#define R_XTENSA_TLSDESC_ARG	51
+#define R_XTENSA_TLS_TPOFF	53
+#define R_XTENSA_SYM32		63
+#define R_XTENSA_FUNCDESC	68
+#define R_XTENSA_FUNCDESC_VALUE	69
+#define R_XTENSA_TLSDESC	72
 /* Keep this the last entry.  */
-#define R_XTENSA_NUM		50
+#define R_XTENSA_NUM		77
 
 /* C6X specific relocs */
 #define R_C6000_NONE		0
@@ -3264,30 +3643,37 @@ typedef Elf32_Addr Elf32_Conflict;
 
 #define DT_C6000_NUM    4
 
-/* microblaze specific relocs */
-#define R_MICROBLAZE_NONE 0
-#define R_MICROBLAZE_32 1
-#define R_MICROBLAZE_32_PCREL 2
-#define R_MICROBLAZE_64_PCREL 3
-#define R_MICROBLAZE_32_PCREL_LO 4
-#define R_MICROBLAZE_64 5
-#define R_MICROBLAZE_32_LO 6
-#define R_MICROBLAZE_SRO32 7
-#define R_MICROBLAZE_SRW32 8
-#define R_MICROBLAZE_64_NONE 9
-#define R_MICROBLAZE_32_SYM_OP_SYM 10
-#define R_MICROBLAZE_GNU_VTINHERIT 11
-#define R_MICROBLAZE_GNU_VTENTRY 12
-#define R_MICROBLAZE_GOTPC_64 13  /* PC-relative GOT offset */
-#define R_MICROBLAZE_GOT_64 14  /* GOT entry offset */
-#define R_MICROBLAZE_PLT_64 15  /* PLT offset (PC-relative  */
-#define R_MICROBLAZE_REL 16  /* adjust by program base */
-#define R_MICROBLAZE_JUMP_SLOT 17  /* create PLT entry */
-#define R_MICROBLAZE_GLOB_DAT 18  /* create GOT entry */
-#define R_MICROBLAZE_GOTOFF_64 19  /* offset relative to GOT */
-#define R_MICROBLAZE_GOTOFF_32 20  /* offset relative to GOT */
-#define R_MICROBLAZE_COPY 21  /* runtime copy */
-#define R_MICROBLAZE_NUM 22
+/* MicroBlaze relocations */
+#define R_MICROBLAZE_NONE		0	/* No reloc. */
+#define R_MICROBLAZE_32 		1	/* Direct 32 bit. */
+#define R_MICROBLAZE_32_PCREL		2	/* PC relative 32 bit. */
+#define R_MICROBLAZE_64_PCREL		3	/* PC relative 64 bit. */
+#define R_MICROBLAZE_32_PCREL_LO	4	/* Low 16 bits of PCREL32. */
+#define R_MICROBLAZE_64 		5	/* Direct 64 bit. */
+#define R_MICROBLAZE_32_LO		6	/* Low 16 bit. */
+#define R_MICROBLAZE_SRO32		7	/* Read-only small data area. */
+#define R_MICROBLAZE_SRW32		8	/* Read-write small data area. */
+#define R_MICROBLAZE_64_NONE		9	/* No reloc. */
+#define R_MICROBLAZE_32_SYM_OP_SYM	10	/* Symbol Op Symbol relocation. */
+#define R_MICROBLAZE_GNU_VTINHERIT	11	/* GNU C++ vtable hierarchy. */
+#define R_MICROBLAZE_GNU_VTENTRY	12	/* GNU C++ vtable member usage. */
+#define R_MICROBLAZE_GOTPC_64		13	/* PC-relative GOT offset.  */
+#define R_MICROBLAZE_GOT_64		14	/* GOT entry offset.  */
+#define R_MICROBLAZE_PLT_64		15	/* PLT offset (PC-relative).  */
+#define R_MICROBLAZE_REL		16	/* Adjust by program base.  */
+#define R_MICROBLAZE_JUMP_SLOT		17	/* Create PLT entry.  */
+#define R_MICROBLAZE_GLOB_DAT		18	/* Create GOT entry.  */
+#define R_MICROBLAZE_GOTOFF_64		19	/* 64 bit offset to GOT. */
+#define R_MICROBLAZE_GOTOFF_32		20	/* 32 bit offset to GOT. */
+#define R_MICROBLAZE_COPY		21	/* Runtime copy.  */
+#define R_MICROBLAZE_TLS		22	/* TLS Reloc. */
+#define R_MICROBLAZE_TLSGD		23	/* TLS General Dynamic. */
+#define R_MICROBLAZE_TLSLD		24	/* TLS Local Dynamic. */
+#define R_MICROBLAZE_TLSDTPMOD32	25	/* TLS Module ID. */
+#define R_MICROBLAZE_TLSDTPREL32	26	/* TLS Offset Within TLS Block. */
+#define R_MICROBLAZE_TLSDTPREL64	27	/* TLS Offset Within TLS Block. */
+#define R_MICROBLAZE_TLSGOTTPREL32	28	/* TLS Offset From Thread Pointer. */
+#define R_MICROBLAZE_TLSTPREL32 	29	/* TLS Offset From Thread Pointer. */
 
 /* Meta relocations */
 #define R_METAG_HIADDR16                 0
@@ -3334,6 +3720,43 @@ typedef Elf32_Addr Elf32_Conflict;
 #define R_METAG_TLS_TPOFF               56
 #define R_METAG_TLS_DTPMOD              57
 #define R_METAG_TLS_DTPOFF              58
+
+/* OpenRISC 1000 specific relocs */
+#define R_OR1K_NONE		0
+#define R_OR1K_32		1
+#define R_OR1K_16		2
+#define R_OR1K_8		3
+#define R_OR1K_LO_16_IN_INSN	4
+#define R_OR1K_HI_16_IN_INSN	5
+#define R_OR1K_INSN_REL_26	6
+#define R_OR1K_GNU_VTENTRY	7
+#define R_OR1K_GNU_VTINHERIT	8
+#define R_OR1K_32_PCREL		9
+#define R_OR1K_16_PCREL		10
+#define R_OR1K_8_PCREL		11
+#define R_OR1K_GOTPC_HI16	12
+#define R_OR1K_GOTPC_LO16	13
+#define R_OR1K_GOT16		14
+#define R_OR1K_PLT26		15
+#define R_OR1K_GOTOFF_HI16	16
+#define R_OR1K_GOTOFF_LO16	17
+#define R_OR1K_COPY		18
+#define R_OR1K_GLOB_DAT		19
+#define R_OR1K_JMP_SLOT		20
+#define R_OR1K_RELATIVE		21
+#define R_OR1K_TLS_GD_HI16	22
+#define R_OR1K_TLS_GD_LO16	23
+#define R_OR1K_TLS_LDM_HI16	24
+#define R_OR1K_TLS_LDM_LO16	25
+#define R_OR1K_TLS_LDO_HI16	26
+#define R_OR1K_TLS_LDO_LO16	27
+#define R_OR1K_TLS_IE_HI16	28
+#define R_OR1K_TLS_IE_LO16	29
+#define R_OR1K_TLS_LE_HI16	30
+#define R_OR1K_TLS_LE_LO16	31
+#define R_OR1K_TLS_TPOFF	32
+#define R_OR1K_TLS_DTPOFF	33
+#define R_OR1K_TLS_DTPMOD	34
 
 /* ARCompact specific relocs */
 #define R_ARC_NONE		0x0
@@ -3391,7 +3814,83 @@ typedef Elf32_Addr Elf32_Conflict;
 #define R_ARC_GOTOFF		0x39
 #define R_ARC_GOTPC		0x3A
 #define R_ARC_GOT32		0x3B
-#define R_ARC_NUM		0x3C
+
+#define R_ARC_TLS_DTPMOD	0x42
+#define R_ARC_TLS_DTPOFF	0x43
+#define R_ARC_TLS_TPOFF		0x44
+#define R_ARC_TLS_GD_GOT	0x45
+#define R_ARC_TLS_GD_LD	        0x46
+#define R_ARC_TLS_GD_CALL	0x47
+#define R_ARC_TLS_IE_GOT	0x48
+#define R_ARC_TLS_DTPOFF_S9	0x4a
+#define R_ARC_TLS_LE_S9		0x4a
+#define R_ARC_TLS_LE_32		0x4b
+
+/* RISC-V ELF Flags */
+#define EF_RISCV_RVC                    0x0001
+#define EF_RISCV_FLOAT_ABI              0x0006
+#define EF_RISCV_FLOAT_ABI_SOFT         0x0000
+#define EF_RISCV_FLOAT_ABI_SINGLE       0x0002
+#define EF_RISCV_FLOAT_ABI_DOUBLE       0x0004
+#define EF_RISCV_FLOAT_ABI_QUAD         0x0006
+
+/* RISC-V relocations.  */
+#define R_RISCV_NONE             0
+#define R_RISCV_32               1
+#define R_RISCV_64               2
+#define R_RISCV_RELATIVE         3
+#define R_RISCV_COPY             4
+#define R_RISCV_JUMP_SLOT        5
+#define R_RISCV_TLS_DTPMOD32     6
+#define R_RISCV_TLS_DTPMOD64     7
+#define R_RISCV_TLS_DTPREL32     8
+#define R_RISCV_TLS_DTPREL64     9
+#define R_RISCV_TLS_TPREL32     10
+#define R_RISCV_TLS_TPREL64     11
+#define R_RISCV_BRANCH          16
+#define R_RISCV_JAL             17
+#define R_RISCV_CALL            18
+#define R_RISCV_CALL_PLT        19
+#define R_RISCV_GOT_HI20        20
+#define R_RISCV_TLS_GOT_HI20    21
+#define R_RISCV_TLS_GD_HI20     22
+#define R_RISCV_PCREL_HI20      23
+#define R_RISCV_PCREL_LO12_I    24
+#define R_RISCV_PCREL_LO12_S    25
+#define R_RISCV_HI20            26
+#define R_RISCV_LO12_I          27
+#define R_RISCV_LO12_S          28
+#define R_RISCV_TPREL_HI20      29
+#define R_RISCV_TPREL_LO12_I    30
+#define R_RISCV_TPREL_LO12_S    31
+#define R_RISCV_TPREL_ADD       32
+#define R_RISCV_ADD8            33
+#define R_RISCV_ADD16           34
+#define R_RISCV_ADD32           35
+#define R_RISCV_ADD64           36
+#define R_RISCV_SUB8            37
+#define R_RISCV_SUB16           38
+#define R_RISCV_SUB32           39
+#define R_RISCV_SUB64           40
+#define R_RISCV_GNU_VTINHERIT   41
+#define R_RISCV_GNU_VTENTRY     42
+#define R_RISCV_ALIGN           43
+#define R_RISCV_RVC_BRANCH      44
+#define R_RISCV_RVC_JUMP        45
+#define R_RISCV_RVC_LUI         46
+#define R_RISCV_GPREL_I         47
+#define R_RISCV_GPREL_S         48
+#define R_RISCV_TPREL_I         49
+#define R_RISCV_TPREL_S         50
+#define R_RISCV_RELAX           51
+#define R_RISCV_SUB6            52
+#define R_RISCV_SET6            53
+#define R_RISCV_SET8            54
+#define R_RISCV_SET16           55
+#define R_RISCV_SET32           56
+#define R_RISCV_32_PCREL        57
+
+#define R_RISCV_NUM             58
 
 #ifdef	__cplusplus
 }

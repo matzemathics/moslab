@@ -5,4 +5,5 @@
  *
  */
 #include "rtc-hub.h"
-Vdev::L4rtc_hub *Vdev::L4rtc_hub::_l4rtc;
+Vdev::L4rtc_adapter *Vdev::L4rtc_hub::_adapter = nullptr;
+l4_uint64_t Vdev::L4rtc_hub::_offset = 0;

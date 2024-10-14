@@ -6,7 +6,6 @@ REQUIRES_LIBS = l4re
 SRC_CC := namespace.cc \
           rm.cc \
           mem_alloc.cc \
-          io_stuff.cc \
           log.cc \
           dataspace.cc \
           debug.cc \
@@ -17,5 +16,6 @@ SRC_CC := namespace.cc \
           goos.cc \
           inhibitor.cc \
           dma_space.cc \
+          parent.cc
 
 include $(L4DIR)/mk/lib.mk

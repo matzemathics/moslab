@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* common debug code for ELF shared library loader
  *
  * Copyright (c) 1994-2000 Eric Youngdale, Peter MacDonald,
@@ -41,22 +40,6 @@
 
 #if defined (__SUPPORT_LD_DEBUG__)
 
-/* include the arch-specific _dl_reltypes_tab */
-#include "dl-debug.h"
-
-static const char *_dl_reltypes(int type)
-{
-	static char buf[50];
-	const char *str;
-	int tabsize;
-
-	tabsize = (int)(sizeof(_dl_reltypes_tab) / sizeof(_dl_reltypes_tab[0]));
-
-	if (type >= tabsize || (str = _dl_reltypes_tab[type]) == NULL)
-		str = _dl_simple_ltoa(buf, (unsigned long)type);
-
-	return str;
-}
 static void debug_sym(ElfW(Sym) const *symtab, char const *strtab, int symtab_index)
 {
 	if (!_dl_debug_symbols || !symtab_index)
@@ -90,8 +73,8 @@ debug_reloc(ElfW(Sym) const *symtab, char const *strtab, ELF_RELOC const *rpnt)
 		_dl_dprintf(_dl_debug_file, "\n%s\n\t", sym);
 	}
 
-	_dl_dprintf(_dl_debug_file, "%s\toffset=%zx",
-		_dl_reltypes(ELF_R_TYPE(rpnt->r_info)),
+	_dl_dprintf(_dl_debug_file, "%zx\toffset=%zx",
+		ELF_R_TYPE(rpnt->r_info),
 		rpnt->r_offset);
 #ifdef ELF_USES_RELOCA
 	_dl_dprintf(_dl_debug_file, "\taddend=%zx", rpnt->r_addend);
@@ -113,8 +96,6 @@ _dl_debug_lookup (const char *undef_name, struct elf_resolve *undef_map,
 					const ElfW(Sym) *ref, struct symbol_ref *value, int type_class)
 {
 #ifdef SHARED
-  unsigned long symbol_addr;
-
   if (_dl_trace_prelink)
     {
       int conflict = 0;
@@ -124,17 +105,14 @@ _dl_debug_lookup (const char *undef_name, struct elf_resolve *undef_map,
 	   || _dl_trace_prelink_map == _dl_loaded_modules)
 	  && undef_map != _dl_loaded_modules)
 	{
-		symbol_addr = (unsigned long)
-					  _dl_find_hash(undef_name, &undef_map->symbol_scope,
-									undef_map, type_class, &val);
+	  _dl_find_hash(undef_name, &undef_map->symbol_scope,
+			undef_map, type_class, &val);
 
 	  if (val.sym != value->sym || val.tpnt != value->tpnt)
 	    conflict = 1;
 	}
 
-      if (value->sym
-	  && (__builtin_expect (ELF_ST_TYPE(value->sym->st_info)
-				== STT_TLS, 0)))
+      if (unlikely(value->sym && ELF_ST_TYPE(value->sym->st_info) == STT_TLS))
 	type_class = 4;
 
       if (conflict

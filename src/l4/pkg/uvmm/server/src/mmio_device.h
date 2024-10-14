@@ -9,6 +9,7 @@
 #pragma once
 #include <typeinfo>
 
+#include <l4/bid_config.h>
 #include <l4/cxx/ref_ptr>
 #include <l4/cxx/unique_ptr>
 #include <l4/re/util/cap_alloc>
@@ -181,11 +182,14 @@ struct Mmio_device : public virtual Vdev::Dev_ref
    */
   virtual int access(l4_addr_t pfa, l4_addr_t offset, Vcpu_ptr vcpu,
                      L4::Cap<L4::Vm> vm_task, l4_addr_t s, l4_addr_t e) = 0;
+
+  virtual char const *dev_name() const = 0;
+
   virtual char const *dev_info(char *buf, size_t size) const
   {
     if (size > 0)
       {
-        strncpy(buf, typeid(*this).name(), size);
+        strncpy(buf, dev_name(), size);
         buf[size - 1] = '\0';
       }
     return buf;
@@ -233,7 +237,7 @@ struct Mmio_device_t : Mmio_device
       .printf("MMIO access @ 0x%lx (0x%lx) %s, width: %u\n",
               pfa, offset,
               insn.access == Vmm::Mem_access::Load ? "LOAD" : "STORE",
-              (unsigned) insn.width);
+              static_cast<unsigned>(insn.width));
 
     if (insn.access == Vmm::Mem_access::Store)
       dev()->write(offset, insn.width, insn.value, vcpu.get_vcpu_id());
@@ -285,7 +289,7 @@ struct Ro_ds_mapper_t : Mmio_device
       .printf("MMIO access @ 0x%lx (0x%lx) %s, width: %u\n",
               pfa, offset,
               insn.access == Vmm::Mem_access::Load ? "LOAD" : "STORE",
-              (unsigned) insn.width);
+              static_cast<unsigned>(insn.width));
 
     if (insn.access == Vmm::Mem_access::Store)
       dev()->write(offset, insn.width, insn.value, vcpu.get_vcpu_id());
@@ -304,13 +308,22 @@ struct Ro_ds_mapper_t : Mmio_device
   void map_eager(L4::Cap<L4::Vm> vm_task, Vmm::Guest_addr start,
                  Vmm::Guest_addr end) override
   {
+#ifndef CONFIG_MMU
+    // Cannot map if guest address is different. Transparently fall back to
+    // emulation.
+    if (start.get() != dev()->local_addr())
+      return;
+#endif
+
 #ifndef MAP_OTHER
     l4_size_t size = end - start + 1;
     if (size > dev()->mapped_mmio_size())
       size = dev()->mapped_mmio_size();
     map_guest_range(vm_task, start, dev()->local_addr(), size, L4_FPAGE_RX);
 #else
-  (void)vm_task; (void)start; (void)end;
+    static_cast<void>(vm_task);
+    static_cast<void>(start);
+    static_cast<void>(end);
 #endif
   }
 
@@ -326,14 +339,14 @@ struct Ro_ds_mapper_t : Mmio_device
    * \pre `offset + (1UL << width) <= mapped_mmio_size()`
    * \pre `offset <= 2GB`
    */
-  l4_uint64_t read(unsigned offset, char width, unsigned cpuid)
+  l4_uint64_t read(unsigned offset, char width, unsigned /* cpuid */)
   {
-    (void) cpuid; // must be ignored by this implementation because
-                  // we have no CPU-local mappings of our dataspace.
+    // cpuid must be ignored by this implementation because
+    // we have no CPU-local mappings of our dataspace.
     if (0)
       printf("MMIO/RO/DS read: offset=%x (%u) [0x%lx] = %x\n", offset,
-             (unsigned)width, local_addr() + offset,
-             *((l4_uint32_t*)(local_addr() + offset)));
+             static_cast<unsigned>(width), local_addr() + offset,
+             *(reinterpret_cast<l4_uint32_t*>(local_addr() + offset)));
 
     // limit MMIO regions to 2GB
     assert (offset <= 0x80000000);
@@ -350,6 +363,13 @@ struct Ro_ds_mapper_t : Mmio_device
                                      min, max, vm_task);
 #else
     auto local_start = local_addr();
+
+#ifndef CONFIG_MMU
+    // Cannot map if guest address is different. Transparently fall back to
+    // emulation.
+    if (local_start + offset != pfa)
+      return;
+#endif
 
     // Make sure that the page is currently mapped.
     auto res = page_in(local_start + offset, false);
@@ -417,7 +437,8 @@ struct Read_mapped_mmio_device_t : Ro_ds_mapper_t<BASE>
    *       by the dataspace mapped into the guest. Any read access outside
    *       the area then needs to be emulated as in the standard MMIO device.
    */
-  explicit Read_mapped_mmio_device_t(l4_size_t size,
+  explicit Read_mapped_mmio_device_t(char const *dev_name,
+                                     l4_size_t size,
                                      L4Re::Rm::Flags rm_flags = L4Re::Rm::F::Cache_uncached)
   {
     auto *e = L4Re::Env::env();
@@ -428,8 +449,9 @@ struct Read_mapped_mmio_device_t : Ro_ds_mapper_t<BASE>
 
     L4Re::chksys(e->mem_alloc()->alloc(size, ds.get()),
                  "Allocate memory for read-mapped MMIO device.");
-    _mgr = cxx::make_unique<Ds_manager>(ds, 0, size, rm_flags.region_flags()
-                                                     | L4Re::Rm::F::RW);
+    _mgr = cxx::make_unique<Ds_manager>(dev_name, ds, 0, size,
+                                        rm_flags.region_flags() |
+                                          L4Re::Rm::F::RW);
     _mgr->local_addr<void *>();
   }
 
@@ -443,6 +465,8 @@ struct Read_mapped_mmio_device_t : Ro_ds_mapper_t<BASE>
   { return _mgr->local_addr<T *>(); }
 
 private:
+  char const *dev_name() const override { return _mgr->dev_name(); }
+
   cxx::unique_ptr<Ds_manager> _mgr;
 };
 

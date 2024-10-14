@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * sendfile() for uClibc
  *
@@ -15,7 +14,7 @@
 #if defined __NR_sendfile
 _syscall4(ssize_t, sendfile, int, out_fd, int, in_fd, __off_t *, offset,
 	  size_t, count)
-# if defined __UCLIBC_HAS_LFS__ && (!defined __NR_sendfile64 || __WORDSIZE == 64)
+# if !defined __NR_sendfile64 || __WORDSIZE == 64
 libc_hidden_def(sendfile64)
 strong_alias_untyped(sendfile,sendfile64)
 # endif
@@ -41,7 +40,7 @@ ssize_t sendfile(int out_fd, int in_fd, __off_t *offset, size_t count)
 		return -1;
 	}
 
-	if (offset == NULL || (int)offset < 0) {
+	if ((int)offset < 0) {
 		__set_errno(EFAULT);
 		return -1;
 	}
@@ -55,7 +54,7 @@ ssize_t sendfile(int out_fd, int in_fd, __off_t *offset, size_t count)
 
 	res = INLINE_SYSCALL(sendfile64, 4, out_fd, in_fd, off, count);
 
-	if (res >= 0)
+	if (res >= 0 && offset != NULL)
 		*offset = off64;
 
 	return res;

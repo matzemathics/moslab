@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/consts Source File</title>
+<title>L4Re Operating System Framework: l4/re/consts Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -126,12 +129,12 @@ $(document).ready(function(){initNavTree('re_2consts_source.html',''); initResiz
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceL4Re.html">L4Re</a> {</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="keyword">static</span> <a class="code hl_enumeration" href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">L4::Cap&lt;L4::Task&gt;::Cap_type</a> <span class="keyword">const</span> This_task</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    = (<a class="code hl_enumeration" href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">L4::Cap&lt;L4::Task&gt;::Cap_type</a>)(L4RE_THIS_TASK_CAP);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    = <span class="keyword">static_cast&lt;</span><a class="code hl_enumeration" href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">L4::Cap&lt;L4::Task&gt;::Cap_type</a><span class="keyword">&gt;</span>(L4RE_THIS_TASK_CAP);</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
 <div class="ttc" id="acapability_html"><div class="ttname"><a href="capability.html">capability</a></div><div class="ttdoc">L4::Cap related definitions.</div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_ac74dbedb04347341ba30ece923c12fe7"><div class="ttname"><a href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">L4::Cap_base::Cap_type</a></div><div class="ttdeci">Cap_type</div><div class="ttdoc">Invalid capability type.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00043">capability.h:44</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_ac74dbedb04347341ba30ece923c12fe7"><div class="ttname"><a href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">L4::Cap_base::Cap_type</a></div><div class="ttdeci">Cap_type</div><div class="ttdoc">Invalid capability type.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00040">capability.h:41</a></div></div>
 <div class="ttc" id="aenv_8h_html"><div class="ttname"><a href="env_8h.html">env.h</a></div><div class="ttdoc">Environment interface.</div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -139,7 +142,7 @@ $(document).ready(function(){initNavTree('re_2consts_source.html',''); initResiz
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="re_2consts.html">consts</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -12,16 +12,14 @@ libpthread_OUT = $(top_builddir)libpthread/nptl
 
 include $(libpthread_DIR)/sysdeps/Makefile.in
 
-libc-shared-routines-y = forward.c libc-cancellation.c
+libc-shared-routines-y = libc-cancellation.c
 libc-static-routines-y = alloca_cutoff.c libc-cancellation.c
 libpthread-shared-only-routines-y = version.c
 libpthread-static-only-routines-y = pthread_atfork.c
 libpthread-routines- += $(notdir $(wildcard $(libpthread_DIR)/gen_*.c)) # dummy generated files
 libpthread-routines- += allocatestack.c # dummy included by pthread_create.c
-libpthread-routines- += pthread_mutex_getprioceiling.c pthread_mutex_setprioceiling.c # XXX: delete those or use them!
-libpthread-routines-$(UCLIBC_HAS_RESOLVER_SUPPORT) += res.c
 libpthread-routines-$(UCLIBC_SUSV4_LEGACY) += pthread_getconcurrency.c \
-	pthread_setconcurrency
+	pthread_setconcurrency.c
 libpthread_CSRC = $(filter-out $(libpthread-routines-) \
 		  		$(libc-shared-routines-y) \
 		  		$(libc-static-routines-y) \
@@ -63,48 +61,12 @@ librt-a-y += $(librt_OBJS)
 endif
 librt-so-y += $(librt_OBJS:.o=.oS) $(librt-pt-shared-only-routines-y:.o=.oS)
 
-ifeq ($(UCLIBC_CTOR_DTOR),y)
-START_FILE-libpthread.so := $(top_builddir)libpthread/nptl/sysdeps/pthread/pt-crti.o
-END_FILE-libpthread.so := $(top_builddir)libpthread/nptl/sysdeps/pthread/pt-crtn.o
-LDFLAGS-libpthread.so += -nostartfiles
-$(top_builddir)lib/libpthread.so: | $(START_FILE-libpthread.so) $(END_FILE-libpthread.so)
-endif
-
-libpthread_FULL_NAME := libpthread-$(VERSION).so
-lib-a-$(UCLIBC_HAS_THREADS) += $(top_builddir)lib/libpthread.a
-lib-so-$(UCLIBC_HAS_THREADS) += $(top_builddir)lib/libpthread.so
-
-$(top_builddir)lib/libpthread.so: $(libpthread_OUT)/libpthread_so.a $(libc.depend) $(libdl.depend) $(top_builddir)lib/libpthread_nonshared.a
-	$(call link.so,$(libpthread_FULL_NAME),$(ABI_VERSION))
-	$(Q)cat $(top_srcdir)extra/scripts/format.lds > $@.tmp
-	$(Q)echo "GROUP ( $(notdir $@).$(ABI_VERSION) libpthread_nonshared.a )" >> $@.tmp
-	$(Q)mv $@.tmp $@
-
-ifeq ($(PTHREADS_DEBUG_SUPPORT),y)
-$(libpthread_OUT)/libpthread_so.a: STRIP_FLAGS:=$(STRIP_FLAGS:-x=-X --strip-debug)
-endif
-$(libpthread_OUT)/libpthread_so.a: $(libpthread-so-y)
-	$(Q)$(RM) $@
-	$(do_ar)
-
-$(top_builddir)lib/libpthread.a: $(libpthread-a-y)
-	$(Q)$(INSTALL) -d $(dir $@)
-	$(Q)$(RM) $@
-	$(do_ar)
-
-#
-# Create 'pthread-errnos.h' header file.
-#
-CFLAGS-gen_pthread-errnos.c = -S
-
-$(libpthread_OUT)/gen_pthread-errnos.c: $(libpthread_DIR)/pthread-errnos.sym | $(libpthread_OUT)
-	$(do_awk) $(top_srcdir)extra/scripts/gen-as-const.awk $< > $@
-
-$(libpthread_OUT)/gen_pthread-errnos.s: $(libpthread_OUT)/gen_pthread-errnos.c | headers
-	$(compile.c)
-libpthread-generated-y += $(libpthread_OUT)/gen_pthread-errnos.s
-$(libpthread_OUT)/pthread-errnos.h: $(libpthread_OUT)/gen_pthread-errnos.s
-	$(do_sed) $(PTHREAD_GENERATE_MANGLE) $< > $@
+$(libpthread_OUT)/pthread-errnos.h: $(top_srcdir)extra/scripts/gen-as-const.awk
+$(libpthread_OUT)/pthread-errnos.h: $(libpthread_DIR)/pthread-errnos.sym
+	@$(disp_gen)
+	$(do_awk) $(top_srcdir)extra/scripts/gen-as-const.awk $< \
+	| $(CC) $(CFLAGS) -x c - -S -o - \
+	| $(SED) $(PTHREAD_GENERATE_MANGLE) > $@
 	@if test ! -s $@ ; then rm -f $@ ; false ; fi
 
 pregen-headers-$(UCLIBC_HAS_THREADS_NATIVE) += $(libpthread_OUT)/pthread-errnos.h
@@ -132,24 +94,13 @@ headers_clean-y += HEADERCLEAN_libpthread/nptl
 
 HEADERCLEAN_libpthread/nptl:
 	$(do_rm) $(nptl_headers_bootstrap) \
-	      $(addprefix $(libpthread_OUT)/gen_pthread-errnos., c s) \
 	      $(libpthread_OUT)/pthread-errnos.h
 
 CLEAN_libpthread/nptl:
 	$(do_rm) $(addprefix $(libpthread_OUT)/*., o os oS a)
 
-ifeq ($(PTHREADS_DEBUG_SUPPORT),y)
-LDFLAGS-libpthread.so += $(LDFLAGS_NOSTRIP) -Wl,-z,defs
-else
-LDFLAGS-libpthread.so += $(LDFLAGS)
-endif
-
-LDFLAGS-libpthread.so += $(top_builddir)lib/$(UCLIBC_LDSO_NAME)-$(VERSION).so $(top_builddir)lib/libdl-$(VERSION).so \
-	-Wl,-z,nodelete,-z,initfirst,-init=$(SYMBOL_PREFIX)__pthread_initialize_minimal_internal
-
-LIBS-libpthread.so := $(LIBS)
-
-CFLAGS-nptl = -DNOT_IN_libc -DIS_IN_libpthread $(SSP_ALL_CFLAGS)
+CFLAGS-dir_nptl := -DNOT_IN_libc -DIS_IN_libpthread
+CFLAGS-libpthread/nptl := $(CFLAGS-dir_nptl) $(SSP_ALL_CFLAGS)
 
 # Since cancellation handling is in large parts handled using exceptions
 # we have to compile some files with exception handling enabled, some
@@ -176,10 +127,6 @@ CFLAGS-libc-cancellation.c = -fasynchronous-unwind-tables
 # function.
 CFLAGS-pthread_exit.c = -fexceptions
 
-# Among others, __pthread_unwind is forwarded.  This function must handle
-# exceptions.
-CFLAGS-forward.c = -fexceptions
-
 # The following are cancellation points.  Some of the functions can
 # block and therefore temporarily enable asynchronous cancellation.
 # Those must be compiled asynchronous unwind tables.
@@ -194,20 +141,56 @@ CFLAGS-sem_wait.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-sem_timedwait.c = -fexceptions -fasynchronous-unwind-tables
 
 # These are the function wrappers we have to duplicate here.
-CFLAGS-fcntl.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-accept.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-clock_nanosleep.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-close.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-connect.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-creat.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-creat64.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-fdatasync.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-fsync.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-lockf.c = -fexceptions
-CFLAGS-pread.c = -fexceptions -fasynchronous-unwind-tables
-CFLAGS-pread64.c = -fexceptions -fasynchronous-unwind-tables
-CFLAGS-pwrite.c = -fexceptions -fasynchronous-unwind-tables
-CFLAGS-pwrite64.c = -fexceptions -fasynchronous-unwind-tables
-CFLAGS-wait.c = -fexceptions -fasynchronous-unwind-tables
-CFLAGS-waitpid.c = -fexceptions -fasynchronous-unwind-tables
-CFLAGS-sigwait.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-lockf64.c = -fexceptions
 CFLAGS-msgrcv.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-msgsnd.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-msync.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-nanosleep.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-open64.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-open.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-openat.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-pause.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-poll.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-ppoll.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-pread_write.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-pselect.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-read.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-readv.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-recv.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-recvfrom.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-recvmsg.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-recvmmsg.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-__rt_sigtimedwait.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-__rt_sigwaitinfo.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-select.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-send.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-sendmsg.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-sendmmsg.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-sendto.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-sigpause.c = -fexceptions
+CFLAGS-sigsuspend.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-sigtimedwait.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-sigwait.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-sigwaitinfo.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-__syscall_fcntl64.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-__syscall_fcntl.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-tcdrain.c = -fexceptions -fasynchronous-unwind-tables
-
-CFLAGS-pt-system.c = -fexceptions -I$(top_srcdir)libc/stdlib
+CFLAGS-usleep.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-wait4.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-wait.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-waitid.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-waitpid.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-write.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-writev.c = -fexceptions -fasynchronous-unwind-tables
 
 #
 # The rest of this file is uClibc specific.
@@ -220,7 +203,6 @@ CFLAGS-pthread_barrierattr_getpshared.c = -D_GNU_SOURCE
 CFLAGS-pthread_barrierattr_setpshared.c = -D_GNU_SOURCE
 CFLAGS-sem_open.c = -D_GNU_SOURCE
 
-CFLAGS-OMIT-alloca_cutoff.c = $(CFLAGS-nptl)
-CFLAGS-OMIT-forward.c = $(CFLAGS-nptl)
-CFLAGS-OMIT-libc-lowlevelock.c = $(CFLAGS-nptl)
-CFLAGS-OMIT-libc-cancellation.c = $(CFLAGS-nptl)
+CFLAGS-OMIT-alloca_cutoff.c = $(CFLAGS-dir_nptl)
+CFLAGS-OMIT-libc-lowlevelock.c = $(CFLAGS-dir_nptl)
+CFLAGS-OMIT-libc-cancellation.c = $(CFLAGS-dir_nptl)

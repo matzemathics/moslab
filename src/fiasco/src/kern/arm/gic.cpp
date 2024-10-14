@@ -1,11 +1,11 @@
 INTERFACE [arm && pic_gic]:
 
-#include "assert.h"
 #include "cpu.h"
 #include "kmem.h"
 #include "irq_chip_generic.h"
 #include "gic_dist.h"
 
+#include <cassert>
 #include <cstdio>
 
 class Gic : public Irq_chip_gen
@@ -25,6 +25,7 @@ public:
   virtual void softint_bcast(unsigned m) = 0;
   virtual void softint_phys(unsigned m, Unsigned64 target) = 0;
   virtual void init_ap(Cpu_number cpu, bool resume) = 0;
+  virtual void cpu_deinit(Cpu_number cpu) = 0;
   virtual unsigned gic_version() const = 0;
 
   // empty default for JDB
@@ -50,23 +51,12 @@ private:
 protected:
   Cpu _cpu;
 
-  static IMPL *primary;
-
-  static void _glbl_irq_handler()
-  { primary->hit(nullptr); }
-
-  void init_global_irq_handler()
-  {
-    primary = self();
-    Gic::set_irq_handler(_glbl_irq_handler);
-  }
-
 public:
   template<typename ...CPU_ARGS>
-  Gic_mixin(Address dist_base, int nr_irqs_override, CPU_ARGS &&...args)
+  Gic_mixin(Address dist_base, int nr_irqs_override, bool dist_init, CPU_ARGS &&...args)
   : Gic(dist_base), _cpu(cxx::forward<CPU_ARGS>(args)...)
   {
-    unsigned num = init(true, nr_irqs_override);
+    unsigned num = init(dist_init, nr_irqs_override);
     printf("Number of IRQs available at this GIC: %d\n", num);
     Irq_chip_gen::init(num);
   }
@@ -84,25 +74,29 @@ public:
 
   void init_ap(Cpu_number cpu, bool resume) override
   {
-    _cpu.disable();
-
     if (!resume)
       self()->cpu_local_init(cpu);
 
     _cpu.enable();
   }
 
-  unsigned init(bool primary_gic, int nr_irqs_override = -1)
+  void cpu_deinit(Cpu_number cpu) override
   {
-    if (!primary_gic)
-      {
-        self()->cpu_local_init(Cpu_number::boot_cpu());
-        return 0;
-      }
-
+    self()->migrate_irqs(cpu, Cpu_number::boot_cpu());
+    self()->redist_disable(cpu);
     _cpu.disable();
-    unsigned num = _dist.init(typename IMPL::Version(),
-                              Cpu::Cpu_prio_val, nr_irqs_override);
+  }
+
+  unsigned init(bool dist_init, int nr_irqs_override = -1)
+  {
+    unsigned num;
+
+    if (dist_init)
+      num = _dist.init(typename IMPL::Version(), Cpu::Cpu_prio_val,
+                       nr_irqs_override);
+    else
+      num = nr_irqs_override >= 0 ? static_cast<unsigned>(nr_irqs_override)
+                                  : _dist.hw_nr_irqs();
 
     self()->init_global_irq_handler();
 
@@ -177,13 +171,9 @@ public:
 
 };
 
-template<typename IMPL, typename CPU>
-IMPL *Gic_mixin<IMPL, CPU>::primary;
-
 // ------------------------------------------------------------------------
 IMPLEMENTATION [arm && pic_gic]:
 
-#include <cassert>
 #include <cstring>
 #include <cstdio>
 

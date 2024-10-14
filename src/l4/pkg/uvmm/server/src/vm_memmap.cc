@@ -7,23 +7,37 @@
  * License, version 2.  Please see the COPYING-GPL-2 file for details.
  */
 
-#include "debug.h"
 #include "vm_memmap.h"
 
-static void
-throw_error(char const *msg,
+
+void Vmm::Vm_mem::dump(Dbg::Verbosity l) const
+{
+  Dbg d(Dbg::Dev, l, "vmmap");
+  if (d.is_active())
+    {
+      d.printf("VM map:\n");
+      for (auto const &r: *this)
+        d.printf(" [%8lx:%8lx]: %s\n",
+                 r.first.start.get(), r.first.end.get(),
+                 r.second->dev_name());
+    }
+}
+
+void
+Vmm::Vm_mem::throw_error(char const *msg,
             cxx::Ref_ptr<Vmm::Mmio_device> const &dev, Vmm::Region const &region,
             cxx::Ref_ptr<Vmm::Mmio_device> const &new_dev, Vmm::Region const &new_region)
 {
   char buf[80], buf_new[80];
+  dump(Dbg::Warn);
   Err().printf("%s:\n"
-               "\tVM addresses:\t[%08lx:%08lx] <-> [%08lx:%08lx]\n"
-               "\tDevice info:\t(%s) <-> (%s)\n", msg,
+               " VM addresses: [%08lx:%08lx] <-> [%08lx:%08lx]\n"
+               " Device info:  %s <-> %s\n", msg,
                region.start.get(), region.end.get(),
                new_region.start.get(), new_region.end.get(),
                dev->dev_info(buf, sizeof(buf)),
                new_dev->dev_info(buf_new, sizeof(buf_new)));
-  L4Re::chksys(-L4_EINVAL, msg);
+  L4Re::throw_error(-L4_EINVAL, msg);
 }
 
 void

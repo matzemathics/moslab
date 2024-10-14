@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * posix_fadvise() for MIPS uClibc
  * http://www.opengroup.org/onlinepubs/009695399/functions/posix_fadvise.html
@@ -31,7 +30,7 @@ int posix_fadvise(int fd, off_t offset, off_t len, int advice)
 		return INTERNAL_SYSCALL_ERRNO (ret, err);
 	return 0;
 }
-# if defined __UCLIBC_HAS_LFS__ && __WORDSIZE == 64
+# if __WORDSIZE == 64
 strong_alias(posix_fadvise,posix_fadvise64)
 # endif
 

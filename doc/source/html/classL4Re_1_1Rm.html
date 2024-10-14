@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re::Rm Class Reference</title>
+<title>L4Re Operating System Framework: L4Re::Rm Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -169,13 +172,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3165a1f7521b5ec58cd710654575f6bb" id="r_a3165a1f7521b5ec58cd710654575f6bb"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Rm.html#a3165a1f7521b5ec58cd710654575f6bb">free_area</a> (<a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> addr)</td></tr>
 <tr class="memdesc:a3165a1f7521b5ec58cd710654575f6bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free an area from the region map.  <br /></td></tr>
 <tr class="separator:a3165a1f7521b5ec58cd710654575f6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81c3edf15190139911ab69211c0a4bc4" id="r_a81c3edf15190139911ab69211c0a4bc4"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Rm.html#a81c3edf15190139911ab69211c0a4bc4">attach</a> (<a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> *start, unsigned long size, Flags flags, <a class="el" href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">Dataspace</a> &gt; mem, Offset offs=0, unsigned char align=<a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a>) const noexcept</td></tr>
-<tr class="memdesc:a81c3edf15190139911ab69211c0a4bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach a data space to a region.  <br /></td></tr>
-<tr class="separator:a81c3edf15190139911ab69211c0a4bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d3d85a7c9359a9051869115cb5e08d6" id="r_a8d3d85a7c9359a9051869115cb5e08d6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a8d3d85a7c9359a9051869115cb5e08d6"><td class="memTemplItemLeft" align="right" valign="top">long&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Rm.html#a8d3d85a7c9359a9051869115cb5e08d6">attach</a> (T **start, unsigned long size, Flags flags, <a class="el" href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">Dataspace</a> &gt; mem, Offset offs=0, unsigned char align=<a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a>) const noexcept</td></tr>
-<tr class="memdesc:a8d3d85a7c9359a9051869115cb5e08d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach a data space to a region.    <br /></td></tr>
-<tr class="separator:a8d3d85a7c9359a9051869115cb5e08d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6462f6c707de0108afceab8665ad256" id="r_ae6462f6c707de0108afceab8665ad256"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Rm.html#ae6462f6c707de0108afceab8665ad256">attach</a> (<a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> *start, unsigned long size, Flags flags, <a class="el" href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">Dataspace</a> &gt; mem, Offset offs=0, unsigned char align=<a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a>, <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4_1_1Task.html">L4::Task</a> &gt; const task=<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4_1_1Task.html">L4::Task</a> &gt;::Invalid) const noexcept</td></tr>
+<tr class="memdesc:ae6462f6c707de0108afceab8665ad256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach a data space to a region.  <br /></td></tr>
+<tr class="separator:ae6462f6c707de0108afceab8665ad256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74cb628505ac67ce45aeb6abd5af7eec" id="r_a74cb628505ac67ce45aeb6abd5af7eec"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a74cb628505ac67ce45aeb6abd5af7eec"><td class="memTemplItemLeft" align="right" valign="top">long&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Rm.html#a74cb628505ac67ce45aeb6abd5af7eec">attach</a> (T **start, unsigned long size, Flags flags, <a class="el" href="classL4_1_1Ipc_1_1Cap.html">L4::Ipc::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">Dataspace</a> &gt; mem, Offset offs=0, unsigned char align=<a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a>, <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4_1_1Task.html">L4::Task</a> &gt; const task=<a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4_1_1Task.html">L4::Task</a> &gt;::Invalid) const noexcept</td></tr>
+<tr class="memdesc:a74cb628505ac67ce45aeb6abd5af7eec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach a data space to a region.    <br /></td></tr>
+<tr class="separator:a74cb628505ac67ce45aeb6abd5af7eec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4ad2b5650cb44bff10c217220def4c9" id="r_af4ad2b5650cb44bff10c217220def4c9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9">detach</a> (<a class="el" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a> addr, <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4Re_1_1Dataspace.html">Dataspace</a> &gt; *mem, <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4_1_1Task.html">L4::Task</a> &gt; const &amp;task=This_task) const noexcept</td></tr>
 <tr class="memdesc:af4ad2b5650cb44bff10c217220def4c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach and unmap a region from the address space.  <br /></td></tr>
 <tr class="separator:af4ad2b5650cb44bff10c217220def4c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,11 +198,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a1d0b957253cf81e531443d38cf0a6b7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the list of areas whose starting addresses are higher or equal to <code>start</code> in the address space managed by this region map.  <br /></td></tr>
 <tr class="separator:a1d0b957253cf81e531443d38cf0a6b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classL4_1_1Pager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classL4_1_1Pager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classL4_1_1Pager.html">L4::Pager</a></td></tr>
-<tr class="memitem:aaa34a869ae386ec2f6a9f92309a22f36 inherit pub_methods_classL4_1_1Pager" id="r_aaa34a869ae386ec2f6a9f92309a22f36"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Pager.html#aaa34a869ae386ec2f6a9f92309a22f36">page_fault</a> (<a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pfa, <a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pc, <a class="el" href="namespaceL4_1_1Ipc.html#a6452f912e9d39ed9e47bb7709280e528">L4::Ipc::Rcv_fpage</a> rwin, <a class="el" href="structL4_1_1Ipc_1_1Opt.html">L4::Ipc::Opt</a>&lt; <a class="el" href="namespaceL4_1_1Ipc.html#a56d906845bd62ce43e53bd7f52b64569">L4::Ipc::Snd_fpage</a> &amp; &gt; fp)</td></tr>
+<tr class="memitem:aaa34a869ae386ec2f6a9f92309a22f36 inherit pub_methods_classL4_1_1Pager" id="r_aaa34a869ae386ec2f6a9f92309a22f36"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Pager.html#aaa34a869ae386ec2f6a9f92309a22f36">page_fault</a> (<a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pfa, <a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pc, <a class="el" href="classL4_1_1Ipc_1_1Rcv__fpage.html">L4::Ipc::Rcv_fpage</a> rwin, <a class="el" href="structL4_1_1Ipc_1_1Opt.html">L4::Ipc::Opt</a>&lt; <a class="el" href="classL4_1_1Ipc_1_1Snd__fpage.html">L4::Ipc::Snd_fpage</a> &amp; &gt; fp)</td></tr>
 <tr class="memdesc:aaa34a869ae386ec2f6a9f92309a22f36 inherit pub_methods_classL4_1_1Pager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Page-fault protocol message.  <br /></td></tr>
 <tr class="separator:aaa34a869ae386ec2f6a9f92309a22f36 inherit pub_methods_classL4_1_1Pager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classL4_1_1Io__pager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classL4_1_1Io__pager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classL4_1_1Io__pager.html">L4::Io_pager</a></td></tr>
-<tr class="memitem:ab8ef03145d4a68d63400b049c225e07d inherit pub_methods_classL4_1_1Io__pager" id="r_ab8ef03145d4a68d63400b049c225e07d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Io__pager.html#ab8ef03145d4a68d63400b049c225e07d">io_page_fault</a> (<a class="el" href="unionl4__fpage__t.html">l4_fpage_t</a> io_pfa, <a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pc, <a class="el" href="namespaceL4_1_1Ipc.html#a6452f912e9d39ed9e47bb7709280e528">L4::Ipc::Rcv_fpage</a> rwin, <a class="el" href="structL4_1_1Ipc_1_1Opt.html">L4::Ipc::Opt</a>&lt; <a class="el" href="namespaceL4_1_1Ipc.html#a56d906845bd62ce43e53bd7f52b64569">L4::Ipc::Snd_fpage</a> &amp; &gt; fp)</td></tr>
+<tr class="memitem:ab8ef03145d4a68d63400b049c225e07d inherit pub_methods_classL4_1_1Io__pager" id="r_ab8ef03145d4a68d63400b049c225e07d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Io__pager.html#ab8ef03145d4a68d63400b049c225e07d">io_page_fault</a> (<a class="el" href="unionl4__fpage__t.html">l4_fpage_t</a> io_pfa, <a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> pc, <a class="el" href="classL4_1_1Ipc_1_1Rcv__fpage.html">L4::Ipc::Rcv_fpage</a> rwin, <a class="el" href="structL4_1_1Ipc_1_1Opt.html">L4::Ipc::Opt</a>&lt; <a class="el" href="classL4_1_1Ipc_1_1Snd__fpage.html">L4::Ipc::Snd_fpage</a> &amp; &gt; fp)</td></tr>
 <tr class="memdesc:ab8ef03145d4a68d63400b049c225e07d inherit pub_methods_classL4_1_1Io__pager"><td class="mdescLeft">&#160;</td><td class="mdescRight">IO page fault protocol message.  <br /></td></tr>
 <tr class="separator:ab8ef03145d4a68d63400b049c225e07d inherit pub_methods_classL4_1_1Io__pager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -256,7 +259,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <div class="textblock"><p>Region map. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__api__l4re__rm.html">Region map API </a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00085">85</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00092">92</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a38f14bb73f93be2f814a1a2917f58ca3" name="a38f14bb73f93be2f814a1a2917f58ca3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a38f14bb73f93be2f814a1a2917f58ca3">&#9670;&#160;</a></span>Area</h2>
@@ -273,7 +276,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <p>An area is a range of virtual addresses which is reserved, see <a class="el" href="classL4Re_1_1Rm.html#ad1a4be565f4767dfce5e16d7d5e855c3" title="Reserve the given area in the region map.">L4Re::Rm::reserve_area()</a>. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__api__l4re__rm.html" title="Virtual address-space management.">Region map API</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00677">677</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00701">701</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -292,7 +295,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <p>A region is a range of virtual addresses which is backed by a dataspace. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__api__l4re__rm.html" title="Virtual address-space management.">Region map API</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00669">669</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00693">693</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -319,7 +322,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00219">219</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00229">229</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -347,7 +350,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00093">93</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00100">100</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -369,13 +372,13 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00105">105</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00112">112</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a81c3edf15190139911ab69211c0a4bc4" name="a81c3edf15190139911ab69211c0a4bc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81c3edf15190139911ab69211c0a4bc4">&#9670;&#160;</a></span>attach() <span class="overload">[1/2]</span></h2>
+<a id="ae6462f6c707de0108afceab8665ad256" name="ae6462f6c707de0108afceab8665ad256"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6462f6c707de0108afceab8665ad256">&#9670;&#160;</a></span>attach() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -417,7 +420,13 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned char&#160;</td>
-          <td class="paramname"><em>align</em> = <code><a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a></code>&#160;</td>
+          <td class="paramname"><em>align</em> = <code><a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4_1_1Task.html">L4::Task</a> &gt; const&#160;</td>
+          <td class="paramname"><em>task</em> = <code><a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt;<a class="el" href="classL4_1_1Task.html">L4::Task</a>&gt;::Invalid</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -437,10 +446,11 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">start</td><td>Virtual start address where the region manager shall attach the data space. Will be rounded down to the nearest start of a page. If <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a" title="Search for a suitable address range.">L4Re::Rm::F::Search_addr</a> is given this value is used as the start address to search for a free virtual memory region and the resulting address is returned here. If <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041af80cdbdea8dc3a8e155be2ad2c3e5579" title="Search only in area, or map into area.">L4Re::Rm::F::In_area</a> is given the value is used as a selector for the area (see <a class="el" href="classL4Re_1_1Rm.html#ad1a4be565f4767dfce5e16d7d5e855c3" title="Reserve the given area in the region map.">L4Re::Rm::reserve_area</a>) to attach the data space to. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">size</td><td>Size of the data space to attach (in bytes). Will be rounded up to the nearest multiple of the page size. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">flags</td><td>The flags control how and with which rights the dataspace is attached to the region. See <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041" title="Flags for attach operation.">L4Re::Rm::F::Attach_flags</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989">L4Re::Rm::F::Region_flags</a>. The caller must specify the desired rights of the attached region explicitly. The default set of rights is empty. If the <code><a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd" title="Eagerly map the attached data space in.">F::Eager_map</a></code> flag is set this function may also return <a class="el" href="classL4Re_1_1Dataspace.html#af3a869e7c1b321c52ae99fa60559efa0" title="Request a flex-page mapping from the dataspace.">L4Re::Dataspace::map</a> error codes if the mapping fails. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">flags</td><td>The flags control how and with which rights the dataspace is attached to the region. See <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041" title="Flags for attach operation.">L4Re::Rm::F::Attach_flags</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989" title="Region flags (permissions, cacheability, special).">L4Re::Rm::F::Region_flags</a>. The caller must specify the desired rights of the attached region explicitly. The default set of rights is empty. If the <code><a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd" title="Eagerly map the attached data space in.">F::Eager_map</a></code> flag is set this function may also return <a class="el" href="classL4Re_1_1Dataspace.html#afab2be8b203f94e398a9cbab0df69fd5" title="Request a flex-page mapping from the dataspace.">L4Re::Dataspace::map</a> error codes if the mapping fails. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">mem</td><td>Data space. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">offs</td><td>Offset into the data space to use. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">align</td><td>Alignment of the virtual region, log2-size, default: a page (<a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a" title="Size of a page, log2-based.">L4_PAGESHIFT</a>). This is only meaningful if the <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a" title="Search for a suitable address range.">L4Re::Rm::F::Search_addr</a> flag is used.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">align</td><td>Alignment of the virtual region, log2-size, default: a page (<a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a" title="Size of a page, log2-based.">L4_PAGESHIFT</a>). This is only meaningful if the <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a" title="Search for a suitable address range.">L4Re::Rm::F::Search_addr</a> flag is used. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">task</td><td>Optional destination task of mapping if <code><a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd" title="Eagerly map the attached data space in.">F::Eager_map</a></code> flag was passed. If invalid, the mapping is established in the current task. This parameter is only useful if the region manager is for a foreign task.</td></tr>
   </table>
   </dd>
 </dl>
@@ -460,12 +470,12 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <dd>
 There is no region object created, instead the region is defined by a virtual address within this range (see <a class="el" href="classL4Re_1_1Rm.html#ae05bcd7f0c2215129701b029075d2f30" title="Find a region given an address and size.">L4Re::Rm::find</a>). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rm__impl_8h_source.html#l00043">43</a> of file <a class="el" href="rm__impl_8h_source.html">rm_impl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm__impl_8h_source.html#l00044">44</a> of file <a class="el" href="rm__impl_8h_source.html">rm_impl.h</a>.</p>
 
 </div>
 </div>
-<a id="a8d3d85a7c9359a9051869115cb5e08d6" name="a8d3d85a7c9359a9051869115cb5e08d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d3d85a7c9359a9051869115cb5e08d6">&#9670;&#160;</a></span>attach() <span class="overload">[2/2]</span></h2>
+<a id="a74cb628505ac67ce45aeb6abd5af7eec" name="a74cb628505ac67ce45aeb6abd5af7eec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74cb628505ac67ce45aeb6abd5af7eec">&#9670;&#160;</a></span>attach() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -509,7 +519,13 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned char&#160;</td>
-          <td class="paramname"><em>align</em> = <code><a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a></code>&#160;</td>
+          <td class="paramname"><em>align</em> = <code><a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; <a class="el" href="classL4_1_1Task.html">L4::Task</a> &gt; const&#160;</td>
+          <td class="paramname"><em>task</em> = <code><a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt;<a class="el" href="classL4_1_1Task.html">L4::Task</a>&gt;::Invalid</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -529,10 +545,11 @@ template&lt;typename T &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">start</td><td>Virtual start address where the region manager shall attach the data space. Will be rounded down to the nearest start of a page. If <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a" title="Search for a suitable address range.">L4Re::Rm::F::Search_addr</a> is given this value is used as the start address to search for a free virtual memory region and the resulting address is returned here. If <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041af80cdbdea8dc3a8e155be2ad2c3e5579" title="Search only in area, or map into area.">L4Re::Rm::F::In_area</a> is given the value is used as a selector for the area (see <a class="el" href="classL4Re_1_1Rm.html#ad1a4be565f4767dfce5e16d7d5e855c3" title="Reserve the given area in the region map.">L4Re::Rm::reserve_area</a>) to attach the data space to. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">size</td><td>Size of the data space to attach (in bytes). Will be rounded up to the nearest multiple of the page size. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">flags</td><td>The flags control how and with which rights the dataspace is attached to the region. See <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041" title="Flags for attach operation.">L4Re::Rm::F::Attach_flags</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989">L4Re::Rm::F::Region_flags</a>. The caller must specify the desired rights of the attached region explicitly. The default set of rights is empty. If the <code><a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd" title="Eagerly map the attached data space in.">F::Eager_map</a></code> flag is set this function may also return <a class="el" href="classL4Re_1_1Dataspace.html#af3a869e7c1b321c52ae99fa60559efa0" title="Request a flex-page mapping from the dataspace.">L4Re::Dataspace::map</a> error codes if the mapping fails. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">flags</td><td>The flags control how and with which rights the dataspace is attached to the region. See <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041" title="Flags for attach operation.">L4Re::Rm::F::Attach_flags</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989" title="Region flags (permissions, cacheability, special).">L4Re::Rm::F::Region_flags</a>. The caller must specify the desired rights of the attached region explicitly. The default set of rights is empty. If the <code><a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd" title="Eagerly map the attached data space in.">F::Eager_map</a></code> flag is set this function may also return <a class="el" href="classL4Re_1_1Dataspace.html#afab2be8b203f94e398a9cbab0df69fd5" title="Request a flex-page mapping from the dataspace.">L4Re::Dataspace::map</a> error codes if the mapping fails. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">mem</td><td>Data space. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">offs</td><td>Offset into the data space to use. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">align</td><td>Alignment of the virtual region, log2-size, default: a page (<a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a" title="Size of a page, log2-based.">L4_PAGESHIFT</a>). This is only meaningful if the <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a" title="Search for a suitable address range.">L4Re::Rm::F::Search_addr</a> flag is used.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">align</td><td>Alignment of the virtual region, log2-size, default: a page (<a class="el" href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a" title="Size of a page, log2-based.">L4_PAGESHIFT</a>). This is only meaningful if the <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a" title="Search for a suitable address range.">L4Re::Rm::F::Search_addr</a> flag is used. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">task</td><td>Optional destination task of mapping if <code><a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd" title="Eagerly map the attached data space in.">F::Eager_map</a></code> flag was passed. If invalid, the mapping is established in the current task. This parameter is only useful if the region manager is for a foreign task.</td></tr>
   </table>
   </dd>
 </dl>
@@ -552,7 +569,7 @@ template&lt;typename T &gt; </div>
 <dd>
 There is no region object created, instead the region is defined by a virtual address within this range (see <a class="el" href="classL4Re_1_1Rm.html#ae05bcd7f0c2215129701b029075d2f30" title="Find a region given an address and size.">L4Re::Rm::find</a>).   </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00391">391</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00411">411</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -615,7 +632,7 @@ There is no region object created, instead the region is defined by a virtual ad
 </dl>
 <p>Frees a region in the virtual address space given by addr (address type). The corresponding part of the address space is now available again. </p>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00722">722</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00746">746</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -685,7 +702,7 @@ There is no region object created, instead the region is defined by a virtual ad
 </dl>
 <p>Frees all regions within the interval given by start and size. If a region overlaps the start or the end of the interval this region is only detached partly. If the interval is within one region the original region is split up into two separate regions. </p>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00732">732</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00759">759</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -748,7 +765,7 @@ There is no region object created, instead the region is defined by a virtual ad
 </dl>
 <p>Frees a region in the virtual address space given by addr (address type). The corresponding part of the address space is now available again.   </p>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00727">727</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00751">751</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -810,7 +827,7 @@ There is no region object created, instead the region is defined by a virtual ad
     <tr><td class="paramdir">[in,out]</td><td class="paramname">addr</td><td>Address to look for. Returns the start address of the found region. </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">size</td><td>Size of the area to look for (in bytes). Returns the size of the found region (in bytes). </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">offset</td><td>Offset at the beginning of the region within the associated dataspace. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">flags</td><td>Region flags, see <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989">F::Region_flags</a> (and <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041af80cdbdea8dc3a8e155be2ad2c3e5579" title="Search only in area, or map into area.">F::In_area</a>). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">flags</td><td>Region flags, see <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989" title="Region flags (permissions, cacheability, special).">F::Region_flags</a> (and <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041af80cdbdea8dc3a8e155be2ad2c3e5579" title="Search only in area, or map into area.">F::In_area</a>). </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">m</td><td>Associated dataspace or paging service.</td></tr>
   </table>
   </dd>
@@ -840,7 +857,7 @@ There is no region object created, instead the region is defined by a virtual ad
                     |&gt; addr-in
 </pre><dl class="section note"><dt>Note</dt><dd>The value of the size input parameter should be 1 to assure that a region can be determined unambiguously. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00644">644</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00668">668</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -1021,7 +1038,7 @@ There is no region object created, instead the region is defined by a virtual ad
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">start</td><td>The virtual start address of the area to reserve. Returns the start address of the area. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">size</td><td>The size of the area to reserve (in bytes). </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">flags</td><td>Flags for the reserved area (see <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989">L4Re::Rm::F::Region_flags</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041" title="Flags for attach operation.">L4Re::Rm::F::Attach_flags</a>). </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">flags</td><td>Flags for the reserved area (see <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989" title="Region flags (permissions, cacheability, special).">L4Re::Rm::F::Region_flags</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041" title="Flags for attach operation.">L4Re::Rm::F::Attach_flags</a>). </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">align</td><td>Alignment of area if searched as bits (log2 value). </td></tr>
   </table>
   </dd>
@@ -1040,7 +1057,7 @@ There is no region object created, instead the region is defined by a virtual ad
 </ul>
 <dl class="section note"><dt>Note</dt><dd>When searching for a free place in the virtual address space (with <em>flags</em> = <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a" title="Search for a suitable address range.">L4Re::Rm::F::Search_addr</a>), the space between <em>start</em> and the end of the virtual address space is searched. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00278">278</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00288">288</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -1097,7 +1114,7 @@ template&lt;typename T &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">start</td><td>The virtual start address of the area to reserve. Returns the start address of the area. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">size</td><td>The size of the area to reserve (in bytes). </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">flags</td><td>Flags for the reserved area (see <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989">F::Region_flags</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041" title="Flags for attach operation.">F::Attach_flags</a>). </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">flags</td><td>Flags for the reserved area (see <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989" title="Region flags (permissions, cacheability, special).">F::Region_flags</a> and <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041" title="Flags for attach operation.">F::Attach_flags</a>). </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">align</td><td>Alignment of area if searched as bits (log2 value). </td></tr>
   </table>
   </dd>
@@ -1112,7 +1129,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <p>For more information, please refer to the analogous function </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classL4Re_1_1Rm.html#ad1a4be565f4767dfce5e16d7d5e855c3" title="Reserve the given area in the region map.">L4Re::Rm::reserve_area</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00304">304</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00314">314</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -1127,7 +1144,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4Re.html">L4Re</a></li><li class="navelem"><a class="el" href="classL4Re_1_1Rm.html">Rm</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

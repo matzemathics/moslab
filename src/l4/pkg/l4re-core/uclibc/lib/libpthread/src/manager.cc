@@ -85,7 +85,9 @@ static pthread_descr manager_thread;
 
 /* Flag set in signal handler to record child termination */
 
+#ifdef NOT_FOR_L4
 static __volatile__ int terminated_children;
+#endif
 
 /* Flag set when the initial thread is blocked on pthread_exit waiting
    for all other threads to terminate */
@@ -467,6 +469,7 @@ static int pthread_allocate_stack(const pthread_attr_t *attr,
       L4Re::Env const *e = L4Re::Env::env();
       long err;
 
+#ifdef CONFIG_MMU
       if (e->rm()->reserve_area(&map_addr, stacksize + guardsize,
 	                        L4Re::Rm::F::Search_addr) < 0)
 	return -1;
@@ -497,6 +500,30 @@ static int pthread_allocate_stack(const pthread_attr_t *attr,
 	  e->rm()->free_area(l4_addr_t(map_addr));
 	  return -1;
 	}
+#else
+      L4::Cap<L4Re::Dataspace> ds = L4Re::Util::cap_alloc.alloc<L4Re::Dataspace>();
+      if (!ds.is_valid())
+        return -1;
+
+      err = e->mem_alloc()->alloc(stacksize, ds);
+      if (err < 0)
+        {
+          L4Re::Util::cap_alloc.free(ds);
+          return -1;
+        }
+
+      err = e->rm()->attach(&map_addr, stacksize,
+                            L4Re::Rm::F::Search_addr | L4Re::Rm::F::RW,
+                            L4::Ipc::make_cap_rw(ds), 0);
+      if (err < 0)
+        {
+          L4Re::Util::cap_alloc.free(ds, L4Re::This_task);
+          return -1;
+        }
+
+      guardaddr = static_cast<char *>(map_addr) - guardsize;
+      new_thread_bottom = static_cast<char *>(map_addr);
+#endif
 #else
       map_addr = mmap(NULL, stacksize + guardsize,
                       PROT_READ | PROT_WRITE | PROT_EXEC,
@@ -575,8 +602,24 @@ int __pthread_mgr_create_thread(pthread_descr thread, char **tos,
   *(--_tos) = 0; /* ret addr */
   *(--_tos) = l4_addr_t(f);
 
+  l4_umword_t flags = 0;
+#if defined(__arm__) || defined(__aarch64__)
+  {
+    // Inherit exception level on Arm. By default all threads run in EL0 but if
+    // the executable chose to use EL1 we must inherit the EL!
+    l4_umword_t ip = ~0UL;
+    l4_umword_t sp = ~0UL;
+    err = l4_error(L4::Cap<L4::Thread>()->ex_regs(&ip, &sp, &flags));
+    if (err < 0)
+      {
+        fprintf(stderr, "ERROR: exregs returned error: %d\n", err);
+        return err;
+      }
+  }
+#endif
+
   err = l4_error(_t->ex_regs(l4_addr_t(__pthread_new_thread_entry),
-                             l4_addr_t(_tos), 0));
+                             l4_addr_t(_tos), flags));
 
   if (err < 0)
     {
@@ -616,16 +659,33 @@ static l4_utcb_t *l4pthr_allocate_more_utcbs_and_claim_utcb()
   l4_addr_t kumem = 0;
   Env const *e = Env::env();
 
+#ifdef CONFIG_MMU
+  // On MMU systems, user space chooses the spot in the virtual address space.
   if (e->rm()->reserve_area(&kumem, L4_PAGESIZE,
                             Rm::F::Reserved | Rm::F::Search_addr))
     return nullptr;
 
-  if (l4_error(e->task()->add_ku_mem(l4_fpage(kumem, L4_PAGESHIFT,
-                                              L4_FPAGE_RW))))
+  l4_fpage_t fp = l4_fpage(kumem, L4_PAGESHIFT, L4_FPAGE_RW);
+  if (l4_error(e->task()->add_ku_mem(&fp)))
     {
       e->rm()->free_area(kumem);
       return nullptr;
     }
+#else
+  // On systems without MMU the kernel determines the actual location.
+  l4_fpage_t fp = l4_fpage(0, L4_PAGESHIFT, L4_FPAGE_RW);
+  if (l4_error(e->task()->add_ku_mem(&fp)))
+    return nullptr;
+  kumem = l4_fpage_memaddr(fp);
+
+  // The kernel allocated the address so it is known to be valid. The
+  // reservation should never fail, unless something is really broken.
+  long err = e->rm()->reserve_area(&kumem, L4_PAGESIZE, Rm::F::Reserved);
+  if (err < 0)
+    fprintf(stderr,
+            "ERROR: could not reserve ku_mem area, reserve_area returned %ld\n",
+            err);
+#endif
 
   __l4_add_utcbs(kumem, kumem + L4_PAGESIZE);
 
@@ -914,11 +974,10 @@ static void pthread_free(pthread_descr th)
   pthread_handle handle;
   pthread_readlock_info *iter, *next;
 
-  ASSERT(th->p_exited);
   /* Make the handle invalid */
   handle =  thread_handle(th->p_tid);
   __pthread_lock(handle_to_lock(handle), NULL);
-  ASSERT(th->p_tid != NULL);
+  assert(th->p_tid != NULL);
   th->p_tid = NULL;
   mgr_free_utcb(handle);
   __pthread_unlock(handle_to_lock(handle));
@@ -1001,7 +1060,7 @@ static int pthread_handle_thread_exit(pthread_descr th)
   if (th->p_exited)
     return 0;
 
-  ASSERT(th->p_terminated);
+  assert(th->p_terminated);
 
   int detached;
   /* Remove thread from list of active threads */
@@ -1137,7 +1196,7 @@ static void pthread_handle_exit(pthread_descr issuing_thread, int exitcode)
 #if 0
 /* Handler for __pthread_sig_cancel in thread manager thread */
 
-void __pthread_manager_sighandler(int sig)
+void __pthread_manager_sighandler(int sig attribute_unused)
 {
   int kick_manager = terminated_children == 0 && main_thread_exiting;
   terminated_children = 1;

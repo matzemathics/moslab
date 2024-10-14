@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Timeouts</title>
+<title>L4Re Operating System Framework: Timeouts</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -149,12 +152,11 @@ Macros</h2></td></tr>
 <tr class="memdesc:gac33be3c7adb0515c7085b82d647517a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">0 receive and send timeout <br /></td></tr>
 <tr class="separator:gac33be3c7adb0515c7085b82d647517a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga34e6a9e35574ebeb3c4fea0bf6149a4b" id="r_ga34e6a9e35574ebeb3c4fea0bf6149a4b"><td class="memItemLeft" align="right" valign="top"><a id="ga34e6a9e35574ebeb3c4fea0bf6149a4b" name="ga34e6a9e35574ebeb3c4fea0bf6149a4b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>L4_TIMEOUT_US_NEVER</b>&#160;&#160;&#160;(~0U)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>L4_TIMEOUT_US_NEVER</b>&#160;&#160;&#160;(~0ULL)</td></tr>
 <tr class="memdesc:ga34e6a9e35574ebeb3c4fea0bf6149a4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The waiting period in microseconds which is interpreted as "never" by l4_timeout_from_us(). <br /></td></tr>
 <tr class="separator:ga34e6a9e35574ebeb3c4fea0bf6149a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa93cb666f12fc206a0095c899f417787" id="r_gaa93cb666f12fc206a0095c899f417787"><td class="memItemLeft" align="right" valign="top"><a id="gaa93cb666f12fc206a0095c899f417787" name="gaa93cb666f12fc206a0095c899f417787"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>L4_TIMEOUT_US_MAX</b>&#160;&#160;&#160;(~0U - 1)</td></tr>
-<tr class="memdesc:gaa93cb666f12fc206a0095c899f417787"><td class="mdescLeft">&#160;</td><td class="mdescRight">The longest waiting period in microseconds accepted by l4_timeout_from_us(). <br /></td></tr>
+<tr class="memitem:gaa93cb666f12fc206a0095c899f417787" id="r_gaa93cb666f12fc206a0095c899f417787"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#gaa93cb666f12fc206a0095c899f417787">L4_TIMEOUT_US_MAX</a>&#160;&#160;&#160;((1ULL &lt;&lt; 41) - 1)</td></tr>
+<tr class="memdesc:gaa93cb666f12fc206a0095c899f417787"><td class="mdescLeft">&#160;</td><td class="mdescRight">The longest waiting period in microseconds accepted by l4_timeout_from_us().  <br /></td></tr>
 <tr class="separator:gaa93cb666f12fc206a0095c899f417787"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -168,30 +170,30 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gac8e96fe5c60b595a212706b820efae8a" id="r_gac8e96fe5c60b595a212706b820efae8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__timeout__s.html">l4_timeout_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#gac8e96fe5c60b595a212706b820efae8a">l4_timeout_rel</a> (unsigned man, unsigned exp) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:gac8e96fe5c60b595a212706b820efae8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get relative timeout consisting of mantissa and exponent.  <br /></td></tr>
-<tr class="separator:gac8e96fe5c60b595a212706b820efae8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga18fef9d8b27a0ef816b5bb7e72c1b9be" id="r_ga18fef9d8b27a0ef816b5bb7e72c1b9be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga18fef9d8b27a0ef816b5bb7e72c1b9be">l4_ipc_timeout</a> (unsigned snd_man, unsigned snd_exp, unsigned rcv_man, unsigned rcv_exp) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:ga18fef9d8b27a0ef816b5bb7e72c1b9be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert explicit timeout values to <a class="el" href="unionl4__timeout__t.html" title="Timeout pair.">l4_timeout_t</a> type.  <br /></td></tr>
-<tr class="separator:ga18fef9d8b27a0ef816b5bb7e72c1b9be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3345aebfb9e55eccf20ff8b765197bae" id="r_ga3345aebfb9e55eccf20ff8b765197bae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga3345aebfb9e55eccf20ff8b765197bae">l4_timeout</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> snd, <a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> rcv) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:ga3345aebfb9e55eccf20ff8b765197bae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine send and receive timeout in a timeout.  <br /></td></tr>
-<tr class="separator:ga3345aebfb9e55eccf20ff8b765197bae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4492e42855fecb47130272f0d3420a5f" id="r_ga4492e42855fecb47130272f0d3420a5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga4492e42855fecb47130272f0d3420a5f">l4_snd_timeout</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> snd, <a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a> *to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:ga4492e42855fecb47130272f0d3420a5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set send timeout in given to timeout.  <br /></td></tr>
-<tr class="separator:ga4492e42855fecb47130272f0d3420a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga70495cedeb907f542f501b37f4207e69" id="r_ga70495cedeb907f542f501b37f4207e69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga70495cedeb907f542f501b37f4207e69">l4_rcv_timeout</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> rcv, <a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a> *to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:ga70495cedeb907f542f501b37f4207e69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set receive timeout in given to timeout.  <br /></td></tr>
-<tr class="separator:ga70495cedeb907f542f501b37f4207e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga714e1ab76379fbf3de89dbc2a72656e2" id="r_ga714e1ab76379fbf3de89dbc2a72656e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga714e1ab76379fbf3de89dbc2a72656e2">l4_timeout_rel_get</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:ga714e1ab76379fbf3de89dbc2a72656e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get clock value of out timeout.  <br /></td></tr>
-<tr class="separator:ga714e1ab76379fbf3de89dbc2a72656e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga798ef6a9ba1e7bad24a4c67ad0560fe3" id="r_ga798ef6a9ba1e7bad24a4c67ad0560fe3"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga798ef6a9ba1e7bad24a4c67ad0560fe3">l4_timeout_is_absolute</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:ga798ef6a9ba1e7bad24a4c67ad0560fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the given timeout is absolute or not.  <br /></td></tr>
-<tr class="separator:ga798ef6a9ba1e7bad24a4c67ad0560fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga218ac89e4f4095d722df8307c565f63e" id="r_ga218ac89e4f4095d722df8307c565f63e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga218ac89e4f4095d722df8307c565f63e">l4_timeout_get</a> (<a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a> cur, <a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
-<tr class="memdesc:ga218ac89e4f4095d722df8307c565f63e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get clock value for a clock + a timeout.  <br /></td></tr>
-<tr class="separator:ga218ac89e4f4095d722df8307c565f63e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0967b51ac450edca1eae7b6289320731" id="r_ga0967b51ac450edca1eae7b6289320731"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="structl4__timeout__s.html">l4_timeout_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga0967b51ac450edca1eae7b6289320731">l4_timeout_rel</a> (unsigned man, unsigned exp) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga0967b51ac450edca1eae7b6289320731"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get relative timeout consisting of mantissa and exponent.  <br /></td></tr>
+<tr class="separator:ga0967b51ac450edca1eae7b6289320731"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4f2ccd6c8ff6672a6bb22803a1009126" id="r_ga4f2ccd6c8ff6672a6bb22803a1009126"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga4f2ccd6c8ff6672a6bb22803a1009126">l4_ipc_timeout</a> (unsigned snd_man, unsigned snd_exp, unsigned rcv_man, unsigned rcv_exp) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga4f2ccd6c8ff6672a6bb22803a1009126"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert explicit timeout values to <a class="el" href="unionl4__timeout__t.html" title="Timeout pair.">l4_timeout_t</a> type.  <br /></td></tr>
+<tr class="separator:ga4f2ccd6c8ff6672a6bb22803a1009126"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7c5eebe8f0c4b5718ead96072886e7d2" id="r_ga7c5eebe8f0c4b5718ead96072886e7d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga7c5eebe8f0c4b5718ead96072886e7d2">l4_timeout</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> snd, <a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> rcv) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga7c5eebe8f0c4b5718ead96072886e7d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine send and receive timeout in a timeout.  <br /></td></tr>
+<tr class="separator:ga7c5eebe8f0c4b5718ead96072886e7d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81a3cccb62603cf13f26d61a61a442cd" id="r_ga81a3cccb62603cf13f26d61a61a442cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga81a3cccb62603cf13f26d61a61a442cd">l4_snd_timeout</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> snd, <a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a> *to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga81a3cccb62603cf13f26d61a61a442cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set send timeout in given to timeout.  <br /></td></tr>
+<tr class="separator:ga81a3cccb62603cf13f26d61a61a442cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga153f7988c40df2fb5dd6dd468923e5f6" id="r_ga153f7988c40df2fb5dd6dd468923e5f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga153f7988c40df2fb5dd6dd468923e5f6">l4_rcv_timeout</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> rcv, <a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a> *to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga153f7988c40df2fb5dd6dd468923e5f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set receive timeout in given to timeout.  <br /></td></tr>
+<tr class="separator:ga153f7988c40df2fb5dd6dd468923e5f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad36403610d9a5b4d3bdcb6fcb249ba6c" id="r_gad36403610d9a5b4d3bdcb6fcb249ba6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#gad36403610d9a5b4d3bdcb6fcb249ba6c">l4_timeout_rel_get</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:gad36403610d9a5b4d3bdcb6fcb249ba6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get clock value of out timeout.  <br /></td></tr>
+<tr class="separator:gad36403610d9a5b4d3bdcb6fcb249ba6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabad6526067fe7f0e0268fa00efab7599" id="r_gabad6526067fe7f0e0268fa00efab7599"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#gabad6526067fe7f0e0268fa00efab7599">l4_timeout_is_absolute</a> (<a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:gabad6526067fe7f0e0268fa00efab7599"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the given timeout is absolute or not.  <br /></td></tr>
+<tr class="separator:gabad6526067fe7f0e0268fa00efab7599"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1e9fecdd16e5d68f816797453e74d6c5" id="r_ga1e9fecdd16e5d68f816797453e74d6c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#ga1e9fecdd16e5d68f816797453e74d6c5">l4_timeout_get</a> (<a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a> cur, <a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> to) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga1e9fecdd16e5d68f816797453e74d6c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get clock value for a clock + a timeout.  <br /></td></tr>
+<tr class="separator:ga1e9fecdd16e5d68f816797453e74d6c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab3eeabba0542c7723fbd5628c6e4d6c3" id="r_gab3eeabba0542c7723fbd5628c6e4d6c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__timeout__s.html">l4_timeout_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__timeout__api.html#gab3eeabba0542c7723fbd5628c6e4d6c3">l4_timeout_abs</a> (<a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a> pint, int br) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
 <tr class="memdesc:gab3eeabba0542c7723fbd5628c6e4d6c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an absolute timeout.  <br /></td></tr>
 <tr class="separator:gab3eeabba0542c7723fbd5628c6e4d6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -217,7 +219,26 @@ Functions</h2></td></tr>
 <p>Timeout constants. </p>
 <p>0 timeout </p>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00079">79</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00081">81</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+
+</div>
+</div>
+<a id="gaa93cb666f12fc206a0095c899f417787" name="gaa93cb666f12fc206a0095c899f417787"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa93cb666f12fc206a0095c899f417787">&#9670;&#160;</a></span>L4_TIMEOUT_US_MAX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L4_TIMEOUT_US_MAX&#160;&#160;&#160;((1ULL &lt;&lt; 41) - 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The longest waiting period in microseconds accepted by l4_timeout_from_us(). </p>
+<p>See l4_timeout_from_us() for an explanation. </p>
+
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00099">99</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
 </div>
 </div>
@@ -258,8 +279,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga18fef9d8b27a0ef816b5bb7e72c1b9be" name="ga18fef9d8b27a0ef816b5bb7e72c1b9be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga18fef9d8b27a0ef816b5bb7e72c1b9be">&#9670;&#160;</a></span>l4_ipc_timeout()</h2>
+<a id="ga4f2ccd6c8ff6672a6bb22803a1009126" name="ga4f2ccd6c8ff6672a6bb22803a1009126"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4f2ccd6c8ff6672a6bb22803a1009126">&#9670;&#160;</a></span>l4_ipc_timeout()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,7 +289,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a> l4_ipc_timeout </td>
+          <td class="memname"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a> l4_ipc_timeout </td>
           <td>(</td>
           <td class="paramtype">unsigned&#160;</td>
           <td class="paramname"><em>snd_man</em>, </td>
@@ -315,14 +336,21 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00208">208</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00211">211</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
-<p class="reference">References <a class="el" href="unionl4__timeout__t.html#aca15c078c5cc1e7c0ec48e617d24eae0">l4_timeout_t::p</a>, <a class="el" href="____timeout_8h_source.html#l00067">l4_timeout_t::rcv</a>, <a class="el" href="____timeout_8h_source.html#l00068">l4_timeout_t::snd</a>, and <a class="el" href="____timeout_8h_source.html#l00048">l4_timeout_s::t</a>.</p>
+<p class="reference">References <a class="el" href="____timeout_8h_source.html#l00221">l4_timeout()</a>.</p>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_ga4f2ccd6c8ff6672a6bb22803a1009126_cgraph.svg" width="270" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
-<a id="ga70495cedeb907f542f501b37f4207e69" name="ga70495cedeb907f542f501b37f4207e69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga70495cedeb907f542f501b37f4207e69">&#9670;&#160;</a></span>l4_rcv_timeout()</h2>
+<a id="ga153f7988c40df2fb5dd6dd468923e5f6" name="ga153f7988c40df2fb5dd6dd468923e5f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga153f7988c40df2fb5dd6dd468923e5f6">&#9670;&#160;</a></span>l4_rcv_timeout()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -331,7 +359,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void l4_rcv_timeout </td>
+          <td class="memname"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> void l4_rcv_timeout </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structl4__timeout__s.html">l4_timeout_s</a>&#160;</td>
           <td class="paramname"><em>rcv</em>, </td>
@@ -364,12 +392,12 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00236">236</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00235">235</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
 </div>
 </div>
-<a id="ga4492e42855fecb47130272f0d3420a5f" name="ga4492e42855fecb47130272f0d3420a5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4492e42855fecb47130272f0d3420a5f">&#9670;&#160;</a></span>l4_snd_timeout()</h2>
+<a id="ga81a3cccb62603cf13f26d61a61a442cd" name="ga81a3cccb62603cf13f26d61a61a442cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga81a3cccb62603cf13f26d61a61a442cd">&#9670;&#160;</a></span>l4_snd_timeout()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -378,7 +406,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void l4_snd_timeout </td>
+          <td class="memname"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> void l4_snd_timeout </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structl4__timeout__s.html">l4_timeout_s</a>&#160;</td>
           <td class="paramname"><em>snd</em>, </td>
@@ -411,14 +439,14 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00229">229</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00228">228</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
-<p class="reference">References <a class="el" href="unionl4__timeout__t.html#aca15c078c5cc1e7c0ec48e617d24eae0">l4_timeout_t::p</a>, and <a class="el" href="____timeout_8h_source.html#l00068">l4_timeout_t::snd</a>.</p>
+<p class="reference">References <a class="el" href="unionl4__timeout__t.html#abd857995c1eaf1f5a3f277a5308445f1">l4_timeout_t::p</a>, and <a class="el" href="____timeout_8h_source.html#l00070">l4_timeout_t::snd</a>.</p>
 
 </div>
 </div>
-<a id="ga3345aebfb9e55eccf20ff8b765197bae" name="ga3345aebfb9e55eccf20ff8b765197bae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3345aebfb9e55eccf20ff8b765197bae">&#9670;&#160;</a></span>l4_timeout()</h2>
+<a id="ga7c5eebe8f0c4b5718ead96072886e7d2" name="ga7c5eebe8f0c4b5718ead96072886e7d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7c5eebe8f0c4b5718ead96072886e7d2">&#9670;&#160;</a></span>l4_timeout()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -427,7 +455,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a> l4_timeout </td>
+          <td class="memname"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="unionl4__timeout__t.html">l4_timeout_t</a> l4_timeout </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structl4__timeout__s.html">l4_timeout_s</a>&#160;</td>
           <td class="paramname"><em>snd</em>, </td>
@@ -461,17 +489,15 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespaceL4.html" title="L4 low-level kernel interface.">L4</a> timeout </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00219">219</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00221">221</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
-<p class="reference">References <a class="el" href="unionl4__timeout__t.html#aca15c078c5cc1e7c0ec48e617d24eae0">l4_timeout_t::p</a>, <a class="el" href="____timeout_8h_source.html#l00067">l4_timeout_t::rcv</a>, and <a class="el" href="____timeout_8h_source.html#l00068">l4_timeout_t::snd</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="l4_2sys_2ipc_8h_source.html#l00605">l4_ipc_sleep_ms()</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00612">l4_ipc_sleep_us()</a>, and <a class="el" href="ipc__timeout__queue_source.html#l00170">L4::Ipc_svr::Timeout_queue_hooks&lt; HOOKS, BR_MAN &gt;::timeout()</a>.</p>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+<p class="reference">Referenced by <a class="el" href="l4_2sys_2ipc_8h_source.html#l00626">l4_ipc_sleep_ms()</a>, <a class="el" href="l4_2sys_2ipc_8h_source.html#l00633">l4_ipc_sleep_us()</a>, <a class="el" href="____timeout_8h_source.html#l00211">l4_ipc_timeout()</a>, and <a class="el" href="ipc__timeout__queue_source.html#l00170">L4::Ipc_svr::Timeout_queue_hooks&lt; HOOKS, BR_MAN &gt;::timeout()</a>.</p>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_ga3345aebfb9e55eccf20ff8b765197bae_icgraph.svg" width="579" height="194"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_ga7c5eebe8f0c4b5718ead96072886e7d2_icgraph.svg" width="579" height="243"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -528,25 +554,25 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="ipc__timeout__queue_source.html#l00170">L4::Ipc_svr::Timeout_queue_hooks&lt; HOOKS, BR_MAN &gt;::timeout()</a>.</p>
-<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_gab3eeabba0542c7723fbd5628c6e4d6c3_cgraph.svg" width="251" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_gab3eeabba0542c7723fbd5628c6e4d6c3_cgraph.svg" width="251" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_gab3eeabba0542c7723fbd5628c6e4d6c3_icgraph.svg" width="610" height="131"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="ga218ac89e4f4095d722df8307c565f63e" name="ga218ac89e4f4095d722df8307c565f63e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga218ac89e4f4095d722df8307c565f63e">&#9670;&#160;</a></span>l4_timeout_get()</h2>
+<a id="ga1e9fecdd16e5d68f816797453e74d6c5" name="ga1e9fecdd16e5d68f816797453e74d6c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1e9fecdd16e5d68f816797453e74d6c5">&#9670;&#160;</a></span>l4_timeout_get()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -555,7 +581,7 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a> l4_timeout_get </td>
+          <td class="memname"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a> l4_timeout_get </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a>&#160;</td>
           <td class="paramname"><em>cur</em>, </td>
@@ -589,21 +615,21 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Clock sum </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00266">266</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00265">265</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
-<p class="reference">References <a class="el" href="____timeout_8h_source.html#l00259">l4_timeout_is_absolute()</a>, and <a class="el" href="____timeout_8h_source.html#l00250">l4_timeout_rel_get()</a>.</p>
-<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+<p class="reference">References <a class="el" href="____timeout_8h_source.html#l00258">l4_timeout_is_absolute()</a>, and <a class="el" href="____timeout_8h_source.html#l00249">l4_timeout_rel_get()</a>.</p>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-4-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_ga218ac89e4f4095d722df8307c565f63e_cgraph.svg" width="352" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_ga1e9fecdd16e5d68f816797453e74d6c5_cgraph.svg" width="352" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="ga798ef6a9ba1e7bad24a4c67ad0560fe3" name="ga798ef6a9ba1e7bad24a4c67ad0560fe3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga798ef6a9ba1e7bad24a4c67ad0560fe3">&#9670;&#160;</a></span>l4_timeout_is_absolute()</h2>
+<a id="gabad6526067fe7f0e0268fa00efab7599" name="gabad6526067fe7f0e0268fa00efab7599"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabad6526067fe7f0e0268fa00efab7599">&#9670;&#160;</a></span>l4_timeout_is_absolute()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -612,7 +638,7 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned l4_timeout_is_absolute </td>
+          <td class="memname"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> unsigned l4_timeout_is_absolute </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structl4__timeout__s.html">l4_timeout_s</a>&#160;</td>
           <td class="paramname"><em>to</em></td><td>)</td>
@@ -635,23 +661,23 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>!= 0 if absolute, 0 if relative </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00259">259</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00258">258</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
-<p class="reference">References <a class="el" href="____timeout_8h_source.html#l00048">l4_timeout_s::t</a>.</p>
+<p class="reference">References <a class="el" href="____timeout_8h_source.html#l00049">l4_timeout_s::t</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="____timeout_8h_source.html#l00266">l4_timeout_get()</a>.</p>
-<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+<p class="reference">Referenced by <a class="el" href="____timeout_8h_source.html#l00265">l4_timeout_get()</a>.</p>
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_ga798ef6a9ba1e7bad24a4c67ad0560fe3_icgraph.svg" width="352" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_gabad6526067fe7f0e0268fa00efab7599_icgraph.svg" width="352" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="gac8e96fe5c60b595a212706b820efae8a" name="gac8e96fe5c60b595a212706b820efae8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac8e96fe5c60b595a212706b820efae8a">&#9670;&#160;</a></span>l4_timeout_rel()</h2>
+<a id="ga0967b51ac450edca1eae7b6289320731" name="ga0967b51ac450edca1eae7b6289320731"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0967b51ac450edca1eae7b6289320731">&#9670;&#160;</a></span>l4_timeout_rel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -660,7 +686,7 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> l4_timeout_rel </td>
+          <td class="memname"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="structl4__timeout__s.html">l4_timeout_s</a> l4_timeout_rel </td>
           <td>(</td>
           <td class="paramtype">unsigned&#160;</td>
           <td class="paramname"><em>man</em>, </td>
@@ -694,12 +720,12 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>timeout value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00243">243</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00242">242</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
 </div>
 </div>
-<a id="ga714e1ab76379fbf3de89dbc2a72656e2" name="ga714e1ab76379fbf3de89dbc2a72656e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga714e1ab76379fbf3de89dbc2a72656e2">&#9670;&#160;</a></span>l4_timeout_rel_get()</h2>
+<a id="gad36403610d9a5b4d3bdcb6fcb249ba6c" name="gad36403610d9a5b4d3bdcb6fcb249ba6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad36403610d9a5b4d3bdcb6fcb249ba6c">&#9670;&#160;</a></span>l4_timeout_rel_get()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -708,7 +734,7 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a> l4_timeout_rel_get </td>
+          <td class="memname"><a class="el" href="group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a">L4_CONSTEXPR</a> <a class="el" href="group__l4__basic__types.html#gab71da24eb7cda2c035f18b862309b101">l4_kernel_clock_t</a> l4_timeout_rel_get </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structl4__timeout__s.html">l4_timeout_s</a>&#160;</td>
           <td class="paramname"><em>to</em></td><td>)</td>
@@ -731,15 +757,15 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Clock value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00250">250</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="____timeout_8h_source.html#l00249">249</a> of file <a class="el" href="____timeout_8h_source.html">__timeout.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="____timeout_8h_source.html#l00266">l4_timeout_get()</a>.</p>
-<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+<p class="reference">Referenced by <a class="el" href="____timeout_8h_source.html#l00265">l4_timeout_get()</a>.</p>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_ga714e1ab76379fbf3de89dbc2a72656e2_icgraph.svg" width="323" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_gad36403610d9a5b4d3bdcb6fcb249ba6c_icgraph.svg" width="323" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -780,11 +806,11 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
 <p class="definition">Definition at line <a class="el" href="l4_2sys_2utcb_8h_source.html#l00386">386</a> of file <a class="el" href="l4_2sys_2utcb_8h_source.html">utcb.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="icu_8h_source.html#l00442">l4_icu_msi_info_u()</a>.</p>
-<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__timeout__api_gab6180d7a9aacb569666fea7aa8800c31_icgraph.svg" width="506" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -796,7 +822,7 @@ The absolute timeout value will be placed into the buffer register <em>br</em> o
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

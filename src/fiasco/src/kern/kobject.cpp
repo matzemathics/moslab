@@ -38,7 +38,7 @@ private:
     for (auto const &&i: _root)
       {
         Obj::Entry *e = static_cast<Obj::Entry*>(i);
-        if (e->ref_cnt()) // counted
+        if (e->is_ref_counted())
           --_cnt;
         e->invalidate();
       }
@@ -149,6 +149,12 @@ public:
 
   using Kobject_dbg::dbg_id;
 
+  /**
+   * \warning Acquiring the existence lock of a kernel object is a potential
+   *          preemption point! You must ensure that the kernel object cannot be
+   *          deleted before the existence lock can be taken, for example by
+   *          holding a counted reference to it.
+   */
   Lock existence_lock;
 
 private:
@@ -292,12 +298,24 @@ protected:
     Mword       ram;
     void print(String_buffer *buf) const;
   };
+  static_assert(sizeof(Log_destroy) <= Tb_entry::Tb_entry_size);
 };
 
 //---------------------------------------------------------------------------
 IMPLEMENTATION [debug]:
 
 #include "string_buffer.h"
+
+IMPLEMENT
+void
+Kobject::Log_destroy::print(String_buffer *buf) const
+{
+  buf->printf("obj=%lx [%p] (%p) ram=%lx", id, static_cast<void const *>(type),
+              static_cast<void *>(obj), ram);
+}
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [rt_dbg]:
 
 PUBLIC static inline
 Kobject *
@@ -317,10 +335,3 @@ PUBLIC
 Kobject_dbg *
 Kobject::dbg_info() const override
 { return const_cast<Kobject*>(this); }
-
-IMPLEMENT
-void
-Kobject::Log_destroy::print(String_buffer *buf) const
-{
-  buf->printf("obj=%lx [%p] (%p) ram=%lx", id, type, obj, ram);
-}

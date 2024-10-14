@@ -13,13 +13,14 @@ public:
 class Tb_entry_trap : public Tb_entry
 {
 private:
-  char	_trapno;
-  Unsigned16	_error;
-  Mword	_rbp, _cr2, _rax, _rflags, _rsp;
-  Unsigned16	_cs,  _ds;
+  char          _trapno;
+  Unsigned16    _error;
+  Mword         _rbp, _cr2, _rax, _rflags, _rsp;
+  Unsigned16    _cs,  _ds;
 public:
   void print(String_buffer *buf) const;
-} __attribute__((packed));
+};
+static_assert(sizeof(Tb_entry_trap) <= Tb_entry::Tb_entry_size);
 
 IMPLEMENTATION [amd64]:
 
@@ -39,7 +40,7 @@ Tb_entry_trap::set(Mword rip, Trap_state *ts)
   _error  = ts->_err;
   _cr2    = ts->_cr2;
   _rax    = ts->_ax;
-  _cs     = (Unsigned16)ts->cs();
+  _cs     = ts->cs() & 0xffff;
   _rsp    = ts->sp();
   _rflags = ts->flags();
 }

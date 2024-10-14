@@ -90,10 +90,10 @@ namespace L4
       unsigned long _l, _h;
 
       static unsigned long &memory_info(void *kip) noexcept
-      { return *((unsigned long *)kip + 21); }
+      { return *(reinterpret_cast<unsigned long *>(kip) + 21); }
 
       static unsigned long memory_info(void const *kip) noexcept
-      { return *((unsigned long const *)kip + 21); }
+      { return *(reinterpret_cast<unsigned long const *>(kip) + 21); }
 
     public:
       /**
@@ -105,14 +105,15 @@ namespace L4
        */
       static Mem_desc *first(void *kip) noexcept
       {
-        return (Mem_desc *)((char *)kip
+        return reinterpret_cast<Mem_desc *>(reinterpret_cast<char *>(kip)
                + (memory_info(kip) >> ((sizeof(unsigned long) / 2) * 8)));
       }
 
       static Mem_desc const *first(void const *kip) noexcept
       {
-        return (Mem_desc const *)((char const *)kip
-               + (memory_info(kip) >> ((sizeof(unsigned long) / 2) * 8)));
+        char const *addr = reinterpret_cast<char const *>(kip)
+          + (memory_info(kip) >> ((sizeof(unsigned long) / 2) * 8));
+        return reinterpret_cast<Mem_desc const *>(addr);
       }
 
       /**
@@ -171,11 +172,15 @@ namespace L4
        * \param st     Memory subtype, defaults to 0
        * \param virt   True for virtual memory, false for physical memory,
        *               defaults to physical
+       * \param eager  The region shall be eligible for eager mapping in sigma0
+       *               or the root task. This is just an optimization to prevent
+       *               on-demand paging.
        */
       Mem_desc(unsigned long start, unsigned long end,
-               Mem_type t, unsigned char st = 0, bool virt = false) noexcept
+               Mem_type t, unsigned char st = 0, bool virt = false,
+               bool eager = false) noexcept
       : _l((start & ~0x3ffUL) | (t & 0x0f) | ((st << 4) & 0x0f0)
-           | (virt ? 0x0200 : 0x0)), _h(end | 0x3ffUL)
+           | (virt ? 0x0200 : 0x0) | (eager ? 0x100 : 0x0)), _h(end | 0x3ffUL)
       {}
 
       /**
@@ -204,7 +209,10 @@ namespace L4
        *
        * \return Type of the memory descriptor
        */
-      Mem_type type() const noexcept { return (Mem_type)(_l & 0x0f); }
+      Mem_type type() const noexcept
+      {
+        return static_cast<Mem_type>(_l & 0x0f);
+      }
 
       /**
        * Return sub-type of the memory descriptor.
@@ -222,6 +230,12 @@ namespace L4
       unsigned is_virtual() const noexcept { return _l & 0x200; }
 
       /**
+       * Return whether the region shall be eligible for eager mapping in sigma0
+       * or the root task.
+       */
+      unsigned eager_map() const noexcept { return _l & 0x100; }
+
+      /**
        * Set values of a memory descriptor.
        *
        * \param start  Start address
@@ -229,12 +243,16 @@ namespace L4
        * \param t      Memory type
        * \param st     Sub-type, defaults to 0
        * \param virt   Virtual or physical memory region, defaults to physical
+       * \param eager  The region shall be eligible for eager mapping in sigma0
+       *               or the root task. This is just an optimization to prevent
+       *               on-demand paging.
        */
       void set(unsigned long start, unsigned long end,
-               Mem_type t, unsigned char st = 0, bool virt = false) noexcept
+               Mem_type t, unsigned char st = 0, bool virt = false,
+               bool eager = false) noexcept
       {
         _l = (start & ~0x3ffUL) | (t & 0x0f) | ((st << 4) & 0x0f0)
-             | (virt?0x0200:0x0);
+             | (virt?0x0200:0x0) | (eager ? 0x0100 : 0x0);
 
         _h = end | 0x3ffUL;
       }

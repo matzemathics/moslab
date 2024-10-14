@@ -28,8 +28,8 @@
 \name: .8byte 0
 .endm
 
-	.section .mp_tramp, "awx"
-	.p2align 12
+	.section .mp_tramp_text, "ax"
+	.p2align 2
 
 cache_invalidate_l1:
 	mrs     x0, CLIDR_EL1
@@ -74,17 +74,22 @@ _tramp_mp_entry:
 	bsp_early_init x0, x1
 	mrs	x17, CurrentEL
 	lsr	x17, x17, #2
+
+	// EL3 is only available on A-profile
+#ifdef CONFIG_ARM_PROFILE_A
 	cmp	x17, #3 // running at EL3
 	b.ne	.Lnot_el3
 
 	// try to setup GIC for non-secure ...
-	ldr	x16, _tramp_mp_gic_dist_base
+	adrp	x16, _tramp_mp_gic_dist_base
+	ldr     x16, [x16, :lo12:_tramp_mp_gic_dist_base]
 	cmp	x16, #0
 	b.eq	.Lno_gic
 	mov	w4, #0xffffffff
 	str	w4, [x16, 0x80]
 	mov	x4, #0xff
-	ldr	x14, _tramp_mp_gic_cpu_base
+	adrp	x14, _tramp_mp_gic_cpu_base
+	ldr     x14, [x14, :lo12:_tramp_mp_gic_cpu_base]
 	cmp	x14, #0
 	b.eq	.Lgic_v3_cpu
 	str	w4, [x14, 4]
@@ -130,9 +135,15 @@ _tramp_mp_entry:
 1:	mov	sp, x18
 	b	2f
 .Lnot_el3:
+#endif
+
 	cmp	x17, #2
 #ifndef CONFIG_CPU_VIRT
 	b.ne  2f
+	mrs	x6, MIDR_EL1
+	msr	VPIDR_EL2, x6
+	mrs	x6, MPIDR_EL1
+	msr	VMPIDR_EL2, x6
 	mov	x6, #HCR_EL2_DEFAULT_BITS
 	msr	HCR_EL2, x6
 	movz	x17, #((0xf << 6) | 5) // DAIF + EL1 / SPSEL
@@ -151,51 +162,52 @@ _tramp_mp_entry:
 	isb	sy
 	dsb	sy
 
+#if defined(CONFIG_MMU)
 #ifdef CONFIG_CPU_VIRT
 	// TLB flush
 	tlbi	alle2
 	tlbi	alle1
 
-	adr	x0, _tramp_mp_startup_tcr
-	ldr	x0, [x0]
+	adrp	x0, _tramp_mp_startup_tcr
+	ldr	x0, [x0, :lo12:_tramp_mp_startup_tcr]
 	msr	TCR_EL2, x0
 
-	adr	x0, _tramp_mp_startup_mair
-	ldr	x0, [x0]
+	adrp	x0, _tramp_mp_startup_mair
+	ldr	x0, [x0, :lo12:_tramp_mp_startup_mair]
 	msr	MAIR_EL2, x0
 
-	adr	x0, _tramp_mp_startup_ttbr_kern
-	ldr	x0, [x0]
+	adrp	x0, _tramp_mp_startup_ttbr_kern
+	ldr	x0, [x0, :lo12:_tramp_mp_startup_ttbr_kern]
 	msr	TTBR0_EL2, x0
 	dsb	sy
 
-	adr	x0, _tramp_mp_startup_sctlr
-	ldr	x0, [x0]
+	adrp	x0, _tramp_mp_startup_sctlr
+	ldr	x0, [x0, :lo12:_tramp_mp_startup_sctlr]
 	msr	SCTLR_EL2, x0
 #else
 	tlbi	vmalle1
 
 	msr	CONTEXTIDR_EL1, xzr
 
-	adr	x0, _tramp_mp_startup_tcr
-	ldr	x1, [x0]
+	adrp	x0, _tramp_mp_startup_tcr
+	ldr	x1, [x0, :lo12:_tramp_mp_startup_tcr]
 	msr	TCR_EL1, x1
 
-	adr	x0, _tramp_mp_startup_ttbr_usr
-	ldr	x0, [x0]
+	adrp	x0, _tramp_mp_startup_ttbr_usr
+	ldr	x0, [x0, :lo12:_tramp_mp_startup_ttbr_usr]
 	msr	TTBR0_EL1, x0
 
-	adr	x0, _tramp_mp_startup_ttbr_kern
-	ldr	x0, [x0]
+	adrp	x0, _tramp_mp_startup_ttbr_kern
+	ldr	x0, [x0, :lo12:_tramp_mp_startup_ttbr_kern]
 	msr	TTBR1_EL1, x0
 
-	adr	x0, _tramp_mp_startup_mair
-	ldr	x0, [x0]
+	adrp	x0, _tramp_mp_startup_mair
+	ldr	x0, [x0, :lo12:_tramp_mp_startup_mair]
 	msr	MAIR_EL1, x0
 	dsb	sy
 
-	adr x0, _tramp_mp_startup_sctlr
-	ldr x0, [x0]
+	adrp x0, _tramp_mp_startup_sctlr
+	ldr x0, [x0, :lo12:_tramp_mp_startup_sctlr]
 	msr SCTLR_EL1, x0
 #endif
 	dsb	sy
@@ -208,7 +220,71 @@ _tramp_mp_entry:
 1:
 	.8byte _tramp_mp_virt
 
-	.align 3
+	// we run paged now
+_tramp_mp_virt:
+#elif defined(CONFIG_MPU)
+	ic	iallu
+
+	ldr	x0, _tramp_mp_startup_mair
+	ldr	x1, _tramp_mp_startup_prbar0
+	ldr	x2, _tramp_mp_startup_prlar0
+
+#ifdef CONFIG_CPU_VIRT
+	msr	MAIR_EL2, x0
+	msr	S3_4_c6_c2_1, xzr // PRSELR_EL2
+	isb
+	msr	S3_4_c6_c8_0, x1  // PRBAR_EL2
+	msr	S3_4_c6_c8_1, x2  // PRLAR_EL2
+#else
+	msr	MAIR_EL1, x0
+	msr	S3_0_c6_c2_1, xzr // PRSELR_EL1
+	isb
+	msr	S3_0_c6_c8_0, x1  // PRBAR_EL1
+	msr	S3_0_c6_c8_1, x2  // PRLAR_EL1
+#endif
+
+	ldr	x0, _tramp_mp_startup_sctlr
+	dsb	sy
+#ifdef CONFIG_CPU_VIRT
+	msr	SCTLR_EL2, x0
+#else
+	msr	SCTLR_EL1, x0
+#endif
+	isb
+#endif
+
+	// spinlock on cpu-init
+	adrp	x0, _tramp_mp_spinlock
+	add     x0, x0, :lo12:_tramp_mp_spinlock
+	// Copy of Spin_lock::lock_arch(), we have no stack yet, so we cannot call it.
+	// {
+	b 2f
+	prfm	pstl1strm, [x0]
+1:	wfe
+2:	ldaxr	x1, [x0]
+	tst	x1, #2
+	bne	1b
+	orr	x2, x1, #2
+	stxr	w1, x2, [x0]
+	cbnz	w1, 1b
+	// }
+
+	adrp	x8, _tramp_mp_init_stack_top
+	add     x8, x8, :lo12:_tramp_mp_init_stack_top
+	mov	sp, x8
+	ldr	x9, 3f
+	br	x9
+
+.align 4
+3:
+	.8byte BOOT_AP_CPU
+
+
+	.section .mp_tramp_data, "aw"
+
+#if defined(CONFIG_MMU)
+	.align 12
+
 .global _tramp_mp_boot_info
 _tramp_mp_boot_info:
 defvar _tramp_mp_startup_sctlr
@@ -218,29 +294,15 @@ defvar _tramp_mp_startup_ttbr_kern
 defvar _tramp_mp_startup_ttbr_usr
 defvar _tramp_mp_gic_dist_base
 defvar _tramp_mp_gic_cpu_base
-
-	// we run paged now
-_tramp_mp_virt:
-	// spinlock on cpu-init
-	adr	x0, _tramp_mp_spinlock
-	sevl
-	prfm	pstl1keep, [x0]
-1:	wfe
-	ldaxr	x1, [x0]
-	tst	x1, #2
-	bne	1b
-	orr	x2, x1, #2
-	stxr	w1, x2, [x0]
-	cbnz	w1, 1b
-
-	adr	x8, _tramp_mp_init_stack_top
-	mov	sp, x8
-	ldr	x9, 3f
-	br	x9
-
-.align 4
-3:
-	.8byte BOOT_AP_CPU
+#elif defined(CONFIG_MPU)
+	.align 3
+.global _tramp_mp_boot_info
+_tramp_mp_boot_info:
+defvar _tramp_mp_startup_sctlr
+defvar _tramp_mp_startup_mair
+defvar _tramp_mp_startup_prbar0
+defvar _tramp_mp_startup_prlar0
+#endif
 
 .8byte 0
 defvar _tramp_mp_spinlock

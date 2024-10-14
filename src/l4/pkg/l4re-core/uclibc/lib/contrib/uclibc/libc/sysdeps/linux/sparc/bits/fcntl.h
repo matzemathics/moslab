@@ -1,7 +1,6 @@
 /* O_*, F_*, FD_* bit values for Linux/SPARC.
    Copyright (C) 1995, 1996, 1997, 1998, 2000, 2003, 2004, 2006, 2007
    Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -22,7 +21,6 @@
 #endif
 
 #include <sys/types.h>
-#include <bits/wordsize.h>
 #ifdef __USE_GNU
 # include <bits/uio.h>
 #endif
@@ -43,20 +41,21 @@
 #define O_NDELAY	(0x0004 | O_NONBLOCK)
 #define O_NOCTTY	0x8000	/* not fcntl */
 
-#ifdef __USE_GNU
+#ifdef __USE_XOPEN2K8
 # define O_DIRECTORY	0x10000 /* must be a directory */
 # define O_NOFOLLOW	0x20000 /* don't follow links */
-# define O_DIRECT	0x100000 /* direct disk access hint */
-# define O_NOATIME	0x200000 /* Do not set atime.  */
-# define O_CLOEXEC	0x400000 /* Set close_on_exit.  */
+# define O_CLOEXEC     0x400000 /* Set close_on_exit.  */
+#endif
+
+#ifdef __USE_GNU
+# define O_DIRECT      0x100000 /* direct disk access hint */
+# define O_NOATIME     0x200000 /* Do not set atime.  */
+# define O_PATH       0x1000000 /* Resolve pathname but do not open file.  */
+# define O_TMPFILE    0x2010000 /* Atomically create nameless file.  */
 #endif
 
 #ifdef __USE_LARGEFILE64
-# if __WORDSIZE == 64
-#  define O_LARGEFILE	0
-# else
-#  define O_LARGEFILE	0x40000
-# endif
+# define O_LARGEFILE	0x40000
 #endif
 
 /* For now Linux has no synchronisity options for data and read
@@ -104,19 +103,17 @@
 # define F_SETLEASE     1024	/* Set a lease.  */
 # define F_GETLEASE     1025	/* Enquire what lease is active.  */
 # define F_NOTIFY       1026	/* Request notfications on a directory.  */
+# define F_SETPIPE_SZ	1031    /* Set pipe page size array.  */
+# define F_GETPIPE_SZ	1032    /* Get pipe page size array.  */
+#endif
+#if defined __USE_XOPEN2K8 || defined __USE_GNU
 # define F_DUPFD_CLOEXEC 1030	/* Duplicate file descriptor with
 				   close-on-exit set on new fd.  */
 #endif
 
-#if __WORDSIZE == 64
-# define F_GETLK64	7	/* Get record locking info.  */
-# define F_SETLK64	8	/* Set record locking info (non-blocking).  */
-# define F_SETLKW64	9	/* Set record locking info (blocking).  */
-#else
-# define F_GETLK64	12	/* Get record locking info.  */
-# define F_SETLK64	13	/* Set record locking info (non-blocking).  */
-# define F_SETLKW64	14	/* Set record locking info (blocking).  */
-#endif
+#define F_GETLK64	12	/* Get record locking info.  */
+#define F_SETLK64	13	/* Set record locking info (non-blocking).  */
+#define F_SETLKW64	14	/* Set record locking info (blocking).  */
 
 /* for F_[GET|SET]FD */
 #define FD_CLOEXEC	1	/* actually anything with low bit set goes */
@@ -169,7 +166,7 @@ struct flock
     __off64_t l_len;	/* Size of the locked area; zero means until EOF.  */
 #endif
     __pid_t l_pid;	/* Process holding the lock.  */
-    short int __unused;
+    short int __uclibc_unused;
   };
 
 #ifdef __USE_LARGEFILE64
@@ -180,7 +177,7 @@ struct flock64
     __off64_t l_start;	/* Offset where the lock begins.  */
     __off64_t l_len;	/* Size of the locked area; zero means until EOF.  */
     __pid_t l_pid;	/* Process holding the lock.  */
-    short int __unused;
+    short int __uclibc_unused;
   };
 #endif
 

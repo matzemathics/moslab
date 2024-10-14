@@ -27,7 +27,8 @@ Svm_state::init_state()
   _vmcb->control_area.np_enable = 1;
   // Initiated to default values at reset: WB,WT,WC,UC,WB,WT,UC-,UC
   _vmcb->state_save_area.g_pat = 0x0007040600010406ULL;
-
+  // Reset value of XCR0
+  _vmcb->state_save_area.xcr0 = 1ULL;
 
   _vmcb->state_save_area.rflags = 0;
   _vmcb->state_save_area.cr3 = 0;
@@ -110,20 +111,36 @@ Svm_state::setup_linux_protected_mode(l4_addr_t entry)
 }
 
 /**
- * Setup Application Processors in Real Mode.
+ * Setup the Real Mode startup procedure for AP startup and BSP resume.
  *
- * The entry page is set up using the Code Segment because Linux uses an
- * entry page address larger than 16 bits, hence the 20 bit Segment Base is
- * set up according to Vol. 3B, 20.1.1 Figure 20-1 and the instruction
- * pointer is set to zero.
+ * This follows the hardware reset behavior described in AMD APM "14.1.5
+ * Fetching the first instruction".
  */
 void
 Svm_state::setup_real_mode(l4_addr_t entry)
 {
-  _vmcb->state_save_area.cs.selector = (entry >> 4);
+  if (entry == 0xfffffff0U)
+    {
+      // Bootstrap Processor (BSP) boot
+      _vmcb->state_save_area.cs.selector = 0xf000U;
+      _vmcb->state_save_area.cs.base = 0xffff0000U;
+      _vmcb->state_save_area.rip = 0xfff0U;
+    }
+  else
+    {
+      // Application Processor (AP) boot via Startup IPI (SIPI) or resume
+      // from suspend.
+      // cs_base contains the cached address computed from cs_selector. After
+      // reset cs_base contains what we set until the first cs selector is
+      // loaded. We use the waking vector or SIPI vector directly, because
+      // tianocore cannot handle the CS_BASE + IP split.
+      _vmcb->state_save_area.cs.selector = entry >> 4;
+      _vmcb->state_save_area.cs.base = entry;
+      _vmcb->state_save_area.rip = 0;
+    }
+
   _vmcb->state_save_area.cs.attrib = 0x9b; // TYPE=11, S, P
   _vmcb->state_save_area.cs.limit = 0xffff;
-  _vmcb->state_save_area.cs.base = entry;
 
   _vmcb->state_save_area.ss.selector = 0x18;
   _vmcb->state_save_area.ss.attrib = 0x93; // TYPE=3, S, P
@@ -155,10 +172,13 @@ Svm_state::setup_real_mode(l4_addr_t entry)
   _vmcb->state_save_area.tr.limit = 0xffff;
   _vmcb->state_save_area.tr.base = 0;
 
-  _vmcb->state_save_area.rip = 0;
   _vmcb->state_save_area.rsp = 0;
   _vmcb->state_save_area.cr0 = 0x10030;
   _vmcb->state_save_area.cr4 = 0x680;
+
+  // clear in SW state to prevent injection of pending events from before
+  // INIT/STARTUP IPI.
+  _vmcb->control_area.exitintinfo = 0ULL;
 }
 
 bool
@@ -197,6 +217,9 @@ Svm_state::read_msr(unsigned msr, l4_uint64_t *value) const
       // Lock register so the guest does not try to enable anything.
       *value = 1U;
       break;
+    case 0x277: // PAT
+      *value =_vmcb->state_save_area.g_pat;
+      break;
     case 0xc0000080: // efer
       // Hide SVME bit
       *value = _vmcb->state_save_area.efer & ~Efer_svme_enable;
@@ -219,10 +242,33 @@ Svm_state::read_msr(unsigned msr, l4_uint64_t *value) const
 }
 
 bool
-Svm_state::write_msr(unsigned msr, l4_uint64_t value, Event_recorder *)
+Svm_state::write_msr(unsigned msr, l4_uint64_t value, Event_recorder *ev_rec)
 {
   switch (msr)
     {
+    case 0x277: // PAT
+      // sanitization of 7 PAT values
+      // 0xF8 are reserved bits
+      // 0x2 and 0x3 are reserved encodings
+      // usage of reserved bits and encodings results in a #GP
+      if (value & 0xF8F8F8F8F8F8F8F8ULL)
+        {
+          ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
+          break;
+        }
+
+      for (unsigned i = 0; i < 7; ++i)
+        {
+          l4_uint64_t const PAi_mask = (value & (0x7ULL << i * 8)) >> i * 8;
+          if ((PAi_mask == 0x2ULL) || (PAi_mask == 0x3ULL))
+            {
+              ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
+              break;
+            }
+        }
+
+      _vmcb->state_save_area.g_pat = value;
+      break;
     case 0xc0000080: // efer
       {
         // Force the SVME bit

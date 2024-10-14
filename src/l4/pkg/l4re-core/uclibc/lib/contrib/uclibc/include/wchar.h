@@ -76,23 +76,13 @@ __END_NAMESPACE_STD
 #ifndef __mbstate_t_defined
 # define __mbstate_t_defined	1
 /* Conversion state information.  */
-#if 1
+#define __need_wchar_t
+#include <stddef.h>
 typedef struct
 {
 	wchar_t __mask;
 	wchar_t __wc;
 } __mbstate_t;
-#else
-typedef struct
-{
-  int __count;
-  union
-  {
-    wint_t __wch;
-    char __wchb[4];
-  } __value;		/* Value so far.  */
-} __mbstate_t;
-#endif
 #endif
 #undef __need_mbstate_t
 
@@ -660,7 +650,7 @@ extern wint_t putwc (wchar_t __wc, __FILE *__stream);
 
 /* Write a character to stdout.
 
-   This function is a possible cancellation points and therefore not
+   This function is a possible cancellation point and therefore not
    marked with __THROW.  */
 extern wint_t putwchar (wchar_t __wc);
 
@@ -668,14 +658,14 @@ extern wint_t putwchar (wchar_t __wc);
 /* Get a newline-terminated wide character string of finite length
    from STREAM.
 
-   This function is a possible cancellation points and therefore not
+   This function is a possible cancellation point and therefore not
    marked with __THROW.  */
 extern wchar_t *fgetws (wchar_t *__restrict __ws, int __n,
 			__FILE *__restrict __stream);
 
 /* Write a string to STREAM.
 
-   This function is a possible cancellation points and therefore not
+   This function is a possible cancellation point and therefore not
    marked with __THROW.  */
 extern int fputws (const wchar_t *__restrict __ws,
 		   __FILE *__restrict __stream);
@@ -684,7 +674,7 @@ libc_hidden_proto(fputws)
 
 /* Push a character back onto the input buffer of STREAM.
 
-   This function is a possible cancellation points and therefore not
+   This function is a possible cancellation point and therefore not
    marked with __THROW.  */
 extern wint_t ungetwc (wint_t __wc, __FILE *__stream);
 libc_hidden_proto(ungetwc)

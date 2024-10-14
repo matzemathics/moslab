@@ -12,9 +12,8 @@
    Lesser General Public License for more details.
 
    You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, write to the Free
-   Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
-   Boston, MA 02110-1301, USA.  */
+   License along with the GNU C Library; see the file COPYING.LIB.  If
+   not, see <http://www.gnu.org/licenses/>.  */
 
 #ifndef _SYS_IPC_H
 # error "Never use <bits/ipc.h> directly; include <sys/ipc.h> instead."
@@ -50,6 +49,6 @@ struct ipc_perm
     unsigned int mode;			/* Read/write permission.  */
     unsigned short __seq;		/* Sequence number.  */
     unsigned short __pad1;
-    unsigned long __unused1;
-    unsigned long __unused2;
+    unsigned long __uclibc_unused1;
+    unsigned long __uclibc_unused2;
   };

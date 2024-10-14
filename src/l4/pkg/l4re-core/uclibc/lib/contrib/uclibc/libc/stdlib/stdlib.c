@@ -70,12 +70,6 @@
 
 #else  /* __UCLIBC_HAS_LOCALE__ */
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#ifdef L_mblen
-/* emit only once */
-#warning devel checks
-#endif
-#endif
 #ifdef __CTYPE_HAS_8_BIT_LOCALES
 #error __CTYPE_HAS_8_BIT_LOCALES is defined!
 #endif
@@ -821,11 +815,6 @@ size_t _stdlib_mb_cur_max(void)
 #ifdef __CTYPE_HAS_UTF_8_LOCALES
 	return __UCLIBC_CURLOCALE->mb_cur_max;
 #else
-#ifdef __CTYPE_HAS_8_BIT_LOCALES
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning need to change this when/if transliteration is implemented
-#endif
-#endif
 	return 1;
 #endif
 }
@@ -906,9 +895,13 @@ int mbtowc(wchar_t *__restrict pwc, register const char *__restrict s, size_t n)
 		return is_stateful(ENCODING);
 	}
 
-	if (*s == '\0')
+	if (*s == '\0') {
 		/* According to the ISO C 89 standard this is the expected behaviour.  */
+		/* Standard not very clear here, so do like glibc.  */
+        	if (pwc != NULL)
+	        	*pwc = L'\0';
 		return 0;
+    }
 
 	if ((r = mbrtowc(pwc, s, n, &state)) == (size_t) -2) {
 		/* TODO: Should we set an error state? */

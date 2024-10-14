@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Console::Virtio_con::process_device_ready" name="L4virtio::Svr::Console::Virtio_con::process_device_ready">
+<area shape="rect" id="Node000001" title="Callback called on DEVICE_READY event." alt="" coords="491,5,651,60"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#ab3766f6b0a63966a6063ae540bb844a1" title="Handle control message received from the driver." alt="" coords="244,5,443,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="477,35,443,35,443,30,477,30"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a7df13c65e5b01e4bd8140a1c9b6b3858" title="Receive new control messages and resend stalled ones." alt="" coords="5,13,196,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="230,35,196,35,196,30,230,30"/>
+</map>

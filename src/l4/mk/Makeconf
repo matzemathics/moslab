@@ -22,11 +22,18 @@ $(if $(ROLE),$(OBJ_DIR)/.general.d: $(L4DIR)/mk/$(ROLE))
 
 -include $(wildcard $(L4DIR)/mk/arch/Makeconf.*)
 
+# Additional available variants, 'std' is always available
+VARIANTS_AVAILABLE := $(patsubst $(L4DIR)/mk/variants/%.inc,%,$(wildcard $(L4DIR)/mk/variants/*.inc))
+
+include $(foreach v,$(VARIANTS_AVAILABLE),$(L4DIR)/mk/variants/$(v).inc)
+
+$(eval $(BID_DEFINE-variant-$(VARIANT)))
+
 strip_quotes = $(patsubst "%,%,$(patsubst %",%,$(1)))#"
 
 ARCH = $(BUILD_ARCH)
 
-BUILDDIR_SEARCHPATH = $(OBJ_BASE)/bin/$(ARCH)_$(CPU):$(OBJ_BASE)/bin/$(ARCH)_$(CPU)/$(BUILD_ABI):$(OBJ_BASE)/lib/$(ARCH)_$(CPU):$(OBJ_BASE)/lib/$(ARCH)_$(CPU)/$(BUILD_ABI):$(OBJ_BASE)/assets
+BUILDDIR_SEARCHPATH = $(OBJ_BASE)/bin/$(ARCH)_$(CPU)/plain:$(OBJ_BASE)/bin/$(ARCH)_$(CPU)/$(BUILD_ABI):$(OBJ_BASE)/lib/$(ARCH)_$(CPU)/std/plain:$(OBJ_BASE)/lib/$(ARCH)_$(CPU)/std/$(BUILD_ABI):$(OBJ_BASE)/assets
 
 CROSS_COMPILE    ?= $(CROSS_COMPILE_$(ARCH))
 
@@ -39,7 +46,7 @@ L4_KIP_OFFS_SYS_DEBUGGER = 0x900
 L4_STACK_ADDR           ?= $(L4_STACK_ADDR_$(ARCH))
 L4_STACK_SIZE           ?= $(if $(L4_STACK_SIZE_MAIN_THREAD),$(L4_STACK_SIZE_MAIN_THREAD),0x8000)
 
-CC_WHITELIST-gcc     := 9 10 11 12 13
+CC_WHITELIST-gcc     := 9 10 11 12 13 14
 CC_WHITELIST-clang   := 15 16 17
 
 VERBOSE          = $(if $(CONFIG_VERBOSE),,@)
@@ -54,6 +61,7 @@ BUILD_ABI        = $(patsubst "%",%,$(CONFIG_BUILD_ABI))
 BUILD_ARCH       = $(patsubst "%",%,$(CONFIG_BUILD_ARCH))
 MAKECONFS_ADD    = $(call strip_quotes,$(CONFIG_MAKECONFS_ADD))
 
+CARCHFLAGS       = $(CARCHFLAGS_$(ARCH)) $(CARCHFLAGS_$(ARCH)_$(CPU))
 CCXX_FLAGS       = $(CCXX_FLAGS_$(BUILD_ARCH))
 
 dv               = $(if $(filter-out default undefined,$(origin $(1))),$(1)-default,$(1))
@@ -62,7 +70,7 @@ $(call dv,AR)	 = $(CROSS_COMPILE)ar
 $(call dv,AS)	 = $(CROSS_COMPILE)as
 AWKP		?= gawk --posix
 CCACHE          ?= ccache
-$(call dv,FC)    = $(if $(USE_CCACHE),$(CCACHE) )$(FC_$(BUILD_ARCH))
+$(call dv,FC)    = $(if $(USE_CCACHE),$(CCACHE) )$(CROSS_COMPILE)gfortran
 
 # Args: 1=$(CLANG); 2=clang/clang++/clang-cpp
 # Rules:
@@ -77,9 +85,9 @@ clang-bin-tgt    = $(call clang-bin,$(1),$(2)) \
 		   $(addprefix --target=,$(notdir $(CROSS_COMPILE:%-=%)))
 
 $(call dv,CC)    = $(if $(USE_CCACHE),$(CCACHE) )$(if $(CLANG),$(call \
-                     clang-bin-tgt,$(CLANG),clang),$(CC_$(BUILD_ARCH)))
+                     clang-bin-tgt,$(CLANG),clang),$(CROSS_COMPILE)gcc)
 $(call dv,CXX)   = $(if $(USE_CCACHE),$(CCACHE) )$(if $(CLANG),$(call \
-                     clang-bin-tgt,$(CLANG),clang++),$(CXX_$(BUILD_ARCH)))
+                     clang-bin-tgt,$(CLANG),clang++),$(CROSS_COMPILE)g++)
 $(call dv,CPP)   = $(if $(CLANG),$(call \
                      clang-bin-tgt,$(CLANG),clang-cpp),$(CROSS_COMPILE)cpp)
 
@@ -137,6 +145,11 @@ find_prj_dirs = $(shell $(L4DIR)/mk/pkgfind $(1) $(BID_PRJ_DIR_MAX_DEPTH))
 QEMU_ARCH_MAP_$(ARCH) ?= qemu-system-$(ARCH)
 QEMU_PATH             ?= $(QEMU_ARCH_MAP_$(ARCH))
 
+# Arm FVP defaults
+FVP_PLAT_MAP_arm_fvp_base   ?= FVP_Base_RevC-2xAEMvA
+FVP_PLAT_MAP_arm_fvp_base_r ?= FVP_BaseR_AEMv8R
+FVP_PATH                    ?= $(FVP_PLAT_MAP_$(PLATFORM_TYPE))
+
 # functions that are handy
 absfilename_target_dir_needs_to_exist = $(foreach w,$(1),$(addsuffix /$(notdir $(w)),$(shell cd $(dir $(w)) 2>/dev/null&&$(PWDCMD))))
 absfilename     = $(abspath $(1))
@@ -154,6 +167,10 @@ BID_dot_fname = $(dir $1).$(notdir $1)
 # 1: string
 # 2: string
 BID_cmp_str_ne = $(filter-out _$(subst $(BID_SPACE),_SPC_,$1),_$(subst $(BID_SPACE),_SPC_,$2))
+
+# Subdirs where libs and binaries are put into
+BID_install_subdir_base = $(ARCH)_$(CPU)/$(L4API)
+BID_install_subdir_var  = $(subst -,/,$(SYSTEM))
 
 # Strip binary $(1) to $(2) and set target file mode to $(3)
 define copy_stripped_binary
@@ -263,9 +280,10 @@ else
  include $(BID_ROOT_CONF)
 endif
 
-# if we're working on a program that wants the RAM_BASE be considered in its
-# linking address, source a possible privately configured one
-ifneq ($(RELOC_PHYS),)
+# If we're working on a program that wants the RAM_BASE be considered in its
+# linking address, source a possible privately configured one. Without MMU,
+# we naturally need RAM_BASE.
+ifneq ($(if $(CONFIG_MMU),$(RELOC_PHYS),y),)
 INCLUDE_BOOT_CONFIG := required
 endif
 
@@ -327,6 +345,7 @@ BID_SPACE  := $(BID_EMPTY) $(BID_EMPTY)
 BID_SQUOTE := '
 BID_DQUOTE := "
 
+QEMU_OPTIONS          ?= -serial stdio $(QEMU_OPTIONS_$(ARCH))
 
 ifneq ($(PL),)
 PL_j := -j $(PL)
@@ -382,20 +401,22 @@ BID_ASM_CPP_FILE_EXTENSIONS ?= .S
 # 2: return if argument does not work with compiler
 # 3: compiler name
 # 4: compiler type
-check_compiler_opt = $(if $(shell $(3) $(CCXX_FLAGS) $(1) -S -o /dev/null -x $(4) \
-                                /dev/null 2>&1),$(2),$(1))
+check_compiler_opt = $(if $(shell $(3) $(CARCHFLAGS) $(CCXX_FLAGS) \
+                        $(check_compiler_flags) $(1) -c -o /dev/null -x $(4) \
+                        /dev/null >/dev/null 2>&1 || echo X),$(2),$(1))
 checkcc   = $(call check_compiler_opt,$(1),$(2),$(CC),c)
 checkcxx  = $(call check_compiler_opt,$(1),$(2),$(CXX),c++)
 checkdtc  = $(shell if $(DTC) $(1) --version /dev/null > /dev/null 2>&1; \
                     then echo "$(1)"; fi)
-checkcxx_nowarn = $(if $(shell $(CXX) $(CCXX_FLAGS) -W$(1) -S -o /dev/null \
-                                      -x c++ /dev/null 2>&1),,-Wno-$(1))
+checkcxx_nowarn = $(if $(shell $(CXX) $(CARCHFLAGS) $(CCXX_FLAGS) \
+                    $(check_compiler_flags) -W$(1) -c -o /dev/null -x c++ \
+                    /dev/null >/dev/null 2>&1 || echo X),,-Wno-$(1))
 checkld   = $(shell if $(callld) -v "$1" > /dev/null 2>&1; \
              then echo "$(1)"; else echo "$(2)"; fi)
 
-callcc    = LC_ALL=C $(CC)  $(CCXX_FLAGS)
-callcxx   = LC_ALL=C $(CXX) $(CCXX_FLAGS)
-callfc    = LC_ALL=C $(FC)  $(CCXX_FLAGS)
+callcc    = LC_ALL=C $(CC)  $(CARCHFLAGS) $(CCXX_FLAGS)
+callcxx   = LC_ALL=C $(CXX) $(CARCHFLAGS) $(CCXX_FLAGS)
+callfc    = LC_ALL=C $(FC)  $(CARCHFLAGS) $(CCXX_FLAGS)
 callld    = LC_ALL=C $(firstword $(LD))
 
 get_cc_version_part = $(shell echo $(1) | $(callcc) -E -x c - | tail -1)
@@ -409,11 +430,16 @@ get_cc_version_part = $(shell echo $(1) | $(callcc) -E -x c - | tail -1)
 BID_COMPILER_TYPE_f = $(if $(findstring clang, $(shell $(callcc) --version)),clang,gcc)
 BID_LD_TYPE_f = $(if $(findstring LLD, $(shell $(callld) --version)),lld,gnu)
 
-ifeq ($(BID_COMPILER_TYPE),gcc)
+# We fall back to BID_COMPILER_TYPE_f if BID_COMPILER_TYPE is not cached yet,
+# because we need this info in the following lines before caching
+__tmp_bid_compiler_type := $(or $(BID_COMPILER_TYPE),$(BID_COMPILER_TYPE_f))
+
+ifeq ($(__tmp_bid_compiler_type),gcc)
  BID_COMPILER_IS_GCC = 1
 endif
-ifeq ($(BID_COMPILER_TYPE),clang)
+ifeq ($(__tmp_bid_compiler_type),clang)
  BID_COMPILER_IS_CLANG = 1
+ check_compiler_flags := -Werror=unknown-warning-option
 endif
 
 GCCMAJORVERSION_ID_gcc   = __GNUC__
@@ -445,14 +471,13 @@ check_path_absolute = $(if $(patsubst /%,,$(2)),$(error Path $(1)=$(2) is not ab
 
 LDVERSION_f     = $(shell $(callld) -v | sed -e \
 		    $(if $(filter LLD,$(shell $(callld) -v)),\
-		     's/.* \([0-9]\+\)\.\([0-9]\+\)\.\([0-9]\+\).*/\1\2\3/',\
+		     '/.* \([0-9]\+\)\.\([0-9]\+\)\.\([0-9]\+\).*/{s//\1\2\3/;p;q}' -n,\
 		     's/.* \([0-9]\)\.\([^. ]*\).*/\1\2/'))
 LDNOWARNRWX_f   = $(call checkld,--no-warn-rwx-segments)
 GCCSYSLIBDIRS_f = $(shell $(callcc) -print-search-dirs | sed '/^libraries:/{s/^libraries: =\?/-L/;s/:/ -L/g;q;};d')
 GCCLIB_file_f   = $(call check_path_absolute,GCCLIB_file_$(1),$(shell $(callcc) -print-file-name=$(1)))
-GCCLIB_HOST_f   = $(call check_path_absolute,GCCLIB_HOST,$(shell $(callcc) -print-libgcc-file-name))
-GCCLIB_S_SO_f	= $(filter /%,$(shell $(callcc) -print-file-name=libgcc_s.so))
-GCCLIB_EH_f	= $(filter /%,$(shell $(callcc) -print-file-name=libgcc_eh.a))
+GCCLIB_HOST_f    = $(if $(CONFIG_COMPILER_RT_USE_TOOLCHAIN_LIBGCC),$(call check_path_absolute,GCCLIB_HOST,$(shell $(callcc) -print-libgcc-file-name)))
+GCCLIB_EH_HOST_f    = $(if $(CONFIG_COMPILER_RT_USE_TOOLCHAIN_LIBGCC),$(call check_path_absolute,GCCLIB_EH_HOST,$(shell $(callcc) -print-file-name=libgcc_eh.a)))
 GCCNOSTACKPROTOPT_f= $(call checkcc,-fno-stack-protector)
 GCCSTACKPROTOPT_f = $(call checkcc,-fstack-protector)
 GCCSTACKPROTALLOPT_f = $(call checkcc,-fstack-protector-all)
@@ -469,7 +494,9 @@ GCCARMV7RFPOPT_arm_f = $(call checkcc,-march=armv7-r+fp,-march=armv7-r)
 GCCARMV7VEFPOPT_arm_f = $(call checkcc,-march=armv7ve+fp,-march=armv7ve)
 GCCARM64OUTLINEATOMICSOPT_arm64_f = $(call checkcc,-mno-outline-atomics)
 GCCFORTRANAVAIL_f = $(shell echo | $(callfc) -dD -E - 2>&1 | grep -q __GNUC__ && echo y)
-GCCLIBCAVAIL_f  = $(shell echo '$(BID_POUND)include <unistd.h>' | $(callcc) -c -x c -o /dev/null - > /dev/null 2>&1 && echo y)
+GCCLIBCAVAIL_f  = $(shell echo -e '$(BID_POUND)include <unistd.h>\nint main(void){return 0;}' | $(callcc) -x c -o /dev/null - > /dev/null 2>&1 && echo y)
+CLANGVISNEWDELETEHIDDEN_f = $(call checkcxx,-fvisibility-global-new-delete=force-hidden,$\
+			      $(call checkcxx,-fvisibility-global-new-delete-hidden))
 GCC_HAS_ATOMICS_f = $(shell if echo '$(BID_POUND)include <bits/c++config.h>' | \
 		               $(callcxx) -dD -E -x c++ - 2>&1 | \
 			       grep -q _GLIBCXX_ATOMIC_BUILTINS; then \
@@ -501,9 +528,6 @@ ifneq ($(strip $(GCCDIR)),)
 GCCINCDIR	= $(GCCDIR)/include $(GCCINCFIXEDPATH)
 I_GCCINCDIR	= $(addprefix -isystem ,$(GCCINCDIR))
 endif
-
-GCCLIB          = $(OBJ_BASE)/lib/$(subst -,/,$(SYSTEM))/libgcc.a
-GCCLIB_SO       = $(OBJ_BASE)/lib/$(subst -,/,$(SYSTEM))/libgcc.$(if $(filter %l4f,$(SYSTEM)),so,a)
 
 PKGNAME_DIRNAME := $(notdir $(abspath $(if $(PKGDIR),$(PKGDIR),.)))
 ifneq ($(PKGDIR),)
@@ -596,15 +620,22 @@ $(FIXDEP): $(L4DIR)/tool/kconfig/scripts/basic/fixdep.c
 	@echo \'fixdep\' outdated or unavailable, please call \'make oldconfig\' in the root of your build directory.
 	@exit 1
 
+$(dir $(GENERAL_D_LOC)):
+	$(VERBOSE)$(MKDIR) $@
+
 $(GENERAL_D_LOC): $(L4DIR)/mk/Makeconf $(FIXDEP) $(EXTRA_GENERAL_D_DEP)
+$(GENERAL_D_LOC): | $(dir $(GENERAL_D_LOC))
 	@$(BUILD_MESSAGE)
-	@install -d $(dir $@)
-	$(DEPEND_VERBOSE)$(RM) $(filter-out %.cmd,$(DEPS))
+	$(file >$@.in,$(filter-out %.cmd,$(DEPS)))
+	$(DEPEND_VERBOSE)xargs -a $@.in $(RM)
+	$(DEPEND_VERBOSE)$(RM) $@.in
 	$(DEPEND_VERBOSE)echo '$@: $(SRC_DIR)/Makefile ' > $@
 	$(DEPEND_VERBOSE)$(call BID_DEPEND_GENERAL_D_COND,\
 		$(OBJ_BASE)/.config.all)
 	$(DEPEND_VERBOSE)$(call BID_DEPEND_GENERAL_D_COND,\
 		$(OBJ_BASE)/Makeconf.local)
+	$(DEPEND_VERBOSE)$(call BID_DEPEND_GENERAL_D_COND,\
+		$(OBJ_BASE)/conf/Makeconf.local)
 	$(DEPEND_VERBOSE)$(call BID_DEPEND_GENERAL_D_COND,\
 		$(L4DIR)/Makeconf.local)
 	$(DEPEND_VERBOSE)$(call BID_DEPEND_GENERAL_D_COND,\
@@ -643,7 +674,7 @@ ifeq ($(CONFIG_BID_COLORED_PHASES),y)
   endif
 endif
 
-BID_MESSAGE_TAG            ?= $(PKGNAME_DIRNAME)
+BID_MESSAGE_TAG            ?= $(PKGNAME_DIRNAME)$(if $(filter-out std,$(VARIANT)), - $(VARIANT))
 
 AR_MESSAGE                 ?= echo -e "  [$(BID_MESSAGE_TAG)] ==> Archiving into $@"
 BUILD_MESSAGE              ?= echo -e "  [$(BID_MESSAGE_TAG)] ... Building $(if $(filter $(GENERAL_D_LOC),$@),Dependencies,$@)"

@@ -9,6 +9,7 @@
 #include <l4/cxx/ref_ptr>
 #include <l4/re/error_helper>
 #include <l4/vbus/vbus>
+#include <l4/sys/debugger.h>
 
 #include "binary_loader.h"
 #include "device_factory.h"
@@ -68,14 +69,14 @@ struct Sys_reg_log_n : Sys_reg
   {
     Dbg(Dbg::Core, Dbg::Info)
       .printf("%08lx: msr %s%d_EL1 = %08llx (ignored)\n",
-              vcpu->r.ip, name, (unsigned)k.crm(), v);
+              vcpu->r.ip, name, static_cast<unsigned>(k.crm()), v);
   }
 
   l4_uint64_t read(Vmm::Vcpu_ptr vcpu, Key k) override
   {
     Dbg(Dbg::Core, Dbg::Info)
       .printf("%08lx: mrs %s%d_EL1 (read 0)\n",
-              vcpu->r.ip, name, (unsigned)k.crm());
+              vcpu->r.ip, name, static_cast<unsigned>(k.crm()));
     return 0;
   }
 
@@ -110,9 +111,8 @@ struct Sys_reg_log : Sys_reg
 
 Guest::Guest()
 : _gic(Gic::Dist_if::create_dist(l4_vcpu_e_info(*Cpu_dev::main_vcpu())->gic_version,
-                                 16))
+                                 31))
 {
-  register_vm_handler(Hvc, Vdev::make_device<Vm_print_device>());
   cxx::Ref_ptr<Sys_reg> r = cxx::make_ref_obj<DCCSR>();
   add_sys_reg_aarch32(14, 0, 0, 1, 0, r); // DBGDSCRint
   add_sys_reg_aarch64( 2, 3, 0, 1, 0, r);
@@ -156,7 +156,7 @@ Guest::Guest()
 Guest *
 Guest::create_instance()
 {
-  guest.reset(new Guest());
+  guest = cxx::make_unique<Guest>();
   return guest.get();
 }
 
@@ -212,101 +212,29 @@ static F_timer ftimer;
 static Vdev::Device_type tt1 = { "arm,armv7-timer", nullptr, &ftimer };
 static Vdev::Device_type tt2 = { "arm,armv8-timer", nullptr, &ftimer };
 
-/**
- * Mmio access handler that maps the GICC page.
- *
- * This handler maps the page during the eager-mapping stage before the
- * guest is started. It is also able to respond to page faults in the region
- * and will map the page again. Note, however, that this should normally
- * not happen because the page is pinned in the VM task during its life time.
- * Therefore a warning is printed when the access() function is called.
- */
-class Gicc_region_mapper : public Vmm::Mmio_device
-{
-public:
-  Gicc_region_mapper(l4_addr_t base)
-  : _fp(l4_fpage(base, L4_PAGESHIFT, L4_FPAGE_RW))
-  {}
-
-  int access(l4_addr_t, l4_addr_t, Vcpu_ptr,
-             L4::Cap<L4::Vm> vm, l4_addr_t, l4_addr_t) override
-  {
-    Dbg(Dbg::Core, Dbg::Warn)
-      .printf("Access to GICC page trapped into guest handler. Restoring mapping.\n");
-
-    remap_page(vm);
-
-    return Retry;
-  }
-
-  void map_eager(L4::Cap<L4::Vm> vm, Vmm::Guest_addr, Vmm::Guest_addr) override
-  { remap_page(vm); }
-
-  static l4_uint64_t
-  verify_node(Vdev::Dt_node const &node)
-  {
-    l4_uint64_t base, size;
-    int res = node.get_reg_val(1, &base, &size);
-    if (res < 0)
-      {
-        Err().printf("Failed to read 'reg[1]' from node %s: %s\n",
-                     node.get_name(), node.strerror(res));
-        throw L4::Runtime_error(-L4_EINVAL,
-                                "Reading device tree entry for GIC");
-      }
-
-    // Check the alignment of the GICC page
-    if (base & (L4_PAGESIZE - 1))
-      {
-        Err().printf("%s:The GICC page is not page aligned: <%llx, %llx>.\n",
-                     node.get_name(), base, size);
-        L4Re::chksys(-L4_EINVAL, "Setting up GICC page");
-      }
-
-    if (size > L4_PAGESIZE)
-      {
-        Dbg(Dbg::Irq, Dbg::Info, "GIC")
-          .printf("GIC %s.reg update: Adjusting GICC size from %llx to %lx\n",
-                  node.get_name(), size, L4_PAGESIZE);
-        node.update_reg_size(1, L4_PAGESIZE);
-      }
-
-    // Check if there are more than two "reg" entries (VGIC registers)
-    if (node.get_reg_size_flags(2, nullptr, nullptr) == 0)
-      {
-        Dbg(Dbg::Irq, Dbg::Info, "GIC")
-          .printf("GIC %s.reg update: Stripping superfluous entries\n",
-                  node.get_name());
-        node.resize_reg(2);
-      }
-
-    return base;
-  }
-
-private:
-  void remap_page(L4::Cap<L4::Vm> vm) const
-  {
-    Dbg(Dbg::Mmio, Dbg::Info, "mmio")
-      .printf("\tMapping [GICC] -> [%lx - %lx]\n", l4_fpage_memaddr(_fp),
-              l4_fpage_memaddr(_fp) + L4_PAGESIZE - 1);
-    L4Re::chksys(vm->vgicc_map(_fp), "Mapping VGICC area into guest task");
-  }
-
-  l4_fpage_t _fp;
-};
-
-
-
 } // namespace
 
+
 void
-Guest::map_gicc(Device_lookup *devs, Vdev::Dt_node const &node) const
+Guest::sync_all_other_cores_off() const
 {
-  l4_uint64_t base = Gicc_region_mapper::verify_node(node);
-  auto gerr = Vdev::make_device<Gicc_region_mapper>(base);
-  devs->vmm()->register_mmio_device(cxx::move(gerr), Region_type::Kernel,
-                                    node, 1);
-}
+  bool all_stop = true;
+  do
+    {
+      all_stop = true;
+      for (auto cpu : *_cpus.get())
+        {
+          if (cpu && cpu->vcpu().get_vcpu_id() == vmm_current_cpu_id)
+            continue;
+
+          if (cpu && cpu->online())
+            {
+              all_stop = false;
+              break;
+            }
+        }
+    } while (!all_stop);
+};
 
 void
 Guest::check_guest_constraints(l4_addr_t base) const
@@ -358,6 +286,9 @@ Guest::load_binary(Vm_ram *ram, char const *binary, Ram_free_list *free_list)
   _guest_64bit = bf.is_64bit();
 
   check_guest_constraints(ram_base.get());
+
+  char const *n = strrchr(binary, '/');
+  l4_debugger_set_object_name(_task.get().cap(), n ? n+1 : binary);
 
   return entry;
 }
@@ -422,6 +353,8 @@ Guest::run(cxx::Ref_ptr<Cpu_dev_array> cpus)
   if (!_timer)
     warn().printf("WARNING: No timer found. Your guest will likely not work properly!\n");
 
+  register_vm_handler(Hvc, Vdev::make_device<Vm_print_device>(cpus->size()));
+
   for (auto cpu: *cpus.get())
     {
       if (!cpu)
@@ -459,7 +392,7 @@ void Guest::stop_cpus()
     {
       if (   cpu && cpu->online()
           && cpu->vcpu().get_vcpu_id() != vmm_current_cpu_id)
-        cpu->thread_cap()->ex_regs(~0, ~0, L4_THREAD_EX_REGS_TRIGGER_EXCEPTION);
+        cpu->send_stop_event();
     }
 }
 
@@ -490,9 +423,10 @@ guest_unknown_fault(Vcpu_ptr vcpu)
 {
   // Strip register values if the guest is executed in 32-bit mode.
   l4_umword_t mask = (vcpu->r.flags & 0x10) ? ~0U : ~0UL;
-  Err().printf("unknown trap: err=%lx ec=0x%x ip=%lx lr=%lx\n",
-               vcpu->r.err, (int)vcpu.hsr().ec(), vcpu->r.ip & mask,
-               vcpu.get_lr() & mask);
+  Err().printf("[%3u] unknown trap: err=%lx ec=0x%x ip=%lx lr=%lx\n",
+               vcpu.get_vcpu_id(),
+               vcpu->r.err, static_cast<int>(vcpu.hsr().ec()),
+               vcpu->r.ip & mask, vcpu.get_lr() & mask);
   if (!guest->inject_undef(vcpu))
     guest->halt_vm(vcpu);
 }
@@ -580,7 +514,8 @@ Vmm::Guest::handle_ppi(Vcpu_ptr vcpu)
         _timer->inject();
       break;
     default:
-      Err().printf("unknown virtual PPI: %d\n", (int)vcpu.hsr().svc_imm());
+      Err().printf("unknown virtual PPI: %d\n",
+                   static_cast<int>(vcpu.hsr().svc_imm()));
       break;
     }
 }
@@ -614,8 +549,9 @@ static void guest_mcrr_access_cp(Vcpu_ptr vcpu)
         }
       else
         {
-          l4_uint64_t v = (vcpu.get_gpr(hsr.mcr_rt()) & 0xffffffff)
-                          | (((l4_uint64_t)vcpu.get_gpr(hsr.mcrr_rt2())) << 32);
+          l4_uint64_t v
+            = (vcpu.get_gpr(hsr.mcr_rt()) & 0xffffffff)
+              | (static_cast<l4_uint64_t>(vcpu.get_gpr(hsr.mcrr_rt2())) << 32);
 
           r->write(vcpu, k, v);
         }
@@ -626,12 +562,12 @@ static void guest_mcrr_access_cp(Vcpu_ptr vcpu)
     {
       printf("%08lx: %s p%u, %d, r%d, c%d, c%d, %d (hsr=%08lx)\n",
              vcpu->r.ip, hsr.mcr_read() ? "MRC" : "MCR", CP,
-             (unsigned)hsr.mcr_opc1(),
-             (unsigned)hsr.mcr_rt(),
-             (unsigned)hsr.mcr_crn(),
-             (unsigned)hsr.mcr_crm(),
-             (unsigned)hsr.mcr_opc2(),
-             (l4_umword_t)hsr.raw());
+             static_cast<unsigned>(hsr.mcr_opc1()),
+             static_cast<unsigned>(hsr.mcr_rt()),
+             static_cast<unsigned>(hsr.mcr_crn()),
+             static_cast<unsigned>(hsr.mcr_crm()),
+             static_cast<unsigned>(hsr.mcr_opc2()),
+             static_cast<l4_umword_t>(hsr.raw()));
       vcpu.jump_instruction();
     }
 }
@@ -661,12 +597,12 @@ static void guest_mcr_access_cp(Vcpu_ptr vcpu)
     {
       printf("%08lx: %s p%u, %d, r%d, c%d, c%d, %d (hsr=%08lx)\n",
              vcpu->r.ip, hsr.mcr_read() ? "MRC" : "MCR", CP,
-             (unsigned)hsr.mcr_opc1(),
-             (unsigned)hsr.mcr_rt(),
-             (unsigned)hsr.mcr_crn(),
-             (unsigned)hsr.mcr_crm(),
-             (unsigned)hsr.mcr_opc2(),
-             (l4_umword_t)hsr.raw());
+             static_cast<unsigned>(hsr.mcr_opc1()),
+             static_cast<unsigned>(hsr.mcr_rt()),
+             static_cast<unsigned>(hsr.mcr_crn()),
+             static_cast<unsigned>(hsr.mcr_crm()),
+             static_cast<unsigned>(hsr.mcr_opc2()),
+             static_cast<l4_umword_t>(hsr.raw()));
       vcpu.jump_instruction();
     }
 }
@@ -697,37 +633,32 @@ static void guest_msr_access(Vcpu_ptr vcpu)
     {
       if (hsr.msr_read())
         printf("%08lx: mrs r%u, S%u_%u_C%u_C%u_%u (hsr=%08lx)\n",
-               vcpu->r.ip, (unsigned)hsr.msr_rt(),
-               (unsigned)hsr.msr_op0(),
-               (unsigned)hsr.msr_op1(),
-               (unsigned)hsr.msr_crn(),
-               (unsigned)hsr.msr_crm(),
-               (unsigned)hsr.msr_op2(),
-               (l4_umword_t)hsr.raw());
+               vcpu->r.ip, static_cast<unsigned>(hsr.msr_rt()),
+               static_cast<unsigned>(hsr.msr_op0()),
+               static_cast<unsigned>(hsr.msr_op1()),
+               static_cast<unsigned>(hsr.msr_crn()),
+               static_cast<unsigned>(hsr.msr_crm()),
+               static_cast<unsigned>(hsr.msr_op2()),
+               static_cast<l4_umword_t>(hsr.raw()));
       else
         printf("%08lx: msr S%u_%u_C%u_C%u_%u = %08lx (hsr=%08lx)\n",
                vcpu->r.ip,
-               (unsigned)hsr.msr_op0(),
-               (unsigned)hsr.msr_op1(),
-               (unsigned)hsr.msr_crn(),
-               (unsigned)hsr.msr_crm(),
-               (unsigned)hsr.msr_op2(),
+               static_cast<unsigned>(hsr.msr_op0()),
+               static_cast<unsigned>(hsr.msr_op1()),
+               static_cast<unsigned>(hsr.msr_crn()),
+               static_cast<unsigned>(hsr.msr_crm()),
+               static_cast<unsigned>(hsr.msr_op2()),
                vcpu.get_gpr(hsr.msr_rt()),
-               (l4_umword_t)hsr.raw());
+               static_cast<l4_umword_t>(hsr.raw()));
 
       vcpu.jump_instruction();
     }
 }
 
-void Vmm::Guest::handle_ex_regs_exception(Vcpu_ptr vcpu)
+static void ex_regs_exception(Vcpu_ptr)
 {
-  // stop this vcpu
-  _cpus->cpu(vcpu.get_vcpu_id())->stop();
-}
-
-static void ex_regs_exception(Vcpu_ptr vcpu)
-{
-  guest->handle_ex_regs_exception(vcpu);
+  Dbg warn(Dbg::Cpu, Dbg::Warn, "CPU");
+  warn.printf("Ex_regs exception exit received. Nothing to do!\n");
 }
 
 extern "C" l4_msgtag_t prepare_guest_entry(Vcpu_ptr vcpu);

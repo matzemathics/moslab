@@ -8,7 +8,7 @@
  *
  * 1. Copyright Notice
  *
- * Some or all of this work - Copyright (c) 1999 - 2021, Intel Corp.
+ * Some or all of this work - Copyright (c) 1999 - 2024, Intel Corp.
  * All rights reserved.
  *
  * 2. License
@@ -242,6 +242,7 @@ AcpiRsDumpDescriptor (
  *
  ******************************************************************************/
 
+#ifdef ACPI_DEBUGGER
 void
 AcpiRsDumpResourceList (
     ACPI_RESOURCE           *ResourceList)
@@ -314,6 +315,7 @@ AcpiRsDumpResourceList (
 
     } while (Type != ACPI_RESOURCE_TYPE_END_TAG);
 }
+#endif
 
 
 /*******************************************************************************
@@ -328,6 +330,7 @@ AcpiRsDumpResourceList (
  *
  ******************************************************************************/
 
+#ifdef ACPI_DEBUGGER
 void
 AcpiRsDumpIrqList (
     UINT8                   *RouteTable)
@@ -359,6 +362,7 @@ AcpiRsDumpIrqList (
             PrtElement, PrtElement->Length);
     }
 }
+#endif
 
 
 /*******************************************************************************

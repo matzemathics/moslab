@@ -37,7 +37,7 @@ namespace L4_kernel_options
   enum
   {
     Magic = 0x4C344B43,
-    Version_current = 3,
+    Version_current = 4,
   };
 
   enum Uart_type
@@ -45,6 +45,7 @@ namespace L4_kernel_options
     Uart_type_invalid = 0,
     Uart_type_ioport  = 1,
     Uart_type_mmio    = 2,
+    Uart_type_msr     = 3,
   };
 
   enum
@@ -83,5 +84,6 @@ namespace L4_kernel_options
 
     l4_uint32_t  opt(Flags flag) const { return flags & flag; }
 
+    l4_uint32_t  node;
   } __attribute__((packed));
 };

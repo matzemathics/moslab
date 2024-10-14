@@ -27,7 +27,6 @@ int __READDIR_R(DIR *dir, __DIRENT_TYPE *entry, __DIRENT_TYPE **result)
 	    __set_errno(EBADF);
 	    return(EBADF);
 	}
-	de = NULL;
 
 	__UCLIBC_MUTEX_LOCK(dir->dd_lock);
 
@@ -36,6 +35,7 @@ int __READDIR_R(DIR *dir, __DIRENT_TYPE *entry, __DIRENT_TYPE **result)
 		/* read dir->dd_max bytes of directory entries. */
 		bytes = __GETDENTS(dir->dd_fd, dir->dd_buf, dir->dd_max);
 		if (bytes <= 0) {
+		    de = NULL;
 		    *result = NULL;
 		    ret = (bytes==0)? 0 : errno;
 		    goto all_done;
@@ -67,7 +67,7 @@ all_done:
 	return((de != NULL)? 0 : ret);
 }
 libc_hidden_def(__READDIR_R)
-#if defined __UCLIBC_HAS_LFS__ && __WORDSIZE == 64
+#if __WORDSIZE == 64
 strong_alias_untyped(readdir_r,readdir64_r)
 libc_hidden_def(readdir64_r)
 #endif

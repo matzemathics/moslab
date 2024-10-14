@@ -176,6 +176,7 @@ void __do_check_remalloced_chunk(mchunkptr p, size_t s)
     size_t sz = p->size & ~PREV_INUSE;
 #endif
 
+    (void)s;
     __do_check_inuse_chunk(p);
 
     /* Legal size ... */
@@ -251,7 +252,7 @@ void __do_check_malloc_state(void)
 
     max_fast_bin = fastbin_index(av->max_fast);
 
-    for (i = 0; i < NFASTBINS; ++i) {
+    for (i = 0; (unsigned int)i < NFASTBINS; ++i) {
 	p = av->fastbins[i];
 
 	/* all bins past max_fast are empty */
@@ -259,12 +260,13 @@ void __do_check_malloc_state(void)
 	    assert(p == 0);
 
 	while (p != 0) {
+	    CHECK_PTR(p);
 	    /* each chunk claims to be inuse */
 	    __do_check_inuse_chunk(p);
 	    total += chunksize(p);
 	    /* chunk belongs in this bin */
 	    assert(fastbin_index(chunksize(p)) == i);
-	    p = p->fd;
+	    p = REVEAL_PTR(&p->fd, p->fd);
 	}
     }
 
@@ -742,7 +744,7 @@ static void* __malloc_alloc(size_t nb, mstate av)
     }
 
     /* catch all failure paths */
-    errno = ENOMEM;
+    __set_errno(ENOMEM);
     return 0;
 }
 
@@ -823,15 +825,6 @@ void* malloc(size_t bytes)
     void *          sysmem;
     void *          retval;
 
-#if !defined(__MALLOC_GLIBC_COMPAT__)
-    if (!bytes) {
-        __set_errno(ENOMEM);
-        return NULL;
-    }
-#endif
-
-    __MALLOC_LOCK;
-    av = get_malloc_state();
     /*
        Convert request size to internal form by adding (sizeof(size_t)) bytes
        overhead plus possibly more to obtain necessary alignment and/or
@@ -842,6 +835,9 @@ void* malloc(size_t bytes)
        */
 
     checked_request2size(bytes, nb);
+
+    __MALLOC_LOCK;
+    av = get_malloc_state();
 
     /*
        Bypass search if no frees yet
@@ -859,7 +855,8 @@ void* malloc(size_t bytes)
     if ((unsigned long)(nb) <= (unsigned long)(av->max_fast)) {
 	fb = &(av->fastbins[(fastbin_index(nb))]);
 	if ( (victim = *fb) != 0) {
-	    *fb = victim->fd;
+	    CHECK_PTR(victim);
+	    *fb = REVEAL_PTR(&victim->fd, victim->fd);
 	    check_remalloced_chunk(victim, nb);
 	    retval = chunk2mem(victim);
 	    goto DONE;
@@ -1163,3 +1160,5 @@ DONE:
     return retval;
 }
 
+/* glibc compatibilty  */
+weak_alias(malloc, __libc_malloc)

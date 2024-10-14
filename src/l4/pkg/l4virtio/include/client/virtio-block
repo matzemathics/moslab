@@ -1,5 +1,5 @@
 // vi:ft=cpp
-/* SPDX-License-Identifier: GPL-2.0-only or License-Ref-kk-custom */
+/* SPDX-License-Identifier: MIT */
 /*
  * Copyright (C) 2015-2020, 2022 Kernkonzept GmbH.
  * Author(s): Sarah Hoffmann <sarah.hoffmann@kernkonzept.com>
@@ -68,16 +68,17 @@ public:
   /**
    * Establish a connection to the device and set up shared memory.
    *
-   * \param srvcap       IPC capability of the channel to the server.
-   * \param usermem      Size of additional memory to share with device.
-   * \param userdata     Pointer to the region of user-usable memory.
-   * \param user_devaddr Address of user-usable memory in device address space.
-   * \param qds          External queue dataspace. If this capability is invalid,
-   *                     the function will attempt to allocate a dataspace
-   *                     on its own. Note that the external queue dataspace
-   *                     must be large enough.
-   * \param fmask0       Feature bits 0..31 that the driver supports.
-   * \param fmask1       Feature bits 32..63 that the driver supports.
+   * \param srvcap             IPC capability of the channel to the server.
+   * \param usermem            Size of additional memory to share with device.
+   * \param[out] userdata      Pointer to the region of user-usable memory.
+   * \param[out] user_devaddr  Address of user-usable memory in device address
+   *                           space.
+   * \param qds                External queue dataspace. If this capability is
+   *                           invalid, the function will attempt to allocate a
+   *                           dataspace on its own. Note that the external
+   *                           queue dataspace must be large enough.
+   * \param fmask0             Feature bits 0..31 that the driver supports.
+   * \param fmask1             Feature bits 32..63 that the driver supports.
    *
    * This function starts a handshake with the device and sets up the
    * virtqueues for communication and the additional data structures for
@@ -292,6 +293,12 @@ public:
    *
    * \param handle  Handle to request to process.
    *
+   * \retval L4_EOK      Request processed successfully.
+   * \retval -L4_EAGAIN  No descriptors available. Try again later.
+   * \retval -L4_EIO     IO error during request processing.
+   * \retval -L4_ENOSYS  Unsupported request.
+   * \retval <0          Another unspecified error occurred.
+   *
    * Sends a request to the driver that was previously set up
    * with start_request() and add_block() and wait for it to be
    * executed.
@@ -301,7 +308,7 @@ public:
     // add the status bit
     auto descno = _queue.alloc_descriptor();
     if (descno == Virtqueue::Eoq)
-      return descno;
+      return -L4_EAGAIN;
 
     L4virtio::Virtqueue::Desc &desc = _queue.desc(descno);
     L4virtio::Virtqueue::Desc &prev = _queue.desc(_pending[handle.head].tail);

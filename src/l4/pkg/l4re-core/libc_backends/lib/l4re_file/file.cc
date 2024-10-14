@@ -27,6 +27,8 @@
 #include <sys/mman.h>
 #include <sys/uio.h>
 #include <sys/time.h>
+#include <sys/statfs.h>
+#include <sys/statvfs.h>
 #include <l4/l4re_vfs/backend>
 #include <string.h>
 #include <stdio.h>
@@ -109,11 +111,9 @@ static Ref_ptr<File> __internal_get_dir(int dirfd, char const **path) L4_NOTHROW
 }
 
 static char const *
-__internal_resolvedir(int dirfd, const char *path, int flags, mode_t mode,
-                      Ref_ptr<File> *f) L4_NOTHROW
+__internal_resolvedir(int dirfd, const char *path, int /* flags */,
+                      mode_t /* mode */, Ref_ptr<File> *f) L4_NOTHROW
 {
-  (void)flags;
-  (void)mode;
   Ref_ptr<File> dir = __internal_get_dir(dirfd, &path);
   if (!dir)
     return 0;
@@ -310,11 +310,8 @@ noexcept(noexcept(ftruncate(fd, length)))
   return ftruncate64(fd, length);
 }
 
-int lockf(int fd, int cmd, off_t len)
+int lockf(int /* fd */, int /* cmd */, off_t /* len */)
 {
-  (void)fd;
-  (void)cmd;
-  (void)len;
   errno = EINVAL;
   return -1;
 }
@@ -395,6 +392,115 @@ noexcept(noexcept(lstat(path, buf)))
   copy_stat64_to_stat(buf, &sb64);
   return r;
 }
+
+int statfs([[maybe_unused]] const char *path, struct statfs *buf)
+noexcept(noexcept(statfs(path, buf)))
+{
+  // Just stubbed for now, to be continued
+  printf("l4re-statfs(%s, ...): to be implemented\n", path);
+  buf->f_type = 0x6552344c;
+  buf->f_bsize = L4_PAGESIZE;
+  buf->f_blocks = 2;
+  buf->f_bfree = 0;
+  buf->f_bavail = 0;
+  buf->f_files = 2;
+  buf->f_ffree = 0;
+  buf->f_fsid.__val[0] = 0;
+  buf->f_fsid.__val[1] = 0;
+  buf->f_namelen = 16;
+  buf->f_frsize = 16;
+  buf->f_flags = 0;
+  return 0;
+}
+
+int statfs64([[maybe_unused]] const char *path, struct statfs64 *buf)
+noexcept(noexcept(statfs64(path, buf)))
+{
+  // Just stubbed for now, to be continued
+  printf("l4re-statfs64(%s, ...): to be implemented\n", path);
+  buf->f_type = 0x6552344c;
+  buf->f_bsize = L4_PAGESIZE;
+  buf->f_blocks = 2;
+  buf->f_bfree = 0;
+  buf->f_bavail = 0;
+  buf->f_files = 2;
+  buf->f_ffree = 0;
+  buf->f_fsid.__val[0] = 0;
+  buf->f_fsid.__val[1] = 0;
+  buf->f_namelen = 16;
+  buf->f_frsize = 16;
+  buf->f_flags = 0;
+  return 0;
+}
+
+int statvfs([[maybe_unused]] const char *path, struct statvfs *buf) noexcept
+{
+  printf("l4re-statvfs(%s, ...): to be implemented\n", path);
+  buf->f_bsize = L4_PAGESIZE;
+  buf->f_frsize = 16;
+  buf->f_blocks = 2;
+  buf->f_bfree = 0;
+  buf->f_bavail = 0;
+  buf->f_files = 2;
+  buf->f_ffree = 0;
+  buf->f_favail = 0;
+  buf->f_fsid = 0;
+  buf->f_flag= 0;
+  buf->f_namemax = 16;
+  return 0;
+}
+
+int statvfs64([[maybe_unused]] const char *path, struct statvfs64 *buf) noexcept
+{
+  printf("l4re-statvfs64(%s, ...): to be implemented\n", path);
+  buf->f_bsize = L4_PAGESIZE;
+  buf->f_frsize = 16;
+  buf->f_blocks = 2;
+  buf->f_bfree = 0;
+  buf->f_bavail = 0;
+  buf->f_files = 2;
+  buf->f_ffree = 0;
+  buf->f_favail = 0;
+  buf->f_fsid = 0;
+  buf->f_flag= 0;
+  buf->f_namemax = 16;
+  return 0;
+}
+
+int fstatvfs([[maybe_unused]] int fd, struct statvfs *buf) noexcept
+{
+  printf("l4re-fstatvfs(%d, ...): to be implemented\n", fd);
+  buf->f_bsize = L4_PAGESIZE;
+  buf->f_frsize = 16;
+  buf->f_blocks = 2;
+  buf->f_bfree = 0;
+  buf->f_bavail = 0;
+  buf->f_files = 2;
+  buf->f_ffree = 0;
+  buf->f_favail = 0;
+  buf->f_fsid = 0;
+  buf->f_flag= 0;
+  buf->f_namemax = 16;
+  return 0;
+}
+
+int fstatvfs64([[maybe_unused]] int fd, struct statvfs64 *buf) noexcept
+{
+  printf("l4re-fstatvfs(%d, ...): to be implemented\n", fd);
+  buf->f_bsize = L4_PAGESIZE;
+  buf->f_frsize = 16;
+  buf->f_blocks = 2;
+  buf->f_bfree = 0;
+  buf->f_bavail = 0;
+  buf->f_files = 2;
+  buf->f_ffree = 0;
+  buf->f_favail = 0;
+  buf->f_fsid = 0;
+  buf->f_flag= 0;
+  buf->f_namemax = 16;
+  return 0;
+}
+
 
 int close(int fd)
 noexcept(noexcept(close(fd)))
@@ -539,11 +645,73 @@ L4B_REDIRECT_4(int, utimensat, int, const char *,
 //#include <stdio.h>
 #include <l4/util/util.h>
 
-int select(int nfds, fd_set *readfds, fd_set *writefds,
-           fd_set *exceptfds, struct timeval *timeout)
+static int check_fd_types(int nfds, fd_set *fds, cxx::Ref_ptr<L4Re::Vfs::File> &first)
 {
-  (void)nfds; (void)readfds; (void)writefds; (void)exceptfds;
-  //printf("Call: %s(%d, %p, %p, %p, %p[%ld])\n", __func__, nfds, readfds, writefds, exceptfds, timeout, timeout->tv_usec + timeout->tv_sec * 1000000);
+  if (!fds)
+    return 0;
+
+  for (int fd = 0; fd < nfds; ++fd)
+    {
+      if (!FD_ISSET(fd, fds))
+        continue;
+
+      L4Re::Vfs::Ops *o = L4Re::Vfs::vfs_ops;
+      cxx::Ref_ptr<L4Re::Vfs::File> f = o->get_file(fd);
+      if (!f)
+        {
+          errno = EBADFD;
+          return -1;
+        }
+
+      if (!first)
+        first = f;
+#if defined(__GXX_RTTI) && !defined(L4_NO_RTTI)
+      else if (&typeid(*f.get()) != &typeid(*first.get()))
+#endif
+        return -EOPNOTSUPP;
+    }
+
+  return 0;
+}
+
+static int select_same(int nfds, fd_set *readfds, fd_set *writefds,
+                       fd_set *exceptfds, struct timeval *timeout)
+{
+  cxx::Ref_ptr<L4Re::Vfs::File> first;
+  int ret;
+
+  if (nfds > FD_SETSIZE)
+    nfds = FD_SETSIZE;
+
+  ret = check_fd_types(nfds, readfds, first);
+  if (ret)
+    return ret;
+
+  ret = check_fd_types(nfds, writefds, first);
+  if (ret)
+    return ret;
+
+  ret = check_fd_types(nfds, exceptfds, first);
+  if (ret)
+    return ret;
+
+  if (!first)
+    return -EOPNOTSUPP;
+
+  return first->select(nfds, readfds, writefds, exceptfds, timeout);
+}
+
+int select([[maybe_unused]] int nfds, [[maybe_unused]] fd_set *readfds,
+           [[maybe_unused]] fd_set *writefds,
+           [[maybe_unused]] fd_set *exceptfds,
+           [[maybe_unused]] struct timeval *timeout)
+{
+  if (0)
+    printf("Call: %s(%d, %p, %p, %p, %p[%ld])\n", __func__, nfds, readfds, writefds, exceptfds, timeout, timeout->tv_usec + timeout->tv_sec * 1000000);
+
+  int ret = select_same(nfds, readfds, writefds, exceptfds, timeout);
+  if (ret != -EOPNOTSUPP)
+    return ret;
 
 #if 0
   int us = timeout->tv_usec + timeout->tv_sec * 1000000;
@@ -558,6 +726,34 @@ int select(int nfds, fd_set *readfds, fd_set *writefds,
 
   return 0;
 }
+
+#include <sys/select.h>
+
+int pselect(int nfds, fd_set *__restrict readfds,
+            fd_set *__restrict writefds,
+            fd_set *__restrict exceptfds,
+            const struct timespec *__restrict __timeout,
+            [[maybe_unused]] const __sigset_t *__restrict __sigmask)
+{
+  printf("pselect: WARNING: Stubbed\n");
+
+  struct timeval to;
+  to.tv_sec = __timeout->tv_sec;
+  to.tv_usec = __timeout->tv_nsec / 1000;
+  return select(nfds, readfds, writefds, exceptfds, &to);
+}
+
+#include <poll.h>
+
+int poll([[maybe_unused]] struct pollfd *fds, [[maybe_unused]] nfds_t nfds,
+         [[maybe_unused]] int timeout)
+{
+  if (1)
+    printf("Call: poll(...): Implementation to come\n");
+
+  return -EOPNOTSUPP;
+}
+
 
 #undef L4B_REDIRECT
 
@@ -576,15 +772,15 @@ int select(int nfds, fd_set *readfds, fd_set *writefds,
   }
 
 __BEGIN_DECLS
-ssize_t preadv(int, const struct iovec *, int, off_t);
-ssize_t pwritev(int, const struct iovec *, int, off_t);
+ssize_t preadv(int, const struct iovec *, int, __off64_t);
+ssize_t pwritev(int, const struct iovec *, int, __off64_t);
 __END_DECLS
 
 L4B_REDIRECT_2(int,       fstat64,     int, struct stat64 *)
 L4B_REDIRECT_3(ssize_t,   readv,       int, const struct iovec *, int)
 L4B_REDIRECT_3(ssize_t,   writev,      int, const struct iovec *, int)
-L4B_REDIRECT_4(ssize_t,   preadv,      int, const struct iovec *, int, off_t)
-L4B_REDIRECT_4(ssize_t,   pwritev,     int, const struct iovec *, int, off_t)
+L4B_REDIRECT_4(ssize_t,   preadv,      int, const struct iovec *, int, __off64_t)
+L4B_REDIRECT_4(ssize_t,   pwritev,     int, const struct iovec *, int, __off64_t)
 L4B_REDIRECT_3(__off64_t, lseek64,     int, __off64_t, int)
 L4B_REDIRECT_2(int,       ftruncate64, int, off64_t)
 L4B_REDIRECT_1(int,       fsync,       int)
@@ -621,7 +817,7 @@ extern "C" int chdir(const char *path) noexcept(noexcept(chdir(path)))
     {
       unsigned len_cwd = strlen(_current_working_dir);
       unsigned len_path = strlen(path);
-      char *new_cwd = (char *)malloc(len_cwd + len_path + 2);
+      char *new_cwd = static_cast<char *>(malloc(len_cwd + len_path + 2));
       if (!new_cwd)
         {
           errno = ENOMEM;
@@ -709,7 +905,7 @@ noexcept(noexcept(getcwd(buf, size)))
     }
 
   if (buf == 0)
-    buf = (char *)malloc(size);
+    buf = static_cast<char *>(malloc(size));
 
   if (buf == 0)
     {

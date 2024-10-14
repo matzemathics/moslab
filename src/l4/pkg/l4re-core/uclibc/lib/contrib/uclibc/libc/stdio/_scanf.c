@@ -192,24 +192,11 @@ int vscanf(const char * __restrict format, va_list arg)
 /**********************************************************************/
 #ifdef L_vsscanf
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning WISHLIST: Implement vsscanf for non-buf and no custom stream case.
-#endif /* __UCLIBC_MJN3_ONLY__ */
-
 #ifdef __STDIO_BUFFERS
 
 int vsscanf(const char *sp, const char *fmt, va_list ap)
 {
 	FILE f;
-
-/* 	__STDIO_STREAM_RESET_GCS(&f); */
-#ifdef __UCLIBC_HAS_GLIBC_CUSTOM_STREAMS__
-	f.__cookie = &(f.__filedes);
-	f.__gcs.read = NULL;
-	f.__gcs.write = NULL;
-	f.__gcs.seek = NULL;
-	f.__gcs.close = NULL;
-#endif
 
 	f.__filedes = __STDIO_STREAM_FAKE_VSSCANF_FILEDES;
 	f.__modeflags = (__FLAG_NARROW|__FLAG_READONLY|__FLAG_READING);
@@ -248,15 +235,6 @@ int vsscanf(const char *sp, const char *fmt, va_list ap)
 
 	f.bufpos = (unsigned char *) ((void *) sp);
 	f.bufread = f.bufpos + strlen(sp);
-
-/* 	__STDIO_STREAM_RESET_GCS(&f.f); */
-#ifdef __UCLIBC_HAS_GLIBC_CUSTOM_STREAMS__
-	f.f.__cookie = &(f.f.__filedes);
-	f.f.__gcs.read = NULL;
-	f.f.__gcs.write = NULL;
-	f.f.__gcs.seek = NULL;
-	f.f.__gcs.close = NULL;
-#endif
 
 	f.f.__filedes = __STDIO_STREAM_FAKE_VSSCANF_FILEDES_NB;
 	f.f.__modeflags = (__FLAG_NARROW|__FLAG_READONLY|__FLAG_READING);
@@ -383,15 +361,6 @@ int vswscanf(const wchar_t * __restrict str, const wchar_t * __restrict format,
 	__STDIO_STREAM_DISABLE_GETC(&f);
 	__STDIO_STREAM_DISABLE_PUTC(&f);
 
-/* 	__STDIO_STREAM_RESET_GCS(&f); */
-#ifdef __UCLIBC_HAS_GLIBC_CUSTOM_STREAMS__
-	f.__cookie = &(f.__filedes);
-	f.__gcs.read = NULL;
-	f.__gcs.write = NULL;
-	f.__gcs.seek = NULL;
-	f.__gcs.close = NULL;
-#endif
-
 	f.__filedes = __STDIO_STREAM_FAKE_VSWSCANF_FILEDES;
 	f.__modeflags = (__FLAG_WIDE|__FLAG_READONLY|__FLAG_READING);
 
@@ -450,13 +419,6 @@ enum {
 /*                         p   x   X  o   u   d   i   f   F   e   E   g   G   a   A */
 #define SPEC_BASE		{ 16, 16, 16, 8, 10, 10,  0 }
 #endif /* __UCLIBC_HAS_FLOATS__ */
-
-#ifdef __UCLIBC_MJN3_ONLY__
-#ifdef L_vfscanf
-/* emit once */
-#warning CONSIDER: Add a '0' flag to eat 0 padding when grouping?
-#endif
-#endif /* __UCLIBC_MJN3_ONLY__ */
 
 #define SPEC_FLAGS		"*'I"
 
@@ -553,9 +515,8 @@ enum {
 /**********************************************************************/
 
 #ifdef L_vfwscanf
-/* FIXME: "warning: the right operand of ">" changes sign when promoted" */
-#if WINT_MIN > EOF
-#error Unfortunately, we currently need wint_t to be able to store EOF.  Sorry.
+#if WINT_MIN > WEOF
+#error Unfortunately, we currently need wint_t to be able to store WEOF.  Sorry.
 #endif
 #define W_EOF WEOF
 #define Wint wint_t
@@ -658,9 +619,6 @@ extern int __psfs_do_numeric(psfs_t *psfs, struct scan_cookie *sc) attribute_hid
 /**********************************************************************/
 #ifdef L___scan_cookie
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Remove dependence on decpt_str and fake_decpt in stub locale mode.
-#endif
 #ifndef __UCLIBC_HAS_LOCALE__
 static const char decpt_str[] = ".";
 #endif
@@ -883,11 +841,6 @@ int attribute_hidden __psfs_parse_spec(register psfs_t *psfs)
 		++psfs->fmt;
 	}
 	psfs->dataargtype = ((int)(p[(sizeof(qual_chars)-2) / 2])) << 8;
-
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: Should we validate that psfs->max_width > 0 in __psfs_parse_spec()?  It would avoid whitespace consumption...
-#warning CONSIDER: Should INT_MAX be a valid width (%c/%C)?  See __psfs_parse_spec().
-#endif /* __UCLIBC_MJN3_ONLY__ */
 
 	p = spec_chars;
 	do {
@@ -1137,9 +1090,6 @@ int VFSCANF (FILE *__restrict fp, const Wchar *__restrict format, va_list arg)
 	psfs_t psfs;
 	int i;
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Fix MAX_DIGITS.  We do not do binary, so...!
-#endif
 #define MAX_DIGITS 65			/* Allow one leading 0. */
 	unsigned char buf[MAX_DIGITS+2];
 #ifdef L_vfscanf
@@ -1150,9 +1100,6 @@ int VFSCANF (FILE *__restrict fp, const Wchar *__restrict format, va_list arg)
 	unsigned char zero_conversions = 1;
 	__STDIO_AUTO_THREADLOCK_VAR;
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Make checking of the format string in C locale an option.
-#endif
 	/* To support old programs, don't check mb validity if in C locale. */
 #if defined(__UCLIBC_HAS_LOCALE__) && !defined(L_vfwscanf)
 	/* ANSI/ISO C99 requires format string to be a valid multibyte string
@@ -1313,9 +1260,6 @@ int VFSCANF (FILE *__restrict fp, const Wchar *__restrict format, va_list arg)
 			}
 
 			if (psfs.conv_num == CONV_n) {
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: Should %n count as a conversion as far as EOF return value?
-#endif
 /* 				zero_conversions = 0; */
 				if (psfs.store) {
 					_store_inttype(psfs.cur_ptr, psfs.dataargtype,
@@ -1352,7 +1296,20 @@ int VFSCANF (FILE *__restrict fp, const Wchar *__restrict format, va_list arg)
 				(psfs.conv_num >= CONV_c)
 #endif /* __UCLIBC_HAS_WCHAR__ */
 			{
+				/* We might have to handle the allocation ourselves */
+				int len;
+				unsigned char **ptr;
+
 				b = (psfs.store ? ((unsigned char *) psfs.cur_ptr) : buf);
+				/* With 'm', we actually got a pointer to a pointer */
+				ptr = (void *)b;
+
+				if (psfs.flags & FLAG_MALLOC) {
+					len = 0;
+					b = NULL;
+				} else
+					len = -1;
+
 				fail = 1;
 
 				if (psfs.conv_num == CONV_c) {
@@ -1360,32 +1317,28 @@ int VFSCANF (FILE *__restrict fp, const Wchar *__restrict format, va_list arg)
 						sc.width = 1;
 					}
 
+					if (psfs.flags & FLAG_MALLOC)
+						b = malloc(sc.width);
+
+					i = 0;
 					while (__scan_getc(&sc) >= 0) {
 						zero_conversions = 0;
-						*b = sc.cc;
-						b += psfs.store;
+						b[i] = sc.cc;
+						i += psfs.store;
 					}
 					__scan_ungetc(&sc);
 					if (sc.width > 0) {	/* Failed to read all required. */
 						goto DONE;
 					}
+					if (psfs.flags & FLAG_MALLOC)
+						*ptr = b;
 					psfs.cnt += psfs.store;
 					goto NEXT_FMT;
 				}
 
 				if (psfs.conv_num == CONV_s) {
-					/* We might have to handle the allocation ourselves */
-					int len;
-					/* With 'm', we actually got a pointer to a pointer */
-					unsigned char **ptr = (void *)b;
 
 					i = 0;
-					if (psfs.flags & FLAG_MALLOC) {
-						len = 0;
-						b = NULL;
-					} else
-						len = -1;
-
 					/* Yes, believe it or not, a %s conversion can store nuls. */
 					while ((__scan_getc(&sc) >= 0) && !isspace(sc.cc)) {
 						zero_conversions = 0;
@@ -1400,10 +1353,6 @@ int VFSCANF (FILE *__restrict fp, const Wchar *__restrict format, va_list arg)
 						fail = 0;
 					}
 
-					if (psfs.flags & FLAG_MALLOC)
-						*ptr = b;
-					/* The code below takes care of terminating NUL */
-					b += i;
 				} else {
 #ifdef __UCLIBC_HAS_WCHAR__
 					assert((psfs.conv_num == CONV_LEFTBRACKET) || \
@@ -1454,13 +1403,20 @@ int VFSCANF (FILE *__restrict fp, const Wchar *__restrict format, va_list arg)
 #endif /* __UCLIBC_HAS_WCHAR__ */
 
 
+					i = 0;
 					while (__scan_getc(&sc) >= 0) {
 						zero_conversions = 0;
 						if (!scanset[sc.cc]) {
 							break;
 						}
-						*b = sc.cc;
-						b += psfs.store;
+						if (i == len) {
+							/* Pick a size that won't trigger a lot of
+							 * mallocs early on ... */
+							len += 256;
+							b = realloc(b, len + 1);
+						}
+						b[i] = sc.cc;
+						i += psfs.store;
 						fail = 0;
 					}
 				}
@@ -1470,6 +1426,9 @@ int VFSCANF (FILE *__restrict fp, const Wchar *__restrict format, va_list arg)
 				if (fail) {	/* nothing stored! */
 					goto DONE;
 				}
+				if (psfs.flags & FLAG_MALLOC)
+					*ptr = b;
+				b += i;
 				*b = 0;		/* Nul-terminate string. */
 				psfs.cnt += psfs.store;
 				goto NEXT_FMT;
@@ -1753,19 +1712,12 @@ int attribute_hidden __psfs_do_numeric(psfs_t *psfs, struct scan_cookie *sc)
 #ifdef __UCLIBC_HAS_FLOATS__
 	int exp_adjust = 0;
 #endif
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Fix MAX_DIGITS.  We do not do binary, so...!
-#warning TODO: Fix buf!
-#endif
 #define MAX_DIGITS 65			/* Allow one leading 0. */
 	unsigned char buf[MAX_DIGITS+2+ 100];
 	unsigned char usflag, base;
 	unsigned char nonzero = 0;
 	unsigned char seendigit = 0;
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: What should be returned for an invalid conversion specifier?
-#endif
 #ifndef __UCLIBC_HAS_FLOATS__
 	if (psfs->conv_num > CONV_i) { /* floating point */
 		goto DONE;
@@ -1799,9 +1751,6 @@ int attribute_hidden __psfs_do_numeric(psfs_t *psfs, struct scan_cookie *sc)
 			}
 		} while (1);
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: Should we require a 0x prefix and disallow +/- for pointer %p?
-#endif /*  __UCLIBC_MJN3_ONLY__ */
 	}
 
 	__scan_getc(sc);
@@ -1857,10 +1806,6 @@ int attribute_hidden __psfs_do_numeric(psfs_t *psfs, struct scan_cookie *sc)
 
 		int nblk1, nblk2, nbmax, lastblock, pass, i;
 
-
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: Should we initalize the grouping blocks in __init_scan_cookie()?
-#endif /*  __UCLIBC_MJN3_ONLY__ */
 		nbmax = nblk2 = nblk1 = *p;
 		if (*++p) {
 			nblk2 = *p;
@@ -1889,9 +1834,6 @@ int attribute_hidden __psfs_do_numeric(psfs_t *psfs, struct scan_cookie *sc)
 		if (sc->cc == '0') {
 			seendigit = 1;
 			*b++ = '0';			/* Store the first 0. */
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: Should leading 0s be skipped before digit grouping? (printf 0 pad)
-#endif /*  __UCLIBC_MJN3_ONLY__ */
 #if 0
 			do {				/* But ignore all subsequent 0s. */
 				__scan_getc(sc);
@@ -2168,9 +2110,6 @@ int attribute_hidden __psfs_do_numeric(psfs_t *psfs, struct scan_cookie *sc)
 			__scan_getc(sc);
 		}
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Fix MAX_EXP_DIGITS!
-#endif
 #define MAX_EXP_DIGITS 20
 		assert(seendigit);
 		seendigit = 0;

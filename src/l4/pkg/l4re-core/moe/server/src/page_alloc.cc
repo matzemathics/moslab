@@ -57,6 +57,9 @@ static LA *page_alloc()
   return &pa;
 }
 
+bool Single_page_alloc_base::can_free = false;
+Single_page_alloc_base::Config Single_page_alloc_base::default_mem_cfg;
+
 Single_page_alloc_base::Single_page_alloc_base()
 {}
 
@@ -68,18 +71,20 @@ unsigned long Single_page_alloc_base::_avail()
 void *Single_page_alloc_base::_alloc_max(unsigned long min,
                                          unsigned long *max,
                                          unsigned align,
-                                         unsigned granularity)
+                                         unsigned granularity,
+                                         Config cfg)
 {
-  void *ret = page_alloc()->alloc_max(min, max, align, granularity);
+  void *ret = page_alloc()->alloc_max(min, max, align, granularity, cfg.physmin,
+                                      cfg.physmax);
   if (page_alloc_debug)
     L4::cout << "pa(" << __builtin_return_address(0) << "): alloc(" << *max << ") @" << ret << '\n';
   return ret;
 }
 
 void *Single_page_alloc_base::_alloc(Nothrow, unsigned long size,
-                                     unsigned long align)
+                                     unsigned long align, Config cfg)
 {
-  void *ret = page_alloc()->alloc(size, align);
+  void *ret = page_alloc()->alloc(size, align, cfg.physmin, cfg.physmax);
   if (page_alloc_debug)
     L4::cout << "pa(" << __builtin_return_address(0) << "): alloc(" << size << ") @" << ret << '\n';
   return ret;
@@ -87,6 +92,9 @@ void *Single_page_alloc_base::_alloc(Nothrow, unsigned long size,
 
 void Single_page_alloc_base::_free(void *p, unsigned long size, bool initial_mem)
 {
+  if (!initial_mem && !can_free)
+    return;
+
   if (page_alloc_debug)
     L4::cout << "pa(" << __builtin_return_address(0) << "): free(" << size << ") @" << p << '\n';
   page_alloc()->free(p, size, initial_mem);

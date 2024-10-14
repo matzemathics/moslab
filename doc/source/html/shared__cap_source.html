@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/shared_cap Source File</title>
+<title>L4Re Operating System Framework: l4/re/shared_cap Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -152,7 +155,7 @@ $(document).ready(function(){initNavTree('shared__cap_source.html',''); initResi
 <div class="ttc" id="acap__alloc_html"><div class="ttname"><a href="cap__alloc.html">cap_alloc</a></div><div class="ttdoc">Abstract capability-allocator interface.</div></div>
 <div class="ttc" id="aclassL4Re_1_1Cap__alloc_html"><div class="ttname"><a href="classL4Re_1_1Cap__alloc.html">L4Re::Cap_alloc</a></div><div class="ttdoc">Capability allocator interface.</div><div class="ttdef"><b>Definition</b> <a href="cap__alloc_source.html#l00041">cap_alloc:42</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Cap__alloc_html_a8ec47fe158e8a2acae49ceff505be193"><div class="ttname"><a href="classL4Re_1_1Cap__alloc.html#a8ec47fe158e8a2acae49ceff505be193">L4Re::Cap_alloc::alloc</a></div><div class="ttdeci">virtual L4::Cap&lt; void &gt; alloc() noexcept=0</div><div class="ttdoc">Allocate a capability.</div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
 <div class="ttc" id="anamespaceL4Re_html_a316821ad8361226038636031852c02be"><div class="ttname"><a href="namespaceL4Re.html#a316821ad8361226038636031852c02be">L4Re::Shared_cap</a></div><div class="ttdeci">L4::Detail::Shared_cap_impl&lt; T, Smart_count_cap&lt; L4_FP_ALL_SPACES &gt; &gt; Shared_cap</div><div class="ttdoc">Shared capability that implements automatic free and unmap of the capability selector.</div><div class="ttdef"><b>Definition</b> <a href="shared__cap_source.html#l00044">shared_cap:44</a></div></div>
 <div class="ttc" id="anamespaceL4Re_html_a4289d6b17e3c1c85c9f5e90ad1b2de59"><div class="ttname"><a href="namespaceL4Re.html#a4289d6b17e3c1c85c9f5e90ad1b2de59">L4Re::make_shared_cap</a></div><div class="ttdeci">Shared_cap&lt; T &gt; make_shared_cap(L4Re::Cap_alloc *ca)</div><div class="ttdoc">Allocate a capability slot and wrap it in a Shared_cap.</div><div class="ttdef"><b>Definition</b> <a href="shared__cap_source.html#l00060">shared_cap:60</a></div></div>
 <div class="ttc" id="anamespaceL4Re_html_a601e533638e6519ea3097671c8dbdab7"><div class="ttname"><a href="namespaceL4Re.html#a601e533638e6519ea3097671c8dbdab7">L4Re::make_shared_del_cap</a></div><div class="ttdeci">Shared_del_cap&lt; T &gt; make_shared_del_cap(L4Re::Cap_alloc *ca)</div><div class="ttdoc">Allocate a capability slot and wrap it in a Shared_del_cap.</div><div class="ttdef"><b>Definition</b> <a href="shared__cap_source.html#l00096">shared_cap:96</a></div></div>
@@ -167,7 +170,7 @@ $(document).ready(function(){initNavTree('shared__cap_source.html',''); initResi
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="shared__cap.html">shared_cap</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

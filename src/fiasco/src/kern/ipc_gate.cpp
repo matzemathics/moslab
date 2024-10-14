@@ -35,7 +35,6 @@ class Ipc_gate_obj :
   public cxx::Dyn_castable<Ipc_gate_obj, Ipc_gate, Ipc_gate_ctl>
 {
   friend class Ipc_gate;
-  typedef Slab_cache Self_alloc;
 
 public:
   bool put() override { return Ipc_gate::put(); }
@@ -66,7 +65,7 @@ protected:
     Mword label;
     void print(String_buffer *buf) const;
   };
-
+  static_assert(sizeof(Log_ipc_gate_invoke) <= Tb_entry::Tb_entry_size);
 };
 
 //---------------------------------------------------------------------------
@@ -74,7 +73,6 @@ IMPLEMENTATION:
 
 #include <cstddef>
 
-#include "assert_opt.h"
 #include "entry_frame.h"
 #include "ipc_timeout.h"
 #include "kmem_slab.h"
@@ -85,6 +83,7 @@ IMPLEMENTATION:
 #include "thread.h"
 #include "thread_state.h"
 #include "timer.h"
+#include "global_data.h"
 
 JDB_DEFINE_TYPENAME(Ipc_gate_obj, "\033[35mGate\033[m");
 
@@ -159,7 +158,8 @@ Ipc_gate_obj::destroy(Kobject ***r) override
     {
       _thread = 0;
       unblock_all();
-      tmp->put_n_reap(r);
+      if (tmp->dec_ref() == 0)
+        delete tmp;
     }
 }
 
@@ -171,15 +171,21 @@ Ipc_gate_obj::~Ipc_gate_obj()
 
 PUBLIC inline NEEDS[<cstddef>]
 void *
-Ipc_gate_obj::operator new (size_t, void *b) throw()
+Ipc_gate_obj::operator new (size_t, void *b) noexcept
 { return b; }
 
-static Kmem_slab_t<Ipc_gate_obj> _ipc_gate_allocator("Ipc_gate");
+static DEFINE_GLOBAL
+Global_data<Kmem_slab_t<Ipc_gate_obj>> _ipc_gate_allocator("Ipc_gate");
 
 PRIVATE static
-Ipc_gate_obj::Self_alloc *
-Ipc_gate_obj::allocator()
-{ return _ipc_gate_allocator.slab(); }
+void *
+Ipc_gate_obj::alloc()
+{ return _ipc_gate_allocator->alloc(); }
+
+PRIVATE static
+void
+Ipc_gate_obj::free(void *f)
+{ _ipc_gate_allocator->free(f); }
 
 PUBLIC static
 Ipc_gate_obj *
@@ -190,7 +196,7 @@ Ipc_gate::create(Ram_quota *q, Thread *t, Mword id)
   if (EXPECT_FALSE(!quota))
     return 0;
 
-  void *nq = Ipc_gate_obj::allocator()->alloc();
+  void *nq = Ipc_gate_obj::alloc();
   if (EXPECT_FALSE(!nq))
     return 0;
 
@@ -201,16 +207,20 @@ Ipc_gate::create(Ram_quota *q, Thread *t, Mword id)
 PUBLIC
 void Ipc_gate_obj::operator delete (void *_f)
 {
-  Ipc_gate_obj *f = (Ipc_gate_obj*)_f;
+  Ipc_gate_obj *f = static_cast<Ipc_gate_obj*>(_f);
+  // Prevent the compiler from assuming that the object has become invalid after
+  // destruction. In particular the _quota member contains valid content.
+  asm ("" : "=m"(*f));
   Ram_quota *p = f->_quota;
+  // Force reading f->_quota before freeing f.
   asm ("" : "=m"(*f));
 
-  allocator()->free(f);
+  free(f);
   if (p)
     p->free(sizeof(Ipc_gate_obj));
 }
 
-PRIVATE inline NOEXPORT NEEDS["assert_opt.h"]
+PRIVATE inline NOEXPORT
 L4_msg_tag
 Ipc_gate_ctl::bind_thread(L4_obj_ref, L4_fpage::Rights rights,
                           Syscall_frame *f, Utcb const *in, Utcb *)
@@ -244,25 +254,12 @@ Ipc_gate_ctl::bind_thread(L4_obj_ref, L4_fpage::Rights rights,
     }
   while (!cas(&g->_thread, old, t));
 
-  Kobject::Reap_list rl;
-  if (old)
-    old->put_n_reap(rl.list());
-
-  if (EXPECT_FALSE(!rl.empty()))
-    {
-      auto l = lock_guard<Lock_guard_inverse_policy>(cpu_lock);
-      rl.del_1();
-    }
-
   g->unblock_all();
   current()->rcu_wait();
   g->unblock_all();
 
-  if (EXPECT_FALSE(!rl.empty()))
-    {
-      auto l = lock_guard<Lock_guard_inverse_policy>(cpu_lock);
-      rl.del_2();
-    }
+  if (old && old->dec_ref() == 0)
+    delete old;
 
   return commit_result(0);
 }
@@ -317,12 +314,13 @@ PRIVATE inline NOEXPORT
 L4_error
 Ipc_gate::block(Thread *ct, L4_timeout const &to, Utcb *u)
 {
-  Unsigned64 t = 0;
+  Unsigned64 tval = 0;
   if (!to.is_never())
     {
-      t = to.microsecs(Timer::system_clock(), u);
-      if (!t)
-	return L4_error::Timeout;
+      Unsigned64 system_clock = Timer::system_clock();
+      tval = to.microsecs(system_clock, u);
+      if (tval == 0 || tval <= system_clock)
+        return L4_error::Timeout;
     }
 
     {
@@ -333,26 +331,34 @@ Ipc_gate::block(Thread *ct, L4_timeout const &to, Utcb *u)
   ct->state_change_dirty(~Thread_ready, Thread_send_wait);
 
   IPC_timeout timeout;
-  if (t)
+  if (tval)
     {
-      timeout.set(t, current_cpu());
+      timeout.set(tval, current_cpu());
       ct->set_timeout(&timeout);
     }
+  // else infinite timeout
 
   ct->schedule();
 
-  ct->state_change(~Thread_ipc_mask, Thread_ready);
+  Mword state = ct->state_change(~Thread_full_ipc_mask, Thread_ready);
   ct->reset_timeout();
 
-  if (EXPECT_FALSE(ct->in_sender_list() && timeout.has_hit()))
+  if (EXPECT_FALSE(ct->in_sender_list()))
     {
       auto g = lock_guard(_wait_q.lock());
-      if (!ct->in_sender_list())
-	return L4_error::None;
+      // Recheck under lock whether thread is still in waiting queue.
+      if (ct->in_sender_list())
+        {
+          ct->sender_dequeue(&_wait_q);
 
-      ct->sender_dequeue(&_wait_q);
-      return L4_error::Timeout;
+          if (state & Thread_timeout)
+            return L4_error::Timeout;
+
+          if (state & Thread_cancel)
+            return L4_error::Canceled;
+        }
     }
+
   return L4_error::None;
 }
 
@@ -362,7 +368,7 @@ void
 Ipc_gate::invoke(L4_obj_ref /*self*/, L4_fpage::Rights rights,
                  Syscall_frame *f, Utcb *utcb) override
 {
-  //LOG_MSG_3VAL(current(), "gIPC", Mword(_thread), _id, f->obj_2_flags());
+  //LOG_MSG_3VAL(current(), "gIPC", Mword{_thread}, _id, f->obj_2_flags());
   //printf("Invoke: Ipc_gate(%lx->%p)...\n", _id, _thread);
   Thread *ct = current_thread();
   Thread *sender = 0;
@@ -407,10 +413,11 @@ Ipc_gate::invoke(L4_obj_ref /*self*/, L4_fpage::Rights rights,
 }
 
 namespace {
+
 static Kobject_iface * FIASCO_FLATTEN
 ipc_gate_factory(Ram_quota *q, Space *space,
-                 L4_msg_tag tag, Utcb const *utcb,
-                 int *err)
+                 L4_msg_tag tag, Utcb const *utcb, Utcb *,
+                 int *err, unsigned *)
 {
   L4_snd_item_iter snd_items(utcb, tag.words());
   Thread *thread = 0;
@@ -424,7 +431,8 @@ ipc_gate_factory(Ram_quota *q, Space *space,
         return 0;
 
       L4_fpage::Rights thread_rights = L4_fpage::Rights(0);
-      thread = cxx::dyn_cast<Thread*>(space->lookup_local(bind_thread.obj_index(), &thread_rights));
+      thread = cxx::dyn_cast<Thread*>(space->lookup_local(bind_thread.obj_index(),
+                                                          &thread_rights));
 
       if (EXPECT_FALSE(!thread))
         {
@@ -451,23 +459,28 @@ ipc_gate_factory(Ram_quota *q, Space *space,
   return static_cast<Ipc_gate_ctl*>(Ipc_gate::create(q, thread, id));
 }
 
-static inline void __attribute__((constructor)) FIASCO_INIT
+static inline
+void __attribute__((constructor)) FIASCO_INIT_SFX(ipc_gate_register_factory)
 register_factory()
 {
   Kobject_iface::set_factory(0, ipc_gate_factory);
   Kobject_iface::set_factory(L4_msg_tag::Label_kobject, ipc_gate_factory);
 }
+
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [debug]:
-
-#include "string_buffer.h"
+IMPLEMENTATION [rt_dbg]:
 
 PUBLIC
 ::Kobject_dbg *
 Ipc_gate_obj::dbg_info() const override
 { return Ipc_gate::dbg_info(); }
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [debug]:
+
+#include "string_buffer.h"
 
 IMPLEMENT
 void

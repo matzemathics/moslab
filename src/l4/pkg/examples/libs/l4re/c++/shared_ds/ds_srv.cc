@@ -9,17 +9,22 @@
  */
 
 #include <l4/re/env>
+#include <l4/re/error_helper>
 #include <l4/re/namespace>
 #include <l4/re/util/cap_alloc>
 #include <l4/re/util/object_registry>
 #include <l4/re/dataspace>
 #include <l4/cxx/ipc_server>
+#include <l4/util/util.h>
 
 #include <l4/sys/typeinfo_svr>
 
 #include <cstring>
 #include <cstdio>
 #include <unistd.h>
+#include <pthread.h>
+#include <pthread-l4.h>
+#include <thread>
 
 #include "interface.h"
 
@@ -121,14 +126,6 @@ int Shm_observer::dispatch(l4_umword_t obj, L4::Ipc::Iostream &ios)
   return 0;
 }
 
-/**
- * The singleton for implementing the generic server logic for the
- * main thread. The factory is used for creating IPC gates for new server
- * objects, however in this example no IPC gate is created, instead an IPC gate
- * provided by the parent is used.
- */
-static L4Re::Util::Registry_server<> server;
-
 enum
 {
   DS_SIZE = 4 << 12,
@@ -175,13 +172,16 @@ static char *get_ds(L4::Cap<L4Re::Dataspace> *_ds)
   return _addr;
 }
 
-int main()
+static void *server_thread(void *)
 {
+  L4::Cap<L4::Thread> l4_thread = Pthread::L4::cap(pthread_self());
+  L4Re::Util::Registry_server<> server(l4_thread, L4Re::Env::env()->factory());
+
   L4::Cap<L4Re::Dataspace> ds;
   char *addr;
 
   if (!(addr = get_ds(&ds)))
-    return 2;
+    return nullptr;
 
   // First the IRQ handler, because we need it in the My_server_obj object
   Shm_observer observer(addr);
@@ -200,5 +200,21 @@ int main()
 
   // Run our server loop.
   server.loop();
+}
+
+int main()
+{
+  pthread_attr_t pattr;
+
+  if (pthread_attr_init(&pattr))
+    L4Re::throw_error(-L4_ENOMEM, "Initialize pthread attributes");
+
+  pthread_t thr;
+  L4Re::chksys(pthread_create(&thr, &pattr, server_thread, nullptr),
+               "Create server thread");
+  L4Re::chksys(pthread_attr_destroy(&pattr), "Destroy pthread attributes");
+
+  l4_sleep_forever();
+
   return 0;
 }

@@ -51,6 +51,23 @@
  *
  * \see \ref l4_kernel_object_gate_api
  * \see \ref l4re_concepts_ipc
+ *
+ *
+ * \section ipc_timeouts Timeouts during IPC
+ *
+ * IPC operation between two communication partners may consist of up to two
+ * phases (send phase and receive phase). For both phases, a timeout may be
+ * specified (send timeout and receive timeout).
+ *
+ * \note When IPC communication happens across CPU cores and a timeout is
+ *       specified, then the counting of the timeout only begins after the
+ *       target thread has been scheduled at least once. In particular, this
+ *       means that an IPC timeout, including a timeout of zero, may be delayed
+ *       depending on the scheduling on the target CPU core. If a higher
+ *       priority thread on the target core is executing a busy loop, that delay
+ *       may even be indefinitely.
+ *
+ * \see \ref l4_timeout_api
  */
 
 /*****************************************************************************
@@ -330,10 +347,19 @@ l4_ipc_receive(l4_cap_idx_t object, l4_utcb_t *utcb,
  *
  * \return  result tag
  *
- * A message is sent to the object and the invoker waits for a
- * reply from the object. Messages from other sources are not accepted.
+ * A message is sent to the object and the invoker waits for a reply from the
+ * object. Messages from other sources are not accepted.
+ *
  * \note The send-to-receive transition needs no time, the object can reply
  *       with a send timeout of zero.
+ *
+ * \note If a finite receive timeout is specified, the IPC receive operation
+ *       could abort before the partner was able to send the reply message.
+ *       Under certain circumstances the partner may still have the temporary
+ *       reply capability to the calling thread and may use this capability to
+ *       reply to the caller at a later, unexpected time specifying an arbitrary
+ *       IPC label. This case is relevant for servers which call another,
+ *       possibly untrusted, server while serving a client request.
  *
  * \see \ref l4re_concepts_ipc
  */
@@ -491,7 +517,7 @@ l4_ipc_sleep(l4_timeout_t timeout) L4_NOTHROW;
  * \see \ref l4re_concepts_ipc
  */
 L4_INLINE l4_msgtag_t
-l4_ipc_sleep_ms(unsigned ms) L4_NOTHROW;
+l4_ipc_sleep_ms(l4_uint32_t ms) L4_NOTHROW;
 
 /**
  * Sleep for a certain amount of microseconds.
@@ -510,7 +536,7 @@ l4_ipc_sleep_ms(unsigned ms) L4_NOTHROW;
  * \see \ref l4re_concepts_ipc
  */
 L4_INLINE l4_msgtag_t
-l4_ipc_sleep_us(unsigned us) L4_NOTHROW;
+l4_ipc_sleep_us(l4_uint64_t us) L4_NOTHROW;
 
 /**
  * Add a flex-page to be sent to the UTCB
@@ -547,54 +573,49 @@ L4_INLINE long l4_ipc_to_errno(unsigned long ipc_error_code) L4_NOTHROW
 { return -(L4_EIPC_LO + ipc_error_code); }
 
 L4_INLINE l4_msgtag_t
-l4_ipc_call(l4_cap_idx_t dest, l4_utcb_t *utcb,
-            l4_msgtag_t tag,
+l4_ipc_call(l4_cap_idx_t object, l4_utcb_t *utcb, l4_msgtag_t tag,
             l4_timeout_t timeout) L4_NOTHROW
 {
-  return l4_ipc(dest, utcb, L4_SYSF_CALL, 0, tag, 0, timeout);
+  return l4_ipc(object, utcb, L4_SYSF_CALL, 0, tag, 0, timeout);
 }
 
 L4_INLINE l4_msgtag_t
 l4_ipc_reply_and_wait(l4_utcb_t *utcb, l4_msgtag_t tag,
-                      l4_umword_t *label,
-                      l4_timeout_t timeout) L4_NOTHROW
+                      l4_umword_t *label, l4_timeout_t timeout) L4_NOTHROW
 {
   return l4_ipc(L4_INVALID_CAP, utcb, L4_SYSF_REPLY_AND_WAIT, 0, tag, label, timeout);
 }
 
 L4_INLINE l4_msgtag_t
-l4_ipc_send_and_wait(l4_cap_idx_t dest, l4_utcb_t *utcb,
-                     l4_msgtag_t tag,
-                     l4_umword_t *src,
-                     l4_timeout_t timeout) L4_NOTHROW
+l4_ipc_send_and_wait(l4_cap_idx_t dest, l4_utcb_t *utcb, l4_msgtag_t tag,
+                     l4_umword_t *label, l4_timeout_t timeout) L4_NOTHROW
 {
-  return l4_ipc(dest, utcb, L4_SYSF_SEND_AND_WAIT, 0, tag, src, timeout);
+  return l4_ipc(dest, utcb, L4_SYSF_SEND_AND_WAIT, 0, tag, label, timeout);
 }
 
 L4_INLINE l4_msgtag_t
-l4_ipc_send(l4_cap_idx_t dest, l4_utcb_t *utcb,
-            l4_msgtag_t tag,
+l4_ipc_send(l4_cap_idx_t dest, l4_utcb_t *utcb, l4_msgtag_t tag,
             l4_timeout_t timeout) L4_NOTHROW
 {
   return l4_ipc(dest, utcb, L4_SYSF_SEND, 0, tag, 0, timeout);
 }
 
 L4_INLINE l4_msgtag_t
-l4_ipc_wait(l4_utcb_t *utcb, l4_umword_t *src,
+l4_ipc_wait(l4_utcb_t *utcb, l4_umword_t *label,
             l4_timeout_t timeout) L4_NOTHROW
 {
   l4_msgtag_t t;
   t.raw = 0;
-  return l4_ipc(L4_INVALID_CAP, utcb, L4_SYSF_WAIT, 0, t, src, timeout);
+  return l4_ipc(L4_INVALID_CAP, utcb, L4_SYSF_WAIT, 0, t, label, timeout);
 }
 
 L4_INLINE l4_msgtag_t
-l4_ipc_receive(l4_cap_idx_t src, l4_utcb_t *utcb,
+l4_ipc_receive(l4_cap_idx_t object, l4_utcb_t *utcb,
                l4_timeout_t timeout) L4_NOTHROW
 {
   l4_msgtag_t t;
   t.raw = 0;
-  return l4_ipc(src, utcb, L4_SYSF_RECV, 0, t, 0, timeout);
+  return l4_ipc(object, utcb, L4_SYSF_RECV, 0, t, 0, timeout);
 }
 
 L4_INLINE l4_msgtag_t
@@ -602,14 +623,14 @@ l4_ipc_sleep(l4_timeout_t timeout) L4_NOTHROW
 { return l4_ipc_receive(L4_INVALID_CAP, NULL, timeout); }
 
 L4_INLINE l4_msgtag_t
-l4_ipc_sleep_ms(unsigned ms) L4_NOTHROW
+l4_ipc_sleep_ms(l4_uint32_t ms) L4_NOTHROW
 {
-  return l4_ipc_sleep(l4_timeout(L4_IPC_TIMEOUT_NEVER,
-                                 l4_timeout_from_us(ms * 1000)));
+  l4_uint64_t us = ms * 1000ULL; // cannot overflow because ms < 2^32
+  return l4_ipc_sleep(l4_timeout(L4_IPC_TIMEOUT_NEVER, l4_timeout_from_us(us)));
 }
 
 L4_INLINE l4_msgtag_t
-l4_ipc_sleep_us(unsigned us) L4_NOTHROW
+l4_ipc_sleep_us(l4_uint64_t us) L4_NOTHROW
 {
   return l4_ipc_sleep(l4_timeout(L4_IPC_TIMEOUT_NEVER,
                                  l4_timeout_from_us(us)));
@@ -618,7 +639,7 @@ l4_ipc_sleep_us(unsigned us) L4_NOTHROW
 L4_INLINE l4_umword_t
 l4_ipc_error(l4_msgtag_t tag, l4_utcb_t *utcb) L4_NOTHROW
 {
-  if (!l4_msgtag_has_error(tag))
+  if (L4_LIKELY(!l4_msgtag_has_error(tag)))
     return 0;
   return l4_utcb_tcr_u(utcb)->error & L4_IPC_ERROR_MASK;
 }
@@ -626,7 +647,7 @@ l4_ipc_error(l4_msgtag_t tag, l4_utcb_t *utcb) L4_NOTHROW
 L4_INLINE long
 l4_error_u(l4_msgtag_t tag, l4_utcb_t *u) L4_NOTHROW
 {
-  if (l4_msgtag_has_error(tag))
+  if (L4_UNLIKELY(l4_msgtag_has_error(tag)))
     return l4_ipc_to_errno(l4_utcb_tcr_u(u)->error & L4_IPC_ERROR_MASK);
 
   return l4_msgtag_label(tag);

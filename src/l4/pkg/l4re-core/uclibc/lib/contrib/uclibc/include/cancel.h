@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Copyright (C) 2000-2011 Erik Andersen <andersen@uclibc.org>
  *
@@ -14,8 +13,8 @@
  * 2. if it is hidden, add the prototype to the appropiate header where NAME has
  * it's prototype (guarded by _LIBC)
  * 3. add a CANCELLABLE_SYSCALL(...) line at the end, this will create the function
- * NAME (as weak) with enabled cancellation for NPTL (and later for new LT), for
- * LT_OLD it will also create a strong_alias to __libc_NAME to be used in libpthread
+ * NAME (as weak) with enabled cancellation for NPTL, for
+ * LT it will also create a strong_alias to __libc_NAME to be used in libpthread
  * 4. if you need libc_hidden_(weak|def) line, use instead lt_libc_hidden, this will
  * take care of the correct type, weak or strong depending on the THREADS type
  * 5. If the implementation can't be done using CANCELLABLE_SYSCALL (like for fcntl)
@@ -37,8 +36,6 @@
 
 #include <features.h>
 
-#ifndef NOT_IN_libc
-
 #define __NC(name) _NC(name)
 #define _NC(name) __##name##_nocancel
 
@@ -48,7 +45,7 @@
 #define __NC_PROTO(name) extern __typeof(name) __NC(name) attribute_hidden;
 #define __NC_OLD_PROTO(name) extern __typeof(name) __NC_OLD(name);
 
-#if defined __UCLIBC_HAS_THREADS__ && !defined __LINUXTHREADS_OLD__
+#if defined __UCLIBC_HAS_THREADS__ && !defined __UCLIBC_HAS_LINUXTHREADS__
 # define __NEW_THREADS 1
 #else
 # define SINGLE_THREAD_P 1
@@ -60,10 +57,12 @@
 # define CANCELLABLE_SYSCALL(res_type, name, param_list, params)	\
 res_type weak_function name param_list					\
 {									\
+	int oldtype;							\
+	res_type result;						\
 	if (SINGLE_THREAD_P)						\
 		return __NC(name) params;				\
-	int oldtype = LIBC_CANCEL_ASYNC();				\
-	res_type result = __NC(name) params;				\
+	oldtype = LIBC_CANCEL_ASYNC();					\
+	result = __NC(name) params;					\
 	LIBC_CANCEL_RESET(oldtype);					\
 	return result;							\
 }
@@ -71,7 +70,7 @@ res_type weak_function name param_list					\
 # define lt_strong_alias(name)
 # define lt_libc_hidden(name) libc_hidden_def(name)
 
-#elif defined __LINUXTHREADS_OLD__
+#elif defined __UCLIBC_HAS_LINUXTHREADS__
 
 # define CANCELLABLE_SYSCALL(res_type, name, param_list, params)	\
 weak_alias(__NC(name),name)						\
@@ -95,7 +94,5 @@ strong_alias(__NC(name),name)
 /* disable it, useless, glibc uses it only for tests */
 # undef LIBC_CANCEL_HANDLED
 # define LIBC_CANCEL_HANDLED()
-
-#endif /* NOT_IN_libc */
 
 #endif

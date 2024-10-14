@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* mips/mipsel ELF shared library loader suppport
  *
    Copyright (C) 2002, Steven J. Hill (sjhill@realitydiluted.com)
@@ -243,12 +242,12 @@ int _dl_parse_relocation_information(struct dyn_elf *xpnt,
 					case R_MIPS_TLS_DTPMOD64:
 					case R_MIPS_TLS_DTPMOD32:
 						if (tls_tpnt)
-							*(ElfW(Word) *)reloc_addr = tls_tpnt->l_tls_modid;
+							*(ElfW(Addr) *)reloc_addr = tls_tpnt->l_tls_modid;
 						break;
 
 					case R_MIPS_TLS_DTPREL64:
 					case R_MIPS_TLS_DTPREL32:
-						*(ElfW(Word) *)reloc_addr +=
+						*(ElfW(Addr) *)reloc_addr +=
 							TLS_DTPREL_VALUE (symbol_addr);
 						break;
 
@@ -309,11 +308,7 @@ int _dl_parse_relocation_information(struct dyn_elf *xpnt,
 				if (symtab_index)
 					_dl_dprintf(2, "symbol '%s': ", symname);
 
-#if defined (__SUPPORT_LD_DEBUG__)
-				_dl_dprintf(2, "can't handle reloc type '%s' in lib '%s'\n", _dl_reltypes(reloc_type), tpnt->libname);
-#else
 				_dl_dprintf(2, "can't handle reloc type %x in lib '%s'\n", reloc_type, tpnt->libname);
-#endif
 				_dl_exit(1);
 			}
 		}

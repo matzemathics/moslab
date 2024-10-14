@@ -40,7 +40,8 @@ Timer_tick::set_vectors_stop()
   Apic::irq_ack();
 
   // set timer interrupt to dummy doing nothing
-  Idt::set_entry(Config::scheduler_irq_vector, (Address)entry_int_timer_stop, false);
+  Idt::set_entry(Config::scheduler_irq_vector,
+                 reinterpret_cast<Address>(entry_int_timer_stop), false);
 #if 0
   // From ``8259A PROGRAMMABLE INTERRUPT CONTROLLER (8259A 8259A-2)'': If no
   // interrupt request is present at step 4 of either sequence (i. e. the
@@ -58,7 +59,8 @@ void
 thread_timer_interrupt(Address ip)
 {
   (void)ip;
-  Timer_tick::handler_all(0, 0); //Timer_tick::_glbl_timer);
+  Timer_tick::ack();
+  Timer_tick::handler_all_noack();
 }
 
 /** Extra version of timer interrupt handler which is used when the jdb is

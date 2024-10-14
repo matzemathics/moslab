@@ -40,7 +40,7 @@ var annotated_dup =
       [ "static_vector", "classcxx_1_1static__vector.html", "classcxx_1_1static__vector" ],
       [ "String", "classcxx_1_1String.html", "classcxx_1_1String" ],
       [ "Weak_ref", "classcxx_1_1Weak__ref.html", null ],
-      [ "Weak_ref_base", "classcxx_1_1Weak__ref__base.html", null ]
+      [ "Weak_ref_base", "classcxx_1_1Weak__ref__base.html", "classcxx_1_1Weak__ref__base" ]
     ] ],
     [ "L4", "namespaceL4.html", [
       [ "Ipc", "namespaceL4_1_1Ipc.html", [
@@ -67,7 +67,6 @@ var annotated_dup =
         [ "Array_in_buf", "structL4_1_1Ipc_1_1Array__in__buf.html", "structL4_1_1Ipc_1_1Array__in__buf" ],
         [ "Array_ref", "structL4_1_1Ipc_1_1Array__ref.html", null ],
         [ "As_value", "structL4_1_1Ipc_1_1As__value.html", null ],
-        [ "Buf_item", "classL4_1_1Ipc_1_1Buf__item.html", null ],
         [ "Call", "structL4_1_1Ipc_1_1Call.html", null ],
         [ "Call_t", "structL4_1_1Ipc_1_1Call__t.html", null ],
         [ "Call_zero_send_timeout", "structL4_1_1Ipc_1_1Call__zero__send__timeout.html", null ],
@@ -80,10 +79,11 @@ var annotated_dup =
         [ "Opt", "structL4_1_1Ipc_1_1Opt.html", "structL4_1_1Ipc_1_1Opt" ],
         [ "Ostream", "classL4_1_1Ipc_1_1Ostream.html", "classL4_1_1Ipc_1_1Ostream" ],
         [ "Out", "structL4_1_1Ipc_1_1Out.html", null ],
+        [ "Rcv_fpage", "classL4_1_1Ipc_1_1Rcv__fpage.html", null ],
         [ "Ret_array", "structL4_1_1Ipc_1_1Ret__array.html", null ],
         [ "Send_only", "structL4_1_1Ipc_1_1Send__only.html", null ],
         [ "Small_buf", "classL4_1_1Ipc_1_1Small__buf.html", "classL4_1_1Ipc_1_1Small__buf" ],
-        [ "Snd_item", "classL4_1_1Ipc_1_1Snd__item.html", null ],
+        [ "Snd_fpage", "classL4_1_1Ipc_1_1Snd__fpage.html", null ],
         [ "Str_cp_in", "classL4_1_1Ipc_1_1Str__cp__in.html", "classL4_1_1Ipc_1_1Str__cp__in" ],
         [ "Varg", "classL4_1_1Ipc_1_1Varg.html", "classL4_1_1Ipc_1_1Varg" ],
         [ "Varg_list", "classL4_1_1Ipc_1_1Varg__list.html", "classL4_1_1Ipc_1_1Varg__list" ],
@@ -190,6 +190,7 @@ var annotated_dup =
       [ "Triggerable", "structL4_1_1Triggerable.html", "structL4_1_1Triggerable" ],
       [ "Type_info", "structL4_1_1Type__info.html", "structL4_1_1Type__info" ],
       [ "Uart", "classL4_1_1Uart.html", "classL4_1_1Uart" ],
+      [ "Uart_apb", "classL4_1_1Uart__apb.html", "classL4_1_1Uart__apb" ],
       [ "Unknown_error", "classL4_1_1Unknown__error.html", "classL4_1_1Unknown__error" ],
       [ "Vcon", "classL4_1_1Vcon.html", "classL4_1_1Vcon" ],
       [ "Vm", "classL4_1_1Vm.html", "classL4_1_1Vm" ]
@@ -220,8 +221,8 @@ var annotated_dup =
         [ "Br_manager_hooks", "structL4Re_1_1Util_1_1Br__manager__hooks.html", null ],
         [ "Br_manager_timeout_hooks", "structL4Re_1_1Util_1_1Br__manager__timeout__hooks.html", null ],
         [ "Cap_alloc_base", "classL4Re_1_1Util_1_1Cap__alloc__base.html", "classL4Re_1_1Util_1_1Cap__alloc__base" ],
-        [ "Counter", "structL4Re_1_1Util_1_1Counter.html", null ],
-        [ "Counter_atomic", "structL4Re_1_1Util_1_1Counter__atomic.html", null ],
+        [ "Counter", "structL4Re_1_1Util_1_1Counter.html", "structL4Re_1_1Util_1_1Counter" ],
+        [ "Counter_atomic", "structL4Re_1_1Util_1_1Counter__atomic.html", "structL4Re_1_1Util_1_1Counter__atomic" ],
         [ "Counting_cap_alloc", "classL4Re_1_1Util_1_1Counting__cap__alloc.html", "classL4Re_1_1Util_1_1Counting__cap__alloc" ],
         [ "Dataspace_svr", "classL4Re_1_1Util_1_1Dataspace__svr.html", "classL4Re_1_1Util_1_1Dataspace__svr" ],
         [ "Event_buffer_consumer_t", "classL4Re_1_1Util_1_1Event__buffer__consumer__t.html", "classL4Re_1_1Util_1_1Event__buffer__consumer__t" ],
@@ -298,6 +299,27 @@ var annotated_dup =
         [ "Virtqueue", "classL4virtio_1_1Driver_1_1Virtqueue.html", "classL4virtio_1_1Driver_1_1Virtqueue" ]
       ] ],
       [ "Svr", null, [
+        [ "Console", null, [
+          [ "Control_message", "structL4virtio_1_1Svr_1_1Console_1_1Control__message.html", "structL4virtio_1_1Svr_1_1Console_1_1Control__message" ],
+          [ "Control_request", "structL4virtio_1_1Svr_1_1Console_1_1Control__request.html", "structL4virtio_1_1Svr_1_1Console_1_1Control__request" ],
+          [ "Device", "classL4virtio_1_1Svr_1_1Console_1_1Device.html", "classL4virtio_1_1Svr_1_1Console_1_1Device" ],
+          [ "Device_port", "structL4virtio_1_1Svr_1_1Console_1_1Device__port.html", "structL4virtio_1_1Svr_1_1Console_1_1Device__port" ],
+          [ "Features", "structL4virtio_1_1Svr_1_1Console_1_1Features.html", "structL4virtio_1_1Svr_1_1Console_1_1Features" ],
+          [ "Port", "structL4virtio_1_1Svr_1_1Console_1_1Port.html", "structL4virtio_1_1Svr_1_1Console_1_1Port" ],
+          [ "Virtio_con", "classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html", "classL4virtio_1_1Svr_1_1Console_1_1Virtio__con" ]
+        ] ],
+        [ "Scmi", null, [
+          [ "Base_attr_t", "structL4virtio_1_1Svr_1_1Scmi_1_1Base__attr__t.html", "structL4virtio_1_1Svr_1_1Scmi_1_1Base__attr__t" ],
+          [ "Base_proto", "classL4virtio_1_1Svr_1_1Scmi_1_1Base__proto.html", null ],
+          [ "Perf_proto", "classL4virtio_1_1Svr_1_1Scmi_1_1Perf__proto.html", null ],
+          [ "Performance_attr_t", "structL4virtio_1_1Svr_1_1Scmi_1_1Performance__attr__t.html", "structL4virtio_1_1Svr_1_1Scmi_1_1Performance__attr__t" ],
+          [ "Performance_describe_level_t", "structL4virtio_1_1Svr_1_1Scmi_1_1Performance__describe__level__t.html", null ],
+          [ "Performance_describe_levels_n_t", "structL4virtio_1_1Svr_1_1Scmi_1_1Performance__describe__levels__n__t.html", "structL4virtio_1_1Svr_1_1Scmi_1_1Performance__describe__levels__n__t" ],
+          [ "Performance_domain_attr_t", "structL4virtio_1_1Svr_1_1Scmi_1_1Performance__domain__attr__t.html", "structL4virtio_1_1Svr_1_1Scmi_1_1Performance__domain__attr__t" ],
+          [ "Proto", "structL4virtio_1_1Svr_1_1Scmi_1_1Proto.html", null ],
+          [ "Scmi_dev", "classL4virtio_1_1Svr_1_1Scmi_1_1Scmi__dev.html", "classL4virtio_1_1Svr_1_1Scmi_1_1Scmi__dev" ],
+          [ "Scmi_hdr_t", "structL4virtio_1_1Svr_1_1Scmi_1_1Scmi__hdr__t.html", "structL4virtio_1_1Svr_1_1Scmi_1_1Scmi__hdr__t" ]
+        ] ],
         [ "Bad_descriptor", "structL4virtio_1_1Svr_1_1Bad__descriptor.html", "structL4virtio_1_1Svr_1_1Bad__descriptor" ],
         [ "Block_dev_base", "classL4virtio_1_1Svr_1_1Block__dev__base.html", "classL4virtio_1_1Svr_1_1Block__dev__base" ],
         [ "Block_request", "classL4virtio_1_1Svr_1_1Block__request.html", "classL4virtio_1_1Svr_1_1Block__request" ],
@@ -333,6 +355,7 @@ var annotated_dup =
     [ "Elf64_Sym", "structElf64__Sym.html", "structElf64__Sym" ],
     [ "l4_buf_regs_t", "structl4__buf__regs__t.html", "structl4__buf__regs__t" ],
     [ "l4_exc_regs_t", "structl4__exc__regs__t.html", "structl4__exc__regs__t" ],
+    [ "l4_ext_vcpu_state_vmx_t", "structl4__ext__vcpu__state__vmx__t.html", null ],
     [ "l4_fpage_t", "unionl4__fpage__t.html", "unionl4__fpage__t" ],
     [ "l4_icu_info_t", "structl4__icu__info__t.html", "structl4__icu__info__t" ],
     [ "l4_icu_msi_info_t", "structl4__icu__msi__info__t.html", "structl4__icu__msi__info__t" ],
@@ -358,6 +381,7 @@ var annotated_dup =
     [ "l4_vm_svm_vmcb_state_save_area_seg", "structl4__vm__svm__vmcb__state__save__area__seg.html", null ],
     [ "l4_vm_svm_vmcb_t", "structl4__vm__svm__vmcb__t.html", null ],
     [ "l4_vm_tz_state", "structl4__vm__tz__state.html", null ],
+    [ "l4_vmx_offset_table_t", "structl4__vmx__offset__table__t.html", null ],
     [ "l4re_aux_t", "structl4re__aux__t.html", "structl4re__aux__t" ],
     [ "l4re_ds_stats_t", "structl4re__ds__stats__t.html", "structl4re__ds__stats__t" ],
     [ "l4re_elf_aux_mword_t", "structl4re__elf__aux__mword__t.html", null ],

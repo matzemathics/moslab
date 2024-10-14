@@ -33,7 +33,7 @@ MODULE_LICENSE("GPL");
 struct l4drv_data {
 
     char name[64];
-    char phys[32];
+    char phys[40];
     struct input_dev dev;
 
     unsigned char enabled;

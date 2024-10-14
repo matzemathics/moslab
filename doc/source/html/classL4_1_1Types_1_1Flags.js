@@ -11,7 +11,7 @@ var classL4_1_1Types_1_1Flags =
     [ "Flags", "classL4_1_1Types_1_1Flags.html#aeeea09f5657a0f4477fba58b2bd93095", null ],
     [ "as_value", "classL4_1_1Types_1_1Flags.html#a041335cb2304183849beeebd0b5bae92", null ],
     [ "clear", "classL4_1_1Types_1_1Flags.html#a0e3e88cfb8f9fdea1954c40ace21611f", null ],
-    [ "operator Private_bool *", "classL4_1_1Types_1_1Flags.html#a09798a500ce4703bb4d32c90be589d4a", null ],
+    [ "operator bool", "classL4_1_1Types_1_1Flags.html#adc05cdb1065d45ca4411c6fe7ba9bb51", null ],
     [ "operator!", "classL4_1_1Types_1_1Flags.html#ae492210926fa1c1134a3f14504d8b431", null ],
     [ "operator&=", "classL4_1_1Types_1_1Flags.html#a045d3ed054053e0fda3d2c4d53051592", null ],
     [ "operator&=", "classL4_1_1Types_1_1Flags.html#af6c39c6b541dc4fe27013d8f363c72e0", null ],

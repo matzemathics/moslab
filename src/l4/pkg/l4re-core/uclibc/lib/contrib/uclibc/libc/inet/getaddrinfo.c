@@ -62,6 +62,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -70,6 +71,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sys/utsname.h>
 #include <net/if.h>
 #include <ifaddrs.h>
+#include "internal/parse_config.h"
 
 #define GAIH_OKIFUNSPEC 0x0100
 #define GAIH_EAI        ~(GAIH_OKIFUNSPEC)
@@ -308,7 +310,7 @@ gaih_local(const char *name, const struct gaih_service *service,
 		char *buf = ((struct sockaddr_un *)ai->ai_addr)->sun_path;
 
 		if (__path_search(buf, L_tmpnam, NULL, NULL, 0) != 0
-		 || __gen_tempname(buf, __GT_NOCREATE, 0) != 0
+		 || __gen_tempname(buf, __GT_NOCREATE, 0, 0) != 0
 		) {
 			return -EAI_SYSTEM;
 		}
@@ -348,6 +350,11 @@ gaih_inet_serv(const char *servicename, const struct gaih_typeproto *tp,
 	return 0;
 }
 
+#if defined __UCLIBC_HAS_IPV6__
+static uint8_t __gai_precedence = 0;	/* =1 - IPv6, IPv4
+					   =2 - IPv4, IPv6 */
+#endif
+
 /* NB: also uses h,pat,rc,no_data variables */
 #define gethosts(_family, _type)						\
 {										\
@@ -384,6 +391,9 @@ gaih_inet_serv(const char *servicename, const struct gaih_typeproto *tp,
 			memcpy((*pat)->addr, h->h_addr_list[i], sizeof(_type));	\
 			pat = &((*pat)->next);					\
 		}								\
+		if (_family == AF_INET6 && i > 0) {				\
+			got_ipv6 = true;					\
+		}								\
 	}									\
 }
 
@@ -397,8 +407,8 @@ gaih_inet(const char *name, const struct gaih_service *service,
 	struct gaih_servtuple *st;
 	struct gaih_addrtuple *at;
 	int rc;
-	int v4mapped = (req->ai_family == PF_UNSPEC || req->ai_family == PF_INET6)
-			&& (req->ai_flags & AI_V4MAPPED);
+	bool got_ipv6 = false;
+	int v4mapped = req->ai_family == PF_INET6 && (req->ai_flags & AI_V4MAPPED);
 	unsigned seen = 0;
 	if (req->ai_flags & AI_ADDRCONFIG) {
 		/* "seen" is only used when AI_ADDRCONFIG is specified.
@@ -552,29 +562,47 @@ gaih_inet(const char *name, const struct gaih_service *service,
 		if (at->family == AF_UNSPEC && !(req->ai_flags & AI_NUMERICHOST)) {
 			struct hostent *h;
 			struct gaih_addrtuple **pat = &at;
-			int no_data = 0;
-			int no_inet6_data;
+			int no_data, no_inet6_data;
+#if defined __UCLIBC_HAS_IPV6__
+			bool first_try = true;
+#endif
 
 			/*
 			 * If we are looking for both IPv4 and IPv6 address we don't want
 			 * the lookup functions to automatically promote IPv4 addresses to
 			 * IPv6 addresses.
 			 */
+			no_inet6_data = no_data = 0;
 #if defined __UCLIBC_HAS_IPV6__
+			if (__gai_precedence == 2)
+				goto try_v4;
+
+ try_v6:
 			if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
 				if (!(req->ai_flags & AI_ADDRCONFIG) || (seen & SEEN_IPV6))
 					gethosts(AF_INET6, struct in6_addr);
-#endif
 			no_inet6_data = no_data;
+			if (!first_try)
+				goto tried_all;
+			first_try = false;
 
+ try_v4:
+#endif
 			if (req->ai_family == AF_INET
 			 || (!v4mapped && req->ai_family == AF_UNSPEC)
-			 || (v4mapped && (no_inet6_data != 0 || (req->ai_flags & AI_ALL)))
+			 || (v4mapped && (!got_ipv6 || (req->ai_flags & AI_ALL)))
 			) {
 				if (!(req->ai_flags & AI_ADDRCONFIG) || (seen & SEEN_IPV4))
 					gethosts(AF_INET, struct in_addr);
 			}
+#if defined __UCLIBC_HAS_IPV6__
+			if (first_try) {
+				first_try = false;
+				goto try_v6;
+			}
 
+ tried_all:
+#endif
 			if (no_data != 0 && no_inet6_data != 0) {
 				/* If both requests timed out report this. */
 				if (no_data == EAI_AGAIN && no_inet6_data == EAI_AGAIN)
@@ -681,6 +709,14 @@ gaih_inet(const char *name, const struct gaih_service *service,
 			if (at2->family == AF_INET6 || v4mapped) {
 				family = AF_INET6;
 				socklen = sizeof(struct sockaddr_in6);
+
+				/* If we looked up IPv4 mapped address discard them here if
+				   the caller isn't interested in all address and we have
+				   found at least one IPv6 address.  */
+				if (got_ipv6
+				  && (req->ai_flags & (AI_V4MAPPED|AI_ALL)) == AI_V4MAPPED
+				  && IN6_IS_ADDR_V4MAPPED (at2->addr))
+				goto ignore;
 			}
 #endif
 #if defined __UCLIBC_HAS_IPV4__ && defined __UCLIBC_HAS_IPV6__
@@ -757,7 +793,7 @@ gaih_inet(const char *name, const struct gaih_service *service,
 				(*pai)->ai_next = NULL;
 				pai = &((*pai)->ai_next);
 			}
-
+ignore:
 			at2 = at2->next;
 		}
 	}
@@ -774,6 +810,71 @@ static const struct gaih gaih[] = {
 #endif
 	{ PF_UNSPEC, NULL }
 };
+
+#if defined __UCLIBC_HAS_IPV6__
+
+/*
+ * A call to getaddrinfo might return multiple answers. To provide
+ * possibility to change the sorting we must use /etc/gai.conf file,
+ * like glibc.
+ *
+ * gai.conf format:
+ *
+ * label <netmask> <precedence>
+ *				The value is added to the label table used in
+ *				the RFC 3484 sorting. If any label definition
+ *				is present in the configuration file is present,
+ *				the default table is not used. All the label
+ *				definitions of the default table which are to
+ *				be maintained have to be duplicated.
+ * precedence <netmask> <precedence>
+ * 				This keyword is similar to label, but instead
+ *				the value is added to the precedence table as
+ *				specified in RFC 3484. Once again, the presence
+ *				of a single precedence line in the configuration
+ *				file causes the default table to not be used.
+ *
+ * The simplified uclibc's implementation allows to change the IPv4/IPv6
+ * sorting order for a whole address space only, i.e
+ *  "precedence ::ffff:0:0/96 100" is only supported.
+ */
+static void __gai_conf_parse(void)
+{
+	/* NO reread of /etc/gai.conf on change. */
+	if (__gai_precedence != 0)
+		return;
+
+	__gai_precedence = 1; /* default IPv6 */
+
+	parser_t *parser;
+	char **tok = NULL;
+
+	parser = config_open("/etc/gai.conf");
+	if (!parser)
+		return;
+
+	while (config_read(parser, &tok, 3, 3, "# \t", PARSE_NORMAL)) {
+		if (strcmp(tok[0], "precedence") == 0) {
+			char *pfx;
+			struct in6_addr mask;
+
+			pfx = strchr(tok[1], '/');
+			if (!pfx)
+				continue;
+			*(pfx++) = 0;
+			if (inet_pton(AF_INET6, tok[1], &mask) <= 0)
+				continue;
+			if (IN6_IS_ADDR_V4MAPPED(&mask)
+			    && mask.s6_addr32[3] == 0
+			    && atoi(pfx) == 96 && atoi(tok[2]) == 100)
+				__gai_precedence = 2;	/* IPv4 first */
+		}
+	}
+	config_close(parser);
+}
+#else
+# define __gai_conf_parse(x)
+#endif /* __UCLIBC_HAS_IPV6__ */
 
 void
 freeaddrinfo(struct addrinfo *ai)
@@ -834,6 +935,7 @@ getaddrinfo(const char *name, const char *service,
 	} else
 		pservice = NULL;
 
+	__gai_conf_parse();
 	g = gaih;
 	pg = NULL;
 	p = NULL;
@@ -857,8 +959,7 @@ getaddrinfo(const char *name, const char *service,
 					last_i = i;
 					if (hints->ai_family == AF_UNSPEC && (i & GAIH_OKIFUNSPEC))
 						continue;
-					/*if (p) - freeaddrinfo works ok on NULL too */
-						freeaddrinfo(p);
+					freeaddrinfo(p); /* freeaddrinfo works ok on NULL too */
 					return -(i & GAIH_EAI);
 				}
 				if (end)

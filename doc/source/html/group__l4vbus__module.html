@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4 Vbus functions</title>
+<title>L4Re Operating System Framework: L4 Vbus functions</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -139,9 +142,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga51a6613ae6f11cc29269bf9623782e1d" id="r_ga51a6613ae6f11cc29269bf9623782e1d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4vbus__module.html#ga51a6613ae6f11cc29269bf9623782e1d">l4vbus_get_device</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="el" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev, <a class="el" href="structl4vbus__device__t.html">l4vbus_device_t</a> *devinfo)</td></tr>
 <tr class="memdesc:ga51a6613ae6f11cc29269bf9623782e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain detailed information about a Vbus device.    <br /></td></tr>
 <tr class="separator:ga51a6613ae6f11cc29269bf9623782e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac60ae2d46f8158a887ce4b8a1bf447bd" id="r_gac60ae2d46f8158a887ce4b8a1bf447bd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4vbus__module.html#gac60ae2d46f8158a887ce4b8a1bf447bd">l4vbus_get_resource</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="el" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev, int res_idx, <a class="el" href="structl4vbus__resource__t.html">l4vbus_resource_t</a> *res)</td></tr>
-<tr class="memdesc:gac60ae2d46f8158a887ce4b8a1bf447bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain the resource description of an individual device resource.    <br /></td></tr>
-<tr class="separator:gac60ae2d46f8158a887ce4b8a1bf447bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga73c4138ed1d2d56edb5eabdbcc5da65d" id="r_ga73c4138ed1d2d56edb5eabdbcc5da65d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4vbus__module.html#ga73c4138ed1d2d56edb5eabdbcc5da65d">l4vbus_get_resource</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="el" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev, unsigned res_idx, <a class="el" href="structl4vbus__resource__t.html">l4vbus_resource_t</a> *res)</td></tr>
+<tr class="memdesc:ga73c4138ed1d2d56edb5eabdbcc5da65d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain the resource description of an individual device resource.    <br /></td></tr>
+<tr class="separator:ga73c4138ed1d2d56edb5eabdbcc5da65d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gada51cecbba0d25a6d05e810b737f3df5" id="r_gada51cecbba0d25a6d05e810b737f3df5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4vbus__module.html#gada51cecbba0d25a6d05e810b737f3df5">l4vbus_is_compatible</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> vbus, <a class="el" href="vbus__types_8h.html#a3d2ee122c9c592d768eee886d36b31cf">l4vbus_device_handle_t</a> dev, char const *cid)</td></tr>
 <tr class="memdesc:gada51cecbba0d25a6d05e810b737f3df5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given device has a compatibility ID (CID) or HID that matches <em>cid</em>.    <br /></td></tr>
 <tr class="separator:gada51cecbba0d25a6d05e810b737f3df5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -444,7 +447,7 @@ Functions</h2></td></tr>
 <p>It is possible to have multiple devices with the same HID on a vbus. In order to find all matching devices this function has to be called repeatedly with <code>child</code> pointing to the device found in the previous iteration. The iteration starts at <code>child</code> that might be any device node in the tree.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">child</td><td>Handle of the device from where in the device tree the search should start. To start searching from the beginning <code>child</code> must be initialized using the default (<a class="el" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0" title="NULL device.">L4VBUS_NULL</a>). If a matching device is found, its handle is returned through this parameter. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">child</td><td>Handle of the device from where in the device tree the search should start. To start searching from the beginning <code>child</code> must be initialized using the default (<a class="el" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0" title="NULL device.">L4VBUS_NULL</a>). If a matching device is found, its handle is returned through this parameter. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">hid</td><td>HID of the device </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">depth</td><td>Maximum depth for the recursive lookup </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">devinfo</td><td>Device information structure (might be NULL)</td></tr>
@@ -572,8 +575,8 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">vbus</td><td>Capability of the system bus </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">parent</td><td>Handle to the parent device (use <a class="el" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5dad83203ea1310cc0d5be38f1df326acdd" title="Root device on the vbus.">L4VBUS_ROOT_BUS</a> for the system bus) </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">child</td><td>Handle of the device that precedes the device that shall be returned. To start from the beginning, <code>child</code> must be initialized with <a class="el" href="vbus_8h.html#aa6db2c38ebc194c80d154d53851a4d5da37b6c6ee1e53d4ddd172f43a8dedc9b0" title="NULL device.">L4VBUS_NULL</a>. If a device is found, its handle is returned through this parameter. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">parent</td><td>Handle to the parent device (use <a class="el" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ad83203ea1310cc0d5be38f1df326acdd" title="Root device on the vbus.">L4VBUS_ROOT_BUS</a> for the system bus) </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">child</td><td>Handle of the device that precedes the device that shall be returned. To start from the beginning, <code>child</code> must be initialized with <a class="el" href="vbus_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a37b6c6ee1e53d4ddd172f43a8dedc9b0" title="NULL device.">L4VBUS_NULL</a>. If a device is found, its handle is returned through this parameter. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">depth</td><td>Depth to look for </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">devinfo</td><td>Device information (might be NULL)</td></tr>
   </table>
@@ -592,8 +595,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gac60ae2d46f8158a887ce4b8a1bf447bd" name="gac60ae2d46f8158a887ce4b8a1bf447bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac60ae2d46f8158a887ce4b8a1bf447bd">&#9670;&#160;</a></span>l4vbus_get_resource()</h2>
+<a id="ga73c4138ed1d2d56edb5eabdbcc5da65d" name="ga73c4138ed1d2d56edb5eabdbcc5da65d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga73c4138ed1d2d56edb5eabdbcc5da65d">&#9670;&#160;</a></span>l4vbus_get_resource()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -613,7 +616,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">unsigned&#160;</td>
           <td class="paramname"><em>res_idx</em>, </td>
         </tr>
         <tr>
@@ -655,7 +658,7 @@ Functions</h2></td></tr>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4vbus__module_gac60ae2d46f8158a887ce4b8a1bf447bd_icgraph.svg" width="366" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4vbus__module_ga73c4138ed1d2d56edb5eabdbcc5da65d_icgraph.svg" width="366" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -876,7 +879,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

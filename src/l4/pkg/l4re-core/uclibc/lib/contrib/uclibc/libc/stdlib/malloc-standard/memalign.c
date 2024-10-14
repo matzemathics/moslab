@@ -52,8 +52,8 @@ void* memalign(size_t alignment, size_t bytes)
 	alignment = a;
     }
 
-    __MALLOC_LOCK;
     checked_request2size(bytes, nb);
+    __MALLOC_LOCK;
 
     /* Strategy: find a spot within that chunk that meets the alignment
      * request, and then possibly free the leading and trailing space.  */
@@ -127,4 +127,7 @@ void* memalign(size_t alignment, size_t bytes)
     __MALLOC_UNLOCK;
 	return retval;
 }
+weak_alias(memalign, aligned_alloc)
 libc_hidden_def(memalign)
+/* glibc compatibilty  */
+weak_alias(memalign, __libc_memalign)

@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Thread-local storage handling in the ELF dynamic linker.
  *
@@ -124,9 +123,6 @@ _dl_realloc (void * __ptr, size_t __size)
  * the static TLS area already allocated for each running thread.  If this
  * object's TLS segment is too big to fit, we fail.  If it fits,
  * we set MAP->l_tls_offset and return.
- * This function intentionally does not return any value but signals error
- * directly, as static TLS should be rare and code handling it should
- * not be inlined as much as possible.
  */
 int
 internal_function __attribute_noinline__
@@ -193,12 +189,16 @@ _dl_try_allocate_static_tls(struct link_map *map)
 	return 0;
 }
 
+/*
+ * This function intentionally does not return any value but signals error
+ * directly, as static TLS should be rare and code handling it should
+ * not be inlined as much as possible.
+ */
 void
 internal_function __attribute_noinline__
 _dl_allocate_static_tls (struct link_map *map)
 {
-	if (_dl_try_allocate_static_tls(map))
-	{
+	if (_dl_try_allocate_static_tls (map)) {
 		_dl_dprintf(2, "cannot allocate memory in static TLS block");
 		_dl_exit(30);
 	}
@@ -982,13 +982,19 @@ _dl_add_to_slotinfo (struct link_map  *l)
 /* Taken from glibc/elf/rtld.c */
 static bool tls_init_tp_called;
 
+rtld_hidden_proto(_dl_initial_error_catch_tsd)
 /* _dl_error_catch_tsd points to this for the single-threaded case.
    It's reset by the thread library for multithreaded programs.  */
 void ** __attribute__ ((const))
 _dl_initial_error_catch_tsd (void)
 {
-	static void *data;
-	return &data;
+	static
+#if 0 /* def ARCH_NEEDS_BOOTSTRAP_RELOCS */
+		/* If we have to do bootstrap relocs anyway we might as well */
+		__thread
+# endif
+		void *__tsd_data;
+	return &__tsd_data;
 }
 
 #ifdef SHARED

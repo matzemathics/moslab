@@ -5,6 +5,7 @@ EXTENSION class Jdb
 public:
   static int (*bp_test_log_only)(Cpu_number);
   static int (*bp_test_break)(Cpu_number, String_buffer *);
+  static volatile Address sysreg_fail_pc;
 };
 
 IMPLEMENTATION [arm]:
@@ -27,6 +28,7 @@ DEFINE_PER_CPU static Per_cpu<Proc::Status> jdb_irq_state;
 
 int (*Jdb::bp_test_log_only)(Cpu_number);
 int (*Jdb::bp_test_break)(Cpu_number, String_buffer *buf);
+volatile Address Jdb::sysreg_fail_pc;
 
 // ------------------------------------------------------------------------
 IMPLEMENTATION [arm && !pic_gic]:
@@ -49,12 +51,44 @@ void
 Jdb::kernel_uart_irq_ack()
 { Kernel_uart::uart()->irq_ack(); }
 
+PRIVATE static inline
+void
+Jdb::kernel_uart_irq_disable()
+{
+  if (Config::serial_esc != Config::SERIAL_ESC_NOIRQ)
+    Kernel_uart::uart()->disable_rcv_irq();
+}
+
+PRIVATE static inline
+void
+Jdb::kernel_uart_irq_enable()
+{
+  if (Config::serial_esc != Config::SERIAL_ESC_NOIRQ)
+    {
+      Kernel_uart::uart()->enable_rcv_irq();
+      Kernel_uart::uart()->irq_ack();
+    }
+}
+
 // ------------------------------------------------------------------------
 IMPLEMENTATION [arm && pic_gic && !serial]:
 
 PRIVATE static inline
 void
 Jdb::kernel_uart_irq_ack()
+{}
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [arm && (!pic_gic || !serial)]:
+
+PRIVATE static inline
+void
+Jdb::kernel_uart_irq_disable()
+{}
+
+PRIVATE static inline
+void
+Jdb::kernel_uart_irq_enable()
 {}
 
 // ------------------------------------------------------------------------
@@ -75,6 +109,8 @@ Jdb::wfi_enter()
 {
   Jdb_core::wait_for_input = _wait_for_input;
 
+  kernel_uart_irq_disable();
+
   Timer_tick *tt = Timer_tick::boot_cpu_timer_tick();
   Gic *g = static_cast<Gic*>(tt->chip());
 
@@ -94,6 +130,8 @@ Jdb::wfi_leave()
   Gic *g = static_cast<Gic*>(tt->chip());
   g->irq_prio_bootcpu(tt->pin(), wfi_gic.orig_tt_prio);
   g->set_pmr(wfi_gic.orig_pmr);
+
+  kernel_uart_irq_enable();
 }
 
 PRIVATE static
@@ -125,6 +163,7 @@ Jdb::_wait_for_input()
 IMPLEMENTATION [arm]:
 
 #include "timer.h"
+#include "paging_bits.h"
 
 // disable interrupts before entering the kernel debugger
 IMPLEMENT
@@ -182,6 +221,21 @@ Jdb::handle_nested_trap(Jdb_entry_frame *e)
          e->ip(), e->psr, e->error_code);
 }
 
+IMPLEMENT_OVERRIDE
+bool
+Jdb::handle_early_debug_traps(Jdb_entry_frame *e)
+{
+  // Special handler for Jdb_kern_info_cpu.
+  if (e->ip() != 0 && e->ip() == sysreg_fail_pc)
+    {
+      sysreg_fail_pc = 0;
+      e->pc += 4;
+      return true;
+    }
+
+  return false;
+}
+
 IMPLEMENT
 bool
 Jdb::handle_debug_traps(Cpu_number cpu)
@@ -205,7 +259,7 @@ Jdb::handle_debug_traps(Cpu_number cpu)
   return true;
 }
 
-IMPLEMENT inline
+IMPLEMENT inline NEEDS [Jdb::kernel_uart_irq_disable, Jdb::kernel_uart_irq_enable]
 bool
 Jdb::handle_user_request(Cpu_number cpu)
 {
@@ -215,7 +269,15 @@ Jdb::handle_user_request(Cpu_number cpu)
     return cpu != Cpu_number::boot_cpu();
 
   if (ef->debug_entry_kernel_sequence())
-    return execute_command_ni(ef->text(), ef->textlen());
+    {
+      // Disable + re-enable the UART RX IRQ so that detecting escape sequences
+      // also works while executing non-interactive commands, in particular for
+      // "JS".
+      kernel_uart_irq_disable();
+      bool ret = execute_command_ni(ef->text(), ef->textlen());
+      kernel_uart_irq_enable();
+      return ret;
+    }
 
   return false;
 }
@@ -240,80 +302,8 @@ Jdb::init()
   Jdb::jdb_enter.add(&enter);
   Jdb::jdb_leave.add(&leave);
 
-  Thread::nested_trap_handler = (Trap_state::Handler)enter_jdb;
-
+  Thread::nested_trap_handler = &enter_jdb;
   Kconsole::console()->register_console(push_cons());
-}
-
-
-PRIVATE static
-unsigned char *
-Jdb::access_mem_task(Jdb_address addr, bool write)
-{
-  if (!Cpu::is_canonical_address(addr.addr()))
-    return 0;
-
-  Address phys;
-
-  if (addr.is_kmem())
-    {
-      auto p = Kmem::kdir->walk(Virt_addr(addr.addr()));
-      if (!p.is_valid())
-        return 0;
-
-      phys = p.page_addr() | cxx::get_lsb(addr.addr(), p.page_order());
-    }
-  else if (!addr.is_phys())
-    {
-      phys = Address(addr.space()->virt_to_phys_s0(addr.virt()));
-
-      if (phys == (Address)-1)
-        return 0;
-    }
-  else
-    phys = addr.phys();
-
-  unsigned long kaddr = Mem_layout::phys_to_pmem(phys);
-  if (kaddr != (Address)-1)
-    {
-      auto pte = Kmem::kdir->walk(Virt_addr(kaddr));
-      if (pte.is_valid()
-          && (!write || pte.attribs().rights & Page::Rights::W()))
-        return (unsigned char *)kaddr;
-    }
-
-  Mem_unit::flush_vdcache();
-  auto pte = Kmem::kdir
-    ->walk(Virt_addr(Mem_layout::Jdb_tmp_map_area), K_pte_ptr::Super_level);
-
-  if (!pte.is_valid()
-      || pte.page_addr() != cxx::mask_lsb(phys, pte.page_order()))
-    {
-          Page::Type mem_type = Page::Type::Uncached();
-          for (auto const &md: Kip::k()->mem_descs_a())
-            if (!md.is_virtual() && md.contains(phys)
-                && (md.type() == Mem_desc::Conventional))
-              {
-                mem_type = Page::Type::Normal();
-                break;
-              }
-
-          // Don't automatically tap into MMIO memory in Sigma0 as this usually
-          // results into some data abort exception -- aborting the current 'd'
-          // view.
-          if (mem_type == Page::Type::Uncached()
-              && addr.space()->is_sigma0())
-            return 0;
-
-          pte.set_page(
-            pte.make_page(Phys_mem_addr(cxx::mask_lsb(phys, pte.page_order())),
-                          Page::Attr(Page::Rights::RW(), mem_type)));
-          pte.write_back_if(true);
-          Mem_unit::tlb_flush_kernel(Mem_layout::Jdb_tmp_map_area);
-    }
-
-  return (unsigned char *)(Mem_layout::Jdb_tmp_map_area
-                           + (phys & (Config::SUPERPAGE_SIZE - 1)));
 }
 
 PUBLIC static
@@ -374,6 +364,96 @@ Jdb::write_tsc(String_buffer *buf, Signed64 tsc, bool sign)
   write_ll_ns(buf, ns, sign);
 }
 
+// ------------------------------------------------------------------------
+IMPLEMENTATION [arm && mmu]:
+
+PRIVATE static
+unsigned char *
+Jdb::access_mem_task(Jdb_address addr, bool write)
+{
+  if (!Cpu::is_canonical_address(addr.addr()))
+    return 0;
+
+  Address phys;
+
+  if (addr.is_kmem())
+    {
+      auto p = Kmem::kdir->walk(Virt_addr(addr.addr()));
+      if (!p.is_valid())
+        return 0;
+
+      phys = p.page_addr() | cxx::get_lsb(addr.addr(), p.page_order());
+    }
+  else if (!addr.is_phys())
+    {
+      phys = addr.space()->virt_to_phys_s0(addr.virt());
+
+      if (phys == Invalid_address)
+        return 0;
+    }
+  else
+    phys = addr.phys();
+
+  unsigned long kaddr = Mem_layout::phys_to_pmem(phys);
+  if (kaddr != Invalid_address)
+    {
+      auto pte = Kmem::kdir->walk(Virt_addr(kaddr));
+      if (pte.is_valid()
+          && (!write || pte.attribs().rights & Page::Rights::W()))
+        return reinterpret_cast<unsigned char *>(kaddr);
+    }
+
+  Mem_unit::flush_vdcache();
+  auto pte = Kmem::kdir
+    ->walk(Virt_addr(Mem_layout::Jdb_tmp_map_area), K_pte_ptr::Super_level);
+
+  if (!pte.is_valid()
+      || pte.page_addr() != cxx::mask_lsb(phys, pte.page_order()))
+    {
+      Page::Type mem_type = Page::Type::Uncached();
+      for (auto const &md: Kip::k()->mem_descs_a())
+        if (!md.is_virtual() && md.contains(phys)
+            && (md.type() == Mem_desc::Conventional))
+          {
+            mem_type = Page::Type::Normal();
+            break;
+          }
+
+      // Don't automatically tap into MMIO memory in Sigma0 as this usually
+      // results into some data abort exception -- aborting the current 'd'
+      // view.
+      if (mem_type == Page::Type::Uncached()
+          && !addr.is_phys() && addr.space()->is_sigma0())
+        return 0;
+
+      pte.set_page(Phys_mem_addr(cxx::mask_lsb(phys, pte.page_order())),
+                   Page::Attr(Page::Rights::RW(), mem_type,
+                              Page::Kern::None()));
+      pte.write_back_if(true);
+      Mem_unit::tlb_flush_kernel(Mem_layout::Jdb_tmp_map_area);
+    }
+
+  return reinterpret_cast<unsigned char *>(Mem_layout::Jdb_tmp_map_area
+                                           + Super_pg::offset(phys));
+}
+
+// ------------------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu]:
+
+PRIVATE static
+unsigned char *
+Jdb::access_mem_task(Jdb_address addr, bool write)
+{
+  if (auto *r = Kmem::kdir->find(addr.addr()))
+    {
+      if (write && !(r->attr().rights() & L4_fpage::Rights::W()))
+        return nullptr;
+
+      return reinterpret_cast<unsigned char *>(addr.virt());
+    }
+
+  return nullptr;
+}
 
 //----------------------------------------------------------------------------
 IMPLEMENTATION [arm && mp]:

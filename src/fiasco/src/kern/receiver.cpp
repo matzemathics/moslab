@@ -70,8 +70,15 @@ public:
   virtual ~Receiver() = 0;
 
 private:
-  // DATA
-  void const *_partner;     // IPC partner I'm waiting for/involved with
+  /**
+   * IPC partner this Receiver is waiting for/involved with.
+   *
+   * Not reset after a receive operation is finished, so it might contain an old
+   * value from the last receive operation (see also `Receiver::in_ipc()`).
+   *
+   * Must never be dereferenced, only compared.
+   */
+  void const *_partner;
   Syscall_frame *_rcv_regs; // registers used for receive
   Mword _caller;
   Iterable_prio_list _sender_list;
@@ -85,6 +92,7 @@ IMPLEMENTATION:
 #include "l4_types.h"
 #include <cassert>
 
+#include "cpu.h"
 #include "cpu_lock.h"
 #include "globals.h"
 #include "lock_guard.h"
@@ -118,7 +126,8 @@ PUBLIC inline
 void
 Receiver::set_caller(Receiver *caller, L4_fpage::Rights rights)
 {
-  Mword nv = Mword(caller) | (cxx::int_value<L4_fpage::Rights>(rights) & 0x3);
+  Mword nv = reinterpret_cast<Mword>(caller)
+             | (cxx::int_value<L4_fpage::Rights>(rights) & 0x3);
   reinterpret_cast<Mword volatile &>(_caller) = nv;
 }
 
@@ -129,7 +138,7 @@ PUBLIC inline NEEDS["atomic.h"]
 void
 Receiver::reset_caller(Receiver const *old_caller)
 {
-  Mword ov = Mword(old_caller) | (_caller & 0x3);
+  Mword ov = reinterpret_cast<Mword>(old_caller) | (_caller & 0x3);
   // avoid exclusive access (do test, test-and-set)
   if (_caller != ov)
     return;
@@ -137,24 +146,32 @@ Receiver::reset_caller(Receiver const *old_caller)
   cas(&_caller, ov, 0UL);
 }
 
+/**
+ * Unconditionally reset the caller.
+ */
 PUBLIC inline
 void
 Receiver::reset_caller()
 {
-  if (_caller)
-    _caller = 0;
+  assert(_caller);
+  _caller = 0;
 }
 
+/**
+ * Check if the given sender is stored as the IPC partner of this Receiver.
+ *
+ * The IPC partner field is not reset after a receive operation is finished, so
+ * it might contain an old value from the last receive operation (see also
+ * `Receiver::in_ipc()`).
+ *
+ * \pre Must only be invoked in a context where it is safe to access the
+ *      Receiver's state, e.g. on the Receiver's home CPU or in a DRQ targeted
+ *      at the Receiver.
+ */
 PROTECTED inline
 bool Receiver::is_partner(Sender *s) const
 {
   return _partner == s;
-}
-
-PROTECTED inline
-bool Receiver::has_partner() const
-{
-  return _partner != nullptr;
 }
 
 // Interface for senders
@@ -207,7 +224,7 @@ Receiver::set_timeout(Timeout *t, Unsigned64 tval)
   t->set(tval, home_cpu());
 }
 
-PUBLIC inline
+PUBLIC inline NEEDS["cpu.h"]
 void
 Receiver::enqueue_timeout_again()
 {
@@ -237,8 +254,14 @@ PROTECTED inline
 bool Receiver::prepared() const
 { return _rcv_regs; }
 
-/** Set the IPC partner (sender).
-    @param partner IPC partner
+/**
+ * Set the IPC partner (sender).
+ *
+ * \pre Must only be invoked in a context where it is safe to access the
+ *      Receiver's state, e.g. on the Receiver's home CPU or in a DRQ targeted
+ *      at the Receiver.
+ *
+ * \param partner IPC partner
  */
 PUBLIC inline
 void
@@ -247,6 +270,13 @@ Receiver::set_partner(Sender* partner)
   _partner = partner;
 }
 
+/**
+ * Check if this Receiver is in an IPC receive operation with the given sender.
+ *
+ * \pre Must only be invoked in a context where it is safe to access the
+ *      Receiver's state, e.g. on the Receiver's home CPU or in a DRQ targeted
+ *      at the Receiver.
+ */
 PUBLIC inline
 bool
 Receiver::in_ipc(Sender *sender)
@@ -311,7 +341,7 @@ Receiver::vcpu_async_ipc(Sender const *sender) const
   LOG_TRACE("VCPU events", "vcpu", this, Vcpu_log,
       l->type = 1;
       l->state = vcpu->_saved_state;
-      l->ip = Mword(sender);
+      l->ip = reinterpret_cast<Mword>(sender);
       l->sp = regs()->sp();
       l->space = ~0; //vcpu_user_space() ? static_cast<Task*>(vcpu_user_space())->dbg_id() : ~0;
       );
@@ -349,7 +379,7 @@ PRIVATE static
 Context::Drq::Result
 Receiver::handle_remote_abort_send(Drq *, Context *, void *_rq)
 {
-  Ipc_remote_dequeue_request *rq = (Ipc_remote_dequeue_request*)_rq;
+  Ipc_remote_dequeue_request *rq = static_cast<Ipc_remote_dequeue_request*>(_rq);
   if (rq->sender->in_sender_list())
     {
       // really cancel IPC
@@ -377,3 +407,11 @@ Receiver::abort_send(Sender *sender)
   return rq.state;
 }
 
+//----------------------------------------------------------------------------
+IMPLEMENTATION [debug]:
+
+PROTECTED inline
+bool Receiver::has_partner() const
+{
+  return _partner != nullptr;
+}

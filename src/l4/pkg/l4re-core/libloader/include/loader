@@ -26,10 +26,12 @@ struct Prog_start_info
   l4_umword_t dyn_num_phdrs;
   l4_umword_t dyn_interp_base;
 
-
+  l4_addr_t   ldr_base = 0;       /// Load address forwarded to ITAS aux vec
   l4_umword_t ldr_flags;
   l4_umword_t l4re_dbg;
+  l4_umword_t ex_regs_flags = 0;
 
+  l4_addr_t base = 0;             /// Base address of loaded executable
   l4_addr_t entry;
   l4_addr_t kip;
   l4_addr_t stack_addr;
@@ -58,8 +60,9 @@ protected:
 
   struct Arg_array
   {
-    char const *a0, *al;
-    Arg_array() : a0(0) {}
+    char const *a0 = nullptr;
+    char const *al = nullptr;
+    Arg_array() {};
     int push(Base_app_model *am, bool basename);
   };
 
@@ -218,6 +221,8 @@ Loader<App_model_, Dbg_>::launch(App_model *am, Const_dataspace bin, Dbg_ const 
 
   void const *l4aux_ptr;
     {
+      am->alloc_prog();
+
       // load the program into memory, prepare all the VMAs
       // and stuff on the application stack
       load(am, bin, dbg);
@@ -291,12 +296,12 @@ Loader<App_model_, Dbg_>::launch(App_model *am, Const_dataspace bin, Dbg_ const 
   am->push_envp();
   am->push_argv();
 
-  const char *p = stack.ptr();
+  char *p = stack.ptr();
   l4_umword_t offs;
-  stack.ptr(adjust_sp((char *)p, &offs));
+  stack.ptr(adjust_sp(p, &offs));
 
   if (p != stack.ptr() + offs)
-    memmove((char *)stack.ptr() + offs, p, stack_before_auxv - p);
+    memmove(stack.ptr() + offs, p, stack_before_auxv - p);
 
   // the stack is now ready for the app
   am->start_prog(env);

@@ -106,7 +106,7 @@ private:
 class Fdt
 {
 public:
-  Fdt() : _dtmem(nullptr) {}
+  Fdt() {}
   Fdt(void *dtmem) : _dtmem(dtmem) {}
   Fdt(Fdt const &o, int padding = 0)
   : _owned(true)
@@ -242,7 +242,7 @@ private:
   mutable std::map<fdt32_t, int> _phandles;
   mutable std::map<int, int> _parents;
 
-  void *_dtmem;
+  void *_dtmem = nullptr;
   bool _owned = false;
 };
 
@@ -920,9 +920,9 @@ public:
     if (!prop)
       ERR(this, "could not get property '%s': %s", name, fdt_strerror(len));
 
-    if (len < (int) sizeof(T) * size)
+    if (len < static_cast<int>(sizeof(T)) * size)
       ERR(this, "property '%s' is too small (%d need %u)",
-          name, len, (unsigned) (sizeof(T) * size));
+          name, len, static_cast<unsigned>(sizeof(T) * size));
 
     return reinterpret_cast<T const *>(prop);
   }
@@ -1069,7 +1069,7 @@ private:
     return strcmp(devtype, "isa") == 0 || strcmp(devtype, "eisa") == 0;
   }
 
-  Fdt *_fdt;
+  Fdt *_fdt = nullptr;
   int _node;
 };
 
@@ -1191,8 +1191,8 @@ bool
 Node<ERR>::translate_reg(Node const &parent, Cell *address, Cell const &size) const
 {
   static Cell no_reg_mask;
-  static Cell pci_bus_reg_mask{0x03000000U, 0xffffffffU, 0xffffffffU};
-  static Cell isa_bus_reg_mask{0xffffffffU};
+  static Cell pci_bus_reg_mask = Cell::make_cell({0x03000000U, 0xffffffffU, 0xffffffffU});
+  static Cell isa_bus_reg_mask = Cell::make_cell({0x0000'0001U, 0xffff'ffffU});
 
   if (parent.is_root_node())
     return true;

@@ -35,28 +35,37 @@ public:
 
   public:
     Page() noexcept : p(0) {}
-    void *operator * () const noexcept { return (void*)(p & Page_addr_mask); }
+    void *operator * () const noexcept
+    { return reinterpret_cast<void*>(p & Page_addr_mask); }
     bool valid() const noexcept { return p & Page_addr_mask;}
     unsigned long flags() const noexcept { return p & ~Page_addr_mask; }
 
     void set(void *addr, unsigned long flags) noexcept
-    { p = ((unsigned long)addr & Page_addr_mask) | (flags & ~Page_addr_mask); }
+    {
+      p = (reinterpret_cast<unsigned long>(addr) & Page_addr_mask)
+          | (flags & ~Page_addr_mask);
+    }
 
     void flags(unsigned long add, unsigned long del = 0) noexcept
     {
       p = (p & Page_addr_mask & ~(del & ~Page_addr_mask))
-        | ((unsigned long)add & ~Page_addr_mask);
+          | (add & ~Page_addr_mask);
     }
 
     void addr(void *a) noexcept
-    { p = (p & ~Page_addr_mask) | ((unsigned long)a & Page_addr_mask); }
+    {
+      p = (p & ~Page_addr_mask)
+          | (reinterpret_cast<unsigned long>(a) & Page_addr_mask);
+    }
   };
 
   bool is_static() const noexcept override { return false; }
 
   Dataspace_noncont(unsigned long size,
-                    Flags flags = L4Re::Dataspace::F::RWX) noexcept
-  : Dataspace(size, flags | Flags(Cow_enabled), L4_LOG2_PAGESIZE), _pages(0)
+                    Flags flags = L4Re::Dataspace::F::RWX,
+                    Single_page_alloc_base::Config cfg =
+                      Single_page_alloc_base::Config()) noexcept
+  : Dataspace(size, flags | Flags(Cow_enabled), L4_LOG2_PAGESIZE, cfg), _pages(0)
   {}
 
   virtual ~Dataspace_noncont() {}
@@ -96,6 +105,7 @@ public:
   long clear(unsigned long offs, unsigned long size) const noexcept override;
 
   static Dataspace_noncont *create(Q_alloc *q, unsigned long size,
+                                   Single_page_alloc_base::Config cfg,
                                    Flags flags = L4Re::Dataspace::F::RWX);
 
 protected:

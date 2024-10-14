@@ -8,7 +8,7 @@
 #pragma once
 
 #include <vector>
-#include <unordered_map>
+#include <map>
 
 #include <l4/cxx/ref_ptr>
 #include <l4/sys/vm>
@@ -59,14 +59,16 @@ public:
 
   void cpu_online(Cpu_dev *cpu);
   void cpu_offline(Cpu_dev *cpu);
+  void sync_all_other_cores_off() const override;
 
-  void L4_NORETURN halt_vm(Vcpu_ptr current_vcpu)
+  void L4_NORETURN halt_vm(Vcpu_ptr current_vcpu) override
   {
     stop_cpus();
+    sync_all_other_cores_off();
     Generic_guest::halt_vm(current_vcpu);
   }
 
-  void L4_NORETURN shutdown(int val)
+  void L4_NORETURN shutdown(int val) override
   {
     stop_cpus();
     Generic_guest::shutdown(val);
@@ -104,6 +106,12 @@ public:
   void handle_smccc_call(Vcpu_ptr vcpu)
   {
     bool res = false;
+
+    // Skip HVC/SMC instruction here. Some vm_call() methods like
+    // Psci_device::vm_call() might set it to a completly different value, which
+    // we can not change without breaking things.
+    vcpu->r.ip += 4;
+
     // Check if this is a valid/supported SMCCC call
     if (Smccc_device::is_valid_call(vcpu->r.r[0]))
       {
@@ -122,19 +130,13 @@ public:
                       (METHOD == Smc) ? "SMC" : "HVC",
                       static_cast<unsigned>(vcpu.hsr().svc_imm()),
                       vcpu->r.r[0] & mask, vcpu->r.r[1] & mask,
-                      vcpu->r.ip & mask, vcpu.get_lr() & mask);
+                      (vcpu->r.ip - 4) & mask, vcpu.get_lr() & mask);
         vcpu->r.r[0] = Smccc_device::Not_supported;
       }
-
-    if (METHOD == Smc)
-      vcpu->r.ip += 4;
   }
 
-  void map_gicc(Vdev::Device_lookup *devs, Vdev::Dt_node const &node) const;
   void handle_wfx(Vcpu_ptr vcpu);
   void handle_ppi(Vcpu_ptr vcpu);
-
-  void handle_ex_regs_exception(Vcpu_ptr vcpu);
 
   bool inject_abort(Vcpu_ptr vcpu, bool inst, l4_addr_t addr);
   bool inject_undef(Vcpu_ptr vcpu);
@@ -189,7 +191,7 @@ private:
   bool _guest_64bit = false;
 
   std::vector<cxx::Ref_ptr<Vmm::Smccc_device>> _smccc_handlers[Num_smcc_methods];
-  std::unordered_map<Sys_reg::Key, cxx::Ref_ptr<Sys_reg>> _sys_regs;
+  std::map<Sys_reg::Key, cxx::Ref_ptr<Sys_reg>> _sys_regs;
 };
 
 } // namespace

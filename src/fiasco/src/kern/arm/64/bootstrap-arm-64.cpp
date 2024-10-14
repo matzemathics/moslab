@@ -1,4 +1,4 @@
-INTERFACE [arm]:
+INTERFACE [arm && mmu]:
 
 #include "mem_layout.h"
 #include "mmio_register_block.h"
@@ -17,7 +17,7 @@ EXTENSION class Bootstrap
   struct Bs_alloc
   {
     Bs_alloc(void *base, Mword &free_map)
-    : _p((Address)base), _free_map(free_map)
+    : _p(reinterpret_cast<Address>(base)), _free_map(free_map)
     {}
 
     static Address to_phys(void *v)
@@ -25,16 +25,18 @@ EXTENSION class Bootstrap
 
     static bool valid() { return true; }
 
-    void *alloc(Bytes size)
+    void *alloc(Bytes /* size */)
     {
-      (void) size;
       // assert (size == Config::PAGE_SIZE);
       // test that size is a power of two
       // assert (((size - 1) ^ size) == (size - 1));
 
       int x = __builtin_ffsl(_free_map);
       if (x == 0)
-        return nullptr; // OOM
+        {
+          __builtin_trap();
+          return nullptr; // OOM
+        }
 
       _free_map &= ~(1UL << (x - 1));
 
@@ -46,8 +48,14 @@ EXTENSION class Bootstrap
   };
 };
 
-IMPLEMENTATION [arm]:
+IMPLEMENTATION [arm && mmu]:
 
+#include "paging_bits.h"
+
+static inline
+Bootstrap::Order
+Bootstrap::map_page_order()
+{ return Order(21); }
 
 /**
  * Map RAM range with super pages.
@@ -62,17 +70,16 @@ Bootstrap::map_ram_range(PDIR *kd, Bs_alloc &alloc,
                          unsigned long pstart, unsigned long pend,
                          unsigned long va_offset, Page::Kern kern)
 {
-  pstart = Mem_layout::trunc_superpage(pstart);
-  pend = Mem_layout::round_superpage(pend);
+  pstart = Super_pg::trunc(pstart);
+  pend = Super_pg::round(pend);
   unsigned long size = pend - pstart;
 
   for (unsigned long i = 0; i < size; i += Config::SUPERPAGE_SIZE)
     {
       auto pte = kd->walk(::Virt_addr(pstart - va_offset + i),
                           PDIR::Super_level, false, alloc, Bs_mem_map());
-      pte.set_page(pte.make_page(Phys_mem_addr(pstart + i),
-                                 Page::Attr(Page::Rights::RWX(),
-                                            Page::Type::Normal(), kern)));
+      pte.set_page(Phys_mem_addr(pstart + i),
+                   Page::Attr(Page::Rights::RWX(), Page::Type::Normal(), kern));
     }
 }
 
@@ -95,7 +102,7 @@ struct Elf64_rela
 
   inline void apply(unsigned long load_addr)
   {
-    auto *addr = (unsigned long *)(load_addr + offset);
+    auto *addr = reinterpret_cast<unsigned long *>(load_addr + offset);
     *addr = load_addr + addend;
   }
 };
@@ -105,6 +112,9 @@ Bootstrap::relocate(unsigned long load_addr)
 {
   Elf<Elf64_dyn, Elf64_rela>::relocate(load_addr);
 }
+
+// -----------------------------------------------------------------
+IMPLEMENTATION [arm]:
 
 PUBLIC static inline Mword
 Bootstrap::read_pfr0()
@@ -117,7 +127,10 @@ Bootstrap::read_pfr0()
 // -----------------------------------------------------------------
 IMPLEMENTATION [arm && !arm_sve]:
 
-PUBLIC static inline void
+#include "cpu.h"
+
+PUBLIC static inline NEEDS["cpu.h"]
+void
 Bootstrap::config_feature_traps(Mword, bool leave_el3, bool leave_el2)
 {
   if (leave_el3)
@@ -132,7 +145,10 @@ Bootstrap::config_feature_traps(Mword, bool leave_el3, bool leave_el2)
 // -----------------------------------------------------------------
 IMPLEMENTATION [arm && arm_sve]:
 
-PUBLIC static inline void
+#include "cpu.h"
+
+PUBLIC static inline NEEDS["cpu.h"]
+void
 Bootstrap::config_feature_traps(Mword pfr0, bool leave_el3, bool leave_el2)
 {
   bool has_sve = ((pfr0 >> 32) & 0xf) == 1;
@@ -170,7 +186,7 @@ Bootstrap::config_feature_traps(Mword pfr0, bool leave_el3, bool leave_el2)
     }
 }
 
-IMPLEMENTATION [arm && pic_gic && !have_arm_gicv3]:
+IMPLEMENTATION [arm && mmu && pic_gic && !have_arm_gicv3]:
 
 PUBLIC static void
 Bootstrap::config_gic_ns()
@@ -187,7 +203,7 @@ Bootstrap::config_gic_ns()
   Mmu<Bootstrap::Cache_flush_area, true>::flush_cache();
 }
 
-IMPLEMENTATION [arm && (!pic_gic || have_arm_gicv3)]:
+IMPLEMENTATION [arm && mmu && (!pic_gic || have_arm_gicv3)]:
 
 PUBLIC static inline void
 Bootstrap::config_gic_ns() {}
@@ -200,6 +216,40 @@ enum : Unsigned64
 {
   Hcr_default_bits = Cpu::Hcr_hcd | Cpu::Hcr_rw,
 };
+
+static inline void
+switch_from_el2_to_el1()
+{
+  Mword tmp, tmp2;
+
+  asm volatile ("tlbi alle1");
+  asm volatile ("msr HCR_EL2, %0" : : "r"(Hcr_default_bits));
+  Bootstrap::config_feature_traps(Bootstrap::read_pfr0(), false, true);
+
+  asm volatile ("dsb sy" : : : "memory");
+  // SCTLR.C might toggle, so flush cache
+  Mmu<Bootstrap::Cache_flush_area, true>::flush_cache();
+
+  // Ensure defined state of SCTLR_EL1
+  asm volatile ("msr SCTLR_EL1, %0       \n"
+                : : "r" (Cpu::Sctlr_generic & ~Cpu::Sctlr_m));
+
+  asm volatile ("   mrs %[tmp], MIDR_EL1    \n"
+                "   msr VPIDR_EL2, %[tmp]   \n"
+                "   mrs %[tmp], MPIDR_EL1   \n"
+                "   msr VMPIDR_EL2, %[tmp]  \n"
+                "   mov %[tmp], sp          \n"
+                "   msr spsr_el2, %[psr]    \n"
+                "   adr %[tmp2], 1f         \n"
+                "   msr elr_el2, %[tmp2]    \n"
+                "   eret                    \n"
+                "1: mov sp, %[tmp]          \n"
+                : [tmp]"=&r"(tmp), [tmp2] "=&r"(tmp2)
+                : [psr]"r"((0xfUL << 6) | 5UL)
+                : "cc", "memory");
+}
+
+IMPLEMENTATION [arm && mmu && !cpu_virt]:
 
 PUBLIC static inline NEEDS["cpu.h"]
 void
@@ -277,7 +327,6 @@ Bootstrap::leave_hyp_mode()
   asm volatile ("mrs %0, CurrentEL" : "=r"(cel));
   cel >>= 2;
   cel &= 3;
-  Mword tmp;
 
   switch (cel)
     {
@@ -286,20 +335,7 @@ Bootstrap::leave_hyp_mode()
       break;
 
     case 2:
-      // flush all E1 TLBs
-      asm volatile ("tlbi alle1");
-      // set HCR (RW and HCD)
-      asm volatile ("msr HCR_EL2, %0" : : "r"(Hcr_default_bits));
-      Bootstrap::config_feature_traps(read_pfr0(), false, true);
-      asm volatile ("   mov %[tmp], sp       \n"
-                    "   msr spsr_el2, %[psr] \n"
-                    "   adr x4, 1f           \n"
-                    "   msr elr_el2, x4      \n"
-                    "   eret                 \n"
-                    "1: mov sp, %[tmp]       \n"
-                    : [tmp]"=&r"(tmp)
-                    : [psr]"r"((0xfUL << 6) | 5UL)
-                    : "cc", "x4");
+      switch_from_el2_to_el1();
       break;
     case 1:
     default:
@@ -350,11 +386,6 @@ Bootstrap::init_paging()
 //---------------------------------------------------------------------------
 IMPLEMENTATION [arm]:
 
-static inline
-Bootstrap::Order
-Bootstrap::map_page_order()
-{ return Order(21); }
-
 asm
 (
 ".section .text.init,\"ax\"            \n"
@@ -381,7 +412,7 @@ asm
 );
 
 // -----------------------------------------------------------------
-IMPLEMENTATION [arm && cpu_virt]:
+IMPLEMENTATION [arm && mmu && cpu_virt]:
 
 #include "infinite_loop.h"
 #include "cpu.h"
@@ -425,7 +456,6 @@ Bootstrap::leave_el3()
       L4::infinite_loop();
     }
 
-  asm volatile ("msr HCR_EL2, %0" : : "r"(Cpu::Hcr_rw));
 
   Bootstrap::config_feature_traps(pfr0, true, false);
 
@@ -467,6 +497,9 @@ Bootstrap::leave_el3()
 PUBLIC static Bootstrap::Phys_addr
 Bootstrap::init_paging()
 {
+  // HCR_EL2.{E2H,TGE} change behavior of paging so make sure they are disabled
+  asm volatile ("msr HCR_EL2, %0" : : "r"(Cpu::Hcr_rw));
+
   leave_el3();
 
   Kpdir *d = reinterpret_cast<Kpdir *>(kern_to_boot(bs_info.pi.l0_dir));
@@ -496,7 +529,46 @@ Bootstrap::init_paging()
       "msr ttbr0_el2, %0 \n"
       "isb               \n"
       : :
-      "r"(d), "r"((Mword)Page::Ttbcr_bits));
+      "r"(d), "r"(Mword{Page::Ttbcr_bits}));
 
   return Phys_addr(0);
 }
+
+// -----------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu && !cpu_virt]:
+
+PUBLIC static void
+Bootstrap::leave_hyp_mode()
+{
+  Mword cel;
+  asm volatile ("mrs %0, CurrentEL" : "=r"(cel));
+  cel >>= 2;
+  cel &= 3;
+
+  switch (cel)
+    {
+    case 2:
+      asm volatile ("msr VTCR_EL2, %0" : : "r"(0)); // Ensure PMSAv8-64@EL1
+      asm volatile ("msr S3_4_C2_C6_2, %0" : : "r"(1UL << 31)); // VSTCR_EL2
+      switch_from_el2_to_el1();
+      break;
+    case 3: // ARMv8-R AArch64 has no EL3
+    case 1:
+    default:
+      break;
+    }
+}
+
+// -----------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu && cpu_virt]:
+
+PUBLIC static inline void
+Bootstrap::leave_hyp_mode()
+{}
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm && !mmu]:
+
+PUBLIC static inline void
+Bootstrap::init_node_data()
+{}

@@ -26,7 +26,7 @@ private:
 
 public:
   void set_local_addr(l4_addr_t addr)
-  { sp = (char *)addr + _size; }
+  { sp = reinterpret_cast<char *>(addr) + _size; }
 
   void set_target_stack(l4_addr_t addr, l4_size_t size)
   { _addr = addr; _size = size; }
@@ -50,16 +50,16 @@ public:
 
   void align(unsigned long size)
   {
-    l4_addr_t p = l4_addr_t(sp);
+    l4_addr_t p = reinterpret_cast<l4_addr_t>(sp);
     unsigned bits;
     for (bits = 0; (1UL << bits) <= size; ++bits)
       ;
 
     p &= ~0UL << bits;
-    sp = (char *)p;
+    sp = reinterpret_cast<char *>(p);
   }
 
-  char const *ptr() const { return sp; }
+  char *ptr() const { return sp; }
   void ptr(char *p) { sp = p; }
 };
 
@@ -73,6 +73,7 @@ struct L4Re_app_model : public Ldr::Base_app_model<L4Re_stack>
   L4Re_app_model(L4::Cap<L4Re::Rm> rm, void *);
 
   Dataspace alloc_ds(unsigned long size) const;
+  Dataspace alloc_ds(unsigned long size, l4_addr_t paddr) const;
 
   static Const_dataspace open_file(char const *name);
 
@@ -124,6 +125,10 @@ struct L4Re_app_model : public Ldr::Base_app_model<L4Re_stack>
 
   L4Re::Env *add_env();
   void start_prog(L4Re::Env const *env);
+
+private:
+  Dataspace alloc_ds(unsigned long size, l4_addr_t paddr,
+                     unsigned long flags) const;
 };
 
 typedef Ldr::Local_app_model<L4Re_app_model> L4Re_x_app_model;
@@ -132,7 +137,6 @@ class Loader
 {
 public:
   bool start(L4::Cap<L4Re::Dataspace> bin, Region_map *rm, l4re_aux_t *aux);
-  bool __start(L4::Cap<L4Re::Dataspace> bin, Region_map *rm);
   virtual bool launch(L4::Cap<L4Re::Dataspace> bin, L4::Cap<L4Re::Rm>) = 0;
   virtual ~Loader() {}
 };

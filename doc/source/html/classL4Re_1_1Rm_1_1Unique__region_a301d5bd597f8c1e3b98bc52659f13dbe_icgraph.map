@@ -1,38 +1,42 @@
 <map id="L4Re::Rm::Unique_region::get" name="L4Re::Rm::Unique_region::get">
-<area shape="rect" id="Node000001" title="Return the address." alt="" coords="708,273,923,298"/>
-<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#abdad88a18e5428fb2276148ceccf0434" title="Make a local memory region for the given driver values." alt="" coords="475,26,645,81"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="798,262,743,181,703,136,658,95,638,83,641,78,662,91,707,132,747,178,802,259"/>
-<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a35714a3ebce252eb16a40033cf97d0fe" title="Get a read&#45;only pointer to the config header." alt="" coords="493,105,627,145"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="791,265,734,212,697,184,659,160,626,145,629,141,661,155,701,180,737,208,794,261"/>
-<area shape="rect" id="Node000010" href="$classL4Re_1_1Util_1_1Event__t.html#a6052908f83d35a7bb1ba9371cbfc9834" title="Initialise an event object." alt="" coords="489,169,631,209"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="772,270,659,224,625,212,627,207,661,219,774,265"/>
-<area shape="rect" id="Node000011" href="$classL4Re_1_1Util_1_1Event__t.html#a2161b185b3f69aa9ef597a03fdbde247" title="Initialise an event object in polling mode." alt="" coords="489,233,631,273"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="700,274,631,265,632,260,700,268"/>
-<area shape="rect" id="Node000012" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a8a5924a06457abb6a6e3f2bfe472e419" title=" " alt="" coords="460,297,660,337"/>
-<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="701,302,661,307,660,302,700,297"/>
-<area shape="rect" id="Node000013" href="$classL4virtio_1_1Svr_1_1Dev__config.html#aa47cc92da20edf7757449a0917f30997" title="Get queue read&#45;only config data for queue with the given index." alt="" coords="493,361,627,401"/>
-<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="774,306,661,352,627,364,625,359,659,347,772,301"/>
-<area shape="rect" id="Node000017" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="463,425,657,465"/>
-<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="794,310,737,362,701,391,661,416,635,428,633,423,659,411,697,386,734,358,791,306"/>
-<area shape="rect" id="Node000018" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="477,489,643,529"/>
-<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="803,311,780,348,748,394,708,440,662,480,640,491,638,487,658,475,705,436,744,390,776,345,798,309"/>
-<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a64313e8e41c209f12bd104442751753d" title="Get the value from the cmd register." alt="" coords="267,5,401,45"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="478,103,459,94,434,77,411,60,387,48,389,43,413,55,437,73,461,90,480,98"/>
-<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a988f5859320f66b6479d338c5b15660f" title="Reset the cmd register after execution of a command." alt="" coords="262,69,406,109"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="478,115,406,103,407,98,479,110"/>
-<area shape="rect" id="Node000007" href="$classL4virtio_1_1Svr_1_1Dev__config.html#afc2b3a6d213dc5fbaf7e500f784b5076" title="Set DEVICE_NEEDS_RESET bit in device status register." alt="" coords="261,134,407,189"/>
-<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="479,141,408,152,407,147,478,136"/>
-<area shape="rect" id="Node000009" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a01556f856334cea1ab98ef40559a5ead" title="Set device status register." alt="" coords="263,213,405,253"/>
-<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="481,150,461,160,447,170,438,180,414,202,389,216,386,211,410,198,434,176,444,166,459,155,479,145"/>
-<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Device__t.html#a460f5dc2b32e33a616eb822ffd2f88f0" title="Check for a value in the cmd register and handle a write." alt="" coords="5,37,208,77"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="253,39,209,46,208,40,253,34"/>
-<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="248,80,208,74,209,69,249,75"/>
-<area shape="rect" id="Node000008" href="$classL4virtio_1_1Svr_1_1Device__t.html#a29f780ecb04509d8b72f4a155b073c74" title="Transition device into DEVICE_NEEDS_RESET state." alt="" coords="30,141,183,181"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="247,164,184,164,184,159,247,159"/>
-<area shape="rect" id="Node000014" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a23076c47a39c091db853262e9db32f1c" title="Reset queue config for the given queue." alt="" coords="256,337,412,377"/>
-<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="479,375,412,368,412,363,479,370"/>
-<area shape="rect" id="Node000016" href="$classL4virtio_1_1Svr_1_1Device__t.html#ab906b4cc61026fd815a8056f07bef10e" title="Enable/disable the specified queue." alt="" coords="257,401,411,441"/>
-<area shape="poly" id="edge16_Node000013_Node000016" title=" " alt="" coords="479,398,411,410,410,405,478,393"/>
-<area shape="rect" id="Node000015" href="$classL4virtio_1_1Svr_1_1Device__t.html#aedbe988112e98750e5409a8c92358dcf" title="Trigger reset for the configuration space for queue idx." alt="" coords="23,337,191,377"/>
-<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="242,360,191,360,191,355,242,355"/>
+<area shape="rect" id="Node000001" title="Return the address." alt="" coords="723,301,937,326"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#abdad88a18e5428fb2276148ceccf0434" title="Make a local memory region for the given driver values." alt="" coords="489,54,660,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="812,290,757,209,718,164,673,123,653,111,656,106,676,119,722,160,762,206,817,287"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a35714a3ebce252eb16a40033cf97d0fe" title="Get a read&#45;only pointer to the config header." alt="" coords="507,133,642,173"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="805,293,748,240,712,212,673,188,641,173,643,169,676,183,715,208,752,236,809,289"/>
+<area shape="rect" id="Node000011" href="$classL4Re_1_1Util_1_1Event__t.html#a6052908f83d35a7bb1ba9371cbfc9834" title="Initialise an event object." alt="" coords="503,197,646,237"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="787,298,674,252,640,240,641,235,676,247,789,293"/>
+<area shape="rect" id="Node000012" href="$classL4Re_1_1Util_1_1Event__t.html#a2161b185b3f69aa9ef597a03fdbde247" title="Initialise an event object in polling mode." alt="" coords="503,261,646,301"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="714,302,646,293,646,288,715,296"/>
+<area shape="rect" id="Node000013" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#a6e35c07336f8b1f1972a6bc1349beeeb" title=" " alt="" coords="475,325,675,365"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="715,330,675,335,675,330,715,325"/>
+<area shape="rect" id="Node000014" href="$classL4virtio_1_1Svr_1_1Dev__config.html#aa47cc92da20edf7757449a0917f30997" title="Get queue read&#45;only config data for queue with the given index." alt="" coords="507,389,642,429"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="789,334,676,380,641,392,640,387,674,375,787,329"/>
+<area shape="rect" id="Node000019" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="477,453,672,493"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="809,338,752,390,715,419,676,444,650,456,648,451,673,439,712,414,748,386,805,334"/>
+<area shape="rect" id="Node000020" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="491,517,658,557"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="818,339,795,376,763,422,723,468,676,508,655,519,652,515,673,503,719,464,759,418,791,373,813,337"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a7fb7334fc078f7c26c036ea1f5fbdbf3" title="Adds irq status bit." alt="" coords="256,5,427,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="493,134,473,122,457,106,448,90,440,75,425,59,406,48,408,43,428,55,444,72,453,88,461,103,476,118,496,129"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a64313e8e41c209f12bd104442751753d" title="Get the value from the cmd register." alt="" coords="274,69,409,109"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="494,134,408,110,409,105,495,129"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a988f5859320f66b6479d338c5b15660f" title="Reset the cmd register after execution of a command." alt="" coords="269,133,413,173"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="494,156,414,156,414,151,494,151"/>
+<area shape="rect" id="Node000008" href="$classL4virtio_1_1Svr_1_1Dev__config.html#afc2b3a6d213dc5fbaf7e500f784b5076" title="Set DEVICE_NEEDS_RESET bit in device status register." alt="" coords="268,198,415,253"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="497,180,415,205,414,200,495,175"/>
+<area shape="rect" id="Node000010" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a01556f856334cea1ab98ef40559a5ead" title="Set device status register." alt="" coords="270,277,413,317"/>
+<area shape="poly" id="edge10_Node000003_Node000010" title=" " alt="" coords="496,176,476,187,460,206,453,225,445,245,428,266,408,279,405,275,425,262,441,243,448,223,456,203,473,183,493,171"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Device__t.html#a460f5dc2b32e33a616eb822ffd2f88f0" title="Check for a value in the cmd register and handle a write." alt="" coords="5,101,208,141"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="260,103,209,110,208,105,259,98"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="255,144,208,138,209,133,256,139"/>
+<area shape="rect" id="Node000009" href="$classL4virtio_1_1Svr_1_1Device__t.html#a29f780ecb04509d8b72f4a155b073c74" title="Transition device into DEVICE_NEEDS_RESET state." alt="" coords="30,205,183,245"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="254,228,184,228,184,223,254,223"/>
+<area shape="rect" id="Node000015" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a23076c47a39c091db853262e9db32f1c" title="Reset queue config for the given queue." alt="" coords="263,365,419,405"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="493,404,419,396,420,391,494,398"/>
+<area shape="rect" id="Node000017" href="$classL4virtio_1_1Svr_1_1Device__t.html#ab906b4cc61026fd815a8056f07bef10e" title="Enable/disable the specified queue." alt="" coords="265,429,418,469"/>
+<area shape="poly" id="edge17_Node000014_Node000017" title=" " alt="" coords="494,426,419,439,418,434,493,420"/>
+<area shape="rect" id="Node000016" href="$classL4virtio_1_1Svr_1_1Device__t.html#aedbe988112e98750e5409a8c92358dcf" title="Trigger reset for the configuration space for queue idx." alt="" coords="23,365,191,405"/>
+<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="249,388,191,388,191,383,249,383"/>
+<area shape="rect" id="Node000018" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#a907c7c33a513325d49c3214f94b2f600" title="callback for client queue&#45;config request" alt="" coords="5,429,208,469"/>
+<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="250,452,208,452,208,447,250,447"/>
 </map>

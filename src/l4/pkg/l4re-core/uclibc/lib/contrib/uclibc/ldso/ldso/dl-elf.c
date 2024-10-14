@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * This file contains the helper routines to load an ELF shared
  * library into memory and add the symbol table info to the chain.
@@ -118,6 +117,7 @@ int _dl_unmap_cache(void)
 void
 _dl_protect_relro (struct elf_resolve *l)
 {
+#ifdef __ARCH_USE_MMU__
 	ElfW(Addr) base = (ElfW(Addr)) DL_RELOC_ADDR(l->loadaddr, l->relro_addr);
 	ElfW(Addr) start = (base & PAGE_ALIGN);
 	ElfW(Addr) end = ((base + l->relro_size) & PAGE_ALIGN);
@@ -127,31 +127,25 @@ _dl_protect_relro (struct elf_resolve *l)
 		_dl_dprintf(2, "%s: cannot apply additional memory protection after relocation", l->libname);
 		_dl_exit(0);
 	}
+#endif
 }
 
 /* This function's behavior must exactly match that
  * in uClibc/ldso/util/ldd.c */
 static struct elf_resolve *
-search_for_named_library(const char *name, unsigned rflags, const char *path_list,
-	struct dyn_elf **rpnt)
+search_for_named_library(const char *name, unsigned int rflags, const char *path_list,
+	struct dyn_elf **rpnt, const char* origin)
 {
-	char *path, *path_n, *mylibname;
+	char *mylibname;
 	struct elf_resolve *tpnt;
-	int done;
+	const char *p, *pn;
+	int plen;
 
 	if (path_list==NULL)
 		return NULL;
 
-	/* We need a writable copy of this string, but we don't
-	 * need this allocated permanently since we don't want
-	 * to leak memory, so use alloca to put path on the stack */
-	done = _dl_strlen(path_list);
-	path = alloca(done + 1);
-
 	/* another bit of local storage */
 	mylibname = alloca(2050);
-
-	_dl_memcpy(path, path_list, done+1);
 
 	/* Unlike ldd.c, don't bother to eliminate double //s */
 
@@ -159,30 +153,46 @@ search_for_named_library(const char *name, unsigned rflags, const char *path_lis
 	/* : at the beginning or end of path maps to CWD */
 	/* :: anywhere maps CWD */
 	/* "" maps to CWD */
-	done = 0;
-	path_n = path;
-	do {
-		if (*path == 0) {
-			*path = ':';
-			done = 1;
+	for (p = path_list; p != NULL; p = pn) {
+		pn = _dl_strchr(p + 1, ':');
+		if (pn != NULL) {
+			plen = pn - p;
+			pn++;
+		} else
+			plen = _dl_strlen(p);
+
+		if (plen >= 7 && _dl_memcmp(p, "$ORIGIN", 7) == 0) {
+			int olen;
+			/* $ORIGIN is not expanded for SUID/GUID programs
+			   (except if it is $ORIGIN alone) */
+			if ((rflags & __RTLD_SECURE) && plen != 7)
+				continue;
+			if (origin == NULL)
+				continue;
+			for (olen = _dl_strlen(origin) - 1; olen >= 0 && origin[olen] != '/'; olen--)
+				;
+			if (olen <= 0)
+				continue;
+			_dl_memcpy(&mylibname[0], origin, olen);
+			_dl_memcpy(&mylibname[olen], p + 7, plen - 7);
+			mylibname[olen + plen - 7] = 0;
+		} else if (plen != 0) {
+			_dl_memcpy(mylibname, p, plen);
+			mylibname[plen] = 0;
+		} else {
+			_dl_strcpy(mylibname, ".");
 		}
-		if (*path == ':') {
-			*path = 0;
-			if (*path_n)
-				_dl_strcpy(mylibname, path_n);
-			else
-				_dl_strcpy(mylibname, "."); /* Assume current dir if empty path */
+		plen = _dl_strlen(mylibname);
+		if ((plen == 0) || (mylibname[plen-1] != '/')) {
 			_dl_strcat(mylibname, "/");
-			_dl_strcat(mylibname, name);
-#ifdef __LDSO_SAFE_RUNPATH__
-			if (*mylibname == '/')
-#endif
-				if ((tpnt = _dl_load_elf_shared_library(rflags, rpnt, mylibname)) != NULL)
-					return tpnt;
-			path_n = path+1;
 		}
-		path++;
-	} while (!done);
+		_dl_strcat(mylibname, name);
+#ifdef __LDSO_SAFE_RUNPATH__
+		if (*mylibname == '/')
+#endif
+		if ((tpnt = _dl_load_elf_shared_library(rflags, rpnt, mylibname)) != NULL)
+			return tpnt;
+	}
 	return NULL;
 }
 
@@ -190,7 +200,7 @@ search_for_named_library(const char *name, unsigned rflags, const char *path_lis
 unsigned long _dl_error_number;
 unsigned long _dl_internal_error_number;
 
-struct elf_resolve *_dl_load_shared_library(unsigned rflags, struct dyn_elf **rpnt,
+struct elf_resolve *_dl_load_shared_library(unsigned int rflags, struct dyn_elf **rpnt,
 	struct elf_resolve *tpnt, char *full_libname, int attribute_unused trace_loaded_objects)
 {
 	(void) tpnt;
@@ -235,8 +245,10 @@ struct elf_resolve *_dl_load_shared_library(unsigned rflags, struct dyn_elf **rp
 	if (pnt) {
 		pnt += (unsigned long) tpnt->dynamic_info[DT_STRTAB];
 		_dl_if_debug_dprint("\tsearching RPATH='%s'\n", pnt);
-		if ((tpnt1 = search_for_named_library(libname, rflags, pnt, rpnt)) != NULL)
+		if ((tpnt1 = search_for_named_library(libname, rflags, pnt, rpnt,
+						      tpnt->libname)) != NULL)
 			return tpnt1;
+
 	}
 #endif
 
@@ -244,7 +256,7 @@ struct elf_resolve *_dl_load_shared_library(unsigned rflags, struct dyn_elf **rp
 	/* Check in LD_{ELF_}LIBRARY_PATH, if specified and allowed */
 	if (_dl_library_path) {
 		_dl_if_debug_dprint("\tsearching LD_LIBRARY_PATH='%s'\n", _dl_library_path);
-		if ((tpnt1 = search_for_named_library(libname, rflags, _dl_library_path, rpnt)) != NULL)
+		if ((tpnt1 = search_for_named_library(libname, rflags, _dl_library_path, rpnt, NULL)) != NULL)
 		{
 			return tpnt1;
 		}
@@ -258,9 +270,21 @@ struct elf_resolve *_dl_load_shared_library(unsigned rflags, struct dyn_elf **rp
 	if (pnt) {
 		pnt += (unsigned long) tpnt->dynamic_info[DT_STRTAB];
 		_dl_if_debug_dprint("\tsearching RUNPATH='%s'\n", pnt);
-		if ((tpnt1 = search_for_named_library(libname, rflags, pnt, rpnt)) != NULL)
+		if ((tpnt1 = search_for_named_library(libname, rflags, pnt, rpnt, NULL)) != NULL)
 			return tpnt1;
 	}
+#ifdef __LDSO_RUNPATH_OF_EXECUTABLE__
+        /*
+         * Try the DT_RPATH of the executable itself.
+         */
+        pnt = (char *) _dl_loaded_modules->dynamic_info[DT_RPATH];
+        if (pnt) {
+                pnt += (unsigned long) _dl_loaded_modules->dynamic_info[DT_STRTAB];
+                _dl_if_debug_dprint("\tsearching exe's RPATH='%s'\n", pnt);
+                if ((tpnt1 = search_for_named_library(libname, rflags, pnt, rpnt, NULL)) != NULL)
+                        return tpnt1;
+        }
+#endif
 #endif
 
 	/*
@@ -288,14 +312,28 @@ struct elf_resolve *_dl_load_shared_library(unsigned rflags, struct dyn_elf **rp
 		}
 	}
 #endif
+
+#ifdef LDSO_MULTILIB_DIR
+	/* If multilib directory is selected, search it before falling back to
+	   standard lib directories. */
+	_dl_if_debug_dprint("\tsearching multilib lib path list\n");
+	tpnt1 = search_for_named_library(libname, rflags,
+					UCLIBC_RUNTIME_PREFIX LDSO_MULTILIB_DIR ":"
+					UCLIBC_RUNTIME_PREFIX "usr/" LDSO_MULTILIB_DIR,
+					rpnt, NULL);
+	if (tpnt1 != NULL)
+		return tpnt1;
+#endif
+
 #if defined SHARED && defined __LDSO_SEARCH_INTERP_PATH__
 	/* Look for libraries wherever the shared library loader
 	 * was installed */
 	_dl_if_debug_dprint("\tsearching ldso dir='%s'\n", _dl_ldsopath);
-	tpnt1 = search_for_named_library(libname, rflags, _dl_ldsopath, rpnt);
+	tpnt1 = search_for_named_library(libname, rflags, _dl_ldsopath, rpnt, NULL);
 	if (tpnt1 != NULL)
 		return tpnt1;
 #endif
+
 	/* Lastly, search the standard list of paths for the library.
 	   This list must exactly match the list in uClibc/ldso/util/ldd.c */
 	_dl_if_debug_dprint("\tsearching full lib path list\n");
@@ -305,9 +343,41 @@ struct elf_resolve *_dl_load_shared_library(unsigned rflags, struct dyn_elf **rp
 #ifndef __LDSO_CACHE_SUPPORT__
 					":" UCLIBC_RUNTIME_PREFIX "usr/X11R6/lib"
 #endif
-					, rpnt);
+					, rpnt, NULL);
 	if (tpnt1 != NULL)
 		return tpnt1;
+
+#ifdef __LDSO_RUNPATH_OF_EXECUTABLE__
+	/* Very last resort, try the executable's DT_RUNPATH and DT_RPATH */
+	/* http://www.sco.com/developers/gabi/latest/ch5.dynamic.html#shobj_dependencies
+	 * The set of directories specified by a given DT_RUNPATH entry is
+	 * used to find only the immediate dependencies of the executable or
+	 * shared object containing the DT_RUNPATH entry. That is, it is
+	 * used only for those dependencies contained in the DT_NEEDED
+	 * entries of the dynamic structure containing the DT_RUNPATH entry,
+	 * itself. One object's DT_RUNPATH entry does not affect the search
+	 * for any other object's dependencies.
+	 *
+	 * glibc (around 2.19) violates this and the usual suspects are
+	 * abusing this bug^Wrelaxed, user-friendly behaviour.
+	 */
+
+	pnt = (char *) _dl_loaded_modules->dynamic_info[DT_RUNPATH];
+	if (pnt) {
+		pnt += (unsigned long) _dl_loaded_modules->dynamic_info[DT_STRTAB];
+		_dl_if_debug_dprint("\tsearching exe's RUNPATH='%s'\n", pnt);
+		if ((tpnt1 = search_for_named_library(libname, rflags, pnt, rpnt, NULL)) != NULL)
+			return tpnt1;
+	}
+	pnt = (char *) _dl_loaded_modules->dynamic_info[DT_RPATH];
+	if (pnt) {
+		pnt += (unsigned long) _dl_loaded_modules->dynamic_info[DT_STRTAB];
+		_dl_if_debug_dprint("\tsearching exe's RPATH='%s'\n", pnt);
+		if ((tpnt1 = search_for_named_library(libname, rflags, pnt, rpnt, NULL)) != NULL)
+			return tpnt1;
+	}
+#endif
+
 
 goof:
 	/* Well, we shot our wad on that one.  All we can do now is punt */
@@ -444,7 +514,7 @@ map_writeable (int infile, ElfW(Phdr) *ppnt, int piclib, int flags,
  * are required.
  */
 
-struct elf_resolve *_dl_load_elf_shared_library(unsigned rflags,
+struct elf_resolve *_dl_load_elf_shared_library(unsigned int rflags,
 	struct dyn_elf **rpnt, const char *libname)
 {
 	ElfW(Ehdr) *epnt;
@@ -482,7 +552,7 @@ struct elf_resolve *_dl_load_elf_shared_library(unsigned rflags,
 	}
 	/* If we are in secure mode (i.e. a setuid/gid binary using LD_PRELOAD),
 	   we don't load the library if it isn't setuid. */
-	if (rflags & DL_RESOLVE_SECURE) {
+	if (rflags & __RTLD_SECURE) {
 		if (!(st.st_mode & S_ISUID)) {
 			_dl_close(infile);
 			return NULL;
@@ -498,16 +568,17 @@ struct elf_resolve *_dl_load_elf_shared_library(unsigned rflags,
 #endif
 			/* Already loaded */
 			tpnt->usage_count++;
+			tpnt->init_flag |= DL_OPENED2;
 			_dl_close(infile);
 			return tpnt;
 		}
 	}
-	if (rflags & DL_RESOLVE_NOLOAD) {
+	if (rflags & RTLD_NOLOAD) {
 		_dl_close(infile);
 		return NULL;
 	}
 	header = _dl_mmap((void *) 0, _dl_pagesize, PROT_READ | PROT_WRITE,
-			MAP_PRIVATE | MAP_ANONYMOUS | MAP_UNINITIALIZED, -1, 0);
+			MAP_PRIVATE | MAP_ANONYMOUS | _MAP_UNINITIALIZED, -1, 0);
 	if (_dl_mmap_check_error(header)) {
 		_dl_dprintf(2, "%s:%i: can't map '%s'\n", _dl_progname, __LINE__, libname);
 		_dl_internal_error_number = LD_ERROR_MMAP_FAILED;
@@ -737,7 +808,7 @@ struct elf_resolve *_dl_load_elf_shared_library(unsigned rflags,
 				void *new_addr;
 				new_addr = map_writeable (infile, ppnt, piclib, flags, libaddr);
 				if (!new_addr) {
-					_dl_dprintf(_dl_debug_file, "Can't modify %s's text section.",
+					_dl_dprintf(2, "Can't modify %s's text section.",
 						    libname);
 					_dl_exit(1);
 				}
@@ -771,7 +842,7 @@ struct elf_resolve *_dl_load_elf_shared_library(unsigned rflags,
 		DL_RELOC_ADDR(DL_GET_RUN_ADDR(tpnt->loadaddr, tpnt->mapaddr),
 		epnt->e_phoff);
 	tpnt->n_phent = epnt->e_phnum;
-	tpnt->rtld_flags |= rtld_flags;
+	tpnt->rtld_flags = rflags | rtld_flags;
 #ifdef __LDSO_STANDALONE_SUPPORT__
 	tpnt->l_entry = epnt->e_entry;
 #endif
@@ -804,11 +875,11 @@ struct elf_resolve *_dl_load_elf_shared_library(unsigned rflags,
 		{
 # ifdef __SUPPORT_LD_DEBUG_EARLY__
 			char *tmp = (char *) tpnt->l_tls_initimage;
-			tpnt->l_tls_initimage = (char *) tlsppnt->p_vaddr + tpnt->loadaddr;
+			tpnt->l_tls_initimage = (char *) DL_RELOC_ADDR(tpnt->loadaddr, tlsppnt->p_vaddr);
 			_dl_debug_early("Relocated TLS initial image from %x to %x (size = %x)\n", tmp, tpnt->l_tls_initimage, tpnt->l_tls_initimage_size);
 			tmp = 0;
 # else
-			tpnt->l_tls_initimage = (char *) tlsppnt->p_vaddr + tpnt->loadaddr;
+			tpnt->l_tls_initimage = (char *) DL_RELOC_ADDR(tpnt->loadaddr, tlsppnt->p_vaddr);
 # endif
 		}
 	}
@@ -838,8 +909,11 @@ struct elf_resolve *_dl_load_elf_shared_library(unsigned rflags,
 		_dl_memset(*rpnt, 0, sizeof(struct dyn_elf));
 	}
 #endif
-	(*rpnt)->dyn = tpnt;
+	if (*rpnt)
+		(*rpnt)->dyn = tpnt;
 	tpnt->usage_count++;
+	if (tpnt->rtld_flags & RTLD_NODELETE)
+		tpnt->usage_count++;
 #ifdef __LDSO_STANDALONE_SUPPORT__
 	tpnt->libtype = (epnt->e_type == ET_DYN) ? elf_lib : elf_executable;
 #else
@@ -957,6 +1031,11 @@ int _dl_fixup(struct dyn_elf *rpnt, struct r_scope_elem *scope, int now_flag)
 		goof++;
 		return goof;
 	}
+
+#if !defined(__FDPIC__) && !defined(__DSBT__)
+	/* Process DT_RELR relative relocations */
+	DL_RELOCATE_RELR(tpnt);
+#endif
 
 	reloc_size = tpnt->dynamic_info[DT_RELOC_TABLE_SIZE];
 /* On some machines, notably SPARC & PPC, DT_REL* includes DT_JMPREL in its

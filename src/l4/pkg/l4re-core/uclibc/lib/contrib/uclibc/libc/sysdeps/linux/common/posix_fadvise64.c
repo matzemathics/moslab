@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * posix_fadvise64() for uClibc
  * http://www.opengroup.org/onlinepubs/009695399/functions/posix_fadvise.html
@@ -22,13 +21,23 @@
 
 int posix_fadvise64(int fd, off64_t offset, off64_t len, int advice)
 {
+	int ret;
 	INTERNAL_SYSCALL_DECL (err);
 	/* ARM has always been funky. */
-# if defined(__UCLIBC_SYSCALL_ALIGN_64BIT__) || defined(__arm__)
-	int ret = INTERNAL_SYSCALL (fadvise64_64, err, 6, fd, advice,
+#if defined (__arm__) || defined (__nds32__) || defined (__csky__) || \
+    (defined(__UCLIBC_SYSCALL_ALIGN_64BIT__) && (defined(__powerpc__) || defined(__xtensa__)))
+	/* arch with 64-bit data in even reg alignment #1: [powerpc/xtensa]
+	 * custom syscall handler (rearranges @advice to avoid register hole punch) */
+	ret = INTERNAL_SYSCALL (fadvise64_64, err, 6, fd, advice,
 			OFF64_HI_LO (offset), OFF64_HI_LO (len));
+#elif defined(__UCLIBC_SYSCALL_ALIGN_64BIT__)
+	/* arch with 64-bit data in even reg alignment #2: [arcv2/others-in-future]
+	 * stock syscall handler in kernel (reg hole punched) */
+	ret = INTERNAL_SYSCALL (fadvise64_64, err, 7, fd, 0,
+			OFF64_HI_LO (offset), OFF64_HI_LO (len),
+			advice);
 # else
-	int ret = INTERNAL_SYSCALL (fadvise64_64, err, 6, fd,
+	ret = INTERNAL_SYSCALL (fadvise64_64, err, 6, fd,
 			OFF64_HI_LO (offset), OFF64_HI_LO (len),
 			advice);
 # endif

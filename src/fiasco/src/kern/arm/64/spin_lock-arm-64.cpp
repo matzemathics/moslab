@@ -11,7 +11,7 @@ IMPLEMENTATION [arm && mp]:
 
 #include "processor.h"
 
-PRIVATE template<typename Lock_t> inline NEEDS["processor.h"]
+IMPLEMENT template<typename Lock_t> inline NEEDS["processor.h"]
 void
 Spin_lock<Lock_t>::lock_arch()
 {
@@ -19,18 +19,17 @@ Spin_lock<Lock_t>::lock_arch()
 
 #define LOCK_ARCH(z,u) \
   __asm__ __volatile__ ( \
-      "   sevl                                      \n" \
-      "   prfm pstl1keep, [%[lock]]                 \n" \
+      "   prfm pstl1strm, %[lock]                   \n" \
+      "   b 2f                                      \n" \
       "1: wfe                                       \n" \
-      "   ldaxr" #z "  %" #u "[d], [%[lock]]        \n" \
+      "2: ldaxr" #z "  %" #u "[d], %[lock]          \n" \
       "   tst     %x[d], #2                         \n" /* Arch_lock == #2 */ \
       "   bne 1b                                    \n" \
       "   orr   %x[tmp], %x[d], #2                  \n" \
-      "   stxr" #z " %w[d], %" #u "[tmp], [%[lock]] \n" \
+      "   stxr" #z " %w[d], %" #u "[tmp], %[lock]   \n" \
       "   cbnz  %w[d], 1b                           \n" \
-      : [d] "=&r" (dummy), [tmp] "=&r"(tmp), "+m" (_lock) \
-      : [lock] "r" (&_lock) \
-      : "cc" \
+      : [d] "=&r" (dummy), [tmp] "=&r"(tmp), [lock] "+Q" (_lock) \
+      : : "cc", "memory" \
       )
 
   switch (sizeof(Lock_t))
@@ -44,7 +43,7 @@ Spin_lock<Lock_t>::lock_arch()
 #undef LOCK_ARCH
 }
 
-PRIVATE template<typename Lock_t> inline
+IMPLEMENT template<typename Lock_t> inline
 void
 Spin_lock<Lock_t>::unlock_arch()
 {
@@ -55,7 +54,7 @@ Spin_lock<Lock_t>::unlock_arch()
       "ldr"#z " %" #u "[tmp], %[lock]              \n" \
       "bic %x[tmp], %x[tmp], #2                    \n" /* Arch_lock == #2 */ \
       "stlr"#z " %" #u "[tmp], %[lock]             \n" \
-      : [lock] "=Q" (_lock), [tmp] "=&r" (tmp))
+      : [lock] "+Q" (_lock), [tmp] "=&r" (tmp) : : "memory")
 
   switch (sizeof(Lock_t))
     {

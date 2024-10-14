@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: examples/clntsrv/server.cc</title>
+<title>L4Re Operating System Framework: examples/clntsrv/server.cc</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -114,7 +117,7 @@ $(document).ready(function(){initNavTree('examples_2clntsrv_2server_8cc-example.
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &quot;shared.h&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <a id="_a0" name="_a0"></a><a class="code hl_class" href="classL4Re_1_1Util_1_1Registry__server.html">L4Re::Util::Registry_server&lt;L4Re::Util::Br_manager_hooks&gt;</a> server;</div>
+<div class="line"><span class="keyword">static</span> <a id="_a0" name="_a0"></a><a class="code hl_class" href="classL4Re_1_1Util_1_1Registry__server.html">L4Re::Util::Registry_server&lt;&gt;</a> server;</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">class </span>Calculation_server : <span class="keyword">public</span> <a id="_a1" name="_a1"></a><a class="code hl_struct" href="structL4_1_1Epiface__t.html">L4::Epiface_t</a>&lt;Calculation_server, Calc&gt;</div>
 <div class="line">{</div>
@@ -154,12 +157,12 @@ $(document).ready(function(){initNavTree('examples_2clntsrv_2server_8cc-example.
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 <div class="ttc" id="aclassL4Re_1_1Util_1_1Object__registry_html_a3350558821dd0fc9e098cc762eb16cf0"><div class="ttname"><a href="classL4Re_1_1Util_1_1Object__registry.html#a3350558821dd0fc9e098cc762eb16cf0">L4Re::Util::Object_registry::register_obj</a></div><div class="ttdeci">L4::Cap&lt; void &gt; register_obj(L4::Epiface *o, char const *service) override</div><div class="ttdoc">Register a new server object to a pre-allocated receive endpoint.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00205">object_registry:205</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html">L4Re::Util::Registry_server</a></div><div class="ttdoc">A server loop object which has a Object_registry included.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00306">object_registry:307</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html_a12aa2bc89118f390bb8ad25c54319e0a"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html#a12aa2bc89118f390bb8ad25c54319e0a">L4Re::Util::Registry_server::registry</a></div><div class="ttdeci">Object_registry const * registry() const</div><div class="ttdoc">Return registry of this server loop.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00347">object_registry:347</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html_a3a4270bdb1a6002131c85361b720fa1a"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html#a3a4270bdb1a6002131c85361b720fa1a">L4Re::Util::Registry_server::loop</a></div><div class="ttdeci">void L4_NORETURN loop(l4_utcb_t *utcb=l4_utcb())</div><div class="ttdoc">Start the server loop.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00357">object_registry:357</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html">L4Re::Util::Registry_server</a></div><div class="ttdoc">A server loop object which has a Object_registry included.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00307">object_registry:308</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html_a12aa2bc89118f390bb8ad25c54319e0a"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html#a12aa2bc89118f390bb8ad25c54319e0a">L4Re::Util::Registry_server::registry</a></div><div class="ttdeci">Object_registry const * registry() const</div><div class="ttdoc">Return registry of this server loop.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00348">object_registry:348</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html_a3a4270bdb1a6002131c85361b720fa1a"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html#a3a4270bdb1a6002131c85361b720fa1a">L4Re::Util::Registry_server::loop</a></div><div class="ttdeci">void L4_NORETURN loop(l4_utcb_t *utcb=l4_utcb())</div><div class="ttdoc">Start the server loop.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00358">object_registry:358</a></div></div>
 <div class="ttc" id="aenv_html"><div class="ttname"><a href="env.html">env</a></div><div class="ttdoc">Environment interface.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_gac1d09f3e382e711b776931f10e6e1e5a"><div class="ttname"><a href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a></div><div class="ttdeci">unsigned int l4_uint32_t</div><div class="ttdoc">Unsigned 32bit value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00040">l4int.h:40</a></div></div>
-<div class="ttc" id="astructL4_1_1Epiface__t_html"><div class="ttname"><a href="structL4_1_1Epiface__t.html">L4::Epiface_t</a></div><div class="ttdoc">Epiface implementation for Kobject-based interface implementations.</div><div class="ttdef"><b>Definition</b> <a href="ipc__epiface_source.html#l00513">ipc_epiface:514</a></div></div>
+<div class="ttc" id="astructL4_1_1Epiface__t_html"><div class="ttname"><a href="structL4_1_1Epiface__t.html">L4::Epiface_t</a></div><div class="ttdoc">Epiface implementation for Kobject-based interface implementations.</div><div class="ttdef"><b>Definition</b> <a href="ipc__epiface_source.html#l00514">ipc_epiface:515</a></div></div>
 <div class="ttc" id="autil_2cap__alloc_html"><div class="ttname"><a href="util_2cap__alloc.html">cap_alloc</a></div><div class="ttdoc">Capability allocator.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
@@ -167,7 +170,7 @@ $(document).ready(function(){initNavTree('examples_2clntsrv_2server_8cc-example.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

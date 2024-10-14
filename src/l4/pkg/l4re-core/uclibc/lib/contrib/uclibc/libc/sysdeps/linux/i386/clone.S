@@ -1,5 +1,4 @@
 /* Copyright (C) 1996-2000,02,03,04,2005 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
    Contributed by Richard Henderson (rth@tamu.edu)
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -78,10 +77,6 @@ clone:
 	movl	%eax,8(%ecx)
 	/* Don't leak any information.  */
 	movl	$0,4(%ecx)
-#ifndef RESET_PID
-	movl	$0,(%ecx)
-#endif
-
 
 	/* Do the system call */
 	pushl	%ebx
@@ -92,10 +87,6 @@ clone:
 	movl	FLAGS+12(%esp),%ebx
 	movl	CTID+12(%esp),%edi
 	movl	$__NR_clone,%eax
-#ifdef RESET_PID
-	/* Remember the flag value.  */
-	movl	%ebx, (%ecx)
-#endif
 	int	$0x80
 	popl	%edi
 	popl	%esi

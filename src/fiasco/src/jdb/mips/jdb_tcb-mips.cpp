@@ -61,7 +61,7 @@ Jdb_tcb::info_thread_state(Thread *t)
 {
   Mem_space *s = t->mem_space();
 
-  Jdb_tcb_ptr current((Address)t->get_kernel_sp());
+  Jdb_tcb_ptr current(reinterpret_cast<Address>(t->get_kernel_sp()));
 
   printf("\n"
          "Cause=%08lx Status=%08lx Epc=%08lx\n"
@@ -83,7 +83,7 @@ Jdb_tcb::info_thread_state(Thread *t)
 IMPLEMENT
 void Jdb_tcb::print_entry_frame_regs(Thread *t)
 {
-  Jdb_entry_frame *ef = Jdb::get_entry_frame(Jdb::current_cpu);
+  Jdb_entry_frame *ef = Jdb::get_entry_frame(t->get_current_cpu());
   int from_user       = ef->from_user();
   Mem_space *s = t->mem_space();
 
@@ -113,7 +113,7 @@ Jdb_tcb::info_thread_state(Thread *t)
 {
   Mem_space *s = t->mem_space();
 
-  Jdb_tcb_ptr current((Address)t->get_kernel_sp());
+  Jdb_tcb_ptr current(reinterpret_cast<Address>(t->get_kernel_sp()));
 
   printf("Ca=%08lx St=%08lx Epc=%08lx\n"
          "BadVA=%08lx Asid=%lx Hi=%lx Lo=%lx\n",
@@ -141,7 +141,7 @@ Jdb_tcb::info_thread_state(Thread *t)
 IMPLEMENT
 void Jdb_tcb::print_entry_frame_regs(Thread *t)
 {
-  Jdb_entry_frame *ef = Jdb::get_entry_frame(Jdb::current_cpu);
+  Jdb_entry_frame *ef = Jdb::get_entry_frame(t->get_current_cpu());
   int from_user       = ef->from_user();
   Mem_space *s = t->mem_space();
 

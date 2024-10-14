@@ -33,6 +33,8 @@ _tramp_mp_entry:
 #endif /* ! UX */
 
     /* Acquire spinlock */
+    // Copy of Spin_lock::lock_arch(), we have no stack yet, so we cannot call it.
+    // {
 1:	cmpl $0, _tramp_mp_spinlock
 	je 2f
 	pause
@@ -41,6 +43,7 @@ _tramp_mp_entry:
 	xchg _tramp_mp_spinlock, %CX
 	cmp $0, %CX
 	jne 1b
+    // }
 
 	/* we've the lock, can run on the init_stack */
 	mov $_tramp_mp_init_stack_top, %SP
@@ -50,6 +53,7 @@ _tramp_mp_entry:
 
 #ifndef CONFIG_PF_UX
 
+	.align 8
 .global _tramp_mp_startup_cr0
 .global _tramp_mp_startup_cr4
 .global _tramp_mp_startup_gdt_pdesc

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: arm/l4/sys/cache.h Source File</title>
+<title>L4Re Operating System Framework: arm/l4/sys/cache.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -141,20 +144,20 @@ $(document).ready(function(){initNavTree('arm_2l4_2sys_2cache_8h_source.html',''
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  __asm__ __volatile__</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    (<span class="stringliteral">&quot;@ l4_cache_op_arm_call(start) \n\t&quot;</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>     <span class="stringliteral">&quot;mov     lr, pc              \n\t&quot;</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>     <span class="stringliteral">&quot;mvn     pc, %[sc]             \n\t&quot;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>     <span class="stringliteral">&quot;mov     r5, %[sc]             \n\t&quot;</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>     <span class="stringliteral">&quot;blx     __l4_sys_syscall      \n\t&quot;</span></div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>     <span class="stringliteral">&quot;@ l4_cache_op_arm_call(end)   \n\t&quot;</span></div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>       :</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="stringliteral">&quot;=r&quot;</span> (_op),</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  <span class="stringliteral">&quot;=r&quot;</span> (_start),</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  <span class="stringliteral">&quot;=r&quot;</span> (_end)</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>       :</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>       [sc] <span class="stringliteral">&quot;i&quot;</span> (~(L4_SYSCALL_MEM_OP)),</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>       [sc] <span class="stringliteral">&quot;i&quot;</span> (L4_SYSCALL_MEM_OP),</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="stringliteral">&quot;0&quot;</span> (_op),</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="stringliteral">&quot;1&quot;</span> (_start),</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <span class="stringliteral">&quot;2&quot;</span> (_end)</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>       :</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <span class="stringliteral">&quot;cc&quot;</span>, <span class="stringliteral">&quot;memory&quot;</span>, <span class="stringliteral">&quot;lr&quot;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <span class="stringliteral">&quot;cc&quot;</span>, <span class="stringliteral">&quot;memory&quot;</span>, <span class="stringliteral">&quot;r5&quot;</span>, <span class="stringliteral">&quot;ip&quot;</span>, <span class="stringliteral">&quot;lr&quot;</span></div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>       );</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
@@ -245,7 +248,7 @@ $(document).ready(function(){initNavTree('arm_2l4_2sys_2cache_8h_source.html',''
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_0d0fa5d0311b8000470d732da0750893.html">arm</a></li><li class="navelem"><a class="el" href="dir_803382d759928ec492adccfc96fc3562.html">l4</a></li><li class="navelem"><a class="el" href="dir_43a5e3e87f741daccdeaf3008c1e00c5.html">sys</a></li><li class="navelem"><a class="el" href="arm_2l4_2sys_2cache_8h.html">cache.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

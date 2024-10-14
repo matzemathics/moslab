@@ -1,140 +1,61 @@
-/* Message catalogs for internationalization.
-   Copyright (C) 1995-2002, 2004, 2005 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-   This file is derived from the file libgettext.h in the GNU gettext package.
+#ifndef LIBINTL_H
+#define LIBINTL_H
 
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+char *gettext(const char *msgid);
+char *dgettext(const char *domainname, const char *msgid);
+char *dcgettext(const char *domainname, const char *msgid, int category);
+char *ngettext(const char *msgid1, const char *msgid2, unsigned long n);
+char *dngettext(const char *domainname, const char *msgid1, const char *msgid2, unsigned long n);
+char *dcngettext(const char *domainname, const char *msgid1, const char *msgid2, unsigned long n, int category);
 
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
+char *textdomain(const char *domainname);
+char *bind_textdomain_codeset(const char *domainname, const char *codeset);
+char *bindtextdomain(const char *domainname, const char *dirname);
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+#undef gettext_noop
+#define gettext_noop(X) X
 
-#ifndef _LIBINTL_H
-#define _LIBINTL_H	1
+#ifndef LIBINTL_NO_MACROS
+/* if these macros are defined, configure checks will detect libintl as
+ * built into the libc because test programs will work without -lintl.
+ * for example:
+ * checking for ngettext in libc ... yes
+ * the consequence is that -lintl will not be added to the LDFLAGS.
+ * so if for some reason you want that libintl.a gets linked,
+ * add -DLIBINTL_NO_MACROS=1 to your CPPFLAGS. */
 
-#include <features.h>
+#define gettext(X) ((char*) (X))
+#define dgettext(dom, X) ((void)(dom), (char*) (X))
+#define dcgettext(dom, X, cat) ((void)(dom), (void)(cat), (char*) (X))
+#define ngettext(X, Y, N) \
+	((char*) (((N) == 1) ? ((void)(Y), (X)) : ((void)(X), (Y))))
+#define dngettext(dom, X, Y, N) \
+	((dom), (char*) (((N) == 1) ? ((void)(Y), (X)) : ((void)(X), (Y))))
+#define dcngettext(dom, X, Y, N, cat) \
+	((dom), (cat), (char*) (((N) == 1) ? ((void)(Y), (X)) : ((void)(X), (Y))))
+#define bindtextdomain(X, Y) ((void)(X), (void)(Y), (char*) "/")
+#define bind_textdomain_codeset(dom, codeset) \
+	((void)(dom), (void)(codeset), (char*) 0)
+#define textdomain(X) ((void)(X), (char*) "messages")
 
-#ifdef __UCLIBC_HAS_GETTEXT_AWARENESS__
+#undef ENABLE_NLS
+#undef DISABLE_NLS
+#define DISABLE_NLS 1
 
-/* We define an additional symbol to signal that we use the GNU
-   implementation of gettext.  */
-#define __USE_GNU_GETTEXT 1
-
-/* Provide information about the supported file formats.  Returns the
-   maximum minor revision number supported for a given major revision.  */
-#define __GNU_GETTEXT_SUPPORTED_REVISION(major) \
-  ((major) == 0 ? 1 : -1)
-
-__BEGIN_DECLS
-
-/* Look up MSGID in the current default message catalog for the current
-   LC_MESSAGES locale.  If not found, returns MSGID itself (the default
-   text).  */
-extern char *gettext (const char *__msgid)
-     __THROW __attribute_format_arg__ (1);
-
-/* Look up MSGID in the DOMAINNAME message catalog for the current
-   LC_MESSAGES locale.  */
-extern char *dgettext (const char *__domainname, const char *__msgid)
-     __THROW __attribute_format_arg__ (2);
-#if 0 /* uClibc: disabled */
-extern char *__dgettext (const char *__domainname, const char *__msgid)
-     __THROW __attribute_format_arg__ (2);
+#if __GNUC__ +0 > 3
+/* most ppl call bindtextdomain() without using its return value
+   thus we get tons of warnings about "statement with no effect" */
+#pragma GCC diagnostic ignored "-Wunused-value"
 #endif
 
-/* Look up MSGID in the DOMAINNAME message catalog for the current CATEGORY
-   locale.  */
-extern char *dcgettext (const char *__domainname,
-			const char *__msgid, int __category)
-     __THROW __attribute_format_arg__ (2);
-#if 0 /* uClibc: disabled */
-extern char *__dcgettext (const char *__domainname,
-			  const char *__msgid, int __category)
-     __THROW __attribute_format_arg__ (2);
 #endif
 
+#include <stdio.h>
+#define gettext_printf(args...) printf(args)
 
-/* Similar to `gettext' but select the plural form corresponding to the
-   number N.  */
-extern char *ngettext (const char *__msgid1, const char *__msgid2,
-		       unsigned long int __n)
-     __THROW __attribute_format_arg__ (1) __attribute_format_arg__ (2);
+/* to supply LC_MESSAGES and other stuff GNU expects to be exported when
+   including libintl.h */
+#include <locale.h>
 
-/* Similar to `dgettext' but select the plural form corresponding to the
-   number N.  */
-extern char *dngettext (const char *__domainname, const char *__msgid1,
-			const char *__msgid2, unsigned long int __n)
-     __THROW __attribute_format_arg__ (2) __attribute_format_arg__ (3);
-
-/* Similar to `dcgettext' but select the plural form corresponding to the
-   number N.  */
-extern char *dcngettext (const char *__domainname, const char *__msgid1,
-			 const char *__msgid2, unsigned long int __n,
-			 int __category)
-     __THROW __attribute_format_arg__ (2) __attribute_format_arg__ (3);
-
-
-/* Set the current default message catalog to DOMAINNAME.
-   If DOMAINNAME is null, return the current default.
-   If DOMAINNAME is "", reset to the default of "messages".  */
-extern char *textdomain (const char *__domainname) __THROW;
-
-/* Specify that the DOMAINNAME message catalog will be found
-   in DIRNAME rather than in the system locale data base.  */
-extern char *bindtextdomain (const char *__domainname,
-			     const char *__dirname) __THROW;
-
-/* Specify the character encoding in which the messages from the
-   DOMAINNAME message catalog will be returned.  */
-extern char *bind_textdomain_codeset (const char *__domainname,
-				      const char *__codeset) __THROW;
-
-
-/* Optimized version of the function above.  */
-#if defined __OPTIMIZE__ && !defined __cplusplus
-
-/* We need NULL for `gettext'.  */
-# define __need_NULL
-# include <stddef.h>
-
-/* We need LC_MESSAGES for `dgettext'.  */
-# include <locale.h>
-
-/* These must be macros.  Inlined functions are useless because the
-   `__builtin_constant_p' predicate in dcgettext would always return
-   false.  */
-
-# define gettext(msgid) dgettext (NULL, msgid)
-
-# define dgettext(domainname, msgid) \
-  dcgettext (domainname, msgid, LC_MESSAGES)
-
-# define ngettext(msgid1, msgid2, n) dngettext (NULL, msgid1, msgid2, n)
-
-# define dngettext(domainname, msgid1, msgid2, n) \
-  dcngettext (domainname, msgid1, msgid2, n, LC_MESSAGES)
-
-#endif	/* Optimizing.  */
-
-__END_DECLS
-
-#else
-
-#define gettext(msgid) ((const char *) (msgid))
-
-#endif /* __UCLIBC_HAS_GETTEXT_AWARENESS__ */
-
-#ifdef _LIBC
-# define _(x) gettext(x)
-# define N_(x) x
 #endif
 
-#endif /* libintl.h */

@@ -143,10 +143,6 @@ typedef unsigned long long int	uintmax_t;
 #endif
 
 
-/* The ISO C99 standard specifies that in C++ implementations these
-   macros should only be defined if explicitly requested.  */
-#if !defined __cplusplus || defined __STDC_LIMIT_MACROS
-
 # if __WORDSIZE == 64
 #  define __INT64_C(c)	c ## L
 #  define __UINT64_C(c)	c ## UL
@@ -238,7 +234,6 @@ typedef unsigned long long int	uintmax_t;
 # endif
 
 
-#if !defined(__H8300H__) && !defined(__H8300S__)
 /* Minimum for largest signed integral type.  */
 # define INTMAX_MIN		(-__INT64_C(9223372036854775807)-1)
 /* Maximum for largest signed integral type.  */
@@ -246,15 +241,6 @@ typedef unsigned long long int	uintmax_t;
 
 /* Maximum for largest unsigned integral type.  */
 # define UINTMAX_MAX		(__UINT64_C(18446744073709551615))
-#else
-/* Minimum for largest signed integral type.  */
-# define INTMAX_MIN		(-LONG_LONG_MAX-1)
-/* Maximum for largest signed integral type.  */
-# define INTMAX_MAX		(LONG_LONG_MAX)
-
-/* Maximum for largest unsigned integral type.  */
-# define UINTMAX_MAX		(LONG_LONG_MAX<<1+1)
-#endif
 
 /* Limits of other integer types.  */
 
@@ -291,12 +277,6 @@ typedef unsigned long long int	uintmax_t;
 # define WINT_MAX		(4294967295u)
 #endif /* __UCLIBC_HAS_WCHAR__ */
 
-#endif	/* C++ && limit macros */
-
-
-/* The ISO C99 standard specifies that in C++ implementations these
-   should only be defined if explicitly requested.  */
-#if !defined __cplusplus || defined __STDC_CONSTANT_MACROS
 
 /* Signed.  */
 # define INT8_C(c)	c
@@ -326,7 +306,5 @@ typedef unsigned long long int	uintmax_t;
 #  define INTMAX_C(c)	c ## LL
 #  define UINTMAX_C(c)	c ## ULL
 # endif
-
-#endif	/* C++ && constant macros */
 
 #endif /* stdint.h */

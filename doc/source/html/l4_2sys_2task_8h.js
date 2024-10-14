@@ -8,7 +8,7 @@ var l4_2sys_2task_8h =
       [ "L4_TASK_LDT_SET_X86_OP", "group__l4__protocol__ops.html#gga23a759356490c4b1feffc9f36440a82da1dc147565402a8c98f9a19a087f0062a", null ],
       [ "L4_TASK_MAP_VGICC_ARM_OP", "group__l4__protocol__ops.html#gga23a759356490c4b1feffc9f36440a82da317f1418430c7753e2a6655caa8ca420", null ]
     ] ],
-    [ "l4_task_add_ku_mem", "group__l4__task__api.html#ga616af00101b9c34b428836715a90409d", null ],
+    [ "l4_task_add_ku_mem", "group__l4__task__api.html#ga433356d17f678aa259c6b616aeb476ef", null ],
     [ "l4_task_cap_equal", "group__l4__task__api.html#ga0cadc0abbf54ac249bae17239c9cfb81", null ],
     [ "l4_task_cap_valid", "group__l4__task__api.html#ga829a1b5cb4d5dba33ffee57534a505af", null ],
     [ "l4_task_delete_obj", "group__l4__task__api.html#gaf0ce40ee0426a016cb344370d20d2fcd", null ],

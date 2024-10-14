@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: arm/l4/sys/__vcpu-arch.h Source File</title>
+<title>L4Re Operating System Framework: arm/l4/sys/__vcpu-arch.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -124,89 +127,116 @@ $(document).ready(function(){initNavTree('arm_2l4_2sys_2____vcpu-arch_8h_source.
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">enum</span></div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>{</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <a class="code hl_enumvalue" href="amd64_2l4_2sys_2____vcpu-arch_8h.html#a7ee8d0f117a79ca7eb1e0076a9182bcba18f169cebe4da9364dc6e58a81184fc2">L4_VCPU_STATE_VERSION</a> = 0x35</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="arm_2l4_2sys_2____vcpu-arch_8h.html#a550cb4231d535863c55643bbd2d3c6baa18f169cebe4da9364dc6e58a81184fc2">   37</a></span>};</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="foldopen" id="foldopen00043" data-start="{" data-end="};">
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html">   43</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4__vcpu__regs__t.html">l4_vcpu_regs_t</a></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>{</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#a3f6687e67ef2d8eca6a9236a4c6dbcae">   45</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#a3f6687e67ef2d8eca6a9236a4c6dbcae">pfa</a>;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#a1a7a4e5198caf269f1afdcdfbf6475d4">   46</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#a1a7a4e5198caf269f1afdcdfbf6475d4">err</a>;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> r[13];</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#a006a9a913bbf2ca0e775897a5d494034">   50</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#a006a9a913bbf2ca0e775897a5d494034">sp</a>;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> lr;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> _dummy;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#afa0ae8c3fa639fae83bfeaa3dfd19e6c">   53</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#afa0ae8c3fa639fae83bfeaa3dfd19e6c">ip</a>;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#ac9eb8d042f40cf3fd790f03b6c072037">   54</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#ac9eb8d042f40cf3fd790f03b6c072037">flags</a>;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#a99387ea39643fa0920a5c0eda146c8b5">   55</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#a99387ea39643fa0920a5c0eda146c8b5">tpidruro</a>; </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#af931aef7a15bcf44537bcc71c7138345">   56</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#af931aef7a15bcf44537bcc71c7138345">tpidrurw</a>; </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="group__l4__vcpu__api.html#gab6bd3b349dcc885ad4ebee3379966cc0">   57</a></span>} <a class="code hl_typedef" href="group__l4__vcpu__api.html#gab6bd3b349dcc885ad4ebee3379966cc0">l4_vcpu_regs_t</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="arm_2l4_2sys_2____vcpu-arch_8h.html#a26c0312ac66c00f31cf886616c48afa2a18f169cebe4da9364dc6e58a81184fc2">   36</a></span>  <a class="code hl_enumvalue" href="amd64_2l4_2sys_2____vcpu-arch_8h.html#abe821d0fac05333be298917dcb50ee1da18f169cebe4da9364dc6e58a81184fc2">L4_VCPU_STATE_VERSION</a> = 0x37,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  L4_VCPU_STATE_SIZE = 0x100,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  L4_VCPU_STATE_EXT_SIZE = 0x400,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>};</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="};">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="group__l4__vcpu__api.html#gaa9c9426f606dfa123ace57a1081e4e1b">   46</a></span><span class="keyword">enum</span> <a class="code hl_enumeration" href="group__l4__vcpu__api.html#gaa9c9426f606dfa123ace57a1081e4e1b">L4_vcpu_state_offset</a></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>{</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3">   48</a></span>  <a class="code hl_enumvalue" href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3">L4_VCPU_OFFSET_EXT_STATE</a> = 0x180, </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5">   49</a></span>  <a class="code hl_enumvalue" href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5">L4_VCPU_OFFSET_EXT_INFOS</a> = 0x100, </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
 </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> l4_arm_vcpu_e_info_t <span class="keyword">const</span> *</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>l4_vcpu_e_info(<span class="keywordtype">void</span> <span class="keyword">const</span> *vcpu) <a class="code hl_define" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>{</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="keywordflow">return</span> (l4_arm_vcpu_e_info_t <span class="keyword">const</span> *)((<a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a>)vcpu</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                                        + <a class="code hl_enumvalue" href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5">L4_VCPU_OFFSET_EXT_INFOS</a>);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="foldopen" id="foldopen00062" data-start="{" data-end="};">
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structl4__vcpu__arch__state__t.html">   62</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4__vcpu__arch__state__t.html">l4_vcpu_arch_state_t</a></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> host_tpidruro;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="arm_2l4_2sys_2____vcpu-arch_8h.html#afa6877676ca7b547f705ef36b0ed22cf">   65</a></span>} <a class="code hl_typedef" href="amd64_2l4_2sys_2____vcpu-arch_8h.html#afa6877676ca7b547f705ef36b0ed22cf">l4_vcpu_arch_state_t</a>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><a class="code hl_define" href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a> <span class="keywordtype">void</span> *l4_vcpu_e_ptr(<span class="keywordtype">void</span> <span class="keyword">const</span> *vcpu, <span class="keywordtype">unsigned</span> <span class="keywordtype">id</span>) <a class="code hl_define" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>{ <span class="keywordflow">return</span> (<span class="keywordtype">void</span> *)((<a class="code hl_typedef" href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a>)vcpu + <a class="code hl_enumvalue" href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3">L4_VCPU_OFFSET_EXT_STATE</a> + (<span class="keywordtype">id</span> &amp; 0xfff)); }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="};">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html">   66</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4__vcpu__regs__t.html">l4_vcpu_regs_t</a></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>{</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#a3f6687e67ef2d8eca6a9236a4c6dbcae">   68</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#a3f6687e67ef2d8eca6a9236a4c6dbcae">pfa</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#a1a7a4e5198caf269f1afdcdfbf6475d4">   69</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#a1a7a4e5198caf269f1afdcdfbf6475d4">err</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> r[13];</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#a006a9a913bbf2ca0e775897a5d494034">   73</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#a006a9a913bbf2ca0e775897a5d494034">sp</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> lr;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> _dummy;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#afa0ae8c3fa639fae83bfeaa3dfd19e6c">   76</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#afa0ae8c3fa639fae83bfeaa3dfd19e6c">ip</a>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#ac9eb8d042f40cf3fd790f03b6c072037">   77</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#ac9eb8d042f40cf3fd790f03b6c072037">flags</a>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#a99387ea39643fa0920a5c0eda146c8b5">   78</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#a99387ea39643fa0920a5c0eda146c8b5">tpidruro</a>; </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="structl4__vcpu__regs__t.html#af931aef7a15bcf44537bcc71c7138345">   79</a></span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> <a class="code hl_variable" href="structl4__vcpu__regs__t.html#af931aef7a15bcf44537bcc71c7138345">tpidrurw</a>; </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="group__l4__vcpu__api.html#gab6bd3b349dcc885ad4ebee3379966cc0">   80</a></span>} <a class="code hl_typedef" href="group__l4__vcpu__api.html#gab6bd3b349dcc885ad4ebee3379966cc0">l4_vcpu_regs_t</a>;</div>
 </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="foldopen" id="foldopen00071" data-start="{" data-end="};">
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="structl4__vcpu__ipc__regs__t.html">   71</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4__vcpu__ipc__regs__t.html">l4_vcpu_ipc_regs_t</a></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>{</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> tag;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> _d1[3];</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> label;</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> _d2[8];</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="group__l4__vcpu__api.html#ga8655f00476dd34b9030b89ec01da8fd1">   77</a></span>} <a class="code hl_typedef" href="group__l4__vcpu__api.html#ga8655f00476dd34b9030b89ec01da8fd1">l4_vcpu_ipc_regs_t</a>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="foldopen" id="foldopen00085" data-start="{" data-end="};">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="structl4__vcpu__arch__state__t.html">   85</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4__vcpu__arch__state__t.html">l4_vcpu_arch_state_t</a></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>{</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> host_tpidruro;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="arm_2l4_2sys_2____vcpu-arch_8h.html#afa6877676ca7b547f705ef36b0ed22cf">   88</a></span>} <a class="code hl_typedef" href="amd64_2l4_2sys_2____vcpu-arch_8h.html#afa6877676ca7b547f705ef36b0ed22cf">l4_vcpu_arch_state_t</a>;</div>
 </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="foldopen" id="foldopen00087" data-start="{" data-end="};">
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="arm_2l4_2sys_2____vcpu-arch_8h.html#aaaf2eb3913e91f84c5dcba05e7ee278d">   87</a></span><span class="keyword">enum</span> <a class="code hl_enumeration" href="arm_2l4_2sys_2____vcpu-arch_8h.html#aaaf2eb3913e91f84c5dcba05e7ee278d">L4_vcpu_e_field_ids</a></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>{</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  L4_VCPU_E_HCR        = 0x8008,</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>  L4_VCPU_E_TTBR0      = 0x8010,</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  L4_VCPU_E_TTBR1      = 0x8018,</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  L4_VCPU_E_TTBCR      = 0x0020,</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  L4_VCPU_E_SCTLR      = 0x0024,</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  L4_VCPU_E_DACR       = 0x0028,</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  L4_VCPU_E_FCSEIDR    = 0x002c,</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  L4_VCPU_E_CNTVCTL    = 0x0030,</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  L4_VCPU_E_CNTVOFF    = 0x8038,</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  L4_VCPU_E_VMPIDR     = 0x0040,</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  L4_VCPU_E_VPIDR      = 0x0044,</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  L4_VCPU_E_GIC_HCR    = 0x0050,</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  L4_VCPU_E_GIC_VTR    = 0x0054,</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  L4_VCPU_E_GIC_VMCR   = 0x0058,</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  L4_VCPU_E_GIC_MISR   = 0x005c,</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  L4_VCPU_E_GIC_EISR   = 0x0060,</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  L4_VCPU_E_GIC_ELSR   = 0x0064,</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  L4_VCPU_E_GIC_V2_LR0 = 0x0068,</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  L4_VCPU_E_GIC_V3_LR0 = 0x8068,</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>};</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="foldopen" id="foldopen00094" data-start="{" data-end="};">
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="structl4__vcpu__ipc__regs__t.html">   94</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structl4__vcpu__ipc__regs__t.html">l4_vcpu_ipc_regs_t</a></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>{</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> tag;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> _d1[3];</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> label;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> _d2[8];</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="group__l4__vcpu__api.html#ga8655f00476dd34b9030b89ec01da8fd1">  100</a></span>} <a class="code hl_typedef" href="group__l4__vcpu__api.html#ga8655f00476dd34b9030b89ec01da8fd1">l4_vcpu_ipc_regs_t</a>;</div>
 </div>
-<div class="ttc" id="aamd64_2l4_2sys_2____vcpu-arch_8h_html_a7ee8d0f117a79ca7eb1e0076a9182bcba18f169cebe4da9364dc6e58a81184fc2"><div class="ttname"><a href="amd64_2l4_2sys_2____vcpu-arch_8h.html#a7ee8d0f117a79ca7eb1e0076a9182bcba18f169cebe4da9364dc6e58a81184fc2">L4_VCPU_STATE_VERSION</a></div><div class="ttdeci">@ L4_VCPU_STATE_VERSION</div><div class="ttdoc">Architecture-specific version ID.</div><div class="ttdef"><b>Definition</b> <a href="amd64_2l4_2sys_2____vcpu-arch_8h_source.html#l00036">__vcpu-arch.h:35</a></div></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="foldopen" id="foldopen00110" data-start="{" data-end="};">
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="arm_2l4_2sys_2____vcpu-arch_8h.html#aaaf2eb3913e91f84c5dcba05e7ee278d">  110</a></span><span class="keyword">enum</span> <a class="code hl_enumeration" href="arm_2l4_2sys_2____vcpu-arch_8h.html#aaaf2eb3913e91f84c5dcba05e7ee278d">L4_vcpu_e_field_ids</a></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>{</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  L4_VCPU_E_HCR        = 0x8008,</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  L4_VCPU_E_TTBR0      = 0x8010,</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  L4_VCPU_E_TTBR1      = 0x8018,</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  L4_VCPU_E_TTBCR      = 0x0020,</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  L4_VCPU_E_SCTLR      = 0x0024,</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  L4_VCPU_E_DACR       = 0x0028,</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  L4_VCPU_E_FCSEIDR    = 0x002c,</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  L4_VCPU_E_CNTVCTL    = 0x0030,</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  L4_VCPU_E_CNTVOFF    = 0x8038,</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>  L4_VCPU_E_VMPIDR     = 0x0040,</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  L4_VCPU_E_VPIDR      = 0x0044,</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  L4_VCPU_E_GIC_HCR    = 0x0050,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  L4_VCPU_E_GIC_VTR    = 0x0054,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  L4_VCPU_E_GIC_VMCR   = 0x0058,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  L4_VCPU_E_GIC_MISR   = 0x005c,</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  L4_VCPU_E_GIC_EISR   = 0x0060,</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  L4_VCPU_E_GIC_ELSR   = 0x0064,</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>  L4_VCPU_E_GIC_V2_LR0 = 0x0068,</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  L4_VCPU_E_GIC_V3_LR0 = 0x8068,</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>};</div>
+</div>
+<div class="ttc" id="aamd64_2l4_2sys_2____vcpu-arch_8h_html_abe821d0fac05333be298917dcb50ee1da18f169cebe4da9364dc6e58a81184fc2"><div class="ttname"><a href="amd64_2l4_2sys_2____vcpu-arch_8h.html#abe821d0fac05333be298917dcb50ee1da18f169cebe4da9364dc6e58a81184fc2">L4_VCPU_STATE_VERSION</a></div><div class="ttdeci">@ L4_VCPU_STATE_VERSION</div><div class="ttdoc">Architecture-specific version ID.</div><div class="ttdef"><b>Definition</b> <a href="amd64_2l4_2sys_2____vcpu-arch_8h_source.html#l00035">__vcpu-arch.h:35</a></div></div>
 <div class="ttc" id="aamd64_2l4_2sys_2____vcpu-arch_8h_html_afa6877676ca7b547f705ef36b0ed22cf"><div class="ttname"><a href="amd64_2l4_2sys_2____vcpu-arch_8h.html#afa6877676ca7b547f705ef36b0ed22cf">l4_vcpu_arch_state_t</a></div><div class="ttdeci">struct l4_vcpu_arch_state_t l4_vcpu_arch_state_t</div><div class="ttdoc">Architecture-specific vCPU state.</div></div>
-<div class="ttc" id="aarm_2l4_2sys_2____vcpu-arch_8h_html_aaaf2eb3913e91f84c5dcba05e7ee278d"><div class="ttname"><a href="arm_2l4_2sys_2____vcpu-arch_8h.html#aaaf2eb3913e91f84c5dcba05e7ee278d">L4_vcpu_e_field_ids</a></div><div class="ttdeci">L4_vcpu_e_field_ids</div><div class="ttdoc">IDs for extended vCPU state fields.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00087">__vcpu-arch.h:88</a></div></div>
+<div class="ttc" id="aarm_2l4_2sys_2____vcpu-arch_8h_html_aaaf2eb3913e91f84c5dcba05e7ee278d"><div class="ttname"><a href="arm_2l4_2sys_2____vcpu-arch_8h.html#aaaf2eb3913e91f84c5dcba05e7ee278d">L4_vcpu_e_field_ids</a></div><div class="ttdeci">L4_vcpu_e_field_ids</div><div class="ttdoc">IDs for extended vCPU state fields.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00110">__vcpu-arch.h:111</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
+<div class="ttc" id="agroup__l4__basic__types_html_ga4087b991c40c0d2fcde9ca331049a4d4"><div class="ttname"><a href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a></div><div class="ttdeci">unsigned long l4_addr_t</div><div class="ttdoc">Address type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00045">l4int.h:45</a></div></div>
 <div class="ttc" id="agroup__l4__vcpu__api_html_ga8655f00476dd34b9030b89ec01da8fd1"><div class="ttname"><a href="group__l4__vcpu__api.html#ga8655f00476dd34b9030b89ec01da8fd1">l4_vcpu_ipc_regs_t</a></div><div class="ttdeci">struct l4_vcpu_ipc_regs_t l4_vcpu_ipc_regs_t</div><div class="ttdoc">vCPU message registers.</div></div>
+<div class="ttc" id="agroup__l4__vcpu__api_html_gaa9c9426f606dfa123ace57a1081e4e1b"><div class="ttname"><a href="group__l4__vcpu__api.html#gaa9c9426f606dfa123ace57a1081e4e1b">L4_vcpu_state_offset</a></div><div class="ttdeci">L4_vcpu_state_offset</div><div class="ttdoc">Offsets for vCPU state layouts.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00046">__vcpu-arch.h:47</a></div></div>
 <div class="ttc" id="agroup__l4__vcpu__api_html_gab6bd3b349dcc885ad4ebee3379966cc0"><div class="ttname"><a href="group__l4__vcpu__api.html#gab6bd3b349dcc885ad4ebee3379966cc0">l4_vcpu_regs_t</a></div><div class="ttdeci">struct l4_vcpu_regs_t l4_vcpu_regs_t</div><div class="ttdoc">vCPU registers.</div></div>
+<div class="ttc" id="agroup__l4__vcpu__api_html_ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5"><div class="ttname"><a href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba51d123b064652c03ed78714ec92615e5">L4_VCPU_OFFSET_EXT_INFOS</a></div><div class="ttdeci">@ L4_VCPU_OFFSET_EXT_INFOS</div><div class="ttdoc">Offset where extended infos begin.</div><div class="ttdef"><b>Definition</b> <a href="amd64_2l4_2sys_2____vcpu-arch_8h_source.html#l00048">__vcpu-arch.h:48</a></div></div>
+<div class="ttc" id="agroup__l4__vcpu__api_html_ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3"><div class="ttname"><a href="group__l4__vcpu__api.html#ggaa9c9426f606dfa123ace57a1081e4e1ba970100e3dd8000f263688f50d6fcbda3">L4_VCPU_OFFSET_EXT_STATE</a></div><div class="ttdeci">@ L4_VCPU_OFFSET_EXT_STATE</div><div class="ttdoc">Offset where extended state begins.</div><div class="ttdef"><b>Definition</b> <a href="amd64_2l4_2sys_2____vcpu-arch_8h_source.html#l00047">__vcpu-arch.h:47</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga362dfa378e662dd04f710a23fc7ea931"><div class="ttname"><a href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div><div class="ttdeci">#define L4_NOTHROW</div><div class="ttdoc">Mark a function declaration and definition as never throwing an exception.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00188">compiler.h:188</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
 <div class="ttc" id="al4_2sys_2types_8h_html"><div class="ttname"><a href="l4_2sys_2types_8h.html">types.h</a></div><div class="ttdoc">Common L4 ABI Data Types.</div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
-<div class="ttc" id="astructl4__vcpu__arch__state__t_html"><div class="ttname"><a href="structl4__vcpu__arch__state__t.html">l4_vcpu_arch_state_t</a></div><div class="ttdoc">Architecture-specific vCPU state.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00062">__vcpu-arch.h:63</a></div></div>
-<div class="ttc" id="astructl4__vcpu__ipc__regs__t_html"><div class="ttname"><a href="structl4__vcpu__ipc__regs__t.html">l4_vcpu_ipc_regs_t</a></div><div class="ttdoc">vCPU message registers.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00071">__vcpu-arch.h:72</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html"><div class="ttname"><a href="structl4__vcpu__regs__t.html">l4_vcpu_regs_t</a></div><div class="ttdoc">vCPU registers.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00043">__vcpu-arch.h:44</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html_a006a9a913bbf2ca0e775897a5d494034"><div class="ttname"><a href="structl4__vcpu__regs__t.html#a006a9a913bbf2ca0e775897a5d494034">l4_vcpu_regs_t::sp</a></div><div class="ttdeci">l4_umword_t sp</div><div class="ttdoc">stack pointer</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00050">__vcpu-arch.h:50</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html_a1a7a4e5198caf269f1afdcdfbf6475d4"><div class="ttname"><a href="structl4__vcpu__regs__t.html#a1a7a4e5198caf269f1afdcdfbf6475d4">l4_vcpu_regs_t::err</a></div><div class="ttdeci">l4_umword_t err</div><div class="ttdoc">error code</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00046">__vcpu-arch.h:46</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html_a3f6687e67ef2d8eca6a9236a4c6dbcae"><div class="ttname"><a href="structl4__vcpu__regs__t.html#a3f6687e67ef2d8eca6a9236a4c6dbcae">l4_vcpu_regs_t::pfa</a></div><div class="ttdeci">l4_umword_t pfa</div><div class="ttdoc">page fault address</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00045">__vcpu-arch.h:45</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html_a99387ea39643fa0920a5c0eda146c8b5"><div class="ttname"><a href="structl4__vcpu__regs__t.html#a99387ea39643fa0920a5c0eda146c8b5">l4_vcpu_regs_t::tpidruro</a></div><div class="ttdeci">l4_umword_t tpidruro</div><div class="ttdoc">Thread-ID register.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00055">__vcpu-arch.h:55</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html_ac9eb8d042f40cf3fd790f03b6c072037"><div class="ttname"><a href="structl4__vcpu__regs__t.html#ac9eb8d042f40cf3fd790f03b6c072037">l4_vcpu_regs_t::flags</a></div><div class="ttdeci">l4_umword_t flags</div><div class="ttdoc">eflags</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00054">__vcpu-arch.h:54</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html_af931aef7a15bcf44537bcc71c7138345"><div class="ttname"><a href="structl4__vcpu__regs__t.html#af931aef7a15bcf44537bcc71c7138345">l4_vcpu_regs_t::tpidrurw</a></div><div class="ttdeci">l4_umword_t tpidrurw</div><div class="ttdoc">Thread-ID register.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00056">__vcpu-arch.h:56</a></div></div>
-<div class="ttc" id="astructl4__vcpu__regs__t_html_afa0ae8c3fa639fae83bfeaa3dfd19e6c"><div class="ttname"><a href="structl4__vcpu__regs__t.html#afa0ae8c3fa639fae83bfeaa3dfd19e6c">l4_vcpu_regs_t::ip</a></div><div class="ttdeci">l4_umword_t ip</div><div class="ttdoc">instruction pointer</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00053">__vcpu-arch.h:53</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
+<div class="ttc" id="astructl4__vcpu__arch__state__t_html"><div class="ttname"><a href="structl4__vcpu__arch__state__t.html">l4_vcpu_arch_state_t</a></div><div class="ttdoc">Architecture-specific vCPU state.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00085">__vcpu-arch.h:86</a></div></div>
+<div class="ttc" id="astructl4__vcpu__ipc__regs__t_html"><div class="ttname"><a href="structl4__vcpu__ipc__regs__t.html">l4_vcpu_ipc_regs_t</a></div><div class="ttdoc">vCPU message registers.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00094">__vcpu-arch.h:95</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html"><div class="ttname"><a href="structl4__vcpu__regs__t.html">l4_vcpu_regs_t</a></div><div class="ttdoc">vCPU registers.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00066">__vcpu-arch.h:67</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html_a006a9a913bbf2ca0e775897a5d494034"><div class="ttname"><a href="structl4__vcpu__regs__t.html#a006a9a913bbf2ca0e775897a5d494034">l4_vcpu_regs_t::sp</a></div><div class="ttdeci">l4_umword_t sp</div><div class="ttdoc">stack pointer</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00073">__vcpu-arch.h:73</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html_a1a7a4e5198caf269f1afdcdfbf6475d4"><div class="ttname"><a href="structl4__vcpu__regs__t.html#a1a7a4e5198caf269f1afdcdfbf6475d4">l4_vcpu_regs_t::err</a></div><div class="ttdeci">l4_umword_t err</div><div class="ttdoc">error code</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00069">__vcpu-arch.h:69</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html_a3f6687e67ef2d8eca6a9236a4c6dbcae"><div class="ttname"><a href="structl4__vcpu__regs__t.html#a3f6687e67ef2d8eca6a9236a4c6dbcae">l4_vcpu_regs_t::pfa</a></div><div class="ttdeci">l4_umword_t pfa</div><div class="ttdoc">page fault address</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00068">__vcpu-arch.h:68</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html_a99387ea39643fa0920a5c0eda146c8b5"><div class="ttname"><a href="structl4__vcpu__regs__t.html#a99387ea39643fa0920a5c0eda146c8b5">l4_vcpu_regs_t::tpidruro</a></div><div class="ttdeci">l4_umword_t tpidruro</div><div class="ttdoc">Thread-ID register.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00078">__vcpu-arch.h:78</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html_ac9eb8d042f40cf3fd790f03b6c072037"><div class="ttname"><a href="structl4__vcpu__regs__t.html#ac9eb8d042f40cf3fd790f03b6c072037">l4_vcpu_regs_t::flags</a></div><div class="ttdeci">l4_umword_t flags</div><div class="ttdoc">eflags</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00077">__vcpu-arch.h:77</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html_af931aef7a15bcf44537bcc71c7138345"><div class="ttname"><a href="structl4__vcpu__regs__t.html#af931aef7a15bcf44537bcc71c7138345">l4_vcpu_regs_t::tpidrurw</a></div><div class="ttdeci">l4_umword_t tpidrurw</div><div class="ttdoc">Thread-ID register.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00079">__vcpu-arch.h:79</a></div></div>
+<div class="ttc" id="astructl4__vcpu__regs__t_html_afa0ae8c3fa639fae83bfeaa3dfd19e6c"><div class="ttname"><a href="structl4__vcpu__regs__t.html#afa0ae8c3fa639fae83bfeaa3dfd19e6c">l4_vcpu_regs_t::ip</a></div><div class="ttdeci">l4_umword_t ip</div><div class="ttdoc">instruction pointer</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2____vcpu-arch_8h_source.html#l00076">__vcpu-arch.h:76</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -214,7 +244,7 @@ $(document).ready(function(){initNavTree('arm_2l4_2sys_2____vcpu-arch_8h_source.
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_0d0fa5d0311b8000470d732da0750893.html">arm</a></li><li class="navelem"><a class="el" href="dir_803382d759928ec492adccfc96fc3562.html">l4</a></li><li class="navelem"><a class="el" href="dir_43a5e3e87f741daccdeaf3008c1e00c5.html">sys</a></li><li class="navelem"><a class="el" href="arm_2l4_2sys_2____vcpu-arch_8h.html">__vcpu-arch.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

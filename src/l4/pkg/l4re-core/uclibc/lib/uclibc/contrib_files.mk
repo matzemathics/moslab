@@ -8,9 +8,14 @@ define SRC_libc/sysdeps/linux
   __longjmp
   getdents
   getsid
+  common/context
+  common/cmsg_nxthdr
+  common/flock
   common/gethostname
   common/getdirname
   common/getpagesize
+  common/makedev
+  common/setgroups
 endef
 
 define SRC_libc/sysdeps/linux_large_file
@@ -23,48 +28,19 @@ SRC_libc/sysdeps/linux_arm += find_exidx
 SRC_libc/sysdeps/linux_mips += setjmp_aux
 SRC_libc/sysdeps/linux_mips += _test_and_set
 
-define SRC_libc/sysdeps/linux_sparc__with_soft_fp
-  soft-fp/q_add
-  soft-fp/q_cmp
-  soft-fp/q_cmpe
-  soft-fp/q_div
-  soft-fp/q_dtoq
-  soft-fp/q_feq
-  soft-fp/q_fge
-  soft-fp/q_fgt
-  soft-fp/q_fle
-  soft-fp/q_flt
-  soft-fp/q_fne
-  soft-fp/q_itoq
-  soft-fp/q_lltoq
-  soft-fp/q_mul
-  soft-fp/q_neg
-  soft-fp/q_qtod
-  soft-fp/q_qtoi
-  soft-fp/q_qtoll
-  soft-fp/q_qtos
-  soft-fp/q_qtou
-  soft-fp/q_qtoull
-  soft-fp/q_sqrt
-  soft-fp/q_stoq
-  soft-fp/q_sub
-  soft-fp/q_ulltoq
-  soft-fp/q_util
-  soft-fp/q_utoq
-endef
-
 ifeq ($(GCCIS_sparc_leon),)
   define SRC_libc/sysdeps/linux_sparc
     udiv
     umul
     urem
   endef
-  SRC_libc/sysdeps/linux_sparc += $(SRC_libc/sysdeps/linux_sparc__with_soft_fp)
 endif
 
 define SRC_libc/termios
   isatty
   speed
+  tcdrain
+  tcflow
   tcflush
   tcgetattr
   tcgetpgrp
@@ -77,7 +53,7 @@ endef
 define SRC_libc/stdlib
   __cxa_atexit
   __exit_handler
-  __strtofpmax
+  $(if $(BID_VARIANT_FLAG_NOFPU),,__strtofpmax)
   __uc_malloc
   _stdlib_strto_l
   _stdlib_strto_ll
@@ -89,21 +65,22 @@ define SRC_libc/stdlib
   bsearch
   div
   exit
-  gcvt
+  $(if $(BID_VARIANT_FLAG_NOFPU),,gcvt)
   getenv
-  jrand48
-  jrand48_r
+  $(if $(BID_VARIANT_FLAG_NOFPU),,jrand48)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,jrand48_r)
   labs
   ldiv
   llabs
   lldiv
-  lrand48
-  lrand48_r
+  $(if $(BID_VARIANT_FLAG_NOFPU),,lrand48)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,lrand48_r)
   mkostemp
   mkstemp
   mkstemp64
-  nrand48
-  nrand48_r
+  mktemp
+  $(if $(BID_VARIANT_FLAG_NOFPU),,nrand48)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,nrand48_r)
   on_exit
   posix_memalign
   qsort
@@ -114,13 +91,24 @@ define SRC_libc/stdlib
   random_r
   realpath
   setenv
-  srand48
-  srand48_r
+  $(if $(BID_VARIANT_FLAG_NOFPU),,srand48)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,srand48_r)
   stdlib
   strtol
   strtoll
   strtoul
   strtoull
+endef
+
+define SRC_libc/stdlib_locale
+  _stdlib_strto_l_l
+  _stdlib_strto_ll_l
+  $(if $(BID_VARIANT_FLAG_NOFPU),,__strtofpmax_l)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,__wcstofpmax_l)
+  strtol_l
+  strtoll_l
+  strtoul_l
+  strtoull_l
 endef
 
 define SRC_libc/stdlib_large_file
@@ -129,7 +117,6 @@ endef
 
 define SRC_libc/stdlib_fp
   __fp_range_check
-  _strtod
   atof
   drand48-iter
   drand48
@@ -137,8 +124,22 @@ define SRC_libc/stdlib_fp
   erand48
   erand48_r
   strtod
+  $(if $(UCLIBC_BUILD_MINIMAL),,strtod_l)
   strtof
+  $(if $(UCLIBC_BUILD_MINIMAL),,strtof_l)
   strtold
+  $(if $(UCLIBC_BUILD_MINIMAL),,strtold_l)
+endef
+
+define SRC_libc/stdlib/malloc
+  calloc
+  free
+  malloc
+  memalign
+  realloc
+  heap_alloc
+  heap_alloc_at
+  heap_free
 endef
 
 define SRC_libc/stdlib/malloc-standard
@@ -146,6 +147,7 @@ define SRC_libc/stdlib/malloc-standard
   free
   mallinfo
   malloc
+	malloc_usable_size
   mallopt
   memalign
   realloc
@@ -161,10 +163,33 @@ define SRC_libc/stdlib/malloc-simple
 endef
 
 define SRC_libc/stdlib_wchar
+  $(if $(BID_VARIANT_FLAG_NOFPU),,__wcstofpmax)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,wcstod)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,wcstof)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,wcstold)
   _stdlib_mb_cur_max
-  wcstombs
+  _stdlib_wcsto_l
+  _stdlib_wcsto_ll
   mblen
+  wcstombs
   mbstowcs
+  wcstol
+  wcstoll
+  wcstoul
+  wcstoull
+  wctomb
+  mbtowc
+endef
+
+define SRC_libc/stdlib_wchar_locale
+  $(if $(BID_VARIANT_FLAG_NOFPU),,wcstod_l)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,wcstof_l)
+  $(if $(BID_VARIANT_FLAG_NOFPU),,wcstold_l)
+  _stdlib_wcsto_l_l
+  _stdlib_wcsto_ll_l
+  wcstoll_l
+  wcstoul_l
+  wcstoull_l
 endef
 
 define SRC_libc/string
@@ -222,7 +247,13 @@ define SRC_libc/string
   strpbrk
 endef
 
+define SRC_libc/string_locale
+  strcasecmp_l
+  strncasecmp_l
+endef
+
 define SRC_libc/string_wchar
+  strxfrm
   wcscmp
   wcsnlen
   wcslen
@@ -248,13 +279,22 @@ define SRC_libc/string_wchar
   wmemchr
   wmemcmp
   wmemmove
+  wmempcpy
   wmemset
+endef
+
+define SRC_libc/string_wchar_locale
+  strxfrm_l
+  wcscasecmp_l
+  wcsncasecmp_l
+  wcsxfrm_l
 endef
 
 SRC_libc/string_arm := _memcpy
 
 define SRC_libc/misc
   assert/__assert
+  auxvt/getauxval
   ctype/ctype
   ctype/isalnum
   ctype/isalpha
@@ -270,6 +310,7 @@ define SRC_libc/misc
   ctype/isupper
   ctype/isxdigit
   ctype/tolower
+  ctype/toascii
   ctype/toupper
   ctype/__C_ctype_b
   ctype/__C_ctype_tolower
@@ -291,7 +332,6 @@ define SRC_libc/misc
   dirent/telldir
   error/err
   fnmatch/fnmatch
-  getauxval
   glob/glob
   internals/errno
   internals/h_errno
@@ -300,11 +340,9 @@ define SRC_libc/misc
   internals/__uClibc_main
   internals/parse_config
   internals/tempname
-  locale/locale
-  locale/localeconv
-  locale/nl_langinfo
-  locale/setlocale
-  regex/regex_old
+  internals/version
+  mntent/mntent
+  regex/regex
   search/hcreate_r
   search/hdestroy_r
   search/hsearch
@@ -319,6 +357,7 @@ define SRC_libc/misc
   search/tfind
   search/tsearch
   search/twalk
+  syslog/syslog
   time/time
   time/asctime
   time/asctime_r
@@ -340,7 +379,41 @@ define SRC_libc/misc
   time/timegm
   time/_time_mktime_tzi
   time/_time_localtime_tzi
+  ttyent/getttyent
+  $(if $(UCLIBC_BUILD_MINIMAL),,utmp/utent)
   elf/dl-iterate-phdr
+endef
+
+define SRC_libc/misc_locale
+  ctype/isalnum_l
+  ctype/isalpha_l
+  ctype/isascii_l
+  ctype/isblank_l
+  ctype/iscntrl_l
+  ctype/isdigit_l
+  ctype/isgraph_l
+  ctype/islower_l
+  ctype/isprint_l
+  ctype/ispunct_l
+  ctype/isspace_l
+  ctype/isupper_l
+  ctype/isxdigit_l
+  ctype/tolower_l
+  ctype/toascii_l
+  ctype/toupper_l
+  locale/freelocale
+  locale/locale
+  locale/localeconv
+  locale/newlocale
+  locale/nl_langinfo
+  locale/setlocale
+  locale/uselocale
+  locale/_locale_init
+  locale/__curlocale
+  locale/__locale_mbrtowc_l
+  locale/nl_langinfo_l
+  time/strftime_l
+  time/strptime_l
 endef
 
 ifneq ($(CONFIG_BID_PIE),)
@@ -348,7 +421,7 @@ ifneq ($(CONFIG_BID_PIE),)
 endif
 
 define SRC_libc/misc_fp
-  time/difftime
+  $(if $(BID_VARIANT_FLAG_NOFPU),,time/difftime)
 endef
 
 define SRC_libc/misc_large_file
@@ -359,16 +432,17 @@ define SRC_libc/misc_large_file
   glob/glob64
 endef
 
-define SRC_libc/misc_libuc_c.a
+define SRC_libc/misc_libc.a
   elf/dl-support
   elf/dl-core
 endef
 
-SRC_libc/misc_libuc_c_minimal.a = $(SRC_libc/misc_libuc_c.a)
+SRC_libc/misc_libc_minimal.a = $(SRC_libc/misc_libc.a)
 
 define SRC_libc/misc_wchar
   time/wcsftime
   wchar/btowc
+  wchar/mbsinit
   wchar/mbrlen
   wchar/mbrtowc
   wchar/mbsnrtowcs
@@ -378,9 +452,12 @@ define SRC_libc/misc_wchar
   wchar/wcrtomb
   wchar/wcsnrtombs
   wchar/wcsrtombs
+  wchar/wcwidth
+  wchar/wcswidth
+  wchar/_wchar_utf8sntowcs
+  wchar/_wchar_wcsntoutf8s
   wctype/iswctype
   wctype/wctype
-  wctype/_wctype
   wctype/towlower
   wctype/towupper
   wctype/towctrans
@@ -399,12 +476,34 @@ define SRC_libc/misc_wchar
   wctype/iswalnum
 endef
 
+define SRC_libc/misc_wchar_locale
+  time/wcsftime_l
+  wctype/iswctype_l
+  wctype/wctype_l
+  wctype/towlower_l
+  wctype/towupper_l
+  wctype/towctrans_l
+  wctype/wctrans_l
+  wctype/iswxdigit_l
+  wctype/iswupper_l
+  wctype/iswlower_l
+  wctype/iswspace_l
+  wctype/iswpunct_l
+  wctype/iswprint_l
+  wctype/iswgraph_l
+  wctype/iswdigit_l
+  wctype/iswcntrl_l
+  wctype/iswblank_l
+  wctype/iswalpha_l
+  wctype/iswalnum_l
+endef
+
 define SRC_libc/stdio
   __fsetlocking
   _adjust_pos
   _cs_funcs
   _fopen
-  _fpmaxtostr
+  $(if $(BID_VARIANT_FLAG_NOFPU),,_fpmaxtostr)
   _fwrite
   _READ
   _WRITE
@@ -453,8 +552,10 @@ define SRC_libc/stdio
   fwrite
   fwrite.__DO_UNLOCKED
   getchar
+  getchar.__DO_UNLOCKED
   getdelim
   getline
+  gets
   perror
   printf
   putchar
@@ -509,16 +610,29 @@ define SRC_libc/stdio_wchar
   fputwc.__DO_UNLOCKED
   fgetwc
   fgetwc.__DO_UNLOCKED
+  fgetws
+  fgetws.__DO_UNLOCKED
   fputws
   fputws.__DO_UNLOCKED
+  fwide
   fwprintf
+  fwscanf
   ungetwc
+  getwchar
+  getwchar.__DO_UNLOCKED
+  putwchar
+  putwchar.__DO_UNLOCKED
   swprintf
+  swscanf
   _vfwprintf_internal
   vfwprintf
+  vfwscanf
   vswprintf
+  vswscanf
   vwprintf
+  vwscanf
   wprintf
+  wscanf
 endef
 
 define SRC_libc/inet
@@ -526,13 +640,11 @@ define SRC_libc/inet
   addr
   closenameservers
   decodea
-  decoded
   decodeh
   decodep
   decodeq
   dnslookup
   encodea
-  encoded
   encodeh
   encodep
   encodeq
@@ -555,6 +667,7 @@ define SRC_libc/inet
   getservice
   herror
   if_index
+  ifaddrs
   inet_addr
   inet_aton
   inet_lnaof
@@ -578,7 +691,8 @@ define SRC_libc/inet
 endef
 
 define SRC_libc/pwd_grp
-  pwd_grp
+  getgrent
+  getgrent_r
   getgrgid
   getgrgid_r
   getgrnam
@@ -589,12 +703,15 @@ define SRC_libc/pwd_grp
   getpwnam_r
   getpwent
   getpwent_r
+  initgroups
+  __getgrouplist_internal
   __parsepwent
   __parsegrent
   __pgsreader
 endef
 
 define SRC_libc/unistd
+  confstr
   getlogin
   getopt
   sleep
@@ -623,35 +740,42 @@ define SRC_libcrypt
   sha512-crypt
 endef
 
+define SRC_libiconv
+  iconv
+endef
+
+define _MATH_FUNCTIONS
+  acos
+  acosh
+  asin
+  atan2
+  atanh
+  cosh
+  exp
+  exp10
+  fmod
+  hypot
+  j0
+  j1
+  jn
+  log
+  log2
+  log10
+  pow
+  remainder
+  scalb
+  sinh
+  sqrt
+endef
+
 define SRC_libm
   carg
   cexp
-  e_acos
-  e_acosh
-  e_asin
-  e_atan2
-  e_atanh
-  e_cosh
-  e_exp
-  e_fmod
-  e_hypot
-  e_j0
-  e_j1
-  e_jn
   e_lgamma_r
-  e_log
-  e_log10
-  e_log2
-  e_pow
-  e_remainder
   e_rem_pio2
-  e_scalb
-  e_sinh
-  e_sqrt
   k_cos
   k_rem_pio2
   k_sin
-  k_standard
   k_tan
   s_asinh
   s_atan
@@ -685,7 +809,6 @@ define SRC_libm
   s_logb
   s_lrint
   s_lround
-  s_matherr
   s_modf
   s_nextafter
   s_nextafterf
@@ -702,9 +825,57 @@ define SRC_libm
   s_tanh
   s_trunc
   w_cabs
-  w_exp2
   nan
+  $(foreach f,$(_MATH_FUNCTIONS),e_$(f) w_$(f) w_$(f)f w_$(f)l)
+  w_exp2
+  w_exp2f
+  w_exp2l
+  w_lgamma_r
+  w_lgammaf_r
+  w_lgammal_r
+  w_tgamma
+  w_tgammaf
+  w_tgammal
 endef
+
+define SRC_libm-amd64
+  x86_64/fclrexcpt
+  x86_64/fedisblxcpt
+  x86_64/feenablxcpt
+  x86_64/fegetenv
+  x86_64/fegetexcept
+  x86_64/fegetmode
+  x86_64/fegetround
+  x86_64/feholdexcpt
+  x86_64/fesetenv
+  x86_64/fesetexcept
+  x86_64/fesetmode
+  x86_64/fesetround
+  x86_64/feupdateenv
+  x86_64/fgetexcptflg
+  x86_64/fraiseexcpt
+  x86_64/fsetexcptflg
+  x86_64/ftestexcept
+endef
+
+define SRC_libm-x86
+  i386/fclrexcpt
+  i386/fedisblxcpt
+  i386/feenablxcpt
+  i386/fegetenv
+  i386/fegetexcept
+  i386/fegetround
+  i386/feholdexcpt
+  i386/fesetenv
+  i386/fesetround
+  i386/feupdateenv
+  i386/fgetexcptflg
+  i386/fraiseexcpt
+  i386/fsetexcptflg
+  i386/ftestexcept
+endef
+
+SRC_libm += $(SRC_libm-$(BUILD_ARCH))
 
 SRC_libm_float_src = float_wrappers.c
 define SRC_libm_float

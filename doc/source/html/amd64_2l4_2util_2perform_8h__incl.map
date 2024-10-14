@@ -1,22 +1,23 @@
 <map id="amd64/l4/util/perform.h" name="amd64/l4/util/perform.h">
-<area shape="rect" id="Node000001" title="Perfomance Monitoring using P5/P6 Measurement Counters." alt="" coords="321,5,497,31"/>
-<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="242,79,354,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="393,33,329,73,327,69,390,28"/>
-<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="335,225,467,251"/>
-<area shape="poly" id="edge12_Node000001_Node000004" title=" " alt="" coords="433,28,476,54,522,89,539,110,551,132,553,155,544,179,532,194,516,206,482,224,479,219,514,202,528,190,540,176,548,155,546,134,535,113,518,93,473,58,431,33"/>
-<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="42,225,147,251"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="242,99,179,105,110,116,50,132,28,142,14,154,9,162,8,170,17,187,35,203,58,217,55,221,32,207,13,190,3,171,4,161,9,150,25,138,48,127,109,111,178,100,242,93"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="309,103,387,213,383,216,304,106"/>
-<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="190,152,308,177"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="292,106,267,142,262,139,288,103"/>
-<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="384,152,530,177"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="325,102,420,144,418,149,323,106"/>
-<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="24,152,165,177"/>
-<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="266,107,141,150,139,145,265,102"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="340,299,462,324"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="404,251,404,285,398,285,398,251"/>
-<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="225,180,133,222,131,217,223,175"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="274,175,365,217,363,222,272,180"/>
-<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="450,179,421,216,416,213,446,176"/>
-<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="97,178,97,212,92,212,92,178"/>
+<area shape="rect" id="Node000001" title="Perfomance Monitoring using P5/P6 Measurement Counters." alt="" coords="313,5,489,31"/>
+<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="234,79,346,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="385,33,321,73,319,69,382,28"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="278,225,410,251"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="426,28,472,54,519,90,538,110,550,133,552,156,542,179,518,203,488,219,456,230,424,237,423,232,455,225,486,215,514,198,537,176,547,155,544,134,533,113,516,94,469,58,424,33"/>
+<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="30,225,135,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="234,99,172,106,106,117,49,132,27,142,14,154,9,169,16,186,31,202,50,216,47,220,28,206,11,189,3,170,9,150,25,138,47,127,105,111,172,100,233,94"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="299,103,321,151,340,211,335,213,316,153,294,105"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="23,152,142,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="258,107,130,150,128,145,256,101"/>
+<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="381,152,528,177"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="318,102,416,144,414,149,316,106"/>
+<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="165,152,306,177"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="283,106,255,143,251,140,279,103"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="282,299,405,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="346,251,346,285,341,285,341,251"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="85,178,85,212,80,212,80,178"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="125,175,289,219,287,224,124,180"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="438,180,375,220,372,215,435,175"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="212,180,121,222,119,217,210,175"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="254,175,316,215,313,220,252,180"/>
 </map>

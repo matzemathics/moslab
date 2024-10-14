@@ -1,7 +1,7 @@
 <map id="L4virtio::Virtqueue" name="L4virtio::Virtqueue">
 <area shape="rect" id="Node000001" title="Low&#45;level Virtqueue." alt="" coords="119,5,272,571"/>
-<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Virtqueue.html" title="Driver&#45;side implementation of a Virtqueue." alt="" coords="5,619,188,824"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,585,122,619,117,618,125,584"/>
-<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Virtqueue.html" title="Virtqueue implementation for the device." alt="" coords="213,639,375,804"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="266,584,278,638,273,639,260,585"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Driver_1_1Virtqueue.html" title="Driver&#45;side implementation of a Virtqueue." alt="" coords="5,629,188,834"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,585,122,629,117,628,127,583"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Virtqueue.html" title="Virtqueue implementation for the device." alt="" coords="213,619,375,844"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,583,272,618,266,619,259,585"/>
 </map>

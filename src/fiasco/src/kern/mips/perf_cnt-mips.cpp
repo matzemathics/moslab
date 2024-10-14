@@ -53,7 +53,7 @@ static Mword dummy_read_pmc() { return 0; }
 
 PUBLIC static FIASCO_INIT_CPU
 void
-Perf_cnt::init_ap()
+Perf_cnt::init_ap(Cpu const &)
 {
   if (current_cpu() != Cpu_number::boot_cpu())
     return;
@@ -131,17 +131,20 @@ Perf_cnt::get_perf_event(Mword nr, unsigned *evntsel,
       strncpy(_desc,  "Instructions graduated", sizeof(_desc));
       break;
     default:
+      // The cast to Unsigned16 restricts the maximum string size.
+      // This restriction is reasonable, see Perf_cnt::get_max_perf_event().
       snprintf(_name, sizeof(_name),
-               "Event-%ld-%s", nr >> 1, (nr & 1) ? "Odd" : "Even");
+               "Event-%u-%s", static_cast<Unsigned16>(nr >> 1),
+               (nr & 1) ? "Odd" : "Even");
       snprintf(_desc, sizeof(_desc),
-               "%s variant of event %ld", (nr & 1) ? "Odd" : "Even", nr >> 1);
+               "%s variant of event %lu", (nr & 1) ? "Odd" : "Even", nr >> 1);
     }
 
   _name[sizeof(_name) - 1] = 0;
   _desc[sizeof(_desc) - 1] = 0;
 
-  *name = (const char *)&_name;
-  *desc = (const char *)&_desc;
+  *name = reinterpret_cast<const char *>(&_name);
+  *desc = reinterpret_cast<const char *>(&_desc);
   *evntsel = nr;
 }
 
@@ -330,7 +333,7 @@ Perf_cnt::mode(Mword slot, const char **mode, const char **name,
             break;
     default:
             snprintf(namebuf[slot], sizeof(namebuf[slot]),
-                     "Event-%d-%s", (int)v.event(),
+                     "Event-%d-%s", v.event().get(),
                      _using_odd.current()[slot] ? "Odd" : "Even");
             namebuf[slot][sizeof(namebuf[slot]) - 1] = 0;
             *name = namebuf[slot];

@@ -14,6 +14,7 @@
    anything we could still use at a later time.  instead, globals are
    defined in globals.c */
 
+#include <l4/bid_config.h>
 #include <l4/sys/ipc.h>
 #include <l4/sys/scheduler>
 #include <l4/cxx/iostream>
@@ -44,6 +45,23 @@ static void call_init_array(Ctor **start, Ctor **end)
       (*start)();
 }
 
+#ifdef CONFIG_BID_PIE
+static inline unsigned long elf_machine_dynamic()
+{
+  extern const unsigned long _GLOBAL_OFFSET_TABLE_[] __attribute__((visibility ("hidden")));
+  return _GLOBAL_OFFSET_TABLE_[0];
+}
+
+static inline unsigned long elf_machine_load_address()
+{
+  extern char _DYNAMIC[] __attribute__((visibility ("hidden")));
+    return (unsigned long)&_DYNAMIC - elf_machine_dynamic ();
+}
+#else
+static inline unsigned long elf_machine_load_address()
+{ return 0; }
+#endif
+
 void
 init(l4_kernel_info_t *info)
 {
@@ -59,6 +77,7 @@ init(l4_kernel_info_t *info)
   l4_debugger_set_object_name(L4_BASE_TASK_CAP,    "sigma0");
   l4_debugger_set_object_name(L4_BASE_FACTORY_CAP, "root factory");
   l4_debugger_set_object_name(L4_BASE_THREAD_CAP,  "sigma0");
+  l4_debugger_add_image_info(L4_BASE_TASK_CAP, elf_machine_load_address(), "sigma0");
 
   Page_alloc_base::init();
 
@@ -70,7 +89,7 @@ init(l4_kernel_info_t *info)
 
   auto sched = L4::Cap<L4::Scheduler>(L4_BASE_SCHEDULER_CAP);
   l4_msgtag_t res = sched->run_thread(L4::Cap<L4::Thread>(L4_BASE_THREAD_CAP),
-                                      l4_sched_param(0xff));
+                                      l4_sched_param(CONFIG_SIGMA0_PRIORITY));
   if (l4_error(res) < 0)
     L4::cout << PROG_NAME": could not set scheduling priority\n";
 

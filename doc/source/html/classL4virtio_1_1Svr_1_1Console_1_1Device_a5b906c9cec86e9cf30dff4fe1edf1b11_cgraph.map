@@ -1,0 +1,39 @@
+<map id="L4virtio::Svr::Console::Device::port_write" name="L4virtio::Svr::Console::Device::port_write">
+<area shape="rect" id="Node000001" title="Write data to port." alt="" coords="5,229,165,269"/>
+<area shape="rect" id="Node000002" href="$structL4virtio_1_1Svr_1_1Data__buffer.html#a0ae0d4405b3a3ae5aa554b3adece0138" title="Copy contents from this buffer to the destination buffer." alt="" coords="229,5,368,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,228,110,191,136,145,170,97,212,55,218,50,221,55,215,59,174,101,140,148,114,194,97,230"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#aeba93ed1ee8f9abfe42542187e54cca0" title="Add a descriptor to the used ring, and notify an observer." alt="" coords="213,69,384,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="100,227,147,174,178,145,212,119,222,113,225,118,215,124,181,149,151,178,104,231"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Device__t.html#ac35c61db0aec9e96ee18170bf5bb17b4" title="Get the memory region list used for this device." alt="" coords="222,133,375,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="123,227,212,183,228,176,231,181,214,188,125,232"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Request__processor.html#a0bb9280caa7b899486ccd83bcf0588cd" title="Switch to the next descriptor in a descriptor chain." alt="" coords="218,197,379,237"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="165,235,204,229,205,234,166,240"/>
+<area shape="rect" id="Node000010" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#aa7e9493f7fe5bfa9ebaa5d80be8179cf" title="Get the next available descriptor from the available ring." alt="" coords="213,325,384,365"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="125,267,214,311,231,318,228,323,212,316,123,272"/>
+<area shape="rect" id="Node000011" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a3d7102514d25d0a1e706ef902760b18c" title="Return the specified port." alt="" coords="219,389,379,429"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="104,268,151,321,181,350,215,375,225,381,222,386,212,380,178,354,147,324,100,272"/>
+<area shape="rect" id="Node000012" href="$structL4virtio_1_1Svr_1_1Console_1_1Port.html#a6a7c23d4b6bd657a466d159c30666400" title="Check that device implementation may write to receive queues." alt="" coords="219,472,379,512"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="98,268,143,348,176,396,215,439,246,463,243,467,212,443,172,399,139,351,94,271"/>
+<area shape="rect" id="Node000015" href="$classL4virtio_1_1Svr_1_1Request__processor.html#abcf6a6b8bf80e0d73d45b5eb9e817abd" title="Start processing a new request." alt="" coords="218,261,379,301"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="166,259,205,265,204,270,165,264"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#af6577deb37b3685815f9ae52760390db" title="Put the given descriptor into the used ring." alt="" coords="436,51,607,91"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="384,80,422,76,422,82,385,85"/>
+<area shape="rect" id="Node000007" href="$namespacecxx.html#ab148b2c460eb31462ced9a1eafd9667c" title="Read the value at an address at most once." alt="" coords="454,243,589,269"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="380,229,441,239,440,245,379,234"/>
+<area shape="rect" id="Node000008" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#afbe72e699f3403f80e62125754c69d14" title="Get the indirect bits ( 2 to 2 ) of raw." alt="" coords="440,179,603,219"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="379,208,426,204,427,209,380,213"/>
+<area shape="rect" id="Node000009" href="$structL4virtio_1_1Virtqueue_1_1Desc_1_1Flags.html#a7412bbf6d83eccc67857cf7bddaf6897" title="Get the next bits ( 0 to 0 ) of raw." alt="" coords="450,115,593,155"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="352,195,383,183,431,164,451,157,452,162,433,169,385,188,354,200"/>
+<area shape="rect" id="Node000013" href="$structL4virtio_1_1Svr_1_1Console_1_1Port.html#a564883ca057696fe31faff4fe2d3dec2" title="Check that the port is open." alt="" coords="441,536,601,576"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="370,510,439,530,437,535,368,515"/>
+<area shape="rect" id="Node000014" href="$classL4virtio_1_1Virtqueue.html#aa242e930433e8705c4ee00afaf58f686" title="Test if this queue is in working state." alt="" coords="450,472,593,512"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="379,489,436,489,436,495,379,495"/>
+<area shape="poly" id="edge15_Node000015_Node000007" title=" " alt="" coords="379,270,440,263,441,268,380,275"/>
+<area shape="poly" id="edge18_Node000015_Node000008" title=" " alt="" coords="352,259,383,247,431,228,451,221,452,226,433,233,385,252,354,264"/>
+<area shape="rect" id="Node000016" href="$classL4virtio_1_1Svr_1_1Virtqueue_1_1Head__desc.html#a98a4cc67f88052754fa54451b3d68e2d" title=" " alt="" coords="436,293,607,333"/>
+<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="380,290,423,296,422,302,379,296"/>
+<area shape="rect" id="Node000017" href="$classL4virtio_1_1Svr_1_1Virtqueue.html#a9c3e815065cc8cf0c8fe2573c047dbb4" title="Get a descriptor from the descriptor list." alt="" coords="436,357,607,397"/>
+<area shape="poly" id="edge17_Node000015_Node000017" title=" " alt="" coords="359,299,385,311,409,327,433,343,447,349,445,354,431,348,406,332,383,316,357,304"/>
+<area shape="rect" id="Node000018" href="$classL4virtio_1_1Virtqueue.html#af61e3e4e436b93f37f22243a1c0ffe0e" title=" " alt="" coords="432,422,611,447"/>
+<area shape="poly" id="edge19_Node000015_Node000018" title=" " alt="" coords="368,299,386,311,404,336,410,361,416,385,434,407,442,413,439,418,430,411,412,387,405,363,399,339,382,315,365,304"/>
+</map>

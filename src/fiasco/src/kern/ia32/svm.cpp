@@ -118,21 +118,18 @@ Svm::Svm(Cpu_number cpu)
   if (!cpu_svm_available(cpu))
     return;
 
-  printf("SVM: enabled\n");
-
   Unsigned64 efer;
   efer = c.rdmsr(MSR_EFER);
   efer |= 1 << 12;
   c.wrmsr(efer, MSR_EFER);
 
   Unsigned32 eax, ebx, ecx, edx;
-  c.cpuid (0x8000000a, &eax, &ebx, &ecx, &edx);
+  c.cpuid(0x8000000a, &eax, &ebx, &ecx, &edx);
   if (edx & 1)
-    {
-      printf("SVM: nested paging supported\n");
-      _has_npt = true;
-    }
-  printf("SVM: NASID: %u.\n", ebx);
+    _has_npt = true;
+
+  printf("CPU%u: SVM enabled, nested paging %ssupported, NASID: %u.\n",
+         cxx::int_value<Cpu_number>(cpu), _has_npt ? "" : "not ", ebx);
   _max_asid = ebx - 1;
 
   // FIXME: MUST NOT PANIC ON CPU HOTPLUG
@@ -150,7 +147,7 @@ Svm::Svm(Cpu_number cpu)
   // FIXME: MUST NOT PANIC ON CPU HOTPLUG
   check(_iopm = Kmem_alloc::allocator()->alloc(Bytes(Io_pm_size + Vmcb_size)));
   _iopm_base_pa = Kmem::virt_to_phys(_iopm);
-  _kernel_vmcb = (Vmcb*)((char*)_iopm + Io_pm_size);
+  _kernel_vmcb = offset_cast<Vmcb *>(_iopm, Io_pm_size);
   _kernel_vmcb_pa = Kmem::virt_to_phys(_kernel_vmcb);
   _svm_enabled = true;
 
@@ -207,10 +204,10 @@ Svm::set_msr_perm(Unsigned32 msr, Msr_perms perms)
   msr &= 0x1fff;
   offs += msr / 4;
 
-  unsigned char *pm = (unsigned char *)_msrpm;
+  unsigned char *pm = static_cast<unsigned char *>(_msrpm);
 
   unsigned shift = (msr & 3) * 2;
-  pm[offs] = (pm[offs] & ~(3 << shift)) | ((unsigned char)perms << shift);
+  pm[offs] = (pm[offs] & ~(3 << shift)) | (perms << shift);
 }
 
 PUBLIC

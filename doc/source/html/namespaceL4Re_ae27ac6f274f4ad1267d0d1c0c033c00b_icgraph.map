@@ -1,51 +1,60 @@
 <map id="L4Re::throw_error" name="L4Re::throw_error">
-<area shape="rect" id="Node000001" title="Generate C++ exception." alt="" coords="667,305,804,330"/>
-<area shape="rect" id="Node000002" href="$namespaceL4Re.html#a64b057254a760643ba67a9ed452fede8" title="Check for valid capability or raise C++ exception." alt="" coords="511,94,619,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="713,296,574,122,579,119,717,292"/>
-<area shape="rect" id="Node000007" href="$namespaceL4Re.html#ae0dd5d25abdc1d195edd8ab6b744334c" title="Generate C++ exception on error." alt="" coords="511,305,618,330"/>
-<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="653,320,618,320,618,315,653,315"/>
-<area shape="rect" id="Node000008" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="511,516,618,541"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="717,343,579,517,574,514,713,340"/>
-<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a663b81f49e6ce03f9b7e136d6646bf89" title="Create a L4&#45;Virtio config data space." alt="" coords="281,87,429,127"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="497,110,430,110,430,104,497,104"/>
-<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="269,202,441,242"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="530,129,394,204,392,199,527,124"/>
+<area shape="rect" id="Node000001" title="Generate C++ exception." alt="" coords="667,652,804,677"/>
+<area shape="rect" id="Node000002" href="$namespaceL4Re.html#a64b057254a760643ba67a9ed452fede8" title="Check for valid capability or raise C++ exception." alt="" coords="511,145,619,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="723,640,568,172,573,170,728,638"/>
+<area shape="rect" id="Node000008" href="$namespaceL4Re.html#ae0dd5d25abdc1d195edd8ab6b744334c" title="Generate C++ exception on error." alt="" coords="511,701,618,727"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="678,684,610,704,609,699,677,679"/>
+<area shape="rect" id="Node000009" href="$namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb" title="Generate C++ exception on error." alt="" coords="511,652,618,677"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="653,667,618,667,618,662,653,662"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Dev__config.html#a663b81f49e6ce03f9b7e136d6646bf89" title="Create a L4&#45;Virtio config data space." alt="" coords="281,174,429,214"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="497,172,430,184,429,179,496,167"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Driver_1_1Device.html#a4f8b3d73188c3b6664755b81b80e441c" title="Contacts the device and starts the initial handshake." alt="" coords="269,238,441,278"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="538,182,503,206,464,228,434,241,432,236,462,224,501,201,535,178"/>
 <area shape="rect" id="Node000005" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#aa5d34e5156db18773cf46c2d06a2aa3a" title="Establish a connection to the device and set up shared memory." alt="" coords="5,251,200,291"/>
-<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="525,91,467,69,394,52,356,48,318,51,282,60,250,77,235,91,227,106,222,138,220,174,214,193,202,213,178,236,151,253,148,249,175,231,198,209,209,191,214,173,217,138,222,104,230,88,246,73,281,55,318,45,356,43,395,46,468,64,527,86"/>
-<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,159,186,199"/>
-<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="540,86,505,57,484,44,462,34,403,16,354,8,306,14,249,33,206,59,169,94,139,130,118,160,114,157,135,127,165,90,203,55,247,29,305,9,354,3,404,10,464,29,487,39,509,53,544,82"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="256,244,201,255,200,249,255,238"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="255,208,186,196,187,190,256,202"/>
-<area shape="poly" id="edge13_Node000008_Node000003" title=" " alt="" coords="553,503,508,342,499,284,498,236,496,215,490,193,479,171,461,148,446,135,429,125,431,121,449,130,465,144,483,168,495,191,501,214,503,236,505,284,513,341,558,502"/>
-<area shape="poly" id="edge20_Node000008_Node000004" title=" " alt="" coords="554,503,515,369,489,300,475,273,461,256,440,241,443,237,464,252,479,271,493,298,521,367,560,502"/>
-<area shape="poly" id="edge27_Node000008_Node000005" title=" " alt="" coords="552,504,539,473,519,437,493,401,461,370,433,353,408,343,361,334,310,331,247,320,161,294,163,289,249,315,310,326,361,329,410,338,436,349,464,366,497,397,524,434,543,471,557,502"/>
-<area shape="poly" id="edge28_Node000008_Node000006" title=" " alt="" coords="553,503,501,319,461,191,429,172,393,158,355,150,317,147,241,150,174,162,174,156,240,145,317,141,356,145,395,153,431,167,465,188,506,317,559,501"/>
-<area shape="rect" id="Node000009" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#a4325ef36d8d9d159d8d6a774b11378f4" title="Add a new region to the list." alt="" coords="281,572,429,612"/>
-<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="511,548,463,563,425,575,423,570,462,558,510,543"/>
-<area shape="rect" id="Node000010" href="$namespaceL4Re.html#ae21329b88c6ffc4917048e8d9564ea99" title="Test a message tag for IPC errors." alt="" coords="303,637,407,662"/>
-<area shape="poly" id="edge11_Node000008_Node000010" title=" " alt="" coords="547,553,511,591,489,611,464,627,437,638,408,646,407,641,435,633,461,622,486,606,508,587,543,550"/>
-<area shape="rect" id="Node000011" href="$namespaceL4Re.html#ad17a205e6270588606dd85399b0f9b6c" title="Generate C++ exception on error." alt="" coords="302,686,409,712"/>
-<area shape="poly" id="edge12_Node000008_Node000011" title=" " alt="" coords="555,555,521,616,495,649,464,676,438,689,410,697,408,692,436,684,461,671,491,645,517,613,550,552"/>
-<area shape="rect" id="Node000012" href="$classL4virtio_1_1Svr_1_1Device__t.html#ae96ab79bacd9bb862b0cf2aa4d3d18ac" title="callback to gather the device notification IRQ (old&#45;style)" alt="" coords="279,787,432,827"/>
-<area shape="poly" id="edge14_Node000008_Node000012" title=" " alt="" coords="562,555,552,601,534,658,505,718,487,746,464,770,434,790,431,786,461,766,482,742,501,715,529,656,547,599,557,554"/>
-<area shape="rect" id="Node000013" href="$classL4virtio_1_1Svr_1_1Device__t.html#ae684a9e7816579ca93e4f3bf6c765999" title="Callback to gather the device notification IRQ (multi IRQ)." alt="" coords="26,803,179,843"/>
-<area shape="poly" id="edge16_Node000008_Node000013" title=" " alt="" coords="567,555,564,616,551,695,538,737,520,776,496,812,464,841,427,862,387,874,345,879,302,879,221,866,153,846,155,841,222,861,302,873,344,874,386,869,425,857,461,837,492,808,515,774,533,735,546,694,559,616,561,555"/>
-<area shape="rect" id="Node000014" href="$classL4virtio_1_1Driver_1_1Device.html#af06d27e63124749456ddc8d959231741" title="Finalize handshake with the device." alt="" coords="269,266,441,306"/>
-<area shape="poly" id="edge17_Node000008_Node000014" title=" " alt="" coords="555,503,543,464,524,417,497,368,461,326,433,308,436,304,464,322,501,365,529,414,548,462,560,501"/>
-<area shape="rect" id="Node000015" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#abdad88a18e5428fb2276148ceccf0434" title="Make a local memory region for the given driver values." alt="" coords="270,902,441,957"/>
-<area shape="poly" id="edge21_Node000008_Node000015" title=" " alt="" coords="566,555,561,620,547,707,534,754,517,800,494,845,465,885,442,904,438,900,461,881,489,842,512,798,529,752,542,706,556,619,560,555"/>
-<area shape="rect" id="Node000016" href="$classL4virtio_1_1Driver_1_1Block__device.html#a9f1a7a08e90ca6c1441bd48abc8b574a" title="Process and free all items in the used queue." alt="" coords="248,982,463,1022"/>
-<area shape="poly" id="edge22_Node000008_Node000016" title=" " alt="" coords="563,555,552,647,533,771,504,892,485,939,465,971,450,983,447,979,461,968,481,936,498,890,527,770,547,646,558,554"/>
-<area shape="rect" id="Node000017" href="$classL4virtio_1_1Svr_1_1Device__t.html#a66d09e200e34ccad61e5843d2b5bb0a0" title="Callback for registering an notification IRQ (multi IRQ)." alt="" coords="22,714,183,754"/>
-<area shape="poly" id="edge23_Node000008_Node000017" title=" " alt="" coords="561,556,550,595,532,642,504,689,485,709,464,725,431,743,395,755,358,762,321,766,248,764,183,756,184,750,248,759,321,760,357,757,394,749,429,738,461,721,482,705,500,685,527,640,545,594,556,554"/>
-<area shape="rect" id="Node000018" href="$classL4virtio_1_1Svr_1_1Device__t.html#a8047b37ac63d6b5f84bcb1886a06f1b2" title="callback for registering a single guest IRQ for all queues (old&#45;style)" alt="" coords="252,508,459,548"/>
-<area shape="poly" id="edge24_Node000008_Node000018" title=" " alt="" coords="498,531,459,531,459,526,498,526"/>
-<area shape="rect" id="Node000019" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#a36efa2f3d99ee6e3e7d07e1dec0343d8" title="Remove the given region from the list." alt="" coords="275,380,435,420"/>
-<area shape="poly" id="edge26_Node000008_Node000019" title=" " alt="" coords="542,507,507,470,461,435,434,422,437,417,464,430,511,466,546,503"/>
-<area shape="rect" id="Node000020" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#a90e89b3a94f186cb9b3191f35868668e" title="Block until a network packet has been received from the device and return the descriptor number." alt="" coords="274,444,437,484"/>
-<area shape="poly" id="edge29_Node000008_Node000020" title=" " alt="" coords="510,514,462,499,423,487,425,482,463,494,511,509"/>
-<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="265,815,180,821,179,816,265,810"/>
-<area shape="poly" id="edge18_Node000014_Node000005" title=" " alt="" coords="255,283,200,279,201,274,256,277"/>
-<area shape="poly" id="edge19_Node000014_Node000006" title=" " alt="" coords="267,264,247,256,188,229,137,202,140,197,191,224,249,251,269,259"/>
-<area shape="poly" id="edge25_Node000018_Node000017" title=" " alt="" coords="259,557,250,563,206,598,169,640,118,715,113,712,164,637,202,595,246,558,257,552"/>
+<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="549,135,515,84,490,59,461,40,404,17,354,8,330,10,305,15,249,40,220,61,195,86,173,115,154,146,127,205,112,252,107,250,122,204,150,143,168,112,191,83,217,57,247,36,304,10,329,4,354,3,405,12,464,36,494,55,519,80,553,132"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Driver_1_1Block__device.html#af509c2785789dd2daf6b13f3369c6581" title="Establish a connection to the device and set up shared memory." alt="" coords="19,341,186,381"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="540,137,505,108,484,95,462,85,401,63,349,51,325,50,301,55,276,66,250,84,228,108,218,132,217,158,219,185,223,214,224,243,218,274,202,305,181,327,156,343,153,338,178,323,198,302,213,272,219,243,218,214,214,186,211,158,213,131,224,105,246,80,274,61,299,50,324,45,350,46,402,58,464,80,487,90,509,104,544,133"/>
+<area shape="rect" id="Node000007" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#afd3abeb259c86c3eea5d63b772e01cdd" title="callback for registering a single guest IRQ for all queues (old&#45;style)" alt="" coords="266,95,445,149"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="497,149,445,140,445,135,498,144"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="255,266,201,269,200,264,255,261"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="293,286,154,343,152,338,291,281"/>
+<area shape="poly" id="edge14_Node000009_Node000003" title=" " alt="" coords="558,639,547,547,527,424,498,305,481,259,461,228,446,216,429,207,431,203,449,212,465,224,485,257,503,303,532,423,552,546,563,638"/>
+<area shape="poly" id="edge23_Node000009_Node000004" title=" " alt="" coords="561,639,558,572,545,481,533,432,515,384,491,339,461,299,437,280,440,276,465,295,496,336,520,382,538,431,550,480,564,571,567,639"/>
+<area shape="poly" id="edge31_Node000009_Node000005" title=" " alt="" coords="561,638,557,577,543,496,531,454,513,413,490,375,461,343,427,329,361,314,200,287,201,282,362,309,428,324,464,339,495,372,518,411,536,452,549,495,563,576,566,638"/>
+<area shape="poly" id="edge32_Node000009_Node000006" title=" " alt="" coords="520,685,463,699,401,713,350,725,326,726,301,724,275,715,246,699,208,666,177,626,153,582,134,535,112,446,103,381,108,381,117,445,139,533,157,579,181,623,212,663,250,695,277,710,302,718,326,721,349,719,400,708,462,694,518,679"/>
+<area shape="poly" id="edge29_Node000009_Node000007" title=" " alt="" coords="559,639,549,535,530,393,517,321,501,255,482,201,461,164,443,149,447,145,465,160,487,199,506,254,522,320,535,393,554,535,564,638"/>
+<area shape="rect" id="Node000010" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#a4325ef36d8d9d159d8d6a774b11378f4" title="Add a new region to the list." alt="" coords="281,481,429,521"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="548,641,514,587,489,559,461,535,428,519,431,514,464,531,493,555,518,584,553,638"/>
+<area shape="rect" id="Node000011" href="$namespaceL4Re.html#ae21329b88c6ffc4917048e8d9564ea99" title="Test a message tag for IPC errors." alt="" coords="303,545,407,571"/>
+<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="540,644,505,613,461,584,435,574,407,567,408,562,436,569,464,580,508,609,544,640"/>
+<area shape="rect" id="Node000012" href="$namespaceL4Re.html#ad17a205e6270588606dd85399b0f9b6c" title="Generate C++ exception on error." alt="" coords="302,595,409,620"/>
+<area shape="poly" id="edge13_Node000009_Node000012" title=" " alt="" coords="512,650,462,635,409,622,410,617,463,630,513,645"/>
+<area shape="rect" id="Node000013" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#acf10e85eddb60b7f4c5e5a8d21e63919" title="Create a new console Device." alt="" coords="275,645,435,685"/>
+<area shape="poly" id="edge15_Node000009_Node000013" title=" " alt="" coords="498,667,435,667,435,662,498,662"/>
+<area shape="rect" id="Node000014" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a0c5a3f713007f64cc2ed052622b6741b" title="Create a new console device." alt="" coords="275,759,435,799"/>
+<area shape="poly" id="edge16_Node000009_Node000014" title=" " alt="" coords="519,686,512,691,498,704,489,717,480,730,464,743,428,762,426,757,461,739,476,726,485,714,494,700,509,687,516,682"/>
+<area shape="rect" id="Node000015" href="$classL4virtio_1_1Svr_1_1Device__t.html#ae96ab79bacd9bb862b0cf2aa4d3d18ac" title="callback to gather the device notification IRQ (old&#45;style)" alt="" coords="279,1018,432,1058"/>
+<area shape="poly" id="edge17_Node000009_Node000015" title=" " alt="" coords="515,688,513,690,491,731,483,769,484,807,491,845,497,883,498,921,489,961,465,1001,450,1015,433,1024,431,1020,447,1010,461,998,484,959,493,921,492,883,486,846,479,808,477,769,486,729,508,687,511,685"/>
+<area shape="rect" id="Node000016" href="$classL4virtio_1_1Svr_1_1Device__t.html#ae684a9e7816579ca93e4f3bf6c765999" title="Callback to gather the device notification IRQ (multi IRQ)." alt="" coords="26,990,179,1030"/>
+<area shape="poly" id="edge19_Node000009_Node000016" title=" " alt="" coords="515,688,513,690,493,725,487,759,488,792,494,826,499,859,499,892,489,925,464,957,444,971,416,982,342,998,258,1007,180,1011,179,1006,257,1002,341,992,414,977,442,966,461,953,484,923,494,891,494,859,489,827,483,793,481,759,488,723,508,687,511,685"/>
+<area shape="rect" id="Node000017" href="$classL4virtio_1_1Driver_1_1Device.html#af06d27e63124749456ddc8d959231741" title="Finalize handshake with the device." alt="" coords="269,353,441,393"/>
+<area shape="poly" id="edge20_Node000009_Node000017" title=" " alt="" coords="558,639,550,589,533,527,504,462,484,433,461,407,440,393,443,388,464,403,489,429,509,460,538,525,555,588,563,638"/>
+<area shape="rect" id="Node000018" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html#abdad88a18e5428fb2276148ceccf0434" title="Make a local memory region for the given driver values." alt="" coords="270,824,441,879"/>
+<area shape="poly" id="edge24_Node000009_Node000018" title=" " alt="" coords="516,688,513,691,501,706,495,721,490,751,485,782,477,797,465,813,443,830,440,825,461,809,473,795,480,780,485,750,489,719,496,703,509,687,512,684"/>
+<area shape="rect" id="Node000019" href="$classL4virtio_1_1Driver_1_1Block__device.html#a9f1a7a08e90ca6c1441bd48abc8b574a" title="Process and free all items in the used queue." alt="" coords="248,903,463,943"/>
+<area shape="poly" id="edge25_Node000009_Node000019" title=" " alt="" coords="515,688,513,690,497,716,490,741,491,791,493,816,491,841,483,866,465,892,448,905,445,901,461,888,478,864,486,840,487,816,486,791,485,740,492,714,509,687,511,684"/>
+<area shape="rect" id="Node000020" href="$classL4virtio_1_1Svr_1_1Device__t.html#a66d09e200e34ccad61e5843d2b5bb0a0" title="Callback for registering an notification IRQ (multi IRQ)." alt="" coords="22,1167,183,1207"/>
+<area shape="poly" id="edge26_Node000009_Node000020" title=" " alt="" coords="515,688,513,690,504,707,497,729,491,782,493,915,495,983,494,1046,485,1098,476,1119,465,1136,445,1150,417,1161,345,1176,262,1185,184,1189,183,1184,261,1180,344,1171,416,1156,443,1145,461,1132,472,1117,480,1097,488,1045,490,983,488,915,486,782,492,728,499,705,508,687,511,685"/>
+<area shape="rect" id="Node000021" href="$classL4virtio_1_1Svr_1_1Device__t.html#a8047b37ac63d6b5f84bcb1886a06f1b2" title="callback for registering a single guest IRQ for all queues (old&#45;style)" alt="" coords="252,1197,459,1237"/>
+<area shape="poly" id="edge27_Node000009_Node000021" title=" " alt="" coords="515,688,513,690,493,723,480,755,473,786,471,816,478,876,492,935,506,994,511,1054,509,1084,500,1116,486,1147,465,1180,443,1199,439,1195,461,1176,482,1145,495,1114,503,1084,506,1054,501,995,487,936,472,877,466,816,468,785,475,753,488,720,508,687,511,685"/>
+<area shape="rect" id="Node000022" href="$classL4virtio_1_1Svr_1_1Driver__mem__list__t.html#a36efa2f3d99ee6e3e7d07e1dec0343d8" title="Remove the given region from the list." alt="" coords="275,1082,435,1122"/>
+<area shape="poly" id="edge30_Node000009_Node000022" title=" " alt="" coords="515,688,513,690,497,716,487,740,479,788,483,835,493,882,502,928,505,975,502,999,495,1023,483,1047,465,1072,452,1084,437,1092,434,1087,449,1079,461,1068,478,1044,490,1021,497,998,500,975,497,929,487,883,477,836,473,788,482,739,492,713,508,687,511,685"/>
+<area shape="rect" id="Node000023" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#a91e490d2fb56abc72771fbef8edf1d70" title="Create a new multiport console device." alt="" coords="271,1261,439,1301"/>
+<area shape="poly" id="edge33_Node000009_Node000023" title=" " alt="" coords="514,688,513,690,502,712,494,739,487,806,487,885,492,971,496,1056,496,1135,487,1202,478,1229,465,1251,441,1269,438,1265,461,1247,473,1226,482,1200,491,1134,491,1056,487,971,482,885,481,806,489,738,497,710,508,687,510,685"/>
+<area shape="rect" id="Node000024" href="$classL4virtio_1_1Driver_1_1Virtio__net__device.html#a90e89b3a94f186cb9b3191f35868668e" title="Block until a network packet has been received from the device and return the descriptor number." alt="" coords="274,417,437,457"/>
+<area shape="poly" id="edge34_Node000009_Node000024" title=" " alt="" coords="555,640,543,602,524,556,497,510,461,471,435,455,438,451,464,467,501,507,529,554,548,600,560,638"/>
+<area shape="poly" id="edge18_Node000015_Node000016" title=" " alt="" coords="265,1031,179,1021,180,1016,265,1025"/>
+<area shape="poly" id="edge21_Node000017_Node000005" title=" " alt="" coords="284,351,247,337,147,294,150,289,249,332,285,346"/>
+<area shape="poly" id="edge22_Node000017_Node000006" title=" " alt="" coords="256,371,186,367,186,362,256,365"/>
+<area shape="poly" id="edge28_Node000021_Node000020" title=" " alt="" coords="238,1206,183,1199,184,1194,239,1201"/>
 </map>

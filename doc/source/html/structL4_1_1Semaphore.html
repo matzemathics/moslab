@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Semaphore Struct Reference</title>
+<title>L4Re Operating System Framework: L4::Semaphore Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -186,9 +189,10 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <div class="textblock"><p>C++ Kernel-provided semaphore interface, see <a class="el" href="group__l4__semaphore__api.html">Kernel-provided semaphore</a> for the C interface. </p>
 <p>This is the interface for kernel-provided semaphore objects. The object provides the classical functions <code><a class="el" href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc" title="Semaphore up operation (wrapper for trigger()).">up()</a></code> and <code><a class="el" href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c" title="Semaphore down operation.">down()</a></code> for counting the semaphore and blocking. The semaphore is a <a class="el" href="structL4_1_1Triggerable.html" title="Interface that allows an object to be triggered by some source.">Triggerable</a> with respect to the <code><a class="el" href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc" title="Semaphore up operation (wrapper for trigger()).">up()</a></code> function, this means that a semaphore can be bound to an interrupt line at an ICU (<a class="el" href="classL4_1_1Icu.html" title="C++ Icu interface, see Interrupt controller for the C interface.">L4::Icu</a>) and incoming interrupts increment the semaphore counter.</p>
 <p>The <code><a class="el" href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c" title="Semaphore down operation.">down()</a></code> method decrements the semaphore counter and blocks if the counter is already zero. Blocking on a semaphore may&mdash;as all blocking operations&mdash;either return successfully, or be aborted due to an expired timeout provided to the <code><a class="el" href="structL4_1_1Semaphore.html#a5db9d69c03c135a9ae92d8a523cd9a4c" title="Semaphore down operation.">down()</a></code> operation, or due to an <a class="el" href="classL4_1_1Thread.html#aacd56bbf983577cfc591f21fd511d3b6" title="Exchange basic thread registers.">L4::Thread::ex_regs()</a> operation with the <a class="el" href="group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16aa13ff4d1b899982508b9ad36c61fe47a" title="Cancel ongoing IPC in the thread.">L4_THREAD_EX_REGS_CANCEL</a> flag set.</p>
+<p>A semaphore object is initialized with counter value 0.</p>
 <p>The main reason for using a semaphore instead of an <a class="el" href="classL4_1_1Irq.html" title="C++ Irq interface, see IRQs for the C interface.">L4::Irq</a> is to ensure that incoming trigger signals do not interfere with any open-wait operations, as used for example in a server loop. </p>
 
-<p class="definition">Definition at line <a class="el" href="semaphore_source.html#l00052">52</a> of file <a class="el" href="semaphore_source.html">semaphore</a>.</p>
+<p class="definition">Definition at line <a class="el" href="semaphore_source.html#l00054">54</a> of file <a class="el" href="semaphore_source.html">semaphore</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a5db9d69c03c135a9ae92d8a523cd9a4c" name="a5db9d69c03c135a9ae92d8a523cd9a4c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5db9d69c03c135a9ae92d8a523cd9a4c">&#9670;&#160;</a></span>down()</h2>
@@ -241,7 +245,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 </dl>
 <p>This method decrements the semaphore counter by one, or blocks if the counter is already zero, until either a timeout or cancel condition hits or the counter is increased by an <code><a class="el" href="structL4_1_1Semaphore.html#a3de7e4e35ff4dadab9a26f3b87fb76bc" title="Semaphore up operation (wrapper for trigger()).">up()</a></code> operation. </p>
 
-<p class="definition">Definition at line <a class="el" href="semaphore_source.html#l00088">88</a> of file <a class="el" href="semaphore_source.html">semaphore</a>.</p>
+<p class="definition">Definition at line <a class="el" href="semaphore_source.html#l00090">90</a> of file <a class="el" href="semaphore_source.html">semaphore</a>.</p>
 
 </div>
 </div>
@@ -279,7 +283,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag for a send-only operation, this means there is no return value except <a class="el" href="group__l4__msgtag__api.html#gga16589e963a73c13aefd2760ce418e053aad1669664171cc979970b1e2300bd463" title="Error indicator flag.">L4_MSGTAG_ERROR</a> indicating success or failure of the send operation. Use <a class="el" href="group__l4__ipc__err__api.html#gad40f404217497793e95a10d77a47db39" title="Get the IPC error code for an IPC operation.">l4_ipc_error()</a> to check for errors and <b>do not</b> use <a class="el" href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f" title="Get IPC error code if any or message tag label otherwise for an IPC call.">l4_error()</a>.</dd></dl>
 <p>Increases the semaphore counter by one if it is smaller than an unspecified limit. The unspecified limit is guaranteed to be at least 2^31-1. </p>
 
-<p class="definition">Definition at line <a class="el" href="semaphore_source.html#l00068">68</a> of file <a class="el" href="semaphore_source.html">semaphore</a>.</p>
+<p class="definition">Definition at line <a class="el" href="semaphore_source.html#l00070">70</a> of file <a class="el" href="semaphore_source.html">semaphore</a>.</p>
 
 <p class="reference">References <a class="el" href="irq_source.html#l00102">L4::Triggerable::trigger()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -302,7 +306,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__check_protoc
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="structL4_1_1Semaphore.html">Semaphore</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

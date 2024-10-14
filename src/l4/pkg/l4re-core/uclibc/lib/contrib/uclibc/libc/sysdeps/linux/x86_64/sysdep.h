@@ -38,33 +38,16 @@
 
 /* Define an entry point visible from C.  */
 #define	ENTRY(name)							      \
-  ASM_GLOBAL_DIRECTIVE C_SYMBOL_NAME(name);				      \
+  .globl C_SYMBOL_NAME(name);				      \
   ASM_TYPE_DIRECTIVE (C_SYMBOL_NAME(name),@function)			      \
   .align ALIGNARG(4);							      \
   C_LABEL(name)								      \
-  cfi_startproc;							      \
-  CALL_MCOUNT
+  cfi_startproc;
 
 #undef	END
 #define END(name)							      \
   cfi_endproc;								      \
   ASM_SIZE_DIRECTIVE(name)
-
-/* If compiled for profiling, call `mcount' at the start of each function.  */
-#ifdef	PROF
-/* The mcount code relies on a normal frame pointer being on the stack
-   to locate our caller, so push one just for its benefit.  */
-#define CALL_MCOUNT                                                          \
-  pushq %rbp;                                                                \
-  cfi_adjust_cfa_offset(8);                                                  \
-  movq %rsp, %rbp;                                                           \
-  cfi_def_cfa_register(%rbp);                                                \
-  call JUMPTARGET(mcount);                                                   \
-  popq %rbp;                                                                 \
-  cfi_def_cfa(rsp,8);
-#else
-#define CALL_MCOUNT		/* Do nothing.  */
-#endif
 
 #ifdef	NO_UNDERSCORES
 /* Since C identifiers are not normally prefixed with an underscore
@@ -184,21 +167,8 @@ lose:									      \
 
 # ifndef __PIC__
 #  define SYSCALL_ERROR_HANDLER	/* Nothing here; code in sysdep.S is used.  */
-# elif defined(RTLD_PRIVATE_ERRNO)
-#  define SYSCALL_ERROR_HANDLER			\
-0:						\
-  leaq rtld_errno(%rip), %rcx;			\
-  xorl %edx, %edx;				\
-  subq %rax, %rdx;				\
-  movl %edx, (%rcx);				\
-  orq $-1, %rax;				\
-  jmp L(pseudo_end);
 # elif USE___THREAD
-#  ifndef NOT_IN_libc
-#   define SYSCALL_ERROR_ERRNO __libc_errno
-#  else
 #   define SYSCALL_ERROR_ERRNO errno
-#  endif
 #  define SYSCALL_ERROR_HANDLER			\
 0:						\
   movq SYSCALL_ERROR_ERRNO@GOTTPOFF(%rip), %rcx;\
@@ -286,45 +256,4 @@ lose:									      \
 # define DOARGS_6 DOARGS_5
 
 #endif	/* __ASSEMBLER__ */
-
-
-/* Pointer mangling support.  */
-#if defined NOT_IN_libc && defined IS_IN_rtld
-/* We cannot use the thread descriptor because in ld.so we use setjmp
-   earlier than the descriptor is initialized.  */
-# ifdef __ASSEMBLER__
-#  define PTR_MANGLE(reg)	xorq __pointer_chk_guard_local(%rip), reg;    \
-				rolq $17, reg
-#  define PTR_DEMANGLE(reg)	rorq $17, reg;				      \
-				xorq __pointer_chk_guard_local(%rip), reg
-# else
-#  define PTR_MANGLE(reg)	__asm__ ("xorq __pointer_chk_guard_local(%%rip), %0\n" \
-				     "rolq $17, %0"			      \
-				     : "=r" (reg) : "0" (reg))
-#  define PTR_DEMANGLE(reg)	__asm__ ("rorq $17, %0\n"			      \
-				     "xorq __pointer_chk_guard_local(%%rip), %0" \
-				     : "=r" (reg) : "0" (reg))
-# endif
-#else
-# ifdef __ASSEMBLER__
-#  define PTR_MANGLE(reg)	xorq %fs:POINTER_GUARD, reg;		      \
-				rolq $17, reg
-#  define PTR_DEMANGLE(reg)	rorq $17, reg;				      \
-				xorq %fs:POINTER_GUARD, reg
-# else
-#  define PTR_MANGLE(var)	__asm__ ("xorq %%fs:%c2, %0\n"		      \
-				     "rolq $17, %0"			      \
-				     : "=r" (var)			      \
-				     : "0" (var),			      \
-				       "i" (offsetof (tcbhead_t,	      \
-						      pointer_guard)))
-#  define PTR_DEMANGLE(var)	__asm__ ("rorq $17, %0\n"			      \
-				     "xorq %%fs:%c2, %0"		      \
-				     : "=r" (var)			      \
-				     : "0" (var),			      \
-				       "i" (offsetof (tcbhead_t,	      \
-						      pointer_guard)))
-# endif
-#endif
-
 #endif /* linux/x86_64/sysdep.h */

@@ -10,6 +10,7 @@ struct Smc_user : Kobject_h<Smc_user, Kobject>
 {
   L4_msg_tag kinvoke(L4_obj_ref, L4_fpage::Rights,
                      Syscall_frame *f, Utcb const *in, Utcb *out)
+                     FIASCO_ARM_THUMB2_NO_FRAME_PTR
   {
     L4_msg_tag tag = f->tag();
 
@@ -25,9 +26,13 @@ struct Smc_user : Kobject_h<Smc_user, Kobject>
     if (!(r0 & 0x80000000))
       return commit_result(-L4_err::ENosys);
 
-    // only allow calls to trusted applications or a trusted OS
-    if ((r0 & 0x3F000000) < 0x30000000)
+    // only allow calls in configured service call range
+    if (   (r0 & 0x3F000000) < CONFIG_ARM_SMC_USER_MIN
+        || (r0 & 0x3F000000) > CONFIG_ARM_SMC_USER_MAX)
       return commit_result(-L4_err::ENosys);
+
+    if (!invoke_test_callback(in, out))
+      return commit_result(0, 4);
 
     register Mword r1 FIASCO_ARM_ASM_REG(1) = in->values[1];
     register Mword r2 FIASCO_ARM_ASM_REG(2) = in->values[2];
@@ -56,7 +61,44 @@ void
 Smc_user::init()
 {
   _glbl_smc_user.construct();
-  initial_kobjects.register_obj(_glbl_smc_user, Initial_kobjects::Smc);
+  initial_kobjects->register_obj(_glbl_smc_user, Initial_kobjects::Smc);
 }
 
 STATIC_INITIALIZE(Smc_user);
+
+//---------------------------------------------------------------------------
+INTERFACE [arm_smc_user && test_support_code]:
+
+#include <cxx/function>
+
+EXTENSION struct Smc_user
+{
+public:
+  using Test_callback = cxx::functor<bool (Utcb const *in, Utcb *out)>;
+  static Test_callback test_cb;
+};
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm_smc_user && test_support_code]:
+
+Smc_user::Test_callback Smc_user::test_cb;
+
+PUBLIC static inline
+bool
+Smc_user::invoke_test_callback(Utcb const *in, Utcb *out)
+{
+  if (test_cb)
+    return test_cb(in, out);
+
+  return true;
+}
+
+//---------------------------------------------------------------------------
+IMPLEMENTATION [arm_smc_user && !test_support_code]:
+
+PUBLIC static inline
+bool
+Smc_user::invoke_test_callback(Utcb const *, Utcb *)
+{
+  return true;
+}

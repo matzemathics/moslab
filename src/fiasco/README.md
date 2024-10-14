@@ -9,11 +9,12 @@ running real-time, time-sharing and virtualization workloads concurrently on
 one system. The kernel scales from big and complex systems down to small and
 embedded applications. It supports the following architectures:
 
-| Architecture | 32 bit | 64 bit |
-|:------------:|:------:|:------:|
-|      x86     |    x   |   x    |
-|      ARM     |    x   |   x    |
-|      MIPS    |    x   |   x    |
+| Architecture | 32 bit | 64 bit | Status            |
+|:------------:|:------:|:------:|:-----------------:|
+|      x86     |    x   |   x    | ![Build check][3] |
+|      ARM     |    x   |   x    | ![Build check][4] |
+|      MIPS    |    x   |   x    | ![Build check][5] |
+|     RISC-V   |    x   |   x    | ![Build check][6] |
 
 For a full list of the supported platforms and features see the [feature
 list][1].
@@ -23,6 +24,10 @@ on [how to contribute][2].
 
 [1]: https://l4re.org/fiasco/features.html
 [2]: https://kernkonzept.com/L4Re/contributing/fiasco
+[3]: https://github.com/kernkonzept/fiasco/actions/workflows/check_build_x86.yml/badge.svg?branch=master
+[4]: https://github.com/kernkonzept/fiasco/actions/workflows/check_build_arm.yml/badge.svg?branch=master
+[5]: https://github.com/kernkonzept/fiasco/actions/workflows/check_build_mips.yml/badge.svg?branch=master
+[6]: https://github.com/kernkonzept/fiasco/actions/workflows/check_build_riscv.yml/badge.svg?branch=master
 
 ## Reporting vulnerabilities
 
@@ -31,7 +36,7 @@ disclose them privately via **security@kernkonzept.com** to us.
 
 # Building
 
-Fiasco.OC can be built using a recent version of gcc (>=4.7) or clang (>=3.7),
+Fiasco.OC can be built using a recent version of gcc (>=7) or clang (>=9),
 GNU binutils, GNU make and Perl (>=5.6).
 
 Change to the top-level directory of this project and create a build directory

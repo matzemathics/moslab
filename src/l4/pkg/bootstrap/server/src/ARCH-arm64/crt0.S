@@ -68,6 +68,8 @@ _start:
 
 	/* Figure how to move */
         ldr     x7, crt_end_bin
+	add     x7, x7, #7	/* Round up to word size for ldr and str... */
+	bic     x7, x7, #7	/* ...below */
 	subs	x8, x5, x4	/* x8 is the distance between the blocks */
 	b.pl	move_behind
 
@@ -110,30 +112,15 @@ crt_end_bin:  .8byte _module_data_end
 
 run:
 #endif
-	.global cpu_bootup_code_start
-cpu_bootup_code_start:
-	mrs	x9, MPIDR_EL1              /* CPU ID */
-	and	x9, x9, #0xf               /* CPU id */
-	cmp	x9, #0                     /* CPU0 continues with bootstrap */
-	beq	do_bootstrap
+	b	platform_cpu_bootup
 
-1:	ldr	x9, mp_launch_spin_addr
-	cmp	x9, #0
-	beq	2f                         /* Not yet */
-	ldr	x9, [x9]
-	cmp	x9, #0
-	beq	2f                         /* Still not set */
-	blr	x9
-2:	wfe
-	b	1b
-	.global cpu_bootup_code_end
-cpu_bootup_code_end:
+.type platform_cpu_bootup, #function
+.weak platform_cpu_bootup
+platform_cpu_bootup:
+	/* Can be overridden by platform for special MP boot */
 
-	.align 3
-	.global mp_launch_spin_addr
-mp_launch_spin_addr:
-	.space 8
-
+.global do_bootstrap
+.type do_bootstrap, #function
 do_bootstrap:
 	adrp	x9, crt0_stack_high
 	add	x9, x9, :lo12:crt0_stack_high

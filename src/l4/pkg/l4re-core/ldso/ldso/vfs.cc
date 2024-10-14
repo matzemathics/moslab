@@ -13,7 +13,7 @@
 #include <dlfcn.h>
 
 inline
-void l4_sleep(int) L4_NOTHROW
+void l4_sleep(l4_uint32_t) L4_NOTHROW
 {}
 
 
@@ -56,7 +56,7 @@ namespace Vfs_config {
     // small ldso-internal cap allocator for the first libs
     typedef L4Re::Cap_alloc_t<L4Re::Util::Cap_alloc<256> > Cap_alloc;
 
-    // compiltime version
+    // compile-time version
     Cap_alloc __attribute__((init_priority(INIT_PRIO_L4RE_UTIL_CAP_ALLOC)))
       __cap_alloc(256); //L4Re::Env::env()->first_free_cap() - 256);
   }
@@ -72,9 +72,11 @@ namespace Vfs_config {
   {
     if (!_dl_open)
       {
-        _dl_open = (Dl_open*)_dl_find_hash("dlopen", _dl_symbol_tables, NULL, ELF_RTYPE_CLASS_PLT, NULL);
-	if (!_dl_open)
-	  return -1;
+        char *open = _dl_find_hash("dlopen", _dl_symbol_tables, NULL,
+                                   ELF_RTYPE_CLASS_PLT, NULL);
+        _dl_open = reinterpret_cast<Dl_open*>(open);
+        if (!_dl_open)
+          return -1;
       }
 
     if (fstype[0] == '\0')
@@ -107,15 +109,18 @@ namespace L4Re {
     __attribute__((alias("l4re_vfs_virt_cap_alloc"), visibility("default")));
 }
 
+extern "C" void __cxa_pure_virtual(void);
 extern "C" void __cxa_pure_virtual(void)
 {
   l4_sleep_forever();
 }
 
+extern "C" void __cxa_atexit(void);
 extern "C" void __cxa_atexit(void)
 {}
 
 #ifdef __ARM_EABI__
+extern "C" void __aeabi_atexit(void);
 extern "C" void __aeabi_atexit(void)
 {}
 #endif

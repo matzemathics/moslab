@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: examples/libs/libirq/loop.c</title>
+<title>L4Re Operating System Framework: examples/libs/libirq/loop.c</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -143,12 +146,12 @@ $(document).ready(function(){initNavTree('examples_2libs_2libirq_2loop_8c-exampl
 <div class="line">  <span class="keywordflow">if</span> (pthread_create(&amp;thread, NULL, isr_thread, NULL))</div>
 <div class="line">    <span class="keywordflow">return</span> 1;</div>
 <div class="line"> </div>
-<div class="line">  <a id="a2" name="a2"></a><a class="code hl_function" href="group__l4util__api.html#ga3a74b4dee439a339ed5a6368845cad37">l4_sleep_forever</a>();</div>
+<div class="line">  <a id="a2" name="a2"></a><a class="code hl_function" href="group__l4util__api.html#ga4842edcbe6e461bc083bb33ca870a762">l4_sleep_forever</a>();</div>
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 <div class="ttc" id="agroup__l4irq__api__irq_html_ga30b1bc64703a436a3976aa38598e5a6c"><div class="ttname"><a href="group__l4irq__api__irq.html#ga30b1bc64703a436a3976aa38598e5a6c">l4irq_attach</a></div><div class="ttdeci">l4irq_t * l4irq_attach(int irqnum)</div><div class="ttdoc">Attach/connect to IRQ.</div></div>
 <div class="ttc" id="agroup__l4irq__api__irq_html_ga6712699924b9f626277e6d6c6b6fd843"><div class="ttname"><a href="group__l4irq__api__irq.html#ga6712699924b9f626277e6d6c6b6fd843">l4irq_wait</a></div><div class="ttdeci">long l4irq_wait(l4irq_t *irq)</div><div class="ttdoc">Wait for specified IRQ.</div></div>
-<div class="ttc" id="agroup__l4util__api_html_ga3a74b4dee439a339ed5a6368845cad37"><div class="ttname"><a href="group__l4util__api.html#ga3a74b4dee439a339ed5a6368845cad37">l4_sleep_forever</a></div><div class="ttdeci">void l4_sleep_forever(void) L4_NOTHROW)</div><div class="ttdoc">Go sleep and never wake up.</div><div class="ttdef"><b>Definition</b> <a href="amd64_2l4_2util_2util_8h_source.html#l00052">util.h:52</a></div></div>
+<div class="ttc" id="agroup__l4util__api_html_ga4842edcbe6e461bc083bb33ca870a762"><div class="ttname"><a href="group__l4util__api.html#ga4842edcbe6e461bc083bb33ca870a762">l4_sleep_forever</a></div><div class="ttdeci">void l4_sleep_forever(void) L4_NOTHROW L4_NORETURN</div><div class="ttdoc">Go sleep and never wake up.</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00087">util.h:87</a></div></div>
 <div class="ttc" id="al4_2irq_2irq_8h_html"><div class="ttname"><a href="l4_2irq_2irq_8h.html">irq.h</a></div><div class="ttdoc">IRQ handling routines.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
@@ -156,7 +159,7 @@ $(document).ready(function(){initNavTree('examples_2libs_2libirq_2loop_8c-exampl
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

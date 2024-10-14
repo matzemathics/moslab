@@ -14,6 +14,7 @@
 #include <l4/cxx/ref_ptr>
 #include <l4/libloader/elf>
 #include <l4/util/bitops.h>
+#include <l4/sys/debugger.h>
 
 #include <lua.h>
 #include <lauxlib.h>
@@ -162,7 +163,7 @@ private:
         return R_cap();
       }
 
-    Cap *c = (Cap *)luaL_testudata(_lua, -1, Lua::CAP_TYPE);
+    Cap *c = reinterpret_cast<Cap *>(luaL_testudata(_lua, -1, Lua::CAP_TYPE));
     if (!c)
       {
         lua_pop(_lua, 1);
@@ -273,6 +274,8 @@ public:
     Loader _l;
 
     _l.launch(this, kernel, ldr);
+    l4_debugger_add_image_info(_task->task_cap().cap(), prog_info()->base,
+                               "l4re");
 
     lua_pop(_lua, 1);
   }
@@ -294,6 +297,8 @@ public:
     if (!_cfg_idx)
       return;
 
+    prog_info()->ldr_base = _cfg_integer("base", 0);
+    prog_info()->base = _cfg_integer("itas_base", prog_info()->ldr_base);
     prog_info()->ldr_flags = _cfg_integer("ldr_flags", prog_info()->ldr_flags);
     prog_info()->l4re_dbg = _cfg_integer("l4re_dbg", prog_info()->l4re_dbg);
 
@@ -363,7 +368,8 @@ typedef cxx::Ref_ptr<Lua_app_task> App_ptr;
 static
 App_ptr &check_at(lua_State *l, int i)
 {
-  App_ptr *t = (App_ptr*)luaL_checkudata(l, i, APP_TASK_TYPE);
+  App_ptr *t = reinterpret_cast<App_ptr*>
+    (luaL_checkudata(l, i, APP_TASK_TYPE));
   return *t;
 }
 
@@ -515,7 +521,7 @@ static int exec(lua_State *l)
   Am am(l);
   am.parse_cfg();
 
-  App_ptr app_task(new Lua_app_task(l, am.rm_fab()));
+  App_ptr app_task = cxx::make_ref_obj<Lua_app_task>(l, am.rm_fab());
 
   if (!app_task)
     {
@@ -526,7 +532,7 @@ static int exec(lua_State *l)
 
   am.set_task(app_task.get());
 
-  app_task->running();
+  app_task->running(app_task);
 
   am.launch_loader();
 

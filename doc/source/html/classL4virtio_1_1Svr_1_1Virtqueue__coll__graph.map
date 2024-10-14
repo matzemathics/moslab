@@ -1,5 +1,5 @@
 <map id="L4virtio::Svr::Virtqueue" name="L4virtio::Svr::Virtqueue">
-<area shape="rect" id="Node000001" title="Virtqueue implementation for the device." alt="" coords="321,1233,484,1399"/>
+<area shape="rect" id="Node000001" title="Virtqueue implementation for the device." alt="" coords="321,1233,484,1459"/>
 <area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue.html" title="Low&#45;level Virtqueue." alt="" coords="326,679,479,1184"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="405,1198,405,1233,400,1233,400,1198"/>
 <area shape="rect" id="Node000003" href="$classL4virtio_1_1Virtqueue_1_1Desc.html" title="Descriptor in the descriptor table." alt="" coords="177,516,311,616"/>

@@ -121,30 +121,12 @@ int main(int argc, char **argv)
 		}
 
  locale_failure:
-		printf("could not find a UTF8 locale ... please enable en_US.UTF-8\n");
+		fprintf(stderr,
+			"could not find a UTF8 locale ... please enable en_US.UTF-8\n");
 		return EXIT_FAILURE;
  locale_success:
 		pclose(fp);
 	}
-
-#if 0
-	if (argc == 1) {
-		/* User requested 8-bit codesets, but didn't list any... */
-		/* Allow to build, just so this feature can be left on in config. */
-		printf("#ifdef __CTYPE_HAS_8_BIT_LOCALES\n");
-		printf("#warning ignoring 8 bit codesets request"
-				" as no codesets specified.\n");
-		printf("#endif\n");
-		printf("#undef __CTYPE_HAS_8_BIT_LOCALES\n\n");
-
-		printf("#define __LOCALE_DATA_NUM_CODESETS\t\t0\n");
-		printf("#define __LOCALE_DATA_CODESET_LIST\t\t\"\"\n");
-		return EXIT_SUCCESS;
-	}
-
-/*  	printf("#define __CTYPE_HAS_8_BIT_LOCALES\t1\n\n"); */
-	printf("#ifdef __CTYPE_HAS_8_BIT_LOCALES\n\n");
-#endif
 
 	if (argc == 1) {
 		printf("#undef __CTYPE_HAS_8_BIT_LOCALES\n\n");

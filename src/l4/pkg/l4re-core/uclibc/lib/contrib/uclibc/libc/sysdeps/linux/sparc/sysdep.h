@@ -17,6 +17,15 @@
 C_LABEL(name)                       \
     cfi_startproc;
 
+#define ENTRY_NOCFI(name)			\
+	.align	4;			\
+	.global	C_SYMBOL_NAME(name);	\
+	.type	name, @function;	    \
+C_LABEL(name)
+
+#define END_NOCFI(name)			    \
+	.size name, . - name
+
 #define END(name)                   \
     cfi_endproc;                    \
     .size name, . - name
@@ -61,9 +70,4 @@ ENTRY(name);					\
 
 
 #endif /* __ASSEMBLER__ */
-
-/* Pointer mangling is not yet supported for SPARC.  */
-#define PTR_MANGLE(var) (void) (var)
-#define PTR_DEMANGLE(var) (void) (var)
-
 #endif

@@ -11,13 +11,21 @@ Thread::vcpu_return_to_kernel(Mword ip, Mword sp, T arg)
   regs()->ip(ip);
   regs()->sp(sp);
   regs()->flags(EFLAGS_IF);
+
   asm volatile
-    ("mov %0, %%esp \t\n"
-     "iret         \t\n"
+    ("  mov %[sp], %%esp  \n"
+     "  xor %%ebx, %%ebx  \n"
+     "  xor %%ecx, %%ecx  \n"
+     "  xor %%edx, %%edx  \n"
+     "  xor %%ebp, %%ebp  \n"
+     "  xor %%esi, %%esi  \n"
+     "  xor %%edi, %%edi  \n"
+     "  iret              \n"
      :
-     : "r" (static_cast<Return_frame*>(regs())), "a" (arg)
+     : [sp]"r"(static_cast<Return_frame*>(regs())), "a"(arg)
     );
-  __builtin_trap();
+
+  __builtin_unreachable();
 }
 
 IMPLEMENT inline
@@ -79,7 +87,7 @@ Thread::copy_utcb_to_ts(L4_msg_tag const &tag, Thread *snd, Thread *rcv,
   if (EXPECT_FALSE((tag.words() * sizeof(Mword)) < sizeof(Trex)))
     return true;
 
-  Trap_state *ts = (Trap_state*)rcv->_utcb_handler;
+  Trap_state *ts = static_cast<Trap_state*>(rcv->_utcb_handler);
   Unsigned32  cs = ts->cs();
   Utcb *snd_utcb = snd->utcb().access();
   Trex const *src = reinterpret_cast<Trex const *>(snd_utcb->values);
@@ -91,8 +99,7 @@ Thread::copy_utcb_to_ts(L4_msg_tag const &tag, Thread *snd, Thread *rcv,
       // triggered exception pending, skip ip, cs, flags, and sp
       Mem::memcpy_mwords(ts, &src->s, Ts::Reg_words);
       Continuation::User_return_frame const *urfp
-        = reinterpret_cast<Continuation::User_return_frame const *>(
-            (char*)&src->s._ip);
+        = reinterpret_cast<Continuation::User_return_frame const *>(&src->s._ip);
 
       Continuation::User_return_frame urf = access_once(urfp);
 
@@ -129,7 +136,7 @@ bool FIASCO_WARN_RESULT
 Thread::copy_ts_to_utcb(L4_msg_tag const &, Thread *snd, Thread *rcv,
                         L4_fpage::Rights rights)
 {
-  Trap_state *ts = (Trap_state*)snd->_utcb_handler;
+  Trap_state *ts = static_cast<Trap_state*>(snd->_utcb_handler);
   Utcb *rcv_utcb = rcv->utcb().access();
   Trex *dst = reinterpret_cast<Trex *>(rcv_utcb->values);
     {
@@ -138,8 +145,7 @@ Thread::copy_ts_to_utcb(L4_msg_tag const &, Thread *snd, Thread *rcv,
         {
           Mem::memcpy_mwords(&dst->s, ts, Ts::Reg_words + Ts::Code_words);
           Continuation::User_return_frame *d
-            = reinterpret_cast<Continuation::User_return_frame *>(
-                (char*)&dst->s._ip);
+            = reinterpret_cast<Continuation::User_return_frame *>(&dst->s._ip);
 
           snd->_exc_cont.get(d, trap_state_to_rf(ts));
         }
@@ -178,43 +184,43 @@ Thread::check_trap13_kernel(Trap_state *ts)
       // killed.
       // XXX Should we emulate this too? Michael Hohmuth: Yes, we should.
       if (EXPECT_FALSE(!(ts->_ds & 0xffff)))
-	{
-	  Cpu::set_ds(Gdt::data_segment());
-	  return 0;
-	}
+        {
+          Cpu::set_ds(Gdt::data_segment());
+          return 0;
+        }
       if (EXPECT_FALSE(!(ts->_es & 0xffff)))
-	{
-	  Cpu::set_es(Gdt::data_segment());
-	  return 0;
-	}
+        {
+          Cpu::set_es(Gdt::data_segment());
+          return 0;
+        }
       if (EXPECT_FALSE(ts->_ds & 0xfff8) == Gdt::gdt_code_user)
-	{
-	  WARN("%p eip=%08lx: code selector ds=%04lx",
-               this, ts->ip(), ts->_ds & 0xffff);
-	  Cpu::set_ds(Gdt::data_segment());
-	  return 0;
-	}
+        {
+          WARN("%p eip=%08lx: code selector ds=%04lx",
+               static_cast<void *>(this), ts->ip(), ts->_ds & 0xffff);
+          Cpu::set_ds(Gdt::data_segment());
+          return 0;
+        }
       if (EXPECT_FALSE(ts->_es & 0xfff8) == Gdt::gdt_code_user)
-	{
-	  WARN("%p eip=%08lx: code selector es=%04lx",
-               this, ts->ip(), ts->_es & 0xffff);
-	  Cpu::set_es(Gdt::data_segment());
-	  return 0;
-	}
+        {
+          WARN("%p eip=%08lx: code selector es=%04lx",
+               static_cast<void *>(this), ts->ip(), ts->_es & 0xffff);
+          Cpu::set_es(Gdt::data_segment());
+          return 0;
+        }
       if (EXPECT_FALSE(ts->_fs & 0xfff8) == Gdt::gdt_code_user)
-	{
-	  WARN("%p eip=%08lx: code selector fs=%04lx",
-               this, ts->ip(), ts->_fs & 0xffff);
-	  ts->_fs = 0;
-	  return 0;
-	}
+        {
+          WARN("%p eip=%08lx: code selector fs=%04lx",
+               static_cast<void *>(this), ts->ip(), ts->_fs & 0xffff);
+          ts->_fs = 0;
+          return 0;
+        }
       if (EXPECT_FALSE(ts->_gs & 0xfff8) == Gdt::gdt_code_user)
-	{
-	  WARN("%p eip=%08lx: code selector gs=%04lx",
-               this, ts->ip(), ts->_gs & 0xffff);
-	  ts->_gs = 0;
-	  return 0;
-	}
+        {
+          WARN("%p eip=%08lx: code selector gs=%04lx",
+               static_cast<void *>(this), ts->ip(), ts->_gs & 0xffff);
+          ts->_gs = 0;
+          return 0;
+        }
     }
 
   return 1;
@@ -226,13 +232,13 @@ void FIASCO_NORETURN
 Thread::user_invoke()
 {
   user_invoke_generic();
-  Mword cx = 0;
+  Mword ecx = 0;
 
   if (current()->space()->is_sigma0())
-    cx = Kmem::virt_to_phys(Kip::k());
+    ecx = Kmem::virt_to_phys(Kip::k());
 
   asm volatile
-    ("  movl %%eax,%%esp \n"    // set stack pointer to regs structure
+    ("  movl %[sp],%%esp \n"
      "  movl %%edx,%%es  \n"
      "  movl %%edx,%%ds  \n"
      "  xorl %%eax,%%eax \n"    // clean out user regs
@@ -242,14 +248,13 @@ Thread::user_invoke()
      "  xorl %%ebx,%%ebx \n"
      "  xorl %%ebp,%%ebp \n"
      "  iret             \n"
-     :                          // no output
-     : "a" (nonull_static_cast<Return_frame*>(current()->regs())),
-       "d" (Gdt::gdt_data_user | Gdt::Selector_user),
-       "c" (cx)
+     :
+     : [sp]"r"(nonull_static_cast<Return_frame*>(current()->regs())),
+       "d"(Gdt::gdt_data_user | Gdt::Selector_user),
+       "c"(ecx)
      );
 
   __builtin_unreachable();
-  // never returns here
 }
 
 //---------------------------------------------------------------------------
@@ -272,8 +277,14 @@ IMPLEMENTATION [ia32 & (debug | kdb)]:
 
 #include "kernel_task.h"
 
-/** Call the nested trap handler (either Jdb::enter_kdebugger() or the
- * gdb stub. Setup our own stack frame */
+/**
+ * Call a trap handler supposed to enter a debugger.
+ * Use a separate stack (per-CPU dbg_stack).
+ *
+ * \param ts  Trap state.
+ * \retval 0 trap has been consumed by the handler.
+ * \retval -1 trap could not be handled.
+ */
 PRIVATE static
 int
 Thread::call_nested_trap_handler(Trap_state *ts)
@@ -302,7 +313,8 @@ Thread::call_nested_trap_handler(Trap_state *ts)
   else
     p.stack = 0;
 
-  p.pdir = Kernel_task::kernel_task()->virt_to_phys((Address)Kmem::dir());
+  p.pdir = Kernel_task::kernel_task()
+             ->virt_to_phys(reinterpret_cast<Address>(Kmem::dir()));
   p.handler = nested_trap_handler;
 
   // don't set %esp if gdb fault recovery to ensure that exceptions inside

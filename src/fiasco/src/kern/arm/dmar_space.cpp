@@ -9,7 +9,7 @@ class Dmar_space :
   public cxx::Dyn_castable<Dmar_space, Task>
 {
 public:
-  void tlb_flush(bool) override;
+  void tlb_flush_current_cpu() override;
   int bind_mmu(Iommu *mmu, Unsigned32 stream_id);
   int unbind_mmu(Iommu *mmu, Unsigned32 stream_id);
 
@@ -113,7 +113,7 @@ PUBLIC
 Mem_space::Status
 Dmar_space::v_insert(Mem_space::Phys_addr phys, Mem_space::Vaddr virt,
                      Mem_space::Page_order order,
-                     Mem_space::Attr page_attribs) override
+                     Mem_space::Attr page_attribs, bool) override
 {
   assert(cxx::is_zero(cxx::get_lsb(phys, order)));
   assert(cxx::is_zero(cxx::get_lsb(Virt_addr(virt), order)));
@@ -158,10 +158,10 @@ Dmar_space::v_insert(Mem_space::Phys_addr phys, Mem_space::Vaddr virt,
 
 PUBLIC
 L4_fpage::Rights
-Dmar_space::v_delete(Mem_space::Vaddr virt, Mem_space::Page_order order,
+Dmar_space::v_delete(Mem_space::Vaddr virt,
+                     [[maybe_unused]] Mem_space::Page_order order,
                      L4_fpage::Rights page_attribs) override
 {
-  (void) order;
   assert(cxx::is_zero(cxx::get_lsb(Virt_addr(virt), order)));
 
   auto i = _dmarpt->walk(virt);
@@ -201,11 +201,18 @@ Dmar_space::add_page_size(Mem_space::Page_order o)
   __dmar_ps.add_page_size(o);
 }
 
+static Kmem_slab_t<Dmar_space> _dmar_space_allocator("Dmar_space");
+
+PUBLIC static
+Dmar_space *Dmar_space::alloc(Ram_quota *q)
+{
+  return _dmar_space_allocator.q_new(q, q);
+}
+
 PUBLIC
 void *
-Dmar_space::operator new (size_t size, void *p) throw()
+Dmar_space::operator new ([[maybe_unused]] size_t size, void *p) noexcept
 {
-  (void)size;
   assert (size == sizeof (Dmar_space));
   return p;
 }
@@ -214,8 +221,8 @@ PUBLIC
 void
 Dmar_space::operator delete (void *ptr)
 {
-  Dmar_space *t = reinterpret_cast<Dmar_space *>(ptr);
-  Kmem_slab_t<Dmar_space>::q_free(t->ram_quota(), ptr);
+  Dmar_space *t = static_cast<Dmar_space *>(ptr);
+  _dmar_space_allocator.q_free(t->ram_quota(), ptr);
 }
 
 PUBLIC inline
@@ -256,10 +263,13 @@ Dmar_space::pt_phys_addr() const
 }
 
 namespace {
-static inline void __attribute__((constructor)) FIASCO_INIT
+
+static inline
+void __attribute__((constructor)) FIASCO_INIT_SFX(dmar_space_register_factory)
 register_factory()
 {
   Kobject_iface::set_factory(L4_msg_tag::Label_dma_space,
                              &Task::generic_factory<Dmar_space>);
 }
+
 }

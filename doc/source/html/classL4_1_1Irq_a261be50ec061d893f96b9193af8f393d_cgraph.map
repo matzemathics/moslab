@@ -1,6 +1,6 @@
 <map id="L4::Irq::wait" name="L4::Irq::wait">
 <area shape="rect" id="Node000001" title="Unmask IRQ and (open) wait for any message." alt="" coords="5,29,104,55"/>
-<area shape="rect" id="Node000002" href="$classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask IRQ." alt="" coords="152,29,275,55"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Irq.html#a9719b8fca30723b52981bed686764901" title="Unmask this IRQ." alt="" coords="152,29,275,55"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,39,138,39,138,45,104,45"/>
 <area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="187,31,181,21,184,11,195,5,213,3,235,6,244,15,241,19,233,11,213,8,197,10,188,15,187,20,191,28"/>
 </map>

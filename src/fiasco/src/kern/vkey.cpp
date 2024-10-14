@@ -26,8 +26,9 @@ public:
 IMPLEMENTATION:
 
 #include "irq_chip.h"
+#include "global_data.h"
 
-static Irq_base *const *vkey_irq;
+static DEFINE_GLOBAL Global_data<Irq_base *const *> vkey_irq;
 
 PUBLIC static
 void
@@ -66,9 +67,20 @@ IMPLEMENTATION [serial && !ux]:
 #include "keycodes.h"
 #include "mem.h"
 
-static Vkey::Echo_type vkey_echo;
-static char     vkey_buffer[256];
-static unsigned vkey_tail, vkey_head;
+static DEFINE_GLOBAL Global_data<Vkey::Echo_type> vkey_echo;
+static DEFINE_GLOBAL Global_data<char[256]> vkey_buffer;
+static DEFINE_GLOBAL Global_data<unsigned> vkey_tail, vkey_head;
+static DEFINE_GLOBAL Global_data<bool> enable_rcv;
+
+PUBLIC static
+void
+Vkey::enable_receive()
+{ enable_rcv = true; }
+
+PUBLIC static
+bool
+Vkey::receive_enabled()
+{ return enable_rcv; }
 
 PUBLIC static
 void
@@ -126,7 +138,7 @@ PRIVATE static
 void
 Vkey::trigger()
 {
-  Irq_base *i = access_once(vkey_irq);
+  Irq_base *i = access_once(vkey_irq.unwrap());
   if (i)
     i->hit(0);
 }
@@ -220,6 +232,16 @@ Vkey::clear()
 IMPLEMENTATION [!serial || ux]:
 
 #include "kernel_console.h"
+
+PUBLIC static inline
+void
+Vkey::enable_receive()
+{}
+
+PUBLIC static inline
+bool
+Vkey::receive_enabled()
+{ return false; }
 
 PUBLIC static inline
 void

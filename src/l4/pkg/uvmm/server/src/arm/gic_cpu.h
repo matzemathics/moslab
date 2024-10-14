@@ -67,7 +67,7 @@ class Vcpu_handler : public L4::Irqep_t<Vcpu_handler>
 
 public:
   Vcpu_handler(Vmm::Vcpu_ptr vcpu, Vmm::Vcpu_ptr sentinel_vcpu)
-  : _cpu_id(vcpu.get_vcpu_id())
+  : _vcpu(vcpu)
   {
     auto *registry = vcpu.get_ipc_registry();
     L4Re::chkcap(registry->register_irq_obj(&_irq_event),
@@ -158,14 +158,15 @@ public:
       }
   }
 
-  unsigned vcpu_id() const { return _cpu_id; }
+  Vmm::Vcpu_ptr vcpu() const { return _vcpu; }
+  unsigned vcpu_id() const { return _vcpu.get_vcpu_id(); }
 
 protected:
   /// Priority sorted list of pending IRQs owned by this vCPU.
   Atomic_fwd_list<Irq> _owned_pend_irqs;
 
-  /// The logical CPU number this interface belongs to
-  unsigned _cpu_id;
+  /// The VCPU
+  Vmm::Vcpu_ptr _vcpu;
 
   /**
    * Move all new pending Irqs to our priority sorted _owned_pend_irqs
@@ -195,7 +196,7 @@ private:
   /// Is the corresponding vCPU online?
   bool _online = false;
 
-  void rebind(L4Re::Util::Object_registry *registry)
+  void rebind(Vcpu_obj_registry *registry)
   {
     L4Re::chkcap(registry->register_obj(this, _migration_event.get()),
                  "Cannot register migration event");
@@ -223,7 +224,7 @@ public:
   CXX_BITFIELD_MEMBER_RO(30, 30, group,       _state); // GICD_IGROUPRn
 
   enum : unsigned { Invalid_cpu = 0xff }; // special case for cpu field
-  static_assert(Invalid_cpu >= (unsigned)Vmm::Cpu_dev::Max_cpus,
+  static_assert(Invalid_cpu >= static_cast<unsigned>(Vmm::Cpu_dev::Max_cpus),
                 "Invalid_cpu must not collide with available CPUs");
 
 private:
@@ -445,7 +446,7 @@ public:
   unsigned char prio() const { return _irq.prio(); }
   unsigned char target() const { return _irq.target(); }
 
-  Eoi_handler *get_eoi_handler() const { return _eoi; }
+  Irq_src_handler *get_irq_src_handler() const { return _src; }
 
   bool is_pending_and_enabled() const { return _irq.is_pending_and_enabled(); }
   bool is_for_cpu(unsigned char cpu_id)
@@ -455,7 +456,7 @@ public:
   unsigned id() const { return _id; }
   unsigned lr() const { return _lr; }
 
-  void set_eoi(Eoi_handler *eoi) { _eoi = eoi; }
+  void set_irq_src(Irq_src_handler *src) { _src = src; }
   void set_id(uint16_t id) { _id = id; }
 
   Vcpu_handler *enable(bool ena)
@@ -501,8 +502,8 @@ public:
   {
     if (_irq.eoi())
       vcpu_handler()->notify_irq();
-    if (_eoi)
-      _eoi->eoi();
+    if (_src)
+      _src->eoi();
   }
 
   void prio(unsigned char p) { _irq.prio(p); }
@@ -538,13 +539,18 @@ public:
     // be taken there yet because the cpu field is not updated. But even then
     // it will stay on the right list.
 
-    _irq.target(reg, vcpu ? vcpu->vcpu_id() : (unsigned)Invalid_cpu);
+    _irq.target(reg,
+                vcpu ? vcpu->vcpu_id() : static_cast<unsigned>(Invalid_cpu));
 
     // If the IRQ is queued it must most likely be evicted from the old list.
     // It might also got queued during migration but waking the old vCPU does
     // not harm.
     if (in_list() && old != vcpu)
       old->notify_migration();
+
+    // Inform handler of new CPU
+    if (vcpu && _src)
+      _src->irq_src_target(vcpu->vcpu());
   }
 
   Vcpu_handler *vcpu_handler() const
@@ -552,7 +558,7 @@ public:
 
 private:
   Vcpu_handler *_vcpu = nullptr;
-  Eoi_handler *_eoi = nullptr;
+  Irq_src_handler *_src = nullptr;
   Irq_info _irq;
   uint16_t _id = 0;
 
@@ -574,7 +580,7 @@ public:
   explicit Irq_array(unsigned irqs, unsigned first_irq)
   : _size(irqs)
   {
-    _irqs = cxx::unique_ptr<Irq[]>(new Irq[irqs]);
+    _irqs = cxx::make_unique<Irq[]>(irqs);
     for (unsigned i = 0; i < irqs; i++)
       _irqs.get()[i].set_id(i + first_irq);
   }
@@ -631,8 +637,8 @@ public:
   l4_uint64_t get_typer() const
   {
     if (is_valid())
-      return (((l4_uint64_t)_vcpu.get_vcpu_id()) << 8)
-             | (((l4_uint64_t)affinity()) << 32);
+      return (static_cast<l4_uint64_t>(_vcpu.get_vcpu_id()) << 8)
+             | (static_cast<l4_uint64_t>(affinity()) << 32);
 
     return 0xffffffff00000000;
   }
@@ -735,7 +741,7 @@ public:
             if (it->prio() >= min_prio)
               break;
 
-            auto took = it->take_on_cpu(_cpu_id);
+            auto took = it->take_on_cpu(vcpu_id());
             if (took)
               {
                 Irq *ret = *it;
@@ -963,7 +969,7 @@ Cpu::inject(Irq &irq, unsigned src_cpu)
   if (!lr_idx)
     return false;
 
-  if (!irq.take_on_cpu(_cpu_id))
+  if (!irq.take_on_cpu(vcpu_id()))
     return false;
 
   add_pending_irq<CPU_IF>(lr_idx - 1, irq, src_cpu);
@@ -1026,7 +1032,7 @@ Cpu::handle_ipis()
 
       // inject one IPI, if another CPU posted the same IPI we keep it
       // pending
-      unsigned src = __builtin_ffs((int)cpu_bits) - 1;
+      unsigned src = __builtin_ffs(static_cast<int>(cpu_bits)) - 1;
       Irq &irq = local_irq(irq_num);
 
       // set irq pending and try to inject

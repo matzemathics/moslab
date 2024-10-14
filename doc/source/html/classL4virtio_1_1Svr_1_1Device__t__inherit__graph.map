@@ -1,7 +1,13 @@
 <map id="L4virtio::Svr::Device_t&lt; DATA &gt;" name="L4virtio::Svr::Device_t&lt; DATA &gt;">
-<area shape="rect" id="Node000001" title="Server&#45;side L4&#45;VIRTIO device stub." alt="" coords="5,5,196,315"/>
-<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Device__t.html" title=" " alt="" coords="5,377,196,687"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,328,103,377,98,377,98,328"/>
-<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Block__dev__base.html" title="Base class for virtio block devices." alt="" coords="17,736,184,1136"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="103,700,103,736,98,736,98,700"/>
+<area shape="rect" id="Node000001" title="Server&#45;side L4&#45;VIRTIO device stub." alt="" coords="212,5,381,315"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html" title="Base class implementing a virtio console functionality." alt="" coords="5,392,207,672"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,328,180,393,175,391,209,326"/>
+<area shape="rect" id="Node000004" href="$classL4virtio_1_1Svr_1_1Scmi_1_1Scmi__dev.html" title="A server implementation of the virtio&#45;scmi protocol." alt="" coords="231,492,363,572"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="299,328,299,492,294,492,294,328"/>
+<area shape="rect" id="Node000005" href="$classL4virtio_1_1Svr_1_1Device__t.html" title=" " alt="" coords="387,377,556,687"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="377,326,401,376,396,378,373,328"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html" title="Base class implementing a virtio console device with L4Re&#45;based notification handling." alt="" coords="18,754,194,1118"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,686,109,754,103,754,103,686"/>
+<area shape="rect" id="Node000006" href="$classL4virtio_1_1Svr_1_1Block__dev__base.html" title="Base class for virtio block devices." alt="" coords="388,736,555,1136"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="474,700,474,736,469,736,469,700"/>
 </map>

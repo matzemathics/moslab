@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: cxx::Avl_tree&lt; Node, Get_key, Compare &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: cxx::Avl_tree&lt; Node, Get_key, Compare &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -265,10 +268,10 @@ class cxx::Avl_tree&lt; Node, Get_key, Compare &gt;</div><p>A generic AVL tree. 
   </dd>
 </dl>
 <p>This implementation does not provide any memory management. It is the responsibility of the caller to allocate nodes before inserting them and to free them when they are removed or when the tree is destroyed. Conversely, the caller must also ensure that nodes are removed from the tree before they are destroyed. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tmpfs_2lib_2src_2fs_8cc-example.html#_a6">tmpfs/lib/src/fs.cc</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tmpfs_2lib_2src_2fs_8cc-example.html#_a5">tmpfs/lib/src/fs.cc</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__tree_source.html#l00107">107</a> of file <a class="el" href="avl__tree_source.html">avl_tree</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__tree_source.html#l00111">111</a> of file <a class="el" href="avl__tree_source.html">avl_tree</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="ae424081de9acc64beb848e8fa64f374e" name="ae424081de9acc64beb848e8fa64f374e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae424081de9acc64beb848e8fa64f374e">&#9670;&#160;</a></span>Iterator</h2>
@@ -285,7 +288,7 @@ template&lt;typename Node , typename Get_key , typename Compare  = Lt_functor&lt
 </div><div class="memdoc">
 <p>Forward iterator for the tree. </p>
 
-<p class="definition">Definition at line <a class="el" href="avl__tree_source.html#l00137">137</a> of file <a class="el" href="avl__tree_source.html">avl_tree</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__tree_source.html#l00141">141</a> of file <a class="el" href="avl__tree_source.html">avl_tree</a>.</p>
 
 </div>
 </div>
@@ -317,9 +320,9 @@ template&lt;typename Node , typename Get_key , class Compare &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pair, with <em>second</em> set to <code>true</code> and <em>first</em> pointing to <em>new_node</em>, on success. If there is already a node with the same key then <em>first</em> points to this node and <em>second</em> is 'false'. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__tree_source.html#l00227">227</a> of file <a class="el" href="avl__tree_source.html">avl_tree</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__tree_source.html#l00231">231</a> of file <a class="el" href="avl__tree_source.html">avl_tree</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00412">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::insert()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="avl__set_source.html#l00423">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::insert()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -365,9 +368,9 @@ template&lt;typename Node , typename Get_key , class Compare &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pointer to the removed node on success, or 0 if no node with the <em>key</em> exists. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="avl__tree_source.html#l00289">289</a> of file <a class="el" href="avl__tree_source.html">avl_tree</a>.</p>
+<p class="definition">Definition at line <a class="el" href="avl__tree_source.html#l00293">293</a> of file <a class="el" href="avl__tree_source.html">avl_tree</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="avl__tree_source.html#l00165">cxx::Avl_tree&lt; Node, Get_key, Compare &gt;::erase()</a>, and <a class="el" href="avl__set_source.html#l00295">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::remove()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="avl__tree_source.html#l00169">cxx::Avl_tree&lt; Node, Get_key, Compare &gt;::erase()</a>, and <a class="el" href="avl__set_source.html#l00306">cxx::Bits::Base_avl_set&lt; ITEM_TYPE, COMPARE, ALLOC, GET_KEY &gt;::remove()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -388,7 +391,7 @@ template&lt;typename Node , typename Get_key , class Compare &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecxx.html">cxx</a></li><li class="navelem"><a class="el" href="classcxx_1_1Avl__tree.html">Avl_tree</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

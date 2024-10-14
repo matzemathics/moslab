@@ -17,10 +17,11 @@ var classL4_1_1Kip_1_1Mem__desc =
       [ "Bootloader", "classL4_1_1Kip_1_1Mem__desc.html#ac7fb06d56bc504ab5821bc05fe5be9fdaa90d8b5713daa2011ca31bc0d5501ad3", null ],
       [ "Arch", "classL4_1_1Kip_1_1Mem__desc.html#ac7fb06d56bc504ab5821bc05fe5be9fdaa0b56520f3bfa54df5d8ae513bd2a180", null ]
     ] ],
-    [ "Mem_desc", "classL4_1_1Kip_1_1Mem__desc.html#a90760b1f3a3d77903578c4404465a519", null ],
+    [ "Mem_desc", "classL4_1_1Kip_1_1Mem__desc.html#a9adb462cc0a8d58adfdf39ca085d2614", null ],
+    [ "eager_map", "classL4_1_1Kip_1_1Mem__desc.html#aa36572dba4ed8f7904238b70d8f073a5", null ],
     [ "end", "classL4_1_1Kip_1_1Mem__desc.html#a5fdbd66440b54a05ad1678fcb04ed9e4", null ],
     [ "is_virtual", "classL4_1_1Kip_1_1Mem__desc.html#a8650b497b267247fe4ac1f73228dc006", null ],
-    [ "set", "classL4_1_1Kip_1_1Mem__desc.html#a48fd081bd276556acfbaae5f3f8f814b", null ],
+    [ "set", "classL4_1_1Kip_1_1Mem__desc.html#a7fe5d7551d04dde19f803c970778a697", null ],
     [ "size", "classL4_1_1Kip_1_1Mem__desc.html#aed690d186404b5bc353e9e60a52d9d80", null ],
     [ "start", "classL4_1_1Kip_1_1Mem__desc.html#a78a483ff068305e31dc15bcbf69c1b64", null ],
     [ "sub_type", "classL4_1_1Kip_1_1Mem__desc.html#aff1218d26dec1c965e5270a2e7738ec2", null ],

@@ -6,6 +6,7 @@ var group__api__l4re__rm =
           [ "Search_addr", "structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a", null ],
           [ "In_area", "structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041af80cdbdea8dc3a8e155be2ad2c3e5579", null ],
           [ "Eager_map", "structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd", null ],
+          [ "No_eager_map", "structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a41addbf24fe21f95397c06210f9c0d6c", null ],
           [ "Attach_mask", "structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a07c55d3a4313a4d62b9e8f50918299f8", null ]
         ] ],
         [ "Region_flags", "structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989", [
@@ -62,8 +63,8 @@ var group__api__l4re__rm =
       [ "Region_flag_shifts", "classL4Re_1_1Rm.html#a6c519437e7be883723e43f80ea42ce87", [
         [ "Caching_shift", "classL4Re_1_1Rm.html#a6c519437e7be883723e43f80ea42ce87aac2055075c855e3496dfcaa5060358e9", null ]
       ] ],
-      [ "attach", "classL4Re_1_1Rm.html#a81c3edf15190139911ab69211c0a4bc4", null ],
-      [ "attach", "classL4Re_1_1Rm.html#a8d3d85a7c9359a9051869115cb5e08d6", null ],
+      [ "attach", "classL4Re_1_1Rm.html#ae6462f6c707de0108afceab8665ad256", null ],
+      [ "attach", "classL4Re_1_1Rm.html#a74cb628505ac67ce45aeb6abd5af7eec", null ],
       [ "detach", "classL4Re_1_1Rm.html#af4ad2b5650cb44bff10c217220def4c9", null ],
       [ "detach", "classL4Re_1_1Rm.html#a74ba3fe648cf135cb99bd9dcecbb21f2", null ],
       [ "detach", "classL4Re_1_1Rm.html#ac293fbe09183b2ac352bd1665b003cb0", null ],

@@ -1,23 +1,31 @@
 <map id="l4/sys/cxx/ipc_client" name="l4/sys/cxx/ipc_client">
-<area shape="rect" id="Node000001" title=" " alt="" coords="399,5,552,31"/>
-<area shape="rect" id="Node000002" href="$l4virtio_source.html" title=" " alt="" coords="148,86,283,111"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="425,37,254,89,252,83,424,32"/>
-<area shape="rect" id="Node000008" href="$dataspace__impl_8h.html" title="Dataspace client stub implementation." alt="" coords="307,79,462,119"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="453,42,408,81,405,76,450,38"/>
-<area shape="rect" id="Node000009" href="$namespace__impl_8h.html" title="Namespace client stub implementation." alt="" coords="486,79,649,119"/>
-<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="501,38,547,76,543,81,498,42"/>
-<area shape="rect" id="Node000010" href="$rm__impl_8h.html" title="Region map client stub implementation." alt="" coords="673,86,827,111"/>
-<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="529,32,711,83,709,89,527,37"/>
-<area shape="rect" id="Node000003" href="$client_2l4virtio_source.html" title=" " alt="" coords="104,167,228,207"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="204,125,179,168,175,165,200,122"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="475,5,628,31"/>
+<area shape="rect" id="Node000002" href="$l4virtio_source.html" title=" " alt="" coords="224,86,359,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="501,37,330,89,328,83,500,32"/>
+<area shape="rect" id="Node000011" href="$dataspace__impl_8h.html" title="Dataspace client stub implementation." alt="" coords="383,79,538,119"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="529,42,484,81,481,76,526,38"/>
+<area shape="rect" id="Node000012" href="$namespace__impl_8h.html" title="Namespace client stub implementation." alt="" coords="562,79,725,119"/>
+<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="577,38,623,76,619,81,574,42"/>
+<area shape="rect" id="Node000013" href="$rm__impl_8h.html" title="Region map client stub implementation." alt="" coords="749,86,903,111"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="605,32,787,83,785,89,603,37"/>
+<area shape="rect" id="Node000003" href="$client_2l4virtio_source.html" title=" " alt="" coords="129,167,253,207"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="269,122,215,169,212,164,266,118"/>
 <area shape="rect" id="Node000004" href="$client_2virtio-block_source.html" title=" " alt="" coords="5,255,129,295"/>
-<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="165,119,126,139,108,152,93,168,82,189,75,212,70,255,64,254,69,211,77,187,89,165,105,148,123,134,162,114"/>
-<area shape="rect" id="Node000005" href="$virtio-net_source.html" title=" " alt="" coords="155,255,279,295"/>
-<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="229,123,242,166,244,187,242,207,227,255,222,254,237,206,239,187,237,167,224,125"/>
-<area shape="rect" id="Node000006" href="$server_2l4virtio_source.html" title=" " alt="" coords="304,167,433,207"/>
-<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="249,116,336,164,334,169,246,120"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="136,218,91,256,87,252,132,214"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="187,217,208,253,203,256,182,220"/>
-<area shape="rect" id="Node000007" href="$server_2virtio-block_source.html" title=" " alt="" coords="304,255,433,295"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="371,221,371,254,366,254,366,221"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="217,118,165,137,141,151,119,169,102,189,89,212,74,255,69,254,84,210,97,186,115,165,138,147,163,133,215,113"/>
+<area shape="rect" id="Node000005" href="$virtio-net_source.html" title=" " alt="" coords="153,255,277,295"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="291,126,282,165,267,208,252,234,235,256,231,253,247,231,262,206,277,164,285,125"/>
+<area shape="rect" id="Node000006" href="$server_2l4virtio_source.html" title=" " alt="" coords="455,167,584,207"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="336,114,470,164,468,169,334,119"/>
+<area shape="rect" id="Node000010" href="$virtio-scmi-device_source.html" title=" " alt="" coords="659,255,803,295"/>
+<area shape="poly" id="edge13_Node000002_Node000010" title=" " alt="" coords="354,112,372,116,436,127,486,132,536,142,596,164,632,184,664,208,715,252,711,256,661,212,629,189,594,169,535,147,486,137,435,132,371,121,352,117"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="154,217,96,257,93,252,151,212"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="203,219,213,254,207,255,198,221"/>
+<area shape="rect" id="Node000007" href="$server_2virtio-block_source.html" title=" " alt="" coords="301,255,431,295"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="475,216,401,257,398,252,472,211"/>
+<area shape="rect" id="Node000008" href="$virtio-console_source.html" title=" " alt="" coords="455,255,584,295"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="522,221,522,254,517,254,517,221"/>
+<area shape="rect" id="Node000009" href="$virtio-console-device_source.html" title=" " alt="" coords="489,343,651,383"/>
+<area shape="poly" id="edge11_Node000006_Node000009" title=" " alt="" coords="564,213,583,231,598,254,603,277,600,302,584,343,579,342,595,301,598,278,593,256,579,235,561,217"/>
+<area shape="poly" id="edge12_Node000006_Node000010" title=" " alt="" coords="579,209,686,252,684,257,577,214"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="540,305,561,341,556,344,535,308"/>
 </map>

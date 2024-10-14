@@ -1,4 +1,4 @@
-INTERFACE [arm]:
+INTERFACE [arm && mmu]:
 
 #include "mem_unit.h"
 
@@ -155,7 +155,7 @@ public:
       case Page::BUFFERED:  type = T::Buffered(); break;
       case Page::NONCACHEABLE: type = T::Uncached(); break;
       }
-    return Page::Attr(rights, type);
+    return Page::Attr(rights, type, Page::Kern::None());
   }
 
   Page::Rights access_flags() const
@@ -169,7 +169,7 @@ public:
     auto p = access_once(_this()->pte);
     if ((p & 0xc00) == 0xc00)
       {
-        p &= (_this()->level == 0) ? ~Mword(0xc00) : ~Mword(0xff0);
+        p &= (_this()->level == 0) ? ~Mword{0xc00} : ~Mword{0xff0};
         write_now(_this()->pte, p);
       }
   }
@@ -190,9 +190,9 @@ public:
   Unsigned32 _attribs_mask() const
   {
     if (_this()->level == 0)
-      return ~Unsigned32(0x0000881c);
+      return ~Unsigned32{0x0000881c};
     else
-      return ~Unsigned32(0x0000022d);
+      return ~Unsigned32{0x0000022d};
   }
 
   Unsigned32 _attribs(Page::Attr attr) const
@@ -310,6 +310,9 @@ public:
 };
 
 
+//-----------------------------------------------------------------------------
+INTERFACE [arm && mmu && arm_lpae]:
+
 /**
  * Mixin for PTE pointers for ARMv6+ LPAE page-table attributes
  * (long descriptors).
@@ -323,7 +326,7 @@ private:
 
 public:
   Unsigned64 _attribs_mask() const
-  { return ~Unsigned64(0x00400000000008dc); }
+  { return ~Unsigned64{ATTRIBS::UXN | ATTRIBS::PXN | ATTRIBS::XN | 0x8dc}; }
 
   Unsigned64 _attribs(Page::Attr attr) const
   {
@@ -332,9 +335,12 @@ public:
     typedef Page::Kern K;
 
     Unsigned64 lower = 0x300; // inner sharable
-    if (attr.type == T::Normal())   lower |= ATTRIBS::CACHEABLE;
-    if (attr.type == T::Buffered()) lower |= ATTRIBS::BUFFERED;
-    if (attr.type == T::Uncached()) lower |= ATTRIBS::NONCACHEABLE;
+    if (attr.type == T::Normal())
+      lower |= ATTRIBS::CACHEABLE;
+    if (attr.type == T::Buffered())
+      lower |= ATTRIBS::BUFFERED;
+    if (attr.type == T::Uncached())
+      lower |= ATTRIBS::NONCACHEABLE;
 
     if (!(attr.kern & K::Global()))
       lower |= 0x800;
@@ -345,8 +351,17 @@ public:
     if (attr.rights & R::U())
       lower |= 0x040;
 
+    if (ATTRIBS::Priv_levels == 1)
+      lower |= 0x040; // the bit is RES1
+
+    if (ATTRIBS::Priv_levels == 2 && !(attr.rights & R::U()))
+      {
+        // Make kernel mappings never executable by userspace
+        lower |= ATTRIBS::UXN;
+      }
+
     if (!(attr.rights & R::X()))
-      lower |= 0x0040000000000000;
+      lower |= ATTRIBS::UXN | ATTRIBS::PXN | ATTRIBS::XN;
 
     return lower;
   }
@@ -362,10 +377,14 @@ public:
     R rights = R::R();
     if (!(c & 0x80))
       rights |= R::W();
-    if (c & 0x40)
-      rights |= R::U();
+    if (ATTRIBS::Priv_levels == 2)
+      {
+        if (c & 0x40)
+          rights |= R::U();
+      }
 
-    if (!(c & 0x0040000000000000))
+    // Note that Page::UXN (if available) is dependent on R::U()!
+    if (!(c & (ATTRIBS::PXN | ATTRIBS::XN)))
       rights |= R::X();
 
     T type;
@@ -399,7 +418,7 @@ public:
       n_attr = 0x80;
 
     if (r & L4_fpage::Rights::X())
-      n_attr |= 0x0040000000000000;
+      n_attr |= ATTRIBS::UXN | ATTRIBS::PXN | ATTRIBS::XN;
 
     if (!n_attr)
       return;
@@ -412,6 +431,9 @@ public:
       }
   }
 };
+
+//-----------------------------------------------------------------------------
+INTERFACE [arm && mmu]:
 
 
 /**
@@ -426,7 +448,7 @@ private:
 
 public:
   Unsigned64 _attribs_mask() const
-  { return ~Unsigned64(0x00400000000000fc); }
+  { return ~Unsigned64{0x00400000000000fc}; }
 
   Unsigned64 _attribs(Page::Attr attr) const
   {
@@ -434,9 +456,12 @@ public:
     typedef Page::Type T;
 
     Unsigned64 lower = 0x300; // inner sharable
-    if (attr.type == T::Normal())   lower |= ATTRIBS::CACHEABLE;
-    if (attr.type == T::Buffered()) lower |= ATTRIBS::BUFFERED;
-    if (attr.type == T::Uncached()) lower |= ATTRIBS::NONCACHEABLE;
+    if (attr.type == T::Normal())
+      lower |= ATTRIBS::CACHEABLE;
+    if (attr.type == T::Buffered())
+      lower |= ATTRIBS::BUFFERED;
+    if (attr.type == T::Uncached())
+      lower |= ATTRIBS::NONCACHEABLE;
 
     // On AArch32 execution is only allowed if read access is permitted as well
     // On AArch64 this is not necessary, pages can be mapped execute-only
@@ -511,10 +536,10 @@ public:
     auto p = access_once(_this()->pte);
     auto old = p;
     p |= n_attr;
-    p &= ~Unsigned64(a_attr);
+    p &= ~Unsigned64{a_attr};
 
-    if (p != old) {
-      write_now(_this()->pte, p); }
+    if (p != old)
+      write_now(_this()->pte, p);
   }
 };
 
@@ -539,7 +564,7 @@ public:
 
   Pte_short_desc() = default;
   Pte_short_desc(void *p, unsigned char level)
-  : pte((Entry *)p), level(level)
+  : pte(static_cast<Entry *>(p)), level(level)
   {}
 
   bool is_valid() const { return access_once(pte) & 3; }
@@ -601,7 +626,7 @@ public:
 
   Pte_long_desc() = default;
   Pte_long_desc(void *p, unsigned char level)
-  : pte((Unsigned64*)p), level(level)
+  : pte(static_cast<Unsigned64*>(p)), level(level)
   {}
 
   bool is_valid() const { return *pte & 1; }
@@ -654,6 +679,11 @@ public:
     return _this()->_page_bits() | _this()->_attribs(attr)
            | cxx::int_value<Phys_mem_addr>(addr);
   }
+
+  void set_page(Phys_mem_addr addr, Page::Attr attr)
+  {
+    set_page(make_page(addr, attr));
+  }
 };
 
 //-----------------------------------------------------------------------------
@@ -681,7 +711,7 @@ Page::is_attribs_upgrade_safe(Page::Attr old_attr, Page::Attr new_attr)
 }
 
 //-------------------------------------------------------------------------------------
-INTERFACE [arm && !arm_lpae]:
+INTERFACE [arm && mmu && !arm_lpae]:
 
 class K_pte_ptr :
   public Pte_short_desc<K_pte_ptr>,
@@ -716,14 +746,14 @@ public:
 };
 
 //-----------------------------------------------------------------------------
-INTERFACE [arm && arm_lpae && !cpu_virt]:
+INTERFACE [arm && mmu && arm_lpae && !cpu_virt]:
 
 // Kernel and user space are using stage-1 PTs and use the same page table
 // attributes.
 typedef Page Kernel_page_attr;
 
 //-----------------------------------------------------------------------------
-INTERFACE [arm && arm_lpae && cpu_virt]:
+INTERFACE [arm && mmu && arm_lpae && cpu_virt]:
 
 // Fiasco is running with stage-1 PTs and the page attributes are an index into
 // MAIR. OTOH user space is running on a stage-2 PT which stores the memory
@@ -737,10 +767,21 @@ struct Kernel_page_attr
     CACHEABLE     = 0x008, ///< Cache is enabled
     BUFFERED      = 0x004, ///< Write buffer enabled -- Normal, non-cached
   };
+
+  enum
+  {
+    /// The EL2 translation regime supports one privilege level.
+    Priv_levels = 1,
+    // With only a single privilege level, there is no distinction between
+    // privileged and unprivileged execute never.
+    PXN = 0,          ///< Privileged Execute Never feature not available
+    UXN = 0,          ///< Unprivileged Execute Never feature not available
+    XN  = 1ULL << 54, ///< Execute Never
+  };
 };
 
 //-----------------------------------------------------------------------------
-INTERFACE [arm && arm_lpae]:
+INTERFACE [arm && mmu && arm_lpae]:
 
 class K_pte_ptr :
   public Pte_long_desc<K_pte_ptr>,
@@ -775,7 +816,7 @@ public:
 };
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_lpae]:
+IMPLEMENTATION [arm && mmu && arm_lpae]:
 
 PUBLIC inline ALWAYS_INLINE
 unsigned char
@@ -784,7 +825,7 @@ K_pte_ptr::page_order() const
 
 
 //-----------------------------------------------------------------------------
-INTERFACE [arm && arm_v5]:
+INTERFACE [arm && mmu && arm_v5]:
 
 #include "types.h"
 
@@ -817,7 +858,7 @@ EXTENSION class K_pte_ptr :
 {};
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && ((arm_v6plus && mp) || arm_v8)]:
+INTERFACE [arm && mmu && ((arm_v6plus && mp) || arm_v8)]:
 
 EXTENSION class Page
 {
@@ -830,7 +871,7 @@ public:
 };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && (arm_v6 || arm_v7) && !mp]:
+INTERFACE [arm && mmu && (arm_v6 || arm_v7) && !mp]:
 
 EXTENSION class Page
 {
@@ -843,32 +884,32 @@ public:
 };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && (arm_v5 || (arm_v6 && !arm_mpcore))]:
+INTERFACE [arm && mmu && (arm_v5 || (arm_v6 && !arm_mpcore))]:
 
 EXTENSION class Page
 { public: enum { Ttbr_bits = 0 }; };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && arm_mpcore]:
+INTERFACE [arm && mmu && arm_mpcore]:
 
 EXTENSION class Page
 { public: enum { Ttbr_bits = 0xa }; };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && ((mp && arm_v7) || arm_v8) && !arm_lpae]:
+INTERFACE [arm && mmu && ((mp && arm_v7) || arm_v8) && !arm_lpae]:
 
 // S Sharable | RGN = Outer WB-WA | IRGN = Inner WB-WA | NOS
 EXTENSION class Page
 { public: enum { Ttbr_bits = 0x6a }; };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && arm_lpae]:
+INTERFACE [arm && mmu && arm_lpae]:
 
 EXTENSION class Page
 { public: enum { Ttbr_bits = 0 }; };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && !mp && arm_v7 && !arm_lpae]:
+INTERFACE [arm && mmu && !mp && arm_v7 && !arm_lpae]:
 // armv7 w/o multiprocessing ext.
 
 // RGN = Outer WB-WA | IRGN = Inner WB-WA
@@ -876,7 +917,7 @@ EXTENSION class Page
 { public: enum { Ttbr_bits = 0x09 }; };
 
 //----------------------------------------------------------------------------
-INTERFACE [arm && arm_v6 && !arm_mpcore]:
+INTERFACE [arm && mmu && arm_v6 && !arm_mpcore]:
 
 EXTENSION class Page
 {
@@ -895,7 +936,7 @@ public:
 };
 
 //----------------------------------------------------------------------------
-INTERFACE [arm && ((arm_v6 && arm_mpcore) || ((arm_v7 || arm_v8) && !arm_lpae))]:
+INTERFACE [arm && mmu && ((arm_v6 && arm_mpcore) || ((arm_v7 || arm_v8) && !arm_lpae))]:
 
 EXTENSION class Page
 {
@@ -914,7 +955,7 @@ public:
 };
 
 //----------------------------------------------------------------------------
-INTERFACE [arm && arm_v6plus && !arm_lpae]:
+INTERFACE [arm && mmu && arm_v6plus && !arm_lpae]:
 
 #include "types.h"
 
@@ -937,7 +978,7 @@ public:
 };
 
 //-----------------------------------------------------------------------------
-INTERFACE [arm && !arm_lpae]:
+INTERFACE [arm && mmu && !arm_lpae]:
 
 #include "ptab_base.h"
 
@@ -948,7 +989,7 @@ typedef Ptab::Shift<Ptab_traits, Virt_addr::Shift>::List Ptab_traits_vpn;
 typedef Ptab::Page_addr_wrap<Page_number, Virt_addr::Shift> Ptab_va_vpn;
 
 //-----------------------------------------------------------------------------
-INTERFACE [arm && arm_lpae && !cpu_virt]:
+INTERFACE [arm && mmu && arm_lpae && !cpu_virt]:
 
 #include "ptab_base.h"
 #include "types.h"
@@ -963,10 +1004,41 @@ public:
     CACHEABLE     = 0x008, ///< Cache is enabled
     BUFFERED      = 0x004, ///< Write buffer enabled -- Normal, non-cached
   };
+
+  /// The EL1&0 translation regime supports two privilege levels.
+  enum { Priv_levels = 2 };
 };
 
 //-----------------------------------------------------------------------------
-INTERFACE [arm && arm_lpae && cpu_virt]:
+INTERFACE [arm && mmu && arm_lpae && !cpu_virt && 32bit]:
+
+EXTENSION class Page
+{
+public:
+  enum
+  {
+    PXN = 1ULL << 53, ///< Privileged Execute Never
+    UXN = 0,          ///< Unprivileged Execute Never feature not available
+    XN  = 1ULL << 54, ///< Execute Never (all exception levels)
+  };
+};
+
+//-----------------------------------------------------------------------------
+INTERFACE [arm && mmu && arm_lpae && !cpu_virt && 64bit]:
+
+EXTENSION class Page
+{
+public:
+  enum
+  {
+    PXN = 1ULL << 53, ///< Privileged Execute Never
+    UXN = 1ULL << 54, ///< Unprivileged Execute Never
+    XN  = 0,          ///< Execute Never feature not available
+  };
+};
+
+//-----------------------------------------------------------------------------
+INTERFACE [arm && mmu && arm_lpae && cpu_virt]:
 
 #include "types.h"
 
@@ -983,31 +1055,31 @@ public:
 };
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && (arm_v6 || (arm_v7 && !mp))]:
+INTERFACE [arm && mmu && (arm_v6 || (arm_v7 && !mp))]:
 
 EXTENSION class K_pte_ptr : public Pte_cache_asid<K_pte_ptr> {};
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && ((arm_v7 && mp) || arm_v8)]:
+INTERFACE [arm && mmu && ((arm_v7 && mp) || arm_v8)]:
 
 EXTENSION class K_pte_ptr : public Pte_no_cache_asid<K_pte_ptr> {};
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_v5]:
+IMPLEMENTATION [arm && mmu && arm_v5]:
 
 PUBLIC static inline
 Mword PF::is_alignment_error(Mword error)
 { return ((error >> 26) & 0x04) && ((error & 0x0d) == 0x001); }
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && !arm_lpae && arm_v6plus]:
+INTERFACE [arm && mmu && !arm_lpae && arm_v6plus]:
 
 EXTENSION class K_pte_ptr :
   public Pte_v6plus_attribs<K_pte_ptr, Page>
 {};
 
 //---------------------------------------------------------------------------
-INTERFACE [arm && arm_lpae && (arm_v7 || arm_v8) && cpu_virt]:
+INTERFACE [arm && mmu && arm_lpae && (arm_v7 || arm_v8) && cpu_virt]:
 
 template<typename CLASS>
 class Pte_ptr_t :
@@ -1022,21 +1094,21 @@ public:
 };
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && (arm_v6 || arm_v7 || arm_v8) && !arm_lpae]:
+IMPLEMENTATION [arm && (arm_v6 || arm_v7 || arm_v8) && !(arm_lpae || mpu)]:
 
 PUBLIC static inline
 Mword PF::is_alignment_error(Mword error)
 { return ((error >> 26) == 0x24) && ((error & 0x40f) == 0x001); }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_lpae]:
+IMPLEMENTATION [arm && (arm_lpae || mpu)]:
 
 PUBLIC static inline
 Mword PF::is_alignment_error(Mword error)
 { return ((error >> 26) == 0x24) && ((error & 0x3f) == 0x21); }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && !arm_lpae]:
+IMPLEMENTATION [arm && !(arm_lpae || mpu)]:
 
 IMPLEMENT inline
 Mword PF::is_translation_error(Mword error)
@@ -1045,7 +1117,7 @@ Mword PF::is_translation_error(Mword error)
 }
 
 //---------------------------------------------------------------------------
-IMPLEMENTATION [arm && arm_lpae]:
+IMPLEMENTATION [arm && (arm_lpae || mpu)]:
 
 IMPLEMENT inline
 Mword PF::is_translation_error(Mword error)
@@ -1080,3 +1152,50 @@ Mword PF::addr_to_msgword0(Address pfa, Mword error)
     a |= 4;
   return a;
 }
+
+//---------------------------------------------------------------------------
+INTERFACE [arm && mpu]:
+
+#include "mpu.h"
+
+class Pdir : public Mpu_regions
+{
+public:
+  Pdir() : Mpu_regions(Mpu_regions_mask{}) {}
+  Pdir(Mpu_regions_mask const &reserved) : Mpu_regions(reserved) {}
+
+  // retained from Pdir_t
+  typedef Addr::Addr<Config::PAGE_SHIFT> Va; // same as physical address
+  typedef Addr::Addr<Config::PAGE_SHIFT>::Diff_type Vs;
+};
+
+class Kpdir : public Pdir
+{
+public:
+  /**
+   * Index of fixed-function regions in Fiasco. They are referenced by the
+   * entry assembly code too.
+   */
+  enum Well_known_regions {
+    Kernel_text = 0,
+    Kip = 1,
+    Kernel_heap = 2,
+  };
+
+private:
+  static Mpu_regions_mask well_known_regions()
+  {
+    Mpu_regions_mask m;
+    m.set_bit(Kernel_text);
+    m.set_bit(Kip);
+    m.set_bit(Kernel_heap);
+    return m;
+  }
+
+public:
+  // All well known regions are reserved and need to be added explicitly.
+  Kpdir() : Pdir(well_known_regions()) {}
+
+  Address virt_to_phys(Address virt)
+  { return virt; }
+};

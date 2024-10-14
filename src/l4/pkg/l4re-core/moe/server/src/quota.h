@@ -65,7 +65,7 @@ struct Quota_guard
   Quota *q;
   size_t amount;
 
-  Quota_guard() : q(0) {}
+  Quota_guard() : q(0), amount(0) {}
 
   Quota_guard(Quota *q, size_t amount) : q(q), amount(amount)
   {
@@ -119,10 +119,11 @@ public:
 
   Quota *quota() { return &_quota; }
 
-  void *alloc_pages(unsigned long size, unsigned long align)
+  void *alloc_pages(unsigned long size, unsigned long align,
+                    Single_page_alloc_base::Config cfg)
   {
     Quota_guard g(quota(), size);
-    return g.release(Single_page_alloc_base::_alloc(size, align));
+    return g.release(Single_page_alloc_base::_alloc(size, align, cfg));
   }
 
   void free_pages(void *p, unsigned long size) noexcept

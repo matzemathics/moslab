@@ -2,15 +2,11 @@ var group__l4virtio__transport =
 [
     [ "L4virtio", "namespaceL4virtio.html", null ],
     [ "l4virtio_config_hdr_t", "structl4virtio__config__hdr__t.html", [
-      [ "cfg_device_notify_index", "structl4virtio__config__hdr__t.html#ae179a95335120332e56c5b47a819a32f", null ],
-      [ "cfg_driver_notify_index", "structl4virtio__config__hdr__t.html#a90f01dba465ba5fa9859f83d2b080191", null ],
-      [ "cmd", "structl4virtio__config__hdr__t.html#a72015e9067ddd3a840450868539695e9", null ],
       [ "dev_features", "structl4virtio__config__hdr__t.html#a3975546b8083f59b1aae0f8fe7875420", null ],
       [ "device", "structl4virtio__config__hdr__t.html#a583f693daa41ad6792460a4d1c407982", null ],
       [ "magic", "structl4virtio__config__hdr__t.html#a2470da39c0bc8e8d008092947a082f1c", null ],
       [ "num_queues", "structl4virtio__config__hdr__t.html#acf7b1e1c1d306edab4037f45cb840963", null ],
       [ "queues_offset", "structl4virtio__config__hdr__t.html#a4da93c2cef05149a4fb6b4bd06a768d8", null ],
-      [ "status", "structl4virtio__config__hdr__t.html#ab2f4bac6d9465b1a4c61b2421c384890", null ],
       [ "vendor", "structl4virtio__config__hdr__t.html#a03238ac02ea6032d5f4b3e07f26ff272", null ],
       [ "version", "structl4virtio__config__hdr__t.html#adb95d35de8f5c81509afb9687626e430", null ]
     ] ],
@@ -30,6 +26,8 @@ var group__l4virtio__transport =
       [ "L4VIRTIO_CMD_NONE", "group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07a75d93c5324dbbedd7c9bc30b32dccf93", null ],
       [ "L4VIRTIO_CMD_SET_STATUS", "group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07a8927996ae9cb218bf390cb0fb058902f", null ],
       [ "L4VIRTIO_CMD_CFG_QUEUE", "group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07aa9e85fa86a4d204f1da9616c6c8198a7", null ],
+      [ "L4VIRTIO_CMD_CFG_CHANGED", "group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07af09ad9e572febac6e79eb2faa157bc2a", null ],
+      [ "L4VIRTIO_CMD_NOTIFY_QUEUE", "group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07a16616d64d533e999edfefbf490b7720a", null ],
       [ "L4VIRTIO_CMD_MASK", "group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07abcd4953e2ca2d46a2d3789e8edac4d6b", null ]
     ] ],
     [ "L4_virtio_irq_status", "group__l4virtio__transport.html#gafc85528edcc3d740233740766f759fdd", [
@@ -59,6 +57,8 @@ var group__l4virtio__transport =
       [ "L4VIRTIO_ID_INPUT", "group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba2eed7028892d18ab2de38088e9629c3e", null ],
       [ "L4VIRTIO_ID_VSOCK", "group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba9141e5daa50f788329b582da5b27a566", null ],
       [ "L4VIRTIO_ID_CRYPTO", "group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba69e8f45c8ec90665b223cf4b31f2dd91", null ],
+      [ "L4VIRTIO_ID_FS", "group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba35e879f04c2865e14f57f6c95f273540", null ],
+      [ "L4VIRTIO_ID_SCMI", "group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3bafb836828701ac35995cff37c1f9a2399", null ],
       [ "L4VIRTIO_ID_SOCK", "group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba5f77be549027e3ed6d8287e62b6df2af", null ]
     ] ],
     [ "L4virtio_device_status", "group__l4virtio__transport.html#ga04d41de4eccf6a17dec99cade7eeeef3", [

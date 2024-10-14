@@ -4,25 +4,14 @@
 # error "Never use <bits/syscalls.h> directly; include <sys/syscall.h> instead."
 #endif
 
-#include <bits/wordsize.h>
-
 #ifndef __ASSEMBLER__
 
-#if __WORDSIZE == 32
-# define __SYSCALL_STRING \
+#define __SYSCALL_STRING \
 	"t 0x10\n\t" \
 	"bcc 1f\n\t" \
 	"mov %%o0, %0\n\t" \
 	"sub %%g0, %%o0, %0\n\t" \
 	"1:\n\t"
-#elif __WORDSIZE == 64
-# define __SYSCALL_STRING \
-	"t 0x6d\n\t" \
-	"sub %%g0, %%o0, %0\n\t" \
-	"movcc %%xcc, %%o0, %0\n\t"
-#else
-# error unknown __WORDSIZE
-#endif
 
 #define __SYSCALL_CLOBBERS "cc", "memory"
 
@@ -44,7 +33,7 @@
             register long __g1 __asm__("g1") = sys_num;     \
             LOAD_ARGS_##nr(args)                            \
             __asm__ __volatile__( __SYSCALL_STRING          \
-                : "=r" (__res), "=&r" (__o0)                \
+                : "=r" (__res), "=r" (__o0)                \
                 : "1" (__o0) ASM_ARGS_##nr, "r" (__g1)     \
                 : __SYSCALL_CLOBBERS );                                   \
         }                                                   \

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/util/bitops.h Source File</title>
+<title>L4Re Operating System Framework: l4/util/bitops.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -293,7 +296,7 @@ $(document).ready(function(){initNavTree('bitops_8h_source.html',''); initResiza
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    <span class="keywordflow">if</span> ((1UL &lt;&lt; i) &amp; word)</div>
 <div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>      <span class="keywordflow">return</span> i;</div>
 <div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>  <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>  __builtin_unreachable();</div>
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>}</div>
 </div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span><span class="preprocessor">#endif</span></div>
@@ -312,7 +315,7 @@ $(document).ready(function(){initNavTree('bitops_8h_source.html',''); initResiza
 <div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <span class="keywordflow">if</span> ((1UL &lt;&lt; i) &amp; word)</div>
 <div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>      <span class="keywordflow">return</span> i;</div>
 <div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>  <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>  __builtin_unreachable();</div>
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>}</div>
 </div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span><span class="preprocessor">#endif</span></div>
@@ -407,7 +410,7 @@ $(document).ready(function(){initNavTree('bitops_8h_source.html',''); initResiza
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga6774b472721b30450b3334dc4f718a72"><div class="ttname"><a href="group__l4sys__defines.html#ga6774b472721b30450b3334dc4f718a72">EXTERN_C_BEGIN</a></div><div class="ttdeci">#define EXTERN_C_BEGIN</div><div class="ttdoc">Start section with C types and functions.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00192">compiler.h:192</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_gada1a24bb49d1a045f735dc027664ae57"><div class="ttname"><a href="group__l4sys__defines.html#gada1a24bb49d1a045f735dc027664ae57">EXTERN_C_END</a></div><div class="ttdeci">#define EXTERN_C_END</div><div class="ttdoc">End section with C types and functions.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00193">compiler.h:193</a></div></div>
-<div class="ttc" id="agroup__l4util__atomic_html_ga929dc4219f96656545bb658d95b0c7c2"><div class="ttname"><a href="group__l4util__atomic.html#ga929dc4219f96656545bb658d95b0c7c2">l4util_cmpxchg</a></div><div class="ttdeci">int l4util_cmpxchg(volatile l4_umword_t *dest, l4_umword_t cmp_val, l4_umword_t new_val)</div><div class="ttdoc">Atomic compare and exchange (machine wide fields)</div><div class="ttdef"><b>Definition</b> <a href="l4_2util_2atomic_8h_source.html#l00367">atomic.h:367</a></div></div>
+<div class="ttc" id="agroup__l4util__atomic_html_ga929dc4219f96656545bb658d95b0c7c2"><div class="ttname"><a href="group__l4util__atomic.html#ga929dc4219f96656545bb658d95b0c7c2">l4util_cmpxchg</a></div><div class="ttdeci">int l4util_cmpxchg(volatile l4_umword_t *dest, l4_umword_t cmp_val, l4_umword_t new_val)</div><div class="ttdoc">Atomic compare and exchange (machine wide fields)</div><div class="ttdef"><b>Definition</b> <a href="l4_2util_2atomic_8h_source.html#l00381">atomic.h:381</a></div></div>
 <div class="ttc" id="agroup__l4util__bitops_html_ga1e5017ce33e0af71dc00a526ffa46f0b"><div class="ttname"><a href="group__l4util__bitops.html#ga1e5017ce33e0af71dc00a526ffa46f0b">l4util_set_bit</a></div><div class="ttdeci">void l4util_set_bit(int b, volatile l4_umword_t *dest)</div><div class="ttdoc">Set bit in memory.</div><div class="ttdef"><b>Definition</b> <a href="bitops_8h_source.html#l00209">bitops.h:209</a></div></div>
 <div class="ttc" id="agroup__l4util__bitops_html_ga30375b2869622616b5b5957261e9cb64"><div class="ttname"><a href="group__l4util__bitops.html#ga30375b2869622616b5b5957261e9cb64">l4util_next_power2</a></div><div class="ttdeci">int l4util_next_power2(unsigned long val)</div><div class="ttdoc">Find the next power of 2 for a given number.</div><div class="ttdef"><b>Definition</b> <a href="bitops_8h_source.html#l00375">bitops.h:375</a></div></div>
 <div class="ttc" id="agroup__l4util__bitops_html_ga3906818d29569abd0c82fc7ec35687f7"><div class="ttname"><a href="group__l4util__bitops.html#ga3906818d29569abd0c82fc7ec35687f7">l4util_bsf</a></div><div class="ttdeci">int l4util_bsf(l4_umword_t word)</div><div class="ttdoc">Bit scan forward.</div><div class="ttdef"><b>Definition</b> <a href="bitops_8h_source.html#l00318">bitops.h:318</a></div></div>
@@ -428,7 +431,7 @@ $(document).ready(function(){initNavTree('bitops_8h_source.html',''); initResiza
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_b080fbfc44463f036af256b25228453b.html">util</a></li><li class="navelem"><a class="el" href="bitops_8h.html">bitops.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

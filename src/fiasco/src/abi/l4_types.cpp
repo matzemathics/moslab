@@ -429,7 +429,8 @@ public:
     Label_iommu = -22L,        ///< Protocol ID for IOMMUs
     Label_debugger = -23L,     ///< Protocol ID for the debugger
     Label_smc = -24L,          ///< Protocol ID for ARM SMC calls.
-    Max_factory_label = Label_iommu,
+    Label_vcpu_context = -25L, ///< Protocol ID for hardware vCPU contexts.
+    Max_factory_label = Label_vcpu_context,
   };
 private:
   Mword _tag;
@@ -537,7 +538,7 @@ struct L4_timeout_pair
 
   explicit L4_timeout_pair(unsigned long v) : rcv(v), snd(v >> 16) {}
 
-  Mword raw() const { return (Mword)rcv.raw() | (Mword)snd.raw() << 16; }
+  Mword raw() const { return Mword{rcv.raw()} | Mword{snd.raw()} << 16; }
 };
 
 /**
@@ -585,7 +586,8 @@ public:
   Order granularity() const
   {
     Mword g = (_w >> 24) & 0xff;
-    if (g > 24) g = 24; // limit granularity to 2**24
+    if (g > 24)
+      g = 24; // limit granularity to 2**24
     return Order(g);
   }
 
@@ -852,7 +854,7 @@ L4_msg_tag::L4_msg_tag()
  */
 PUBLIC inline
 L4_msg_tag::L4_msg_tag(L4_msg_tag const &o, Mword flags)
-  : _tag((o.raw() & ~Mword(Rcv_flags)) | flags)
+  : _tag((o.raw() & ~static_cast<Mword>(Rcv_flags)) | flags)
 {}
 
 /**
@@ -871,7 +873,7 @@ L4_msg_tag::L4_msg_tag(Mword raw)
 PUBLIC inline
 long
 L4_msg_tag::proto() const
-{ return long(_tag) >> 16; }
+{ return static_cast<long>(_tag) >> 16; }
 
 /**
  * Get the binary representation.
@@ -935,7 +937,12 @@ bool L4_msg_tag::do_switch() const
  */
 PUBLIC inline
 void L4_msg_tag::set_error(bool e = true)
-{ if (e) _tag |= Error; else _tag &= ~Mword(Error); }
+{
+  if (e)
+    _tag |= Error;
+  else
+    _tag &= ~Mword{Error};
+}
 
 /**
  * Is there an error flagged?
@@ -962,7 +969,7 @@ L4_timeout::microsecs_rel(Unsigned64 clock) const
   if (man() == 0)
     return 0;
   else
-   return clock + ((Unsigned64)man() << exp());
+    return clock + (Unsigned64{man()} << exp());
 }
 
 IMPLEMENT inline NEEDS[<minmax.h>]

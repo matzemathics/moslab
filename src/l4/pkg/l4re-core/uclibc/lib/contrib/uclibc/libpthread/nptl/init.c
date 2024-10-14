@@ -60,105 +60,17 @@ int __have_futex_clock_realtime;
 /* Version of the library, used in libthread_db to detect mismatches.  */
 static const char nptl_version[] __attribute_used__ = VERSION;
 
-
-#ifndef SHARED
-extern void __libc_setup_tls (size_t tcbsize, size_t tcbalign);
-#endif
-
-#ifdef SHARED
-static void nptl_freeres (void);
-
-
-static const struct pthread_functions pthread_functions =
-  {
-    .ptr_pthread_attr_destroy = __pthread_attr_destroy,
-    .ptr___pthread_attr_init_2_1 = __pthread_attr_init_2_1,
-    .ptr_pthread_attr_getdetachstate = __pthread_attr_getdetachstate,
-    .ptr_pthread_attr_setdetachstate = __pthread_attr_setdetachstate,
-    .ptr_pthread_attr_getinheritsched = __pthread_attr_getinheritsched,
-    .ptr_pthread_attr_setinheritsched = __pthread_attr_setinheritsched,
-    .ptr_pthread_attr_getschedparam = __pthread_attr_getschedparam,
-    .ptr_pthread_attr_setschedparam = __pthread_attr_setschedparam,
-    .ptr_pthread_attr_getschedpolicy = __pthread_attr_getschedpolicy,
-    .ptr_pthread_attr_setschedpolicy = __pthread_attr_setschedpolicy,
-    .ptr_pthread_attr_getscope = __pthread_attr_getscope,
-    .ptr_pthread_attr_setscope = __pthread_attr_setscope,
-    .ptr_pthread_condattr_destroy = __pthread_condattr_destroy,
-    .ptr_pthread_condattr_init = __pthread_condattr_init,
-    .ptr___pthread_cond_broadcast = __pthread_cond_broadcast,
-    .ptr___pthread_cond_destroy = __pthread_cond_destroy,
-    .ptr___pthread_cond_init = __pthread_cond_init,
-    .ptr___pthread_cond_signal = __pthread_cond_signal,
-    .ptr___pthread_cond_wait = __pthread_cond_wait,
-    .ptr___pthread_cond_timedwait = __pthread_cond_timedwait,
-    .ptr_pthread_equal = __pthread_equal,
-    .ptr___pthread_exit = __pthread_exit,
-    .ptr_pthread_getschedparam = __pthread_getschedparam,
-    .ptr_pthread_setschedparam = __pthread_setschedparam,
-    .ptr_pthread_mutex_destroy = INTUSE(__pthread_mutex_destroy),
-    .ptr_pthread_mutex_init = INTUSE(__pthread_mutex_init),
-    .ptr_pthread_mutex_lock = INTUSE(__pthread_mutex_lock),
-    .ptr_pthread_mutex_unlock = INTUSE(__pthread_mutex_unlock),
-    .ptr_pthread_self = __pthread_self,
-    .ptr_pthread_setcancelstate = __pthread_setcancelstate,
-    .ptr_pthread_setcanceltype = __pthread_setcanceltype,
-    .ptr___pthread_cleanup_upto = __pthread_cleanup_upto,
-    .ptr___pthread_once = __pthread_once_internal,
-    .ptr___pthread_rwlock_rdlock = __pthread_rwlock_rdlock_internal,
-    .ptr___pthread_rwlock_wrlock = __pthread_rwlock_wrlock_internal,
-    .ptr___pthread_rwlock_unlock = __pthread_rwlock_unlock_internal,
-    .ptr___pthread_key_create = __pthread_key_create_internal,
-    .ptr___pthread_getspecific = __pthread_getspecific_internal,
-    .ptr___pthread_setspecific = __pthread_setspecific_internal,
-    .ptr__pthread_cleanup_push_defer = _pthread_cleanup_push_defer,
-    .ptr__pthread_cleanup_pop_restore = _pthread_cleanup_pop_restore,
-    .ptr_nthreads = &__nptl_nthreads,
-    .ptr___pthread_unwind = &__pthread_unwind,
-    .ptr__nptl_deallocate_tsd = __nptl_deallocate_tsd,
-    .ptr__nptl_setxid = __nptl_setxid,
-    /* For now only the stack cache needs to be freed.  */
-    .ptr_freeres = nptl_freeres
-  };
-# define ptr_pthread_functions &pthread_functions
-#else
-# define ptr_pthread_functions NULL
-#endif
-
-
-#ifdef SHARED
-/* This function is called indirectly from the freeres code in libc.  */
-static void
-__libc_freeres_fn_section
-nptl_freeres (void)
-{
-  __unwind_freeres ();
-  __free_stacks (0);
-}
-#endif
-
-
 /* For asynchronous cancellation we use a signal.  This is the handler.  */
 static void
 sigcancel_handler (int sig, siginfo_t *si, void *ctx)
 {
-#ifdef __ASSUME_CORRECT_SI_PID
-  /* Determine the process ID.  It might be negative if the thread is
-     in the middle of a fork() call.  */
-  pid_t pid = THREAD_GETMEM (THREAD_SELF, pid);
-  if (__builtin_expect (pid < 0, 0))
-    pid = -pid;
-#endif
 
   /* Safety check.  It would be possible to call this function for
      other signals and send a signal from another process.  This is not
      correct and might even be a security problem.  Try to catch as
      many incorrect invocations as possible.  */
   if (sig != SIGCANCEL
-#ifdef __ASSUME_CORRECT_SI_PID
-      /* Kernels before 2.5.75 stored the thread ID and not the process
-	 ID in si_pid so we skip this test.  */
-      || si->si_pid != pid
-#endif
+      || si->si_pid != getpid()
       || si->si_code != SI_TKILL)
     return;
 
@@ -202,24 +114,13 @@ struct xid_command *__xidcmd attribute_hidden;
 static void
 sighandler_setxid (int sig, siginfo_t *si, void *ctx)
 {
-#ifdef __ASSUME_CORRECT_SI_PID
-  /* Determine the process ID.  It might be negative if the thread is
-     in the middle of a fork() call.  */
-  pid_t pid = THREAD_GETMEM (THREAD_SELF, pid);
-  if (__builtin_expect (pid < 0, 0))
-    pid = -pid;
-#endif
 
   /* Safety check.  It would be possible to call this function for
      other signals and send a signal from another process.  This is not
      correct and might even be a security problem.  Try to catch as
      many incorrect invocations as possible.  */
   if (sig != SIGSETXID
-#ifdef __ASSUME_CORRECT_SI_PID
-      /* Kernels before 2.5.75 stored the thread ID and not the process
-	 ID in si_pid so we skip this test.  */
-      || si->si_pid != pid
-#endif
+      || si->si_pid != getpid()
       || si->si_code != SI_TKILL)
     return;
 
@@ -265,29 +166,14 @@ __pthread_initialize_minimal_internal (void)
     return;
   initialized = 1;
 
-#ifndef SHARED
-  /* Unlike in the dynamically linked case the dynamic linker has not
-     taken care of initializing the TLS data structures.  */
-  __libc_setup_tls (TLS_TCB_SIZE, TLS_TCB_ALIGN);
-
-  /* We must prevent gcc from being clever and move any of the
-     following code ahead of the __libc_setup_tls call.  This function
-     will initialize the thread register which is subsequently
-     used.  */
-  __asm__ __volatile__ ("");
-#endif
-
   /* Minimal initialization of the thread descriptor.  */
   struct pthread *pd = THREAD_SELF;
   INTERNAL_SYSCALL_DECL (err);
-  pd->pid = pd->tid = INTERNAL_SYSCALL (set_tid_address, err, 1, &pd->tid);
+  pd->tid = INTERNAL_SYSCALL (set_tid_address, err, 1, &pd->tid);
   THREAD_SETMEM (pd, specific[0], &pd->specific_1stblock[0]);
   THREAD_SETMEM (pd, user_stack, true);
   if (LLL_LOCK_INITIALIZER != 0)
     THREAD_SETMEM (pd, lock, LLL_LOCK_INITIALIZER);
-#if HP_TIMING_AVAIL
-  THREAD_SETMEM (pd, cpuclock_offset, GL(dl_cpuclock_offset));
-#endif
 
   /* Initialize the robust mutex data.  */
 #ifdef __PTHREAD_MUTEX_HAVE_PREV
@@ -309,8 +195,14 @@ __pthread_initialize_minimal_internal (void)
      doing the test once this early is beneficial.  */
   {
     int word = 0;
+#if defined(__UCLIBC_USE_TIME64__) && defined(__NR_futex_time64)
+    word = INTERNAL_SYSCALL (futex_time64, err, 3, &word,
+			    FUTEX_WAKE | FUTEX_PRIVATE_FLAG, 1);
+#else
     word = INTERNAL_SYSCALL (futex, err, 3, &word,
 			    FUTEX_WAKE | FUTEX_PRIVATE_FLAG, 1);
+#endif
+
     if (!INTERNAL_SYSCALL_ERROR_P (word, err))
       THREAD_SETMEM (pd, header.private_futex, FUTEX_PRIVATE_FLAG);
   }
@@ -329,9 +221,16 @@ __pthread_initialize_minimal_internal (void)
 	 is irrelevant.  Given that passing six parameters is difficult
 	 on some architectures we just pass whatever random value the
 	 calling convention calls for to the kernel.  It causes no harm.  */
+#if defined(__UCLIBC_USE_TIME64__) && defined(__NR_futex_time64)
+      word = INTERNAL_SYSCALL (futex_time64, err, 5, &word,
+			       FUTEX_WAIT_BITSET | FUTEX_CLOCK_REALTIME
+			       | FUTEX_PRIVATE_FLAG, 1, NULL, 0);
+#else
       word = INTERNAL_SYSCALL (futex, err, 5, &word,
 			       FUTEX_WAIT_BITSET | FUTEX_CLOCK_REALTIME
 			       | FUTEX_PRIVATE_FLAG, 1, NULL, 0);
+#endif
+
       assert (INTERNAL_SYSCALL_ERROR_P (word, err));
       if (INTERNAL_SYSCALL_ERRNO (word, err) != ENOSYS)
 	__set_futex_clock_realtime ();
@@ -392,17 +291,26 @@ __pthread_initialize_minimal_internal (void)
   struct rlimit limit;
   if (getrlimit (RLIMIT_STACK, &limit) != 0
       || limit.rlim_cur == RLIM_INFINITY)
-    /* The system limit is not usable.  Use an architecture-specific
-       default.  */
-    limit.rlim_cur = ARCH_STACK_DEFAULT_SIZE;
-  else if (limit.rlim_cur < PTHREAD_STACK_MIN)
+    /* The system limit is not usable.  Use a user-specified or
+       architecture-specific default.  */
+    limit.rlim_cur = __PTHREADS_STACK_DEFAULT_SIZE__;
+  if (limit.rlim_cur < PTHREAD_STACK_MIN)
     /* The system limit is unusably small.
        Use the minimal size acceptable.  */
     limit.rlim_cur = PTHREAD_STACK_MIN;
 
+  /* Do not exceed the user-specified or architecture-specific default */
+  if (limit.rlim_cur > __PTHREADS_STACK_DEFAULT_SIZE__)
+    limit.rlim_cur = __PTHREADS_STACK_DEFAULT_SIZE__;
+
   /* Make sure it meets the minimum size that allocate_stack
      (allocatestack.c) will demand, which depends on the page size.  */
+  #ifdef SHARED
+  extern size_t GLRO(dl_pagesize);
+  const uintptr_t pagesz = GLRO(dl_pagesize);
+  #else
   const uintptr_t pagesz = sysconf (_SC_PAGESIZE);
+  #endif
   const size_t minstack = pagesz + __static_tls_size + MINIMAL_REST_STACK;
   if (limit.rlim_cur < minstack)
     limit.rlim_cur = minstack;
@@ -424,8 +332,7 @@ __pthread_initialize_minimal_internal (void)
 #ifndef TLS_MULTIPLE_THREADS_IN_TCB
   __libc_multiple_threads_ptr =
 #endif
-    __libc_pthread_init (&__fork_generation, __reclaim_stacks,
-			 ptr_pthread_functions);
+    __libc_pthread_init (&__fork_generation, __reclaim_stacks);
 
   /* Determine whether the machine is SMP or not.  */
   __is_smp = is_smp_system ();
@@ -443,3 +350,9 @@ __pthread_initialize_minimal_internal (void)
 }
 strong_alias (__pthread_initialize_minimal_internal,
 	      __pthread_initialize_minimal)
+
+size_t
+__pthread_get_minstack (const pthread_attr_t *attr)
+{
+  return __static_tls_size + PTHREAD_STACK_MIN;
+}

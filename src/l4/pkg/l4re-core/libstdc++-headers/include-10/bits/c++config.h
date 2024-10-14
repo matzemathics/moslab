@@ -34,7 +34,7 @@
 #define _GLIBCXX_RELEASE 10
 
 // The datestamp of the C++ library in compressed ISO date format.
-#define __GLIBCXX__ 20230604
+#define __GLIBCXX__ 20230707
 
 // Macros for various attributes.
 //   _GLIBCXX_PURE
@@ -1193,7 +1193,9 @@ namespace std
 #define _GLIBCXX_HAVE_WCHAR_H 1
 
 /* Defined if wcstof exists. */
+#ifndef BID_VARIANT_FLAG_NOFPU
 #define _GLIBCXX_HAVE_WCSTOF 1
+#endif /* BID_VARIANT_FLAG_NOFPU */
 
 /* Define to 1 if you have the <wctype.h> header file. */
 #define _GLIBCXX_HAVE_WCTYPE_H 1
@@ -1586,7 +1588,11 @@ namespace std
 
 /* Define if C99 functions in <fenv.h> should be imported in <tr1/cfenv> in
    namespace std::tr1. */
-#define _GLIBCXX_USE_C99_FENV_TR1 1
+#if defined(__x86_64) || defined(i386)
+  #define _GLIBCXX_USE_C99_FENV_TR1 1
+#else
+  #undef _GLIBCXX_USE_C99_FENV_TR1
+#endif
 
 /* Define if C99 functions in <inttypes.h> should be imported in
    <tr1/cinttypes> in namespace std::tr1. */

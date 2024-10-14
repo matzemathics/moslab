@@ -1,27 +1,28 @@
 <map id="contrib/libio&#45;io/l4/io/io.h" name="contrib/libio&#45;io/l4/io/io.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="374,5,506,45"/>
-<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="267,240,379,265"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="421,47,399,69,380,95,361,129,347,165,330,227,325,226,342,163,357,126,375,92,395,66,417,44"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="483,460,605,485"/>
-<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="485,43,524,65,562,95,578,112,591,132,600,154,603,178,603,327,599,362,588,396,561,450,557,447,583,394,593,361,597,327,597,178,594,156,586,135,574,116,558,98,521,69,483,48"/>
-<area shape="rect" id="Node000009" href="$contrib_2libio-io_2l4_2io_2types_8h_source.html" title=" " alt="" coords="389,93,491,119"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="443,46,443,79,437,79,437,46"/>
-<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="131,387,237,412"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="285,268,246,286,227,299,211,315,196,343,189,373,184,372,191,342,207,312,224,295,243,282,283,263"/>
-<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="367,387,499,412"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="334,264,418,374,414,377,330,267"/>
-<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="222,313,341,339"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="318,267,297,303,293,300,314,264"/>
-<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="416,313,563,339"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="350,263,451,305,449,310,348,268"/>
-<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="5,313,147,339"/>
-<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="284,268,130,312,128,307,282,263"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="453,410,516,450,513,455,450,414"/>
-<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="267,341,213,380,210,376,264,337"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="307,336,397,378,395,383,305,341"/>
-<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="482,341,453,377,449,374,478,337"/>
-<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="95,336,156,377,153,381,92,341"/>
-<area shape="rect" id="Node000010" href="$vbus__types_8h.html" title="This header file contains descriptions of vbus related data types and constants." alt="" coords="361,167,519,192"/>
-<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="443,119,443,153,437,153,437,119"/>
-<area shape="poly" id="edge15_Node000010_Node000002" title=" " alt="" coords="423,194,355,235,352,230,420,190"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="62,5,194,45"/>
+<area shape="rect" id="Node000002" href="$l4_2sys_2types_8h.html" title="Common L4 ABI Data Types." alt="" coords="189,240,301,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,46,128,76,130,114,139,154,156,191,178,214,205,232,202,236,174,218,151,193,134,155,125,114,123,76,123,46"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="100,460,223,485"/>
+<area shape="poly" id="edge13_Node000001_Node000005" title=" " alt="" coords="99,48,70,71,40,101,17,137,10,157,8,178,8,327,11,349,19,369,47,404,84,432,121,452,118,457,81,436,43,408,14,372,6,350,3,328,3,178,5,156,12,135,36,98,66,67,96,44"/>
+<area shape="rect" id="Node000009" href="$contrib_2libio-io_2l4_2io_2types_8h_source.html" title=" " alt="" coords="179,93,282,119"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="154,43,206,83,203,87,151,48"/>
+<area shape="rect" id="Node000003" href="$l4_2sys_2l4int_8h.html" title="Fixed sized integer types, generic version." alt="" coords="111,387,217,412"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="190,261,161,267,131,278,105,293,84,315,79,324,79,332,88,349,105,365,127,378,124,383,102,369,84,352,74,333,74,322,79,312,101,289,129,273,159,262,188,256"/>
+<area shape="rect" id="Node000004" href="$compiler_8h.html" title="L4 compiler related defines." alt="" coords="253,387,385,412"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="302,254,372,259,450,269,519,286,546,298,563,312,575,333,571,351,556,366,532,377,468,391,399,398,398,393,468,386,530,372,553,361,566,349,569,334,559,315,543,302,518,291,449,274,372,264,301,259"/>
+<area shape="rect" id="Node000006" href="$l4_2sys_2consts_8h.html" title="Common constants." alt="" coords="259,313,378,339"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="259,264,299,302,295,306,256,268"/>
+<area shape="rect" id="Node000007" href="$____l4__fpage_8h_source.html" title=" " alt="" coords="403,313,549,339"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="283,263,427,307,425,312,282,268"/>
+<area shape="rect" id="Node000008" href="$____timeout_8h_source.html" title=" " alt="" coords="93,313,235,339"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="234,267,189,306,186,302,231,263"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="294,414,200,457,198,452,292,410"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="295,341,203,383,201,378,293,336"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="321,339,321,373,316,373,316,339"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="452,341,358,383,356,379,450,336"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="167,339,167,373,161,373,161,339"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="190,336,282,378,280,383,188,341"/>
+<area shape="rect" id="Node000010" href="$vbus__types_8h.html" title="This header file contains descriptions of vbus related data types and constants." alt="" coords="166,167,325,192"/>
+<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="236,118,243,153,238,154,230,120"/>
+<area shape="poly" id="edge16_Node000010_Node000002" title=" " alt="" coords="248,192,248,226,243,226,243,192"/>
 </map>

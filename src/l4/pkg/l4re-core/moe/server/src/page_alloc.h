@@ -22,16 +22,32 @@ class Single_page_alloc_base
 public:
   enum Nothrow { nothrow };
 
+  struct Config
+  {
+    l4_addr_t physmin;
+    l4_addr_t physmax;
+
+    constexpr Config() : physmin(0), physmax(~0UL) {}
+
+    explicit Config(l4_addr_t physmin, l4_addr_t physmax)
+    : physmin(physmin), physmax(physmax) {}
+  };
+
+  static Config default_mem_cfg;
+
 protected:
   Single_page_alloc_base();
 
 public:
   static void *_alloc_max(unsigned long min, unsigned long *max,
-                          unsigned align, unsigned granularity);
-  static void *_alloc(Nothrow, unsigned long size, unsigned long align = 0);
-  static void *_alloc(unsigned long size, unsigned long align = 0)
+                          unsigned align, unsigned granularity,
+                          Config cfg);
+  static void *_alloc(Nothrow, unsigned long size, unsigned long align = 0,
+                      Config cfg = default_mem_cfg);
+  static void *_alloc(unsigned long size, unsigned long align = 0,
+                      Config cfg = default_mem_cfg)
   {
-    void *r = _alloc(nothrow, size, align);
+    void *r = _alloc(nothrow, size, align, cfg);
     if (!r)
       throw L4::Out_of_memory();
     return r;
@@ -42,6 +58,8 @@ public:
 #ifndef NDEBUG
   static void _dump_free(Dbg &dbg);
 #endif
+
+  static bool can_free;
 };
 
 class Single_page_unique_ptr

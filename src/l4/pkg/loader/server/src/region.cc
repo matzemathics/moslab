@@ -38,9 +38,7 @@ Region_map::Region_map()
 void
 Region_map::init()
 {
-  extern char __L4_KIP_ADDR__[];
-
-  for (auto const &m: L4::Kip::Mem_desc::all(__L4_KIP_ADDR__))
+  for (auto const &m: L4::Kip::Mem_desc::all(l4_kip()))
     {
       if (!m.is_virtual())
         continue;
@@ -117,6 +115,22 @@ Region_ops::take(Region_handler const * /*h*/)
 void
 Region_ops::release(Region_handler const * /*h*/)
 {
+}
+
+int
+Region_ops::map_info(Region_handler const *h, l4_addr_t *start_addr,
+                     l4_addr_t *end_addr)
+{
+  auto f = h->flags();
+
+  if ((f & Rm::F::Reserved) || !h->memory().is_valid())
+    return -L4_ENOENT;
+
+  if (f & Rm::F::Pager)
+    return 0;
+
+  L4::Cap<L4Re::Dataspace> ds = L4::cap_cast<L4Re::Dataspace>(h->memory());
+  return ds->map_info(start_addr, end_addr);
 }
 
 void

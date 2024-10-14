@@ -18,9 +18,9 @@ EXTENSION class Jdb_tcb
 
 IMPLEMENT
 void
-Jdb_tcb::print_entry_frame_regs(Thread *)
+Jdb_tcb::print_entry_frame_regs(Thread *t)
 {
-  Jdb_entry_frame *ef = Jdb::get_entry_frame(Jdb::current_cpu);
+  Jdb_entry_frame *ef = Jdb::get_entry_frame(t->get_current_cpu());
   char pfa[32] = "";
 
   if (ef->_trapno == 14)
@@ -56,7 +56,7 @@ void
 Jdb_tcb::info_thread_state(Thread *t)
 {
   Jdb::Guessed_thread_state state = Jdb::guess_thread_state(t);
-  Jdb_tcb_ptr p((Address)t->get_kernel_sp());
+  Jdb_tcb_ptr p(reinterpret_cast<Address>(t->get_kernel_sp()));
   int sub = 0;
 
   switch (state)
@@ -145,7 +145,7 @@ bool
 Jdb_stack_view::edit_registers()
 {
   Mword value;
-  char reg = (char)(-1);
+  char reg = -1;
   Mword *reg_ptr=0;
   unsigned x=0, y=0;
 

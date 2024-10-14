@@ -4,14 +4,11 @@ INTERFACE [sparc]:
 
 class Page_table;
 
-class Kmem : public Mem_layout
+EXTENSION class Kmem
 {
 public:
   static Mword *kernel_sp();
   static void kernel_sp(Mword *);
-
-  static Mword is_kmem_page_fault( Mword pfa, Mword error );
-  static Mword is_io_bitmap_page_fault( Mword pfa );
 
   static Address virt_to_phys(const void *addr);
 private:
@@ -22,10 +19,17 @@ private:
 IMPLEMENTATION [sparc]:
 
 #include "paging.h"
+#include "paging_bits.h"
 #include "panic.h"
 
-extern Mword kernel_srmmu_l1[256];
-Kpdir *Mem_layout::kdir = (Kpdir *)kernel_srmmu_l1;
+extern union {
+  Kpdir kpdir;
+  Mword storage[256];
+} kernel_srmmu_l1;
+
+DEFINE_GLOBAL_CONSTINIT
+Global_data<Kpdir *> Kmem::kdir(&kernel_srmmu_l1.kpdir);
+
 Mword *Kmem::_sp = 0;
 
 PUBLIC static
@@ -34,8 +38,8 @@ Kmem::mmio_remap(Address phys, Address size)
 {
   static Address ndev = 0;
 
-  Address phys_page = cxx::mask_lsb(phys, Config::SUPERPAGE_SHIFT);
-  Address phys_end = (phys + size + Config::SUPERPAGE_SIZE - 1) & ~(Config::SUPERPAGE_SIZE-1);
+  Address phys_page = Super_pg::trunc(phys);
+  Address phys_end = Super_pg::round(phys + size);
   bool needs_remap = false;
 
   for (Address p = phys_page; p < phys_end; p += Config::SUPERPAGE_SIZE)
@@ -46,7 +50,7 @@ Kmem::mmio_remap(Address phys, Address size)
 
   if (needs_remap)
     {
-      for (Address p = (phys & ~(Config::SUPERPAGE_SIZE-1));
+      for (Address p = Super_pg::trunc(phys);
            p < phys_end; p += Config::SUPERPAGE_SIZE)
         {
           Address dm = Mem_layout::Registers_map_start + ndev;
@@ -85,13 +89,7 @@ Address Kmem::virt_to_phys(const void *addr)
 }
 
 IMPLEMENT inline
-Mword Kmem::is_kmem_page_fault(Mword pfa, Mword /*error*/)
+bool Kmem::is_kmem_page_fault(Mword pfa, Mword /*error*/)
 {
   return in_kernel(pfa);
-}
-
-IMPLEMENT inline
-Mword Kmem::is_io_bitmap_page_fault( Mword /*pfa*/ )
-{
-  return 0;
 }

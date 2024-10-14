@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4 VIRTIO Transport Layer</title>
+<title>L4Re Operating System Framework: L4 VIRTIO Transport Layer</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -170,7 +173,10 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba9141e5daa50f788329b582da5b27a566">L4VIRTIO_ID_VSOCK</a> = 19
 , <a class="el" href="group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba69e8f45c8ec90665b223cf4b31f2dd91">L4VIRTIO_ID_CRYPTO</a> = 20
-, <a class="el" href="group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba5f77be549027e3ed6d8287e62b6df2af">L4VIRTIO_ID_SOCK</a> = 0x9999
+, <a class="el" href="group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba35e879f04c2865e14f57f6c95f273540">L4VIRTIO_ID_FS</a> = 26
+, <a class="el" href="group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3bafb836828701ac35995cff37c1f9a2399">L4VIRTIO_ID_SCMI</a> = 32
+, <br />
+&#160;&#160;<a class="el" href="group__l4virtio__transport.html#ggaa3812d621d81dd6a7101d739153b6c3ba5f77be549027e3ed6d8287e62b6df2af">L4VIRTIO_ID_SOCK</a> = 0x9999
 <br />
  }</td></tr>
 <tr class="memdesc:gaa3812d621d81dd6a7101d739153b6c3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtio device IDs as reported in the driver's config space.  <a href="group__l4virtio__transport.html#gaa3812d621d81dd6a7101d739153b6c3b">More...</a><br /></td></tr>
@@ -188,7 +194,7 @@ Enumerations</h2></td></tr>
 <tr class="memdesc:ga04d41de4eccf6a17dec99cade7eeeef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtio device status bits.  <a href="group__l4virtio__transport.html#ga04d41de4eccf6a17dec99cade7eeeef3">More...</a><br /></td></tr>
 <tr class="separator:ga04d41de4eccf6a17dec99cade7eeeef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga01d1e713668a8ee48f1e34f428cea8d0" id="r_ga01d1e713668a8ee48f1e34f428cea8d0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4virtio__transport.html#ga01d1e713668a8ee48f1e34f428cea8d0">L4virtio_feature_bits</a> { <a class="el" href="group__l4virtio__transport.html#gga01d1e713668a8ee48f1e34f428cea8d0ab8ea6c40b0611434c90ffee0bb729342">L4VIRTIO_FEATURE_VERSION_1</a> = 32
-, <a class="el" href="group__l4virtio__transport.html#gga01d1e713668a8ee48f1e34f428cea8d0a81ff4f8fef9e7133bee4d49587c65740">L4VIRTIO_FEATURE_CMD_CONFIG</a> = 224
+, <a class="el" href="group__l4virtio__transport.html#gga01d1e713668a8ee48f1e34f428cea8d0a81ff4f8fef9e7133bee4d49587c65740">L4VIRTIO_FEATURE_CMD_CONFIG</a> = 160
  }</td></tr>
 <tr class="memdesc:ga01d1e713668a8ee48f1e34f428cea8d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">L4virtio-specific feature bits.  <a href="group__l4virtio__transport.html#ga01d1e713668a8ee48f1e34f428cea8d0">More...</a><br /></td></tr>
 <tr class="separator:ga01d1e713668a8ee48f1e34f428cea8d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,10 +203,15 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gafc85528edcc3d740233740766f759fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">VIRTIO IRQ status codes (l4virtio_config_hdr_t::irq_status).  <a href="group__l4virtio__transport.html#gafc85528edcc3d740233740766f759fdd">More...</a><br /></td></tr>
 <tr class="separator:gafc85528edcc3d740233740766f759fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4783b17d00ec949f63c11c7bda0eed07" id="r_ga4783b17d00ec949f63c11c7bda0eed07"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4virtio__transport.html#ga4783b17d00ec949f63c11c7bda0eed07">L4_virtio_cmd</a> { <a class="el" href="group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07a75d93c5324dbbedd7c9bc30b32dccf93">L4VIRTIO_CMD_NONE</a> = 0x00000000
+<tr class="memitem:ga4783b17d00ec949f63c11c7bda0eed07" id="r_ga4783b17d00ec949f63c11c7bda0eed07"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4virtio__transport.html#ga4783b17d00ec949f63c11c7bda0eed07">L4_virtio_cmd</a> { <br />
+&#160;&#160;<a class="el" href="group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07a75d93c5324dbbedd7c9bc30b32dccf93">L4VIRTIO_CMD_NONE</a> = 0x00000000
 , <a class="el" href="group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07a8927996ae9cb218bf390cb0fb058902f">L4VIRTIO_CMD_SET_STATUS</a> = 0x01000000
 , <a class="el" href="group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07aa9e85fa86a4d204f1da9616c6c8198a7">L4VIRTIO_CMD_CFG_QUEUE</a> = 0x02000000
+, <a class="el" href="group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07af09ad9e572febac6e79eb2faa157bc2a">L4VIRTIO_CMD_CFG_CHANGED</a> = 0x04000000
+, <br />
+&#160;&#160;<a class="el" href="group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07a16616d64d533e999edfefbf490b7720a">L4VIRTIO_CMD_NOTIFY_QUEUE</a> = 0x08000000
 , <a class="el" href="group__l4virtio__transport.html#gga4783b17d00ec949f63c11c7bda0eed07abcd4953e2ca2d46a2d3789e8edac4d6b">L4VIRTIO_CMD_MASK</a> = 0xff000000
+<br />
  }</td></tr>
 <tr class="memdesc:ga4783b17d00ec949f63c11c7bda0eed07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtio commands for device configuration.  <a href="group__l4virtio__transport.html#ga4783b17d00ec949f63c11c7bda0eed07">More...</a><br /></td></tr>
 <tr class="separator:ga4783b17d00ec949f63c11c7bda0eed07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -284,11 +295,15 @@ unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>l4virtio_get_feat
 </td></tr>
 <tr><td class="fieldname"><a id="gga4783b17d00ec949f63c11c7bda0eed07aa9e85fa86a4d204f1da9616c6c8198a7" name="gga4783b17d00ec949f63c11c7bda0eed07aa9e85fa86a4d204f1da9616c6c8198a7"></a>L4VIRTIO_CMD_CFG_QUEUE&#160;</td><td class="fielddoc"><p>Configure a queue. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga4783b17d00ec949f63c11c7bda0eed07af09ad9e572febac6e79eb2faa157bc2a" name="gga4783b17d00ec949f63c11c7bda0eed07af09ad9e572febac6e79eb2faa157bc2a"></a>L4VIRTIO_CMD_CFG_CHANGED&#160;</td><td class="fielddoc"><p>Device config changed. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga4783b17d00ec949f63c11c7bda0eed07a16616d64d533e999edfefbf490b7720a" name="gga4783b17d00ec949f63c11c7bda0eed07a16616d64d533e999edfefbf490b7720a"></a>L4VIRTIO_CMD_NOTIFY_QUEUE&#160;</td><td class="fielddoc"><p>Configure a queue. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="gga4783b17d00ec949f63c11c7bda0eed07abcd4953e2ca2d46a2d3789e8edac4d6b" name="gga4783b17d00ec949f63c11c7bda0eed07abcd4953e2ca2d46a2d3789e8edac4d6b"></a>L4VIRTIO_CMD_MASK&#160;</td><td class="fielddoc"><p>Mask to get command bits. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00114">114</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00116">116</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
 
 </div>
 </div>
@@ -313,7 +328,7 @@ unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>l4virtio_get_feat
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00105">105</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00107">107</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
 
 </div>
 </div>
@@ -389,6 +404,10 @@ unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>l4virtio_get_feat
 </td></tr>
 <tr><td class="fieldname"><a id="ggaa3812d621d81dd6a7101d739153b6c3ba69e8f45c8ec90665b223cf4b31f2dd91" name="ggaa3812d621d81dd6a7101d739153b6c3ba69e8f45c8ec90665b223cf4b31f2dd91"></a>L4VIRTIO_ID_CRYPTO&#160;</td><td class="fielddoc"><p>Crypto. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ggaa3812d621d81dd6a7101d739153b6c3ba35e879f04c2865e14f57f6c95f273540" name="ggaa3812d621d81dd6a7101d739153b6c3ba35e879f04c2865e14f57f6c95f273540"></a>L4VIRTIO_ID_FS&#160;</td><td class="fielddoc"><p>FS. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa3812d621d81dd6a7101d739153b6c3bafb836828701ac35995cff37c1f9a2399" name="ggaa3812d621d81dd6a7101d739153b6c3bafb836828701ac35995cff37c1f9a2399"></a>L4VIRTIO_ID_SCMI&#160;</td><td class="fielddoc"><p>Scmi device. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="ggaa3812d621d81dd6a7101d739153b6c3ba5f77be549027e3ed6d8287e62b6df2af" name="ggaa3812d621d81dd6a7101d739153b6c3ba5f77be549027e3ed6d8287e62b6df2af"></a>L4VIRTIO_ID_SOCK&#160;</td><td class="fielddoc"><p>Unofficial socket device. </p>
 </td></tr>
 </table>
@@ -425,7 +444,7 @@ unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>l4virtio_get_feat
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00082">82</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00084">84</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
 
 </div>
 </div>
@@ -449,7 +468,7 @@ unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>l4virtio_get_feat
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00093">93</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00095">95</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
 
 </div>
 </div>
@@ -538,9 +557,9 @@ unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>l4virtio_get_feat
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to queue config of queue 0. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00235">235</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00249">249</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
 
-<p class="reference">References <a class="el" href="virtio_8h_source.html#l00141">l4virtio_config_hdr_t::queues_offset</a>.</p>
+<p class="reference">References <a class="el" href="virtio_8h_source.html#l00148">l4virtio_config_hdr_t::queues_offset</a>.</p>
 
 </div>
 </div>
@@ -577,7 +596,7 @@ unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>l4virtio_get_feat
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to device configuration structure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00246">246</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="virtio_8h_source.html#l00260">260</a> of file <a class="el" href="virtio_8h_source.html">virtio.h</a>.</p>
 
 </div>
 </div>
@@ -813,7 +832,7 @@ unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>l4virtio_get_feat
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

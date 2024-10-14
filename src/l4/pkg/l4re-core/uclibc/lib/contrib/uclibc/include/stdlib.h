@@ -38,7 +38,7 @@ __BEGIN_DECLS
 #ifndef __need_malloc_and_calloc
 #define	_STDLIB_H	1
 
-#if defined __USE_XOPEN && !defined _SYS_WAIT_H
+#if (defined __USE_XOPEN || defined __USE_XOPEN2K8) && !defined _SYS_WAIT_H
 /* XPG requires a few symbols from <sys/wait.h> being defined.  */
 # include <bits/waitflags.h>
 # include <bits/waitstatus.h>
@@ -486,11 +486,11 @@ extern int lcong48_r (unsigned short int __param[7],
 __BEGIN_NAMESPACE_STD
 /* Allocate SIZE bytes of memory.  */
 extern void *malloc (size_t __size) __THROW __attribute_malloc__ __wur;
-/* We want the malloc symbols overridable at runtime
- * libc_hidden_proto(malloc) */
+/* We want the malloc symbol overridable at runtime, do not hide it! */
 /* Allocate NMEMB elements of SIZE bytes each, all initialized to 0.  */
 extern void *calloc (size_t __nmemb, size_t __size)
      __THROW __attribute_malloc__ __wur;
+/* We want the calloc symbol overridable at runtime, do not hide it! */
 __END_NAMESPACE_STD
 #endif
 
@@ -503,8 +503,10 @@ __BEGIN_NAMESPACE_STD
    between objects pointed by the old and new pointers.  */
 extern void *realloc (void *__ptr, size_t __size)
      __THROW __wur;
+/* We want the realloc symbol overridable at runtime, do not hide it! */
 /* Free a block allocated by `malloc', `realloc' or `calloc'.  */
 extern void free (void *__ptr) __THROW;
+/* We want the free symbol overridable at runtime, do not hide it! */
 __END_NAMESPACE_STD
 
 #if 0 /*def	__USE_MISC*/
@@ -516,15 +518,23 @@ extern void cfree (void *__ptr) __THROW;
 # include <alloca.h>
 #endif /* Use GNU, BSD, or misc.  */
 
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED
+#ifdef __UCLIBC_SUSV2_LEGACY__
+# if defined __USE_BSD || defined __USE_XOPEN_EXTENDED
 /* Allocate SIZE bytes on a page boundary.  The storage cannot be freed.  */
 extern void *valloc (size_t __size) __THROW __attribute_malloc__ __wur;
+# endif
 #endif
 
 #if defined __USE_XOPEN2K && defined __UCLIBC_HAS_ADVANCED_REALTIME__
 /* Allocate memory of SIZE bytes with an alignment of ALIGNMENT.  */
 extern int posix_memalign (void **__memptr, size_t __alignment, size_t __size)
      __THROW __nonnull ((1)) __wur;
+#endif
+
+#ifdef __USE_ISOC11
+/* ISO C variant of aligned allocation.  */
+extern void *aligned_alloc (size_t __alignment, size_t __size)
+     __THROW __attribute_malloc__ __attribute_alloc_size__ ((2)) __wur;
 #endif
 
 __BEGIN_NAMESPACE_STD
@@ -567,12 +577,10 @@ extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
 libc_hidden_proto(getenv)
 __END_NAMESPACE_STD
 
-#if 0
 /* This function is similar to the above but returns NULL if the
    programs is running with SUID or SGID enabled.  */
-extern char *__secure_getenv (const char *__name)
+extern char *secure_getenv (const char *__name)
      __THROW __nonnull ((1)) __wur;
-#endif
 
 #if defined __USE_SVID || defined __USE_XOPEN
 /* The SVID says this is in <stdio.h>, but this seems a better place.	*/
@@ -642,6 +650,35 @@ extern int mkstemp64 (char *__template) __nonnull ((1)) __wur;
 # endif
 #endif
 
+#if defined __USE_MISC || defined __USE_XOPEN_EXTENDED
+# if defined __UCLIBC_SUSV3_LEGACY__
+extern char *mktemps (char *__template, int __suffixlen) __THROW __nonnull ((1)) __wur;
+# endif
+
+/* The mkstemps() function is like mkstemp(), except that  the  string  in
+   template  contains a suffix of suffixlen characters.  Thus, template is
+   of the form prefixXXXXXXsuffix, and the string XXXXXX  is  modified  as
+   for mkstemp().
+   Returns a file descriptor open on the file for reading and writing,
+   or -1 if it cannot create a uniquely-named file.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+# ifndef __USE_FILE_OFFSET64
+extern int mkstemps (char *__template, int __suffixlen) __nonnull ((1)) __wur;
+# else
+#  ifdef __REDIRECT
+extern int __REDIRECT (mkstemps, (char *__template, int __suffixlen), mkstemps64)
+     __nonnull ((1)) __wur;
+#  else
+#   define mkstemps mkstemps64
+#  endif
+# endif
+# ifdef __USE_LARGEFILE64
+extern int mkstemps64 (char *__template, int __suffixlen) __nonnull ((1)) __wur;
+# endif
+#endif
+
 #if defined __USE_BSD || defined __USE_XOPEN2K8
 /* Create a unique temporary directory from TEMPLATE.
    The last six characters of TEMPLATE must be "XXXXXX";
@@ -671,7 +708,27 @@ extern int __REDIRECT (mkostemp, (char *__template, int __flags), mkostemp64)
 # ifdef __USE_LARGEFILE64
 extern int mkostemp64 (char *__template, int __flags) __nonnull ((1)) __wur;
 # endif
+#endif
 
+#ifdef __USE_GNU
+/* Generate a unique temporary file name from TEMPLATE similar to
+   mkostemp.  But allow the caller to pass additional file name suffix.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+# ifndef __USE_FILE_OFFSET64
+extern int mkostemps (char *__template, int __suffixlen, int __flags) __nonnull ((1)) __wur;
+# else
+#  ifdef __REDIRECT
+extern int __REDIRECT (mkostemps, (char *__template, int __suffixlen, int __flags), mkostemps64)
+     __nonnull ((1)) __wur;
+#  else
+#   define mkostemps mkostemps64
+#  endif
+# endif
+# ifdef __USE_LARGEFILE64
+extern int mkostemps64 (char *__template, int __suffixlen, int __flags) __nonnull ((1)) __wur;
+# endif
 #endif
 
 
@@ -922,19 +979,14 @@ extern int getpt (void);
 # endif
 #endif
 
-#if 0 /* def __USE_BSD */
+#ifdef __USE_BSD
 /* Put the 1 minute, 5 minute and 15 minute load averages into the first
    NELEM elements of LOADAVG.  Return the number written (never more than
    three, but may be less than NELEM), or -1 if an error occurred.  */
 extern int getloadavg (double __loadavg[], int __nelem)
      __THROW __nonnull ((1));
-#endif
 
-#ifdef __UCLIBC_HAS_ARC4RANDOM__
-# include <sys/types.h>
-extern u_int32_t arc4random(void);
-extern void arc4random_stir(void);
-extern void arc4random_addrandom(unsigned char *, int);
+extern void *reallocarray (void *__ptr, size_t __m, size_t __n);
 #endif
 
 #ifdef _LIBC

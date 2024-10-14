@@ -3,6 +3,7 @@ var topics =
     [ "Base API", "group__l4__api.html", "group__l4__api" ],
     [ "EDID parsing functionality", "group__libedid.html", "group__libedid" ],
     [ "IO interface", "group__api__l4io.html", "group__api__l4io" ],
+    [ "IPC Helpers", "group__helper.html", "group__helper" ],
     [ "IRQ handling library", "group__l4irq__api.html", "group__l4irq__api" ],
     [ "L4 IPC Opcodes", "group__l4__protocol__ops.html", "group__l4__protocol__ops" ],
     [ "L4 VIRTIO Interface", "group__l4virtio.html", "group__l4virtio" ],

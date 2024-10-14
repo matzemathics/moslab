@@ -3,6 +3,7 @@ INTERFACE:
 #include "gic.h"
 #include "gic_redist.h"
 #include "gic_cpu_v3.h"
+#include "global_data.h"
 
 class Gic_v3 : public Gic_mixin<Gic_v3, Gic_cpu_v3>
 {
@@ -13,16 +14,27 @@ class Gic_v3 : public Gic_mixin<Gic_v3, Gic_cpu_v3>
 
   Address _redist_base;
 
+  static Global_data<Gic_v3 *> primary;
+
+  static void _glbl_irq_handler()
+  { primary->hit(nullptr); }
+
 public:
   using Version = Gic_dist::V3;
 
-  explicit Gic_v3(Address dist_base, Address redist_base)
-  : Gic(dist_base, -1), _redist_base(redist_base)
+  explicit Gic_v3(Address dist_base, Address redist_base, bool dist_init = true)
+  : Gic(dist_base, -1, dist_init), _redist_base(redist_base)
   {
     init_lpi();
 
     cpu_local_init(Cpu_number::boot_cpu());
     _cpu.enable();
+  }
+
+  void init_global_irq_handler()
+  {
+    primary = this;
+    Gic::set_irq_handler(_glbl_irq_handler);
   }
 };
 
@@ -68,6 +80,7 @@ public:
 private:
   void init_lpi() {}
   void cpu_local_init_lpi(Cpu_number) {}
+  void migrate_lpis(Cpu_number, Cpu_number) {}
 };
 
 //-------------------------------------------------------------------
@@ -98,6 +111,7 @@ Gic_v3::add_its(Address its_base)
 //-------------------------------------------------------------------
 IMPLEMENTATION:
 
+DEFINE_GLOBAL Global_data<Gic_v3 *> Gic_v3::primary;
 DEFINE_PER_CPU Per_cpu<Gic_redist> Gic_v3::_redist;
 
 PUBLIC inline
@@ -120,6 +134,11 @@ Gic_v3::softint_phys(unsigned m, Unsigned64 target) override
 
 PUBLIC inline
 void
+Gic_v3::redist_disable(Cpu_number cpu)
+{ _redist.cpu(cpu).disable(); }
+
+PUBLIC inline
+void
 Gic_v3::cpu_local_init(Cpu_number cpu)
 {
   auto &rd = _redist.cpu(cpu);
@@ -131,14 +150,14 @@ Gic_v3::cpu_local_init(Cpu_number cpu)
   if (mpidr & 0xf0)
     {
       _sgi_template[cpu] = ~0ull;
-      printf("GICv3: Cpu%u affinity level 0 out of range: %u max is 15\n",
-             cxx::int_value<Cpu_number>(cpu), (unsigned)(mpidr & 0xff));
+      printf("GICv3: Cpu%u affinity level 0 out of range: %llu max is 15\n",
+             cxx::int_value<Cpu_number>(cpu), mpidr & 0xff);
       return;
     }
 
-  _sgi_template[cpu] = (1u << (mpidr & 0xf))
-                       | ((mpidr & (Unsigned64)0xff00) << 8)
-                       | ((mpidr & (Unsigned64)0xff00ff0000) << 16);
+  _sgi_template[cpu] = (1U << (mpidr & 0xfULL))
+                       | ((mpidr & 0xff00ULL) << 8)
+                       | ((mpidr & 0xff00ff0000ULL) << 16);
 
   cpu_local_init_lpi(cpu);
 }
@@ -147,7 +166,21 @@ PUBLIC
 void
 Gic_v3::set_cpu(Mword pin, Cpu_number cpu) override
 {
-  _dist.set_cpu(pin, ::Cpu::cpus.cpu(cpu).phys_id(), Version());
+  _dist.set_cpu(pin, _dist.cpu_to_irouter_entry(cpu), Version());
+}
+
+PUBLIC
+void
+Gic_v3::migrate_irqs(Cpu_number from, Cpu_number to)
+{
+  unsigned num = hw_nr_irqs();
+  Unsigned64 val_from = _dist.cpu_to_irouter_entry(from);
+
+  for (unsigned i = 0; i < num; ++i)
+    if (_dist.irouter(i) == val_from)
+      set_cpu(i, to);
+
+  migrate_lpis(from, to);
 }
 
 PUBLIC
@@ -233,6 +266,14 @@ Gic_v3::cpu_local_init_lpi(Cpu_number cpu)
       for (unsigned i = 0; i < _num_its; i++)
         _its_vec[i]->cpu_init(cpu, _redist.cpu(cpu));
     }
+}
+
+PUBLIC
+void
+Gic_v3::migrate_lpis(Cpu_number from, Cpu_number to)
+{
+  if (_has_lpis)
+    _msi->Gic_msi::migrate_lpis(from, to);
 }
 
 PUBLIC

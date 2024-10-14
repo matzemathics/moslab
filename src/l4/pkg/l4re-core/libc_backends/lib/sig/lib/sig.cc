@@ -40,7 +40,7 @@ struct Sig_handling : L4::Epiface_t<Sig_handling, L4::Exception>
   pthread_t pthread;
 
   struct itimerval current_itimerval;
-  l4_cpu_time_t alarm_timeout;
+  l4_cpu_time_t alarm_timeout = 0;
 
   Sig_handling();
 
@@ -52,7 +52,7 @@ struct Sig_handling : L4::Epiface_t<Sig_handling, L4::Exception>
   int sigaction(int signum, const struct sigaction *act,
                 struct sigaction *oldact) noexcept;
   int setitimer(__itimer_which_t __which,
-                __const struct itimerval *__restrict __new,
+                const struct itimerval *__restrict __new,
                 struct itimerval *__restrict __old) noexcept;
 
 public:
@@ -72,9 +72,9 @@ Sig_handling::get_handler(int signum)
     return 0;
   if (   (sigactions[signum].sa_flags & SA_SIGINFO)
       && sigactions[signum].sa_sigaction)
-    return (l4_addr_t)sigactions[signum].sa_sigaction;
+    return reinterpret_cast<l4_addr_t>(sigactions[signum].sa_sigaction);
   else if (sigactions[signum].sa_handler)
-    return (l4_addr_t)sigactions[signum].sa_handler;
+    return reinterpret_cast<l4_addr_t>(sigactions[signum].sa_handler);
   return 0;
 }
 
@@ -122,6 +122,8 @@ asm(
 "ta 0x1                          \n\t"
 #elif defined(ARCH_mips)
 ".long 0x04170010 # sigrie 0x10  \n\t"
+#elif defined(ARCH_riscv)
+"unimp                           \n\t"
 #else
 #error Unsupported arch!
 #endif
@@ -150,44 +152,48 @@ static bool setup_sig_frame(l4_exc_regs_t *u, int signum)
 {
 #if defined(ARCH_mips)
   // put state + pointer to it on stack
-  ucontext_t *ucf = (ucontext_t *)(u->r[29] - sizeof(*ucf));
+  ucontext_t *ucf = reinterpret_cast<ucontext_t *>(u->r[29] - sizeof(*ucf));
 #else
   // put state + pointer to it on stack
-  ucontext_t *ucf = (ucontext_t *)(u->sp - sizeof(*ucf));
+  ucontext_t *ucf = reinterpret_cast<ucontext_t *>(u->sp - sizeof(*ucf));
 #endif
 
   /* Check if memory access is fine */
-  if (!range_ok((l4_addr_t)ucf, sizeof(*ucf)))
+  if (!range_ok(reinterpret_cast<l4_addr_t>(ucf), sizeof(*ucf)))
     return false;
 
   fill_ucontext_frame(ucf, u);
 
 #ifdef ARCH_arm
-  u->sp = (l4_umword_t)ucf;
+  u->sp = reinterpret_cast<l4_umword_t>(ucf);
   u->r[0] = signum;
   u->r[1] = 0; // siginfo_t pointer, we do not have one right currently
-  u->r[2] = (l4_umword_t)ucf;
-  u->ulr  = (unsigned long)libc_be_sig_return_trap;
+  u->r[2] = reinterpret_cast<l4_umword_t>(ucf);
+  u->ulr  = reinterpret_cast<unsigned long>(libc_be_sig_return_trap);
 #elif defined(ARCH_mips)
-  u->r[29] = (l4_umword_t)ucf;
+  u->r[29] = reinterpret_cast<l4_umword_t>(ucf);
   u->r[0] = signum;
   u->r[1] = 0; // siginfo_t pointer, we do not have one right currently
-  u->r[2] = (l4_umword_t)ucf;
-  u->epc  = (unsigned long)libc_be_sig_return_trap;
+  u->r[2] = reinterpret_cast<l4_umword_t>(ucf);
+  u->epc  = reinterpret_cast<unsigned long>(libc_be_sig_return_trap);
 #else
-  u->sp = (l4_umword_t)ucf - sizeof(void *);
-  *(l4_umword_t *)u->sp = (l4_umword_t)ucf;
+  u->sp = reinterpret_cast<l4_umword_t>(ucf) - sizeof(void *);
+  l4_umword_t *sp = reinterpret_cast<l4_umword_t *>(u->sp);
+  *sp = reinterpret_cast<l4_umword_t>(ucf);
 
   // siginfo_t pointer, we do not have one right currently
   u->sp -= sizeof(siginfo_t *);
-  *(l4_umword_t *)u->sp = 0;
+  sp = reinterpret_cast<l4_umword_t *>(u->sp);
+  *sp = 0;
 
   // both types get the signum as the first argument
   u->sp -= sizeof(l4_umword_t);
-  *(l4_umword_t *)u->sp = signum;
+  sp = reinterpret_cast<l4_umword_t *>(u->sp);
+  *sp = signum;
 
   u->sp -= sizeof(l4_umword_t);
-  *(unsigned long *)u->sp = (unsigned long)libc_be_sig_return_trap;
+  sp = reinterpret_cast<l4_umword_t *>(u->sp);
+  *sp = reinterpret_cast<l4_umword_t>(libc_be_sig_return_trap);
 #endif
 
   return true;
@@ -211,6 +217,8 @@ int Sig_handling::op_exception(L4::Exception::Rights, l4_exc_regs_t &exc,
   if ((u->cause & 0x1ff) == 0x101)
 #elif defined(ARCH_ppc32)
   if ((u->err & 3) == 4)
+#elif defined(ARCH_riscv)
+  if (u->cause == L4_riscv_exc_illegal_inst)
 #else
   if (u->trapno == 0xff)
 #endif
@@ -239,20 +247,22 @@ int Sig_handling::op_exception(L4::Exception::Rights, l4_exc_regs_t &exc,
     }
 
   // x86: trap6
-  if (l4_utcb_exc_pc(u) + pc_delta == (l4_addr_t)libc_be_sig_return_trap)
+  if (l4_utcb_exc_pc(u) + pc_delta
+      == reinterpret_cast<l4_addr_t>(libc_be_sig_return_trap))
     {
       // sig-return
       //printf("Sigreturn\n");
 
 #if defined(ARCH_arm)
-      ucontext_t *ucf = (ucontext_t *)u->sp;
+      ucontext_t *ucf = reinterpret_cast<ucontext_t *>(u->sp);
 #elif defined(ARCH_mips)
-      ucontext_t *ucf = (ucontext_t *)u->r[29];
+      ucontext_t *ucf = reinterpret_cast<ucontext_t *>(u->r[29]);
 #else
-      ucontext_t *ucf = (ucontext_t *)(u->sp + sizeof(l4_umword_t) * 3);
+      ucontext_t *ucf
+        = reinterpret_cast<ucontext_t *>(u->sp + sizeof(l4_umword_t) * 3);
 #endif
 
-      if (!range_ok((l4_addr_t)ucf, sizeof(*ucf)))
+      if (!range_ok(reinterpret_cast<l4_addr_t>(ucf), sizeof(*ucf)))
         {
           dump_rm();
           printf("Invalid memory...\n");
@@ -417,6 +427,13 @@ sighandler_t signal(int signum, sighandler_t handler) L4_NOTHROW
   return _sig_handling.signal(signum, handler);
 }
 
+extern "C"
+sighandler_t bsd_signal(int signum, sighandler_t handler) L4_NOTHROW
+{
+  return _sig_handling.signal(signum, handler);
+}
+
+
 inline
 int
 Sig_handling::sigaction(int signum, const struct sigaction *act,
@@ -521,7 +538,7 @@ int getitimer(__itimer_which_t __which,
 inline
 int
 Sig_handling::setitimer(__itimer_which_t __which,
-                        __const struct itimerval *__restrict __new,
+                        const struct itimerval *__restrict __new,
                         struct itimerval *__restrict __old) noexcept
 {
   printf("called %s(..)\n", __func__);
@@ -552,7 +569,7 @@ Sig_handling::setitimer(__itimer_which_t __which,
 }
 
 int setitimer(__itimer_which_t __which,
-              __const struct itimerval *__restrict __new,
+              const struct itimerval *__restrict __new,
               struct itimerval *__restrict __old) L4_NOTHROW
 {
   int err = _sig_handling.setitimer(__which, __new, __old);
@@ -562,4 +579,13 @@ int setitimer(__itimer_which_t __which,
       return -1;
     }
   return 0;
+}
+
+#include <l4/util/util.h>
+
+int pause(void)
+{
+  l4_sleep_forever();
+  errno = EINTR;
+  return -1;
 }

@@ -5,12 +5,12 @@
 
 #include <locale.h>
 #include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include <getopt.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <errno.h>
@@ -41,7 +41,7 @@ static int tty_stdio;
 static int valid_stdin = 1;
 static int sync_kconfig;
 static int conf_cnt;
-static char line[128];
+static char line[PATH_MAX];
 static struct menu *rootEntry;
 
 static void print_help(struct menu *menu)
@@ -109,7 +109,7 @@ static int conf_askvalue(struct symbol *sym, const char *def)
 		/* fall through */
 	case oldaskconfig:
 		fflush(stdout);
-		xfgets(line, 128, stdin);
+		xfgets(line, sizeof(line), stdin);
 		if (!tty_stdio)
 			printf("\n");
 		return 1;
@@ -311,7 +311,7 @@ static int conf_choice(struct menu *menu)
 			/* fall through */
 		case oldaskconfig:
 			fflush(stdout);
-			xfgets(line, 128, stdin);
+			xfgets(line, sizeof(line), stdin);
 			strip(line);
 			if (line[0] == '?') {
 				print_help(menu);
@@ -447,7 +447,7 @@ static void check_conf(struct menu *menu)
 }
 
 #if 00 // || !defined __UCLIBC__ || \
-	(defined UCLIBC_HAS_GETOPT_LONG || defined UCLIBC_HAS_GNU_GETOPT)
+	defined __UCLIBC_HAS_GETOPT_LONG__
 static struct option long_opts[] = {
 	{"oldaskconfig",    no_argument,       NULL, oldaskconfig},
 	{"oldconfig",       no_argument,       NULL, oldconfig},
@@ -526,7 +526,7 @@ int main(int ac, char **av)
 	tty_stdio = isatty(0) && isatty(1) && isatty(2);
 
 #if 00// !defined __UCLIBC__ || \
-	(defined UCLIBC_HAS_GETOPT_LONG || defined UCLIBC_HAS_GNU_GETOPT)
+	defined __UCLIBC_HAS_GETOPT_LONG__
 	while ((opt = getopt_long(ac, av, "", long_opts, NULL)) != -1)
 #else
 	char *gch = "asonymArDSld";

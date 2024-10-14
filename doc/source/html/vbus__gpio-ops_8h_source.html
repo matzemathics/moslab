@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/vbus/vbus_gpio-ops.h Source File</title>
+<title>L4Re Operating System Framework: l4/vbus/vbus_gpio-ops.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -114,7 +117,7 @@ $(document).ready(function(){initNavTree('vbus__gpio-ops_8h_source.html',''); in
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">enum</span> L4vbus_gpio_op</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>{</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>  L4VBUS_GPIO_OP_SETUP = <a class="code hl_enumvalue" href="vbus__interfaces_8h.html#a23902b806a7e7e1ae8eef74d4d36b579a731bf27bdaea87329c26d3c83d8f715c">L4VBUS_INTERFACE_GPIO</a> &lt;&lt; <a class="code hl_enumvalue" href="vbus__interfaces_8h.html#ae7c221b877c671251f317a43dbea2583a61d97f9760c17ec2d916fb9f060cad7b">L4VBUS_IFACE_SHIFT</a>,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>  L4VBUS_GPIO_OP_SETUP = <a class="code hl_enumvalue" href="vbus__interfaces_8h.html#a23902b806a7e7e1ae8eef74d4d36b579a731bf27bdaea87329c26d3c83d8f715c">L4VBUS_INTERFACE_GPIO</a> &lt;&lt; <a class="code hl_enumvalue" href="vbus__interfaces_8h.html#a99fb83031ce9923c84392b4e92f956b5a61d97f9760c17ec2d916fb9f060cad7b">L4VBUS_IFACE_SHIFT</a>,</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>  L4VBUS_GPIO_OP_CONFIG_PAD,</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>  L4VBUS_GPIO_OP_CONFIG_GET,</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  L4VBUS_GPIO_OP_GET,</div>
@@ -128,7 +131,7 @@ $(document).ready(function(){initNavTree('vbus__gpio-ops_8h_source.html',''); in
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>};</div>
 <div class="ttc" id="avbus__interfaces_8h_html"><div class="ttname"><a href="vbus__interfaces_8h.html">vbus_interfaces.h</a></div><div class="ttdoc">This header contains the definition of VBUS sub-interfaces and convenience functions to work with the...</div></div>
 <div class="ttc" id="avbus__interfaces_8h_html_a23902b806a7e7e1ae8eef74d4d36b579a731bf27bdaea87329c26d3c83d8f715c"><div class="ttname"><a href="vbus__interfaces_8h.html#a23902b806a7e7e1ae8eef74d4d36b579a731bf27bdaea87329c26d3c83d8f715c">L4VBUS_INTERFACE_GPIO</a></div><div class="ttdeci">@ L4VBUS_INTERFACE_GPIO</div><div class="ttdoc">GPIO.</div><div class="ttdef"><b>Definition</b> <a href="vbus__interfaces_8h_source.html#l00036">vbus_interfaces.h:36</a></div></div>
-<div class="ttc" id="avbus__interfaces_8h_html_ae7c221b877c671251f317a43dbea2583a61d97f9760c17ec2d916fb9f060cad7b"><div class="ttname"><a href="vbus__interfaces_8h.html#ae7c221b877c671251f317a43dbea2583a61d97f9760c17ec2d916fb9f060cad7b">L4VBUS_IFACE_SHIFT</a></div><div class="ttdeci">@ L4VBUS_IFACE_SHIFT</div><div class="ttdoc">Sub-interface ID shift.</div><div class="ttdef"><b>Definition</b> <a href="vbus__interfaces_8h_source.html#l00059">vbus_interfaces.h:58</a></div></div>
+<div class="ttc" id="avbus__interfaces_8h_html_a99fb83031ce9923c84392b4e92f956b5a61d97f9760c17ec2d916fb9f060cad7b"><div class="ttname"><a href="vbus__interfaces_8h.html#a99fb83031ce9923c84392b4e92f956b5a61d97f9760c17ec2d916fb9f060cad7b">L4VBUS_IFACE_SHIFT</a></div><div class="ttdeci">@ L4VBUS_IFACE_SHIFT</div><div class="ttdoc">Sub-interface ID shift.</div><div class="ttdef"><b>Definition</b> <a href="vbus__interfaces_8h_source.html#l00059">vbus_interfaces.h:58</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -136,7 +139,7 @@ $(document).ready(function(){initNavTree('vbus__gpio-ops_8h_source.html',''); in
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_364af192430b60ca4d316aa6a7cd95d2.html">vbus</a></li><li class="navelem"><b>vbus_gpio-ops.h</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

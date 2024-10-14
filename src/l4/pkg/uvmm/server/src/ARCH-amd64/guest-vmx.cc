@@ -16,23 +16,25 @@ namespace Vmm {
 
 template <>
 int
-Guest::handle_exit<Vmx_state>(Vmm::Vcpu_ptr vcpu, Vmx_state *vms)
+Guest::handle_exit<Vmx_state>(Vmm::Cpu_dev *cpu, Vmx_state *vms)
 {
   using Exit = Vmx_state::Exit;
   auto reason = vms->exit_reason();
+  Vmm::Vcpu_ptr vcpu = cpu->vcpu();
   auto *regs = &vcpu->r;
   auto *ev_rec = recorder(vcpu.get_vcpu_id());
   unsigned vcpu_id = vcpu.get_vcpu_id();
 
   if (reason != Vmx_state::Exit::Exec_vmcall)
-    trace().printf("[%3u]: Exit at guest IP 0x%lx SP 0x%lx with 0x%llx (Qual: 0x%llx)\n",
+    trace().printf("[%3u]: Exit at guest IP 0x%lx SP 0x%lx with %llu ('%s') (Qual: 0x%llx)\n",
                    vcpu_id, vms->ip(), vms->sp(),
                    vms->vmx_read(VMCS_EXIT_REASON),
+                   exit_reason_to_str(vms->vmx_read(VMCS_EXIT_REASON)),
                    vms->vmx_read(VMCS_EXIT_QUALIFICATION));
 
   switch (reason)
     {
-    case Exit::Cpuid: return handle_cpuid(regs);
+    case Exit::Cpuid: return handle_cpuid(vcpu);
 
     case Exit::Exec_vmcall: return handle_vm_call(regs);
 
@@ -42,38 +44,45 @@ Guest::handle_exit<Vmx_state>(Vmm::Vcpu_ptr vcpu, Vmx_state *vms)
         unsigned qwidth = qual & 7;
         bool is_read = qual & 8;
         bool is_string = qual & 16;
+        bool is_rep = qual & 32;
+        bool is_imm = qual & 64;
         unsigned port = (qual >> 16) & 0xFFFFU;
 
         Dbg(Dbg::Dev, Dbg::Trace)
-          .printf("[%3u]: VM exit: IO port access with exit qualification 0x%llx: "
-                  "%s port 0x%x\n",
-                  vcpu_id, qual, is_read ? "read" : "write", port);
-
-        if (is_string)
-          {
-            warn().printf("[%3u]: Unhandled string IO instruction @ 0x%lx: "
-                          "%s%s, port 0x%x! Skipped.\n",
-                          vcpu_id, vms->ip(), (qual & 0x20) ? "REP " : "",
-                          is_read ? "INS" : "OUTS", port);
-            // This is not entirely correct: SI/DI not incremented, REP prefix
-            // not handled.
-            return Jump_instr;
-          }
+          .printf("[%3u]: VM exit @ 0x%lx: IO access with exit qualification "
+                  "0x%llx: %s port 0x%x %s%s%s\n",
+                  vcpu_id, vms->ip(), qual, is_read ? "read" : "write", port,
+                  is_imm ? "immediate" : "in DX", is_string ? " string" : "",
+                  is_rep ? " rep" : "");
 
         if (port == 0xcfb)
           Dbg(Dbg::Dev, Dbg::Trace)
-            .printf("[%3u]:  0xcfb access from ip: %lx\n", vcpu_id, vms->ip());
+            .printf("[%3u]: N.B.: 0xcfb IO port access @ 0x%lx\n", vcpu_id,
+                    vms->ip());
 
-        Mem_access::Width wd = Mem_access::Wd32;
-        switch(qwidth)
+        Mem_access::Width op_width;
+        switch (qwidth)
           {
-          // only 0,1,3 are valid values in the exit qualification.
-          case 0: wd = Mem_access::Wd8; break;
-          case 1: wd = Mem_access::Wd16; break;
-          case 3: wd = Mem_access::Wd32; break;
+          // Only 0, 1, 3 are valid values in the exit qualification.
+          case 0: op_width = Mem_access::Wd8; break;
+          case 1: op_width = Mem_access::Wd16; break;
+          case 3: op_width = Mem_access::Wd32; break;
+          default:
+            warn().printf("[%3u]: Invalid IO access size %u @ 0x%lx\n",
+                          vcpu_id, qwidth, vms->ip());
+            return Invalid_opcode;
           }
 
-        return handle_io_access(port, is_read, wd, regs);
+        if (!is_string)
+          return handle_io_access(port, is_read, op_width, regs);
+
+        warn().printf("[%3u]: Unhandled string IO instruction @ 0x%lx: "
+                      "%s%s, port 0x%x! Skipped.\n",
+                      vcpu_id, vms->ip(), is_rep ? "REP " : "",
+                      is_read ? "INS" : "OUTS", port);
+        // This is not entirely correct: SI/DI not incremented, REP prefix
+        // not handled.
+        return Jump_instr;
       }
 
     // Ept_violation needs to be checked here, as handle_mmio needs a vCPU ptr,
@@ -134,15 +143,14 @@ Guest::handle_exit<Vmx_state>(Vmm::Vcpu_ptr vcpu, Vmx_state *vms)
                       vms->vmx_read(VMCS_GUEST_ACTIVITY_STATE));
 
       vms->halt();
-
+      cpu->halt_cpu();
       return Jump_instr;
 
     case Exit::Exec_rdpmc:
-      ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
-      return Retry;
+      return General_protection;
 
     case Exit::Cr_access:
-      return vms->handle_cr_access(regs, ev_rec);
+      return vms->handle_cr_access(regs);
 
     case Exit::Exec_rdmsr:
       if (!msr_devices_rwmsr(regs, false, vcpu_id))
@@ -151,8 +159,7 @@ Guest::handle_exit<Vmx_state>(Vmm::Vcpu_ptr vcpu, Vmx_state *vms)
                         regs->cx);
           regs->ax = 0;
           regs->dx = 0;
-          ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
-          return Retry;
+          return General_protection;
         }
 
       return Jump_instr;
@@ -164,9 +171,9 @@ Guest::handle_exit<Vmx_state>(Vmm::Vcpu_ptr vcpu, Vmx_state *vms)
           {
             warn().printf("[%3u]: Writing unsupported MSR 0x%lx\n", vcpu_id,
                           regs->cx);
-            ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 13, 0);
-            return Retry;
+            return General_protection;
           }
+
         // Writing an MSR e.g. IA32_EFER can lead to injection of a HW exception.
         // In this case the instruction wasn't emulated, thus don't jump it.
         if (!has_already_exception && ev_rec->has_exception())
@@ -208,10 +215,7 @@ Guest::handle_exit<Vmx_state>(Vmm::Vcpu_ptr vcpu, Vmx_state *vms)
         if (dbg_reg == 4 || dbg_reg == 5)
           {
             if (vms->vmx_read(VMCS_GUEST_CR4) & (1U << 3)) // CR4.DE set?
-              {
-                ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 6);
-                return Retry;
-              }
+              return Invalid_opcode;
             // else: alias to DR6 & DR7
           }
 
@@ -245,8 +249,37 @@ Guest::handle_exit<Vmx_state>(Vmm::Vcpu_ptr vcpu, Vmx_state *vms)
     case Exit::Exec_invvpid:
     case Exit::Exec_rdtscp:
       // Unsupported instructions, inject undefined opcode exception
-      ev_rec->make_add_event<Event_exc>(Event_prio::Exception, 6); // #UD
+      return Invalid_opcode;
+
+    case Exit::Triple_fault:
+      // Double-fault experienced exception. Set core into shutdown mode.
+      info().printf("[%3u]: Triple fault exit at IP 0x%lx. Core is in shutdown "
+                    "mode.\n",
+                    vcpu_id, vms->ip());
+      vcpu.dump_regs_t(vms->ip(), info());
+
+      // move CPU into stop state
+      cpu->stop();
       return Retry;
+
+    case Exit::Entry_fail_invalid_guest:
+      {
+        auto qual = vms->vmx_read(VMCS_EXIT_QUALIFICATION);
+        auto reason_raw = vms->vmx_read(VMCS_EXIT_REASON);
+        auto ip = vms->ip();
+        auto insn_err = vms->vmx_read(VMCS_VM_INSN_ERROR);
+        auto entry_exc_err = vms->vmx_read(VMCS_VM_ENTRY_EXCEPTION_ERROR);
+
+        Dbg().printf("VM-entry failure due to invalid guest state:\n"
+                     "Exit reason raw: 0x%llx\n"
+                     "Exit qualification: 0x%llx\n"
+                     "IP: 0x%lx\n"
+                     "Instruction error: 0x%llx\n"
+                     "Entry exception error: 0x%llx\n",
+                     reason_raw, qual, ip, insn_err, entry_exc_err
+                     );
+      }
+      /* fall-through */
 
     case Exit::Task_switch:
     case Exit::Apic_access:

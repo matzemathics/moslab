@@ -4,9 +4,11 @@
  * Author(s): Sarah Hoffmann <sarah.hoffmann@kernkonzept.com>
  *            Philipp Eppelt <philipp.eppelt@kernkonzept.com>
  */
+
 #pragma once
 
 #include <l4/re/error_helper>
+#include <l4/re/util/unique_cap>
 #include <l4/sys/vm>
 
 #include <l4/cxx/bitfield>
@@ -157,12 +159,14 @@ public:
 
   enum Vmx_vm_exit_ctls : unsigned long
   {
-    Vm_exit_save_ia32_efer = (1UL << 20),
-    Vm_exit_load_ia32_efer = (1UL << 21),
+    Vm_exit_save_ia32_pat = (1UL << 18),  ///< save guest PAT
+    Vm_exit_load_ia32_pat = (1UL << 19),  ///< load host PAT
+    Vm_exit_save_ia32_efer = (1UL << 20), ///< save guest EFER
+    Vm_exit_load_ia32_efer = (1UL << 21), ///< load host EFER
     Host_address_space_size = (1UL << 9),
   };
 
-  Vmx_state(void *vmcs) : _vmcs(vmcs) {}
+  Vmx_state(void *vmcs);
   ~Vmx_state() = default;
 
   Type type() const override
@@ -176,13 +180,18 @@ public:
 
   void init_state() override
   {
-    vmx_write(VMCS_LINK_POINTER, 0xffffffffffffffffULL);
+    set_hw_vmcs();
+
+    // The reset values are taken from Intel SDM Vol.3 10.1.1;
     set_activity_state(Active);
     // reflect all guest exceptions back to the guest.
     vmx_write(VMCS_EXCEPTION_BITMAP, 0xffff0000);
 
     // PAT reset value
     vmx_write(VMCS_GUEST_IA32_PAT, 0x0007040600070406ULL);
+
+    // XCR0 reset value;
+    vmx_write(L4_VM_VMX_VMCS_XCR0, 0x1ULL);
 
     vmx_write(VMCS_PIN_BASED_VM_EXEC_CTLS,
               vmx_read(VMCS_PIN_BASED_VM_EXEC_CTLS)
@@ -195,9 +204,11 @@ public:
                | Vm_entry_load_ia32_efer)
                 & ~Ia32e_mode_guest); // disable long mode
 
+    // Guest PAT & EFER are emulated on each access, no need to additionally
+    // store them on VMexit.
     vmx_write(VMCS_VM_EXIT_CTLS,
               vmx_read(VMCS_VM_EXIT_CTLS)
-              | Vm_exit_save_ia32_efer
+              | Vm_exit_load_ia32_pat
               | Vm_exit_load_ia32_efer
               | Host_address_space_size);
 
@@ -215,18 +226,13 @@ public:
                 | Unrestricted_guest_bit
               );
 
+    // System descriptor described in Intel SDM Vol.3 Chapter 3.5
     vmx_write(VMCS_GUEST_LDTR_SELECTOR, 0x0);
-    vmx_write(VMCS_GUEST_LDTR_ACCESS_RIGHTS, 0x10000);
-    vmx_write(VMCS_GUEST_LDTR_LIMIT, 0);
+    vmx_write(VMCS_GUEST_LDTR_ACCESS_RIGHTS, 0x82);
+    vmx_write(VMCS_GUEST_LDTR_LIMIT, 0xffff);
     vmx_write(VMCS_GUEST_LDTR_BASE, 0);
 
-    l4_umword_t eflags;
-    asm volatile("pushf     \n"
-                 "pop %0   \n"
-                 : "=r" (eflags));
-    eflags &= ~Interrupt_enabled_bit;
-    eflags &= ~Virtual_8086_mode_bit;
-    vmx_write(VMCS_GUEST_RFLAGS, eflags);
+    vmx_write(VMCS_GUEST_RFLAGS, 0x02);
 
     vmx_write(VMCS_GUEST_CR3, 0);
     vmx_write(VMCS_GUEST_DR7, 0x300);
@@ -244,6 +250,9 @@ public:
 
   l4_umword_t cr3() const override
   { return l4_vm_vmx_read_nat(_vmcs, VMCS_GUEST_CR3); }
+
+  l4_uint64_t xcr0() const override
+  { return vmx_read(L4_VM_VMX_VMCS_XCR0); }
 
   void jump_instruction()
   {
@@ -301,11 +310,10 @@ public:
   }
 
   /**
-   * Setup Application Processors in Real Mode.
+   * Setup the Real Mode startup procedure for AP startup and BSP resume.
    *
-   * Processor setup according to manual Volume 3B 9.1.1. The other case
-   * handled is when a startup-IPI (SIPI, Volume 3B 8.4.3) is received. Any
-   * other start address is architecturally undefined.
+   * This follows the hardware reset behavior described in Intel SDM "10.1.4
+   * First Instruction Executed".
    */
   void setup_real_mode(l4_addr_t entry) override
   {
@@ -316,15 +324,18 @@ public:
         vmx_write(VMCS_GUEST_CS_BASE, 0xffff0000U);
         vmx_write(VMCS_GUEST_RIP, 0xfff0U);
       }
-    else if ((entry & ~(l4_addr_t)0x00ff000U) == 0)
+    else
       {
-        // Application Processor (AP) boot via Startup IPI (SIPI)
-        vmx_write(VMCS_GUEST_CS_SELECTOR, (entry >> 4));
+        // Application Processor (AP) boot via Startup IPI (SIPI) or resume
+        // from suspend.
+        // CS_BASE contains the cached address computed from CS_SELECTOR. After
+        // reset CS_BASE contains what we set until the first CS SELECTOR is
+      // loaded. We use the waking vector or SIPI vector directly, because
+      // tianocore cannot handle the CS_BASE + IP split.
+        vmx_write(VMCS_GUEST_CS_SELECTOR, entry >> 4);
         vmx_write(VMCS_GUEST_CS_BASE, entry);
         vmx_write(VMCS_GUEST_RIP, 0);
       }
-    else
-      L4Re::throw_error(-L4_EINVAL, "Invalid CPU startup address");
 
     vmx_write(VMCS_GUEST_CS_ACCESS_RIGHTS, 0x9b);
     vmx_write(VMCS_GUEST_CS_LIMIT, 0xffff);
@@ -360,13 +371,17 @@ public:
     vmx_write(VMCS_GUEST_TR_BASE, 0);
 
     vmx_write(VMCS_GUEST_RSP, 0);
-    vmx_write(VMCS_GUEST_CR0, 0x10030);
-    vmx_write(VMCS_CR0_READ_SHADOW, 0x10030);
+    vmx_write(VMCS_GUEST_CR0, 0x60000010UL);
+    vmx_write(VMCS_CR0_READ_SHADOW, 0x60000010UL);
     vmx_write(VMCS_CR0_GUEST_HOST_MASK, ~0ULL);
 
     vmx_write(VMCS_GUEST_CR4, 0x2680);
     vmx_write(VMCS_CR4_READ_SHADOW, 0x0680);
     vmx_write(VMCS_CR4_GUEST_HOST_MASK, ~0ULL);
+
+    // clear in SW state to prevent injection of pending events from before
+    // INIT/STARTUP IPI.
+    vmx_write(VMCS_IDT_VECTORING_ERROR, 0ULL);
   }
 
   Injection_event pending_event_injection() override
@@ -379,6 +394,16 @@ public:
       }
     else
       return Injection_event(vinfo.field, 0U);
+  }
+
+  void invalidate_pending_event()
+  {
+    Vmx_state::Idt_vectoring_info vinfo = idt_vectoring_info();
+    if (vinfo.valid())
+      {
+        vinfo.valid().set(0);
+        vmx_write(VMCS_IDT_VECTORING_INFO, vinfo.field);
+      }
   }
 
   Exit exit_reason() const
@@ -569,6 +594,41 @@ public:
     }
   };
 
+  /**
+   * Structure representing the VM Exit Instruction Information.
+   *
+   * Note that the instruction information defines different valid bitfields
+   * for different instructions, but the location of those bitfields is mostly
+   * consistent.
+   */
+  struct Vmx_insn_info_field
+  {
+    l4_uint32_t field;
+    CXX_BITFIELD_MEMBER(0, 1, scaling, field);
+    // Bit 2 is undefined.
+    CXX_BITFIELD_MEMBER(3, 6, gpr, field);
+    CXX_BITFIELD_MEMBER(7, 9, address_size, field);
+    CXX_BITFIELD_MEMBER(10, 10, mem_reg, field);
+    CXX_BITFIELD_MEMBER(11, 12, operand_size, field);
+    // Bit 13 is undefined.
+    // Bit 14 is undefined.
+    CXX_BITFIELD_MEMBER(15, 17, segment, field);
+    CXX_BITFIELD_MEMBER(18, 21, index, field);
+    CXX_BITFIELD_MEMBER(22, 22, index_valid_bit, field);
+    CXX_BITFIELD_MEMBER(23, 26, base, field);
+    CXX_BITFIELD_MEMBER(27, 27, base_valid_bit, field);
+    CXX_BITFIELD_MEMBER(28, 31, gpr2, field);
+
+    Vmx_insn_info_field() = delete;
+    Vmx_insn_info_field(l4_uint32_t raw) : field(raw) {}
+
+    bool index_valid() const
+    { return index_valid_bit() == 0; }
+
+    bool base_valid() const
+    { return base_valid_bit() == 0; }
+  };
+
   /// Type alias to handle VM-exit interrupt data.
   using Vm_exit_int_info = Vmx_int_info_field;
   /// Type alias to handle VM-entry event injection data.
@@ -643,7 +703,12 @@ public:
   void vmx_write(unsigned field, l4_uint64_t val)
   { l4_vm_vmx_write(_vmcs, field, val); }
 
-  int handle_cr_access(l4_vcpu_regs_t *regs, Event_recorder *ev_rec);
+  void set_hw_vmcs()
+  {
+    l4_vm_vmx_set_hw_vmcs(_vmcs, _hw_vmcs.cap());
+  }
+
+  int handle_cr_access(l4_vcpu_regs_t *regs);
   int handle_exception_nmi_ext_int(Event_recorder *ev_rec);
 
   bool read_msr(unsigned msr, l4_uint64_t *value) const override;
@@ -655,13 +720,15 @@ public:
   void advance_entry_ip(unsigned bytes) override
   { vmx_write(VMCS_VM_ENTRY_INSN_LEN, bytes); }
 
-  void additional_failure_info()
+  void additional_failure_info(unsigned vcpu_id)
   {
-    warn().printf("VM instruction error: 0x%llx\n",
-                  vmx_read(VMCS_VM_INSN_ERROR));
+    Err().printf("[%3u] VM instruction error: 0x%llx\n", vcpu_id,
+                 vmx_read(VMCS_VM_INSN_ERROR));
   }
 
 private:
+  using Hw_vmcs = L4Re::Util::Unique_cap<L4::Vcpu_context>;
+
   static Dbg warn()
   { return Dbg(Dbg::Cpu, Dbg::Warn, "VMX"); }
 
@@ -671,7 +738,16 @@ private:
   static Dbg trace()
   { return Dbg(Dbg::Cpu, Dbg::Trace, "VMX"); }
 
+  /**
+   * Check that the guest is running in real mode.
+   *
+   * \retval true   Guest is running in real mode.
+   * \retval false  Guest is not running in real mode.
+   */
+  bool in_real_mode() const;
+
   void *_vmcs;
+  Hw_vmcs _hw_vmcs;
 };
 
 } // namespace Vmm

@@ -2,7 +2,7 @@
 #ifndef TYPES_ARCH_H__
 #define TYPES_ARCH_H__
 
-#define L4_PTR_ARG(a) ((Address)(a))
+#define L4_PTR_ARG(a) (reinterpret_cast<Address>(a))
 
 #define L4_PTR_FMT             "%08lx"
 #define L4_MWORD_FMT           "%08lx"
@@ -23,8 +23,6 @@ typedef signed long long int   Signed64;
 /// machine word
 typedef signed long int        Smword;
 typedef unsigned long int      Mword;
-typedef __INTPTR_TYPE__ intptr_t;
-typedef __UINTPTR_TYPE__ uintptr_t;
 
 enum {
   MWORD_BITS = 32,

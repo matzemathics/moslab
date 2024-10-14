@@ -90,7 +90,8 @@ public:
     Mword r0;
     Mword r1;
     void print(String_buffer *buf) const;
- };
+  };
+  static_assert(sizeof(Vm_log) <= Tb_entry::Tb_entry_size);
 };
 
 //-----------------------------------------------------------------------------
@@ -108,16 +109,23 @@ IMPLEMENTATION [arm]:
 
 JDB_DEFINE_TYPENAME(Vm, "\033[33;1mVm\033[m");
 
+static Kmem_slab_t<Vm> _vm_allocator("Vm");
+
 PUBLIC inline virtual
 Page_number
 Vm::map_max_address() const
 { return Page_number(1UL << (MWORD_BITS - Mem_space::Page_shift)); }
 
+PUBLIC static
+Vm *Vm::alloc(Ram_quota *q)
+{
+  return _vm_allocator.q_new(q, q);
+}
+
 PUBLIC inline
 void *
-Vm::operator new(size_t size, void *p) throw()
+Vm::operator new([[maybe_unused]] size_t size, void *p) noexcept
 {
-  (void)size;
   assert (size == sizeof(Vm));
   return p;
 }
@@ -126,8 +134,11 @@ PUBLIC
 void
 Vm::operator delete(void *ptr)
 {
-  Vm *t = reinterpret_cast<Vm*>(ptr);
-  Kmem_slab_t<Vm>::q_free(t->ram_quota(), ptr);
+  Vm *t = static_cast<Vm *>(ptr);
+  // Prevent the compiler from assuming that the object has become invalid after
+  // destruction. In particular the _quota member contains valid content.
+  asm ("" : "=m"(*t));
+  _vm_allocator.q_free(t->ram_quota(), ptr);
 }
 
 // ------------------------------------------------------------------------
@@ -138,9 +149,9 @@ IMPLEMENTATION [arm && arm_em_tz]:
 
 PUBLIC
 int
-Vm::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, bool user_mode)
+Vm::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, [[maybe_unused]] bool user_mode)
+  override
 {
-  (void)user_mode;
   assert(user_mode);
 
   assert(cpu_lock.test());
@@ -151,7 +162,7 @@ Vm::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, bool user_mode)
       return -L4_err::EInval;
     }
 
-  Vm_state *state = reinterpret_cast<Vm_state *>(reinterpret_cast<char *>(vcpu) + 0x400);
+  Vm_state *state = offset_cast<Vm_state *>(vcpu, Config::Ext_vcpu_state_offset);
 
   state_for_dbg = state;
 
@@ -186,7 +197,7 @@ Vm::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, bool user_mode)
           return -L4_err::EInval;
         }
 
-      Cpu::cpus.current().tz_switch_to_ns((Mword *)state);
+      Cpu::cpus.current().tz_switch_to_ns(reinterpret_cast<Mword *>(state));
 
       assert(cpu_lock.test());
 
@@ -222,19 +233,22 @@ Vm::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, bool user_mode)
 }
 
 namespace {
+
 static Kobject_iface * FIASCO_FLATTEN
 vm_factory(Ram_quota *q, Space *,
-           L4_msg_tag t, Utcb const *u,
-           int *err)
+           L4_msg_tag t, Utcb const *u, Utcb *out,
+           int *err, unsigned *words)
 {
-  return Task::create<Vm>(q, t, u, err);
+  return Task::create<Vm>(q, t, u, out, err, words);
 }
 
-static inline void __attribute__((constructor)) FIASCO_INIT
+static inline
+void __attribute__((constructor)) FIASCO_INIT_SFX(vm_register_factory)
 register_factory()
 {
   Kobject_iface::set_factory(L4_msg_tag::Label_vm, vm_factory);
 }
+
 }
 
 // --------------------------------------------------------------------------
@@ -314,7 +328,18 @@ PUBLIC
 void
 Vm::show_short(String_buffer *buf)
 {
-  buf->printf(" utcb:%lx pc:%lx ", (Mword)state_for_dbg, (Mword)jdb_get(&state_for_dbg->pc));
+  buf->printf(" utcb:%lx pc:%lx ",
+              reinterpret_cast<Mword>(state_for_dbg),
+              reinterpret_cast<Mword>(jdb_get(&state_for_dbg->pc)));
+}
+
+PUBLIC
+bool
+Vm::info_kobject(Address *utcb, Address *pc)
+{
+  *utcb = reinterpret_cast<Address>(state_for_dbg);
+  *pc = jdb_get(&state_for_dbg->pc);
+  return true;
 }
 
 IMPLEMENT

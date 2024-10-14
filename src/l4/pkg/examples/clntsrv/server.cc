@@ -16,7 +16,7 @@
 
 #include "shared.h"
 
-static L4Re::Util::Registry_server<L4Re::Util::Br_manager_hooks> server;
+static L4Re::Util::Registry_server<> server;
 
 class Calculation_server : public L4::Epiface_t<Calculation_server, Calc>
 {

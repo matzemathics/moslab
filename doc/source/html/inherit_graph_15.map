@@ -1,9 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classcxx_1_1Bits_1_1Base__avl__set.html" title="Internal: AVL set with internally managed nodes." alt="" coords="5,77,216,132"/>
-<area shape="rect" id="Node000001" href="$classcxx_1_1Avl__map.html" title=" " alt="" coords="295,5,469,60"/>
-<area shape="poly" id="edge6_Node000000_Node000001" title=" " alt="" coords="227,71,295,53,296,58,228,76"/>
-<area shape="rect" id="Node000002" href="$classcxx_1_1Avl__map.html" title="AVL tree based associative container." alt="" coords="264,85,500,125"/>
-<area shape="poly" id="edge7_Node000000_Node000002" title=" " alt="" coords="230,102,264,102,264,107,230,107"/>
-<area shape="rect" id="Node000003" href="$classcxx_1_1Avl__set.html" title="AVL set for simple compareable items." alt="" coords="283,149,481,189"/>
-<area shape="poly" id="edge8_Node000000_Node000003" title=" " alt="" coords="230,130,297,146,296,151,229,135"/>
+<area shape="rect" id="Node000000" href="$structcxx_1_1Bits_1_1Avl__set__get__key.html" title="Internal, key&#45;getter for Avl_set nodes." alt="" coords="5,5,180,45"/>
 </map>

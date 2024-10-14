@@ -109,7 +109,8 @@ public:
   {
     if (luaL_loadbuffer(_lua, cmd.data, cmd.length - 1, "argument"))
       {
-        fprintf(stderr, "lua couldn't parse '%.*s': %s.\n", (int)cmd.length - 1,
+        fprintf(stderr, "lua couldn't parse '%.*s': %s.\n",
+                static_cast<int>(cmd.length) - 1,
                 cmd.data, lua_tostring(_lua, -1));
         lua_pop(_lua, 1);
 
@@ -124,7 +125,8 @@ public:
         if (lua_istable(_lua, -1))
           lua_getfield(_lua, -1, "msg");
 
-        fprintf(stderr, "lua couldn't execute '%.*s': %s.\n", (int)cmd.length - 1,
+        fprintf(stderr, "lua couldn't execute '%.*s': %s.\n",
+                static_cast<int>(cmd.length) - 1,
                 cmd.data, lua_tostring(_lua, -1));
         lua_pop(_lua, 1);
 
@@ -161,7 +163,7 @@ static int __server_loop(lua_State *l)
                                                     n->cap<L4::Ipc_gate>().get()),
                "Register command dispatcher endpoint.");
 
-  Ned::server_loop();
+  Ned::server_loop(false); // explicit server loops do not terminate
 
   Ned::server.registry()->unregister_obj(&cmd_dispatch);
 

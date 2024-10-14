@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Types::Flags&lt; BITS_ENUM, UNDERLYING &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: L4::Types::Flags&lt; BITS_ENUM, UNDERLYING &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -109,7 +112,7 @@ $(document).ready(function(){initNavTree('classL4_1_1Types_1_1Flags.html',''); i
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Types_1_1Flags__coll__graph.svg" width="200" height="331"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Types_1_1Flags__coll__graph.svg" width="180" height="331"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
@@ -143,10 +146,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeeea09f5657a0f4477fba58b2bd93095" id="r_aeeea09f5657a0f4477fba58b2bd93095"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classL4_1_1Types_1_1Flags.html#aeeea09f5657a0f4477fba58b2bd93095">Flags</a> (BITS_ENUM e)</td></tr>
 <tr class="memdesc:aeeea09f5657a0f4477fba58b2bd93095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make flags from bit name.  <br /></td></tr>
 <tr class="separator:aeeea09f5657a0f4477fba58b2bd93095"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09798a500ce4703bb4d32c90be589d4a" id="r_a09798a500ce4703bb4d32c90be589d4a"><td class="memItemLeft" align="right" valign="top"><a id="a09798a500ce4703bb4d32c90be589d4a" name="a09798a500ce4703bb4d32c90be589d4a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>operator Private_bool *</b> () const</td></tr>
-<tr class="memdesc:a09798a500ce4703bb4d32c90be589d4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support for <code>if (flags)</code> syntax (test for non-empty flags). <br /></td></tr>
-<tr class="separator:a09798a500ce4703bb4d32c90be589d4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc05cdb1065d45ca4411c6fe7ba9bb51" id="r_adc05cdb1065d45ca4411c6fe7ba9bb51"><td class="memItemLeft" align="right" valign="top"><a id="adc05cdb1065d45ca4411c6fe7ba9bb51" name="adc05cdb1065d45ca4411c6fe7ba9bb51"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>operator bool</b> () const</td></tr>
+<tr class="memdesc:adc05cdb1065d45ca4411c6fe7ba9bb51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support for <code>if (flags)</code> syntax (test for non-empty flags). <br /></td></tr>
+<tr class="separator:adc05cdb1065d45ca4411c6fe7ba9bb51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae492210926fa1c1134a3f14504d8b431" id="r_ae492210926fa1c1134a3f14504d8b431"><td class="memItemLeft" align="right" valign="top"><a id="ae492210926fa1c1134a3f14504d8b431" name="ae492210926fa1c1134a3f14504d8b431"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!</b> () const</td></tr>
 <tr class="memdesc:ae492210926fa1c1134a3f14504d8b431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support for <code>if (!flags)</code> syntax (test for empty flags). <br /></td></tr>
@@ -252,7 +255,7 @@ template&lt;typename BITS_ENUM , typename UNDERLYING  = unsigned long&gt; </div>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="types_source.html#l00080">80</a> of file <a class="el" href="types_source.html">types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="types_source.html#l00079">79</a> of file <a class="el" href="types_source.html">types</a>.</p>
 
 </div>
 </div>
@@ -285,9 +288,9 @@ template&lt;typename BITS_ENUM , typename UNDERLYING  = unsigned long&gt; </div>
 
 <p>Make an empty bitmap. </p>
 <p>Usually used for implicit conversion from <code><a class="el" href="classL4_1_1Types_1_1Flags.html#abd00c0136a042ab6df05aab5638f571ba8a4d495f63382a7683e040006f44a38b" title="Use this to get an empty bitmap.">Flags::None</a></code>. </p><div class="fragment"><div class="line"><a class="code hl_class" href="classL4_1_1Types_1_1Flags.html">Flags</a> x = <a class="code hl_enumvalue" href="classL4_1_1Types_1_1Flags.html#abd00c0136a042ab6df05aab5638f571ba8a4d495f63382a7683e040006f44a38b">Flags::None</a>;</div>
-<div class="ttc" id="aclassL4_1_1Types_1_1Flags_html_abd00c0136a042ab6df05aab5638f571ba8a4d495f63382a7683e040006f44a38b"><div class="ttname"><a href="classL4_1_1Types_1_1Flags.html#abd00c0136a042ab6df05aab5638f571ba8a4d495f63382a7683e040006f44a38b">L4::Types::Flags::None</a></div><div class="ttdeci">@ None</div><div class="ttdoc">Use this to get an empty bitmap.</div><div class="ttdef"><b>Definition</b> <a href="types_source.html#l00080">types:80</a></div></div>
+<div class="ttc" id="aclassL4_1_1Types_1_1Flags_html_abd00c0136a042ab6df05aab5638f571ba8a4d495f63382a7683e040006f44a38b"><div class="ttname"><a href="classL4_1_1Types_1_1Flags.html#abd00c0136a042ab6df05aab5638f571ba8a4d495f63382a7683e040006f44a38b">L4::Types::Flags::None</a></div><div class="ttdeci">@ None</div><div class="ttdoc">Use this to get an empty bitmap.</div><div class="ttdef"><b>Definition</b> <a href="types_source.html#l00079">types:79</a></div></div>
 </div><!-- fragment --> 
-<p class="definition">Definition at line <a class="el" href="types_source.html#l00090">90</a> of file <a class="el" href="types_source.html">types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="types_source.html#l00089">89</a> of file <a class="el" href="types_source.html">types</a>.</p>
 
 </div>
 </div>
@@ -320,7 +323,7 @@ template&lt;typename BITS_ENUM , typename UNDERLYING  = unsigned long&gt; </div>
 <p>Make flags from bit name. </p>
 <p>Usually used for implicit conversion for a bit name. </p><div class="fragment"><div class="line">Test_flags f = Do_strong_tests;</div>
 </div><!-- fragment --> 
-<p class="definition">Definition at line <a class="el" href="types_source.html#l00103">103</a> of file <a class="el" href="types_source.html">types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="types_source.html#l00102">102</a> of file <a class="el" href="types_source.html">types</a>.</p>
 
 </div>
 </div>
@@ -360,9 +363,9 @@ template&lt;typename BITS_ENUM , typename UNDERLYING  = unsigned long&gt; </div>
 </dl>
 <p><code>flags.clear(The_flag)</code> is a shortcut for <code>flags &amp;= ~Flags(The_flag)</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="types_source.html#l00154">154</a> of file <a class="el" href="types_source.html">types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="types_source.html#l00153">153</a> of file <a class="el" href="types_source.html">types</a>.</p>
 
-<p class="reference">References <a class="el" href="types_source.html#l00141">L4::Types::Flags&lt; BITS_ENUM, UNDERLYING &gt;::operator&amp;=()</a>.</p>
+<p class="reference">References <a class="el" href="types_source.html#l00140">L4::Types::Flags&lt; BITS_ENUM, UNDERLYING &gt;::operator&amp;=()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -402,7 +405,7 @@ template&lt;typename BITS_ENUM , typename UNDERLYING  = unsigned long&gt; </div>
 <p>Make flags from a raw value of <em>value_type</em>. </p>
 <p>This function may be used for example in C wrapper code. </p>
 
-<p class="definition">Definition at line <a class="el" href="types_source.html#l00110">110</a> of file <a class="el" href="types_source.html">types</a>.</p>
+<p class="definition">Definition at line <a class="el" href="types_source.html#l00109">109</a> of file <a class="el" href="types_source.html">types</a>.</p>
 
 </div>
 </div>
@@ -416,7 +419,7 @@ template&lt;typename BITS_ENUM , typename UNDERLYING  = unsigned long&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="namespaceL4_1_1Types.html">Types</a></li><li class="navelem"><a class="el" href="classL4_1_1Types_1_1Flags.html">Flags</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

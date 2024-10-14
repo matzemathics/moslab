@@ -2,7 +2,8 @@
 # vi:se ft=make:
 
 SUBSYSTEMS = JABI ABI DRIVERS KERNEL LIBK CXXLIB JDB \
-	     TCBOFFSET SYMBOLS VERSION GBLCFG MINILIBC
+	     TCBOFFSET SYMBOLS VERSION GBLCFG MINILIBC STDWORKLOAD
+
 # remove the ia32 tag until we marked all ia32 non-ux section with some extra tag
 PREPROCESS_PARTS	:= $(filter-out ia32,$(PREPROCESS_PARTS))
 PREPROCESS_PARTS	+= arch $(CONFIG_ABI) 32bit $(CONFIG_XARCH)    \
@@ -10,14 +11,8 @@ PREPROCESS_PARTS	+= arch $(CONFIG_ABI) 32bit $(CONFIG_XARCH)    \
                            obj_space_phys abs_syscalls auto_map_kip \
                            kernel_can_exit
 
-PREPROCESS_PARTS-$(CONFIG_MP)                += mp need_xcpu_tlb_flush
+PREPROCESS_PARTS-$(CONFIG_MP)                += need_xcpu_tlb_flush
 PREPROCESS_PARTS-$(CONFIG_JDB)               += debug log
-PREPROCESS_PARTS-$(CONFIG_PERF_CNT)          += perf_cnt
-PREPROCESS_PARTS-$(CONFIG_CONTEXT_4K)        += context_4k
-PREPROCESS_PARTS-$(CONFIG_SCHED_FIXED_PRIO)  += sched_fixed_prio
-PREPROCESS_PARTS-$(CONFIG_SCHED_WFQ)         += sched_wfq
-PREPROCESS_PARTS-$(CONFIG_SCHED_FP_WFQ)      += sched_fp_wfq
-PREPROCESS_PARTS-$(CONFIG_JDB_LOGGING)       += jdb_logging
 
 PREPROCESS_PARTS        += $(PREPROCESS_PARTS-y)
 
@@ -42,7 +37,7 @@ l4_types_IMPL		:= l4_types l4_types-debug
 #
 JABI			:= libjabi.a
 VPATH			+= jabi/$(CONFIG_XARCH) jabi
-INTERFACES_JABI		:= jdb_ktrace
+INTERFACES_JABI		:= jdb_ktrace jdb_obj_info
 
 #
 # DRIVERS subsystem
@@ -52,6 +47,7 @@ VPATH			+= drivers/ux drivers/ia32 drivers
 PRIVATE_INCDIR		+= drivers/ux drivers/ia32 drivers
 INTERFACES_DRIVERS	:= mux_console console filter_console processor \
 			   delayloop mem
+INTERFACES_DRIVERS	+= $(if $(CONFIG_UART_CHECKSUM),stream_crc32)
 
 processor_IMPL		:= processor processor-ux
 mem_IMPL		:= mem mem-ia32
@@ -78,6 +74,7 @@ KERNEL_EXTRA            += $(KERNEL_EXTRA-y)
 
 INTERFACES_KERNEL	:= string_buffer mem_region simpleio kernel_console panic warn \
 			   bitmap buddy_alloc koptions context_base \
+			   global_data \
 			   mem_layout per_cpu_data pm tlbs globals loader vhw   \
 			   kip_init ipi queue_item queue cpu_mask rcupdate \
 			   boot_info config jdb_util	          \
@@ -89,7 +86,7 @@ INTERFACES_KERNEL	:= string_buffer mem_region simpleio kernel_console panic warn
 			   ram_quota kmem_alloc ptab_base per_cpu_data_alloc \
 			   ref_obj                                \
 			   slab_cache kmem_slab dbg_page_info   \
-			   vmem_alloc paging fpu_state_ptr fpu	  \
+			   vmem_alloc paging paging_bits fpu_state_ptr fpu	  \
 			   ready_queue_wfq ready_queue_fp \
 			   sched_context switch_lock timer timeout	  \
 			   obj_space kobject_dbg kobject kobject_iface    \
@@ -107,7 +104,7 @@ INTERFACES_KERNEL	:= string_buffer mem_region simpleio kernel_console panic warn
 			   sender receiver ipc_sender thread thread_object \
 			   kobject_helper timer_tick platform_control     \
 			   syscalls ipc_gate irq_controller \
-			   kernel_thread dirq irq_chip irq_mgr \
+			   kernel_thread dirq allocator irq_chip irq_mgr \
 			   irq_chip_ia32 irq_chip_ux \
 			   banner fpu_alloc irq icu_helper main 	  \
 			   startup libc_support reset semaphore          \
@@ -125,7 +122,7 @@ INTERFACES_KERNEL	:= string_buffer mem_region simpleio kernel_console panic warn
 			   jdb_timeout gdt factory	                  \
 			   idt tss jdb_prompt_ext		  \
 			   jdb_handler_queue jdb_exit_module		  \
-			   jdb_halt_thread  jdb_tetris                    \
+			   jdb_halt_thread                                \
 			   jdb_kern_info_kip                              \
 			   jdb_kern_info_kmem_alloc jdb_kern_info_config  \
 			   jdb_space jdb_trap_state                       \
@@ -137,11 +134,11 @@ INTERFACES_KERNEL	:= string_buffer mem_region simpleio kernel_console panic warn
                            platform_control_object    \
 			   jdb_sender_list            \
 			   jdb_disasm jdb_regex jdb_report                \
-                           jdb_object
+                           jdb_object amp_node
 
 boot_info_IMPL		:= boot_info boot_info-ia32 boot_info-ux
 clock_IMPL              := clock clock-ia32
-config_IMPL		:= config config-ia32-32 config-ux
+config_IMPL		:= config config-ia32-32 config-ia32 config-ux
 context_IMPL		:= context context-ia32 context-ia32-32 context-ux \
 			   context-vcpu
 continuation_IMPL	:= continuation-ia32-32-ux
@@ -166,9 +163,9 @@ jdb_ptab_IMPL		:= jdb_ptab jdb_ptab-ia32-ux
 jdb_screen_IMPL		:= jdb_screen jdb_screen-ia32
 jdb_trace_set_IMPL	:= jdb_trace_set jdb_trace_set-ia32-ux
 kdb_ke_IMPL		+= kdb_ke-ia32
-kernel_thread_IMPL	:= kernel_thread kernel_thread-std kernel_thread-ux
+kernel_thread_IMPL	:= kernel_thread kernel_thread-ux
 kip_init_IMPL		:= kip_init-ia32 kip_init-ux
-kmem_IMPL		:= kmem-ia32 kmem-ux
+kmem_IMPL		:= kmem kmem-ia32 kmem-ux
 kmem_alloc_IMPL		:= kmem_alloc kmem_alloc-ia32
 main_IMPL		:= main-ia32-32 main-ux
 map_util_IMPL		:= map_util map_util-mem map_util-objs
@@ -214,6 +211,11 @@ NOOPT			+= tb_entry tb_entry_output
 NOOPT			+= $(patsubst %.o, %, $(OBJ_JDB))
 
 #
+# STDWORKLOAD susbsystem
+#
+INTERFACES_STDWORKLOAD	:= std_workload
+
+#
 # TCBOFFSET subsystem
 #
 TCBOFFSET		:= tcboffset.h
@@ -240,7 +242,7 @@ OBJ_KERNEL		+= gblcfg.o
 #
 CXXLIB			:= libcxx.a
 VPATH			+= lib/cxxlib
-INTERFACES_CXXLIB	:= paranoia
+CXXSRC_CXXLIB		:= paranoia.cc
 
 #
 # LIBK subsystem
@@ -362,7 +364,7 @@ CSRC_MINILIBC	:= printf.c __v_printf.c \
 		   putchar.c puts.c sprintf.c \
 		   snprintf.c vsnprintf.c vsprintf.c fprintf.c \
 		   memccpy.c  memchr.c   memcpy.c   memmove.c  memset.c \
-		   strcpy.c   strlen.c   strstr.c   \
+		   memmove_chk.c strcpy.c   strlen.c   strstr.c   \
 		   strcmp.c   strcspn.c  strncmp.c  strspn.c
 
 # do not profile all of MINILIBC, because it is used in the BOOT subsystem

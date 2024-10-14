@@ -31,30 +31,3 @@ double __ieee754_scalb(double x, double fn)
 	if (-fn > 65000.0) return scalbn(x,-65000);
 	return scalbn(x,(int)fn);
 }
-
-#if defined __UCLIBC_SUSV3_LEGACY__
-/*
- * wrapper scalb(double x, double fn) is provided for
- * passing various standard test suites.
- * One should use scalbn() instead.
- */
-#ifndef _IEEE_LIBM
-double scalb(double x, double fn)
-{
-	double z = __ieee754_scalb(x, fn);
-	if (_LIB_VERSION == _IEEE_)
-		return z;
-	if (!(isfinite(z) || isnan(z)) && isfinite(x))
-		return __kernel_standard(x, (double)fn, 32); /* scalb overflow */
-	if (z == 0.0 && z != x)
-		return __kernel_standard(x, (double)fn, 33); /* scalb underflow */
-	if (!isfinite(fn))
-		errno = ERANGE;
-	return z;
-}
-#else
-strong_alias(__ieee754_scalb, scalb)
-#endif
-libm_hidden_def(scalb)
-
-#endif /* UCLIBC_SUSV3_LEGACY */

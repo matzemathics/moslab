@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: examples/libs/l4re/c++/shared_ds/ds_srv.cc</title>
+<title>L4Re Operating System Framework: examples/libs/l4re/c++/shared_ds/ds_srv.cc</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -107,17 +110,22 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="env.html">l4/re/env</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="error__helper.html">l4/re/error_helper</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="namespace.html">l4/re/namespace</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="util_2cap__alloc.html">l4/re/util/cap_alloc</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;l4/re/util/object_registry&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="dataspace.html">l4/re/dataspace</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="cxx_2ipc__server.html">l4/cxx/ipc_server</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;l4/util/util.h&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeinfo__svr.html">l4/sys/typeinfo_svr</a>&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &lt;cstring&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;cstdio&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;pthread.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;pthread-l4.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;thread&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &quot;interface.h&quot;</span></div>
 <div class="line"> </div>
@@ -191,8 +199,6 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <a id="_a8" name="_a8"></a><a class="code hl_class" href="classL4Re_1_1Util_1_1Registry__server.html">L4Re::Util::Registry_server&lt;&gt;</a> server;</div>
-<div class="line"> </div>
 <div class="line"><span class="keyword">enum</span></div>
 <div class="line">{</div>
 <div class="line">  DS_SIZE = 4 &lt;&lt; 12,</div>
@@ -200,14 +206,14 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <div class="line"> </div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">char</span> *get_ds(<a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4Re::Dataspace&gt;</a> *_ds)</div>
 <div class="line">{</div>
-<div class="line">  *_ds = <a id="a9" name="a9"></a><a class="code hl_variable" href="group__l4re__cap__api.html#ga29e3dbeb3c8ed0609519c9df212c9c52">L4Re::Util::cap_alloc</a>.alloc&lt;<a id="_a10" name="_a10"></a><a class="code hl_class" href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a>&gt;();</div>
+<div class="line">  *_ds = <a id="a8" name="a8"></a><a class="code hl_variable" href="group__l4re__cap__api.html#ga29e3dbeb3c8ed0609519c9df212c9c52">L4Re::Util::cap_alloc</a>.alloc&lt;<a id="_a9" name="_a9"></a><a class="code hl_class" href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a>&gt;();</div>
 <div class="line">  <span class="keywordflow">if</span> (!(*_ds).is_valid())</div>
 <div class="line">    {</div>
 <div class="line">      printf(<span class="stringliteral">&quot;Dataspace allocation failed.\n&quot;</span>);</div>
 <div class="line">      <span class="keywordflow">return</span> 0;</div>
 <div class="line">    }</div>
 <div class="line"> </div>
-<div class="line">  <span class="keywordtype">int</span> err =  <a id="a11" name="a11"></a><a class="code hl_function" href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a>()-&gt;<a id="a12" name="a12"></a><a class="code hl_function" href="classL4Re_1_1Env.html#a38d5a560d086842c180009d69815d7d5">mem_alloc</a>()-&gt;alloc(DS_SIZE, *_ds, 0);</div>
+<div class="line">  <span class="keywordtype">int</span> err =  <a id="a10" name="a10"></a><a class="code hl_function" href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a>()-&gt;<a id="a11" name="a11"></a><a class="code hl_function" href="classL4Re_1_1Env.html#a38d5a560d086842c180009d69815d7d5">mem_alloc</a>()-&gt;alloc(DS_SIZE, *_ds, 0);</div>
 <div class="line">  <span class="keywordflow">if</span> (err &lt; 0)</div>
 <div class="line">    {</div>
 <div class="line">      printf(<span class="stringliteral">&quot;mem_alloc-&gt;alloc() failed.\n&quot;</span>);</div>
@@ -219,9 +225,9 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <div class="line"><span class="comment">   * Attach DS to local address space</span></div>
 <div class="line"><span class="comment">   */</span></div>
 <div class="line">  <span class="keywordtype">char</span> *_addr = 0;</div>
-<div class="line">  err =  <a class="code hl_function" href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a>()-&gt;<a id="a13" name="a13"></a><a class="code hl_function" href="classL4Re_1_1Env.html#aa5e8a6cc32d4c0741d929eb2ffbac7dc">rm</a>()-&gt;attach(&amp;_addr, (*_ds)-&gt;size(),</div>
-<div class="line">                                        <a id="a14" name="a14"></a><a class="code hl_enumvalue" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">L4Re::Rm::F::Search_addr</a> | <a id="a15" name="a15"></a><a class="code hl_enumvalue" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a">L4Re::Rm::F::RW</a>,</div>
-<div class="line">                                        <a id="a16" name="a16"></a><a class="code hl_function" href="namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c">L4::Ipc::make_cap_rw</a>(*_ds));</div>
+<div class="line">  err =  <a class="code hl_function" href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a>()-&gt;<a id="a12" name="a12"></a><a class="code hl_function" href="classL4Re_1_1Env.html#aa5e8a6cc32d4c0741d929eb2ffbac7dc">rm</a>()-&gt;attach(&amp;_addr, (*_ds)-&gt;size(),</div>
+<div class="line">                                        <a id="a13" name="a13"></a><a class="code hl_enumvalue" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">L4Re::Rm::F::Search_addr</a> | <a id="a14" name="a14"></a><a class="code hl_enumvalue" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a">L4Re::Rm::F::RW</a>,</div>
+<div class="line">                                        <a id="a15" name="a15"></a><a class="code hl_function" href="namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c">L4::Ipc::make_cap_rw</a>(*_ds));</div>
 <div class="line">  <span class="keywordflow">if</span> (err &lt; 0)</div>
 <div class="line">    {</div>
 <div class="line">      printf(<span class="stringliteral">&quot;Error attaching data space: %s\n&quot;</span>, l4sys_errtostr(err));</div>
@@ -239,20 +245,23 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <div class="line">  <span class="keywordflow">return</span> _addr;</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> *server_thread(<span class="keywordtype">void</span> *)</div>
 <div class="line">{</div>
+<div class="line">  <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4::Thread&gt;</a> l4_thread = Pthread::L4::cap(pthread_self());</div>
+<div class="line">  <a id="_a16" name="_a16"></a><a class="code hl_class" href="classL4Re_1_1Util_1_1Registry__server.html">L4Re::Util::Registry_server&lt;&gt;</a> server(l4_thread, <a class="code hl_function" href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a>()-&gt;factory());</div>
+<div class="line"> </div>
 <div class="line">  <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4Re::Dataspace&gt;</a> ds;</div>
 <div class="line">  <span class="keywordtype">char</span> *addr;</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordflow">if</span> (!(addr = get_ds(&amp;ds)))</div>
-<div class="line">    <span class="keywordflow">return</span> 2;</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// First the IRQ handler, because we need it in the My_server_obj object</span></div>
 <div class="line">  Shm_observer observer(addr);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Registering the observer as an IRQ handler, this allocates an</span></div>
 <div class="line">  <span class="comment">// IRQ object using the factory of our server.</span></div>
-<div class="line">  <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4::Irq&gt;</a> irq = server.<a id="a17" name="a17"></a><a class="code hl_function" href="classL4Re_1_1Util_1_1Registry__server.html#a12aa2bc89118f390bb8ad25c54319e0a">registry</a>()-&gt;<a id="a18" name="a18"></a><a class="code hl_function" href="classL4Re_1_1Util_1_1Object__registry.html#a17efa2d2a6364b35054f354daa27518e">register_irq_obj</a>(&amp;observer);</div>
+<div class="line">  <a class="code hl_class" href="classL4_1_1Cap.html">L4::Cap&lt;L4::Irq&gt;</a> irq = server.registry()-&gt;register_irq_obj(&amp;observer);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Now the initial server object shared with the client via our parent.</span></div>
 <div class="line">  <span class="comment">// it provides the data-space and the IRQ capabilities to a client.</span></div>
@@ -260,38 +269,55 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Registering the server object to the capability &#39;shm&#39; in our the L4Re::Env.</span></div>
 <div class="line">  <span class="comment">// This capability must be provided by the parent. (see the shared_ds.lua)</span></div>
-<div class="line">  server.<a class="code hl_function" href="classL4Re_1_1Util_1_1Registry__server.html#a12aa2bc89118f390bb8ad25c54319e0a">registry</a>()-&gt;<a id="a19" name="a19"></a><a class="code hl_function" href="classL4Re_1_1Util_1_1Object__registry.html#a3350558821dd0fc9e098cc762eb16cf0">register_obj</a>(&amp;server_obj, <span class="stringliteral">&quot;shm&quot;</span>);</div>
+<div class="line">  server.registry()-&gt;register_obj(&amp;server_obj, <span class="stringliteral">&quot;shm&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Run our server loop.</span></div>
-<div class="line">  server.<a id="a20" name="a20"></a><a class="code hl_function" href="classL4Re_1_1Util_1_1Registry__server.html#a3a4270bdb1a6002131c85361b720fa1a">loop</a>();</div>
+<div class="line">  server.loop();</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  pthread_attr_t pattr;</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">if</span> (pthread_attr_init(&amp;pattr))</div>
+<div class="line">    <a id="a17" name="a17"></a><a class="code hl_function" href="namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b">L4Re::throw_error</a>(-<a id="a18" name="a18"></a><a class="code hl_enumvalue" href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af7f5d38973fbf298613b03a088541e27">L4_ENOMEM</a>, <span class="stringliteral">&quot;Initialize pthread attributes&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">  pthread_t thr;</div>
+<div class="line">  <a id="a19" name="a19"></a><a class="code hl_function" href="namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb">L4Re::chksys</a>(pthread_create(&amp;thr, &amp;pattr, server_thread, <span class="keyword">nullptr</span>),</div>
+<div class="line">               <span class="stringliteral">&quot;Create server thread&quot;</span>);</div>
+<div class="line">  <a class="code hl_function" href="namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb">L4Re::chksys</a>(pthread_attr_destroy(&amp;pattr), <span class="stringliteral">&quot;Destroy pthread attributes&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">  <a id="a20" name="a20"></a><a class="code hl_function" href="group__l4util__api.html#ga4842edcbe6e461bc083bb33ca870a762">l4_sleep_forever</a>();</div>
+<div class="line"> </div>
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassL4Re_1_1Dataspace_html"><div class="ttname"><a href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a></div><div class="ttdoc">Interface for memory-like objects.</div><div class="ttdef"><b>Definition</b> <a href="dataspace_source.html#l00060">dataspace:63</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Dataspace_html"><div class="ttname"><a href="classL4Re_1_1Dataspace.html">L4Re::Dataspace</a></div><div class="ttdoc">Interface for memory-like objects.</div><div class="ttdef"><b>Definition</b> <a href="dataspace_source.html#l00061">dataspace:64</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a2706ca11e70845b0a29a5646c9fd54bc"><div class="ttname"><a href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a></div><div class="ttdeci">static Env const * env() noexcept</div><div class="ttdoc">Returns the initial environment for the current task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00103">env:103</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a38d5a560d086842c180009d69815d7d5"><div class="ttname"><a href="classL4Re_1_1Env.html#a38d5a560d086842c180009d69815d7d5">L4Re::Env::mem_alloc</a></div><div class="ttdeci">L4::Cap&lt; Mem_alloc &gt; mem_alloc() const noexcept</div><div class="ttdoc">Object-capability to the memory allocator.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00116">env:116</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_aa5e8a6cc32d4c0741d929eb2ffbac7dc"><div class="ttname"><a href="classL4Re_1_1Env.html#aa5e8a6cc32d4c0741d929eb2ffbac7dc">L4Re::Env::rm</a></div><div class="ttdeci">L4::Cap&lt; Rm &gt; rm() const noexcept</div><div class="ttdoc">Object-capability to the region map.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00127">env:127</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Util_1_1Object__registry_html_a17efa2d2a6364b35054f354daa27518e"><div class="ttname"><a href="classL4Re_1_1Util_1_1Object__registry.html#a17efa2d2a6364b35054f354daa27518e">L4Re::Util::Object_registry::register_irq_obj</a></div><div class="ttdeci">L4::Cap&lt; L4::Irq &gt; register_irq_obj(L4::Epiface *o) override</div><div class="ttdoc">Register a handler for an interrupt.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00238">object_registry:238</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Util_1_1Object__registry_html_a3350558821dd0fc9e098cc762eb16cf0"><div class="ttname"><a href="classL4Re_1_1Util_1_1Object__registry.html#a3350558821dd0fc9e098cc762eb16cf0">L4Re::Util::Object_registry::register_obj</a></div><div class="ttdeci">L4::Cap&lt; void &gt; register_obj(L4::Epiface *o, char const *service) override</div><div class="ttdoc">Register a new server object to a pre-allocated receive endpoint.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00205">object_registry:205</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html">L4Re::Util::Registry_server</a></div><div class="ttdoc">A server loop object which has a Object_registry included.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00306">object_registry:307</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html_a12aa2bc89118f390bb8ad25c54319e0a"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html#a12aa2bc89118f390bb8ad25c54319e0a">L4Re::Util::Registry_server::registry</a></div><div class="ttdeci">Object_registry const * registry() const</div><div class="ttdoc">Return registry of this server loop.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00347">object_registry:347</a></div></div>
-<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html_a3a4270bdb1a6002131c85361b720fa1a"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html#a3a4270bdb1a6002131c85361b720fa1a">L4Re::Util::Registry_server::loop</a></div><div class="ttdeci">void L4_NORETURN loop(l4_utcb_t *utcb=l4_utcb())</div><div class="ttdoc">Start the server loop.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00357">object_registry:357</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4Re_1_1Util_1_1Registry__server_html"><div class="ttname"><a href="classL4Re_1_1Util_1_1Registry__server.html">L4Re::Util::Registry_server</a></div><div class="ttdoc">A server loop object which has a Object_registry included.</div><div class="ttdef"><b>Definition</b> <a href="object__registry_source.html#l00307">object_registry:308</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="aclassL4_1_1Ipc_1_1Iostream_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Iostream.html">L4::Ipc::Iostream</a></div><div class="ttdoc">Input/Output stream for IPC [un]marshalling.</div><div class="ttdef"><b>Definition</b> <a href="ipc__stream_source.html#l00800">ipc_stream:801</a></div></div>
 <div class="ttc" id="aclassL4_1_1Server__object_html_a505f2d9c6fc2794613243764095b0cbe"><div class="ttname"><a href="classL4_1_1Server__object.html#a505f2d9c6fc2794613243764095b0cbe">L4::Server_object::dispatch</a></div><div class="ttdeci">virtual int dispatch(unsigned long rights, Ipc::Iostream &amp;ios)=0</div><div class="ttdoc">The abstract handler for client requests to the object.</div></div>
 <div class="ttc" id="acxx_2ipc__server_html"><div class="ttname"><a href="cxx_2ipc__server.html">ipc_server</a></div><div class="ttdoc">IPC server loop.</div></div>
 <div class="ttc" id="adataspace_html"><div class="ttname"><a href="dataspace.html">dataspace</a></div><div class="ttdoc">Dataspace interface.</div></div>
 <div class="ttc" id="aenv_html"><div class="ttname"><a href="env.html">env</a></div><div class="ttdoc">Environment interface.</div></div>
+<div class="ttc" id="aerror__helper_html"><div class="ttname"><a href="error__helper.html">error_helper</a></div><div class="ttdoc">Error helper.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
-<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9afaebb9a6af2e5bb94216533d8e4988bf"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9afaebb9a6af2e5bb94216533d8e4988bf">L4_EBADPROTO</a></div><div class="ttdeci">@ L4_EBADPROTO</div><div class="ttdoc">Unsupported protocol.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00061">err.h:61</a></div></div>
+<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9af7f5d38973fbf298613b03a088541e27"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9af7f5d38973fbf298613b03a088541e27">L4_ENOMEM</a></div><div class="ttdeci">@ L4_ENOMEM</div><div class="ttdoc">No memory.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00050">err.h:50</a></div></div>
+<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9afaebb9a6af2e5bb94216533d8e4988bf"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9afaebb9a6af2e5bb94216533d8e4988bf">L4_EBADPROTO</a></div><div class="ttdeci">@ L4_EBADPROTO</div><div class="ttdoc">Unsupported protocol.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00062">err.h:62</a></div></div>
 <div class="ttc" id="agroup__l4re__cap__api_html_ga29e3dbeb3c8ed0609519c9df212c9c52"><div class="ttname"><a href="group__l4re__cap__api.html#ga29e3dbeb3c8ed0609519c9df212c9c52">L4Re::Util::cap_alloc</a></div><div class="ttdeci">_Cap_alloc &amp; cap_alloc</div><div class="ttdoc">Capability allocator.</div></div>
-<div class="ttc" id="anamespaceL4_1_1Ipc_html_aa6b9422f850eb175240c9d18c5cc708c"><div class="ttname"><a href="namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c">L4::Ipc::make_cap_rw</a></div><div class="ttdeci">Cap&lt; T &gt; make_cap_rw(L4::Cap&lt; T &gt; cap) noexcept</div><div class="ttdoc">Make an L4::Ipc::Cap&lt;T&gt; for the given capability with L4_CAP_FPAGE_RW rights.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00638">ipc_types:638</a></div></div>
+<div class="ttc" id="agroup__l4util__api_html_ga4842edcbe6e461bc083bb33ca870a762"><div class="ttname"><a href="group__l4util__api.html#ga4842edcbe6e461bc083bb33ca870a762">l4_sleep_forever</a></div><div class="ttdeci">void l4_sleep_forever(void) L4_NOTHROW L4_NORETURN</div><div class="ttdoc">Go sleep and never wake up.</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00087">util.h:87</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html_a3f17984019f06676a7e3eecb41bbb0bb"><div class="ttname"><a href="namespaceL4Re.html#a3f17984019f06676a7e3eecb41bbb0bb">L4Re::chksys</a></div><div class="ttdeci">long chksys(long err, char const *extra=&quot;&quot;, long ret=0)</div><div class="ttdoc">Generate C++ exception on error.</div><div class="ttdef"><b>Definition</b> <a href="error__helper_source.html#l00068">error_helper:68</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html_ae27ac6f274f4ad1267d0d1c0c033c00b"><div class="ttname"><a href="namespaceL4Re.html#ae27ac6f274f4ad1267d0d1c0c033c00b">L4Re::throw_error</a></div><div class="ttdeci">void throw_error(long err, char const *extra=&quot;&quot;)</div><div class="ttdoc">Generate C++ exception.</div><div class="ttdef"><b>Definition</b> <a href="error__helper_source.html#l00045">error_helper:45</a></div></div>
+<div class="ttc" id="anamespaceL4_1_1Ipc_html_aa6b9422f850eb175240c9d18c5cc708c"><div class="ttname"><a href="namespaceL4_1_1Ipc.html#aa6b9422f850eb175240c9d18c5cc708c">L4::Ipc::make_cap_rw</a></div><div class="ttdeci">Cap&lt; T &gt; make_cap_rw(L4::Cap&lt; T &gt; cap) noexcept</div><div class="ttdoc">Make an L4::Ipc::Cap&lt;T&gt; for the given capability with L4_CAP_FPAGE_RW rights.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00659">ipc_types:659</a></div></div>
 <div class="ttc" id="anamespace_html"><div class="ttname"><a href="namespace.html">namespace</a></div><div class="ttdoc">Namespace interface.</div></div>
-<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a">L4Re::Rm::F::RW</a></div><div class="ttdeci">@ RW</div><div class="ttdoc">Readable and writable region.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00140">rm:140</a></div></div>
-<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">L4Re::Rm::F::Search_addr</a></div><div class="ttdeci">@ Search_addr</div><div class="ttdoc">Search for a suitable address range.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00118">rm:118</a></div></div>
+<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989a579e389b46e438a64f3f44d9cf19f26a">L4Re::Rm::F::RW</a></div><div class="ttdeci">@ RW</div><div class="ttdoc">Readable and writable region.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00150">rm:150</a></div></div>
+<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">L4Re::Rm::F::Search_addr</a></div><div class="ttdeci">@ Search_addr</div><div class="ttdoc">Search for a suitable address range.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00125">rm:125</a></div></div>
 <div class="ttc" id="astructL4_1_1Irq__handler__object_html"><div class="ttname"><a href="structL4_1_1Irq__handler__object.html">L4::Irq_handler_object</a></div><div class="ttdoc">Server object base class for handling IRQ messages.</div><div class="ttdef"><b>Definition</b> <a href="cxx_2ipc__server_source.html#l00172">ipc_server:172</a></div></div>
 <div class="ttc" id="astructL4_1_1Server__object__t_html"><div class="ttname"><a href="structL4_1_1Server__object__t.html">L4::Server_object_t</a></div><div class="ttdoc">Base class (template) for server implementing server objects.</div><div class="ttdef"><b>Definition</b> <a href="cxx_2ipc__server_source.html#l00091">ipc_server:92</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_a002076380a3f6e4f29a1f6b50ce2bde2"><div class="ttname"><a href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">l4_msgtag_t::label</a></div><div class="ttdeci">long label() const L4_NOTHROW</div><div class="ttdoc">Get the protocol value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00167">types.h:167</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_a002076380a3f6e4f29a1f6b50ce2bde2"><div class="ttname"><a href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">l4_msgtag_t::label</a></div><div class="ttdeci">long label() const L4_NOTHROW</div><div class="ttdoc">Get the protocol value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00168">types.h:168</a></div></div>
 <div class="ttc" id="atypeinfo__svr_html"><div class="ttname"><a href="typeinfo__svr.html">typeinfo_svr</a></div><div class="ttdoc">Type information server template.</div></div>
 <div class="ttc" id="autil_2cap__alloc_html"><div class="ttname"><a href="util_2cap__alloc.html">cap_alloc</a></div><div class="ttdoc">Capability allocator.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
@@ -300,7 +326,7 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2c_09_09_2shared_
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

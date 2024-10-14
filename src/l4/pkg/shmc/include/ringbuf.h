@@ -53,7 +53,7 @@ __BEGIN_DECLS
 /**
  * Head field of a ring buffer.
  *
- * \ingroup l4shmc_ringbuf_internal
+ * \ingroup api_l4shm_ringbuf_internal
  */
 typedef struct
 {
@@ -79,7 +79,7 @@ typedef struct
 /**
  * Ring buffer
  *
- * \ingroup l4shmc_ringbuf_internal
+ * \ingroup api_l4shm_ringbuf_internal
  */
 typedef struct
 {
@@ -99,7 +99,7 @@ typedef struct
  * Get ring buffer head pointer.
  * \param ringbuf  l4shmc_ringbuf_t struct
  *
- * \ingroup l4shmc_ringbuf_internal
+ * \ingroup api_l4shm_ringbuf_internal
  */
 #define L4SHMC_RINGBUF_HEAD(ringbuf)       ((l4shmc_ringbuf_head_t*)((ringbuf)->_addr))
 
@@ -108,7 +108,7 @@ typedef struct
  * Get ring buffer data pointer.
  * \param ringbuf l4shmc_ringbuf_t struct
  *
- * \ingroup l4shmc_ringbuf_internal
+ * \ingroup api_l4shm_ringbuf_internal
  */
 #define L4SHMC_RINGBUF_DATA(ringbuf)       (L4SHMC_RINGBUF_HEAD(ringbuf)->data)
 
@@ -117,7 +117,7 @@ typedef struct
  * Get size of data area.
  * \param ringbuf l4shmc_ringbuf_t struct
  *
- * \ingroup l4shmc_ringbuf_internal
+ * \ingroup api_l4shm_ringbuf_internal
  */
 #define L4SHMC_RINGBUF_DATA_SIZE(ringbuf)  ((ringbuf)->_size - sizeof(l4shmc_ringbuf_head_t))
 

@@ -445,13 +445,12 @@ Io_apic_remapped::init_apics()
       if (dev_scope->end() - dev_scope->begin() != 1)
         WARN("IOMMU: Error, IO-APIC behind PCI bridges do not work\n");
 
-      Unsigned16 srcid = (Unsigned16)dev_scope->start_bus_nr << 8;
-      srcid |= ((Unsigned16)dev_scope->path[0].dev << 3) & 0xf8;
+      Unsigned16 srcid = Unsigned16{dev_scope->start_bus_nr} << 8;
+      srcid |= (Unsigned16{dev_scope->path[0].dev} << 3) & 0xf8;
       srcid |= dev_scope->path[0].func & 0x7;
 
-      Io_apic_remapped *apic;
-      apic = new Boot_object<Io_apic_remapped>(ioapic->adr, ioapic->irq_base, mmu, srcid);
-      (void)apic;
+      Io_apic_remapped *apic =
+        new Boot_object<Io_apic_remapped>(ioapic->adr, ioapic->irq_base, mmu, srcid);
 
       if (Print_infos)
         apic->dump();

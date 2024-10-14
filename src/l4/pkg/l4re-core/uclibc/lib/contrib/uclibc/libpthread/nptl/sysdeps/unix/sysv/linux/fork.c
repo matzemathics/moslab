@@ -24,11 +24,11 @@
 #include <sysdep.h>
 #include <tls.h>
 #include "fork.h"
-#include <hp-timing.h>
 #include <ldsodefs.h>
 #include <atomic.h>
 #include <errno.h>
 
+#ifdef __ARCH_USE_MMU__
 unsigned long int *__fork_generation_pointer;
 
 
@@ -135,12 +135,6 @@ fork (void)
   pid_t ppid = THREAD_GETMEM (THREAD_SELF, tid);
 #endif
 
-  /* We need to prevent the getpid() code to update the PID field so
-     that, if a signal arrives in the child very early and the signal
-     handler uses getpid(), the value returned is correct.  */
-  pid_t parentpid = THREAD_GETMEM (THREAD_SELF, pid);
-  THREAD_SETMEM (THREAD_SELF, pid, -parentpid);
-
 #ifdef ARCH_FORK
   pid = ARCH_FORK ();
 #else
@@ -151,23 +145,10 @@ fork (void)
 
   if (pid == 0)
     {
-      struct pthread *self = THREAD_SELF;
-
-      assert (THREAD_GETMEM (self, tid) != ppid);
+      assert (THREAD_GETMEM (THREAD_SELF, tid) != ppid);
 
       if (__fork_generation_pointer != NULL)
 	*__fork_generation_pointer += 4;
-
-      /* Adjust the PID field for the new process.  */
-      THREAD_SETMEM (self, pid, THREAD_GETMEM (self, tid));
-
-#if HP_TIMING_AVAIL
-      /* The CPU clock of the thread and process have to be set to zero.  */
-      hp_timing_t now;
-      HP_TIMING_NOW (now);
-      THREAD_SETMEM (self, cpuclock_offset, now);
-      GL(dl_cpuclock_offset) = now;
-#endif
 
       /* Reset the file list.  These are recursive mutexes.  */
       fresetlockfiles ();
@@ -206,9 +187,6 @@ fork (void)
     {
       assert (THREAD_GETMEM (THREAD_SELF, tid) == ppid);
 
-      /* Restore the PID value.  */
-      THREAD_SETMEM (THREAD_SELF, pid, parentpid);
-
       /* We execute this even if the 'fork' call failed.  */
       __UCLIBC_IO_MUTEX_UNLOCK_CANCEL_UNSAFE(_stdio_openlist_add_lock);
 
@@ -229,3 +207,5 @@ fork (void)
   return pid;
 }
 libc_hidden_def(fork)
+
+#endif /* __ARCH_USE_MMU__ */

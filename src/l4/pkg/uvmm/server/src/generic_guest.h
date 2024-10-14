@@ -11,7 +11,6 @@
 #include <l4/sys/vm>
 #include <l4/re/dataspace>
 #include <l4/re/util/br_manager>
-#include <l4/re/util/object_registry>
 #include <l4/re/util/unique_cap>
 #include <l4/re/video/goos>
 #include <mutex>
@@ -26,6 +25,7 @@
 #include "monitor/monitor.h"
 #include "io_device.h"
 #include "generic_cpu_dev.h"
+#include "vcpu_obj_registry.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -70,7 +70,7 @@ public:
   void prepare_generic_platform(Vdev::Device_lookup *devs)
   { _pm = devs->pm(); }
 
-  L4Re::Util::Object_registry *registry()
+  Vcpu_obj_registry *registry()
   { return Generic_cpu_dev::main_vcpu().get_ipc_registry(); }
 
   void register_mmio_device(cxx::Ref_ptr<Vmm::Mmio_device> const &dev,
@@ -95,7 +95,7 @@ public:
   Vm_mem *memmap()
   { return &_memmap; }
 
-  void L4_NORETURN halt_vm(Vcpu_ptr current_vcpu)
+  virtual void L4_NORETURN halt_vm(Vcpu_ptr current_vcpu)
   {
     Err().printf("VM entered a fatal state. Halting.\n");
 
@@ -108,11 +108,14 @@ public:
       current_vcpu.wait_for_ipc(l4_utcb(), L4_IPC_NEVER);
   }
 
-  void L4_NORETURN shutdown(int val)
+  virtual void L4_NORETURN shutdown(int val)
   {
     _pm->shutdown(val == Reboot);
+    sync_all_other_cores_off();
     exit(val);
   }
+
+  virtual void sync_all_other_cores_off() const {};
 
   int handle_mmio(l4_addr_t pfa, Vcpu_ptr vcpu)
   {

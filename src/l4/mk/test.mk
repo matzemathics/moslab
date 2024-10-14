@@ -29,8 +29,8 @@ $(foreach t, $(TARGETS_C), $(eval SRC_C_$(t) += $(t).c))
 TARGET += $(TARGETS_CC) $(TARGETS_C) $(TARGETS_$(ARCH))
 endif
 
-SYSTEMS ?= arm-l4f arm64-l4f mips-l4f x86-l4f amd64-l4f
-MODE ?= shared
+SYSTEMS ?= arm-l4f arm64-l4f mips-l4f x86-l4f amd64-l4f riscv-l4f
+MODE ?= $(if $(CONFIG_BID_BUILD_TESTS_SHARED),shared,static)
 TEST_MODE ?= default
 ROLE = test.mk
 
@@ -42,8 +42,12 @@ ifeq ($(MODE),host)
 INSTALLDIR_BIN_LOCAL    = $(OBJ_BASE)/test/bin/host/$(TEST_GROUP)
 INSTALLDIR_TEST_LOCAL   = $(OBJ_BASE)/test/t/host/$(TEST_GROUP)
 else
-INSTALLDIR_BIN_LOCAL    = $(OBJ_BASE)/test/bin/$(subst -,/,$(SYSTEM))/$(TEST_GROUP)
-INSTALLDIR_TEST_LOCAL   = $(OBJ_BASE)/test/t/$(subst -,/,$(SYSTEM))/$(TEST_GROUP)
+  ifeq ($(words $(VARIANTS)),1)
+    INSTALLDIR_BIN_LOCAL    = $(OBJ_BASE)/test/bin/$(BID_install_subdir_base)/$(TEST_GROUP)
+  else
+    INSTALLDIR_BIN_LOCAL    = $(OBJ_BASE)/test/bin/$(BID_install_subdir_var)/$(TEST_GROUP)
+  endif
+  INSTALLDIR_TEST_LOCAL   = $(OBJ_BASE)/test/t/$(BID_install_subdir_base)/$(TEST_GROUP)
 endif
 
 $(GENERAL_D_LOC): $(L4DIR)/mk/test.mk $(SRC_DIR)/Makefile
@@ -56,14 +60,6 @@ ifneq ($(SYSTEM),) # if we have a system, really build
 $(foreach t, $(TARGET) $(EXTRA_TEST), $(eval TEST_SCRIPTS += $(t).t))
 $(foreach t, $(TARGET) $(EXTRA_TEST), $(eval TEST_TARGET_$(t) ?= $(t)))
 
-ifeq ($(MODE),host)
-# in host mode the script can be run directly
-test_script = $(INSTALLDIR_BIN_LOCAL)/$(TEST_TARGET_$(1)) "$$@"
-else
-# all other modes require a VM or similar to be set up
-test_script = $(L4DIR)/tool/bin/run_test
-endif
-
 # L4RE_ABS_SOURCE_DIR_PATH is used in gtest-internal.h to shorten absolute path
 # names to L4Re relative paths.
 CPPFLAGS += -DL4RE_ABS_SOURCE_DIR_PATH='"$(L4DIR_ABS)"'
@@ -72,7 +68,8 @@ CPPFLAGS += -DL4RE_ABS_SOURCE_DIR_PATH='"$(L4DIR_ABS)"'
 testvars_fix    :=  ARCH NED_CFG REQUIRED_MODULES KERNEL_CONF L4LINUX_CONF \
                     TEST_TARGET TEST_SETUP TEST_EXPECTED TEST_TAGS OBJ_BASE \
                     TEST_ROOT_TASK TEST_DESCRIPTION TEST_KERNEL_ARGS SIGMA0 \
-                    TEST_PLATFORM_ALLOW TEST_PLATFORM_DENY TEST_MODE L4RE_CONF
+                    TEST_PLATFORM_ALLOW TEST_PLATFORM_DENY TEST_MODE L4RE_CONF \
+                    TEST_EXCLUDE_FILTERS
 testvars_conf   := TEST_TIMEOUT TEST_EXPECTED_REPEAT
 testvars_append := QEMU_ARGS MOE_ARGS TEST_ROOT_TASK_ARGS BOOTSTRAP_ARGS \
 
@@ -88,7 +85,7 @@ DEFAULT_TEST_STARTER = $(L4DIR)/tool/bin/default-test-starter
 $(TEST_SCRIPTS):%.t: $(GENERAL_D_LOC)
 	$(VERBOSE)echo -e "#!/usr/bin/env bash\n\nset -a" > $@
 	$(VERBOSE)echo 'L4DIR="$(L4DIR)"' >> $@
-	$(VERBOSE)echo 'SEARCHPATH="$(if $(PRIVATE_LIBDIR),$(PRIVATE_LIBDIR):)$(INSTALLDIR_BIN_LOCAL):$(OBJ_BASE)/bin/$(ARCH)_$(CPU):$(OBJ_BASE)/bin/$(ARCH)_$(CPU)/$(BUILD_ABI):$(OBJ_BASE)/lib/$(ARCH)_$(CPU):$(OBJ_BASE)/lib/$(ARCH)_$(CPU)/$(BUILD_ABI):$(SRC_DIR):$(L4DIR)/conf/test"' >> $@
+	$(VERBOSE)echo 'SEARCHPATH="$(if $(PRIVATE_LIBDIR),$(PRIVATE_LIBDIR):)$(INSTALLDIR_BIN_LOCAL):$(OBJ_BASE)/bin/$(ARCH)_$(CPU)/plain:$(OBJ_BASE)/bin/$(ARCH)_$(CPU)/$(BUILD_ABI):$(OBJ_BASE)/lib/$(ARCH)_$(CPU)/plain:$(OBJ_BASE)/lib/$(ARCH)_$(CPU)/$(BUILD_ABI):$(SRC_DIR):$(L4DIR)/conf/test"' >> $@
 	$(VERBOSE)$(foreach v,$(testvars_fix), echo '$(v)="$(subst ",\",$(call targetvar,$(v),$(notdir $*)))"' >> $@;)
 	$(VERBOSE)$(foreach v,$(testvars_conf), echo ': $${$(v):=$(call targetvar,$(v),$(notdir $*))}' >> $@;)
 	$(VERBOSE)$(foreach v,$(testvars_append), echo '$(v)="$${$(v):+$${$(v)} }$(subst ",\",$(call targetvar,$(v),$(notdir $*)))"' >> $@;)

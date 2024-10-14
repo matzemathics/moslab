@@ -1,3 +1,21 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structL4_1_1Factory_1_1Lstr.html" title="Special type to add a pascal string into the factory create stream." alt="" coords="5,5,128,31"/>
+<area shape="rect" id="Node000000" href="$classL4_1_1Exception__tracer.html" title="Back&#45;trace support for exceptions." alt="" coords="5,112,160,137"/>
+<area shape="rect" id="Node000001" href="$classL4_1_1Base__exception.html" title="Base class for all exceptions, thrown by the L4Re framework." alt="" coords="208,112,356,137"/>
+<area shape="poly" id="edge68_Node000000_Node000001" title=" " alt="" coords="174,122,207,122,207,127,174,127"/>
+<area shape="rect" id="Node000002" href="$classL4_1_1Invalid__capability.html" title="Indicates that an invalid object was invoked." alt="" coords="404,63,564,88"/>
+<area shape="poly" id="edge69_Node000001_Node000002" title=" " alt="" coords="347,106,431,85,432,91,349,111"/>
+<area shape="rect" id="Node000003" href="$classL4_1_1Runtime__error.html" title="Exception for an abstract runtime error." alt="" coords="415,112,553,137"/>
+<area shape="poly" id="edge70_Node000001_Node000003" title=" " alt="" coords="370,122,414,122,414,127,370,127"/>
+<area shape="rect" id="Node000009" href="$classL4_1_1Unknown__error.html" title="Exception for an unknown condition." alt="" coords="412,161,556,187"/>
+<area shape="poly" id="edge76_Node000001_Node000009" title=" " alt="" coords="349,138,432,159,431,164,347,143"/>
+<area shape="rect" id="Node000004" href="$classL4_1_1Bounds__error.html" title="Access out of bounds." alt="" coords="632,5,763,31"/>
+<area shape="poly" id="edge71_Node000003_Node000004" title=" " alt="" coords="550,104,562,97,577,83,586,69,595,54,611,40,634,28,636,33,613,44,599,58,590,72,581,87,566,101,553,109"/>
+<area shape="rect" id="Node000005" href="$classL4_1_1Com__error.html" title="Error conditions during IPC." alt="" coords="641,55,754,80"/>
+<area shape="poly" id="edge72_Node000003_Node000005" title=" " alt="" coords="545,106,649,77,650,83,546,111"/>
+<area shape="rect" id="Node000006" href="$classL4_1_1Element__already__exists.html" title="Exception for duplicate element insertions." alt="" coords="620,105,775,145"/>
+<area shape="poly" id="edge73_Node000003_Node000006" title=" " alt="" coords="567,122,620,122,620,127,567,127"/>
+<area shape="rect" id="Node000007" href="$classL4_1_1Element__not__found.html" title="Exception for a failed lookup (element not found)." alt="" coords="612,169,783,195"/>
+<area shape="poly" id="edge74_Node000003_Node000007" title=" " alt="" coords="546,138,650,167,649,172,545,144"/>
+<area shape="rect" id="Node000008" href="$classL4_1_1Out__of__memory.html" title="Exception signalling insufficient memory." alt="" coords="622,219,773,244"/>
+<area shape="poly" id="edge75_Node000003_Node000008" title=" " alt="" coords="555,141,566,147,581,161,590,176,599,190,614,204,639,216,636,221,610,208,595,194,586,179,577,164,562,151,553,145"/>
 </map>

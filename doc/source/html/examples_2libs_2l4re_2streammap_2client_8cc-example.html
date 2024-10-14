@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: examples/libs/l4re/streammap/client.cc</title>
+<title>L4Re Operating System Framework: examples/libs/l4re/streammap/client.cc</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -168,15 +171,15 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2streammap_2clien
 <div class="line">}</div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_a2706ca11e70845b0a29a5646c9fd54bc"><div class="ttname"><a href="classL4Re_1_1Env.html#a2706ca11e70845b0a29a5646c9fd54bc">L4Re::Env::env</a></div><div class="ttdeci">static Env const * env() noexcept</div><div class="ttdoc">Returns the initial environment for the current task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00103">env:103</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_ac0b1c467eec9440707b06b9ca6691a53"><div class="ttname"><a href="classL4Re_1_1Env.html#ac0b1c467eec9440707b06b9ca6691a53">L4Re::Env::get_cap</a></div><div class="ttdeci">L4::Cap&lt; T &gt; get_cap(char const *name, unsigned l) const noexcept</div><div class="ttdoc">Get the capability selector for the object named name.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00204">env:204</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00052">capability.h:52</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_ab4937bb12579c752564f7250760d0bda"><div class="ttname"><a href="classL4_1_1Cap__base.html#ab4937bb12579c752564f7250760d0bda">L4::Cap_base::is_valid</a></div><div class="ttdeci">bool is_valid() const noexcept</div><div class="ttdoc">Test whether the capability is a valid capability index (i.e., not L4_INVALID_CAP).</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00060">capability.h:60</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00049">capability.h:49</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_ab4937bb12579c752564f7250760d0bda"><div class="ttname"><a href="classL4_1_1Cap__base.html#ab4937bb12579c752564f7250760d0bda">L4::Cap_base::is_valid</a></div><div class="ttdeci">bool is_valid() const noexcept</div><div class="ttdoc">Test whether the capability is a valid capability index (i.e., not L4_INVALID_CAP).</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00057">capability.h:57</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="aclassL4_1_1Ipc_1_1Iostream_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Iostream.html">L4::Ipc::Iostream</a></div><div class="ttdoc">Input/Output stream for IPC [un]marshalling.</div><div class="ttdef"><b>Definition</b> <a href="ipc__stream_source.html#l00800">ipc_stream:801</a></div></div>
-<div class="ttc" id="aclassL4_1_1Ipc_1_1Iostream_html_a18ac55dddefc29f84d47935dbc86b7ca"><div class="ttname"><a href="classL4_1_1Ipc_1_1Iostream.html#a18ac55dddefc29f84d47935dbc86b7ca">L4::Ipc::Iostream::call</a></div><div class="ttdeci">l4_msgtag_t call(l4_cap_idx_t dst, l4_timeout_t timeout, long proto=0)</div><div class="ttdoc">Do an IPC call using the message in the output stream and receive the reply in the input stream.</div><div class="ttdef"><b>Definition</b> <a href="ipc__stream_source.html#l00971">ipc_stream:971</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Iostream_html_a18ac55dddefc29f84d47935dbc86b7ca"><div class="ttname"><a href="classL4_1_1Ipc_1_1Iostream.html#a18ac55dddefc29f84d47935dbc86b7ca">L4::Ipc::Iostream::call</a></div><div class="ttdeci">l4_msgtag_t call(l4_cap_idx_t dst, l4_timeout_t timeout, long proto=0)</div><div class="ttdoc">Do an IPC call using the message in the output stream and receive the reply in the input stream.</div><div class="ttdef"><b>Definition</b> <a href="ipc__stream_source.html#l00977">ipc_stream:977</a></div></div>
 <div class="ttc" id="aenv_html"><div class="ttname"><a href="env.html">env</a></div><div class="ttdoc">Environment interface.</div></div>
 <div class="ttc" id="aerr_8h_html"><div class="ttname"><a href="err_8h.html">err.h</a></div><div class="ttdoc">Error codes.</div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga4087b991c40c0d2fcde9ca331049a4d4"><div class="ttname"><a href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a></div><div class="ttdeci">unsigned long l4_addr_t</div><div class="ttdoc">Address type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00045">l4int.h:45</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__err__api_html_ga05c11e3e10b6c2aa941396ac2018899f"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f">l4_error</a></div><div class="ttdeci">long l4_error(l4_msgtag_t tag) L4_NOTHROW</div><div class="ttdoc">Get IPC error code if any or message tag label otherwise for an IPC call.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00636">ipc.h:636</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__err__api_html_ga05c11e3e10b6c2aa941396ac2018899f"><div class="ttname"><a href="group__l4__ipc__err__api.html#ga05c11e3e10b6c2aa941396ac2018899f">l4_error</a></div><div class="ttdeci">long l4_error(l4_msgtag_t tag) L4_NOTHROW</div><div class="ttdoc">Get IPC error code if any or message tag label otherwise for an IPC call.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00657">ipc.h:657</a></div></div>
 <div class="ttc" id="agroup__l4__memory__api_html_gabecf862d8b8f39ad28af45d7fc949dd5"><div class="ttname"><a href="group__l4__memory__api.html#gabecf862d8b8f39ad28af45d7fc949dd5">L4_PAGESIZE</a></div><div class="ttdeci">#define L4_PAGESIZE</div><div class="ttdoc">Minimal page size (in bytes).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00380">consts.h:380</a></div></div>
 <div class="ttc" id="agroup__l4__memory__api_html_gad2f7e71d6265b2735f730dc90c54539a"><div class="ttname"><a href="group__l4__memory__api.html#gad2f7e71d6265b2735f730dc90c54539a">L4_PAGESHIFT</a></div><div class="ttdeci">#define L4_PAGESHIFT</div><div class="ttdoc">Size of a page, log2-based.</div><div class="ttdef"><b>Definition</b> <a href="arm_2l4_2sys_2consts_8h_source.html#l00037">consts.h:37</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_gadc099b4a59e1d99638c72c11a8c8b644"><div class="ttname"><a href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a></div><div class="ttdeci">l4_utcb_t * l4_utcb(void) L4_NOTHROW L4_PURE</div><div class="ttdoc">Get the UTCB address.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00340">utcb.h:340</a></div></div>
@@ -184,7 +187,7 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2streammap_2clien
 <div class="ttc" id="aipc__stream_html"><div class="ttname"><a href="ipc__stream.html">ipc_stream</a></div><div class="ttdoc">IPC stream.</div></div>
 <div class="ttc" id="al4_2sys_2types_8h_html"><div class="ttname"><a href="l4_2sys_2types_8h.html">types.h</a></div><div class="ttdoc">Common L4 ABI Data Types.</div></div>
 <div class="ttc" id="anamespaceL4_html_a037b99ac2eb59d597e1e41c06619d487"><div class="ttname"><a href="namespaceL4.html#a037b99ac2eb59d597e1e41c06619d487">L4::Opcode</a></div><div class="ttdeci">int Opcode</div><div class="ttdoc">Data type for RPC opcodes.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00047">__typeinfo.h:47</a></div></div>
-<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">L4Re::Rm::F::Search_addr</a></div><div class="ttdeci">@ Search_addr</div><div class="ttdoc">Search for a suitable address range.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00118">rm:118</a></div></div>
+<div class="ttc" id="astructL4Re_1_1Rm_1_1F_html_adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a"><div class="ttname"><a href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">L4Re::Rm::F::Search_addr</a></div><div class="ttdeci">@ Search_addr</div><div class="ttdoc">Search for a suitable address range.</div><div class="ttdef"><b>Definition</b> <a href="rm_source.html#l00125">rm:125</a></div></div>
 <div class="ttc" id="autil_2cap__alloc_html"><div class="ttname"><a href="util_2cap__alloc.html">cap_alloc</a></div><div class="ttdoc">Capability allocator.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
@@ -192,7 +195,7 @@ $(document).ready(function(){initNavTree('examples_2libs_2l4re_2streammap_2clien
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

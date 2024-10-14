@@ -101,6 +101,10 @@
 #include <errno.h>
 #include <locale.h>
 
+#ifdef BID_VARIANT_FLAG_NOFPU
+#include <printf.h>
+#endif
+
 #ifdef __UCLIBC_HAS_THREADS__
 # include <stdio_ext.h>
 # include <pthread.h>
@@ -121,18 +125,6 @@
 #error Apparently, LONG_LONG_MAX is defined but LLONG_MAX is not.  You need to fix your toolchain headers to support the standard macros for (unsigned) long long.
 #endif
 
-/**********************************************************************/
-/* These provide some control over printf's feature set */
-
-/* Now controlled by uClibc_config.h. */
-/* #define __UCLIBC_HAS_FLOATS__ 1 */
-
-/* Now controlled by uClibc_config.h. */
-/* #define __UCLIBC_HAS_PRINTF_M_SPEC__ */
-
-
-/**********************************************************************/
-
 #include "_fpmaxtostr.h"
 
 #undef __STDIO_HAS_VSNPRINTF
@@ -141,17 +133,6 @@
 #endif
 
 /**********************************************************************/
-
-/* Now controlled by uClibc_config.h. */
-/* #define __UCLIBC_HAS_GLIBC_CUSTOM_PRINTF__ */
-
-#ifdef __UCLIBC_MJN3_ONLY__
-# ifdef L_register_printf_function
-/* emit only once */
-#  warning WISHLIST: Make MAX_USER_SPEC configurable?
-#  warning WISHLIST: Make MAX_ARGS_PER_SPEC configurable?
-# endif
-#endif
 
 #ifdef __UCLIBC_HAS_GLIBC_CUSTOM_PRINTF__
 # define MAX_USER_SPEC       10
@@ -475,9 +456,6 @@ int attribute_hidden _ppfs_init(register ppfs_t *ppfs, const char *fmt0)
 	--ppfs->maxposarg;			/* set to -1 */
 #endif
 	ppfs->fmtpos = fmt0;
-#ifdef __UCLIBC_MJN3_ONLY__
-# warning TODO: Make checking of the format string in C locale an option.
-#endif
 #ifdef __UCLIBC_HAS_LOCALE__
 	/* To support old programs, don't check mb validity if in C locale. */
 	if (__UCLIBC_CURLOCALE->encoding != __ctype_encoding_7_bit) {
@@ -847,7 +825,7 @@ int attribute_hidden _ppfs_parsespec(ppfs_t *ppfs)
 			if (buf[i] != (((wchar_t *) ppfs->fmtpos)[i-1])) {
 				return -1;
 			}
-		} while (buf[i++] && (i < sizeof(buf)));
+		} while (buf[i++] && ((unsigned int)i < sizeof(buf)));
 		buf[sizeof(buf)-1] = 0;
 	}
 #else  /* __UCLIBC_HAS_WCHAR__ */
@@ -893,11 +871,6 @@ int attribute_hidden _ppfs_parsespec(ppfs_t *ppfs)
 		} else {
 			if (maxposarg > 0) {
 # ifdef __UCLIBC_HAS_PRINTF_M_SPEC__
-#  ifdef __UCLIBC_MJN3_ONLY__
-#   warning TODO: Support prec and width for %m when positional args used
-				/* Actually, positional arg processing will fail in general
-				 * for specifiers that don't require an arg. */
-#  endif
 				if (*fmt == 'm') {
 					goto PREC_WIDTH;
 				}
@@ -1072,6 +1045,8 @@ int attribute_hidden _ppfs_parsespec(ppfs_t *ppfs)
 				}
 			}
 			--n;
+			if (n < 0 || n >= MAX_ARGS || i >= MAX_ARGS)
+				continue;
 			/* Record argtype with largest size (current, new). */
 			if (_is_equal_or_bigger_arg(ppfs->argtype[n], argtype[i])) {
 				ppfs->argtype[n] = argtype[i];
@@ -1183,7 +1158,7 @@ static size_t _fp_out_narrow(FILE *fp, intptr_t type, intptr_t len, intptr_t buf
 		len -= buflen;
 		if (len > 0) {
 			r = _charpad(fp, (type & 0x7f), len);
-			if (r != len) {
+			if (r != (unsigned int)len) {
 				return r;
 			}
 		}
@@ -1248,7 +1223,7 @@ static size_t _fp_out_wide(FILE *fp, intptr_t type, intptr_t len, intptr_t buf)
 		len -= buflen;
 		if (len > 0) {
 			r = _charpad(fp, (type & 0x7f), len);
-			if (r != len) {
+			if (r != (unsigned int)len) {
 				return r;
 			}
 		}
@@ -1409,7 +1384,7 @@ static int _do_one_spec(FILE * __restrict stream,
 #ifdef __va_arg_ptr
 	const void * const *argptr;
 #else
-	const void * argptr[MAX_ARGS_PER_SPEC];
+	const void * argptr[MAX_ARGS_PER_SPEC] = {};
 #endif
 	int *argtype;
 #ifdef __UCLIBC_HAS_WCHAR__
@@ -1429,9 +1404,6 @@ static int _do_one_spec(FILE * __restrict stream,
 	int numfill = 0;			/* TODO: fix */
 	int prefix_num = PREFIX_NONE;
 	char padchar = ' ';
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Determine appropriate buf size.
-#endif
 	/* TODO: buf needs to be big enough for any possible error return strings
 	 * and also for any locale-grouped long long integer strings generated.
 	 * This should be large enough for any of the current archs/locales, but
@@ -1483,11 +1455,6 @@ static int _do_one_spec(FILE * __restrict stream,
 		if (ppfs->conv_num <= CONV_i) {	/* pointer or (un)signed int */
 			alphacase = __UIM_LOWER;
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#ifdef L__vfprintf_internal
-#warning CONSIDER: Should we ignore these flags if stub locale?  What about custom specs?
-#endif
-#endif
 			base = spec_base[(int)(ppfs->conv_num - CONV_p)];
 			if (base == 10) {
 				if (PRINT_INFO_FLAG_VAL(&(ppfs->info),group)) {
@@ -1512,11 +1479,6 @@ static int _do_one_spec(FILE * __restrict stream,
 			if (ppfs->info.prec < 0) { /* Ignore '0' flag if prec specified. */
 				padchar = ppfs->info.pad;
 			}
-#ifdef __UCLIBC_MJN3_ONLY__
-#ifdef L__vfprintf_internal
-#warning CONSIDER: If using outdigits and/or grouping, how should we interpret precision?
-#endif
-#endif
 			s = _uintmaxtostr(buf + sizeof(buf) - 1,
 							  (uintmax_t)
 							  _load_inttype(ppfs->conv_num == CONV_p ? PA_FLAG_LONG : *argtype & __PA_INTMASK,
@@ -1548,7 +1510,7 @@ static int _do_one_spec(FILE * __restrict stream,
 				if (ppfs->conv_num == CONV_X) {
 					prefix_num = PREFIX_UPR_X;
 				}
-				if ((ppfs->conv_num == CONV_o) && (numfill <= SLEN)) {
+				if ((ppfs->conv_num == CONV_o) && ((unsigned int)numfill <= SLEN)) {
 					numfill = ((*s == '0') ? 1 : SLEN + 1);
 				}
 			}
@@ -1570,7 +1532,7 @@ static int _do_one_spec(FILE * __restrict stream,
 					slen = 0;
 				}
 			}
-			numfill = ((numfill > SLEN) ? numfill - SLEN : 0);
+			numfill = (((unsigned int)numfill > SLEN) ? numfill - SLEN : 0);
 		} else if (ppfs->conv_num <= CONV_A) {	/* floating point */
 #ifdef __UCLIBC_HAS_FLOATS__
 			ssize_t nf;
@@ -1639,7 +1601,7 @@ static int _do_one_spec(FILE * __restrict stream,
 					s = "(null)";
 					slen = 6;
 					/* Use an empty string rather than truncation if precision is too small. */
-					if (ppfs->info.prec >= 0 && ppfs->info.prec < slen)
+					if (ppfs->info.prec >= 0 && (unsigned int)ppfs->info.prec < slen)
 						slen = 0;
 				}
 			} else {			/* char */
@@ -1669,9 +1631,6 @@ static int _do_one_spec(FILE * __restrict stream,
 		} else if (ppfs->conv_num <= CONV_s) {	/* char or string */
 
 			if (ppfs->conv_num == CONV_s) { /* string */
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Fix %s for _vfwprintf_internal... output upto illegal sequence?
-#endif
 				s = *((char **) (*argptr));
 				if (s) {
 #ifdef __UCLIBC_HAS_PRINTF_M_SPEC__
@@ -1698,7 +1657,7 @@ static int _do_one_spec(FILE * __restrict stream,
 					s = "(null)";
 					SLEN = slen = 6;
 					/* Use an empty string rather than truncation if precision is too small. */
-					if (ppfs->info.prec >= 0 && ppfs->info.prec < slen)
+					if (ppfs->info.prec >= 0 && (unsigned int)ppfs->info.prec < slen)
 						SLEN = slen = 0;
 				}
 			} else {			/* char */
@@ -1737,11 +1696,6 @@ static int _do_one_spec(FILE * __restrict stream,
 			return -1;
 		}
 
-#ifdef __UCLIBC_MJN3_ONLY__
-#ifdef L__vfprintf_internal
-#warning CONSIDER: If using outdigits and/or grouping, how should we pad?
-#endif
-#endif
 		{
 			size_t t;
 
@@ -1749,7 +1703,7 @@ static int _do_one_spec(FILE * __restrict stream,
 			if (prefix_num != PREFIX_NONE) {
 				t += ((prefix_num < PREFIX_LWR_X) ? 1 : 2);
 			}
-			numpad = ((ppfs->info.width > t) ? (ppfs->info.width - t) : 0);
+			numpad = ((ppfs->info.width > (int)t) ? (ppfs->info.width - t) : 0);
 			*count += t + numpad;
 		}
 		if (padchar == '0') { /* TODO: check this */
@@ -1759,14 +1713,14 @@ static int _do_one_spec(FILE * __restrict stream,
 
 		/* Now handle the output itself. */
 		if (!PRINT_INFO_FLAG_VAL(&(ppfs->info),left)) {
-			if (_charpad(stream, ' ', numpad) != numpad) {
+			if (_charpad(stream, ' ', numpad) != (unsigned int)numpad) {
 				return -1;
 			}
 			numpad = 0;
 		}
 		OUTPUT(stream, prefix + prefix_num);
 
-		if (_charpad(stream, '0', numfill) != numfill) {
+		if (_charpad(stream, '0', numfill) != (unsigned int)numfill) {
 			return -1;
 		}
 
@@ -1811,7 +1765,7 @@ static int _do_one_spec(FILE * __restrict stream,
 		}
 
 #endif /* L__vfprintf_internal */
-		if (_charpad(stream, ' ', numpad) != numpad) {
+		if (_charpad(stream, ' ', numpad) != (unsigned int)numpad) {
 			return -1;
 		}
 	}

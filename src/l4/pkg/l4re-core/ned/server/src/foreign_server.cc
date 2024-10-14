@@ -97,6 +97,7 @@ Foreign_server::Foreign_server()
   pthread_attr_setschedpolicy(&attr, SCHED_L4);
   pthread_attr_setschedparam(&attr, &sp);
   pthread_attr_setinheritsched(&attr, PTHREAD_EXPLICIT_SCHED);
+  pthread_attr_setstacksize(&attr, 0x1000);
 
   int r = pthread_create(&_th, &attr, &__run, this);
   if (r)
@@ -110,6 +111,8 @@ Foreign_server::Foreign_server()
   pthread_mutex_destroy(&_start_mutex);
 }
 
+Foreign_server::~Foreign_server() = default;
+
 void *
 Foreign_server::__run(void *a)
 {
@@ -120,14 +123,21 @@ Foreign_server::__run(void *a)
 void
 Foreign_server::run()
 {
-  _r = new Foreign_registry(this, Pthread::L4::cap(pthread_self()),
-                    L4Re::Env::env()->factory());
+  _r =
+    cxx::make_unique<Foreign_registry>(this, Pthread::L4::cap(pthread_self()),
+                                       L4Re::Env::env()->factory());
 
   // Call explicitly base class to prevent deadlock
   _r->L4Re::Util::Object_registry::register_obj(this, _interrupt.get());
 
   pthread_mutex_unlock(&_start_mutex);
-  loop_noexc(_r);
+  loop_noexc(_r.get());
+}
+
+L4Re::Util::Object_registry *
+Foreign_server::registry() const
+{
+  return _r.get();
 }
 
 void

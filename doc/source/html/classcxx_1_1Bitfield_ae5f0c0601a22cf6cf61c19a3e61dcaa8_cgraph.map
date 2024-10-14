@@ -1,0 +1,9 @@
+<map id="cxx::Bitfield::get_unshifted" name="cxx::Bitfield::get_unshifted">
+<area shape="rect" id="Node000001" title="Get the bits in place out of val." alt="" coords="5,22,133,62"/>
+<area shape="rect" id="Node000002" href="$classcxx_1_1Bitfield.html#a9eb831cf0efee1b05529a685f9cf8367" title="Get the shifted bits for val." alt="" coords="181,29,308,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,39,167,39,167,45,133,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="216,31,210,21,213,11,225,5,245,3,269,6,279,15,275,19,266,11,245,8,226,10,217,15,215,20,220,28"/>
+<area shape="rect" id="Node000003" href="$classcxx_1_1Bitfield.html#a818da07b2e19e478f5deb4f30fed2b68" title="Get the shifted bits for val." alt="" coords="356,22,483,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="308,48,343,48,343,54,308,53"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="356,36,321,36,321,30,356,31"/>
+</map>

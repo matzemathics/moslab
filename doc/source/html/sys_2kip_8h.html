@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/kip.h File Reference</title>
+<title>L4Re Operating System Framework: l4/sys/kip.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -110,14 +113,14 @@ $(document).ready(function(){initNavTree('sys_2kip_8h.html',''); initResizable()
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="sys_2kip_8h__incl.svg" width="568" height="403"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="sys_2kip_8h__incl.svg" width="763" height="403"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> This graph shows which files directly or indirectly include this file:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="sys_2kip_8h__dep__incl.svg" width="2719" height="814"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="sys_2kip_8h__dep__incl.svg" width="2896" height="814"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="sys_2kip_8h_source.html">Go to the source code of this file.</a></p>
@@ -134,10 +137,10 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ga8628933cde20921c453a6d2607bdad62" id="r_ga8628933cde20921c453a6d2607bdad62"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__l4__kip__api.html#gga8628933cde20921c453a6d2607bdad62ac78f55362d6b4ec2a7351e48d96bb33c">L4_KIP_OFFS_READ_US</a> = 0x900
-, <a class="el" href="group__l4__kip__api.html#gga8628933cde20921c453a6d2607bdad62a3be43baee1738b49640a7e3307609cfb">L4_KIP_OFFS_READ_NS</a> = 0x980
+<tr class="memitem:ga5bea799269f02f5b3395d6b2c068b618" id="r_ga5bea799269f02f5b3395d6b2c068b618"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__l4__kip__api.html#gga5bea799269f02f5b3395d6b2c068b618ac78f55362d6b4ec2a7351e48d96bb33c">L4_KIP_OFFS_READ_US</a> = 0x900
+, <a class="el" href="group__l4__kip__api.html#gga5bea799269f02f5b3395d6b2c068b618a3be43baee1738b49640a7e3307609cfb">L4_KIP_OFFS_READ_NS</a> = 0x980
  }</td></tr>
-<tr class="separator:ga8628933cde20921c453a6d2607bdad62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ga5bea799269f02f5b3395d6b2c068b618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -190,7 +193,7 @@ Functions</h2></td></tr>
 <p>Cycle through kernel features given in the KIP. </p>
 <p>Cycles through all KIP kernel feature strings. <code>s</code> must be a character pointer (<code>char const *</code>) initialized with <a class="el" href="group__l4__kip__api.html#ga93a1b85e22b798e46f7608f59153895c" title="Get the kernel version string.">l4_kip_version_string()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="sys_2kip_8h_source.html#l00252">252</a> of file <a class="el" href="sys_2kip_8h_source.html">kip.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sys_2kip_8h_source.html#l00241">241</a> of file <a class="el" href="sys_2kip_8h_source.html">kip.h</a>.</p>
 
 </div>
 </div>
@@ -240,9 +243,9 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>1 if the kernel supports the feature, 0 if not.</dd></dl>
 <p>Checks the feature field in the KIP for the given string. </p>
 
-<p class="definition">Definition at line <a class="el" href="sys_2kip_8h_source.html#l00266">266</a> of file <a class="el" href="sys_2kip_8h_source.html">kip.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sys_2kip_8h_source.html#l00255">255</a> of file <a class="el" href="sys_2kip_8h_source.html">kip.h</a>.</p>
 
-<p class="reference">References <a class="el" href="sys_2kip_8h_source.html#l00252">l4_kip_for_each_feature</a>, and <a class="el" href="sys_2kip_8h_source.html#l00207">l4_kip_version_string()</a>.</p>
+<p class="reference">References <a class="el" href="sys_2kip_8h_source.html#l00241">l4_kip_for_each_feature</a>, and <a class="el" href="sys_2kip_8h_source.html#l00203">l4_kip_version_string()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -260,7 +263,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="sys_2kip_8h.html">kip.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

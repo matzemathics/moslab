@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Platform Control C API</title>
+<title>L4Re Operating System Framework: Platform Control C API</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -109,6 +112,9 @@ $(document).ready(function(){initNavTree('group__l4__platform__control__api.html
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga5cfac77fbfddca4498c22517a5f8238a" id="r_ga5cfac77fbfddca4498c22517a5f8238a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__platform__control__api.html#ga5cfac77fbfddca4498c22517a5f8238a">l4_platform_ctl_set_task_asid</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> pfc, <a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> task, <a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> asid) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
+<tr class="memdesc:ga5cfac77fbfddca4498c22517a5f8238a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set ASID of task.  <br /></td></tr>
+<tr class="separator:ga5cfac77fbfddca4498c22517a5f8238a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga56b855fa63a3d94b275bdd17bb0bc21e" id="r_ga56b855fa63a3d94b275bdd17bb0bc21e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4__platform__control__api.html#ga56b855fa63a3d94b275bdd17bb0bc21e">l4_platform_ctl_system_suspend</a> (<a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a> pfc, <a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a> extras) <a class="el" href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></td></tr>
 <tr class="memdesc:ga56b855fa63a3d94b275bdd17bb0bc21e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enter suspend to RAM.  <br /></td></tr>
 <tr class="separator:ga56b855fa63a3d94b275bdd17bb0bc21e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,8 +133,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>C interface for controlling platform-wide properties, see <a class="el" href="classL4_1_1Platform__control.html" title="L4 C++ interface for controlling platform-wide properties, see Platform Control C API for the C inter...">L4::Platform_control</a> for the C++ interface. </p>
-<dl class="section user"><dt>Include File</dt><dd><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="platform__control_8h.html">l4/sys/platform_control.h</a>&gt;</span> </div>
-<div class="ttc" id="aplatform__control_8h_html"><div class="ttname"><a href="platform__control_8h.html">platform_control.h</a></div><div class="ttdoc">Platform control object.</div></div>
+<dl class="section user"><dt>Include File</dt><dd><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;l4/sys/platform_control.h&gt;</span> </div>
 </div><!-- fragment --></dd></dl>
 <p>The API allows a client to suspend, reboot or shutdown the system.</p>
 <p>For the C++ interface refer to <a class="el" href="classL4_1_1Platform__control.html">L4::Platform_control</a> </p>
@@ -184,7 +189,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="platform__control_8h_source.html#l00247">247</a> of file <a class="el" href="platform__control_8h_source.html">platform_control.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2platform__control_8h_source.html#l00253">253</a> of file <a class="el" href="l4_2sys_2platform__control_8h_source.html">platform_control.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -242,7 +247,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>System call message tag</dd></dl>
 <p>This function is currently only supported on the ARM EXYNOS platform. </p>
 
-<p class="definition">Definition at line <a class="el" href="platform__control_8h_source.html#l00286">286</a> of file <a class="el" href="platform__control_8h_source.html">platform_control.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2platform__control_8h_source.html#l00292">292</a> of file <a class="el" href="l4_2sys_2platform__control_8h_source.html">platform_control.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -300,7 +305,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>System call message tag</dd></dl>
 <p>This function is currently only supported on the ARM EXYNOS platform. </p>
 
-<p class="definition">Definition at line <a class="el" href="platform__control_8h_source.html#l00279">279</a> of file <a class="el" href="platform__control_8h_source.html">platform_control.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2platform__control_8h_source.html#l00285">285</a> of file <a class="el" href="l4_2sys_2platform__control_8h_source.html">platform_control.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -309,6 +314,72 @@ Functions</h2></td></tr>
 </div>
 <div id="dynsection-3-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__platform__control__api_gaf61523095fb120f77e8c65fea67ea7da_cgraph.svg" width="279" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ga5cfac77fbfddca4498c22517a5f8238a" name="ga5cfac77fbfddca4498c22517a5f8238a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5cfac77fbfddca4498c22517a5f8238a">&#9670;&#160;</a></span>l4_platform_ctl_set_task_asid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structl4__msgtag__t.html">l4_msgtag_t</a> l4_platform_ctl_set_task_asid </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a>&#160;</td>
+          <td class="paramname"><em>pfc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a>&#160;</td>
+          <td class="paramname"><em>task</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a>&#160;</td>
+          <td class="paramname"><em>asid</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set ASID of task. </p>
+<p>On Cortex-R52 platforms, it might be necessary to control the VMID of a task or virtual machine explicitly. The IOMPU on such platforms will use it for further access control of device memory accesses. A privileged component can use this call to control the value.</p>
+<p>The caller must have write permissions to the destination task.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pfc</td><td>Capability selector for the platform-control object. </td></tr>
+    <tr><td class="paramname">task</td><td>Capability selector of destination task </td></tr>
+    <tr><td class="paramname">asid</td><td>New ASID value</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Syscall return tag </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="____platform__control-arm_8h_source.html#l00062">62</a> of file <a class="el" href="____platform__control-arm_8h_source.html">__platform_control-arm.h</a>.</p>
+
+<p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__platform__control__api_ga5cfac77fbfddca4498c22517a5f8238a_cgraph.svg" width="275" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -357,14 +428,14 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="platform__control_8h_source.html#l00226">226</a> of file <a class="el" href="platform__control_8h_source.html">platform_control.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2platform__control_8h_source.html#l00232">232</a> of file <a class="el" href="l4_2sys_2platform__control_8h_source.html">platform_control.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
-<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__platform__control__api_ga85ea4f9e292a86026b3a1d952ea61d15_cgraph.svg" width="303" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -405,6 +476,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Enter suspend to RAM. </p>
+<dl class="section pre"><dt>Precondition</dt><dd>Must only be invoked on the boot CPU. Furthermore it must be ensured that the invoking thread is not migrated to a different CPU during the suspend.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pfc</td><td>Capability selector for the platform-control object. </td></tr>
@@ -414,14 +486,14 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Syscall return tag </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="platform__control_8h_source.html#l00219">219</a> of file <a class="el" href="platform__control_8h_source.html">platform_control.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="l4_2sys_2platform__control_8h_source.html#l00225">225</a> of file <a class="el" href="l4_2sys_2platform__control_8h_source.html">platform_control.h</a>.</p>
 
 <p class="reference">References <a class="el" href="l4_2sys_2utcb_8h_source.html#l00340">l4_utcb()</a>.</p>
-<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="group__l4__platform__control__api_ga56b855fa63a3d94b275bdd17bb0bc21e_cgraph.svg" width="303" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -433,7 +505,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

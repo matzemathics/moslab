@@ -1,5 +1,5 @@
 <map id="l4_vm_vmx_write_64" name="l4_vm_vmx_write_64">
-<area shape="rect" id="Node000001" title="Write to a 64bit VMCS field." alt="" coords="192,5,353,31"/>
-<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#ga8d0ed5965242fe81fd33c37c0e48ee74" title="Write to an arbitrary VMCS field." alt="" coords="5,5,144,31"/>
+<area shape="rect" id="Node000001" title="Write to a 64&#45;bit software VMCS field." alt="" coords="192,5,353,31"/>
+<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#ga8d0ed5965242fe81fd33c37c0e48ee74" title="Write to an arbitrary software VMCS field." alt="" coords="5,5,144,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,21,144,21,144,15,178,15"/>
 </map>

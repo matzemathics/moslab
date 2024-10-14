@@ -1,11 +1,11 @@
 <map id="l4_vm_vmx_read" name="l4_vm_vmx_read">
-<area shape="rect" id="Node000001" title="Read any VMCS field." alt="" coords="5,80,140,105"/>
-<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#ga0e2bcaaaab669770cccebfe57bf9a0c7" title="Read a 16bit VMCS field." alt="" coords="191,5,348,31"/>
+<area shape="rect" id="Node000001" title="Read any software VMCS field." alt="" coords="5,80,140,105"/>
+<area shape="rect" id="Node000002" href="$group__l4__vm__vmx__api.html#ga0e2bcaaaab669770cccebfe57bf9a0c7" title="Read a 16&#45;bit software VMCS field." alt="" coords="191,5,348,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,77,187,40,208,32,210,37,189,44,101,82"/>
-<area shape="rect" id="Node000003" href="$group__l4__vm__vmx__api.html#ga61ff297f992665a110c3693a4683d02b" title="Read a 32bit VMCS field." alt="" coords="191,55,348,80"/>
+<area shape="rect" id="Node000003" href="$group__l4__vm__vmx__api.html#ga61ff297f992665a110c3693a4683d02b" title="Read a 32&#45;bit software VMCS field." alt="" coords="191,55,348,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="140,81,177,77,177,82,141,87"/>
-<area shape="rect" id="Node000004" href="$group__l4__vm__vmx__api.html#gabc2c4aa13e806afb4c1701f366eb2c88" title="Read a 64bit VMCS field." alt="" coords="191,104,348,129"/>
+<area shape="rect" id="Node000004" href="$group__l4__vm__vmx__api.html#gabc2c4aa13e806afb4c1701f366eb2c88" title="Read a 64&#45;bit software VMCS field." alt="" coords="191,104,348,129"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="141,98,177,103,177,108,140,104"/>
-<area shape="rect" id="Node000005" href="$group__l4__vm__vmx__api.html#gabc0002470856bad7a0e0038f539b56bb" title="Read a natural width VMCS field." alt="" coords="188,153,351,179"/>
+<area shape="rect" id="Node000005" href="$group__l4__vm__vmx__api.html#gabc0002470856bad7a0e0038f539b56bb" title="Read a natural&#45;width software VMCS field." alt="" coords="188,153,351,179"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="103,103,189,138,213,147,212,152,187,143,101,108"/>
 </map>

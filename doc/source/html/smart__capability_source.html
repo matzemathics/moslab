@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/smart_capability Source File</title>
+<title>L4Re Operating System Framework: l4/sys/smart_capability Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -156,18 +159,18 @@ $(document).ready(function(){initNavTree('smart__capability_source.html',''); in
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> O &gt;</div>
 <div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classL4_1_1Smart__cap.html#ac08e6432423d2d481bf2d9491f2b75b3">   73</a></span>  <a class="code hl_function" href="classL4_1_1Smart__cap.html#ac08e6432423d2d481bf2d9491f2b75b3">Smart_cap</a>(<a class="code hl_class" href="classL4_1_1Cap.html">Cap&lt;O&gt;</a> <span class="keyword">const</span> &amp;p) noexcept : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(p.cap())</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  { T* __t = ((O*)100); (void)__t; }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  { <a class="code hl_class" href="classL4_1_1Cap.html">Cap&lt;T&gt;::template</a> check_convertible_from&lt;O&gt;(); }</div>
 </div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> O &gt;</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  <a class="code hl_class" href="classL4_1_1Smart__cap.html">Smart_cap</a>(<a class="code hl_class" href="classL4_1_1Cap.html">Cap&lt;O&gt;</a> <span class="keyword">const</span> &amp;p, SMART <span class="keyword">const</span> &amp;smart) noexcept</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(p.cap()), SMART(smart)</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  { T* __t = ((O*)100); (void)__t; }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  { <a class="code hl_class" href="classL4_1_1Cap.html">Cap&lt;T&gt;::template</a> check_convertible_from&lt;O&gt;(); }</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> O &gt;</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  Smart_cap(Smart_cap&lt;O, SMART&gt; <span class="keyword">const</span> &amp;o) noexcept</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(SMART::copy(o)), SMART(o.smart())</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  { T* __t = ((O*)100); (void)__t; }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  { Cap&lt;T&gt;::template check_convertible_from&lt;O&gt;(); }</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  Smart_cap(Smart_cap <span class="keyword">const</span> &amp;o) noexcept</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(SMART::copy(o)), SMART(o.smart())</div>
@@ -175,7 +178,7 @@ $(document).ready(function(){initNavTree('smart__capability_source.html',''); in
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> O &gt;</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  Smart_cap(<span class="keyword">typename</span> <a class="code hl_enumeration" href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">Cap&lt;O&gt;::Cap_type</a> <a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>) noexcept : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(<a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>)</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  { T* __t = ((O*)100); (void)__t; }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  { Cap&lt;T&gt;::template check_convertible_from&lt;O&gt;(); }</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  <span class="keywordtype">void</span> operator = (<span class="keyword">typename</span> <a class="code hl_enumeration" href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">Cap&lt;T&gt;::Cap_type</a> <a class="code hl_function" href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">cap</a>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  {</div>
@@ -207,7 +210,7 @@ $(document).ready(function(){initNavTree('smart__capability_source.html',''); in
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> O &gt;</div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  Smart_cap(Smart_cap&lt;O, SMART&gt; &amp;&amp;o) noexcept</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>  : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(o.release()), SMART(o.smart())</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  { T* __t = ((O*)100); (void)__t; }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  { Cap&lt;T&gt;::template check_convertible_from&lt;O&gt;(); }</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  Smart_cap(Smart_cap &amp;&amp;o) noexcept</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(o.release()), SMART(o.smart())</div>
@@ -250,17 +253,17 @@ $(document).ready(function(){initNavTree('smart__capability_source.html',''); in
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> O &gt;</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>  Weak_cap(<span class="keyword">typename</span> <a class="code hl_enumeration" href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">Cap&lt;O&gt;::Cap_type</a> t) noexcept : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(t)</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>  { T* __t = ((O*)100); (void)__t; }</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>  { Cap&lt;T&gt;::template check_convertible_from&lt;O&gt;(); }</div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> O, <span class="keyword">typename</span> S &gt;</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>  Weak_cap(Smart_cap&lt;O, S&gt; <span class="keyword">const</span> &amp;c) noexcept : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(c.cap())</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>  { T* __t = ((O*)100); (void)__t; }</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>  { Cap&lt;T&gt;::template check_convertible_from&lt;O&gt;(); }</div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  Weak_cap(Weak_cap <span class="keyword">const</span> &amp;o) noexcept : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(o) {}</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>  <span class="keyword">template</span>&lt; <span class="keyword">typename</span> O &gt;</div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>  Weak_cap(Weak_cap&lt;O&gt; <span class="keyword">const</span> &amp;o) noexcept : <a class="code hl_function" href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">Cap_base</a>(o)</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>  { T* __t = ((O*)100); (void)__t; }</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>  { Cap&lt;T&gt;::template check_convertible_from&lt;O&gt;(); }</div>
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>};</div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
@@ -277,7 +280,7 @@ $(document).ready(function(){initNavTree('smart__capability_source.html',''); in
 <div class="foldopen" id="foldopen00203" data-start="{" data-end="}">
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="namespaceL4.html#a91a908df07e90f694153c9acae2b3958">  203</a></span><a class="code hl_class" href="classL4_1_1Smart__cap.html">Smart_cap&lt;T, SMART&gt;</a> <a class="code hl_function" href="namespaceL4.html#ac674c8e32808f504f4fa0aa8e5276e84">cap_cast</a>(<a class="code hl_class" href="classL4_1_1Smart__cap.html">Smart_cap&lt;F, SMART&gt;</a> <span class="keyword">const</span> &amp;c) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>{</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>  (void)<span class="keyword">static_cast&lt;</span>T <span class="keyword">const </span>*<span class="keyword">&gt;</span>(<span class="keyword">reinterpret_cast&lt;</span>F <span class="keyword">const </span>*<span class="keyword">&gt;</span>(100));</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>  <a class="code hl_class" href="classL4_1_1Cap.html">Cap&lt;T&gt;::template</a> check_castable_from&lt;F&gt;();</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>  <span class="keywordflow">return</span> <a class="code hl_class" href="classL4_1_1Smart__cap.html">Smart_cap&lt;T, SMART&gt;</a>(<a class="code hl_class" href="classL4_1_1Cap.html">Cap&lt;T&gt;</a>(SMART::copy(c).cap()));</div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>}</div>
 </div>
@@ -294,23 +297,22 @@ $(document).ready(function(){initNavTree('smart__capability_source.html',''); in
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>}</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
 <div class="ttc" id="acapability_html"><div class="ttname"><a href="capability.html">capability</a></div><div class="ttdoc">L4::Cap related definitions.</div></div>
 <div class="ttc" id="aclassL4_1_1Cap__base_html"><div class="ttname"><a href="classL4_1_1Cap__base.html">L4::Cap_base</a></div><div class="ttdoc">Base class for all kinds of capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00025">capability.h:26</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_a78113f1ec15a18c099e8f010667c0437"><div class="ttname"><a href="classL4_1_1Cap__base.html#a78113f1ec15a18c099e8f010667c0437">L4::Cap_base::_c</a></div><div class="ttdeci">l4_cap_idx_t _c</div><div class="ttdoc">The C representation of a capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00201">capability.h:201</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00052">capability.h:52</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_ac74dbedb04347341ba30ece923c12fe7"><div class="ttname"><a href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">L4::Cap_base::Cap_type</a></div><div class="ttdeci">Cap_type</div><div class="ttdoc">Invalid capability type.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00043">capability.h:44</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_ac74dbedb04347341ba30ece923c12fe7af425c8e16afcd760ecb1f30bd6c1437a"><div class="ttname"><a href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7af425c8e16afcd760ecb1f30bd6c1437a">L4::Cap_base::Invalid</a></div><div class="ttdeci">@ Invalid</div><div class="ttdoc">Invalid capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00046">capability.h:45</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap__base_html_aea13cf4ec224211dc780a56d6ffa1c53"><div class="ttname"><a href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">L4::Cap_base::Cap_base</a></div><div class="ttdeci">Cap_base() noexcept</div><div class="ttdoc">Create an uninitialized instance.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00163">capability.h:163</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_a78113f1ec15a18c099e8f010667c0437"><div class="ttname"><a href="classL4_1_1Cap__base.html#a78113f1ec15a18c099e8f010667c0437">L4::Cap_base::_c</a></div><div class="ttdeci">l4_cap_idx_t _c</div><div class="ttdoc">The C representation of a capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00198">capability.h:198</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_a90ff089ca2442b128c2b2b0e1c22c6d7"><div class="ttname"><a href="classL4_1_1Cap__base.html#a90ff089ca2442b128c2b2b0e1c22c6d7">L4::Cap_base::cap</a></div><div class="ttdeci">l4_cap_idx_t cap() const noexcept</div><div class="ttdoc">Return capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00049">capability.h:49</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_ac74dbedb04347341ba30ece923c12fe7"><div class="ttname"><a href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7">L4::Cap_base::Cap_type</a></div><div class="ttdeci">Cap_type</div><div class="ttdoc">Invalid capability type.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00040">capability.h:41</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_ac74dbedb04347341ba30ece923c12fe7af425c8e16afcd760ecb1f30bd6c1437a"><div class="ttname"><a href="classL4_1_1Cap__base.html#ac74dbedb04347341ba30ece923c12fe7af425c8e16afcd760ecb1f30bd6c1437a">L4::Cap_base::Invalid</a></div><div class="ttdeci">@ Invalid</div><div class="ttdoc">Invalid capability selector.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00043">capability.h:42</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap__base_html_aea13cf4ec224211dc780a56d6ffa1c53"><div class="ttname"><a href="classL4_1_1Cap__base.html#aea13cf4ec224211dc780a56d6ffa1c53">L4::Cap_base::Cap_base</a></div><div class="ttdeci">Cap_base() noexcept</div><div class="ttdoc">Create an uninitialized instance.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00160">capability.h:160</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="aclassL4_1_1Smart__cap_html"><div class="ttname"><a href="classL4_1_1Smart__cap.html">L4::Smart_cap</a></div><div class="ttdoc">Smart capability class.</div><div class="ttdef"><b>Definition</b> <a href="smart__capability_source.html#l00036">smart_capability:37</a></div></div>
 <div class="ttc" id="aclassL4_1_1Smart__cap_html_a1455f2b349ad7252ca182886332ebbee"><div class="ttname"><a href="classL4_1_1Smart__cap.html#a1455f2b349ad7252ca182886332ebbee">L4::Smart_cap::operator-&gt;</a></div><div class="ttdeci">Cap&lt; T &gt; operator-&gt;() const noexcept</div><div class="ttdoc">Member access of a T.</div><div class="ttdef"><b>Definition</b> <a href="smart__capability_source.html#l00154">smart_capability:154</a></div></div>
 <div class="ttc" id="aclassL4_1_1Smart__cap_html_ac08e6432423d2d481bf2d9491f2b75b3"><div class="ttname"><a href="classL4_1_1Smart__cap.html#ac08e6432423d2d481bf2d9491f2b75b3">L4::Smart_cap::Smart_cap</a></div><div class="ttdeci">Smart_cap(Cap&lt; O &gt; const &amp;p) noexcept</div><div class="ttdoc">Internal constructor, use to generate a capability from a this pointer.</div><div class="ttdef"><b>Definition</b> <a href="smart__capability_source.html#l00073">smart_capability:73</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4__cap__api_html_ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102"><div class="ttname"><a href="group__l4__cap__api.html#ggafee0421c2fe0e5cfc59f17f16ea10879aff9320ed307e76cebfca6c2871136102">L4_INVALID_CAP</a></div><div class="ttdeci">@ L4_INVALID_CAP</div><div class="ttdoc">Invalid capability selector.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00168">consts.h:168</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
-<div class="ttc" id="anamespaceL4_html_a8ee8c8ffde27b74b01d75a03e4f4808d"><div class="ttname"><a href="namespaceL4.html#a8ee8c8ffde27b74b01d75a03e4f4808d">L4::cap_reinterpret_cast</a></div><div class="ttdeci">Cap&lt; T &gt; cap_reinterpret_cast(Cap&lt; F &gt; const &amp;c) noexcept</div><div class="ttdoc">reinterpret_cast for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00413">capability.h:413</a></div></div>
-<div class="ttc" id="anamespaceL4_html_ac674c8e32808f504f4fa0aa8e5276e84"><div class="ttname"><a href="namespaceL4.html#ac674c8e32808f504f4fa0aa8e5276e84">L4::cap_cast</a></div><div class="ttdeci">Cap&lt; T &gt; cap_cast(Cap&lt; F &gt; const &amp;c) noexcept</div><div class="ttdoc">static_cast for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00382">capability.h:382</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
+<div class="ttc" id="anamespaceL4_html_a8ee8c8ffde27b74b01d75a03e4f4808d"><div class="ttname"><a href="namespaceL4.html#a8ee8c8ffde27b74b01d75a03e4f4808d">L4::cap_reinterpret_cast</a></div><div class="ttdeci">Cap&lt; T &gt; cap_reinterpret_cast(Cap&lt; F &gt; const &amp;c) noexcept</div><div class="ttdoc">reinterpret_cast for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00442">capability.h:442</a></div></div>
+<div class="ttc" id="anamespaceL4_html_ac674c8e32808f504f4fa0aa8e5276e84"><div class="ttname"><a href="namespaceL4.html#ac674c8e32808f504f4fa0aa8e5276e84">L4::cap_cast</a></div><div class="ttdeci">Cap&lt; T &gt; cap_cast(Cap&lt; F &gt; const &amp;c) noexcept</div><div class="ttdoc">static_cast for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00411">capability.h:411</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
@@ -318,7 +320,7 @@ $(document).ready(function(){initNavTree('smart__capability_source.html',''); in
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="smart__capability.html">smart_capability</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

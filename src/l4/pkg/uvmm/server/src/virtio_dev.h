@@ -101,8 +101,9 @@ protected:
 
   void update_virtio_config()
   {
-    l4_cache_clean_data((l4_addr_t)_cfg_header.get(),
-                        (l4_addr_t)_cfg_header.get() + Config_ds_size);
+    l4_cache_clean_data(reinterpret_cast<l4_addr_t>(_cfg_header.get()),
+                        reinterpret_cast<l4_addr_t>(_cfg_header.get())
+                        + Config_ds_size);
   }
 
 public:
@@ -195,14 +196,15 @@ public:
   template<typename T>
   void writeback_cache(T const *p)
   {
-    l4_cache_clean_data((l4_addr_t)p, (l4_addr_t)p + sizeof(T));
+    l4_cache_clean_data(reinterpret_cast<l4_addr_t>(p),
+                        reinterpret_cast<l4_addr_t>(p) + sizeof(T));
   }
 
 protected:
   template<typename T>
   T *virtio_device_config()
   {
-    return reinterpret_cast<T *>(  (l4_addr_t)dev()->virtio_cfg()
+    return reinterpret_cast<T *>(  reinterpret_cast<l4_addr_t>(dev()->virtio_cfg())
                                  + Device_config_start);
   }
 
@@ -227,9 +229,12 @@ public:
       return;
     if (reg >= Device_config_start)
       {
-        l4_addr_t a = (l4_addr_t)vcfg + reg;
+        l4_addr_t a = reinterpret_cast<l4_addr_t>(vcfg) + reg;
         if (Vmm::Mem_access::write_width(a, value, size) == L4_EOK)
-          dev()->virtio_device_config_written(reg - Device_config_start);
+          {
+            Vmm::Mem_access::cache_clean_data_width(a, size);
+            dev()->virtio_device_config_written(reg - Device_config_start);
+          }
         return;
       }
 
@@ -305,7 +310,11 @@ public:
           break;
         }
 
-      case 0x50: dev()->virtio_queue_notify(value); break;
+      case 0x50:
+        vcfg->queue_notify = value;
+        writeback_cache(&vcfg->queue_notify);
+        dev()->virtio_queue_notify(value);
+        break;
 
       case 0x64:
         dev()->virtio_irq_ack(value);
@@ -322,10 +331,10 @@ public:
       case 0x84:
         {
           int i = reg == 0x80 ? 0 : 1;
-          ((Virtio::Qword *)(&vcfg->queue_desc))->w[i] = value;
+          (reinterpret_cast<Virtio::Qword *>(&vcfg->queue_desc))->w[i] = value;
           auto *qc = dev()->current_virtqueue_config();
           if (qc)
-            ((Virtio::Qword *)(&qc->desc_addr))->w[i] = value;
+            (reinterpret_cast<Virtio::Qword *>(&qc->desc_addr))->w[i] = value;
           break;
         }
 
@@ -333,10 +342,10 @@ public:
       case 0x94:
         {
           int i = reg == 0x90 ? 0 : 1;
-          ((Virtio::Qword *)(&vcfg->queue_avail))->w[i] = value;
+          (reinterpret_cast<Virtio::Qword *>(&vcfg->queue_avail))->w[i] = value;
           auto *qc = dev()->current_virtqueue_config();
           if (qc)
-            ((Virtio::Qword *)(&qc->avail_addr))->w[i] = value;
+            (reinterpret_cast<Virtio::Qword *>(&qc->avail_addr))->w[i] = value;
           break;
         }
 
@@ -344,10 +353,10 @@ public:
       case 0xa4:
         {
           int i = reg == 0xa0 ? 0 : 1;
-          ((Virtio::Qword *)(&vcfg->queue_used))->w[i] = value;
+          (reinterpret_cast<Virtio::Qword *>(&vcfg->queue_used))->w[i] = value;
           auto *qc = dev()->current_virtqueue_config();
           if (qc)
-            ((Virtio::Qword *)(&qc->used_addr))->w[i] = value;
+            (reinterpret_cast<Virtio::Qword *>(&qc->used_addr))->w[i] = value;
           break;
         }
       }

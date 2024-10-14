@@ -12,12 +12,6 @@
 #include <stdarg.h>
 #include <bits/uClibc_va_copy.h>
 
-
-#ifdef __UCLIBC_MJN3_ONLY__
-/* Do the memstream stuff inline to avoid fclose and the openlist? */
-#warning CONSIDER: avoid open_memstream call?
-#endif
-
 #ifndef __STDIO_HAS_VSNPRINTF
 #warning Skipping vasprintf since no vsnprintf!
 #else
@@ -39,6 +33,8 @@ int vasprintf(char **__restrict buf, const char * __restrict format,
 		if (rv < 0) {
 			free(*buf);
 			*buf = NULL;
+		} else {
+			*buf = realloc(*buf, rv + 1);
 		}
 	}
 

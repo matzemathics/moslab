@@ -90,7 +90,10 @@ Virt_bus::collect_dev_resources(Virt_bus::Devinfo const &dev,
               if (res.flags & L4VBUS_RESOURCE_F_MEM_W)
                 rights |= L4_FPAGE_W;
               auto handler = Vdev::make_device<Ds_handler>(
-                  cxx::make_ref_obj<Ds_manager>(io_ds(), res.start, size,
+                  cxx::make_ref_obj<Ds_manager>(std::string("Virt_bus: ") +
+                                                  dev.dev_info().name,
+                                                io_ds(),
+                                                res.start, size,
                                                 L4Re::Rm::Region_flags(rights)),
                   static_cast<L4_fpage_rights>(rights)
                 );
@@ -175,24 +178,27 @@ void Virt_bus::print_resource(l4vbus_resource_t const &res, char const *prefix)
 
 void Virt_bus::show_bus()
 {
-  L4vbus::Device b(_bus, 0);
-  L4vbus::Device dev;
-  l4vbus_device_t dev_info;
   Dbg d(Dbg::Dev, Dbg::Info, "vbus");
-
-  d.printf("Showing vbus contents:\n");
-  while (b.next_device(&dev, L4VBUS_MAX_DEPTH, &dev_info) == 0)
+  if (d.is_active())
     {
-      d.printf("%s with %d resources\n",
-               dev_info.name, dev_info.num_resources);
+      L4vbus::Device b(_bus, 0);
+      L4vbus::Device dev;
+      l4vbus_device_t dev_info;
 
-      for (unsigned i = 0; i < dev_info.num_resources; ++i)
+      d.printf("Showing vbus contents:\n");
+      while (b.next_device(&dev, L4VBUS_MAX_DEPTH, &dev_info) == 0)
         {
-          l4vbus_resource_t res;
-          if (dev.get_resource(i, &res))
-            continue;
+          d.printf("%s with %d resources\n",
+                   dev_info.name, dev_info.num_resources);
 
-          print_resource(res, " ");
+          for (unsigned i = 0; i < dev_info.num_resources; ++i)
+            {
+              l4vbus_resource_t res;
+              if (dev.get_resource(i, &res))
+                continue;
+
+              print_resource(res, " ");
+            }
         }
     }
 }

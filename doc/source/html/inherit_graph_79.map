@@ -1,3 +1,38 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structL4_1_1Epiface__t0.html" title=" " alt="" coords="5,5,173,45"/>
+<area shape="rect" id="Node000000" href="$structL4_1_1Epiface.html" title="Base class for interface implementations." alt="" coords="5,173,99,198"/>
+<area shape="rect" id="Node000001" href="$structL4_1_1Epiface__t0.html" title=" " alt="" coords="151,5,319,45"/>
+<area shape="poly" id="edge50_Node000000_Node000001" title=" " alt="" coords="63,159,96,107,119,79,145,55,165,43,168,48,148,59,123,83,100,110,68,162"/>
+<area shape="rect" id="Node000002" href="$structL4_1_1Epiface__t0.html" title=" " alt="" coords="155,69,315,109"/>
+<area shape="poly" id="edge51_Node000000_Node000002" title=" " alt="" coords="79,162,145,119,172,107,174,112,148,124,82,166"/>
+<area shape="rect" id="Node000003" href="$structL4_1_1Epiface__t0.html" title=" " alt="" coords="149,133,321,173"/>
+<area shape="poly" id="edge52_Node000000_Node000003" title=" " alt="" coords="112,172,149,166,149,171,113,178"/>
+<area shape="rect" id="Node000004" href="$structL4_1_1Epiface__t0.html" title=" " alt="" coords="147,197,324,237"/>
+<area shape="poly" id="edge53_Node000000_Node000004" title=" " alt="" coords="113,193,147,199,146,204,112,198"/>
+<area shape="rect" id="Node000005" href="$structL4_1_1Epiface__t0.html" title="Epiface mixin for generic Kobject&#45;based interfaces." alt="" coords="158,261,313,301"/>
+<area shape="poly" id="edge54_Node000000_Node000005" title=" " alt="" coords="82,204,148,247,174,259,172,264,145,252,79,209"/>
+<area shape="rect" id="Node000012" href="$classL4_1_1Server__object.html" title="Abstract server object to be used with L4::Server and L4::Basic_registry." alt="" coords="168,526,303,551"/>
+<area shape="poly" id="edge61_Node000000_Node000012" title=" " alt="" coords="69,209,230,525,225,527,64,212"/>
+<area shape="rect" id="Node000006" href="$structL4_1_1Epiface__t.html" title=" " alt="" coords="383,76,555,116"/>
+<area shape="poly" id="edge55_Node000005_Node000006" title=" " alt="" coords="318,251,322,247,334,233,341,218,345,188,350,157,357,142,370,126,387,114,390,118,374,130,362,144,355,159,350,189,346,220,339,236,326,251,321,255"/>
+<area shape="rect" id="Node000007" href="$structL4_1_1Epiface__t.html" title=" " alt="" coords="372,141,565,195"/>
+<area shape="poly" id="edge56_Node000005_Node000007" title=" " alt="" coords="312,253,322,247,346,226,370,204,391,193,394,198,374,209,350,230,326,252,314,258"/>
+<area shape="rect" id="Node000008" href="$structL4_1_1Irqep__t.html" title=" " alt="" coords="377,219,561,245"/>
+<area shape="poly" id="edge57_Node000005_Node000008" title=" " alt="" coords="326,260,407,242,409,247,327,265"/>
+<area shape="rect" id="Node000009" href="$structL4_1_1Irqep__t.html" title=" " alt="" coords="381,269,556,294"/>
+<area shape="poly" id="edge58_Node000005_Node000009" title=" " alt="" coords="326,279,381,279,381,284,326,284"/>
+<area shape="rect" id="Node000010" href="$structL4_1_1Epiface__t.html" title="Epiface implementation for Kobject&#45;based interface implementations." alt="" coords="381,319,556,359"/>
+<area shape="poly" id="edge59_Node000005_Node000010" title=" " alt="" coords="326,301,387,316,386,321,325,306"/>
+<area shape="rect" id="Node000011" href="$structL4_1_1Irqep__t.html" title="Epiface implementation for interrupt handlers." alt="" coords="389,383,549,423"/>
+<area shape="poly" id="edge60_Node000005_Node000011" title=" " alt="" coords="275,308,321,339,373,368,401,380,399,385,371,373,318,343,272,312"/>
+<area shape="rect" id="Node000013" href="$structL4_1_1Server__object__t.html" title=" " alt="" coords="395,447,542,487"/>
+<area shape="poly" id="edge62_Node000012_Node000013" title=" " alt="" coords="289,519,402,484,404,489,291,524"/>
+<area shape="rect" id="Node000015" href="$structL4_1_1Server__object__t.html" title=" " alt="" coords="395,511,542,566"/>
+<area shape="poly" id="edge64_Node000012_Node000015" title=" " alt="" coords="316,536,395,536,395,541,316,541"/>
+<area shape="rect" id="Node000016" href="$structL4_1_1Server__object__t.html" title="Base class (template) for server implementing server objects." alt="" coords="395,591,542,631"/>
+<area shape="poly" id="edge65_Node000012_Node000016" title=" " alt="" coords="291,553,404,588,402,593,289,558"/>
+<area shape="rect" id="Node000017" href="$structL4_1_1Server__object__x.html" title="Helper class to implement p_dispatch based server objects." alt="" coords="613,619,803,659"/>
+<area shape="poly" id="edge67_Node000012_Node000017" title=" " alt="" coords="259,559,308,603,339,624,373,640,433,655,496,660,557,659,613,653,613,659,558,664,496,665,433,660,371,645,336,629,304,608,255,563"/>
+<area shape="rect" id="Node000014" href="$structL4_1_1Irq__handler__object.html" title="Server object base class for handling IRQ messages." alt="" coords="625,454,791,479"/>
+<area shape="poly" id="edge63_Node000013_Node000014" title=" " alt="" coords="556,464,625,464,625,469,556,469"/>
+<area shape="poly" id="edge66_Node000016_Node000017" title=" " alt="" coords="556,618,613,625,613,630,555,623"/>
 </map>

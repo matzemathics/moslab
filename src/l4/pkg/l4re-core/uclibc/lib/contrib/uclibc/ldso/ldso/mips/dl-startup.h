@@ -7,6 +7,7 @@
 
 
 #include <sgidefs.h>
+#ifndef L_rcrt1
 __asm__(""
     "	.text\n"
     "	.globl	_start\n"
@@ -42,8 +43,13 @@ __asm__(""
 #else	/* O32 || N32 */
     "	la	$8, .coff\n"
 #endif	/* O32 || N32 */
-    "	bal	.coff\n"
+# if !defined __mips_isa_rev || __mips_isa_rev < 6
+    "	bltzal	$8, .coff\n"
     ".coff:\n"
+# else
+    ".coff:\n"
+    "   lapc $31, .coff\n"
+# endif
 #if _MIPS_SIM == _MIPS_SIM_ABI64
     "	dsubu	$8, $31, $8\n"
     "	dla	$25, _dl_start\n"
@@ -109,6 +115,7 @@ __asm__(""
     "\n\n"
     ".previous\n"
 );
+#endif
 
 /*
  * Get a pointer to the argv array.  On many platforms this can be just
@@ -186,6 +193,5 @@ do {										\
 	case R_MIPS_NONE:							\
 		break;								\
 	default:								\
-		SEND_STDERR("Aiieeee!");					\
 		_dl_exit(1);							\
 	}

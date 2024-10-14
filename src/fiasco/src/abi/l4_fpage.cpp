@@ -76,12 +76,12 @@ public:
     explicit constexpr Rights(unsigned char v)
     : cxx::int_type_base<unsigned char, Rights>(v) {}
 
-    /// Allow implicit conversion from the safe Value_enum type
-    constexpr Rights(Value_enum v)
+    /// Explicit conversion from the Value_enum type
+    explicit constexpr Rights(Value_enum v)
     : cxx::int_type_base<unsigned char, Rights>(v) {}
 
-    /// Allow implicit conversion to the safe Value_enum type
-    constexpr operator Value_enum () const
+    /// Explicit conversion to the Value_enum type
+    explicit constexpr operator Value_enum () const
     { return static_cast<Value_enum>(_v); }
 
     constexpr bool empty() const { return _v == 0; }
@@ -252,7 +252,7 @@ public:
    * \pre type() must return #Io to return a valid value.
    * \return The I/O-port index of this flex page.
    */
-  constexpr Port_number io_address() const { return (Port_number)(unsigned)adr(); }
+  constexpr Port_number io_address() const { return Port_number{adr()}; }
 
   /**
    * Get the capability index of an object flex page.
@@ -262,7 +262,7 @@ public:
    *         This value is shifted #Addr_shift to be a real index
    *         (opposed to obj_address()).
    */
-  constexpr Cap_index obj_index() const { return Cap_index((Mword)adr()); }
+  constexpr Cap_index obj_index() const { return Cap_index{adr()}; }
 
   /**
    * Test for memory flex page (if type() is #Memory).
@@ -340,6 +340,6 @@ public:
    * \param r Rights mask. All rights missing in the mask are removed.
    *          The semantics depend on the type (type()) of the flex page.
    */
-  void mask_rights(Rights r) { _raw &= (Mword(cxx::int_value<Rights>(r)) | ~_rights_bfm_t::Mask); }
+  void mask_rights(Rights r) { _raw &= (Mword{cxx::int_value<Rights>(r)} | ~_rights_bfm_t::Mask); }
 };
 

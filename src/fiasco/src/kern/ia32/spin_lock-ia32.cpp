@@ -10,7 +10,7 @@ public:
 //--------------------------------------------------------------------------
 IMPLEMENTATION [(ia32|ux|amd64) && mp]:
 
-PRIVATE template<typename Lock_t> inline
+IMPLEMENT template<typename Lock_t> inline
 void
 Spin_lock<Lock_t>::lock_arch()
 {
@@ -33,11 +33,15 @@ Spin_lock<Lock_t>::lock_arch()
   else
     L(q);
 #undef L
+
+  Mem::mp_acquire();
 }
 
-PRIVATE template<typename Lock_t> inline
+IMPLEMENT template<typename Lock_t> inline
 void
 Spin_lock<Lock_t>::unlock_arch()
 {
+  Mem::mp_release();
+
   _lock &= ~Arch_lock;
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re::Rm::F Struct Reference</title>
+<title>L4Re Operating System Framework: L4Re::Rm::F Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -111,10 +114,14 @@ $(document).ready(function(){initNavTree('structL4Re_1_1Rm_1_1F.html',''); initR
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:adec4d26077e34d9586891ac0489e0041" id="r_adec4d26077e34d9586891ac0489e0041"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041">Attach_flags</a> : l4_uint32_t { <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">Search_addr</a> = 0x20000
+<tr class="memitem:adec4d26077e34d9586891ac0489e0041" id="r_adec4d26077e34d9586891ac0489e0041"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041">Attach_flags</a> : l4_uint32_t { <br />
+&#160;&#160;<a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a067b0bc28378717b6962241c621caa0a">Search_addr</a> = 0x20000
 , <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041af80cdbdea8dc3a8e155be2ad2c3e5579">In_area</a> = 0x40000
 , <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd">Eager_map</a> = 0x80000
-, <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a07c55d3a4313a4d62b9e8f50918299f8">Attach_mask</a> = 0xf0000
+, <a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a41addbf24fe21f95397c06210f9c0d6c">No_eager_map</a> = 0x100000
+, <br />
+&#160;&#160;<a class="el" href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041a07c55d3a4313a4d62b9e8f50918299f8">Attach_mask</a> = 0x1f0000
+<br />
  }</td></tr>
 <tr class="memdesc:adec4d26077e34d9586891ac0489e0041"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags for attach operation.  <a href="structL4Re_1_1Rm_1_1F.html#adec4d26077e34d9586891ac0489e0041">More...</a><br /></td></tr>
 <tr class="separator:adec4d26077e34d9586891ac0489e0041"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,12 +147,13 @@ Public Types</h2></td></tr>
 , <a class="el" href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989a0b27ac4c2a061083b61ae708a30ef0d5">Region_flags_mask</a> = 0xffff
 <br />
  }</td></tr>
+<tr class="memdesc:a9707a14d822d3f60aa6a97cb16b2a989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Region flags (permissions, cacheability, special).  <a href="structL4Re_1_1Rm_1_1F.html#a9707a14d822d3f60aa6a97cb16b2a989">More...</a><br /></td></tr>
 <tr class="separator:a9707a14d822d3f60aa6a97cb16b2a989"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classL4Re_1_1Rm.html" title="Region map.">Rm</a> flags definitions. </p>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00112">112</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00119">119</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="adec4d26077e34d9586891ac0489e0041" name="adec4d26077e34d9586891ac0489e0041"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adec4d26077e34d9586891ac0489e0041">&#9670;&#160;</a></span>Attach_flags</h2>
@@ -167,11 +175,13 @@ Public Types</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd" name="adec4d26077e34d9586891ac0489e0041a5b916dc458b6756a7b2aa8478a2af2dd"></a>Eager_map&#160;</td><td class="fielddoc"><p>Eagerly map the attached data space in. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="adec4d26077e34d9586891ac0489e0041a41addbf24fe21f95397c06210f9c0d6c" name="adec4d26077e34d9586891ac0489e0041a41addbf24fe21f95397c06210f9c0d6c"></a>No_eager_map&#160;</td><td class="fielddoc"><p>Prevent eager mapping of the attached data space. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="adec4d26077e34d9586891ac0489e0041a07c55d3a4313a4d62b9e8f50918299f8" name="adec4d26077e34d9586891ac0489e0041a07c55d3a4313a4d62b9e8f50918299f8"></a>Attach_mask&#160;</td><td class="fielddoc"><p>Mask of all attach flags. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00115">115</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00122">122</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -186,6 +196,8 @@ Public Types</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Region flags (permissions, cacheability, special). </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9707a14d822d3f60aa6a97cb16b2a989a096464540f7eacdff45f814569c8afd9" name="a9707a14d822d3f60aa6a97cb16b2a989a096464540f7eacdff45f814569c8afd9"></a>Rights_mask&#160;</td><td class="fielddoc"><p>Region rights. </p>
 </td></tr>
@@ -221,7 +233,7 @@ Public Types</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="rm_source.html#l00129">129</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rm_source.html#l00139">139</a> of file <a class="el" href="rm_source.html">rm</a>.</p>
 
 </div>
 </div>
@@ -235,7 +247,7 @@ Public Types</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4Re.html">L4Re</a></li><li class="navelem"><a class="el" href="classL4Re_1_1Rm.html">Rm</a></li><li class="navelem"><a class="el" href="structL4Re_1_1Rm_1_1F.html">F</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

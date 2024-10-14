@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/event.h Source File</title>
+<title>L4Re Operating System Framework: l4/re/event.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -133,8 +136,8 @@ $(document).ready(function(){initNavTree('event_8h_source.html',''); initResizab
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">typedef</span> <span class="keyword">struct </span>L4_EXPORT_TYPE l4re_event_absinfo_t</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>{</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a> value;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a> <a class="code hl_function" href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">min</a>;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a> <a class="code hl_function" href="group__cxx__api.html#ga1d7a566ab5b06016155d693f91a7ee2d">max</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a> min;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a> max;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a> fuzz;</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a> flat;</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <a class="code hl_typedef" href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a> resolution;</div>
@@ -184,8 +187,6 @@ $(document).ready(function(){initNavTree('event_8h_source.html',''); initResizab
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#undef __UNUM_B</span></div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
 <div class="ttc" id="acompiler_8h_html"><div class="ttname"><a href="compiler_8h.html">compiler.h</a></div><div class="ttdoc">L4 compiler related defines.</div></div>
-<div class="ttc" id="agroup__cxx__api_html_ga0bd9662898a7499fcd3feefe594a699b"><div class="ttname"><a href="group__cxx__api.html#ga0bd9662898a7499fcd3feefe594a699b">cxx::min</a></div><div class="ttdeci">T1 min(T1 a, T1 b)</div><div class="ttdoc">Get the minimum of a and b.</div><div class="ttdef"><b>Definition</b> <a href="minmax_source.html#l00035">minmax:35</a></div></div>
-<div class="ttc" id="agroup__cxx__api_html_ga1d7a566ab5b06016155d693f91a7ee2d"><div class="ttname"><a href="group__cxx__api.html#ga1d7a566ab5b06016155d693f91a7ee2d">cxx::max</a></div><div class="ttdeci">T1 max(T1 a, T1 b)</div><div class="ttdoc">Get the maximum of a and b.</div><div class="ttdef"><b>Definition</b> <a href="minmax_source.html#l00046">minmax:46</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1f8fa47736f340e39bd18a96613d4873"><div class="ttname"><a href="group__l4__basic__types.html#ga1f8fa47736f340e39bd18a96613d4873">l4_int32_t</a></div><div class="ttdeci">signed int l4_int32_t</div><div class="ttdoc">Signed 32bit value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00039">l4int.h:39</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_gae8d67914f723bf843df6f311ad2619a2"><div class="ttname"><a href="group__l4__basic__types.html#gae8d67914f723bf843df6f311ad2619a2">l4_uint16_t</a></div><div class="ttdeci">unsigned short int l4_uint16_t</div><div class="ttdoc">Unsigned 16bit value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00038">l4int.h:38</a></div></div>
@@ -196,7 +197,7 @@ $(document).ready(function(){initNavTree('event_8h_source.html',''); initResizab
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="event_8h.html">event.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -5,14 +5,17 @@ IMPLEMENTATION:
 #include "acpi.h"
 #include "acpi_fadt.h"
 #include "context.h"
-#include "kernel_thread.h"
 #include "kmem.h"
 #include "pm.h"
-#include "timer.h"
-#include "timer_tick.h"
 #include "reset.h"
 
-static bool _system_suspend_enabled;
+static bool _system_suspend_enabled = false;
+static void (*_system_resume_handler)() = nullptr;
+
+// Ensures that only one system suspend is done at a time, effectively a bool,
+// but stored as an Mword since accessed with cas.
+static Mword _system_suspend_pending;
+
 // Values cached from ACPI FADT, initialized in Platform_control::init
 static Unsigned32 _pm1a, _pm1b, _pm1a_sts, _pm1b_sts;
 static Unsigned32 _fadt_reset_value, _fadt_reset_regs_addr;
@@ -34,7 +37,8 @@ Platform_control::init(Cpu_number cpu)
     }
 
   facs = Acpi::map_table_head<Acpi_facs>(fadt->facs_addr);
-  printf("ACPI: FACS phys=%x virt=%p\n", fadt->facs_addr, facs);
+  printf("ACPI: FACS phys=%x virt=%p\n", fadt->facs_addr,
+         static_cast<void *>(facs));
 
   if (!facs)
     {
@@ -51,7 +55,7 @@ Platform_control::init(Cpu_number cpu)
   printf("ACPI: HW sig=%x\n", facs->hw_signature);
 
   extern char _tramp_acpi_wakeup[];
-  phys_wake_vector = (Address)_tramp_acpi_wakeup;
+  phys_wake_vector = reinterpret_cast<Address>(_tramp_acpi_wakeup);
   if (phys_wake_vector >= 1UL << 20)
     {
       printf("ACPI: invalid wake vector (1MB): %lx\n", phys_wake_vector);
@@ -90,6 +94,13 @@ IMPLEMENTATION [mp]:
 
 static Cpu_mask _cpus_to_suspend;
 
+/**
+ * Suspend all AP CPUs and take the boot CPU offline.
+ *
+ * \note Must be executed on the boot CPU, i.e. the calling thread must be and
+ *       stay on the boot CPU.
+ * \note Releases the CPU lock temporarily to make cross-CPU call to AP CPUs.
+ */
 static void
 suspend_ap_cpus()
 {
@@ -97,7 +108,7 @@ suspend_ap_cpus()
   _cpus_to_suspend = Cpu::online_mask();
   _cpus_to_suspend.clear(Cpu_number::boot_cpu());
 
-  Cpu_call::cpu_call_many(_cpus_to_suspend, [](Cpu_number cpu)
+  auto suspend_ap_cpu = [](Cpu_number cpu)
     {
       Context::spill_current_fpu(cpu);
       current()->kernel_context_drq([](Context::Drq *, Context *, void *)
@@ -118,7 +129,13 @@ suspend_ap_cpus()
           return Context::Drq::no_answer_resched();
         }, 0);
       return false;
-    }, true);
+    };
+
+    {
+      // If the thread is migrated here, the suspend will not finish.
+      auto guard = lock_guard<Lock_guard_inverse_policy>(cpu_lock);
+      Cpu_call::cpu_call_many_async(_cpus_to_suspend, suspend_ap_cpu);
+    }
 
   // Wind up pending Rcu and Drq changes together with all _cpus_to_suspend
   check (Context::take_cpu_offline(current_cpu(), true));
@@ -141,76 +158,100 @@ IMPLEMENTATION [!mp]:
 static void suspend_ap_cpus() {}
 static void take_boot_cpu_online() {}
 
-
 IMPLEMENTATION:
 
-#include "cpu_call.h"
 #include "io.h"
-#include "fpu.h"
+#include "thread_state.h"
+
+PUBLIC static
+void
+Platform_control::set_system_resume_handler(void (*system_resume_handler)())
+{
+  _system_resume_handler = system_resume_handler;
+}
 
 /**
- * \brief Initiate a full system suspend to RAM.
- * \pre must run on the boot CPU
+ * Initiate a full system suspend to RAM.
+ *
+ * \pre CPU lock must be held.
+ *
+ * \note Must be executed on the boot CPU, i.e. the calling thread must be and
+ *       stay on the boot CPU.
  */
-static Context::Drq::Result
-do_system_suspend(Context::Drq *, Context *, void *data)
+static Mword
+do_system_suspend(Mword sleep_type)
 {
-  assert (current_cpu() == Cpu_number::boot_cpu());
-  Context::spill_current_fpu(current_cpu());
+  assert(cpu_lock.test());
+  assert(current_cpu() == Cpu_number::boot_cpu());
+
+  Mword result = 0;
+
+  // First suspend all the other CPUs in the system (temporarily releases CPU
+  // lock).
   suspend_ap_cpus();
+
+  // Then enter system suspend via ACPI.
+  Context::spill_current_fpu(current_cpu());
 
   facs->fw_wake_vector = phys_wake_vector;
   if (facs->len > 32 && facs->version >= 1)
     facs->x_fw_wake_vector = 0;
 
-  Mword sleep_type = *(Mword *)data;
-  *reinterpret_cast<Mword*>(data) = 0;
-
   Pm_object::run_on_suspend_hooks(current_cpu());
+
+  current()->spill_user_state();
 
   Cpu::cpus.current().pm_suspend();
 
   if (acpi_save_cpu_and_suspend(sleep_type,
                                 (_pm1b << 16) | _pm1a,
                                 (_pm1b_sts << 16) | _pm1a_sts))
-    *reinterpret_cast<Mword *>(data) = -L4_err::EInval;
+    result = -L4_err::EInval;
 
   Mem_unit::tlb_flush();
 
   Cpu::cpus.current().pm_resume();
 
+  // mainly for setting FS base and GS base on AMD64
+  // must be done after calling Cpu::pm_resume()
+  current()->fill_user_state();
+
   take_boot_cpu_online();
 
   Pm_object::run_on_resume_hooks(current_cpu());
 
-  Fpu::init(current_cpu(), true);
+  // includes booting the application CPUs
+  if (_system_resume_handler)
+    _system_resume_handler();
 
-  Timer::init(current_cpu());
-  Timer_tick::enable(current_cpu());
-  Kernel_thread::boot_app_cpus();
-
-  return Context::Drq::no_answer_resched();
+  return result;
 }
 
 IMPLEMENT_OVERRIDE
 static int
 Platform_control::system_suspend(Mword extra)
 {
-  auto guard = lock_guard(cpu_lock);
-
   if (!_system_suspend_enabled)
     return -L4_err::ENodev;
 
-  Cpu_mask cpus;
-  cpus.set(Cpu_number::boot_cpu());
+  auto guard = lock_guard(cpu_lock);
 
-  Cpu_call::cpu_call_many(cpus, [&extra](Cpu_number)
-    {
-      current()->kernel_context_drq(do_system_suspend, &extra);
-      return false;
-    }, true);
+  // Must only be invoked from boot CPU and must not be migrated.
+  if (   current()->home_cpu() != Cpu_number::boot_cpu()
+      || current_cpu() != Cpu_number::boot_cpu())
+    return -L4_err::EInval;
 
-  return extra;
+  // Mark systems suspend as pending, fails if already in progress.
+  if (!cas(&_system_suspend_pending, Mword{false}, Mword{true}))
+    return -L4_err::EBusy;
+
+  Mem::mp_mb();
+  Mword result = do_system_suspend(extra);
+  Mem::mp_mb();
+
+  write_now(&_system_suspend_pending, false);
+
+  return result;
 }
 
 IMPLEMENT_OVERRIDE

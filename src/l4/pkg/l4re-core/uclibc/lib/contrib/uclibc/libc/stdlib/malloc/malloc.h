@@ -138,7 +138,7 @@ extern int __malloc_mmb_debug;
    malloc and free, sbrk may be used several times in succession, and
    things will break if these multiple calls are interleaved with another
    thread's use of sbrk!).  */
-__UCLIBC_MUTEX_EXTERN(__malloc_sbrk_lock) attribute_hidden;
+__UCLIBC_MUTEX_EXTERN(__malloc_sbrk_lock);
 #  define __malloc_lock_sbrk()	__UCLIBC_MUTEX_LOCK_CANCEL_UNSAFE (__malloc_sbrk_lock)
 #  define __malloc_unlock_sbrk() __UCLIBC_MUTEX_UNLOCK_CANCEL_UNSAFE (__malloc_sbrk_lock)
 #else
@@ -199,13 +199,13 @@ extern void __malloc_debug_printf (int indent, const char *fmt, ...) attribute_h
 extern struct heap_free_area *__malloc_heap attribute_hidden;
 #ifdef __UCLIBC_HAS_THREADS__
 __UCLIBC_MUTEX_EXTERN(__malloc_heap_lock)
-# ifndef __LINUXTHREADS_OLD__
+# ifndef __UCLIBC_HAS_LINUXTHREADS__
 	attribute_hidden
 # endif
 	;
 # ifdef __UCLIBC_UCLINUX_BROKEN_MUNMAP__
 __UCLIBC_MUTEX_EXTERN(__malloc_mmb_heap_lock)
-#  ifndef __LINUXTHREADS_OLD__
+#  ifndef __UCLIBC_HAS_LINUXTHREADS__
 	attribute_hidden
 #  endif
 	;

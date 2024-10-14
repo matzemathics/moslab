@@ -1,6 +1,6 @@
 // The template and inlines for the numeric_limits classes. -*- C++ -*-
 
-// Copyright (C) 1999-2023 Free Software Foundation, Inc.
+// Copyright (C) 1999-2024 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -1665,6 +1665,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #undef __INT_N_U201103
 
 
+#ifndef BID_VARIANT_FLAG_NOFPU
   /// numeric_limits<float> specialization.
   template<>
     struct numeric_limits<float>
@@ -1885,6 +1886,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX_USE_CONSTEXPR float_round_style round_style =
 						      round_to_nearest;
     };
+#endif
 
 #undef __glibcxx_long_double_has_denorm_loss
 #undef __glibcxx_long_double_traps
@@ -1982,6 +1984,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	= round_to_nearest; 						\
     }; 									\
 
+#ifndef BID_VARIANT_FLAG_NOFPU
 #ifdef __STDCPP_FLOAT16_T__
 __glibcxx_float_n(16)
 #endif
@@ -1993,6 +1996,7 @@ __glibcxx_float_n(64)
 #endif
 #ifdef __FLT128_DIG__
 __glibcxx_float_n(128)
+#endif
 #endif
 #undef __glibcxx_float_n
 #undef __glibcxx_concat3

@@ -18,13 +18,17 @@
 
 #include <sys/syscall.h>
 
-#if defined __NR_ppoll && defined __UCLIBC_LINUX_SPECIFIC__ && defined __USE_GNU
+#if (defined __NR_ppoll || defined(__NR_ppoll_time64)) && defined __UCLIBC_LINUX_SPECIFIC__ && defined __USE_GNU
 
 #define __need_NULL
 #include <stddef.h>
 #include <signal.h>
 #include <sys/poll.h>
 #include <cancel.h>
+
+#if defined(__UCLIBC_USE_TIME64__)
+#include "internal/time64_helpers.h"
+#endif
 
 static int
 __NC(ppoll)(struct pollfd *fds, nfds_t nfds, const struct timespec *timeout,
@@ -37,11 +41,14 @@ __NC(ppoll)(struct pollfd *fds, nfds_t nfds, const struct timespec *timeout,
 		tval = *timeout;
 		timeout = &tval;
 	}
+#if defined(__UCLIBC_USE_TIME64__) && defined(__NR_ppoll_time64)
+	return INLINE_SYSCALL(ppoll_time64, 5, fds, nfds, TO_TS64_P(timeout), sigmask, __SYSCALL_SIGSET_T_SIZE);
+#else
 	return INLINE_SYSCALL(ppoll, 5, fds, nfds, timeout, sigmask, __SYSCALL_SIGSET_T_SIZE);
+#endif
 }
 
 CANCELLABLE_SYSCALL(int, ppoll, (struct pollfd *fds, nfds_t nfds, const struct timespec *timeout,
 				 const sigset_t *sigmask),
 		    (fds, nfds, timeout, sigmask))
-
 #endif

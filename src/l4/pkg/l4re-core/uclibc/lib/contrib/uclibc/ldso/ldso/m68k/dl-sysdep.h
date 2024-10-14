@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Various assembly language/system dependent hacks that are required
  * so that we can minimize the amount of platform specific code.
@@ -28,12 +27,16 @@ do { \
 struct elf_resolve;
 extern unsigned long _dl_linux_resolver (struct elf_resolve *, int);
 
-/* ELF_RTYPE_CLASS_PLT iff TYPE describes relocation of a PLT entry, so
-   PLT entries should not be allowed to define the value.
-   ELF_RTYPE_CLASS_NOCOPY iff TYPE should not be allowed to resolve to one
+/* ELF_RTYPE_CLASS_PLT iff TYPE describes relocation of a PLT entry or
+   TLS variable, so undefined references should not be allowed to
+   define the value.
+   ELF_RTYPE_CLASS_COPY iff TYPE should not be allowed to resolve to one
    of the main executable's symbols, as for a COPY reloc.  */
 #define elf_machine_type_class(type) \
-  ((((type) == R_68K_JMP_SLOT) * ELF_RTYPE_CLASS_PLT)	\
+  ((((type) == R_68K_JMP_SLOT	     \
+     || (type) == R_68K_TLS_DTPMOD32 \
+     || (type) == R_68K_TLS_DTPREL32 \
+     || (type) == R_68K_TLS_TPREL32) * ELF_RTYPE_CLASS_PLT)	\
    | (((type) == R_68K_COPY) * ELF_RTYPE_CLASS_COPY))
 
 /* Return the link-time address of _DYNAMIC.  Conveniently, this is the
@@ -80,3 +83,5 @@ elf_machine_relative (Elf32_Addr load_off, const Elf32_Addr rel_addr,
 		*reloc_addr = load_off + rpnt->r_addend;
 	} while (--relative_count);
 }
+
+#define DL_UPDATE_LOADADDR_HDR(LOADADDR, ADDR, PHDR)

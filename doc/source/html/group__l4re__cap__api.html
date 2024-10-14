@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re Capability API</title>
+<title>L4Re Operating System Framework: L4Re Capability API</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -178,7 +181,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="util_2cap__alloc_source.html#l00218">218</a> of file <a class="el" href="util_2cap__alloc_source.html">cap_alloc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="util_2cap__alloc_source.html#l00206">206</a> of file <a class="el" href="util_2cap__alloc_source.html">cap_alloc</a>.</p>
 
 <p class="reference">References <a class="el" href="group__l4re__cap__api.html#ga29e3dbeb3c8ed0609519c9df212c9c52">L4Re::Util::cap_alloc</a>.</p>
 
@@ -209,7 +212,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="util_2cap__alloc_source.html#l00227">227</a> of file <a class="el" href="util_2cap__alloc_source.html">cap_alloc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="util_2cap__alloc_source.html#l00215">215</a> of file <a class="el" href="util_2cap__alloc_source.html">cap_alloc</a>.</p>
 
 <p class="reference">References <a class="el" href="group__l4re__cap__api.html#ga29e3dbeb3c8ed0609519c9df212c9c52">L4Re::Util::cap_alloc</a>.</p>
 
@@ -237,13 +240,12 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Capability allocator. </p>
-<p>This is the instance of the capability allocator that is used by usual applications. The actual implementation of the allocator depends on the configuration of the system.</p>
-<p>Per default we use <a class="el" href="classL4Re_1_1Util_1_1Counting__cap__alloc.html" title="Internal reference-counting cap allocator.">Counting_cap_alloc</a>, a reference-counting capability allocator, that keeps a reference counter for each managed capability selector.</p>
-<dl class="section note"><dt>Note</dt><dd>This capability allocator is not thread-safe. </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2libs_2l4re_2c_09_09_2mem_alloc_2ma_09rm_8cc-example.html#a1">examples/libs/l4re/c++/mem_alloc/ma+rm.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_clnt_8cc-example.html#a4">examples/libs/l4re/c++/shared_ds/ds_clnt.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_srv_8cc-example.html#a9">examples/libs/l4re/c++/shared_ds/ds_srv.cc</a>, and <a class="el" href="examples_2libs_2l4re_2streammap_2client_8cc-example.html#a14">examples/libs/l4re/streammap/client.cc</a>.</dd>
+<p>This is the instance of the capability allocator that is used by usual applications.</p>
+<p>The capability allocator uses the <a class="el" href="classL4Re_1_1Util_1_1Counting__cap__alloc.html" title="Internal reference-counting cap allocator.">Counting_cap_alloc</a>, a reference-counting thread-safe capability allocator, that keeps a reference counter for each managed capability selector. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2libs_2l4re_2c_09_09_2mem_alloc_2ma_09rm_8cc-example.html#a1">examples/libs/l4re/c++/mem_alloc/ma+rm.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_clnt_8cc-example.html#a4">examples/libs/l4re/c++/shared_ds/ds_clnt.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_srv_8cc-example.html#a8">examples/libs/l4re/c++/shared_ds/ds_srv.cc</a>, and <a class="el" href="examples_2libs_2l4re_2streammap_2client_8cc-example.html#a14">examples/libs/l4re/streammap/client.cc</a>.</dd>
 </dl>
 
-<p class="reference">Referenced by <a class="el" href="br__manager_source.html#l00065">L4Re::Util::Br_manager::alloc_buffer_demand()</a>, <a class="el" href="util_2cap__alloc_source.html#l00127">L4Re::Util::Smart_count_cap&lt; Unmap_flags &gt;::copy()</a>, <a class="el" href="util_2cap__alloc_source.html#l00065">L4Re::Util::Smart_cap_auto&lt; Unmap_flags &gt;::free()</a>, <a class="el" href="util_2cap__alloc_source.html#l00106">L4Re::Util::Smart_count_cap&lt; Unmap_flags &gt;::free()</a>, <a class="el" href="util_2cap__alloc_source.html#l00218">L4Re::Util::make_ref_cap()</a>, <a class="el" href="util_2cap__alloc_source.html#l00227">L4Re::Util::make_ref_del_cap()</a>, <a class="el" href="util_2shared__cap_source.html#l00071">L4Re::Util::make_shared_cap()</a>, <a class="el" href="util_2shared__cap_source.html#l00121">L4Re::Util::make_shared_del_cap()</a>, <a class="el" href="util_2unique__cap_source.html#l00066">L4Re::Util::make_unique_cap()</a>, <a class="el" href="util_2unique__cap_source.html#l00109">L4Re::Util::make_unique_del_cap()</a>, <a class="el" href="br__manager_source.html#l00105">L4Re::Util::Br_manager::realloc_rcv_cap()</a>, and <a class="el" href="object__registry_source.html#l00276">L4Re::Util::Object_registry::unregister_obj()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="br__manager_source.html#l00065">L4Re::Util::Br_manager::alloc_buffer_demand()</a>, <a class="el" href="util_2cap__alloc_source.html#l00115">L4Re::Util::Smart_count_cap&lt; Unmap_flags &gt;::copy()</a>, <a class="el" href="util_2cap__alloc_source.html#l00062">L4Re::Util::Smart_cap_auto&lt; Unmap_flags &gt;::free()</a>, <a class="el" href="util_2cap__alloc_source.html#l00094">L4Re::Util::Smart_count_cap&lt; Unmap_flags &gt;::free()</a>, <a class="el" href="util_2cap__alloc_source.html#l00206">L4Re::Util::make_ref_cap()</a>, <a class="el" href="util_2cap__alloc_source.html#l00215">L4Re::Util::make_ref_del_cap()</a>, <a class="el" href="util_2shared__cap_source.html#l00071">L4Re::Util::make_shared_cap()</a>, <a class="el" href="util_2shared__cap_source.html#l00121">L4Re::Util::make_shared_del_cap()</a>, <a class="el" href="util_2unique__cap_source.html#l00066">L4Re::Util::make_unique_cap()</a>, <a class="el" href="util_2unique__cap_source.html#l00109">L4Re::Util::make_unique_del_cap()</a>, <a class="el" href="br__manager_source.html#l00105">L4Re::Util::Br_manager::realloc_rcv_cap()</a>, and <a class="el" href="object__registry_source.html#l00276">L4Re::Util::Object_registry::unregister_obj()</a>.</p>
 
 </div>
 </div>
@@ -253,7 +255,7 @@ template&lt;typename T &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

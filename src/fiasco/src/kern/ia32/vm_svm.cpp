@@ -20,8 +20,7 @@ private:
 
   static Vmcb *ext_state(Vcpu_state *s)
   {
-    // 0x400: offset into vCPU state page for VMCB start.
-    return reinterpret_cast<Vmcb *>(reinterpret_cast<char *>(s) + 0x400);
+    return offset_cast<Vmcb *>(s, Config::Ext_vcpu_state_offset);
   }
 };
 
@@ -38,7 +37,7 @@ protected:
     Mword exitcode, exitinfo1, exitinfo2, rip;
     void print(String_buffer *buf) const;
   };
-
+  static_assert(sizeof(Log_vm_svm_exit) <= Tb_entry::Tb_entry_size);
 };
 
 // ------------------------------------------------------------------------
@@ -153,6 +152,8 @@ Vm_svm::get_vm_cr3(Vmcb *v)
 //----------------------------------------------------------------------------
 IMPLEMENTATION [svm]:
 
+static Kmem_slab_t<Vm_svm> _svm_allocator("Vm_svm");
+
 PUBLIC
 Vm_svm::Vm_svm(Ram_quota *q)
   : Vm(q)
@@ -160,9 +161,15 @@ Vm_svm::Vm_svm(Ram_quota *q)
   _tlb_type = Tlb_per_cpu_global;
 }
 
+PUBLIC static
+Vm_svm *Vm_svm::alloc(Ram_quota *q)
+{
+  return _svm_allocator.q_new(q, q);
+}
+
 PUBLIC inline
 void *
-Vm_svm::operator new (size_t size, void *p) throw()
+Vm_svm::operator new (size_t size, void *p) noexcept
 {
   (void)size;
   assert (size == sizeof (Vm_svm));
@@ -173,13 +180,16 @@ PUBLIC
 void
 Vm_svm::operator delete (void *ptr)
 {
-  Vm_svm *t = reinterpret_cast<Vm_svm*>(ptr);
-  Kmem_slab_t<Vm_svm>::q_free(t->ram_quota(), ptr);
+  Vm_svm *t = static_cast<Vm_svm*>(ptr);
+  // Prevent the compiler from assuming that the object has become invalid after
+  // destruction. In particular the _quota member contains valid content.
+  asm ("" : "=m"(*t));
+  _svm_allocator.q_free(t->ram_quota(), ptr);
 }
 
 PUBLIC
 void
-Vm_svm::tlb_flush(bool) override
+Vm_svm::tlb_flush_current_cpu() override
 {
   // Nothing to do here, we flush on each entry!
 }
@@ -616,7 +626,7 @@ Vm_svm::do_resume_vcpu(Context *ctxt, Vcpu_state *vcpu, Vmcb *vmcb_s)
 
   resume_vm_svm(kernel_vmcb_pa, &vcpu->_regs);
 
-  load_host_xcr0(host_xcr0, kernel_vmcb_s->state_save_area.xcr0);
+  restore_host_xcr0(host_xcr0, kernel_vmcb_s->state_save_area.xcr0);
 
 #if 0
   if (cr4 & CR4_PGE)
@@ -729,7 +739,9 @@ Vm_svm::resume_vcpu(Context *ctxt, Vcpu_state *vcpu, bool user_mode) override
 }
 
 namespace {
-static inline void __attribute__((constructor)) FIASCO_INIT
+
+static inline
+void __attribute__((constructor)) FIASCO_INIT_SFX(vm_svm_register_factory)
 register_factory()
 {
   if (!Svm::cpu_svm_available(Cpu_number::boot_cpu()))
@@ -738,6 +750,7 @@ register_factory()
   Kobject_iface::set_factory(L4_msg_tag::Label_vm,
                              Task::generic_factory<Vm_svm>);
 }
+
 }
 
 // ------------------------------------------------------------------------

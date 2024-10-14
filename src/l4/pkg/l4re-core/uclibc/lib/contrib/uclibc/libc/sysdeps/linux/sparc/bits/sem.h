@@ -1,5 +1,4 @@
 /* Copyright (C) 1995, 1996, 1997, 1998, 2000 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -20,7 +19,6 @@
 #endif
 
 #include <sys/types.h>
-#include <bits/wordsize.h>
 
 /* Flags for `semop'.  */
 #define SEM_UNDO	0x1000		/* undo the operation on exit */
@@ -39,17 +37,27 @@
 struct semid_ds
 {
   struct ipc_perm sem_perm;		/* operation permission struct */
-#if __WORDSIZE == 32
   unsigned int __pad1;
+#if defined(__UCLIBC_USE_TIME64__)
+  unsigned long int __sem_otime_internal_1; /* last semop() time */
+  unsigned long int __sem_otime_internal_2;
+#else
+  __time_t sem_otime;                  /* last semop() time */
 #endif
-  __time_t sem_otime;			/* last semop() time */
-#if __WORDSIZE == 32
   unsigned int __pad2;
+#if defined(__UCLIBC_USE_TIME64__)
+  unsigned long int __sem_ctime_internal_1; /* last time changed by semctl() */
+  unsigned long int __sem_ctime_internal_2;
+#else
+  __time_t sem_ctime;                  /* last time changed by semctl() */
 #endif
-  __time_t sem_ctime;			/* last time changed by semctl() */
   unsigned long int sem_nsems;		/* number of semaphores in set */
-  unsigned long int __unused1;
-  unsigned long int __unused2;
+#if defined(__UCLIBC_USE_TIME64__)
+  __time_t sem_otime;
+  __time_t sem_ctime;
+#endif
+  unsigned long int __uclibc_unused1;
+  unsigned long int __uclibc_unused2;
 };
 
 /* The user should define a union like the following to use it for arguments

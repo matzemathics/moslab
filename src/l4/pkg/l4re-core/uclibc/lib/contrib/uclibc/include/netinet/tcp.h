@@ -51,78 +51,91 @@
 #define	TCP_QUICKACK	 12	/* Bock/reenable quick ACKs.  */
 #define TCP_CONGESTION	 13	/* Congestion control algorithm.  */
 #define TCP_MD5SIG	 14	/* TCP MD5 Signature (RFC2385) */
+#define TCP_COOKIE_TRANSACTIONS  15 /* TCP Cookie Transactions */
+#define TCP_THIN_LINEAR_TIMEOUTS 16 /* Use linear timeouts for thin streams*/
+#define TCP_THIN_DUPACK          17 /* Fast retrans. after 1 dupack */
+#define TCP_USER_TIMEOUT         18 /* How long for loss retry before timeout */
+#define TCP_REPAIR               19 /* TCP sock is under repair right now */
+#define TCP_REPAIR_QUEUE         20 /* Set TCP queue to repair */
+#define TCP_QUEUE_SEQ            21 /* Set sequence number of repaired queue. */
+#define TCP_REPAIR_OPTIONS       22 /* Repair TCP connection options */
+#define TCP_FASTOPEN             23 /* Enable FastOpen on listeners */
+#define TCP_TIMESTAMP            24 /* TCP time stamp */
 
 #ifdef __USE_MISC
 # include <sys/types.h>
 # include <sys/socket.h>
+# include <stdint.h>
 
-# ifdef __FAVOR_BSD
-typedef	u_int32_t tcp_seq;
+typedef	uint32_t tcp_seq;
 /*
  * TCP header.
  * Per RFC 793, September, 1981.
  */
 struct tcphdr
   {
-    u_int16_t th_sport;		/* source port */
-    u_int16_t th_dport;		/* destination port */
-    tcp_seq th_seq;		/* sequence number */
-    tcp_seq th_ack;		/* acknowledgement number */
-#  if __BYTE_ORDER == __LITTLE_ENDIAN
-    u_int8_t th_x2:4;		/* (unused) */
-    u_int8_t th_off:4;		/* data offset */
-#  endif
-#  if __BYTE_ORDER == __BIG_ENDIAN
-    u_int8_t th_off:4;		/* data offset */
-    u_int8_t th_x2:4;		/* (unused) */
-#  endif
-    u_int8_t th_flags;
-#  define TH_FIN	0x01
-#  define TH_SYN	0x02
-#  define TH_RST	0x04
-#  define TH_PUSH	0x08
-#  define TH_ACK	0x10
-#  define TH_URG	0x20
-    u_int16_t th_win;		/* window */
-    u_int16_t th_sum;		/* checksum */
-    u_int16_t th_urp;		/* urgent pointer */
+    __extension__ union
+    {
+      struct
+      {
+	uint16_t th_sport;	/* source port */
+	uint16_t th_dport;	/* destination port */
+	tcp_seq th_seq;		/* sequence number */
+	tcp_seq th_ack;		/* acknowledgement number */
+# if __BYTE_ORDER == __LITTLE_ENDIAN
+	uint8_t th_x2:4;	/* (unused) */
+	uint8_t th_off:4;	/* data offset */
+# endif
+# if __BYTE_ORDER == __BIG_ENDIAN
+	uint8_t th_off:4;	/* data offset */
+	uint8_t th_x2:4;	/* (unused) */
+# endif
+	uint8_t th_flags;
+# define TH_FIN	0x01
+# define TH_SYN	0x02
+# define TH_RST	0x04
+# define TH_PUSH	0x08
+# define TH_ACK	0x10
+# define TH_URG	0x20
+	uint16_t th_win;	/* window */
+	uint16_t th_sum;	/* checksum */
+	uint16_t th_urp;	/* urgent pointer */
+      };
+      struct
+      {
+	uint16_t source;
+	uint16_t dest;
+	uint32_t seq;
+	uint32_t ack_seq;
+# if __BYTE_ORDER == __LITTLE_ENDIAN
+	uint16_t res1:4;
+	uint16_t doff:4;
+	uint16_t fin:1;
+	uint16_t syn:1;
+	uint16_t rst:1;
+	uint16_t psh:1;
+	uint16_t ack:1;
+	uint16_t urg:1;
+	uint16_t res2:2;
+# elif __BYTE_ORDER == __BIG_ENDIAN
+	uint16_t doff:4;
+	uint16_t res1:4;
+	uint16_t res2:2;
+	uint16_t urg:1;
+	uint16_t ack:1;
+	uint16_t psh:1;
+	uint16_t rst:1;
+	uint16_t syn:1;
+	uint16_t fin:1;
+# else
+#  error "Adjust your <bits/endian.h> defines"
+# endif
+	uint16_t window;
+	uint16_t check;
+	uint16_t urg_ptr;
+      };
+    };
 };
-
-# else /* !__FAVOR_BSD */
-struct tcphdr
-  {
-    u_int16_t source;
-    u_int16_t dest;
-    u_int32_t seq;
-    u_int32_t ack_seq;
-#  if __BYTE_ORDER == __LITTLE_ENDIAN
-    u_int16_t res1:4;
-    u_int16_t doff:4;
-    u_int16_t fin:1;
-    u_int16_t syn:1;
-    u_int16_t rst:1;
-    u_int16_t psh:1;
-    u_int16_t ack:1;
-    u_int16_t urg:1;
-    u_int16_t res2:2;
-#  elif __BYTE_ORDER == __BIG_ENDIAN
-    u_int16_t doff:4;
-    u_int16_t res1:4;
-    u_int16_t res2:2;
-    u_int16_t urg:1;
-    u_int16_t ack:1;
-    u_int16_t psh:1;
-    u_int16_t rst:1;
-    u_int16_t syn:1;
-    u_int16_t fin:1;
-#  else
-#   error "Adjust your <bits/endian.h> defines"
-#  endif
-    u_int16_t window;
-    u_int16_t check;
-    u_int16_t urg_ptr;
-};
-# endif /* __FAVOR_BSD */
 
 enum
 {

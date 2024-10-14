@@ -34,6 +34,8 @@
 
 #include <unistd.h>
 
+#include <terminate_handler-l4>
+
 #include "background.h"
 #include "big_mouse.h"
 #include "input_driver"
@@ -234,7 +236,9 @@ static const luaL_Reg libs[] =
 
 struct Err : L4Re::Util::Err { Err() : L4Re::Util::Err(Fatal, "") {} };
 
-int run(int argc, char const *argv[])
+}
+
+int main(int argc, char const *argv[])
 {
   L4Re::Util::Dbg dbg;
   Err p_err;
@@ -349,27 +353,4 @@ int run(int argc, char const *argv[])
   server.loop<L4::Runtime_error>(&registry);
 
   return 0;
-}
-}
-
-int main(int argc, char const *argv[])
-{
-  try
-    {
-      return run(argc, argv);
-    }
-  catch (L4::Runtime_error const &e)
-    {
-      L4::cerr << "Error: " << e << '\n';
-    }
-  catch (L4::Base_exception const &e)
-    {
-      L4::cerr << "Error: " << e << '\n';
-    }
-  catch (std::exception const &e)
-    {
-      L4::cerr << "Error: " << e.what() << '\n';
-    }
-
-  return -1;
 }

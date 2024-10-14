@@ -27,6 +27,7 @@ sub new_node
   $n->{requires} = [] unless defined $n->{requires};
   $n->{optional} = [] unless defined $n->{optional};
   $n->{provides} = [] unless defined $n->{provides};
+  $n->{variants} = [] unless defined $n->{variants};
   $n->{'source-pkg'} = [] unless defined $n->{'source-pkg'};
   $n->{maintainer} = [] unless defined $n->{maintainer};
   return $n
@@ -124,15 +125,15 @@ sub write_alias_pcfile($@)
   die "Path for pc-files not set, use '-P dir'"
     unless defined $pcfiledir_for_aliases;
 
-  open(U, ">$pcfiledir_for_aliases/$alias.pc")
+  open(my $u, ">$pcfiledir_for_aliases/$alias.pc")
     || die "Cannot create '$pcfiledir_for_aliases/$alias.pc': $!";
 
-  print U "Name: $alias\n".
-          "Version: 0\n".
-          "Description: Alias Dependency Package\n".
-          "Requires: ".join(' ', grep { not defined $build_only_deps{$_} } @_)."\n";
+  print $u "Name: $alias\n".
+           "Version: 0\n".
+           "Description: Alias Dependency Package\n".
+           "Requires: ".join(' ', grep { not defined $build_only_deps{$_} } @_)."\n";
 
-  close U;
+  close $u;
 }
 
 sub write_kconfig_file()
@@ -147,6 +148,7 @@ sub write_kconfig_file()
 
   foreach my $p (keys %provided)
     {
+      $p =~ s/\+/PLUS/g;
       $p =~ s/[^A-Za-z0-9]/_/g;
       print $f "config HAVE_BIDPC_" . uc($p) . "\n";
       print $f "\tbool\n";
@@ -275,6 +277,7 @@ sub scan_for_provided_pkg_configs
               last unless    $control_entry->('optional')
                           || $control_entry->('requires')
                           || $control_entry->('provides')
+                          || $control_entry->('variants')
                           || $control_entry->('source-pkg')
                           || $control_entry->('maintainer');
             }
@@ -388,10 +391,16 @@ sub generate_dep_makefile
   print "#\n";
 
   my %p = %pkgs;
+  my %variants;
 
   foreach my $a (sort keys %nodes)
     {
       my $n = $nodes{$a};
+      # Generate variant overview
+      foreach my $variant (@{$n->{variants}})
+        {
+          push(@{$variants{$variant}}, $n->{name});
+        }
       my $d = generate_single_dep('requires', $n, $ignore_missing, \$error_count);
       $d |=  generate_single_dep('optional', $n, 1, \$error_count);
       delete $p{$a} if $d;
@@ -423,6 +432,14 @@ sub generate_dep_makefile
       delete $p{$_} if $_ eq $p{$_};
     }
 
+  print "\n# variant configurations\n";
+  foreach my $variant (keys %variants)
+    {
+      my @p = figure_out_pkg_dependencies(@{$variants{$variant}});
+      print "# Derived from: " . join(' ', sort @{$variants{$variant}}) . "\n";
+      print "VARIANTS_$_+=$variant\n" foreach @p;
+    }
+
   print "\n# pakages w/o deps\n.PHONY: ".join(' ', sort keys %p)."\n" if %p;
 
   if ($error_count)
@@ -433,13 +450,15 @@ sub generate_dep_makefile
 }
 
 # get the package providing the given abstract target
-sub get_providing_pkg($$)
+sub get_providing_pkg($$$)
 {
   my $n = shift;
   my $r = shift;
+  my $optional = shift;
   my $p = $provided{$n};
   return $p if defined $p;
-  print STDERR "ERROR: no package providing '$n' found, as required by '$r'\n";
+  print STDERR "ERROR: no package providing '$n' found, as required by '$r'\n"
+    unless defined $optional;
   return undef;
 }
 
@@ -485,7 +504,8 @@ sub get_deps_recursive(@)
 
           foreach my $rpkg (@{$pkg->{requires}}, @{$pkg->{optional}})
             {
-              my $r = get_providing_pkg($rpkg, $pkg->{name});
+              my $r = get_providing_pkg($rpkg, $pkg->{name},
+                                        grep { $rpkg eq $_ } @{$pkg->{optional}});
               next unless defined $r;
               $done = 0 unless defined $deps{$r->{name}};
               $deps{$r->{name}} = $r;
@@ -496,7 +516,7 @@ sub get_deps_recursive(@)
   return values %deps;
 }
 
-sub figure_out_pkg_dependecies(@)
+sub figure_out_pkg_dependencies(@)
 {
   my %newpkgs;
   foreach (@_)
@@ -693,7 +713,7 @@ sub resolve_requires($)
   my $n = shift;
   foreach (@{$n->{requires}})
     {
-      my $p = get_providing_pkg($_, $n->{name});
+      my $p = get_providing_pkg($_, $n->{name}, undef);
       next unless defined $p;
       $p->{required_by}->{$n->{name}} = $n;
       $n->{requires_pkgs}->{$p->{name}} = $p;
@@ -840,7 +860,7 @@ EOFOO
       gen_required_by_dot_subtree($pnode, *F);
 
       my %rev_deps = figure_out_dependant_pkgs($pkg);
-      my @deps     = figure_out_pkg_dependecies($pkg);
+      my @deps     = figure_out_pkg_dependencies($pkg);
       print F "  \"$pkg\" [style=filled, fillcolor=dodgerblue];\n";
       print F "}\n";
       close F;
@@ -961,7 +981,7 @@ sub show_pkg_deps($$@)
   my $prefix = shift;
   scan_files($base_path, 0);
 
-  my @p = figure_out_pkg_dependecies(@_);
+  my @p = figure_out_pkg_dependencies(@_);
 
   print join("\n", map { "$prefix$_" } sort @p), "\n" if $prefix;
   print join(' ', sort @p), "\n"                      unless $prefix;
@@ -975,7 +995,7 @@ sub show_pkg_deps_and_rdeps($$@)
   scan_files($base_path, 0);
 
   my %r = figure_out_dependant_pkgs(@_);
-  my @p = figure_out_pkg_dependecies(@_, keys %r);
+  my @p = figure_out_pkg_dependencies(@_, keys %r);
 
   print join("\n", map { "$prefix$_" } sort @p), "\n" if $prefix;
   print join(' ', sort @p), "\n"                      unless $prefix;

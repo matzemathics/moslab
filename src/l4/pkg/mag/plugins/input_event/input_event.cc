@@ -59,15 +59,15 @@ public:
 
     if (c && !_source_be._event.init_poll(c))
       {
-	_source_be._ev_cap = c;
+        _source_be._ev_cap = c;
         core->add_input_source(&_source_be);
       }
 
     c = L4Re::Env::env()->get_cap<L4Re::Event>("ev");
     if (c && !_source_ev._event.init_poll(c))
       {
-	_source_ev._ev_cap = c;
-	core->add_input_source(&_source_ev);
+        _source_ev._ev_cap = c;
+        core->add_input_source(&_source_ev);
       }
   }
 };

@@ -10,14 +10,32 @@ Thread::vcpu_return_to_kernel(Mword ip, Mword sp, T arg)
   assert(cpu_lock.test());
   assert(current() == this);
 
+  // The 'xor' instructions clearing the lower 32 bits clear the entire register
+  // but are 1 byte shorter (at least when using the 'eXX' registers).
   asm volatile
-    ("mov %[sp], %%rsp \t\n"
-     "mov %[flags], %%r11 \t\n"
-     "sysretq \t\n"
+    ("  mov %[sp], %%rsp    \n"
+     "  mov %[flags], %%r11 \n"
+     "  xor %%eax, %%eax    \n"
+     "  xor %%ebx, %%ebx    \n"
+     /* make RIP canonical, workaround for Intel IA32e flaw */
+     "  shl     $16, %%rcx  \n"
+     "  sar     $16, %%rcx  \n"
+     "  xor %%edx, %%edx    \n"
+     "  xor %%ebp, %%ebp    \n"
+     "  xor %%esi, %%esi    \n"
+     "  xor %%r8d, %%r8d    \n"
+     "  xor %%r9d, %%r9d    \n"
+     "  xor %%r10d, %%r10d  \n"
+     "  xor %%r12d, %%r12d  \n"
+     "  xor %%r13d, %%r13d  \n"
+     "  xor %%r14d, %%r14d  \n"
+     "  xor %%r15d, %%r15d  \n"
+     "  sysretq             \n"
      :
-     : [flags] "i" (EFLAGS_IF), "c" (ip), [sp] "r" (sp), "D"(arg)
+     : [flags]"i"(EFLAGS_IF), "c"(ip), [sp]"r"(sp), "D"(arg)
     );
-  __builtin_trap();
+
+  __builtin_unreachable();
 }
 
 //----------------------------------------------------------------------------
@@ -77,24 +95,25 @@ Thread::vcpu_return_to_kernel(Mword ip, Mword sp, T arg)
   assert(cpu_lock.test());
   assert(current() == this);
 
-  Address *p = (Address *)Mem_layout::Kentry_cpu_page;
+  // p[0] = CPU dir pa (if PCID: + bit63 + ASID 0)
+  // p[1] = KSP
+  // p[2] = EXIT flags
+  // p[3] = CR3: CPU dir pa + 0x1000 (if PCID: + bit63 + ASID)
+  // p[4] = kernel entry scratch register
+
+  Address *p = reinterpret_cast<Address *>(Mem_layout::Kentry_cpu_page);
   handle_ia32_branch_barriers(&p[2]);
   handle_mds_mitigations(&p[2]);
 
   asm volatile
-    ("mov %[sp], %%rsp \t\n"
-     "mov %[flags], %%r11 \t\n"
-     "jmp safe_sysret \t\n"
+    ("  mov %[sp], %%rsp    \n"
+     "  mov %[flags], %%r11 \n"
+     "  jmp safe_sysret     \n"
      :
-     // p[0] = CPU dir pa (if PCID: + bit63 + ASID 0)
-     // p[1] = KSP
-     // p[2] = EXIT flags
-     // p[3] = CPU dir pa + 0x1000 (if PCID: + bit63 + ASID)
-     // p[4] = kernel entry scratch register
-     : [cr3] "a" (p[3]),
-       [flags] "i" (EFLAGS_IF), "c" (ip), [sp] "r" (sp), "D"(arg)
-    );
-  __builtin_trap();
+     : "a"(p[3]), [flags]"i"(EFLAGS_IF), "c"(ip), [sp]"r"(sp), "D"(arg)
+     );
+
+  __builtin_unreachable();
 }
 
 //----------------------------------------------------------------------------
@@ -197,7 +216,7 @@ Thread::copy_utcb_to_ts(L4_msg_tag const &tag, Thread *snd, Thread *rcv,
   if (EXPECT_FALSE((tag.words() * sizeof(Mword)) < sizeof(Trex)))
     return true;
 
-  Trap_state *ts = (Trap_state*)rcv->_utcb_handler;
+  Trap_state *ts = static_cast<Trap_state*>(rcv->_utcb_handler);
   Unsigned32  cs = ts->cs();
   Utcb *snd_utcb = snd->utcb().access();
   Trex const *src = reinterpret_cast<Trex const *>(snd_utcb->values);
@@ -207,8 +226,7 @@ Thread::copy_utcb_to_ts(L4_msg_tag const &tag, Thread *snd, Thread *rcv,
       // triggered exception pending
       Mem::memcpy_mwords(ts, &src->s, Ts::Reg_words);
       Continuation::User_return_frame const *urfp
-        = reinterpret_cast<Continuation::User_return_frame const *>
-            ((char*)&src->s._ip);
+        = reinterpret_cast<Continuation::User_return_frame const *>(&src->s._ip);
 
       Continuation::User_return_frame urf = access_once(urfp);
 
@@ -250,7 +268,7 @@ bool FIASCO_WARN_RESULT
 Thread::copy_ts_to_utcb(L4_msg_tag const &, Thread *snd, Thread *rcv,
                         L4_fpage::Rights rights)
 {
-  Trap_state *ts = (Trap_state*)snd->_utcb_handler;
+  Trap_state *ts = static_cast<Trap_state*>(snd->_utcb_handler);
   Utcb *rcv_utcb = rcv->utcb().access();
   Trex *dst = reinterpret_cast<Trex *>(rcv_utcb->values);
     {
@@ -267,8 +285,7 @@ Thread::copy_ts_to_utcb(L4_msg_tag const &, Thread *snd, Thread *rcv,
         {
           Mem::memcpy_mwords(&dst->s, ts, Ts::Reg_words + Ts::Code_words);
           Continuation::User_return_frame *d
-            = reinterpret_cast<Continuation::User_return_frame *>
-            ((char*)&dst->s._ip);
+            = reinterpret_cast<Continuation::User_return_frame *>(&dst->s._ip);
 
           snd->_exc_cont.get(d, trap_state_to_rf(ts));
         }
@@ -287,35 +304,35 @@ void FIASCO_NORETURN
 Thread::user_invoke()
 {
   user_invoke_generic();
-
-  Mword di = 0;
-
+  Mword rdi = 0;
   if (current()->space()->is_sigma0())
-    di = Kmem::virt_to_phys(Kip::k());
+    rdi = Kmem::virt_to_phys(Kip::k());
 
+  // The 'xor' instructions clearing the lower 32 bits clear the entire register
+  // but are 1 byte shorter (at least when using the 'eXX' registers).
   asm volatile
-    ("  mov %%rax,%%rsp \n"    // set stack pointer to regs structure
-     "  mov %%ecx,%%es   \n"
-     "  mov %%ecx,%%ds   \n"
-     "  xor %%rax,%%rax \n"
-     "  xor %%rcx,%%rcx \n"     // clean out user regs
-     "  xor %%rdx,%%rdx \n"
-     "  xor %%rsi,%%rsi \n"
-     "  xor %%rbx,%%rbx \n"
-     "  xor %%rbp,%%rbp \n"
-     "  xor %%r8,%%r8   \n"
-     "  xor %%r9,%%r9   \n"
-     "  xor %%r10,%%r10 \n"
-     "  xor %%r11,%%r11 \n"
-     "  xor %%r12,%%r12 \n"
-     "  xor %%r13,%%r13 \n"
-     "  xor %%r14,%%r14 \n"
-     "  xor %%r15,%%r15 \n"
+    ("  mov %[sp],%%rsp   \n"   // set stack pointer to regs structure
+     "  mov %%ecx,%%es    \n"
+     "  mov %%ecx,%%ds    \n"
+     "  xor %%eax,%%eax   \n"
+     "  xor %%ecx,%%ecx   \n"   // clean out user regs
+     "  xor %%edx,%%edx   \n"
+     "  xor %%esi,%%esi   \n"
+     "  xor %%ebx,%%ebx   \n"
+     "  xor %%ebp,%%ebp   \n"
+     "  xor %%r8d,%%r8d   \n"
+     "  xor %%r9d,%%r9d   \n"
+     "  xor %%r10d,%%r10d \n"
+     "  xor %%r11d,%%r11d \n"
+     "  xor %%r12d,%%r12d \n"
+     "  xor %%r13d,%%r13d \n"
+     "  xor %%r14d,%%r14d \n"
+     "  xor %%r15d,%%r15d \n"
      FIASCO_ASM_IRET
-     :                          // no output
-     : "a" (nonull_static_cast<Return_frame*>(current()->regs())),
-       "c" (Gdt::gdt_data_user | Gdt::Selector_user),
-       "D" (di)
+     :
+     : [sp]"r"(nonull_static_cast<Return_frame*>(current()->regs())),
+       "c"(Gdt::gdt_data_user | Gdt::Selector_user),
+       "D"(rdi)
      );
 
   __builtin_unreachable();
@@ -332,8 +349,14 @@ IMPLEMENTATION [amd64 & (debug | kdb)]:
 
 #include "kernel_task.h"
 
-/** Call the nested trap handler (either Jdb::enter_kdebugger() or the
- * gdb stub. Setup our own stack frame */
+/**
+ * Call a trap handler supposed to enter a debugger.
+ * Use a separate stack (per-CPU dbg_stack).
+ *
+ * \param ts  Trap state.
+ * \retval 0 trap has been consumed by the handler.
+ * \retval -1 trap could not be handled.
+ */
 PRIVATE static
 int
 Thread::call_nested_trap_handler(Trap_state *ts)
@@ -388,7 +411,8 @@ Thread::call_nested_trap_handler(Trap_state *ts)
        [recover] "+m" (ntr)
      : [ts] "D" (ts),
 #ifndef CONFIG_CPU_LOCAL_MAP
-       [pdbr] "r" (Kernel_task::kernel_task()->virt_to_phys((Address)Kmem::dir())),
+       [pdbr] "r" (Kernel_task::kernel_task()->virt_to_phys(
+                     reinterpret_cast<Address>(Kmem::dir()))),
 #endif
        [cpu] "S" (log_cpu),
        [stack] "r" (stack),

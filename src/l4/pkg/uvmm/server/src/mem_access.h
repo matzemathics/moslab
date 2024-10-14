@@ -9,6 +9,7 @@
 
 #include <l4/sys/err.h>
 #include <l4/sys/l4int.h>
+#include <l4/sys/cache.h>
 
 namespace Vmm {
 
@@ -72,6 +73,20 @@ struct Mem_access
     return L4_EOK;
   }
 
+  static int cache_clean_data_width(l4_addr_t addr, char width)
+  {
+    switch (width)
+      {
+      case Wd8:  l4_cache_clean_data(addr, addr + 1); break;
+      case Wd16: l4_cache_clean_data(addr, addr + 2); break;
+      case Wd32: l4_cache_clean_data(addr, addr + 4); break;
+      case Wd64: l4_cache_clean_data(addr, addr + 8); break;
+      default: return -L4_EINVAL;
+      }
+
+    return L4_EOK;
+  }
+
   template<typename STORAGE>
   static STORAGE read(STORAGE v, unsigned offs, char width)
   {
@@ -80,7 +95,7 @@ struct Mem_access
 
     unsigned const szm = sizeof(STORAGE) - 1;
     unsigned const sh = (offs & (szm << width) & szm) * 8;
-    STORAGE const m = ~((~(STORAGE)0) << (8 << width));
+    STORAGE const m = ~((~static_cast<STORAGE>(0)) << (8 << width));
     return (v >> sh) & m;
   }
 
@@ -95,8 +110,8 @@ struct Mem_access
       {
         unsigned const szm = sizeof(STORAGE) - 1;
         unsigned const sh = (offs & (szm << width) & szm) * 8;
-        STORAGE const m = ~((~(STORAGE)0) << (8 << width)) << sh;
-        *s = (*s & ~m) | ((STORAGE)v & m);
+        STORAGE const m = ~((~static_cast<STORAGE>(0)) << (8 << width)) << sh;
+        *s = (*s & ~m) | (static_cast<STORAGE>(v) & m);
       }
   }
 };

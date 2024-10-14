@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * madvise() for uClibc
  *
@@ -9,6 +8,8 @@
 
 #include <sys/syscall.h>
 #include <sys/mman.h>
+#ifdef __ARCH_USE_MMU__
 #if defined __NR_madvise && defined __USE_BSD
 _syscall3(int, madvise, void *, __addr, size_t, __len, int, __advice)
+#endif /* __ARCH_USE_MMU__ */
 #endif

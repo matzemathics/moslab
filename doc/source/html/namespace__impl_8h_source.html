@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/impl/namespace_impl.h Source File</title>
+<title>L4Re Operating System Framework: l4/re/impl/namespace_impl.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -144,7 +147,7 @@ $(document).ready(function(){initNavTree('namespace__impl_8h_source.html',''); i
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordflow">while</span> (_name.length &gt; 0)</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      <a class="code hl_class" href="classL4_1_1Ipc_1_1Gen__fpage.html">L4::Ipc::Snd_fpage</a> cap;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      <a class="code hl_class" href="classL4_1_1Ipc_1_1Snd__fpage.html">L4::Ipc::Snd_fpage</a> cap;</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>      <a class="code hl_typedef" href="namespaceL4.html#a037b99ac2eb59d597e1e41c06619d487">L4::Opcode</a> dummy;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      <span class="keywordtype">int</span> err = query_t::call(ns, _name,</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                              <a class="code hl_class" href="classL4_1_1Ipc_1_1Small__buf.html">L4::Ipc::Small_buf</a>(target.cap(),</div>
@@ -156,9 +159,9 @@ $(document).ready(function(){initNavTree('namespace__impl_8h_source.html',''); i
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">return</span> err;</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>      <span class="keywordtype">bool</span> <span class="keyword">const</span> partly = err &amp; Partly_resolved;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>      <span class="keywordflow">if</span> (cap.<a class="code hl_function" href="classL4_1_1Ipc_1_1Gen__fpage.html#a4b39da7f8b5f30657de05383cd987c92">id_received</a>())</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>      <span class="keywordflow">if</span> (cap.<a class="code hl_function" href="classL4_1_1Ipc_1_1Gen__fpage.html#a296534d72560a8d0f759efa1f1d1393a">id_received</a>())</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        {</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>          *local_id = cap.<a class="code hl_function" href="classL4_1_1Ipc_1_1Gen__fpage.html#aca293488415bad034e62c26944bb0e7e">data</a>();</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>          *local_id = cap.<a class="code hl_function" href="classL4_1_1Ipc_1_1Gen__fpage.html#afefe11aeac884bde39ff8948ff8e3dfa">data</a>();</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>          <span class="keywordflow">return</span> _name.length;</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        }</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
@@ -202,7 +205,7 @@ $(document).ready(function(){initNavTree('namespace__impl_8h_source.html',''); i
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>      <span class="keywordflow">if</span> (rem == to)</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">return</span> ret;</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      <a class="code hl_function" href="amd64_2l4_2util_2util_8h.html#a3c1ffd9369bfe26eddbfb6ee4777cc27">l4_sleep</a>(to);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      <a class="code hl_function" href="group__l4util__api.html#gac06b9778d4fe83007f847e52b658eb80">l4_sleep</a>(to);</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>      <span class="keywordflow">if</span> (rem &gt; 0)</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        {</div>
@@ -233,23 +236,23 @@ $(document).ready(function(){initNavTree('namespace__impl_8h_source.html',''); i
 </div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}</div>
-<div class="ttc" id="aamd64_2l4_2util_2util_8h_html_a3c1ffd9369bfe26eddbfb6ee4777cc27"><div class="ttname"><a href="amd64_2l4_2util_2util_8h.html#a3c1ffd9369bfe26eddbfb6ee4777cc27">l4_sleep</a></div><div class="ttdeci">void l4_sleep(int ms) L4_NOTHROW</div><div class="ttdoc">Suspend thread for a period of ms milliseconds.</div></div>
 <div class="ttc" id="aclassL4Re_1_1Namespace_html_a42cfa87488784ad7557aa5562a8b5cd8"><div class="ttname"><a href="classL4Re_1_1Namespace.html#a42cfa87488784ad7557aa5562a8b5cd8">L4Re::Namespace::query</a></div><div class="ttdeci">long query(char const *name, L4::Cap&lt; void &gt; const &amp;cap, int timeout=To_default, l4_umword_t *local_id=0, bool iterate=true) const noexcept</div><div class="ttdoc">Query the name space for a named object.</div><div class="ttdef"><b>Definition</b> <a href="namespace__impl_8h_source.html#l00125">namespace_impl.h:125</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Namespace_html_a703b85671fa74d9deea39374c76e5a1b"><div class="ttname"><a href="classL4Re_1_1Namespace.html#a703b85671fa74d9deea39374c76e5a1b">L4Re::Namespace::register_obj</a></div><div class="ttdeci">long register_obj(char const *name, L4::Ipc::Cap&lt; void &gt; obj, unsigned flags=Rw) const noexcept</div><div class="ttdoc">Register an object with a name.</div><div class="ttdef"><b>Definition</b> <a href="namespace_source.html#l00176">namespace:176</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Namespace_html_aaacbcd047be202eca6e795eb54878803"><div class="ttname"><a href="classL4Re_1_1Namespace.html#aaacbcd047be202eca6e795eb54878803">L4Re::Namespace::unlink</a></div><div class="ttdeci">long unlink(char const *name)</div><div class="ttdoc">Remove an entry from the name space.</div><div class="ttdef"><b>Definition</b> <a href="namespace_source.html#l00203">namespace:203</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
-<div class="ttc" id="aclassL4_1_1Ipc_1_1Gen__fpage_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Gen__fpage.html">L4::Ipc::Gen_fpage</a></div><div class="ttdoc">Generic RPC wrapper for L4 flex-pages.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00321">ipc_types:322</a></div></div>
-<div class="ttc" id="aclassL4_1_1Ipc_1_1Gen__fpage_html_a4b39da7f8b5f30657de05383cd987c92"><div class="ttname"><a href="classL4_1_1Ipc_1_1Gen__fpage.html#a4b39da7f8b5f30657de05383cd987c92">L4::Ipc::Gen_fpage::id_received</a></div><div class="ttdeci">bool id_received() const noexcept</div><div class="ttdoc">Check if a label was received instead of a mapping.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00454">ipc_types:454</a></div></div>
-<div class="ttc" id="aclassL4_1_1Ipc_1_1Gen__fpage_html_aca293488415bad034e62c26944bb0e7e"><div class="ttname"><a href="classL4_1_1Ipc_1_1Gen__fpage.html#aca293488415bad034e62c26944bb0e7e">L4::Ipc::Gen_fpage::data</a></div><div class="ttdeci">l4_umword_t data() const noexcept</div><div class="ttdoc">Return the raw flex page descriptor.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00474">ipc_types:474</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Gen__fpage_html_a296534d72560a8d0f759efa1f1d1393a"><div class="ttname"><a href="classL4_1_1Ipc_1_1Gen__fpage.html#a296534d72560a8d0f759efa1f1d1393a">L4::Ipc::Gen_fpage::id_received</a></div><div class="ttdeci">bool id_received() const noexcept</div><div class="ttdoc">Check if a label was received instead of a mapping.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00377">ipc_types:377</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Gen__fpage_html_afefe11aeac884bde39ff8948ff8e3dfa"><div class="ttname"><a href="classL4_1_1Ipc_1_1Gen__fpage.html#afefe11aeac884bde39ff8948ff8e3dfa">L4::Ipc::Gen_fpage::data</a></div><div class="ttdeci">l4_umword_t data() const noexcept</div><div class="ttdoc">Return the raw flex page descriptor.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00397">ipc_types:397</a></div></div>
 <div class="ttc" id="aclassL4_1_1Ipc_1_1Small__buf_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Small__buf.html">L4::Ipc::Small_buf</a></div><div class="ttdoc">A receive item for receiving a single object capability.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00268">ipc_types:269</a></div></div>
+<div class="ttc" id="aclassL4_1_1Ipc_1_1Snd__fpage_html"><div class="ttname"><a href="classL4_1_1Ipc_1_1Snd__fpage.html">L4::Ipc::Snd_fpage</a></div><div class="ttdoc">Send flex-page.</div><div class="ttdef"><b>Definition</b> <a href="ipc__types_source.html#l00407">ipc_types:408</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga1c2c4b333f75b1d05b59855910f2b9cb"><div class="ttname"><a href="group__l4__basic__types.html#ga1c2c4b333f75b1d05b59855910f2b9cb">l4_umword_t</a></div><div class="ttdeci">unsigned long l4_umword_t</div><div class="ttdoc">Unsigned machine word.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00051">l4int.h:51</a></div></div>
-<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8">L4_EINVAL</a></div><div class="ttdeci">@ L4_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00056">err.h:56</a></div></div>
+<div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a54ddbebc30b661c87177b968a77588b8">L4_EINVAL</a></div><div class="ttdeci">@ L4_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00057">err.h:57</a></div></div>
 <div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9ad0af5659bdc7c7a0b3ac3a749d0da8e7"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9ad0af5659bdc7c7a0b3ac3a749d0da8e7">L4_EAGAIN</a></div><div class="ttdeci">@ L4_EAGAIN</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00049">err.h:49</a></div></div>
 <div class="ttc" id="agroup__l4__msgitem__api_html_gga94ecfe2908867c4ed0c13a7a97337f6aa9ec3db5390483f9f0cd4a4571b04b5be"><div class="ttname"><a href="group__l4__msgitem__api.html#gga94ecfe2908867c4ed0c13a7a97337f6aa9ec3db5390483f9f0cd4a4571b04b5be">L4_RCV_ITEM_LOCAL_ID</a></div><div class="ttdeci">@ L4_RCV_ITEM_LOCAL_ID</div><div class="ttdoc">The receiver requests to receive a local ID instead of a mapping whenever possible.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2consts_8h_source.html#l00285">consts.h:285</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga3df4200910f2664b97397c23693beeb0"><div class="ttname"><a href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a></div><div class="ttdeci">#define L4_UNLIKELY(x)</div><div class="ttdoc">Expression is unlikely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00285">compiler.h:285</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga3df4200910f2664b97397c23693beeb0"><div class="ttname"><a href="group__l4sys__defines.html#ga3df4200910f2664b97397c23693beeb0">L4_UNLIKELY</a></div><div class="ttdeci">#define L4_UNLIKELY(x)</div><div class="ttdoc">Expression is unlikely to execute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00296">compiler.h:296</a></div></div>
+<div class="ttc" id="agroup__l4util__api_html_gac06b9778d4fe83007f847e52b658eb80"><div class="ttname"><a href="group__l4util__api.html#gac06b9778d4fe83007f847e52b658eb80">l4_sleep</a></div><div class="ttdeci">void l4_sleep(l4_uint32_t ms) L4_NOTHROW</div><div class="ttdoc">Suspend thread for a period of ms milliseconds.</div></div>
 <div class="ttc" id="aipc__client_html"><div class="ttname"><a href="ipc__client.html">ipc_client</a></div></div>
 <div class="ttc" id="aipc__client_html_aebfe730f4231dc11a7a1998acc6e4ab6"><div class="ttname"><a href="ipc__client.html#aebfe730f4231dc11a7a1998acc6e4ab6">L4_RPC_DEF</a></div><div class="ttdeci">#define L4_RPC_DEF(name)</div><div class="ttdoc">Generate the definition of an RPC stub.</div><div class="ttdef"><b>Definition</b> <a href="ipc__client_source.html#l00043">ipc_client:43</a></div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
 <div class="ttc" id="anamespaceL4_html_a037b99ac2eb59d597e1e41c06619d487"><div class="ttname"><a href="namespaceL4.html#a037b99ac2eb59d597e1e41c06619d487">L4::Opcode</a></div><div class="ttdeci">int Opcode</div><div class="ttdoc">Data type for RPC opcodes.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00047">__typeinfo.h:47</a></div></div>
 <div class="ttc" id="anamespace_html"><div class="ttname"><a href="namespace.html">namespace</a></div><div class="ttdoc">Namespace interface.</div></div>
 <div class="ttc" id="astructL4_1_1Ipc_1_1Array_html"><div class="ttname"><a href="structL4_1_1Ipc_1_1Array.html">L4::Ipc::Array</a></div><div class="ttdoc">Array data type for dynamically sized arrays in RPCs.</div><div class="ttdef"><b>Definition</b> <a href="ipc__array_source.html#l00092">ipc_array:93</a></div></div>
@@ -262,7 +265,7 @@ $(document).ready(function(){initNavTree('namespace__impl_8h_source.html',''); i
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="dir_36777f7a7a96e008b339783d073d7ed0.html">impl</a></li><li class="navelem"><a class="el" href="namespace__impl_8h.html">namespace_impl.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

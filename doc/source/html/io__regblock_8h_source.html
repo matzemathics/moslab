@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: pkg/drivers-frst/include/io_regblock.h Source File</title>
+<title>L4Re Operating System Framework: pkg/drivers-frst/include/io_regblock.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -116,7 +119,8 @@ $(document).ready(function(){initNavTree('io__regblock_8h_source.html',''); init
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceL4.html">L4</a></div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="}">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="namespaceL4.html">   18</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceL4.html">L4</a></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>{</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  <span class="keyword">class </span>Io_register_block</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  {</div>
@@ -150,7 +154,7 @@ $(document).ready(function(){initNavTree('io__regblock_8h_source.html',''); init
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keyword">virtual</span> ~Io_register_block() = 0;</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keyword">template</span>&lt; <span class="keyword">typename</span> R &gt;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    R <a class="code hl_function" href="namespaceL4_1_1Ipc.html#acc2cd40991fdf32a8259649933609fd1">read</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> reg)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    R read(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> reg)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">    </span>{</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>      <span class="keywordflow">switch</span> (<span class="keyword">sizeof</span>(R))</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        {</div>
@@ -283,16 +287,16 @@ $(document).ready(function(){initNavTree('io__regblock_8h_source.html',''); init
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> _shift;</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>  };</div>
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>}</div>
-<div class="ttc" id="anamespaceL4_1_1Ipc_html_acc2cd40991fdf32a8259649933609fd1"><div class="ttname"><a href="namespaceL4_1_1Ipc.html#acc2cd40991fdf32a8259649933609fd1">L4::Ipc::read</a></div><div class="ttdeci">T read(Istream &amp;s)</div><div class="ttdoc">Read a value out of a stream.</div><div class="ttdef"><b>Definition</b> <a href="ipc__stream_source.html#l01294">ipc_stream:1294</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
+</div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_2a9e19f1881a50c00a264c5e198a6125.html">pkg</a></li><li class="navelem"><a class="el" href="dir_14cff21dd84e0478991c464970b9daa4.html">drivers-frst</a></li><li class="navelem"><a class="el" href="dir_92e228ed3ef9dfd62ac3d9b5894c1e01.html">include</a></li><li class="navelem"><b>io_regblock.h</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:27 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="dir_ef81b3f1a792fafa47f8a2674d1d960c.html">pkg</a></li><li class="navelem"><a class="el" href="dir_f41ecb1ea2d2e636e17a0bf2bbbf520a.html">drivers-frst</a></li><li class="navelem"><a class="el" href="dir_29932fee35ab67f6604cb0fbb4301c6f.html">include</a></li><li class="navelem"><b>io_regblock.h</b></li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:30 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

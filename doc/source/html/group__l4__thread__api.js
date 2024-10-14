@@ -19,7 +19,14 @@ var group__l4__thread__api =
     ] ],
     [ "L4_thread_ex_regs_flags", "group__l4__thread__api.html#ga288a4500e4be2587d2f16d754d1a2e16", [
       [ "L4_THREAD_EX_REGS_CANCEL", "group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16aa13ff4d1b899982508b9ad36c61fe47a", null ],
-      [ "L4_THREAD_EX_REGS_TRIGGER_EXCEPTION", "group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35", null ]
+      [ "L4_THREAD_EX_REGS_TRIGGER_EXCEPTION", "group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16abed26b392ea6e1ee9f468246ae19bf35", null ],
+      [ "L4_THREAD_EX_REGS_ARCH_MASK", "group__l4__thread__api.html#gga288a4500e4be2587d2f16d754d1a2e16ab083c24a18872362e491050d43b5cdf3", null ]
+    ] ],
+    [ "L4_thread_ex_regs_flags_arm", "group__l4__thread__api.html#ga1733954711051b531a3d8db16b72bd1b", [
+      [ "L4_THREAD_EX_REGS_ARM_SET_EL_MASK", "group__l4__thread__api.html#gga1733954711051b531a3d8db16b72bd1ba797b4f9440f6fc4e4fba440c3d749392", null ],
+      [ "L4_THREAD_EX_REGS_ARM_SET_EL_KEEP", "group__l4__thread__api.html#gga1733954711051b531a3d8db16b72bd1bae4c5265ed6bee495086b916dc28da28e", null ],
+      [ "L4_THREAD_EX_REGS_ARM_SET_EL_EL0", "group__l4__thread__api.html#gga1733954711051b531a3d8db16b72bd1ba7a4d7695872eb3a05eedbc9e869de3c5", null ],
+      [ "L4_THREAD_EX_REGS_ARM_SET_EL_EL1", "group__l4__thread__api.html#gga1733954711051b531a3d8db16b72bd1ba01450979020a54adcc29b5a9028eb095", null ]
     ] ],
     [ "l4_thread_arm_set_tpidruro", "group__l4__thread__api.html#gaeece555b052848e5abaa2d01f0bd773d", null ],
     [ "l4_thread_ex_regs", "group__l4__thread__api.html#ga1ea29499c679caeae810516d16f4347c", null ],

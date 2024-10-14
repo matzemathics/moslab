@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/typeinfo_svr Source File</title>
+<title>L4Re Operating System Framework: l4/sys/typeinfo_svr Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -130,16 +133,18 @@ $(document).ready(function(){initNavTree('typeinfo__svr_source.html',''); initRe
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>{</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keyword">using </span>L4::Ipc::Msg::dispatch_call;</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keyword">typedef</span> L4::Ipc::Detail::Meta_svr&lt;KO&gt; Msvr;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> tag = dispatch_call&lt;L4::Meta::Rpcs&gt;((Msvr *)0, ios.utcb(),</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                                                  ios.tag(), 0);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  ios.set_ipc_params(tag);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keywordflow">return</span> tag.<a class="code hl_function" href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">label</a>();</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}}</div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
-<div class="ttc" id="astructl4__msgtag__t_html_a002076380a3f6e4f29a1f6b50ce2bde2"><div class="ttname"><a href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">l4_msgtag_t::label</a></div><div class="ttdeci">long label() const L4_NOTHROW</div><div class="ttdoc">Get the protocol value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00167">types.h:167</a></div></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keyword">typedef</span> <a class="code hl_struct" href="structL4_1_1Typeid_1_1Rpcs.html">L4::Meta::Rpcs</a> Rpcs;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  Msvr *svr = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <a class="code hl_struct" href="structl4__msgtag__t.html">l4_msgtag_t</a> tag = dispatch_call&lt;Rpcs&gt;(svr, ios.utcb(), ios.tag(), 0);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  ios.set_ipc_params(tag);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="keywordflow">return</span> tag.<a class="code hl_function" href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">label</a>();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}}</div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
+<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs.html">L4::Typeid::Rpcs</a></div><div class="ttdoc">Standard list of RPCs of an interface.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00439">__typeinfo.h:439</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html_a002076380a3f6e4f29a1f6b50ce2bde2"><div class="ttname"><a href="structl4__msgtag__t.html#a002076380a3f6e4f29a1f6b50ce2bde2">l4_msgtag_t::label</a></div><div class="ttdeci">long label() const L4_NOTHROW</div><div class="ttdoc">Get the protocol value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00168">types.h:168</a></div></div>
 <div class="ttc" id="asys_2meta_html"><div class="ttname"><a href="sys_2meta.html">meta</a></div><div class="ttdoc">Meta interface for getting dynamic type information about objects behind capabilities.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -148,7 +153,7 @@ $(document).ready(function(){initNavTree('typeinfo__svr_source.html',''); initRe
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="typeinfo__svr.html">typeinfo_svr</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

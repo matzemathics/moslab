@@ -6,6 +6,7 @@ var group__l4sys__defines =
     [ "EXTERN_C_BEGIN", "group__l4sys__defines.html#ga6774b472721b30450b3334dc4f718a72", null ],
     [ "EXTERN_C_END", "group__l4sys__defines.html#gada1a24bb49d1a045f735dc027664ae57", null ],
     [ "L4_ALWAYS_INLINE", "group__l4sys__defines.html#ga2480e75b7c2b4976ce05d124d6d4c984", null ],
+    [ "L4_CONSTEXPR", "group__l4sys__defines.html#ga72341295822842d4830284fa77b9a46a", null ],
     [ "L4_CV", "group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a", null ],
     [ "L4_CV", "group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a", null ],
     [ "L4_CV", "group__l4sys__defines.html#ga2469cd44710705e9f0a5832e060ec48a", null ],

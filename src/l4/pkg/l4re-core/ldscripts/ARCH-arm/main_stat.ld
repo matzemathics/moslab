@@ -15,6 +15,9 @@ PHDRS
   ro PT_LOAD FILEHDR PHDRS;
   rw PT_LOAD;
   tls PT_TLS;
+#if CONFIG_BID_LD_EMIT_UNWIND
+  ehf PT_GNU_EH_FRAME;
+#endif
   L4_DEFINE_L4PHDRS
 }
 
@@ -111,8 +114,10 @@ SECTIONS
    PROVIDE_HIDDEN (__exidx_start = .);
   .ARM.exidx   : { *(.ARM.exidx* .gnu.linkonce.armexidx.*) }
    PROVIDE_HIDDEN (__exidx_end = .);
-  .eh_frame_hdr : { *(.eh_frame_hdr) *(.eh_frame_entry .eh_frame_entry.*) }
-  .eh_frame       : ONLY_IF_RO { KEEP (*(.eh_frame)) *(.eh_frame.*) }
+#if CONFIG_BID_LD_EMIT_UNWIND
+  .eh_frame_hdr : { *(.eh_frame_hdr) *(.eh_frame_entry .eh_frame_entry.*) } :ehf :ro
+#endif
+  .eh_frame       : ONLY_IF_RO { KEEP (*(.eh_frame)) *(.eh_frame.*) } :ro
   .gcc_except_table   : ONLY_IF_RO { *(.gcc_except_table
   .gcc_except_table.*) }
   .gnu_extab   : ONLY_IF_RO { *(.gnu_extab*) }
@@ -121,7 +126,13 @@ SECTIONS
   .exception_ranges*) }
   /* Adjust the address for the data segment.  We want to adjust up to
      the same address within the page on the next page up.  */
+  /* A hard page alignment would generate fill bytes in the image. */
+#if CONFIG_MMU
   . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
+#else
+  . = ALIGN (CONSTANT(COMMONPAGESIZE));
+#endif
+  . = ALIGN (8);
   /* Exception handling  */
   .eh_frame       : ONLY_IF_RW { KEEP (*(.eh_frame)) *(.eh_frame.*) } :rw
   .gnu_extab      : ONLY_IF_RW { *(.gnu_extab) } :rw
@@ -130,26 +141,26 @@ SECTIONS
   /* Thread Local Storage sections  */
   .tdata	  : { *(.tdata .tdata.* .gnu.linkonce.td.*) } :rw : tls
   .tbss		  : { *(.tbss .tbss.* .gnu.linkonce.tb.*) *(.tcommon) }
+  PROVIDE_HIDDEN (__preinit_array_start = .);
   .preinit_array     :
   {
-    PROVIDE_HIDDEN (__preinit_array_start = .);
     KEEP (*(.preinit_array))
-    PROVIDE_HIDDEN (__preinit_array_end = .);
   } : rw
+  PROVIDE_HIDDEN (__preinit_array_end = .);
+  PROVIDE_HIDDEN (__init_array_start = .);
   .init_array     :
   {
-    PROVIDE_HIDDEN (__init_array_start = .);
     KEEP (*(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*)))
     KEEP (*(.init_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .ctors))
-    PROVIDE_HIDDEN (__init_array_end = .);
   }
+  PROVIDE_HIDDEN (__init_array_end = .);
+  PROVIDE_HIDDEN (__fini_array_start = .);
   .fini_array     :
   {
-    PROVIDE_HIDDEN (__fini_array_start = .);
     KEEP (*(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))
     KEEP (*(.fini_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .dtors))
-    PROVIDE_HIDDEN (__fini_array_end = .);
   }
+  PROVIDE_HIDDEN (__fini_array_end = .);
   .ctors          :
   {
     /* gcc uses crtbegin.o to find the start of
@@ -182,7 +193,9 @@ SECTIONS
   .jcr            : { KEEP (*(.jcr)) }
   .data.rel.ro : { *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*) *(.data.rel.ro .data.rel.ro.* .gnu.linkonce.d.rel.ro.*) }
   .dynamic        : { *(.dynamic) }
+#if CONFIG_MMU
   . = DATA_SEGMENT_RELRO_END (0, .);
+#endif
   .got            : { *(.got.plt) *(.igot.plt) *(.got) *(.igot) }
   .data           :
   {
@@ -208,12 +221,27 @@ SECTIONS
    . = ALIGN(. != 0 ? 32 / 8 : 1);
   }
   _bss_end__ = . ; __bss_end__ = . ;
+#if CONFIG_BID_STATIC_HEAP
+  .heap : {
+    . = ALIGN(8);
+    PROVIDE (__heap_start = .);
+    . = . + (DEFINED(__heap_size) ? __heap_size : 0);
+    PROVIDE (__heap_end = .);
+  }
+#endif
+#if CONFIG_BID_STATIC_STACK
+  .stack : ALIGN(8) {
+    . = . + (DEFINED(__stack_size) ? __stack_size : 0);
+  } :rw :l4re_stack
+#endif
   . = ALIGN(32 / 8);
   . = SEGMENT_START("ldata-segment", .);
   . = ALIGN(32 / 8);
   __end__ = . ;
   _end = .; PROVIDE (end = .);
+#if CONFIG_MMU
   . = DATA_SEGMENT_END (.);
+#endif
   /* Stabs debugging sections.  */
   .stab          0 : { *(.stab) } :NONE
   .stabstr       0 : { *(.stabstr) }

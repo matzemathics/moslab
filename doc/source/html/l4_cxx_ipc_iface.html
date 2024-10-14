@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: Interface Definition Language</title>
+<title>L4Re Operating System Framework: Interface Definition Language</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -103,10 +106,10 @@ $(document).ready(function(){initNavTree('l4_cxx_ipc_iface.html',''); initResiza
 <div class="line"> </div>
 <div class="line">  <span class="keyword">typedef</span> <a class="code hl_struct" href="structL4_1_1Typeid_1_1Rpcs.html">L4::Typeid::Rpcs&lt;sub_t, neg_t&gt;</a> Rpcs;</div>
 <div class="line">};</div>
-<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00759">__typeinfo.h:760</a></div></div>
+<div class="ttc" id="aclassL4_1_1Kobject__t_html"><div class="ttname"><a href="classL4_1_1Kobject__t.html">L4::Kobject_t</a></div><div class="ttdoc">Helper class to create an L4Re interface class that is derived from a single base class.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00760">__typeinfo.h:761</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_gac1d09f3e382e711b776931f10e6e1e5a"><div class="ttname"><a href="group__l4__basic__types.html#gac1d09f3e382e711b776931f10e6e1e5a">l4_uint32_t</a></div><div class="ttdeci">unsigned int l4_uint32_t</div><div class="ttdoc">Unsigned 32bit value.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00040">l4int.h:40</a></div></div>
 <div class="ttc" id="aipc__iface_html_a5772eb61b611f8f17bbc89e02e534ca1"><div class="ttname"><a href="ipc__iface.html#a5772eb61b611f8f17bbc89e02e534ca1">L4_INLINE_RPC</a></div><div class="ttdeci">#define L4_INLINE_RPC(res, name, args, attr...)</div><div class="ttdoc">Define an inline RPC call (type and callable).</div><div class="ttdef"><b>Definition</b> <a href="ipc__iface_source.html#l00469">ipc_iface:469</a></div></div>
-<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs.html">L4::Typeid::Rpcs</a></div><div class="ttdoc">Standard list of RPCs of an interface.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00438">__typeinfo.h:438</a></div></div>
+<div class="ttc" id="astructL4_1_1Typeid_1_1Rpcs_html"><div class="ttname"><a href="structL4_1_1Typeid_1_1Rpcs.html">L4::Typeid::Rpcs</a></div><div class="ttdoc">Standard list of RPCs of an interface.</div><div class="ttdef"><b>Definition</b> <a href="____typeinfo_8h_source.html#l00439">__typeinfo.h:439</a></div></div>
 </div><!-- fragment --><p>The signature of each function is first declared using one of the RPC macros (see below) and then all the functions need to be listed in the Rpcs type.</p>
 <p>Clients invoke these functions with the name given to the RPC macros, <code>sub</code> and <code>neg</code> above. Servers implement them by defining functions with an <code>op_</code> prepended, <code>op_sub</code> and <code>op_neg</code>. The types of the parameters in the macro definition, on the server side, and on the client side are not the same. The following section describes how they are related to each other.</p>
 <h1><a class="anchor" id="l4_cxx_ipc_iface_types"></a>
@@ -135,11 +138,11 @@ Parameter types for RPC</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft"><code><a class="el" href="structL4_1_1Ipc_1_1In__out.html" title="Mark an argument as in-out argument.">L4::Ipc::In_out</a>&lt;T *&gt;</code>   </td><td class="markdownTableBodyLeft">In/Out   </td><td class="markdownTableBodyLeft"><code>T *</code>   </td><td class="markdownTableBodyLeft"><code>T &amp;</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Cap.html" title="Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).">L4::Ipc::Cap</a>&lt;T&gt;</code>   </td><td class="markdownTableBodyLeft">Input   </td><td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Cap.html" title="Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).">L4::Ipc::Cap</a>&lt;T&gt;</code>   </td><td class="markdownTableBodyLeft"><code><a class="el" href="namespaceL4_1_1Ipc.html#a56d906845bd62ce43e53bd7f52b64569" title="Send flex-page.">L4::Ipc::Snd_fpage</a></code>    </td></tr>
+<td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Cap.html" title="Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).">L4::Ipc::Cap</a>&lt;T&gt;</code>   </td><td class="markdownTableBodyLeft">Input   </td><td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Cap.html" title="Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).">L4::Ipc::Cap</a>&lt;T&gt;</code>   </td><td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Snd__fpage.html" title="Send flex-page.">L4::Ipc::Snd_fpage</a></code>    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft"><code><a class="el" href="structL4_1_1Ipc_1_1Out.html" title="Mark an argument as a output value in an RPC signature.">L4::Ipc::Out</a>&lt;<a class="el" href="classL4_1_1Cap.html" title="C++ interface for capabilities.">L4::Cap</a>&lt;T&gt; &gt;</code>   </td><td class="markdownTableBodyLeft">Output   </td><td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Cap.html" title="C++ interface for capabilities.">L4::Cap</a>&lt;T&gt;</code>   </td><td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Cap.html" title="Capability type for RPC interfaces (see L4::Cap&lt;T&gt;).">L4::Ipc::Cap</a>&lt;T&gt; &amp;</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyLeft"><code><a class="el" href="namespaceL4_1_1Ipc.html#a6452f912e9d39ed9e47bb7709280e528" title="Rcv flex-page.">L4::Ipc::Rcv_fpage</a></code>   </td><td class="markdownTableBodyLeft">Input   </td><td class="markdownTableBodyLeft"><code><a class="el" href="namespaceL4_1_1Ipc.html#a6452f912e9d39ed9e47bb7709280e528" title="Rcv flex-page.">L4::Ipc::Rcv_fpage</a></code>   </td><td class="markdownTableBodyLeft"><code>void</code>    </td></tr>
+<td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Rcv__fpage.html" title="Rcv flex-page.">L4::Ipc::Rcv_fpage</a></code>   </td><td class="markdownTableBodyLeft">Input   </td><td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Rcv__fpage.html" title="Rcv flex-page.">L4::Ipc::Rcv_fpage</a></code>   </td><td class="markdownTableBodyLeft"><code>void</code>    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Small__buf.html" title="A receive item for receiving a single object capability.">L4::Ipc::Small_buf</a></code>   </td><td class="markdownTableBodyLeft">Input   </td><td class="markdownTableBodyLeft"><code><a class="el" href="classL4_1_1Ipc_1_1Small__buf.html" title="A receive item for receiving a single object capability.">L4::Ipc::Small_buf</a></code>   </td><td class="markdownTableBodyLeft"><code>void</code>   </td></tr>
 </table>
@@ -228,7 +231,7 @@ RPC Method Declaration</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="l4re_concepts.html">Programming for L4Re</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

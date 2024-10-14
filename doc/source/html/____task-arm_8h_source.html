@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/__task-arm.h Source File</title>
+<title>L4Re Operating System Framework: l4/sys/__task-arm.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -147,19 +150,19 @@ $(document).ready(function(){initNavTree('____task-arm_8h_source.html',''); init
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  <span class="keywordflow">return</span> l4_task_vgicc_map_u(task, vgicc_fpage, <a class="code hl_function" href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a>());</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>}</div>
 </div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
-<div class="ttc" id="agroup__l4__ipc__api_html_gab96d1669dcd54657237ee27b7f6862c6"><div class="ttname"><a href="group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6">l4_ipc_call</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_call(l4_cap_idx_t object, l4_utcb_t *utcb, l4_msgtag_t tag, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Object call (usual invocation).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00550">ipc.h:550</a></div></div>
-<div class="ttc" id="agroup__l4__msgtag__api_html_ga661d71acad9d096fa990f7c94943bc78"><div class="ttname"><a href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a></div><div class="ttdeci">l4_msgtag_t l4_msgtag(long label, unsigned words, unsigned items, unsigned flags) L4_NOTHROW</div><div class="ttdoc">Create a message tag from the specified values.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00427">types.h:427</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
+<div class="ttc" id="agroup__l4__ipc__api_html_gab96d1669dcd54657237ee27b7f6862c6"><div class="ttname"><a href="group__l4__ipc__api.html#gab96d1669dcd54657237ee27b7f6862c6">l4_ipc_call</a></div><div class="ttdeci">l4_msgtag_t l4_ipc_call(l4_cap_idx_t object, l4_utcb_t *utcb, l4_msgtag_t tag, l4_timeout_t timeout) L4_NOTHROW</div><div class="ttdoc">Object call (usual invocation).</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2ipc_8h_source.html#l00576">ipc.h:576</a></div></div>
+<div class="ttc" id="agroup__l4__msgtag__api_html_ga661d71acad9d096fa990f7c94943bc78"><div class="ttname"><a href="group__l4__msgtag__api.html#ga661d71acad9d096fa990f7c94943bc78">l4_msgtag</a></div><div class="ttdeci">l4_msgtag_t l4_msgtag(long label, unsigned words, unsigned items, unsigned flags) L4_NOTHROW</div><div class="ttdoc">Create a message tag from the specified values.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00428">types.h:428</a></div></div>
 <div class="ttc" id="agroup__l4__msgtag__api_html_gga9ac8443c5696208bb0539dd659ea1c92a5a866db052f859a32768fc3a703fa40d"><div class="ttname"><a href="group__l4__msgtag__api.html#gga9ac8443c5696208bb0539dd659ea1c92a5a866db052f859a32768fc3a703fa40d">L4_PROTO_TASK</a></div><div class="ttdeci">@ L4_PROTO_TASK</div><div class="ttdoc">Protocol for messages to a task object.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00063">types.h:63</a></div></div>
-<div class="ttc" id="agroup__l4__protocol__ops_html_gga23a759356490c4b1feffc9f36440a82da317f1418430c7753e2a6655caa8ca420"><div class="ttname"><a href="group__l4__protocol__ops.html#gga23a759356490c4b1feffc9f36440a82da317f1418430c7753e2a6655caa8ca420">L4_TASK_MAP_VGICC_ARM_OP</a></div><div class="ttdeci">@ L4_TASK_MAP_VGICC_ARM_OP</div><div class="ttdoc">Arm: Map virtual GICC area.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2task_8h_source.html#l00317">task.h:317</a></div></div>
+<div class="ttc" id="agroup__l4__protocol__ops_html_gga23a759356490c4b1feffc9f36440a82da317f1418430c7753e2a6655caa8ca420"><div class="ttname"><a href="group__l4__protocol__ops.html#gga23a759356490c4b1feffc9f36440a82da317f1418430c7753e2a6655caa8ca420">L4_TASK_MAP_VGICC_ARM_OP</a></div><div class="ttdeci">@ L4_TASK_MAP_VGICC_ARM_OP</div><div class="ttdoc">Arm: Map virtual GICC area.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2task_8h_source.html#l00319">task.h:319</a></div></div>
 <div class="ttc" id="agroup__l4__task__api_html_ga2f2c7940a3aa7223a5750562d933d5a4"><div class="ttname"><a href="group__l4__task__api.html#ga2f2c7940a3aa7223a5750562d933d5a4">l4_task_vgicc_map</a></div><div class="ttdeci">l4_msgtag_t l4_task_vgicc_map(l4_cap_idx_t task, l4_fpage_t vgicc_fpage) L4_NOTHROW</div><div class="ttdoc">Map the GIC virtual CPU interface page to the task in case Fiasco detected a GIC version 2.</div><div class="ttdef"><b>Definition</b> <a href="____task-arm_8h_source.html#l00057">__task-arm.h:57</a></div></div>
-<div class="ttc" id="agroup__l4__timeout__api_html_gaf01c5e1475efc4f33bc7d1985f7320d3"><div class="ttname"><a href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a></div><div class="ttdeci">#define L4_IPC_NEVER</div><div class="ttdoc">never timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00082">__timeout.h:82</a></div></div>
+<div class="ttc" id="agroup__l4__timeout__api_html_gaf01c5e1475efc4f33bc7d1985f7320d3"><div class="ttname"><a href="group__l4__timeout__api.html#gaf01c5e1475efc4f33bc7d1985f7320d3">L4_IPC_NEVER</a></div><div class="ttdeci">#define L4_IPC_NEVER</div><div class="ttdoc">never timeout</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00084">__timeout.h:84</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_ga89be8a86d11c1d532b636cc2df1330fb"><div class="ttname"><a href="group__l4__utcb__api.html#ga89be8a86d11c1d532b636cc2df1330fb">l4_utcb_t</a></div><div class="ttdeci">struct l4_utcb_t l4_utcb_t</div><div class="ttdoc">Opaque type for the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00067">utcb.h:67</a></div></div>
 <div class="ttc" id="agroup__l4__utcb__api_html_gadc099b4a59e1d99638c72c11a8c8b644"><div class="ttname"><a href="group__l4__utcb__api.html#gadc099b4a59e1d99638c72c11a8c8b644">l4_utcb</a></div><div class="ttdeci">l4_utcb_t * l4_utcb(void) L4_NOTHROW L4_PURE</div><div class="ttdoc">Get the UTCB address.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00340">utcb.h:340</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga362dfa378e662dd04f710a23fc7ea931"><div class="ttname"><a href="group__l4sys__defines.html#ga362dfa378e662dd04f710a23fc7ea931">L4_NOTHROW</a></div><div class="ttdeci">#define L4_NOTHROW</div><div class="ttdoc">Mark a function declaration and definition as never throwing an exception.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00188">compiler.h:188</a></div></div>
 <div class="ttc" id="agroup__l4sys__defines_html_ga427377e23e3680dc178035d391b2ca45"><div class="ttname"><a href="group__l4sys__defines.html#ga427377e23e3680dc178035d391b2ca45">L4_INLINE</a></div><div class="ttdeci">#define L4_INLINE</div><div class="ttdoc">L4 Inline function attribute.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00062">compiler.h:62</a></div></div>
 <div class="ttc" id="al4_2sys_2types_8h_html"><div class="ttname"><a href="l4_2sys_2types_8h.html">types.h</a></div><div class="ttdoc">Common L4 ABI Data Types.</div></div>
-<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00162">types.h:163</a></div></div>
+<div class="ttc" id="astructl4__msgtag__t_html"><div class="ttname"><a href="structl4__msgtag__t.html">l4_msgtag_t</a></div><div class="ttdoc">Message tag data structure.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00163">types.h:164</a></div></div>
 <div class="ttc" id="aunionl4__fpage__t_html"><div class="ttname"><a href="unionl4__fpage__t.html">l4_fpage_t</a></div><div class="ttdoc">L4 flexpage type.</div><div class="ttdef"><b>Definition</b> <a href="____l4__fpage_8h_source.html#l00085">__l4_fpage.h:85</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html"><div class="ttname"><a href="unionl4__msg__regs__t.html">l4_msg_regs_t</a></div><div class="ttdoc">Encapsulation of the message-register block in the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00078">utcb.h:79</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html_ad7d601b3b3808afaefe4c09d42de8b99"><div class="ttname"><a href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">l4_msg_regs_t::mr</a></div><div class="ttdeci">l4_umword_t mr[L4_UTCB_GENERIC_DATA_SIZE]</div><div class="ttdoc">Message registers.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00080">utcb.h:80</a></div></div>
@@ -170,7 +173,7 @@ $(document).ready(function(){initNavTree('____task-arm_8h_source.html',''); init
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><b>__task-arm.h</b></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

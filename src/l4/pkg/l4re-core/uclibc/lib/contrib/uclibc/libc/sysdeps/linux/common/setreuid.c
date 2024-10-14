@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * setreuid() for uClibc
  *
@@ -37,4 +36,4 @@ int setreuid(uid_t ruid, uid_t euid)
 }
 #endif
 
-libc_hidden_def(setreuid)
+libc_hidden_weak(setreuid)

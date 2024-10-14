@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4Re::Vfs::Be_file_system Class Reference</title>
+<title>L4Re Operating System Framework: L4Re::Vfs::Be_file_system Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -135,10 +138,10 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Boilerplate class for implementing a <a class="el" href="classL4Re_1_1Vfs_1_1File__system.html" title="Basic interface for an L4Re::Vfs file system.">L4Re::Vfs::File_system</a>. </p>
 <p>This class already takes care of registering and unregistering the file system in the global registry and implements the <a class="el" href="classL4Re_1_1Vfs_1_1Be__file__system.html#ab5d0c8e512ec5cc7f0e2bb3ad428b576" title="Return the file-system type.">type()</a> method. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tmpfs_2lib_2src_2fs_8cc-example.html#_a13">tmpfs/lib/src/fs.cc</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="tmpfs_2lib_2src_2fs_8cc-example.html#_a12">tmpfs/lib/src/fs.cc</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="backend_source.html#l00308">308</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
+<p class="definition">Definition at line <a class="el" href="backend_source.html#l00311">311</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acb71b8fb0eccaca723fc3b1d8d65c2ea" name="acb71b8fb0eccaca723fc3b1d8d65c2ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acb71b8fb0eccaca723fc3b1d8d65c2ea">&#9670;&#160;</a></span>Be_file_system()</h2>
@@ -173,7 +176,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <p>This constructor takes care of registering the file system in the registry of L4Re::Vfs::vfs_ops. </p>
 
-<p class="definition">Definition at line <a class="el" href="backend_source.html#l00322">322</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
+<p class="definition">Definition at line <a class="el" href="backend_source.html#l00325">325</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
 
 </div>
 </div>
@@ -203,7 +206,7 @@ Public Member Functions</h2></td></tr>
 <p>Destroy a file-system object. </p>
 <p>This destructor takes care of removing this file system from the registry of L4Re::Vfs::vfs_ops. </p>
 
-<p class="definition">Definition at line <a class="el" href="backend_source.html#l00334">334</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
+<p class="definition">Definition at line <a class="el" href="backend_source.html#l00337">337</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
 
 </div>
 </div>
@@ -236,7 +239,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classL4Re_1_1Vfs_1_1File__system.html#aa5822abf6c5a5e975ad873237e4bf563">L4Re::Vfs::File_system</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="backend_source.html#l00344">344</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
+<p class="definition">Definition at line <a class="el" href="backend_source.html#l00347">347</a> of file <a class="el" href="backend_source.html">backend</a>.</p>
 
 </div>
 </div>
@@ -250,7 +253,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4Re.html">L4Re</a></li><li class="navelem"><a class="el" href="namespaceL4Re_1_1Vfs.html">Vfs</a></li><li class="navelem"><a class="el" href="classL4Re_1_1Vfs_1_1Be__file__system.html">Be_file_system</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:30 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:33 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

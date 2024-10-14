@@ -45,11 +45,6 @@
  */
 #define isnan(x)             ((x) != (x))
 
-/* Without seminumerical functions to examine the sign bit, this is
- * about the best we can do to test for '-0'.
- */
-#define zeroisnegative(x)    ((1./(x)) < 0)
-
 /*****************************************************************************/
 /* Don't change anything that follows peroid!!!  ;-)                         */
 /*****************************************************************************/
@@ -215,9 +210,6 @@ ssize_t _fpmaxtostr(FILE * fp, __fpmax_t x, struct printf_info *info,
 	intptr_t pc_fwi[3*MAX_CALLS];
 	intptr_t *ppc;
 	intptr_t *ppc_last;
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: The size of exp_buf[] should really be determined by the float constants.
-#endif /* __UCLIBC_MJN3_ONLY__ */
 	char exp_buf[16];
 	char buf[BUF_SIZE];
 	char sign_str[6];			/* Last 2 are for 1st digit + nul. */
@@ -262,7 +254,13 @@ ssize_t _fpmaxtostr(FILE * fp, __fpmax_t x, struct printf_info *info,
 
 	if (x == 0) {				/* Handle 0 now to avoid false positive. */
 #ifdef __UCLIBC_HAVE_SIGNED_ZERO__
-		if (zeroisnegative(x)) { /* Handle 'signed' zero. */
+		union {
+			double x;
+			struct {
+				unsigned int l1, l2;
+			} i;
+		} u = {x};
+		if (u.i.l1 ^ u.i.l2) { /* Handle 'signed' zero. */
 			*sign_str = '-';
 		}
 #endif /* __UCLIBC_HAVE_SIGNED_ZERO__ */
@@ -290,9 +288,6 @@ ssize_t _fpmaxtostr(FILE * fp, __fpmax_t x, struct printf_info *info,
 
 	{
 		int i, j;
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning TODO: Clean up defines when hexadecimal float notation is unsupported.
-#endif /* __UCLIBC_MJN3_ONLY__ */
 
 #ifdef __UCLIBC_HAS_HEXADECIMAL_FLOATS__
 
@@ -323,8 +318,8 @@ ssize_t _fpmaxtostr(FILE * fp, __fpmax_t x, struct printf_info *info,
 
 #else  /* __UCLIBC_HAS_HEXADECIMAL_FLOATS__ */
 
-#define lower_bnd    1e8
-#define upper_bnd    1e9
+#define lower_bnd    (__fpmax_t)1e8
+#define upper_bnd    (__fpmax_t)1e9
 #define power_table  exp10_table
 #define dpb          DIGITS_PER_BLOCK
 #define base         10
@@ -374,9 +369,6 @@ ssize_t _fpmaxtostr(FILE * fp, __fpmax_t x, struct printf_info *info,
 		do {
 			uint_fast32_t digit_block = (uint_fast32_t) x;
 			assert(digit_block < upper_bnd);
-#ifdef __UCLIBC_MJN3_ONLY__
-#warning CONSIDER: Can rounding be a problem?
-#endif /* __UCLIBC_MJN3_ONLY__ */
 			x = (x - digit_block) * upper_bnd;
 			s += dpb;
 			j = 0;
@@ -735,7 +727,7 @@ ssize_t _fpmaxtostr(FILE * fp, __fpmax_t x, struct printf_info *info,
 
 #endif /* __UCLIBC_HAS_GLIBC_DIGIT_GROUPING__ */
 		{						/* NOTE: Remember 'else' above! */
-			if (fp_outfunc(fp, *ppc, ppc[1], ppc[2]) != ppc[1]) {
+			if (fp_outfunc(fp, *ppc, ppc[1], ppc[2]) != (unsigned long)ppc[1]) {
 				return -1;
 			}
 		}

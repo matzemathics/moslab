@@ -99,7 +99,7 @@ Jdb_io_apic_module::action(int cmd, void *&, char const *&, int &) override
 	          ? "not supported (Local APIC disabled)"
 		  : "not supported (no Local APIC)"
       );
-  Jdb::on_each_cpu(print_lapic);
+  Jdb::on_each_cpu(&print_lapic);
 
   return NOTHING;
 }
@@ -116,7 +116,7 @@ Jdb_module::Cmd const *
 Jdb_io_apic_module::cmds() const override
 {
   static Cmd cs[] =
-    { { 0, "A", "apic", "", "apic\tdump state of IOAPIC", (void*)0 } };
+    { { 0, "A", "apic", "", "apic\tdump state of IOAPIC", nullptr } };
 
   return cs;
 }

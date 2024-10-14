@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Copyright (C) 2000-2005 by Erik Andersen <andersen@codepoet.org>
  *
@@ -29,18 +28,15 @@ static __inline__ void _dl_map_cache(void) { }
 static __inline__ void _dl_unmap_cache(void) { }
 #endif
 
-#define DL_RESOLVE_SECURE		0x0001
-#define DL_RESOLVE_NOLOAD		0x0002
-
 /* Function prototypes for non-static stuff in elfinterp.c */
 extern void _dl_parse_lazy_relocation_information(struct dyn_elf *rpnt,
 	unsigned long rel_addr, unsigned long rel_size);
 extern int _dl_parse_relocation_information(struct dyn_elf *rpnt,
 	struct r_scope_elem *scope, unsigned long rel_addr, unsigned long rel_size);
-extern struct elf_resolve * _dl_load_shared_library(unsigned rflags,
+extern struct elf_resolve * _dl_load_shared_library(unsigned int rflags,
 	struct dyn_elf **rpnt, struct elf_resolve *tpnt, char *full_libname,
 	int trace_loaded_objects);
-extern struct elf_resolve * _dl_load_elf_shared_library(unsigned rflags,
+extern struct elf_resolve * _dl_load_elf_shared_library(unsigned int rflags,
 	struct dyn_elf **rpnt, const char *libname);
 extern int _dl_linux_resolve(void);
 extern int _dl_fixup(struct dyn_elf *rpnt, struct r_scope_elem *scope, int flag);
@@ -204,7 +200,7 @@ unsigned int __dl_parse_dynamic_info(ElfW(Dyn) *dpnt, unsigned long dynamic_info
 	/* Don't adjust .dynamic unnecessarily.  For FDPIC targets,
 	   we'd have to walk all the loadsegs to find out if it was
 	   actually unnecessary, so skip this optimization.  */
-#if !defined __FDPIC__ && !defined __DSBT__
+#if !defined __FRV_FDPIC__ && !defined __BFIN_FDPIC__ && !defined __DSBT__ && !defined __FDPIC__
 	if (load_off != 0)
 #endif
 	{
@@ -252,5 +248,46 @@ unsigned int __dl_parse_dynamic_info(ElfW(Dyn) *dpnt, unsigned long dynamic_info
 		    (((X) & PF_W) ? PROT_WRITE : 0) | \
 		    (((X) & PF_X) ? PROT_EXEC : 0))
 
+/* FDPIC ABI don't use relative relocations */
+#if !defined(__FDPIC__)
+/* Apply relocations in DT_RELR format */
+#define DL_DO_RELOCATE_RELR(load_addr, relr_start, relr_end) \
+		do { \
+			const ElfW(Relr) *relr = 0; \
+			ElfW(Addr) *relr_reloc_addr = 0; \
+			for (relr = relr_start; relr < relr_end; relr++) { \
+				ElfW(Relr) relr_entry = *relr; \
+				if (!(relr_entry & 1)) \
+				{ \
+					relr_reloc_addr = (ElfW(Addr) *)DL_RELOC_ADDR(load_addr, relr_entry); \
+					*relr_reloc_addr = (ElfW(Addr))DL_RELOC_ADDR(load_addr, relr_reloc_addr); \
+					relr_reloc_addr++; \
+				} \
+				else \
+				{ \
+					for (long int i = 0; (relr_entry >>= 1) != 0; ++i) { \
+						if ((relr_entry & 1) != 0) \
+							relr_reloc_addr[i] = (ElfW(Addr))DL_RELOC_ADDR(load_addr, relr_reloc_addr[i]); \
+					} \
+					relr_reloc_addr += CHAR_BIT * sizeof(ElfW(Relr)) - 1; \
+				} \
+			} \
+		} while (0)
+
+/* The macro to prepare data for the above DL_DO_RELOCATE_RELR */
+#define DL_RELOCATE_RELR(dyn) \
+		do { \
+			if (dyn->dynamic_info[DT_RELRENT]) \
+				_dl_assert(dyn->dynamic_info[DT_RELRENT] == sizeof(ElfW(Relr))); \
+			if (dyn->dynamic_info[DT_RELR] && \
+				dyn->dynamic_info[DT_RELRSZ]) { \
+				ElfW(Relr) *relr_start = (ElfW(Relr) *)((ElfW(Addr))dyn->loadaddr + (ElfW(Addr))dyn->dynamic_info[DT_RELR]); \
+				ElfW(Relr) *relr_end = (ElfW(Relr) *)((const char *)relr_start + dyn->dynamic_info[DT_RELRSZ]); \
+				_dl_if_debug_dprint("Relocating DT_RELR in %s: start:%p, end:%p\n", \
+						    dyn->libname, (void *)relr_start, (void *)relr_end); \
+				DL_DO_RELOCATE_RELR(dyn->loadaddr, relr_start, relr_end); \
+			} \
+		} while (0)
+#endif /* __FDPIC__ */
 
 #endif /* _DL_ELF_H */

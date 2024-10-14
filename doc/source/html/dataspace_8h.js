@@ -14,5 +14,6 @@ var dataspace_8h =
     [ "l4re_ds_copy_in", "group__api__l4re__c__ds.html#ga9b11138a09e2661ed2a2f35999d160c6", null ],
     [ "l4re_ds_flags", "group__api__l4re__c__ds.html#ga63730a8dfcf9722f63e85272919656a8", null ],
     [ "l4re_ds_info", "group__api__l4re__c__ds.html#ga03eb3f67fc6d769900ba9029f54dc124", null ],
+    [ "l4re_ds_map_info", "group__api__l4re__c__ds.html#ga3d74c479b8994fd11afa4e51ab47f2a8", null ],
     [ "l4re_ds_size", "group__api__l4re__c__ds.html#ga9bc4f9dbfd28822e4b6adb61e1ea398b", null ]
 ];

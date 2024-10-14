@@ -2,19 +2,21 @@
 <area shape="rect" id="Node000001" title="General double&#45;linked list of unspecified cxx::H_list_item elements." alt="" coords="392,275,567,540"/>
 <area shape="rect" id="Node000003" href="$structcxx_1_1H__list__t.html" title=" " alt="" coords="5,1148,151,1228"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="380,440,302,471,220,515,180,543,144,574,111,609,84,648,56,713,39,782,31,853,32,924,38,991,47,1053,69,1147,64,1148,42,1054,32,992,26,924,26,853,33,781,51,711,80,645,107,606,140,570,177,538,217,511,300,466,378,435"/>
-<area shape="rect" id="Node000004" href="$classcxx_1_1H__list.html" title=" " alt="" coords="95,661,283,956"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="382,470,327,513,279,566,251,612,229,662,224,660,246,609,275,562,323,509,379,465"/>
-<area shape="rect" id="Node000006" href="$classcxx_1_1H__list.html" title=" " alt="" coords="307,676,478,941"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="450,554,447,565,423,677,418,675,442,563,444,553"/>
-<area shape="rect" id="Node000007" href="$classcxx_1_1H__list.html" title=" " alt="" coords="502,669,662,949"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="538,553,541,563,564,668,559,669,535,565,532,554"/>
-<area shape="rect" id="Node000008" href="$classcxx_1_1H__list.html" title=" " alt="" coords="687,647,867,971"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="581,443,623,464,665,491,705,524,738,563,759,603,772,646,767,647,754,605,733,565,701,528,662,496,620,469,578,448"/>
-<area shape="rect" id="Node000009" href="$classcxx_1_1H__list.html" title=" " alt="" coords="933,676,1100,941"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="581,408,677,419,730,430,785,445,839,465,890,491,937,523,979,562,996,587,1009,615,1023,675,1018,676,1004,617,992,590,975,566,934,527,887,495,837,470,783,450,729,435,676,424,580,413"/>
+<area shape="rect" id="Node000005" href="$classcxx_1_1H__list.html" title=" " alt="" coords="95,661,283,956"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="382,470,327,513,279,566,251,612,229,662,224,660,246,609,275,562,323,509,379,465"/>
+<area shape="rect" id="Node000007" href="$classcxx_1_1H__list.html" title=" " alt="" coords="307,676,478,941"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="450,554,447,565,423,677,418,675,442,563,444,553"/>
+<area shape="rect" id="Node000008" href="$classcxx_1_1H__list.html" title=" " alt="" coords="502,669,662,949"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="538,553,541,563,564,668,559,669,535,565,532,554"/>
+<area shape="rect" id="Node000009" href="$classcxx_1_1H__list.html" title=" " alt="" coords="687,647,867,971"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="581,443,623,464,665,491,705,524,738,563,759,603,772,646,767,647,754,605,733,565,701,528,662,496,620,469,578,448"/>
+<area shape="rect" id="Node000010" href="$classcxx_1_1H__list.html" title=" " alt="" coords="933,676,1100,941"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="581,408,677,419,730,430,785,445,839,465,890,491,937,523,979,562,996,587,1009,615,1023,675,1018,676,1004,617,992,590,975,566,934,527,887,495,837,470,783,450,729,435,676,424,580,413"/>
 <area shape="rect" id="Node000002" href="$classcxx_1_1Bits_1_1Basic__list.html" title="Internal: Common functions for all head&#45;based list implementations." alt="" coords="409,5,549,225"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="482,239,482,274,477,274,477,239"/>
-<area shape="rect" id="Node000005" href="$structcxx_1_1H__list__t.html" title="Double&#45;linked list of typed H_list_item_t elements." alt="" coords="108,1020,240,1085"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="182,970,179,1020,173,1020,176,970"/>
-<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="145,1098,108,1149,104,1146,141,1095"/>
+<area shape="rect" id="Node000004" href="$structcxx_1_1Weak__ref__base_1_1List.html" title="The list type for keeping all weak references to an object." alt="" coords="6,1277,150,1357"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="81,1242,81,1277,75,1277,75,1242"/>
+<area shape="rect" id="Node000006" href="$structcxx_1_1H__list__t.html" title="Double&#45;linked list of typed H_list_item_t elements." alt="" coords="108,1020,240,1085"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="182,970,179,1020,173,1020,176,970"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="145,1098,108,1149,104,1146,141,1095"/>
 </map>

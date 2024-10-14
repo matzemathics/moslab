@@ -44,9 +44,10 @@ var searchData=
   ['kobject_5ft_3c_20thread_2c_20kobject_2c_20l4_5fproto_5fthread_2c_20type_5finfo_3a_3ademand_5ft_3c_201_20_3e_20_3e_41',['Kobject_t&lt; Thread, Kobject, L4_PROTO_THREAD, Type_info::Demand_t&lt; 1 &gt; &gt;',['../classL4_1_1Kobject__t.html',1,'L4']]],
   ['kobject_5ft_3c_20triggerable_2c_20irq_5feoi_2c_20l4_5fproto_5firq_20_3e_42',['Kobject_t&lt; Triggerable, Irq_eoi, L4_PROTO_IRQ &gt;',['../classL4_1_1Kobject__t.html',1,'L4']]],
   ['kobject_5ft_3c_20vcon_2c_20icu_2c_20l4_5fproto_5flog_20_3e_43',['Kobject_t&lt; Vcon, Icu, L4_PROTO_LOG &gt;',['../classL4_1_1Kobject__t.html',1,'L4']]],
-  ['kobject_5ft_3c_20vm_2c_20task_2c_20l4_5fproto_5fvm_20_3e_44',['Kobject_t&lt; Vm, Task, L4_PROTO_VM &gt;',['../classL4_1_1Kobject__t.html',1,'L4']]],
-  ['kobject_5ftypeid_45',['Kobject_typeid',['../structL4_1_1Kobject__typeid.html',1,'L4']]],
-  ['kobject_5ftypeid_3c_20void_20_3e_46',['Kobject_typeid&lt; void &gt;',['../structL4_1_1Kobject__typeid_3_01void_01_4.html',1,'L4']]],
-  ['kobject_5fx_47',['Kobject_x',['../structL4_1_1Kobject__x.html',1,'L4']]],
-  ['kobject_5fx_3c_20iommu_2c_20proto_5ft_3c_20l4_5fproto_5fiommu_20_3e_2c_20type_5finfo_3a_3ademand_5ft_3c_201_20_3e_20_3e_48',['Kobject_x&lt; Iommu, Proto_t&lt; L4_PROTO_IOMMU &gt;, Type_info::Demand_t&lt; 1 &gt; &gt;',['../structL4_1_1Kobject__x.html',1,'L4']]]
+  ['kobject_5ft_3c_20vcpu_5fcontext_2c_20kobject_2c_20l4_5fproto_5fvcpu_5fcontext_20_3e_44',['Kobject_t&lt; Vcpu_context, Kobject, L4_PROTO_VCPU_CONTEXT &gt;',['../classL4_1_1Kobject__t.html',1,'L4']]],
+  ['kobject_5ft_3c_20vm_2c_20task_2c_20l4_5fproto_5fvm_20_3e_45',['Kobject_t&lt; Vm, Task, L4_PROTO_VM &gt;',['../classL4_1_1Kobject__t.html',1,'L4']]],
+  ['kobject_5ftypeid_46',['Kobject_typeid',['../structL4_1_1Kobject__typeid.html',1,'L4']]],
+  ['kobject_5ftypeid_3c_20void_20_3e_47',['Kobject_typeid&lt; void &gt;',['../structL4_1_1Kobject__typeid_3_01void_01_4.html',1,'L4']]],
+  ['kobject_5fx_48',['Kobject_x',['../structL4_1_1Kobject__x.html',1,'L4']]],
+  ['kobject_5fx_3c_20iommu_2c_20proto_5ft_3c_20l4_5fproto_5fiommu_20_3e_2c_20type_5finfo_3a_3ademand_5ft_3c_201_20_3e_20_3e_49',['Kobject_x&lt; Iommu, Proto_t&lt; L4_PROTO_IOMMU &gt;, Type_info::Demand_t&lt; 1 &gt; &gt;',['../structL4_1_1Kobject__x.html',1,'L4']]]
 ];

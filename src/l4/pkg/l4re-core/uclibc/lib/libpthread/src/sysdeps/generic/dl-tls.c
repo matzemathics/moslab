@@ -20,7 +20,6 @@
 #if defined SHARED || defined NOT_IN_libc
 # error in buildsystem: This file is for libc.a
 #endif
-#include <libintl.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <sys/param.h>
@@ -65,12 +64,12 @@ oom (void)
 }
 # endif
 
-
+void *_dl_memalign(size_t alignment, size_t bytes);
 void *_dl_memalign(size_t alignment, size_t bytes)
 {
+	(void)alignment;
 	return _dl_malloc(bytes);
 }
-
 
 /*
  * We are trying to perform a static TLS relocation in MAP, but it was
@@ -835,7 +834,7 @@ __tls_get_addr (GET_ADDR_ARGS)
 # endif
 
 
-
+void _dl_add_to_slotinfo (struct link_map  *l);
 void
 _dl_add_to_slotinfo (struct link_map  *l)
 {

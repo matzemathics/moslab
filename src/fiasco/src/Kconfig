@@ -31,7 +31,16 @@ config HAS_MP_OPTION
 config HAS_COV_OPTION
 	bool
 
+config HAS_AMP_OPTION
+	bool
+
 config HAS_CPU_VIRT
+	bool
+
+config HAS_IRQ_DIRECT_INJECT_OPTION
+	bool
+
+config HAS_CPU_MPU
 	bool
 
 menu "Target configuration"
@@ -55,6 +64,7 @@ config AMD64
 	select HAS_VIRT_OBJ_SPACE_OPTION
 	select HAS_JDB_DISASM_OPTION
 	select HAS_JDB_GZIP_OPTION
+	select HAS_COV_OPTION
 	select BIT64
 	select FPU
 	select HAS_FPU_OPTION
@@ -97,6 +107,12 @@ config ABI_VF
 	def_bool y
 
 # PF_SECTION: CPU
+
+config MMU
+	def_bool y if !HAS_CPU_MPU
+
+config MPU
+	def_bool y if HAS_CPU_MPU
 
 config CPU_VIRT
 	bool "Virtualization"
@@ -200,32 +216,95 @@ endmenu # target
 menu "Kernel options"
 
 config MP
-	bool "Enable multi-processor support"
+	bool "Enable symmetric multi-processor support"
 	default y
 	depends on HAS_MP_OPTION
 	help
-	  Enable support for machines with multiple processors.
+	  Enable support for machines with cache-coherent, symmetric multiple
+	  processors.
+
+config AMP
+	bool "Enable homogeneous asymmetric multi-processor support"
+	depends on HAS_AMP_OPTION
+	help
+	  Enable support for machines with non-cache-coherent, homogeneous
+	  multiple processors.
 
 config MP_MAX_CPUS
 	int "Maximal supported number of CPUs"
-	depends on MP
-	range 1 128
-	default 16
+	depends on MP || AMP
+	range 1 8192 if MP
+	default 16 if MP
+	range 1 16 if AMP
+	default 4 if AMP
 	help
 	  The maximum number of CPUs the kernel supports.
 
-config CONTEXT_8K
-	bool #"TCB size of 8k"
+config KMEM_SIZE_AUTO
+	bool "Automatically determine kernel memory size"
+	default y
 	help
-	  Use this option to use 8K kernel stacks. Only disable this option
+	  If set to 'y' (default), the kernel automatically determines the
+	  amount of kernel memory using Config::kmem_per_cent(). The size of
+	  the kernel memory can be overriden by the kernel command line
+	  parameter "-kmemsize" passed to the boot loader.
+
+config KMEM_SIZE_KB
+	int "Kernel memory size in KiB"
+	depends on !KMEM_SIZE_AUTO
+	range 16 4194304
+	default 32768 if MMU
+	default 256 if !MMU
+	help
+	  The amount of kernel memory in KiB. The size of the kernel memory can
+	  be overridden by the kernel command line parameter "-kmemsize" passed
+	  to the boot loader.
+
+choice
+	prompt "Thread control block size"
+	default CONTEXT_SIZE_AUTO
+	help
+	  Choose the stack size of each thread in the kernel.
+
+config CONTEXT_SIZE_AUTO
+	bool "Automatic"
+	help
+	  Uses 8k stack size on 64-bit systems, otherwise 4k stacks.
+
+config CONTEXT_SIZE_8K
+	bool "8k stacks"
+	depends on EXPERIMENTAL
+	help
+	  Use this option to use 8K kernel stacks. Only choose this option
 	  when you know what you're doing.
 
-config CONTEXT_4K
-	bool #"TCB size of 4k"
-	default y if !CONTEXT_8K
+config CONTEXT_SIZE_4K
+	bool "4k stacks"
+	depends on EXPERIMENTAL
 	help
-	  Use this option to use 4K kernel stacks. Only disable this option
+	  Use this option to use 4K kernel stacks. Only choose this option
 	  when you know what you're doing.
+
+config CONTEXT_SIZE_2K
+	bool "2k stacks"
+	depends on EXPERIMENTAL
+	help
+	  Use this option to use 2K kernel stacks. Only choose this option
+	  when you know what you're doing.
+
+endchoice
+
+config CONTEXT_8K
+	bool
+	default y if CONTEXT_SIZE_8K || (CONTEXT_SIZE_AUTO && BIT64)
+
+config CONTEXT_4K
+	bool
+	default y if CONTEXT_SIZE_4K || (CONTEXT_SIZE_AUTO && !BIT64)
+
+config CONTEXT_2K
+	bool
+	default y if CONTEXT_SIZE_2K
 
 config SLOW_RTC
 	bool "Use RTC with 100 ticks per second"
@@ -299,6 +378,22 @@ config SCHED_FP_WFQ
 
 endchoice
 
+config SCHED_GRANULARITY
+	int "Scheduler granularity"
+	depends on !(PF_PC || PF_UX)
+	default 1000
+	range 10 1000000
+	help
+	  Scheduler tick granularity in microseconds.
+
+config SCHED_DEF_TIME_SLICE
+	int "Default thread time slice"
+	depends on !(PF_PC || PF_UX)
+	default 10
+	range 1 1000000
+	help
+	  Default thread time slice in scheduler ticks.
+
 config IOMMU
 	bool "Enable support for DMA remapping" if HAS_IOMMU_OPTION
 	depends on HAS_IOMMU_OPTION
@@ -309,15 +404,55 @@ config IOMMU
 	  The user-level must use kernel DMA spaces in combination with
 	  the IO-MMU kernel object to allow DMA.
 
+config IRQ_DIRECT_INJECT
+	bool "Support direct interrupt forwarding to guests"
+	depends on CPU_VIRT && HAS_IRQ_DIRECT_INJECT_OPTION
+	default y
+	help
+	  Adds support in the kernel to allow the VMM to let Fiasco directly
+	  forward hardware interrupts to a guest. This enables just the
+	  infrastructure. The virtual machine monitor needs to support this
+	  feature as well and manage the hardware interrupts accordingly.
+
 config DISABLE_VIRT_OBJ_SPACE
 	bool "No virtually mapped array for cap tables" if HAS_VIRT_OBJ_SPACE_OPTION
-	depends on HAS_VIRT_OBJ_SPACE_OPTION &&  EXPERIMENTAL
+	depends on HAS_VIRT_OBJ_SPACE_OPTION && EXPERIMENTAL && MMU
 
 config VIRT_OBJ_SPACE
 	def_bool y
 	depends on HAS_VIRT_OBJ_SPACE_OPTION
 	depends on !DISABLE_VIRT_OBJ_SPACE
 	depends on !KERNEL_ISOLATION
+	depends on MMU
+
+config PHYS_OBJ_SPACE_AVL
+	bool "Use AVL tree for object space"
+	depends on EXPERIMENTAL
+	help
+	  Usually objects in a space are stored in a page-based two-level
+	  tree. Depending on the distribution of the capabilites this might
+	  waste some memory but is always O(1).
+
+	  By enabling this option the object space is stored in an AVL tree.
+	  This allocates less memory at the expense of an O(log n) lookup
+	  time.
+
+config DISABLE_MAPDB
+	bool "Disable mapdb"
+	depends on EXPERIMENTAL
+	help
+	  This option disables the mapping database that tracks memory resource
+	  delegation in the system. This saves kernel memory that is normally
+	  required to find the task and the location where memory has been
+	  mapped. Enabling this option will make unmap only work on the
+	  affected task and child mappings cannot be (recursively) revoked any
+	  more!
+
+	  Say N unless you really know what you're doing.
+
+config MAPDB
+	def_bool y
+	depends on !DISABLE_MAPDB
 
 config KERNEL_ISOLATION
 	bool "Enable Kernel Address-Space Isolation" if AMD64
@@ -348,16 +483,17 @@ config INTEL_IA32_BRANCH_BARRIERS
 	        application attacks.
 
 config INTEL_MDS_MITIGATION
-        bool "Enable MDS mitigation" if AMD64 && KERNEL_ISOLATION
-        default y if AMD64 && KERNEL_ISOLATION
-        help
-          Use CPU buffer clearing to prevent forwarding of speculative data to
-          a disclosure gadget which allows to infer the value via a cache side
-          channel attack.
+	bool "Enable MDS mitigation" if AMD64 && KERNEL_ISOLATION
+	default y if AMD64 && KERNEL_ISOLATION
+	help
+	  Use CPU buffer clearing to prevent forwarding of speculative data to
+	  a disclosure gadget which allows to infer the value via a cache side
+	  channel attack.
 
 config KERNEL_NX
-	bool "Enable support for kernel RO and non-executable mappings" if AMD64
-	depends on AMD64
+	bool "Enable support for kernel RO and non-executable mappings" \
+		if AMD64 || (ARM && BIT64 && MMU)
+	depends on AMD64 || (ARM && BIT64 && MMU)
 	help
 	  Make kernel mappings either writable or executable, but not
 	  writable and executable at the same time. This makes certain
@@ -426,6 +562,16 @@ config PERFORMANCE
 	  assertions are included and additional run-time functionality
 	  is de-selected.
 
+config PERF_CNT_USER
+	bool "Allow user-level access to performance counters"
+	depends on PERF_CNT
+	depends on ARM || ARM64
+	help
+	  Allows user-level to access performance counters.
+
+	  Do ONLY enable this when debugging, experimenting or evaluating.
+
+
 config INLINE
 	bool "Generate inline code"
 	default y
@@ -472,14 +618,6 @@ config BEFORE_IRET_SANITY
 	      * Any other state bit must not be set.
 	  Don't use Fiasco compiled with this option for performance analysis!
 
-config GSTABS
-	bool "Compile with gstabs+ debugging information"
-	depends on n
-	help
-	  Enabling this option includes the debugging information using the
-	  older gstabs+ format into the kernel image. This is necessary to
-	  access line number information of the kernel from JDB.
-
 config IRQ_SPINNER
 	bool "Display IRQ activity on VGA screen"
 	depends on PF_PC
@@ -513,9 +651,19 @@ config TEST_SUPPORT_CODE
 	help
 	  Include test support code when compiling Fiasco.
 
+config RT_DBG
+	bool "Runtime debug information"
+	default y
+	help
+	  Adds support for the debugger kernel object, e.g. to set the name of
+	  objects. This information may be used by a debugger to enable OS
+	  aware debugging.
+
 menuconfig JDB
 	bool "JDB kernel debugger"
 	default y
+	select RT_DBG
+	depends on !AMP
 	help
 	  The powerful Fiasco kernel debugger.
 
@@ -557,9 +705,14 @@ config JDB_ACCOUNTING
 
 	  Should be disabled for kernels which are used for measurements.
 
-config JDB_MISC
-	bool "Miscellaneous JDB modules"
-	depends on PF_UX || PF_PC
+config PERF_CNT
+	bool "Support for performance counters"
+	depends on (IA32 || AMD64 || ARM || ARM64 || MIPS)
+	default y if JDB
+	help
+	  Enable support for performance counters. On IA32/AMD64, enable support
+	  for fixed-function counters if supported by the target allowing to
+	  read these counters from all privilege levels.
 
 endif # JDB
 
@@ -572,6 +725,10 @@ config POWERSAVE_GETCHAR
 	  This option uses a processor HALT in getchar() to save power and
 	  prevent some P4 processors from being overheated. This option
 	  requires a working timer IRQ to wakeup getchar periodically.
+
+config MBT_COUNTER
+	bool "Enable model-based testing counter"
+	depends on EXPERIMENTAL
 
 choice
 	prompt "Warn levels"
@@ -587,6 +744,44 @@ config WARN_ANY
 	bool "Show all kernel warnings"
 
 endchoice # warn levels
+
+config UART_CHECKSUM
+	bool "UART checksumming"
+	help
+	  Ensure serial output integrity by adding checksums to it. This
+	  ensures that the output transmitted over a serial line is not
+	  accidentally altered, thus potentially turning a failing test
+	  into a passing test, etc.
+
+	  If enabled, the UART output is checksummed continously using
+	  a CRC32 algorithm and the current checksum is printed periodically
+	  with each newline using a checksum tag. A counterpart decoding
+	  filter that checks the consistency of the checksums and removes
+	  the checksum tags from the output is available.
+
+	  The checksum tag size is 12 characters and it has the following
+	  format:
+
+	    "\n{hhhhhhhh} "
+
+	  In this template, the 'h' characters represent lower-case
+	  hexadecimal characters that encode the CRC32 checksum of all the
+	  previous characters in the output (including newline characters,
+	  but excluding the actual checksum tag, i.e. the curly brackets,
+	  the hexadecimal characters in between them and the tailing space
+	  character).
+
+	  The checksumming starts only after the first checksum tag which
+	  is:
+
+	    "\n{00000000} "
+
+config FB_CONSOLE
+	bool "Enable kernel framebuffer console"
+	depends on IA32 || AMD64 || ARM || ARM64
+	help
+	  This enables the kernel framebuffer console and, if a framebuffer
+	  is available, will output kernel messages.
 
 # PF_SECTION: DEBUG
 
@@ -635,11 +830,20 @@ config MAINTAINER_MODE
 	  This enables the circular dependency and initcall checks.
 	  Say 'Yes' here if you do kernel hacking.
 
+config NO_VERSION
+	bool "Do not provide build version info"
+	depends on EXPERIMENTAL
+	help
+	  Do not provide build version info to avoid the need to relink all
+	  kernel unit tests on each build.
+
 config LABEL
 	string "Configuration label"
 	help
 	  Text string with a name for this configuration. To be displayed in
 	  the kernel boot-up.
+
+# PF_SECTION: COMPILING
 
 endmenu
 
@@ -652,14 +856,10 @@ config EXPERIMENTAL
 
 	  Use with caution!
 
-config PERF_CNT
-	def_bool y if JDB && (IA32 || AMD64 || ARM || ARM64 || MIPS)
-
 config BIT32
 	bool
 
 config BIT64
-	select CONTEXT_8K
 	bool
 
 config WARN_LEVEL

@@ -34,7 +34,7 @@
 /* ldso doesn't have real errno */
 #define ERRNO_ERRANDS(_sys_result)
 #else /* !IS_IN_rtld */
-extern int __syscall_error (int);
+extern long __syscall_error (int);
 #ifndef IS_IN_libc
 /* Inter-libc callers use PLT */
 #define CALL_ERRNO_SETTER   "bl   __syscall_error@plt    \n\t"
@@ -56,22 +56,19 @@ extern int __syscall_error (int);
 
 #endif /* IS_IN_rtld */
 
-/* Invoke the syscall and return unprocessed kernel status */
-#define INTERNAL_SYSCALL(nm, err, nr, args...)		\
-	INTERNAL_SYSCALL_NCS(SYS_ify (nm), err, nr, args)
-
 /* -1 to -1023 as valid error values will suffice for some time */
 #define INTERNAL_SYSCALL_ERROR_P(val, err)		\
 	((unsigned int) (val) > (unsigned int) -1024)
 
 /*
- * Standard sycall wrapper:
- *  -"const" syscall number @nm, sets errno, return success/error-codes
+ * Standard sycall wrapper
+ *  -Gets syscall name (conv to __NR_xxx)
+ *  -sets errno, return success/error-codes
  */
-#define INLINE_SYSCALL(nm, nr_args, args...)				\
+#define INLINE_SYSCALL(name, nr_args, args...)				\
 ({									\
 	register int __res __asm__("r0");				\
-	__res = INTERNAL_SYSCALL(nm, , nr_args, args);			\
+	__res = INTERNAL_SYSCALL_NCS(__NR_##name, , nr_args, args);	\
 	if (__builtin_expect (INTERNAL_SYSCALL_ERROR_P ((__res), ), 0))	\
 	{								\
 		ERRNO_ERRANDS(__res);					\
@@ -79,24 +76,18 @@ extern int __syscall_error (int);
 	__res;								\
 })
 
-/* Non const syscall number @nm
- * Ideally this could be folded within INLINE_SYSCALL with
- * __builtin_constant_p in INTERNAL_SYSCALL but that fails for syscall.c
+/* variant of INLINE_SYSCALL, gets syscall number
  */
-#define INLINE_SYSCALL_NCS(nm, nr_args, args...)			\
+#define INLINE_SYSCALL_NCS(num, nr_args, args...)			\
 ({									\
 	register int __res __asm__("r0");				\
-	__res = INTERNAL_SYSCALL_NCS(nm, , nr_args, args);		\
+	__res = INTERNAL_SYSCALL_NCS(num, , nr_args, args);		\
 	if (__builtin_expect (INTERNAL_SYSCALL_ERROR_P ((__res), ), 0))	\
 	{								\
 		ERRNO_ERRANDS(__res);					\
 	}								\
 	__res;								\
 })
-
-#define INLINE_SYSCALL_NOERR(name, nr, args...)				   \
-  ({ unsigned int _inline_sys_result = INTERNAL_SYSCALL (name, , nr, args);\
-     (int) _inline_sys_result; })
 
 /*-------------------------------------------------------------------------
  * Mechanics of Trap - specific to ARC700
@@ -107,7 +98,11 @@ extern int __syscall_error (int);
  * for syscall itself.
  *-------------------------------------------------------------------------*/
 
-#define ARC_TRAP_INSN  "trap0	\n\t"
+#ifdef __A7__
+#define ARC_TRAP_INSN	"trap0		\n\t"
+#else
+#define ARC_TRAP_INSN	"trap_s 0	\n\t"
+#endif
 
 #define INTERNAL_SYSCALL_NCS(nm, err, nr_args, args...)	\
 ({							\
@@ -185,7 +180,11 @@ extern int __syscall_error (int);
 
 #else
 
+#ifdef __A7__
 #define ARC_TRAP_INSN	trap0
+#else
+#define ARC_TRAP_INSN	trap_s 0
+#endif
 
 #endif /* __ASSEMBLER__ */
 

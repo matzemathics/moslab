@@ -91,7 +91,7 @@ function SearchBox(name, resultsPath, extension)
   this.name                  = name;
   this.resultsPath           = resultsPath;
   this.keyTimeout            = 0;
-  this.keyTimeoutLength      = 500;
+  this.keyTimeoutLength      = 50;
   this.closeSelectionTimeout = 300;
   this.lastSearchValue       = "";
   this.lastResultsPage       = "";

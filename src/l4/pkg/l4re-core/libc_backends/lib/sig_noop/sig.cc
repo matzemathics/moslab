@@ -10,9 +10,18 @@
 
 #include <errno.h>
 #include <signal.h>
+#include <unistd.h>
+#include <sys/time.h>
 
 extern "C"
 sighandler_t signal(int, sighandler_t) L4_NOTHROW
+{
+  errno = EINVAL;
+  return SIG_ERR;
+}
+
+extern "C"
+sighandler_t bsd_signal(int, sighandler_t) L4_NOTHROW
 {
   errno = EINVAL;
   return SIG_ERR;
@@ -45,6 +54,13 @@ int sigsuspend(const sigset_t *)
   return -1;
 }
 
+int sigwait([[maybe_unused]] const sigset_t *set,
+            [[maybe_unused]] int *sig)
+{
+  errno = EINVAL;
+  return -1;
+}
+
 extern "C"
 int killpg(int, int) noexcept
 {
@@ -52,3 +68,28 @@ int killpg(int, int) noexcept
   return -1;
 }
 
+extern "C"
+unsigned int alarm(unsigned int) noexcept
+{
+  return 0;
+}
+
+#include <l4/util/util.h>
+
+int pause(void)
+{
+  l4_sleep_forever();
+  errno = EINTR;
+  return -1;
+}
+
+int setitimer(__itimer_which_t __which,
+              const struct itimerval *__restrict __new,
+              struct itimerval *__restrict __old) L4_NOTHROW
+{
+  (void)__which;
+  (void)__new;
+  (void)__old;
+  errno = EINVAL;
+  return -1;
+}

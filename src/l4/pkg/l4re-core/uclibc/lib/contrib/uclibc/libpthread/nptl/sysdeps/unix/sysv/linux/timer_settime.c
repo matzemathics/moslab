@@ -23,8 +23,11 @@
 #include <bits/kernel-features.h>
 #include "kernel-posix-timers.h"
 
+#if defined(__UCLIBC_USE_TIME64__)
+#include "internal/time64_helpers.h"
+#endif
 
-#ifdef __NR_timer_settime
+#if defined(__NR_timer_settime) || defined(__NR_timer_settime64)
 # ifndef __ASSUME_POSIX_TIMERS
 static int compat_timer_settime (timer_t timerid, int flags,
 				 const struct itimerspec *value,
@@ -54,8 +57,13 @@ timer_settime (
       struct timer *kt = (struct timer *) timerid;
 
       /* Delete the kernel timer object.  */
+# if defined(__UCLIBC_USE_TIME64__) && defined(__NR_timer_settime64)
+      int res = INLINE_SYSCALL (timer_settime64, 4, kt->ktimerid, flags,
+				TO_ITS64_P(value), ovalue);
+# else
       int res = INLINE_SYSCALL (timer_settime, 4, kt->ktimerid, flags,
 				value, ovalue);
+# endif
 
 # ifndef __ASSUME_POSIX_TIMERS
       if (res != -1 || errno != ENOSYS)

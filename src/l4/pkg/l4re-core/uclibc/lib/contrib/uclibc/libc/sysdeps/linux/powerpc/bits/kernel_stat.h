@@ -39,11 +39,11 @@ struct kernel_stat64 {
 	long long st_size;		/* Size of file, in bytes.  */
 	long st_blksize;		/* Optimal block size for I/O.  */
 	long long st_blocks;		/* Number 512-byte blocks allocated. */
-	struct timespec st_atim;	/* Time of last access.  */
-	struct timespec st_mtim;	/* Time of last modification.  */
-	struct timespec st_ctim;	/* Time of last status change.  */
-	unsigned long int __unused4;
-	unsigned long int __unused5;
+	struct timespec	st_atim;
+	struct timespec	st_mtim;
+	struct timespec	st_ctim;
+	unsigned long int __uclibc_unused4;
+	unsigned long int __uclibc_unused5;
 };
 
 #endif	/*  _BITS_STAT_STRUCT_H */

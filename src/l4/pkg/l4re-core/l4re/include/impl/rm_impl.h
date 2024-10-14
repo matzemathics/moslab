@@ -20,6 +20,7 @@
  * invalidate any other reasons why the executable file might be covered by
  * the GNU General Public License.
  */
+#include <l4/bid_config.h>
 #include <l4/re/rm>
 #include <l4/re/dataspace>
 
@@ -42,7 +43,7 @@ namespace L4Re
 long
 Rm::attach(l4_addr_t *start, unsigned long size, Rm::Flags flags,
            L4::Ipc::Cap<Dataspace> mem, Rm::Offset offs,
-           unsigned char align) const noexcept
+           unsigned char align, L4::Cap<L4::Task> const task) const noexcept
 {
   if (((flags & F::Rights_mask) == Flags(0)) || (flags & F::Reserved))
     mem = L4::Ipc::Cap<L4Re::Dataspace>();
@@ -51,8 +52,13 @@ Rm::attach(l4_addr_t *start, unsigned long size, Rm::Flags flags,
   if (e < 0)
     return e;
 
-  if (flags & F::Eager_map)
-    e = mem.cap()->map_region(offs, map_flags(flags), *start, *start + size);
+#ifdef CONFIG_MMU
+  if ((flags & (F::Eager_map | F::No_eager_map)) == F::Eager_map)
+#else
+  if (!(flags & F::No_eager_map) && mem.is_valid())
+#endif
+    e = mem.cap()->map_region(offs, map_flags(flags), *start, *start + size,
+                              task);
 
   return e;
 }

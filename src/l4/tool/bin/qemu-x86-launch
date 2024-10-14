@@ -29,8 +29,18 @@ my $tmpdir       = tempdir(CLEANUP => 1);
 sub qemu_get_file
 {
   my $mod = shift;
-  my $fp = L4::ModList::get_file_uncompressed_or_die($mod->{file}, $module_path,
-                                                     $tmpdir);
+  my $fp;
+
+  if (exists $mod->{opts}->{uncompress})
+    {
+      $fp = L4::ModList::get_file_uncompressed_or_die($mod->{file}, $module_path,
+                                                      $tmpdir);
+    }
+  else
+    {
+      $fp = L4::ModList::search_file_or_die($mod->{file}, $module_path);
+    }
+
   my $bn = basename($fp);
 
   if ($bn ne $mod->{command})
@@ -48,7 +58,8 @@ sub qemu_get_file
 
 die "No entry name given" unless defined $entryname;
 
-my %entry = L4::ModList::get_module_entry($modulesfile, $entryname);
+my %entry = L4::ModList::get_module_entry($modulesfile, $entryname,
+                                          $module_path);
 
 my @mods = @{$entry{mods}};
 my $kernel = L4::ModList::search_file_or_die($entry{bootstrap}{file}, $module_path);

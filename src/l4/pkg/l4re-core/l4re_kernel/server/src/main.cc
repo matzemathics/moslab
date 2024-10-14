@@ -7,6 +7,7 @@
  * GNU General Public License 2.
  * Please see the COPYING-GPL-2 file for details.
  */
+#include <l4/bid_config.h>
 #include <l4/re/namespace>
 #include <l4/re/dataspace>
 #include <l4/re/mem_alloc>
@@ -27,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <cstdio>
 
 #include "region.h"
 #include "globals.h"
@@ -35,10 +37,18 @@
 #include "dispatcher.h"
 
 #include <l4/re/elf_aux.h>
+#include <terminate_handler-l4>
 
+/*
+ * Move loader stack out of the way of the default stack address. On no-MMU
+ * systems this is not required because there is no address remapping and the
+ * stack address is tied to the allocated buffer physical address.
+ */
+#ifdef CONFIG_MMU
 L4RE_ELF_AUX_ELEM_T(l4re_elf_aux_mword_t, __stack_addr,
                     L4RE_ELF_AUX_T_STACK_ADDR,
                     L4_LOADER_RELOC_BASE + 0x1000000);
+#endif
 
 using L4::Cap;
 using L4Re::Dataspace;
@@ -88,9 +98,10 @@ static void insert_regions()
       for (int i = 0; i < n; ++i)
         {
           Rm::Region const *r = &rl[i];
-          auto pager = L4::cap_reinterpret_cast<L4Re::Dataspace>(Env::env()->rm());
+          auto pager = L4::cap_reinterpret_cast<L4Re::Dataspace>
+            (Env::env()->rm());
           void *x = Global::local_rm
-            ->attach((void*)r->start, r->end - r->start +1,
+            ->attach(reinterpret_cast<void*>(r->start), r->end - r->start + 1,
                      Region_handler(pager, L4_INVALID_CAP, 0,
                                     Rm::F::Pager | Rm::F::RWX), Rm::Flags(0));
           if (x == L4_INVALID_PTR)
@@ -124,7 +135,13 @@ static void insert_regions()
     }
 }
 
-static int run(int argc, char const *argv[], char const *envp[])
+static char const *base_name(char const *s)
+{
+  char *b = strrchr(s, '/');
+  return b ? b + 1 : s;
+}
+
+int main(int argc, char const *argv[], char const *envp[])
 {
   Dbg::set_level(Dbg::Info | Dbg::Warn);
 
@@ -180,6 +197,8 @@ static int run(int argc, char const *argv[], char const *envp[])
 
   file = L4Re_app_model::open_file(Global::l4re_aux->binary);
 
+  l4_debugger_add_image_info(L4_BASE_TASK_CAP, Global::l4re_aux->ldr_base,
+                             base_name(Global::l4re_aux->binary));
   loader.start(file, Global::local_rm, Global::l4re_aux);
 
   // Raise RM prio to its MCP
@@ -188,26 +207,4 @@ static int run(int argc, char const *argv[], char const *envp[])
 
   boot.printf("Start server loop\n");
   server.loop<L4::Runtime_error>(Dispatcher());
-}
-
-int main(int argc, char const *argv[], char const *envp[])
-{
-  try
-    {
-      return run(argc, argv, envp);
-    }
-  catch (L4::Runtime_error const &e)
-    {
-      Err(Err::Fatal).printf("Exception %s: '%s'\n", e.str(), e.extra_str());
-      L4::cerr << e;
-      return 1;
-    }
-  catch (L4::Base_exception const &e)
-    {
-      Err(Err::Fatal).printf("Exception %s\n", e.str());
-      L4::cerr << e;
-      return 1;
-    }
-
-  return 0;
 }

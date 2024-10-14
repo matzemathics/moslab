@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/re/env Source File</title>
+<title>L4Re Operating System Framework: l4/re/env Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -308,18 +311,18 @@ $(document).ready(function(){initNavTree('env_source.html',''); initResizable();
 <div class="ttc" id="aclassL4Re_1_1Env_html_af12447ccc9aa22fc09e3839fa7055e4f"><div class="ttname"><a href="classL4Re_1_1Env.html#af12447ccc9aa22fc09e3839fa7055e4f">L4Re::Env::main_thread</a></div><div class="ttdeci">void main_thread(L4::Cap&lt; L4::Thread &gt; const &amp;c) noexcept</div><div class="ttdoc">Set object-capability of first user thread.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00250">env:250</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_afb283ad45c7ad057a7374a10b0d9f369"><div class="ttname"><a href="classL4Re_1_1Env.html#afb283ad45c7ad057a7374a10b0d9f369">L4Re::Env::parent</a></div><div class="ttdeci">void parent(L4::Cap&lt; Parent &gt; const &amp;c) noexcept</div><div class="ttdoc">Set parent object-capability.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00226">env:226</a></div></div>
 <div class="ttc" id="aclassL4Re_1_1Env_html_afe8c1b9fd99f7d33f5a1db6de3c6bf07"><div class="ttname"><a href="classL4Re_1_1Env.html#afe8c1b9fd99f7d33f5a1db6de3c6bf07">L4Re::Env::task</a></div><div class="ttdeci">L4::Cap&lt; L4::Task &gt; task() const noexcept</div><div class="ttdoc">Object-capability of the user task.</div><div class="ttdef"><b>Definition</b> <a href="env_source.html#l00145">env:145</a></div></div>
-<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00221">capability.h:222</a></div></div>
+<div class="ttc" id="aclassL4_1_1Cap_html"><div class="ttname"><a href="classL4_1_1Cap.html">L4::Cap</a></div><div class="ttdoc">C++ interface for capabilities.</div><div class="ttdef"><b>Definition</b> <a href="capability_8h_source.html#l00218">capability.h:219</a></div></div>
 <div class="ttc" id="aenv_8h_html"><div class="ttname"><a href="env_8h.html">env.h</a></div><div class="ttdoc">Environment interface.</div></div>
 <div class="ttc" id="agroup__api__l4re__env_html_gadb38a15f6070f3c4e264532f3779d3bc"><div class="ttname"><a href="group__api__l4re__env.html#gadb38a15f6070f3c4e264532f3779d3bc">l4re_env_get_cap_l</a></div><div class="ttdeci">l4re_env_cap_entry_t const * l4re_env_get_cap_l(char const *name, unsigned l, l4re_env_t const *e) L4_NOTHROW</div><div class="ttdoc">Get the full l4re_env_cap_entry_t for the object named name.</div><div class="ttdef"><b>Definition</b> <a href="env_8h_source.html#l00198">env.h:198</a></div></div>
 <div class="ttc" id="agroup__l4__basic__types_html_ga4087b991c40c0d2fcde9ca331049a4d4"><div class="ttname"><a href="group__l4__basic__types.html#ga4087b991c40c0d2fcde9ca331049a4d4">l4_addr_t</a></div><div class="ttdeci">unsigned long l4_addr_t</div><div class="ttdoc">Address type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2l4int_8h_source.html#l00045">l4int.h:45</a></div></div>
-<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00358">types.h:358</a></div></div>
+<div class="ttc" id="agroup__l4__cap__api_html_ga1445e923ce73029130d569d6e69a4dd8"><div class="ttname"><a href="group__l4__cap__api.html#ga1445e923ce73029130d569d6e69a4dd8">l4_cap_idx_t</a></div><div class="ttdeci">unsigned long l4_cap_idx_t</div><div class="ttdoc">Capability selector type.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2types_8h_source.html#l00359">types.h:359</a></div></div>
 <div class="ttc" id="agroup__l4__error__api_html_ggab4c8abc71ffa221a25c1ca5840a354f9a07b47154e30565336b80271b9f2ffcb4"><div class="ttname"><a href="group__l4__error__api.html#ggab4c8abc71ffa221a25c1ca5840a354f9a07b47154e30565336b80271b9f2ffcb4">L4_ENOENT</a></div><div class="ttdeci">@ L4_ENOENT</div><div class="ttdoc">No such entity.</div><div class="ttdef"><b>Definition</b> <a href="err_8h_source.html#l00045">err.h:45</a></div></div>
-<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00221">compiler.h:221</a></div></div>
+<div class="ttc" id="agroup__l4sys__defines_html_ga63e7f1ab50a1b3049bdd0a34e97423c2"><div class="ttname"><a href="group__l4sys__defines.html#ga63e7f1ab50a1b3049bdd0a34e97423c2">L4_EXPORT</a></div><div class="ttdeci">#define L4_EXPORT</div><div class="ttdoc">Attribute to mark functions, variables, and data types as being exported from a library.</div><div class="ttdef"><b>Definition</b> <a href="compiler_8h_source.html#l00231">compiler.h:231</a></div></div>
 <div class="ttc" id="al4_2sys_2types_8h_html"><div class="ttname"><a href="l4_2sys_2types_8h.html">types.h</a></div><div class="ttdoc">Common L4 ABI Data Types.</div></div>
 <div class="ttc" id="alog_html"><div class="ttname"><a href="log.html">log</a></div><div class="ttdoc">Log interface.</div></div>
 <div class="ttc" id="amem__alloc_html"><div class="ttname"><a href="mem__alloc.html">mem_alloc</a></div><div class="ttdoc">Memory allocator interface.</div></div>
-<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="cmd__control_source.html#l00015">cmd_control:15</a></div></div>
-<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="l4sys-l4f-groups_8dox_source.html#l00050">l4sys-l4f-groups.dox:50</a></div></div>
+<div class="ttc" id="anamespaceL4Re_html"><div class="ttname"><a href="namespaceL4Re.html">L4Re</a></div><div class="ttdoc">L4Re C++ Interfaces.</div><div class="ttdef"><b>Definition</b> <a href="pkg_2l4re-core_2l4re_2doc_2l4re_8dox_source.html#l00016">l4re.dox:17</a></div></div>
+<div class="ttc" id="anamespaceL4_html"><div class="ttname"><a href="namespaceL4.html">L4</a></div><div class="ttdoc">L4 low-level kernel interface.</div><div class="ttdef"><b>Definition</b> <a href="io__regblock_8h_source.html#l00018">io_regblock.h:19</a></div></div>
 <div class="ttc" id="aparent_html"><div class="ttname"><a href="parent.html">parent</a></div><div class="ttdoc">Parent interface.</div></div>
 <div class="ttc" id="are_2consts_html"><div class="ttname"><a href="re_2consts.html">consts</a></div><div class="ttdoc">Constants.</div></div>
 <div class="ttc" id="arm_html"><div class="ttname"><a href="rm.html">rm</a></div><div class="ttdoc">Region mapper interface.</div></div>
@@ -344,7 +347,7 @@ $(document).ready(function(){initNavTree('env_source.html',''); initResizable();
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_30d77a5207eb89e366a23f343e13fefd.html">re</a></li><li class="navelem"><a class="el" href="env.html">env</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

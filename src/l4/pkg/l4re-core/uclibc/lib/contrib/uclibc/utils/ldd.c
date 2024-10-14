@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * A small little ldd implementation for uClibc
  *
@@ -15,13 +14,28 @@
 
 #include "porting.h"
 
+#if defined(__kvx__)
+#define MATCH_MACHINE(x) (x == EM_KVX)
+#define ELFCLASSM	ELFCLASS64
+#endif
+
+#if defined(__aarch64__)
+#define MATCH_MACHINE(x) (x == EM_AARCH64)
+#define ELFCLASSM	ELFCLASS64
+#endif
+
 #if defined(__alpha__)
 #define MATCH_MACHINE(x) (x == EM_ALPHA)
 #define ELFCLASSM	ELFCLASS64
 #endif
 
 #if defined(__arc__)
-#define MATCH_MACHINE(x) (x == EM_ARCOMPACT)
+#define MATCH_MACHINE(x) (x == EM_ARCOMPACT || x == EM_ARCV2)
+#define ELFCLASSM      ELFCLASS32
+#endif
+
+#if defined(__ARC64_ARCH32__)
+#define MATCH_MACHINE(x) (x == EM_ARCV3_32)
 #define ELFCLASSM      ELFCLASS32
 #endif
 
@@ -35,8 +49,28 @@
 #define ELFCLASSM      ELFCLASS32
 #endif
 
-#if defined(__s390__)
-#define MATCH_MACHINE(x) (x == EM_S390)
+#if defined(__bfin__)
+#define MATCH_MACHINE(x) (x == EM_BLACKFIN)
+#define ELFCLASSM      ELFCLASS32
+#endif
+
+#if defined(__TMS320C6X__)
+#define MATCH_MACHINE(x) (x == EM_TI_C6000)
+#define ELFCLASSM	ELFCLASS32
+#endif
+
+#if defined(__cris__)
+#define MATCH_MACHINE(x) (x == EM_CRIS)
+#define ELFCLASSM	ELFCLASS32
+#endif
+
+#if defined(__csky__)
+#define MATCH_MACHINE(x) (x == EM_MCORE)
+#define ELFCLASSM	ELFCLASS32
+#endif
+
+#if defined(__frv__)
+#define MATCH_MACHINE(x) (x == EM_CYGNUS_FRV)
 #define ELFCLASSM	ELFCLASS32
 #endif
 
@@ -73,26 +107,38 @@
 #define ELFCLASSM	ELFCLASS32
 #endif
 
+#if defined(__microblaze__)
+#define MATCH_MACHINE(x) (x == EM_MICROBLAZE)
+#define ELFCLASSM	ELFCLASS32
+#endif
+
 #if defined(__mips__)
 #define MATCH_MACHINE(x) (x == EM_MIPS || x == EM_MIPS_RS3_LE)
 #define ELFCLASSM	ELFCLASS32
 #endif
 
-#if defined(__powerpc64__)
-#define MATCH_MACHINE(x) (x == EM_PPC64)
-#define ELFCLASSM	ELFCLASS64
-#elif defined(__powerpc__)
+#if defined(__nds32__)
+#define MATCH_MACHINE(x) (x == EM_NDS32)
+#define ELFCLASSM	ELFCLASS32
+#endif
+
+#if defined(__nios2__)
+#define MATCH_MACHINE(x) (x == EM_NIOS32)
+#define ELFCLASSM	ELFCLASS32
+#endif
+
+#if defined(__powerpc__)
 #define MATCH_MACHINE(x) (x == EM_PPC)
 #define ELFCLASSM	ELFCLASS32
 #endif
 
-#if defined(__sh__)
-#define MATCH_MACHINE(x) (x == EM_SH)
-#define ELFCLASSM	ELFCLASS32
+#if defined(__riscv)
+#define MATCH_MACHINE(x) (x == EM_RISCV)
+#define ELFCLASSM	ELFCLASS64
 #endif
 
-#if defined(__v850e__)
-#define MATCH_MACHINE(x) ((x) == EM_V850 || (x) == EM_CYGNUS_V850)
+#if defined(__sh__)
+#define MATCH_MACHINE(x) (x == EM_SH)
 #define ELFCLASSM	ELFCLASS32
 #endif
 
@@ -101,19 +147,9 @@
 #define ELFCLASSM    ELFCLASS32
 #endif
 
-#if defined(__cris__)
-#define MATCH_MACHINE(x) (x == EM_CRIS)
-#define ELFCLASSM	ELFCLASS32
-#endif
-
 #if defined(__x86_64__)
 #define MATCH_MACHINE(x) (x == EM_X86_64)
 #define ELFCLASSM	ELFCLASS64
-#endif
-
-#if defined(__microblaze__)
-#define MATCH_MACHINE(x) (x == EM_MICROBLAZE_OLD)
-#define ELFCLASSM	ELFCLASS32
 #endif
 
 #if defined(__xtensa__)

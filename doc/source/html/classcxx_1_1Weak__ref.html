@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: cxx::Weak_ref&lt; T &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: cxx::Weak_ref&lt; T &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -133,10 +136,24 @@ class cxx::Weak_ref&lt; T &gt;</div><p>Typed weak reference to an object of type
   </table>
   </dd>
 </dl>
-<p>A weak reference is a reference that is invalidated when the referenced object is about to be deleted. All weak references to an object are kept in a linked list and all the weak references are iterated and reset by the Weak_ref_base::List destructor or Weak_ref_base::reset().</p>
-<p>The type <code>T</code> must provide two methods that handle the housekeeping of weak references: remove_weak_ref(Weak_ref_base *) and add_weak_ref(Weak_ref_base *). These functions must handle the insertion and removal of the weak reference into the respective Weak_ref_base::List object. For convenience one can use the cxx::Weak_ref_obj as a base class that handles weak references for you. </p>
+<p>A weak reference is a reference that is invalidated when the referenced object is about to be deleted. All weak references to an object are kept in a linked list (see <a class="el" href="structcxx_1_1Weak__ref__base_1_1List.html" title="The list type for keeping all weak references to an object.">Weak_ref_base::List</a>) and all the weak references are iterated and reset by the <a class="el" href="structcxx_1_1Weak__ref__base_1_1List.html" title="The list type for keeping all weak references to an object.">Weak_ref_base::List</a> destructor or Weak_ref_base::List::reset().</p>
+<p>The type <code>T</code> must provide two methods that handle the housekeeping of weak references: <code>remove_weak_ref(Weak_ref_base *)</code> and <code>add_weak_ref(Weak_ref_base *)</code>. These functions must handle the insertion and removal of the weak reference into the respective <a class="el" href="structcxx_1_1Weak__ref__base_1_1List.html" title="The list type for keeping all weak references to an object.">Weak_ref_base::List</a> object. For convenience one can use the cxx::Weak_ref_obj as a base class that handles weak references for you.</p>
+<p>For example: </p><div class="fragment"><div class="line"><span class="keyword">class </span>C : <span class="keyword">public</span> cxx::Weak_ref_obj {};</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  <a class="code hl_class" href="classcxx_1_1Weak__ref.html">cxx::Weak_ref&lt;C&gt;</a> r;  <span class="comment">// r is nullptr</span></div>
+<div class="line">  {</div>
+<div class="line">    C c;</div>
+<div class="line">    r = &amp;c;  <span class="comment">// now r points to c</span></div>
+<div class="line">  }  <span class="comment">// c is destructed, which implies resetting all weak references to c</span></div>
+<div class="line">  <span class="comment">// now r is nullptr</span></div>
+<div class="line">  <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclasscxx_1_1Weak__ref_html"><div class="ttname"><a href="classcxx_1_1Weak__ref.html">cxx::Weak_ref</a></div><div class="ttdoc">Typed weak reference to an object of type T.</div><div class="ttdef"><b>Definition</b> <a href="weak__ref_source.html#l00096">weak_ref:97</a></div></div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Weak references have no effect on the lifetime of the referenced object. Hence, a referenced object is <em>not</em> deleted when all weak references for it are gone. If automatic deletion is needed, see <a class="el" href="classcxx_1_1Ref__ptr.html" title="A reference-counting pointer with automatic cleanup.">cxx::Ref_ptr</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="weak__ref_source.html#l00067">67</a> of file <a class="el" href="weak__ref_source.html">weak_ref</a>.</p>
+<p class="definition">Definition at line <a class="el" href="weak__ref_source.html#l00096">96</a> of file <a class="el" href="weak__ref_source.html">weak_ref</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>l4/cxx/<a class="el" href="weak__ref_source.html">weak_ref</a></li>
 </ul>
@@ -147,7 +164,7 @@ class cxx::Weak_ref&lt; T &gt;</div><p>Typed weak reference to an object of type
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecxx.html">cxx</a></li><li class="navelem"><a class="el" href="classcxx_1_1Weak__ref.html">Weak_ref</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

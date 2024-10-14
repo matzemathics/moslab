@@ -1,13 +1,16 @@
 var searchData=
 [
-  ['second_5ftype_0',['Second_type',['../structcxx_1_1Pair.html#a0f3984071f05f60512ae1c7ce38d8129',1,'cxx::Pair']]],
-  ['server_5fiface_1',['Server_iface',['../structL4_1_1Epiface.html#aeec53d54ab6eb8e660679cdda1102fd7',1,'L4::Epiface']]],
-  ['shared_5fcap_2',['shared_cap',['../namespaceL4Re_1_1Util.html#a58bbb37f639ed03024291a420f0992cd',1,'L4Re::Util::Shared_cap'],['../namespaceL4Re.html#aa8374a6d661fafaa1b26fa192fe36552',1,'L4Re::shared_cap'],['../namespaceL4Re_1_1Util.html#a576bd39bbb4e90efa19b3e41d4e23313',1,'L4Re::Util::shared_cap'],['../namespaceL4Re.html#a316821ad8361226038636031852c02be',1,'L4Re::Shared_cap']]],
-  ['shared_5fdel_5fcap_3',['shared_del_cap',['../namespaceL4Re_1_1Util.html#af2288e93e2230b1f04e8994a2a8b9fd7',1,'L4Re::Util::shared_del_cap'],['../namespaceL4Re.html#ad79421f34f3d9dc2386c6d35c0008f87',1,'L4Re::shared_del_cap'],['../namespaceL4Re_1_1Util.html#a9d65743aacd5ba32de90bcb6ed75fc3b',1,'L4Re::Util::Shared_del_cap'],['../namespaceL4Re.html#a7c29dd04d9e3f9cdf9d864a5dba1989e',1,'L4Re::Shared_del_cap']]],
-  ['shift_5ftype_4',['Shift_type',['../classcxx_1_1Bitfield.html#a781d6d6a9d4788f56f8071ce9b2b9ca3',1,'cxx::Bitfield']]],
-  ['slab_5falloc_5',['Slab_alloc',['../classcxx_1_1Base__slab.html#a1a18ed9f5accef27a92276ef4125d112',1,'cxx::Base_slab']]],
-  ['snd_5ffpage_6',['Snd_fpage',['../namespaceL4_1_1Ipc.html#a56d906845bd62ce43e53bd7f52b64569',1,'L4::Ipc']]],
-  ['space_5fattribs_7',['Space_attribs',['../classL4Re_1_1Dma__space.html#aff32c07ebd1d03567cc3ccbd07bde481',1,'L4Re::Dma_space']]],
-  ['svr_5farg_5ftype_8',['svr_arg_type',['../structL4_1_1Ipc_1_1Msg_1_1Elem_3_01Array__ref_3_01A_00_01LEN_01_4_01_6_01_4.html#a6ae2a3f6f70cd5ef13091ef2cea96508',1,'L4::Ipc::Msg::Elem&lt; Array_ref&lt; A, LEN &gt; &amp; &gt;::svr_arg_type'],['../structL4_1_1Ipc_1_1Msg_1_1Elem_3_01Array_3_01A_00_01LEN_01_4_01_6_01_4.html#aa0803a2886b434afa6a7ab25b702649f',1,'L4::Ipc::Msg::Elem&lt; Array&lt; A, LEN &gt; &amp; &gt;::svr_arg_type']]],
-  ['svr_5ftype_9',['svr_type',['../structL4_1_1Ipc_1_1Msg_1_1Elem_3_01Array__ref_3_01A_00_01LEN_01_4_01_6_01_4.html#a0b56516e8430a2ae04ec6f730688e18c',1,'L4::Ipc::Msg::Elem&lt; Array_ref&lt; A, LEN &gt; &amp; &gt;::svr_type'],['../structL4_1_1Ipc_1_1Msg_1_1Elem_3_01Array_3_01A_00_01LEN_01_4_01_6_01_4.html#a49ba0c540d6ba923a81dbfbb872d746a',1,'L4::Ipc::Msg::Elem&lt; Array&lt; A, LEN &gt; &amp; &gt;::svr_type'],['../structL4_1_1Ipc_1_1Msg_1_1Elem_3_01Array_3_01A_00_01LEN_01_4_01_4.html#a3de24909ed3a8beaf726ddc9dfe350cd',1,'L4::Ipc::Msg::Elem&lt; Array&lt; A, LEN &gt; &gt;::svr_type']]]
+  ['rate_5flimit_5fbfm_5ft_0',['rate_limit_bfm_t',['../structL4virtio_1_1Svr_1_1Scmi_1_1Performance__domain__attr__t.html#a0adb038ab42452dfd47eabe479812d12',1,'L4virtio::Svr::Scmi::Performance_domain_attr_t']]],
+  ['ref_1',['Ref',['../classcxx_1_1Bitfield.html#af4ee89e7f26d1628bd4c702959ca4fbc',1,'cxx::Bitfield']]],
+  ['ref_5fptr_5flist_2',['Ref_ptr_list',['../namespacecxx.html#a4bd81d0e4a1f4c28aa69099cc8eced64',1,'cxx']]],
+  ['ref_5fptr_5flist_5fitem_3',['Ref_ptr_list_item',['../namespacecxx.html#ae76df13fec5c6ceff28eeaa549c8bf9d',1,'cxx']]],
+  ['ref_5funshifted_4',['Ref_unshifted',['../classcxx_1_1Bitfield.html#acfb81932e19cd94bfac4cf870e639936',1,'cxx::Bitfield']]],
+  ['ref_5funshifted_5fvolatile_5',['Ref_unshifted_volatile',['../classcxx_1_1Bitfield.html#a2f557c49aec16845516dde95373fdf9f',1,'cxx::Bitfield']]],
+  ['ref_5fvolatile_6',['Ref_volatile',['../classcxx_1_1Bitfield.html#a60d8b3892a758f5b30875df738df6469',1,'cxx::Bitfield']]],
+  ['region_7',['Region',['../classL4Re_1_1Rm.html#a3dda497d2e28e8700b5eb487495c0511',1,'L4Re::Rm']]],
+  ['rev_5fiter_5fops_8',['Rev_iter_ops',['../classcxx_1_1Bits_1_1Bst.html#a7ce877ca5f73fad93fdeae0443616f1c',1,'cxx::Bits::Bst']]],
+  ['rev_5fiterator_9',['rev_iterator',['../classcxx_1_1Bits_1_1Base__avl__set.html#a3117162871c5d2ee6c20da8720b352a1',1,'cxx::Bits::Base_avl_set::Rev_iterator'],['../classcxx_1_1Avl__tree.html#abdc8f7b39df524d20fd38697b5cc3077',1,'cxx::Avl_tree::Rev_iterator'],['../classcxx_1_1Bits_1_1Bst.html#adcc5620c090a8588cc9f083d0629f745',1,'cxx::Bits::Bst::Rev_iterator']]],
+  ['ring_5fevent_5fidx_5fbfm_5ft_10',['ring_event_idx_bfm_t',['../structL4virtio_1_1Svr_1_1Dev__features.html#a0fd8ae2bd4a2ad376883140963d6084b',1,'L4virtio::Svr::Dev_features']]],
+  ['ring_5findirect_5fdesc_5fbfm_5ft_11',['ring_indirect_desc_bfm_t',['../structL4virtio_1_1Svr_1_1Dev__features.html#a5ff7b548d6d0f0a38d0085658e0f464e',1,'L4virtio::Svr::Dev_features']]],
+  ['rpc_12',['rpc',['../structL4_1_1Typeid_1_1Detail_1_1__Rpcs_3_01OPCODE_00_01O_00_01R_00_01X_8_8_8_01_4.html#a1d597e7706a5f8e0402ee65b95eac3aa',1,'L4::Typeid::Detail::_Rpcs&lt; OPCODE, O, R, X... &gt;']]]
 ];

@@ -37,11 +37,6 @@
 	.text
 	.align 4
 	.literal_position
-	.literal .Lmask0, MASK0
-	.literal .Lmask1, MASK1
-	.literal .Lmask2, MASK2
-	.literal .Lmask3, MASK3
-	.literal .Lmask4, MASK4
 ENTRY (strcmp)
 	/* a2 = s1, a3 = s2 */
 
@@ -92,8 +87,8 @@ ENTRY (strcmp)
 	/* (2 mod 4) alignment for loop instruction */
 .Lunaligned:
 #if XCHAL_HAVE_LOOPS
-	_movi.n	a8, 0		/* set up for the maximum loop count */
-	loop	a8, .Lretdiff	/* loop forever (almost anyway) */
+	movi	a11, 0		/* set up for the maximum loop count */
+	loop	a11, .Lretdiff	/* loop forever (almost anyway) */
 #endif
 .Lnextbyte:
 	l8ui	a8, a2, 0
@@ -108,7 +103,7 @@ ENTRY (strcmp)
 #endif
 .Lretdiff:
 	sub	a2, a8, a9
-	retw
+	abi_ret
 
 /* s1 is word-aligned; s2 is word-aligned.
 
@@ -130,12 +125,10 @@ ENTRY (strcmp)
 	.align	4
 #if XCHAL_HAVE_LOOPS
 .Laligned:
-	.begin	no-transform
-	l32r	a4, .Lmask0	/* mask for byte 0 */
-	l32r	a7, .Lmask4
-	/* Loop forever.  (a4 is more than than the maximum number
-	   of iterations) */
-	loop	a4, .Laligned_done
+	movi	a11, 0
+	movi	a4, MASK0	/* mask for byte 0 */
+	movi	a7, MASK4
+	loop	a11, .Laligned_done /* Loop forever. */
 
 	/* First unrolled loop body.  */
 	l32i	a8, a2, 0	/* get word from s1 */
@@ -156,8 +149,6 @@ ENTRY (strcmp)
 	addi	a2, a2, 8	/* advance s1 pointer */
 	addi	a3, a3, 8	/* advance s2 pointer */
 .Laligned_done:
-	or	a1, a1, a1	/* nop */
-
 .Lprobeq2:
 	/* Adjust pointers to account for the loop unrolling.  */
 	addi	a2, a2, 4
@@ -187,10 +178,10 @@ ENTRY (strcmp)
 	   If not, loop over the rest of string using normal algorithm.  */
 
 	bnone	a8, a4, .Leq	/* if byte 0 is zero */
-	l32r	a5, .Lmask1	/* mask for byte 1 */
-	l32r	a6, .Lmask2	/* mask for byte 2 */
+	movi	a5, MASK1	/* mask for byte 1 */
+	movi	a6, MASK2	/* mask for byte 2 */
 	bnone	a8, a5, .Leq	/* if byte 1 is zero */
-	l32r	a7, .Lmask3	/* mask for byte 3 */
+	movi	a7, MASK3	/* mask for byte 3 */
 	bnone	a8, a6, .Leq	/* if byte 2 is zero */
 	bnone	a8, a7, .Leq	/* if byte 3 is zero */
 	addi.n	a2, a2, 4	/* advance s1 pointer */
@@ -198,8 +189,7 @@ ENTRY (strcmp)
 #if XCHAL_HAVE_LOOPS
 
 	/* align (1 mod 4) */
-	loop	a4, .Leq	/* loop forever (a4 is bigger than max iters) */
-	.end	no-transform
+	loop	a11, .Leq	/* loop forever */
 
 	l32i	a8, a2, 0	/* get word from s1 */
 	l32i	a9, a3, 0	/* get word from s2 */
@@ -229,7 +219,7 @@ ENTRY (strcmp)
 
 	/* Words are equal; some byte is zero.  */
 .Leq:	movi	a2, 0		/* return equal */
-	retw
+	abi_ret
 
 .Lwne2:	/* Words are not equal.  On big-endian processors, if none of the
 	   bytes are zero, the return value can be determined by a simple
@@ -239,10 +229,10 @@ ENTRY (strcmp)
 	bnall	a10, a7, .Lsomezero
 	bgeu	a8, a9, .Lposreturn
 	movi	a2, -1
-	retw
+	abi_ret
 .Lposreturn:
 	movi	a2, 1
-	retw
+	abi_ret
 .Lsomezero:	/* There is probably some zero byte. */
 #endif /* __XTENSA_EB__ */
 .Lwne:	/* Words are not equal.  */
@@ -263,14 +253,14 @@ ENTRY (strcmp)
 	   byte.  Just subtract words to get the return value.
 	   The high order equal bytes cancel, leaving room for the sign.  */
 	sub	a2, a8, a9
-	retw
+	abi_ret
 
 .Ldiff0:
 	/* Need to make room for the sign, so can't subtract whole words.  */
 	extui	a10, a8, 24, 8
 	extui	a11, a9, 24, 8
 	sub	a2, a10, a11
-	retw
+	abi_ret
 
 #else /* !__XTENSA_EB__ */
 	/* Little-endian is a little more difficult because can't subtract
@@ -281,28 +271,28 @@ ENTRY (strcmp)
 	extui	a10, a8, 24, 8
 	extui	a11, a9, 24, 8
 	sub	a2, a10, a11
-	retw
+	abi_ret
 
 .Ldiff0:
 	/* Byte 0 is different.  */
 	extui	a10, a8, 0, 8
 	extui	a11, a9, 0, 8
 	sub	a2, a10, a11
-	retw
+	abi_ret
 
 .Ldiff1:
 	/* Byte 0 is equal; byte 1 is different.  */
 	extui	a10, a8, 8, 8
 	extui	a11, a9, 8, 8
 	sub	a2, a10, a11
-	retw
+	abi_ret
 
 .Ldiff2:
 	/* Bytes 0-1 are equal; byte 2 is different.  */
 	extui	a10, a8, 16, 8
 	extui	a11, a9, 16, 8
 	sub	a2, a10, a11
-	retw
+	abi_ret
 
 #endif /* !__XTENSA_EB */
 

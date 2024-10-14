@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/util/elf.h File Reference</title>
+<title>L4Re Operating System Framework: l4/util/elf.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -269,9 +272,9 @@ typedef <a class="el" href="group__l4__basic__types.html#ga9ef3675596794578a8d6e
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:gadc29c2ff13d900c2f185ee95427fb06c" id="r_gadc29c2ff13d900c2f185ee95427fb06c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__l4util__elf.html#ggadc29c2ff13d900c2f185ee95427fb06caf0fb70219e42cb17f443b5a058e21f57">EI_NIDENT</a> = 16
+<tr class="memitem:gaff3701dfcc246bf08b07f25a2cfd9e6d" id="r_gaff3701dfcc246bf08b07f25a2cfd9e6d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__l4util__elf.html#ggaff3701dfcc246bf08b07f25a2cfd9e6daf0fb70219e42cb17f443b5a058e21f57">EI_NIDENT</a> = 16
  }</td></tr>
-<tr class="separator:gadc29c2ff13d900c2f185ee95427fb06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:gaff3701dfcc246bf08b07f25a2cfd9e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1f1765cb83b2bcca9b7d84c955929d52" id="r_ga1f1765cb83b2bcca9b7d84c955929d52"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__l4util__elf.html#ga1f1765cb83b2bcca9b7d84c955929d52">Elf_ETs</a> { <br />
 &#160;&#160;<a class="el" href="group__l4util__elf.html#gga1f1765cb83b2bcca9b7d84c955929d52a16ec634ec16b5750f108673917d231a8">ET_NONE</a> = 0
 , <a class="el" href="group__l4util__elf.html#gga1f1765cb83b2bcca9b7d84c955929d52a643c2b18fd5edd897eed4462bb70e3ea">ET_REL</a> = 1
@@ -372,7 +375,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84aec759ae74c2e74e48349bdb2366feb98">EM_MICROBLAZE</a> = 189
 , <br />
 &#160;&#160;<a class="el" href="group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84a3024c4adf13472e2cf73c8f0d8b27251">EM_TILEGX</a> = 191
-, <b>EM_NUM</b> = 192
+, <a class="el" href="group__l4util__elf.html#ggac8d0eceebc222b45f2406bd1273aae84ae7291e24e22d05c77a14576b858af8c8">EM_RISCV</a> = 243
+, <b>EM_NUM</b> = 244
 <br />
  }</td></tr>
 <tr class="memdesc:gac8d0eceebc222b45f2406bd1273aae84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Required architecture.  <a href="group__l4util__elf.html#gac8d0eceebc222b45f2406bd1273aae84">More...</a><br /></td></tr>
@@ -911,7 +915,7 @@ Enumerations</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_b080fbfc44463f036af256b25228453b.html">util</a></li><li class="navelem"><a class="el" href="elf_8h.html">elf.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

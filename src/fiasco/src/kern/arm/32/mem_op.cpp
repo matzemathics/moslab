@@ -39,12 +39,14 @@ IMPLEMENTATION [arm]:
 PRIVATE static inline void
 Mem_op::__arm_kmem_cache_maint(int op, void const *kstart, void const *kend)
 {
+  Address kstart_addr = reinterpret_cast<Address>(kstart);
+  Address kend_addr = reinterpret_cast<Address>(kstart);
   switch (op)
     {
     case Op_cache_clean_data:
       Mem_unit::clean_dcache(kstart, kend);
       Mem::barrier();
-      outer_cache_op(Address(kstart), Address(kend),
+      outer_cache_op(kstart_addr, kend_addr,
                      [](Address s, Address e, bool sync)
                      { Outer_cache::clean(s, e, sync); });
       break;
@@ -53,7 +55,7 @@ Mem_op::__arm_kmem_cache_maint(int op, void const *kstart, void const *kend)
     case Op_cache_inv_data:
       Mem_unit::flush_dcache(kstart, kend);
       Mem::barrier();
-      outer_cache_op(Address(kstart), Address(kend),
+      outer_cache_op(kstart_addr, kend_addr,
                      [](Address s, Address e, bool sync)
                      { Outer_cache::flush(s, e, sync); });
       break;
@@ -64,14 +66,14 @@ Mem_op::__arm_kmem_cache_maint(int op, void const *kstart, void const *kend)
       // need to clean it in order to achieve cache coherency
       Mem::dsb();
       Mem_unit::btc_inv();
-      inv_icache(Address(kstart), Address(kend));
+      inv_icache(kstart_addr, kend_addr);
       Mem::dsb();
       break;
 
     case Op_cache_dma_coherent:
       Mem_unit::flush_dcache(kstart, kend);
       Mem::barrier();
-      outer_cache_op(Address(kstart), Address(kend),
+      outer_cache_op(kstart_addr, kend_addr,
                      [](Address s, Address e, bool sync)
                      { Outer_cache::flush(s, e, sync); });
       break;
@@ -108,8 +110,8 @@ Mem_op::__arm_mem_cache_maint(int op, void const *start, void const *end)
       return;
     }
 
-  Virt_addr v = Virt_addr((Address)start);
-  Virt_addr e = Virt_addr((Address)end);
+  Virt_addr v = Virt_addr(reinterpret_cast<Address>(start));
+  Virt_addr e = Virt_addr(reinterpret_cast<Address>(end));
 
   Context *c = current();
 
@@ -131,7 +133,8 @@ Mem_op::__arm_mem_cache_maint(int op, void const *start, void const *end)
         {
           Virt_addr vstart = Virt_addr(phys_addr) | offs;
           Virt_addr vend = vstart + sz;
-          __arm_kmem_cache_maint(op, (void *)vstart, (void *)vend);
+          __arm_kmem_cache_maint(op, static_cast<void *>(vstart),
+                                 static_cast<void *>(vend));
         }
       v += sz;
     }
@@ -141,7 +144,8 @@ Mem_op::__arm_mem_cache_maint(int op, void const *start, void const *end)
 extern "C" void sys_arm_mem_op()
 {
   Entry_frame *e = current()->regs();
-  Mem_op::arm_mem_cache_maint(e->r[0], (void *)e->r[1], (void *)e->r[2]);
+  Mem_op::arm_mem_cache_maint(e->r[0], reinterpret_cast<void *>(e->r[1]),
+                              reinterpret_cast<void *>(e->r[2]));
 }
 
 
@@ -188,34 +192,20 @@ Mem_op::arm_mem_access(Mword *r)
 	case Op_mem_read_data:
 	  switch (w)
 	    {
-	    case 0:
-	      r[3] = *(unsigned char *)a;
-	      break;
-	    case 1:
-	      r[3] = *(unsigned short *)a;
-	      break;
-	    case 2:
-	      r[3] = *(unsigned int *)a;
-	      break;
-	    default:
-	      break;
+	    case 0: r[3] = *reinterpret_cast<unsigned char *>(a); break;
+	    case 1: r[3] = *reinterpret_cast<unsigned short *>(a); break;
+	    case 2: r[3] = *reinterpret_cast<unsigned int *>(a); break;
+	    default: break;
 	    };
 	  break;
 
 	case Op_mem_write_data:
 	  switch (w)
 	    {
-	    case 0:
-	      *(unsigned char *)a = r[3];
-	      break;
-	    case 1:
-	      *(unsigned short *)a = r[3];
-	      break;
-	    case 2:
-	      *(unsigned int *)a = r[3];
-	      break;
-	    default:
-	      break;
+	    case 0: *reinterpret_cast<unsigned char *>(a) = r[3]; break;
+	    case 1: *reinterpret_cast<unsigned short *>(a) = r[3]; break;
+	    case 2: *reinterpret_cast<unsigned int *>(a) = r[3]; break;
+	    default: break;
 	    };
 	  break;
 
@@ -290,7 +280,7 @@ IMPLEMENTATION [arm && 32bit]:
 PRIVATE static void
 Mem_op::inv_icache(Address start, Address end)
 {
-  if (Address(end) - Address(start) > 0x2000)
+  if (end - start > 0x2000)
     asm volatile("mcr p15, 0, %0, c7, c5, 0" : : "r" (0));
   else
     {

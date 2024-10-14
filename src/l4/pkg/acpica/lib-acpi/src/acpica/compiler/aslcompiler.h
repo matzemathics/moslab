@@ -8,7 +8,7 @@
  *
  * 1. Copyright Notice
  *
- * Some or all of this work - Copyright (c) 1999 - 2021, Intel Corp.
+ * Some or all of this work - Copyright (c) 1999 - 2024, Intel Corp.
  * All rights reserved.
  *
  * 2. License
@@ -1566,6 +1566,9 @@ ASL_RESOURCE_NODE *
 RsDoPinGroupConfigDescriptor (
     ASL_RESOURCE_INFO       *Info);
 
+ASL_RESOURCE_NODE *
+RsDoClockInputDescriptor (
+    ASL_RESOURCE_INFO       *Info);
 
 /*
  * aslrestype2d - DWord address descriptors
@@ -1579,9 +1582,12 @@ RsDoDwordMemoryDescriptor (
     ASL_RESOURCE_INFO       *Info);
 
 ASL_RESOURCE_NODE *
-RsDoDwordSpaceDescriptor (
+RsDoDwordPccDescriptor (
     ASL_RESOURCE_INFO       *Info);
 
+ASL_RESOURCE_NODE *
+RsDoDwordSpaceDescriptor (
+    ASL_RESOURCE_INFO       *Info);
 
 /*
  * aslrestype2e - Extended address descriptors

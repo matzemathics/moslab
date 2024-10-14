@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Send a message to an object (do not wait for a reply)." alt="" coords="639,153,737,179"/>
 <area shape="rect" id="Node000002" href="$group__l4__irq__api.html#ga180cfaf342ce9ff484a6aa7c276e1597" title="Trigger the object." alt="" coords="440,55,563,80"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="662,146,629,118,589,94,561,83,563,78,592,89,632,114,665,141"/>
-<area shape="rect" id="Node000007" href="$group__l4__irq__api.html#ga1dd27341b8d2a6cd09e9784188109b7c" title="Unmask IRQ." alt="" coords="435,104,567,129"/>
+<area shape="rect" id="Node000007" href="$group__l4__irq__api.html#ga1dd27341b8d2a6cd09e9784188109b7c" title="Unmask this IRQ." alt="" coords="435,104,567,129"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="626,152,550,132,551,127,627,147"/>
 <area shape="rect" id="Node000009" href="$group__l4__vcon__api.html#ga05df63a45bb7ade1e0e19caaa6e35f5f" title="Send data to this virtual console." alt="" coords="439,153,564,179"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="625,169,564,169,564,163,625,163"/>

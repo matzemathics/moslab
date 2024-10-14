@@ -35,6 +35,7 @@
 #undef __TARGET_vax__
 #undef __TARGET_x86_64__
 #undef __TARGET_xtensa__
+#define __TARGET_ARCH_BITS__ 32
 
 /* Target Architecture Features and Options */
 #define __TARGET_ARCH__ "sparc"
@@ -73,7 +74,9 @@
 /* Using Little Endian */
 #define __ARCH_HAS_MMU__ 1
 #define __ARCH_USE_MMU__ 1
+#ifndef BID_VARIANT_FLAG_NOFPU
 #define __UCLIBC_HAS_FLOATS__ 1
+#endif
 #define __UCLIBC_HAS_SOFT_FLOAT__ 1
 #define __HAS_FPU__ 1
 #define __DO_C99_MATH__ 1
@@ -96,11 +99,10 @@
 #undef __HAS_NO_THREADS__
 #ifndef L4_MINIMAL_LIBC
 #define __UCLIBC_HAS_THREADS__ 1
-#define __LINUXTHREADS_OLD__ 1
+#define __UCLIBC_HAS_LINUXTHREADS__ 1
 #define __UCLIBC_HAS_TLS__ 1
 #define __UCLIBC_HAS_THREADS_NATIVE__ 1
 
-#define __UCLIBC_HAS_LFS__ 1
 #define __UCLIBC_STATIC_LDCONFIG__ 1
 
 /*
@@ -108,6 +110,7 @@
  */
 #define __UCLIBC_HAS_COMPAT_RES_STATE__ 1
 #define __UCLIBC_HAS_IPV4__ 1
+#define __UCLIBC_DNSRAND_MODE_PRNGPLUS__ 1
 
 /*
  * String and Stdio Support
@@ -120,7 +123,8 @@
 #undef __UCLIBC_HAS_CTYPE_CHECKED__
 #undef __UCLIBC_HAS_CTYPE_ENFORCED__
 #define __UCLIBC_HAS_WCHAR__ 1
-#undef __UCLIBC_HAS_LOCALE__
+#define __UCLIBC_HAS_LOCALE__
+#define __UCLIBC_HAS_XLOCALE__
 #undef __UCLIBC_HAS_HEXADECIMAL_FLOATS__
 #undef __UCLIBC_HAS_GLIBC_CUSTOM_PRINTF__
 #undef __USE_OLD_VFPRINTF__
@@ -149,6 +153,7 @@
 #define __UCLIBC_HAS_SIGNUM_MESSAGES__ 1
 #undef __UCLIBC_HAS_SYS_SIGLIST__
 #define __UCLIBC_HAS_GNU_GETOPT__ 1
+#define __UCLIBC_HAS_GETOPT_LONG__ 1
 #define __UCLIBC_HAS_GNU_GETSUBOPT__ 1
 
 /* Big and Tall */
@@ -164,7 +169,6 @@
 #else /* The minimal version, w/o threads etc. */
 
 #define __HAS_NO_THREADS__ 1
-#undef __UCLIBC_HAS_LFS__
 #undef __UCLIBC_STATIC_LDCONFIG__
 
 /*
@@ -172,6 +176,7 @@
  */
 #undef __UCLIBC_HAS_COMPAT_RES_STATE__
 #undef __UCLIBC_HAS_IPV4__
+#undef __UCLIBC_DNSRAND_MODE_PRNGPLUS__
 
 /*
  * String and Stdio Support
@@ -213,6 +218,7 @@
 #define __UCLIBC_HAS_SIGNUM_MESSAGES__ 1
 #undef __UCLIBC_HAS_SYS_SIGLIST__
 #define __UCLIBC_HAS_GNU_GETOPT__ 1
+#define __UCLIBC_HAS_GETOPT_LONG__ 1
 #define __UCLIBC_HAS_GNU_GETSUBOPT__ 1
 
 /* Big and Tall */

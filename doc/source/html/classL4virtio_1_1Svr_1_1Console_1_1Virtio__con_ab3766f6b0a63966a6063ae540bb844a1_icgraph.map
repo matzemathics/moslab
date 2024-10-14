@@ -1,0 +1,5 @@
+<map id="L4virtio::Svr::Console::Virtio_con::handle_control_message" name="L4virtio::Svr::Console::Virtio_con::handle_control_message">
+<area shape="rect" id="Node000001" title="Handle control message received from the driver." alt="" coords="244,5,443,60"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html#a7df13c65e5b01e4bd8140a1c9b6b3858" title="Receive new control messages and resend stalled ones." alt="" coords="5,13,196,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,35,196,35,196,30,230,30"/>
+</map>

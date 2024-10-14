@@ -96,7 +96,7 @@ struct funcdesc_ht;
    elfinterp.c.  */
 #define DL_SKIP_BOOTSTRAP_RELOC(SYMTAB, INDEX, STRTAB) 0
 
-#ifdef __NR_pread
+#if defined(__NR_pread) || defined(__NR_pread64)
 #define _DL_PREAD(FD, BUF, SIZE, OFFSET) \
   (_dl_pread((FD), (BUF), (SIZE), (OFFSET)))
 #endif
@@ -108,7 +108,7 @@ struct funcdesc_ht;
    && ELF32_ST_TYPE((SYM)->st_info) == STT_FUNC \
    ? _dl_funcdesc_for ((void *)DL_RELOC_ADDR ((TPNT)->loadaddr, (SYM)->st_value), \
  		       (TPNT)->loadaddr.got_value)			     \
-   : DL_RELOC_ADDR ((TPNT)->loadaddr, (SYM)->st_value))
+   : (void*)DL_RELOC_ADDR ((TPNT)->loadaddr, (SYM)->st_value))
 
 #define DL_GET_READY_TO_RUN_EXTRA_PARMS \
     , struct elf32_fdpic_loadmap *dl_boot_progmap, Elf32_Addr dl_boot_got_pointer

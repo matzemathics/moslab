@@ -3,6 +3,8 @@ INTERFACE[ia32,amd64]:
 
 #include "idt_init.h"
 
+#define TARGET_NAME "x86"
+
 EXTENSION class Config
 {
 public:
@@ -104,6 +106,20 @@ public:
   enum {
     Is_ux = 0,
   };
+};
+
+INTERFACE[ia32,amd64,ux]:
+
+EXTENSION class Config
+{
+public:
+  enum : unsigned int
+  {
+    Io_port_count = (1UL << 16),
+    Io_bitmap_size = Io_port_count / 8,
+  };
+
+  using Io_bitmap = Unsigned8[Io_bitmap_size];
 };
 
 IMPLEMENTATION[ia32,amd64]:

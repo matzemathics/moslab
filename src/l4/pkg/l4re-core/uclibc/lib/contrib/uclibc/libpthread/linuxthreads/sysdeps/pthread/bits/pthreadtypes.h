@@ -25,6 +25,8 @@
 #define __need_schedparam
 #include <bits/sched.h>
 
+#define __SIZEOF_PTHREAD_CONDATTR_T 4
+
 /* Fast locks (not abstract because mutexes and conditions aren't abstract). */
 struct _pthread_fastlock
 {
@@ -56,28 +58,19 @@ typedef struct __pthread_attr_s
 
 
 /* Conditions (not abstract because of PTHREAD_COND_INITIALIZER */
-
-#ifdef __GLIBC_HAVE_LONG_LONG
-__extension__ typedef long long __pthread_cond_align_t;
-#else
-typedef long __pthread_cond_align_t;
-#endif
-
 typedef struct
 {
   struct _pthread_fastlock __c_lock; /* Protect against concurrent access */
   _pthread_descr __c_waiting;        /* Threads waiting on this condition */
-  char __padding[48 - sizeof (struct _pthread_fastlock)
-		 - sizeof (_pthread_descr) - sizeof (__pthread_cond_align_t)];
-  __pthread_cond_align_t __align;
 } pthread_cond_t;
 
 
-/* Attribute for conditionally variables.  */
-typedef struct
+typedef union
 {
-  int __dummy;
+  char __size[__SIZEOF_PTHREAD_CONDATTR_T];
+  int __align;
 } pthread_condattr_t;
+
 
 /* Keys for thread-specific data */
 typedef unsigned int pthread_key_t;
@@ -131,7 +124,7 @@ typedef struct
 
 #ifdef __USE_XOPEN2K
 /* POSIX spinlock data type.  */
-typedef __volatile__ int pthread_spinlock_t;
+typedef volatile int pthread_spinlock_t;
 
 /* POSIX barrier. */
 typedef struct {

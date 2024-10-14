@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: L4::Cap&lt; T &gt; Class Template Reference</title>
+<title>L4Re Operating System Framework: L4::Cap&lt; T &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -93,6 +96,7 @@ $(document).ready(function(){initNavTree('classL4_1_1Cap.html',''); initResizabl
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#friends">Friends</a>  </div>
   <div class="headertitle"><div class="title">L4::Cap&lt; T &gt; Class Template Reference</div></div>
 </div><!--header-->
@@ -107,14 +111,14 @@ $(document).ready(function(){initNavTree('classL4_1_1Cap.html',''); initResizabl
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Cap__inherit__graph.svg" width="2223" height="894"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Cap__inherit__graph.svg" width="2634" height="974"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for L4::Cap&lt; T &gt;:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Cap__coll__graph.svg" width="127" height="610"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classL4_1_1Cap__coll__graph.svg" width="206" height="650"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -178,6 +182,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>invalidate</b> () noe
 <tr class="memdesc:a44d8ff917b4024af596a5c2e9497faae inherit pub_methods_classL4_1_1Cap__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set this capability to invalid (L4_INVALID_CAP). <br /></td></tr>
 <tr class="separator:a44d8ff917b4024af596a5c2e9497faae inherit pub_methods_classL4_1_1Cap__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:af6d917bed9c7455862b14086dd3f4efa" id="r_af6d917bed9c7455862b14086dd3f4efa"><td class="memTemplParams" colspan="2">template&lt;typename From &gt; </td></tr>
+<tr class="memitem:af6d917bed9c7455862b14086dd3f4efa"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classL4_1_1Cap.html#af6d917bed9c7455862b14086dd3f4efa">check_convertible_from</a> () noexcept</td></tr>
+<tr class="memdesc:af6d917bed9c7455862b14086dd3f4efa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the type conversion that needs to compile in order for a capability of type From to be convertible to one of type T.  <br /></td></tr>
+<tr class="separator:af6d917bed9c7455862b14086dd3f4efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7df6af25ea6423cd8b0f9410b4e0df8" id="r_aa7df6af25ea6423cd8b0f9410b4e0df8"><td class="memTemplParams" colspan="2">template&lt;typename From &gt; </td></tr>
+<tr class="memitem:aa7df6af25ea6423cd8b0f9410b4e0df8"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classL4_1_1Cap.html#aa7df6af25ea6423cd8b0f9410b4e0df8">check_castable_from</a> () noexcept</td></tr>
+<tr class="memdesc:aa7df6af25ea6423cd8b0f9410b4e0df8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the type conversion that needs to compile in order for a capability of type From te be castable (via the correct cap_cast) to one of type T.  <br /></td></tr>
+<tr class="separator:aa7df6af25ea6423cd8b0f9410b4e0df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:ace5dfb21f724faa65b7e922448bccf70" id="r_ace5dfb21f724faa65b7e922448bccf70"><td class="memItemLeft" align="right" valign="top"><a id="ace5dfb21f724faa65b7e922448bccf70" name="ace5dfb21f724faa65b7e922448bccf70"></a>
@@ -237,7 +252,7 @@ class L4::Cap&lt; T &gt;</div><p>C++ interface for capabilities. </p>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="examples_2clntsrv_2client_8cc-example.html#_a0">examples/clntsrv/client.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2mem_alloc_2ma_09rm_8cc-example.html#_a0">examples/libs/l4re/c++/mem_alloc/ma+rm.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_clnt_8cc-example.html#_a0">examples/libs/l4re/c++/shared_ds/ds_clnt.cc</a>, <a class="el" href="examples_2libs_2l4re_2c_09_09_2shared_ds_2ds_srv_8cc-example.html#_a1">examples/libs/l4re/c++/shared_ds/ds_srv.cc</a>, <a class="el" href="examples_2libs_2l4re_2streammap_2client_8cc-example.html#_a0">examples/libs/l4re/streammap/client.cc</a>, and <a class="el" href="examples_2sys_2migrate_2thread_migrate_8cc-example.html#_a0">examples/sys/migrate/thread_migrate.cc</a>.</dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00221">221</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00218">218</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad1e95bcebda8bb53959bb2c7bf4e159e" name="ad1e95bcebda8bb53959bb2c7bf4e159e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad1e95bcebda8bb53959bb2c7bf4e159e">&#9670;&#160;</a></span>Cap() <span class="overload">[1/4]</span></h2>
@@ -275,7 +290,7 @@ template&lt;typename O &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00247">247</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00270">270</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
 
 </div>
 </div>
@@ -313,7 +328,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00254">254</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00277">277</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
 
 </div>
 </div>
@@ -351,7 +366,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00260">260</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00283">283</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
 
 </div>
 </div>
@@ -389,11 +404,89 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00266">266</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00289">289</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa7df6af25ea6423cd8b0f9410b4e0df8" name="aa7df6af25ea6423cd8b0f9410b4e0df8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7df6af25ea6423cd8b0f9410b4e0df8">&#9670;&#160;</a></span>check_castable_from()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename From &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt;::check_castable_from </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform the type conversion that needs to compile in order for a capability of type From te be castable (via the correct cap_cast) to one of type T. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">From</td><td>Type to convert from </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00259">259</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+
+</div>
+</div>
+<a id="af6d917bed9c7455862b14086dd3f4efa" name="af6d917bed9c7455862b14086dd3f4efa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6d917bed9c7455862b14086dd3f4efa">&#9670;&#160;</a></span>check_convertible_from()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename From &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="classL4_1_1Cap.html">L4::Cap</a>&lt; T &gt;::check_convertible_from </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform the type conversion that needs to compile in order for a capability of type From to be convertible to one of type T. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">From</td><td>Type to convert from </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00246">246</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+
+</div>
+</div>
 <a id="a03750491e2cb888d26e2fbdfcc0b7dbc" name="a03750491e2cb888d26e2fbdfcc0b7dbc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a03750491e2cb888d26e2fbdfcc0b7dbc">&#9670;&#160;</a></span>copy()</h2>
 
@@ -428,7 +521,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00289">289</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00312">312</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
 
 </div>
 </div>
@@ -467,7 +560,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <p>After this operation the source slot is no longer valid. </p>
 
-<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00279">279</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability_8h_source.html#l00302">302</a> of file <a class="el" href="capability_8h_source.html">capability.h</a>.</p>
 
 </div>
 </div>
@@ -481,7 +574,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceL4.html">L4</a></li><li class="navelem"><a class="el" href="classL4_1_1Cap.html">Cap</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:29 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:32 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

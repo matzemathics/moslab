@@ -7,7 +7,7 @@
 PHONY := FORCE
 
 .PHONY: dummy $(PHONY) subdirs \
-	all check test $(clean_targets) \
+	all $(clean_targets) \
 	config dist menuconfig oldconfig release \
 	utils help
 
@@ -22,22 +22,46 @@ ifeq ($(UCLIBC_FORMAT_SHARED_FLAT),y)
 libs: $(lib-gdb-y)
 endif
 libs: $(lib-a-y)
-$(lib-a-y): | $(top_builddir)lib
+ifeq ($(HAVE_LDSO),y)
+$(lib-a-y): | $(ldso)
+endif
 endif
 objs: all_objs
+$(lib-so-y) $(lib-a-y): | $(top_builddir)lib
+
+# apply unconditional per-directory flags
+define add_IS_IN_lib
+ifneq ($(strip $(2)),)
+__add_IS_IN_lib := $(2)
+__add_IS_IN_lib += $(2:.o=.i) $(2:.os=.i) $(2:.oS=.i)
+__add_IS_IN_lib += $(2:.o=.s) $(2:.os=.s) $(2:.oS=.s)
+$$(__add_IS_IN_lib): CFLAGS-for-library-members:=$(CFLAGS-$(1)) -DIN_LIB=$(word 1,$(subst /, ,$(1)))
+endif
+endef
+$(eval $(call add_IS_IN_lib,rtld,$(ldso-y)))
+$(eval $(call add_IS_IN_lib,libc,$(libc-y) $(libc-static-y) $(libc-y:.o=.os) $(libc-shared-y) $(libc-nonshared-y)))
+$(eval $(call add_IS_IN_lib,libcrypt,$(libcrypt-a-y) $(libcrypt-so-y)))
+$(eval $(call add_IS_IN_lib,libdl,$(libdl-a-y) $(libdl-so-y)))
+$(eval $(call add_IS_IN_lib,libm,$(libm-a-y) $(libm-so-y)))
+$(eval $(call add_IS_IN_lib,libpthread/$(PTNAME),$(libpthread-a-y) $(libpthread-so-y) $(libpthread-nonshared-y)))
+$(eval $(call add_IS_IN_lib,libpthread/$(PTNAME)_db,$(libthread_db-a-y) $(libthread_db-so-y)))
+$(eval $(call add_IS_IN_lib,librt,$(librt-a-y) $(librt-so-y)))
+$(eval $(call add_IS_IN_lib,libutil,$(libutil-a-y) $(libutil-so-y)))
+$(eval $(call add_IS_IN_lib,libubacktrace,$(libubacktrace-a-y) $(libubacktrace-so-y)))
+$(eval $(call add_IS_IN_lib,libuargp,$(libuargp-a-y) $(libuargp-so-y)))
+$(eval $(call add_IS_IN_lib,libiconv,$(libiconv-a-y) $(libiconv-so-y)))
+$(eval $(call add_IS_IN_lib,libintl,$(libintl-a-y) $(libintl-so-y)))
 
 shared_objs = $(libc-y:.o=.os) $(libc-shared-y) $(libc-nonshared-y) \
-	$(libcrypt-so-y) $(libdl-so-y) \
-	$(libintl-so-y) $(libm-so-y) $(libnsl-so-y) \
+	$(libcrypt-so-y) $(libdl-so-y) $(libm-so-y) \
 	$(libpthread-so-y) $(libpthread-nonshared-y) $(libthread_db-so-y) \
-	$(libresolv-so-y) $(librt-so-y) \
-	$(ldso-y) \
-	$(libutil-so-y) $(libubacktrace-so-y)
+	$(librt-so-y) $(ldso-y) $(libutil-so-y) $(libubacktrace-so-y) \
+	$(libuargp-so-y) $(libiconv-so-y) $(libintl-so-y)
 
 ar_objs =  $(libc-y) $(libc-static-y) $(libcrypt-a-y) \
-	$(libdl-a-y) $(libintl-a-y) $(libm-a-y) $(libnsl-a-y) \
-	$(libpthread-a-y) $(libthread_db-a-y) \
-	$(libresolv-a-y) $(librt-a-y) $(libutil-a-y) $(libubacktrace-a-y)
+	$(libdl-a-y) $(libm-a-y) $(libpthread-a-y) $(libthread_db-a-y) \
+	$(librt-a-y) $(libutil-a-y) $(libubacktrace-a-y) $(libuargp-a-y) \
+	$(libiconv-a-y) $(libintl-a-y)
 ifeq ($(DOPIC),y)
 ar_objs := $(ar_objs:.o=.os)
 endif
@@ -71,7 +95,7 @@ else
 export MAKE_IS_SILENT := n
 SECHO := @echo
 ifneq ($(V)$(VERBOSE),)
-ifeq ($(V),1)
+ifeq ($(V),2)
 DISP := bri# brief, like pur but with defines
 Q := @
 else
@@ -228,26 +252,31 @@ maybe_exec = \
 #collect_multi_flags = $(CFLAGS-$(notdir $(d))) $(CFLAGS-$(notdir $(patsubst %/,%,$(dir $(d)))))
 collect_multi_flags = $(CFLAGS-$(notdir $(patsubst %/,%,$(dir $(d)))))
 
+#sub_srcdir = $(word 1,$(filter-out lib extra locale libpthread,$(wordlist 1,2,$(subst /, ,$(subst $(top_srcdir),,$(dir $<))))))
+
 CFLAGS_gen.dep = -MT $@ -MD -MP -MF $(dir $@).$(notdir $@).dep
 
-cmd_compile.c = $(CC) -c $< -o $@ $(CFLAGS) \
+cmd_compile.c = $(CC) -c $< -o $@ \
+    $(filter-out $(CFLAGS-OMIT-$(notdir $<)), \
+        $(CFLAGS) \
+        $(CFLAGS-for-library-members) \
 	$(CFLAGS-$(suffix $@)) \
-	$(filter-out $(CFLAGS-OMIT-$(notdir $<)),$(CFLAGS-$(notdir $(<D)))) \
-	$(CFLAGS-$(subst $(top_srcdir),,$(dir $<))) \
+	$(CFLAGS-y-$(subst $(top_srcdir),,$(<D))) \
 	$(CFLAGS-$(notdir $<)) \
 	$(CFLAGS-$(notdir $@)) \
+    ) \
 	$(CFLAGS_gen.dep)
 cmd_compile.i = $(cmd_compile.c:-c=-E -dD) $(UCLIBC_EXTRA_CPPFLAGS)
 cmd_compile.s = $(cmd_compile.c:-c=-S)
 cmd_compile.u = $(CC) $^ $(DEPS-$(notdir $@)) -o $@ $(CFLAGS) $(CFLAGS-$(notdir $(^D))) $(CFLAGS-$(notdir $@)) $(CFLAGS_gen.dep)
-cmd_compile.S = $(filter-out -std=gnu99, $(cmd_compile.c)) -D__ASSEMBLER__ $(ASFLAGS) $(ARCH_ASFLAGS) $(ASFLAGS-$(suffix $@)) $(ASFLAGS-$(notdir $<)) $(ASFLAGS-$(notdir $@))
+cmd_compile.S = $(filter-out -std=%, $(cmd_compile.c)) -D__ASSEMBLER__ $(ASFLAGS) $(ARCH_ASFLAGS) $(ASFLAGS-$(suffix $@)) $(ASFLAGS-$(notdir $<)) $(ASFLAGS-$(notdir $@))
 cmd_compile.m = $(cmd_compile.c) -DL_$(patsubst %$(suffix $(notdir $@)),%,$(notdir $@))
 cmd_compile.mi= $(cmd_compile.m:-c=-E -dD) $(UCLIBC_EXTRA_CPPFLAGS)
 
 cmd_compile-m = $(CC) $^ -c -o $@ $(CFLAGS) $(CFLAGS-$(suffix $@)) $(CFLAGS-$(notdir $(@D))) $(CFLAGS-$(notdir $@)) $(sort $(foreach d,$(^:$(top_srcdir)=),$(collect_multi_flags)))
 cmd_strip     = $(STRIPTOOL) $(STRIP_FLAGS) $^
 cmd_t_strip   = $(STRIPTOOL) $(STRIP_FLAGS) $@
-cmd_ar        = $(AR) $(ARFLAGS) $@ $(call objects_with_syms,,$^)
+cmd_ar        = $(AR) $(ARFLAGS) $@ @$@.list
 
 define do_ln
 	@$(disp_ln)
@@ -288,6 +317,7 @@ hcompile.u= @$(disp_hcompile.u); $(cmd_hcompile.u)
 hcompile.o= @$(disp_hcompile.o); $(cmd_hcompile.o)
 
 define do_ar
+	@$(file >$@.list,$(call objects_with_syms,,$^))
 	@$(disp_ar) ; $(cmd_ar)
 	@$(do_t_strip)
 endef
@@ -298,22 +328,14 @@ endef
 cmd_hcompile.u = $(HOSTCC) $(filter-out $(PHONY),$^) $(DEPS-$(notdir $@)) -o $@ $(BUILD_LDFLAGS) $(BUILD_LDFLAGS-$(notdir $(^D))) $(BUILD_LDFLAGS-$(notdir $@)) $(BUILD_CFLAGS) $(BUILD_CFLAGS-$(notdir $(^D))) $(BUILD_CFLAGS-$(notdir $@))
 cmd_hcompile.o = $(HOSTCC) $(filter-out $(PHONY),$<) $(DEPS-$(notdir $@)) -c -o $@ $(BUILD_CFLAGS) $(BUILD_CFLAGS-$(notdir $(^D))) $(BUILD_CFLAGS-$(notdir $@))
 
-define create-lds
-	$(Q)$(RM) $@.lds
-	$(Q)$(CC) -nostdlib -nostartfiles -shared -Wl,-z,combreloc \
-	-Wl,-z,relro -Wl,--hash-style=gnu -Wl,-z,defs \
-	-Wl,--verbose 2>&1 | LC_ALL=C \
-	sed -e '/^=========/,/^=========/!d;/^=========/d' \
-	-e 's/\. = .* + SIZEOF_HEADERS;/& $(SYMBOL_PREFIX)_begin = . - SIZEOF_HEADERS;/' > $@.lds
-endef
-
 define link.so
 	$(Q)$(RM) $@ $@.$(2) $(dir $@)$(1)
 	@$(disp_ld)
 	$(Q)$(CC) $(LDFLAGS-$(notdir $@)) $(LDFLAGS-y-$(@F)) \
 		-Wl,-soname=$(notdir $@).$(2) \
-		$(CFLAG_-nostdlib) -o $(dir $@)$(1) $(START_FILE-$(notdir $@)) \
-		-Wl,--whole-archive $(firstword $^) -Wl,--no-whole-archive \
+		$(CFLAG_-nostdlib) $(CFLAG_-nostartfiles) \
+		-o $(dir $@)$(1) $(START_FILE-$(notdir $@)) \
+		-Wl,--whole-archive $(firstword $^) -Wl,--no-whole-archive -shared \
 		$(LIBS-$(notdir $@)) $(LIBGCC) $(END_FILE-$(notdir $@))
 	$(Q)$(LN) -sf $(1) $@.$(2)
 	$(Q)$(LN) -sf $(1) $@
@@ -342,18 +364,6 @@ define link-flat.so
 		$(top_builddir)/lib/crti.o -Wl,--whole-archive $(firstword $^) \
 		$(LIBGCC) -Wl,--no-whole-archive $(LIBS-$(notdir $@)) $(LIBGCC) \
 		$(top_builddir)/lib/crtn.o
-endef
-
-define linkm.so
-	$(Q)$(RM) $@ $@.$(2) $(dir $@)$(1)
-	$(do_strip)
-	@$(disp_ld)
-	$(Q)$(CC) $(LDFLAGS-$(notdir $@)) -Wl,-soname=$(notdir $@).$(2) \
-		$(CFLAG_-nostdlib) -o $(dir $@)$(1) $(START_FILE-$(notdir $@)) \
-		$^ \
-		$(LIBS-$(notdir $@)) $(LIBGCC) $(END_FILE-$(notdir $@))
-	$(Q)$(LN) -sf $(1) $@.$(2)
-	$(Q)$(LN) -sf $(1) $@
 endef
 
 CFLAGS-.os+=$(PICFLAG)
@@ -415,6 +425,9 @@ CTOR_TARGETS=$(top_builddir)lib/crti.o $(top_builddir)lib/crtn.o
 else
 CTOR_TARGETS:=
 endif
+ifeq ($(HAS_NO_THREADS)$(UCLIBC_HAS_THREADS_NATIVE),)
+$(lib-so-y): $(CTOR_TARGETS)
+endif
 
 ifeq ($(UCLIBC_FORMAT_FDPIC_ELF),y)
 CRTRELOC=$(top_builddir)lib/crtreloc.o
@@ -427,18 +440,18 @@ CFLAGS-initfini.s := -S -g0 $(PICFLAG) -fno-inline-functions -finhibit-size-dire
 $(top_builddir)lib/initfini.s: $(top_srcdir)libc/sysdeps/linux/$(TARGET_ARCH)/initfini.c | $(top_builddir)lib
 	$(compile.c)
 
-$(top_builddir)lib/defs.h: $(top_builddir)lib/initfini.s | $(top_builddir)lib
-	$(Q)sed -n -e '/@TESTS_BEGIN/,/@TESTS_END/p' $< | \
-		gawk -f $(top_srcdir)extra/scripts/defs.awk > $@.tmp
+$(top_builddir)lib/defs.h: $(top_builddir)lib/initfini.s
+	$(do_sed) -n -e '/@TESTS_BEGIN/,/@TESTS_END/p' $< | \
+		$(AWK) -f $(top_srcdir)extra/scripts/defs.awk > $@.tmp
 	$(Q)mv $@.tmp $@
 
 $(top_builddir)lib/crti.S: $(top_builddir)lib/initfini.s $(top_builddir)lib/defs.h
-	$(Q)sed -n -e '1,/@HEADER_ENDS/p' \
+	$(do_sed) -n -e '1,/@HEADER_ENDS/p' \
 		-e '/@_.*_PROLOG_BEGINS/,/@_.*_PROLOG_ENDS/p' \
 		-e '/@TRAILER_BEGINS/,$$p' $< > $@
 
 $(top_builddir)lib/crtn.S: $(top_builddir)lib/initfini.s
-	$(Q)sed -n -e '1,/@HEADER_ENDS/p' \
+	$(do_sed) -n -e '1,/@HEADER_ENDS/p' \
 		-e '/@_.*_EPILOG_BEGINS/,/@_.*_EPILOG_ENDS/p' \
 		-e '/@TRAILER_BEGINS/,$$p' $< > $@
 
@@ -449,18 +462,13 @@ $(CTOR_TARGETS): $(top_builddir)lib/%.o : $(top_srcdir)libc/sysdeps/linux/$(TARG
 	$(compile.S) $(PICFLAG) $(SSP_DISABLE_FLAGS)
 endif
 
-#ifeq ($(TARGET_ARCH),nios)
-#CRTS_COMPAT := $(top_builddir)lib/crt0.o
-#$(CRTS_COMPAT):
-#	ln -fs crt1.o $(top_builddir)lib/crt0.o
-#else
 CRTS_COMPAT :=
-#endif
 
 startfiles = $(CRTS) $(CTOR_TARGETS) $(CRTS_COMPAT) $(CRTRELOC)
-$(crt-y): $(startfiles)
+startfiles: $(startfiles)
 $(CRTS) $(CTOR_TARGETS) $(CRTS_COMPAT) $(CRTRELOC): | headers
-$(CRTS) $(CTOR_TARGETS) $(CRTS_COMPAT) $(CRTRELOC) $(LINK_FLAT_CRTS) $(SHARED_START_FILES) $(SHARED_END_FILES) : | $(top_builddir)lib
+$(CRTS) $(CTOR_TARGETS) $(CRTS_COMPAT) $(CRTRELOC) \
+	$(LINK_FLAT_CRTS) $(SHARED_START_FILES) $(SHARED_END_FILES): | $(top_builddir)lib
 
 $(top_builddir)lib/$(NONSHARED_LIBNAME): $(libc-nonshared-y)
 	$(Q)$(RM) $@
@@ -476,10 +484,14 @@ files.dep := $(libc-a-y) $(libc-so-y) $(libc-nonshared-y) \
 	$(libthread_db-a-y) $(libthread_db-so-y) $(libpthread-generated-y) \
 	$(START_FILE-libpthread.so) $(END_FILE-libpthread.so) \
 	$(PTHREAD_INITFINI:.c=.s) \
-	$(librt-a-y) $(librt-so-y)  $(libresolv-a-y) $(libresolv-so-y) \
-	$(libcrypt-a-y) $(libcrypt-so-y) $(libutil-a-y) $(libutil-so-y) \
-	$(libnsl-a-y) $(libnsl-so-y) $(ldso-y) $(libdl-a-y) $(libdl-so-y) \
-	$(libubacktrace-a-y) $(libubacktrace-so-y)
+	$(librt-a-y) $(librt-so-y) \
+	$(libcrypt-a-y) $(libcrypt-so-y) \
+	$(libutil-a-y) $(libutil-so-y) \
+	$(ldso-y) $(libdl-a-y) $(libdl-so-y) \
+	$(libubacktrace-a-y) $(libubacktrace-so-y) \
+	$(libuargp-so-y) $(libuargp-a-y) \
+	$(libiconv-so-y) $(libiconv-a-y) \
+	$(libintl-so-y) $(libintl-a-y)
 .depends.dep := \
 	$(patsubst %.s,%.s.dep,$(filter %.s,$(files.dep))) \
 	$(patsubst %.o,%.o.dep,$(filter %.o,$(files.dep))) \

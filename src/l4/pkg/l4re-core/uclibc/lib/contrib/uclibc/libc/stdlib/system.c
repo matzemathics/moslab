@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <paths.h>
 #ifdef __UCLIBC_HAS_THREADS_NATIVE__
 #include <sched.h>
 #include <errno.h>
@@ -19,11 +20,8 @@
 #endif
 
 extern __typeof(system) __libc_system;
-
-/* TODO: the cancellable version breaks on sparc currently,
- * need to figure out why still
- */
-#if !defined __UCLIBC_HAS_THREADS_NATIVE__ || defined __sparc__
+#if !defined __UCLIBC_HAS_THREADS_NATIVE__
+#include <sys/syscall.h>
 
 int __libc_system(const char *command)
 {
@@ -53,7 +51,7 @@ int __libc_system(const char *command)
 		sigaction(SIGINT, &save_int, NULL);
 		sigprocmask(SIG_SETMASK, &save_mask, NULL);
 
-		execl("/bin/sh", "sh", "-c", command, (char *) 0);
+		execl(_PATH_BSHELL, "sh", "-c", command, (char *) 0);
 		_exit(127);
 	}
 
@@ -83,6 +81,7 @@ out:
 libc_hidden_proto(sigaction)
 libc_hidden_proto(waitpid)
 
+#ifdef __ARCH_USE_MMU__
 #if defined __ia64__
 # define FORK() \
   INLINE_SYSCALL (clone2, 6, CLONE_PARENT_SETTID | SIGCHLD, NULL, 0, \
@@ -90,12 +89,13 @@ libc_hidden_proto(waitpid)
 #elif defined __sparc__
 # define FORK() \
   INLINE_CLONE_SYSCALL (CLONE_PARENT_SETTID | SIGCHLD, 0, &pid, NULL, NULL)
-#elif defined __s390__
-# define FORK() \
-  INLINE_SYSCALL (clone, 3, 0, CLONE_PARENT_SETTID | SIGCHLD, &pid)
 #else
 # define FORK() \
   INLINE_SYSCALL (clone, 3, CLONE_PARENT_SETTID | SIGCHLD, 0, &pid)
+#endif
+#else
+# define FORK() \
+    vfork()
 #endif
 
 static void cancel_handler (void *arg);
@@ -175,7 +175,7 @@ do_system (const char *line)
     {
       /* Child side.  */
       const char *new_argv[4];
-      new_argv[0] = "/bin/sh";
+      new_argv[0] = _PATH_BSHELL;
       new_argv[1] = "-c";
       new_argv[2] = line;
       new_argv[3] = NULL;
@@ -187,7 +187,7 @@ do_system (const char *line)
       INIT_LOCK ();
 
       /* Exec the shell.  */
-      (void) execve ("/bin/sh", (char *const *) new_argv, __environ);
+      (void) execve (_PATH_BSHELL, (char *const *) new_argv, __environ);
       _exit (127);
     }
   else if (pid < (pid_t) 0)

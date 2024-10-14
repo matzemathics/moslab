@@ -137,6 +137,11 @@ enum Cap_ident : l4_uint8_t
   Msi_x = 0x11,
 };
 
+enum Ext_cap_ident : l4_uint16_t
+{
+  Sr_iov = 0x0010,
+};
+
 enum Pci_cap_mask : l4_uint8_t
 {
   Next_cap = 0xfc, // Lowest two bits of the pointer to the
@@ -211,7 +216,31 @@ enum
 
 enum : l4_uint8_t
 {
+  Pci_class_code_mass_storage_device = 0x01,
+  Pci_class_code_network_device = 0x02,
+  Pci_class_code_display_device = 0x03,
+  Pci_class_code_multimedia_device = 0x04,
+  Pci_class_code_memory_device = 0x05,
   Pci_class_code_bridge_device = 0x06,
+  Pci_class_code_communication_device = 0x07,
+  Pci_class_code_system_peripheralls_device = 0x08,
+  Pci_class_code_input_device = 0x09,
+  Pci_class_code_docking_station_device = 0x0a,
+  Pci_class_code_processors_device = 0x0b,
+  Pci_class_code_serial_bus_device = 0x0c,
+  Pci_class_code_wireless_device = 0x0d,
+  Pci_class_code_io_device = 0x0e,
+  Pci_class_code_satellite_device = 0x0f,
+  Pci_class_code_crypt_device = 0x10,
+  Pci_class_code_signal_device = 0x11,
+  Pci_class_code_accelerator_device = 0x12,
+  Pci_class_code_instrument_device = 0x13,
+  Pci_class_code_other_device = 0x80,
+  Pci_class_code_unknown_device = 0xff,
+};
+
+enum : l4_uint8_t
+{
   Pci_subclass_code_host = 0x00,
 };
 
@@ -253,7 +282,7 @@ struct Pci_cap
 
   // see PCI Local Bus Specification V.3 (2010) 6.8.2.
   l4_uint8_t const cap_type;
-  l4_uint8_t cap_next;
+  l4_uint8_t cap_next = 0;
 };
 
 /// Class for all vendor specific PCI capabilities.
@@ -314,11 +343,11 @@ struct Pci_msi_cap : Pci_cap
     CXX_BITFIELD_MEMBER(0, 0, msi_enable, raw);
   } ctrl;
 
-  l4_uint32_t address;
-  l4_uint16_t data;
+  l4_uint32_t address = 0;
+  l4_uint16_t data = 0;
   // optional, depends on ctrl.sixtyfour()
-  l4_uint32_t upper_address;
-  unsigned offset; // the offset into the devices config space
+  l4_uint32_t upper_address = 0;
+  unsigned offset = 0; // the offset into the devices config space
 
   void write_ctrl(l4_uint16_t val)
   {
@@ -346,6 +375,29 @@ struct Pci_msi_cap : Pci_cap
       return offset + 0x14;
     return offset + 0xa;
   }
+};
+
+struct Pcie_cap_header
+{
+  enum : l4_uint32_t
+  {
+    Next_cap_mask = 0xffc, // Lowest two bits of the pointer to the
+                           // next capability are reserved
+  };
+
+  l4_uint32_t raw;
+  CXX_BITFIELD_MEMBER(20, 31, next_cap, raw);
+  CXX_BITFIELD_MEMBER(15, 19, version, raw);
+  CXX_BITFIELD_MEMBER(0, 15, id, raw);
+};
+
+/// SR-IOV capability for PCIe
+struct Pcie_sriov_cap
+{
+  unsigned offset = 0; // the offset into the device's config space
+
+  unsigned cap_end() const
+  { return offset + 0x40; }
 };
 
 union alignas(sizeof(l4_uint64_t)) Pci_header
@@ -589,11 +641,11 @@ struct Pci_device : public virtual Vdev::Dev_ref
         res->prefetchable = (bar & Bar_mem_prefetch_bit) != 0;
 
         cfg_read_raw(bar_offs, &bar, Vmm::Mem_access::Wd32);
-        addr64 |= (l4_uint64_t)bar << 32; // shift to upper part
+        addr64 |= static_cast<l4_uint64_t>(bar) << 32; // shift to upper part
         bar_offs = read_bar_size(bar_offs, bar, &bar_size);
 
-        size64 |= (l4_uint64_t)bar_size << 32; // shift to upper part
-        size64 &= ~((l4_uint64_t)Bar_mem_attr_mask); // clear decoding
+        size64 |= static_cast<l4_uint64_t>(bar_size) << 32; // shift to upper part
+        size64 &= ~static_cast<l4_uint64_t>(Bar_mem_attr_mask); // clear decoding
 
         res->type = Pci_cfg_bar::MMIO64;
         res->io_addr = addr64;
@@ -694,7 +746,7 @@ struct Pci_device : public virtual Vdev::Dev_ref
 
     l4_uint32_t ctrl = 0;
     cfg_read_raw(msix_cap_addr + 2, &ctrl, Vmm::Mem_access::Wd16);
-    msix_cap.ctrl.raw = (l4_uint16_t)ctrl;
+    msix_cap.ctrl.raw = static_cast<l4_uint16_t>(ctrl);
     cfg_read_raw(msix_cap_addr + 4, &msix_cap.tbl.raw, Vmm::Mem_access::Wd32);
     cfg_read_raw(msix_cap_addr + 8, &msix_cap.pba.raw, Vmm::Mem_access::Wd32);
 
@@ -719,8 +771,18 @@ struct Pci_device : public virtual Vdev::Dev_ref
     has_msi = true;
   }
 
-  /*
-   * Walk capabilities list and return the first capability of cap_type (see
+  void parse_sriov_cap()
+  {
+    unsigned sriov_cap_addr = get_ext_capability(Ext_cap_ident::Sr_iov);
+    if (!sriov_cap_addr)
+      return;
+
+    sriov_cap.offset = sriov_cap_addr;
+    has_sriov = true;
+  }
+
+  /**
+   * Walk capabilities list and return the first capability of `cap_type` (see
    * PCI Spec. Version 3, Chapter 6.7). If none is found return 0.
    *
    * \param cap_type  Capability type to retrieve
@@ -748,7 +810,8 @@ struct Pci_device : public virtual Vdev::Dev_ref
         return 0;
       }
 
-    while (true)
+    // Capability list is terminated by zero next pointer.
+    while (next_cap)
       {
         cfg_read_raw(next_cap, &val, Vmm::Mem_access::Wd16);
         l4_uint8_t cap_id = val & Pci_cap_mask::Cap_id;
@@ -759,13 +822,47 @@ struct Pci_device : public virtual Vdev::Dev_ref
           return next_cap;
 
         next_cap = (val >> 8) & Pci_cap_mask::Next_cap;
-        if (!next_cap) // next pointer is zero -> end of list
-          break;
       }
 
     trace().printf("get_capability: Did not find capability of type 0x%x\n",
                    cap_type);
 
+    return 0;
+  }
+
+  /**
+   * Walk PCIe extended capabilities list and return the first capability of
+   * `cap_type` (see PCI Express Spec. Version 5, Chapter 7.6). If none is found
+   * return 0.
+   *
+   * \param cap_type     Capability type to retrieve
+   * \param min_version  Minimum required version of the capability
+   *
+   * \returns 0          If no capability was found.
+   *          >0         Pointer to the capability.
+   */
+  unsigned get_ext_capability(Ext_cap_ident cap_type, l4_uint8_t min_version = 0)
+  {
+    if (!get_capability(Cap_ident::Pcie))
+      // Not a PCIe device.
+      return 0;
+
+    l4_uint16_t next_cap = 0x100;
+    // Extended capability list is terminated by zero next pointer.
+    while (next_cap)
+      {
+        l4_uint32_t val = 0;
+        cfg_read_raw(next_cap, &val, Vmm::Mem_access::Wd32);
+
+        Pcie_cap_header cap{val};
+        if (cap.id() == cap_type && cap.version() >= min_version)
+          // Found matching capability.
+          return next_cap;
+
+        next_cap = cap.next_cap() & Pcie_cap_header::Next_cap_mask;
+      }
+
+    // No matching capability found.
     return 0;
   }
 
@@ -817,8 +914,8 @@ struct Pci_device : public virtual Vdev::Dev_ref
     Pci_header_type hdr_type = get_header_type();
     unsigned rom_reg = expansion_rom_reg(hdr_type == Pci_header_type(0));
 
-    info().printf("Parsing expansion ROM reg 0x%x of type %i header\n", rom_reg,
-                  hdr_type);
+    trace().printf("Parsing expansion ROM reg 0x%x of type %i header\n",
+                   rom_reg, hdr_type);
     l4_uint32_t access = disable_access(Access_mask);
 
     l4_uint32_t val = 0;
@@ -891,345 +988,16 @@ struct Pci_device : public virtual Vdev::Dev_ref
   Pci_expansion_rom_bar exp_rom;
   Pci_msix_cap msix_cap;               /// MSI-X capability
   Pci_msi_cap msi_cap;                 /// MSI capability
+  Pcie_sriov_cap sriov_cap;            /// SR-IOV capability
   l4_uint8_t enabled_decoders = 0;     /// Currently registered resources
   bool has_msix = false;               /// indicates MSI-X support
   bool has_msi = false;                /// indicates MSI support
+  bool has_sriov = false;              /// indicates SR-IOV support
 
 private:
   static Dbg trace() { return Dbg(Dbg::Dev, Dbg::Trace, "PCI dev"); }
   static Dbg warn() { return Dbg(Dbg::Dev, Dbg::Warn, "PCI dev"); }
   static Dbg info() { return Dbg(Dbg::Dev, Dbg::Info, "PCI dev"); }
-};
-
-class Virt_pci_device:
-  public Pci_device
-{
-public:
-  Virt_pci_device()
-  {
-    memset(&_hdr, 0, sizeof(_hdr));
-    _last_caps_next_ptr = &get_header<Pci_header::Type0>()->cap_ptr;
-    _next_free_idx = 0x40; // first byte after the PCI header;
-  }
-
-  /**
-   * Construct virtual PCI device from device tree node.
-   *
-   * This implies a type0 device.
-   */
-  Virt_pci_device(Vdev::Dt_node const &node)
-  : Virt_pci_device()
-  {
-    l4_uint64_t size;
-    Dtb::Reg_flags flags;
-
-    // First reg entry shall be the config space. Note that we ignore the
-    // assigned bus/device/function numbers. This might change in the future!
-    if (node.get_reg_size_flags(0, nullptr, &flags) < 0)
-      L4Re::throw_error(-L4_EINVAL, "extract PCI dev reg[0] property");
-    if (!flags.is_cfgspace())
-      L4Re::throw_error(-L4_EINVAL,
-                        "PCI dev reg[0] property shall be the config space");
-
-    for (int i = 1; node.get_reg_size_flags(i, &size, &flags) >= 0; i++)
-      {
-        unsigned bar = (flags.pci_reg() - Pci_hdr_base_addr0_offset) / 4U;
-        if (bar >= Bar_num_max_type0)
-          L4Re::throw_error(-L4_EINVAL,
-                            "PCI dev reg property must reference valid BAR");
-        if (bars[bar].type != Pci_cfg_bar::Type::Unused_empty)
-          L4Re::throw_error(-L4_EINVAL, "BAR must be defined only once");
-        check_power_of_2(size, "BAR size must be power of 2");
-
-        if (flags.is_mmio64())
-          set_mem64_space<Pci_header::Type0>(bar, 0, size);
-        else if (flags.is_mmio32())
-          set_mem_space<Pci_header::Type0>(bar, 0, size);
-        else if (flags.is_ioport())
-          set_io_space<Pci_header::Type0>(bar, 0, size);
-        else
-          L4Re::throw_error(-L4_EINVAL,
-                            "PCI dev reg property has invalid type");
-      }
-  }
-
-  /**
-   * Read from the PCI header config.
-   *
-   * \param      reg    The config space register to read from.
-   * \param[out] value  The value returned by the read. -1 if failed.
-   * \param      width  The width of the register access.
-   */
-  void cfg_read_raw(unsigned reg, l4_uint32_t *value,
-                    Vmm::Mem_access::Width width) override
-  {
-    using Vmm::Mem_access;
-
-    *value = -1;
-
-    if (!check_cfg_range(reg, width))
-      return;
-
-    reg >>= width;
-    switch (width)
-      {
-      case Mem_access::Wd8: *value  = _hdr.byte[reg]; break;
-      case Mem_access::Wd16: *value = _hdr.word[reg]; break;
-      case Mem_access::Wd32: *value = _hdr.dword[reg]; break;
-      case Mem_access::Wd64: *value = _hdr.qword[reg]; break;
-      }
-
-    trace().printf("read config 0x%x(%d) = 0x%x\n", reg, width,
-                   (unsigned)*value);
-  }
-
-  /**
-   * Write to the PCI header config.
-   *
-   * \param reg    Register number to write to.
-   * \param value  Value to write to `reg`.
-   * \param width  Width of the memory access.
-   */
-  void cfg_write_raw(unsigned reg, l4_uint32_t value,
-                     Vmm::Mem_access::Width width) override
-  {
-    using Vmm::Mem_access;
-
-    if (!check_cfg_range(reg, width))
-      return;
-
-    if (   reg == Pci_hdr_status_offset
-        && ((8U << width)) == Pci_hdr_status_length)
-      return;
-
-    reg >>= width;
-    switch (width)
-      {
-      case Mem_access::Wd8:  _hdr.byte[reg] = value; break;
-      case Mem_access::Wd16: _hdr.word[reg] = value; break;
-      case Mem_access::Wd32: _hdr.dword[reg] = value; break;
-      case Mem_access::Wd64: _hdr.qword[reg] = value; break;
-      }
-
-    trace().printf("write config 0x%x(%d) = 0x%x\n", reg, width, value);
-  }
-
-  /**
-   * Create a PCI capability of type `T` in the device's capability table.
-   *
-   * \tparam T  Type of the capability to create. The type must have a Cap_id
-   *            member defining the PCI capability ID.
-   *
-   * Allocate a new PCI capability in the PCI header config space and enqueue
-   * it in the cap list.
-   *
-   * \return  Pointer to the new typed capability.
-   */
-  template <typename T>
-  T *create_pci_cap()
-  {
-    // _next_free_idx: next location for a capability
-    assert(_next_free_idx < sizeof(_hdr));
-    assert(_last_caps_next_ptr < (l4_uint8_t *)(&_hdr + 1));
-
-    l4_uint8_t cap_offset = align_min_dword<T>(_next_free_idx);
-
-    // guard against wrap around of uint8
-    assert(cap_offset >= 0x40);
-    assert((unsigned)cap_offset + sizeof(T) < 0x100);
-
-    T *ret = new (&_hdr.byte[cap_offset]) T();
-    info().printf("cap offset 0x%x, cap size 0x%zx\n", cap_offset,
-                  sizeof(*ret));
-
-    *_last_caps_next_ptr = cap_offset;
-    _last_caps_next_ptr = &ret->cap_next;
-
-    _next_free_idx = cap_offset + sizeof(*ret);
-
-    info().printf("indexes: cap's next ptr %p, next free byte 0x%x\n",
-                  &_last_caps_next_ptr, _next_free_idx);
-
-    ret->cap_next = 0;
-    assert(ret->cap_type == T::Cap_id);
-    return ret;
-  }
-
-  void add_decoder_resources(Vmm::Guest *vmm, l4_uint32_t access) override;
-  void del_decoder_resources(Vmm::Guest *vmm, l4_uint32_t access) override;
-
-  void add_exp_rom_resource() override;
-  void del_exp_rom_resource() override;
-
-private:
-  template <typename TYPE>
-  static void assert_header_type()
-  {
-    static_assert(    (std::is_same<Pci_header::Type0, TYPE>::value)
-                   || (std::is_same<Pci_header::Type1, TYPE>::value),
-                  "Invalid PCI header type requested.");
-  }
-
-  template <typename TYPE>
-  static void assert_bar_type_size(unsigned bar)
-  {
-    (void)bar;
-    if (std::is_same<Pci_header::Type0, TYPE>::value)
-      assert(bar < Bar_num_max_type0);
-    else if (std::is_same<Pci_header::Type1, TYPE>::value)
-      assert(bar < Bar_num_max_type1);
-  }
-
-  /**
-   * Test if the requested access references a location inside the PCI
-   * configuration.
-   *
-   * \param reg    Location inside the PCI header to be accessed.
-   * \param width  Access width.
-   *
-   * \retval True  If the access falls inside the PCI configuration area.
-   * \retval False Otherwise.
-   */
-  bool check_cfg_range(unsigned reg, Vmm::Mem_access::Width width) const
-  {
-    if (width == Vmm::Mem_access::Wd64)
-      return false;
-
-    unsigned w = 1U << width;
-    bool ret = (reg + w) <= Pci_header_size;
-    if (!ret)
-      trace().printf("config access 0x%x(%d): out of range\n", reg, width);
-
-    return ret;
-  }
-
-  inline void
-  check_power_of_2(l4_uint64_t size, char const *err)
-  {
-    if (size & (size - 1))
-      L4Re::chksys(-L4_EINVAL, err);
-  }
-
-protected:
-  static Dbg trace() { return Dbg(Dbg::Dev, Dbg::Trace, "PCI dev"); }
-  static Dbg info() { return Dbg(Dbg::Dev, Dbg::Info, "PCI dev"); }
-  static Dbg dbg() { return Dbg(Dbg::Dev, Dbg::Warn, "PCI dev"); }
-
-  virtual cxx::Ref_ptr<Vmm::Mmio_device> get_mmio_bar_handler(unsigned bar) = 0;
-  virtual cxx::Ref_ptr<Vmm::Io_device> get_io_bar_handler(unsigned bar) = 0;
-
-  /**
-   * Get a pointer to the header memory of type `TYPE`.
-   *
-   * \tparam TYPE  PCI header type 0 or 1.
-   */
-  template <typename TYPE>
-  TYPE *get_header()
-  {
-    assert_header_type<TYPE>();
-
-    return reinterpret_cast<TYPE *>(&_hdr);
-  }
-
-  template <typename TYPE>
-  TYPE const *get_header() const
-  {
-    assert_header_type<TYPE>();
-
-    return reinterpret_cast<TYPE const *>(&_hdr);
-  }
-
-  void dump_header() const
-  {
-    for (unsigned i = 0; i < Pci_header_size; i += 4)
-      info().printf("0x%x:: 0x%x 0x%x \t 0x%x 0x%x\n", i, _hdr.byte[i],
-                     _hdr.byte[i + 1], _hdr.byte[i + 2], _hdr.byte[i + 3]);
-  }
-
-  /// Align cap address at least to DWORD or to `CAP` requirement.
-  template <typename CAP>
-  l4_uint8_t align_min_dword(l4_uint8_t addr)
-  {
-    l4_uint8_t align = alignof(CAP) < 4 ? 4 : alignof(CAP);
-    return (addr + align - 1) & ~(align - 1);
-  }
-
-  /**
-   * Configure a BAR address as IO BAR address.
-   *
-   * \param bar   BAR number
-   * \param addr  Address to write to BAR.
-   * \param size  Size of the memory referenced by `addr`.
-   */
-  template <typename TYPE>
-  void set_io_space(unsigned bar, l4_uint32_t addr, l4_size_t size)
-  {
-    assert_bar_type_size<TYPE>(bar);
-
-    bars[bar].map_addr = addr & ~Bar_io_attr_mask;
-    bars[bar].type = Pci_cfg_bar::Type::IO;
-    set_bar_size(bar, size);
-  }
-
-  /**
-   * Configure a BAR address as 32-bit memory BAR address.
-   *
-   * \param bar   BAR number
-   * \param addr  Address to write to BAR.
-   * \param size  Size of the memory referenced by `addr`.
-   */
-  template <typename TYPE>
-  void set_mem_space(unsigned bar, l4_uint32_t addr, l4_uint32_t size)
-  {
-    assert_bar_type_size<TYPE>(bar);
-
-    bars[bar].map_addr = addr & ~Bar_mem_attr_mask;
-    bars[bar].type = Pci_cfg_bar::Type::MMIO32;
-    set_bar_size(bar, size);
-  }
-
-  /**
-   * Configure a BAR address as 64-bit memory BAR address.
-   *
-   * Attention: this will occupy *two* BAR registers!
-   *
-   * \param bar   BAR number
-   * \param addr  Address to write to BAR.
-   * \param size  Size of the memory referenced by `addr`.
-   */
-  template <typename TYPE>
-  void set_mem64_space(unsigned bar, l4_uint64_t addr, l4_uint64_t size)
-  {
-    assert_bar_type_size<TYPE>(bar);
-
-    bars[bar + 0].map_addr = addr & ~Bar_mem_attr_mask;
-    bars[bar + 0].type = Pci_cfg_bar::Type::MMIO64;
-    bars[bar + 1].type = Pci_cfg_bar::Type::Reserved_mmio64_upper;
-    set_bar_size(bar, size);
-  }
-
-  /**
-   * Set the size of a BAR. According to the PCI spec, this value is rounded up
-   * to the nearest power of two >= 16.
-   *
-   * \param bar   BAR number.
-   * \param size  BAR size.
-   */
-  void set_bar_size(unsigned bar, l4_uint64_t size)
-  {
-    // Keep in mind that __builtin_clzl(0) is undefined.
-    if (size < 16)
-      size = 16;
-    else
-      size = 1ULL << (8 * sizeof(unsigned long long) - __builtin_clzll(size - 1U));
-    bars[bar].size = size;
-  }
-
-  Pci_header _hdr;
-  /// Index into _hdr.byte array
-  l4_uint8_t _next_free_idx;
-  /// Index into _hdr.byte array
-  l4_uint8_t *_last_caps_next_ptr;
 };
 
 } } // namespace Vdev::Pci

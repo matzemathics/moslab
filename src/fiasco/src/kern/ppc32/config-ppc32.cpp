@@ -12,11 +12,10 @@ public:
 
     PAGE_SHIFT = ARCH_PAGE_SHIFT,
     PAGE_SIZE  = 1 << PAGE_SHIFT,
-    PAGE_MASK  = ~(PAGE_SIZE - 1),
 
     SUPERPAGE_SHIFT = 22,
     SUPERPAGE_SIZE  = 1 << SUPERPAGE_SHIFT,
-    SUPERPAGE_MASK  = ~(SUPERPAGE_SIZE -1),
+
     hlt_works_ok = 1,
     Irq_shortcut = 0, //TODO: set
   };
@@ -31,8 +30,8 @@ public:
   enum
   {
     Scheduler_one_shot		= 0,
-    Scheduler_granularity	= 1000UL,
-    Default_time_slice	        = 10 * Scheduler_granularity,
+    Scheduler_granularity	= CONFIG_SCHED_GRANULARITY,
+    Default_time_slice	        = CONFIG_SCHED_DEF_TIME_SLICE * Scheduler_granularity,
   };
 
   static unsigned const default_console_uart = 3;

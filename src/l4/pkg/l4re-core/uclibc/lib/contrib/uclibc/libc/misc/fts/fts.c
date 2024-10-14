@@ -36,14 +36,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-#ifdef __UCLIBC_HAS_LFS__
-/* this is wrong, either you include this header as first, or not at all */
-# include <_lfs_64.h>
-#else
-# define stat64 stat
-# define fstat64 fstat
-#endif
+#include <_lfs_64.h>
 
 /* Largest alignment size needed, minus one.
    Usually long double is the worst case.  */
@@ -91,6 +84,7 @@ FTS *
 fts_open( char * const *argv, register int options,
 		int (*compar) (const FTSENT **, const FTSENT **))
 {
+	size_t maxarglen;
 	register FTS *sp;
 	register FTSENT *p, *root;
 	register int nitems;
@@ -121,7 +115,7 @@ fts_open( char * const *argv, register int options,
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 1024
 #endif
-	size_t maxarglen = fts_maxarglen(argv);
+	maxarglen = fts_maxarglen(argv);
 	if (fts_palloc(sp, MAX(maxarglen, MAXPATHLEN)))
 		goto mem1;
 

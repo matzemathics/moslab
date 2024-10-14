@@ -1,7 +1,7 @@
 var searchData=
 [
   ['_7eavl_5ftree_0',['~Avl_tree',['../classcxx_1_1Avl__tree.html#a76c21afd43e451651a66e95278fd5c26',1,'cxx::Avl_tree']]],
-  ['_7ebase_5fexception_1',['~Base_exception',['../classL4_1_1Base__exception.html#ac6c0bd868e5472031d2827239dd44050',1,'L4::Base_exception']]],
+  ['_7ebase_5fexception_1',['~Base_exception',['../classL4_1_1Base__exception.html#a330fcbff9221e9c33f3f7f769972faae',1,'L4::Base_exception']]],
   ['_7ebe_5ffile_5fsystem_2',['~Be_file_system',['../classL4Re_1_1Vfs_1_1Be__file__system.html#a674376f70ce6b2d0fc69d54188ceaa80',1,'L4Re::Vfs::Be_file_system']]],
   ['_7ecap_5falloc_3',['~Cap_alloc',['../group__l4re__cap__api.html#gadb65db1681bc65100caf66924331b85b',1,'L4Re::Cap_alloc']]],
   ['_7eepiface_4',['~Epiface',['../structL4_1_1Epiface.html#a92a03ecd44d4e1571697b58701046522',1,'L4::Epiface']]],

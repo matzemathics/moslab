@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classL4virtio_1_1Svr_1_1Driver__mem__region__t.html" title="Region of driver memory, that shall be managed locally." alt="" coords="5,5,192,45"/>
+<area shape="rect" id="Node000000" href="$classL4virtio_1_1Svr_1_1Device__t.html" title="Server&#45;side L4&#45;VIRTIO device stub." alt="" coords="5,37,159,77"/>
+<area shape="rect" id="Node000001" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html" title="Base class implementing a virtio console functionality." alt="" coords="207,5,367,45"/>
+<area shape="poly" id="edge208_Node000000_Node000001" title=" " alt="" coords="172,41,206,35,207,40,173,46"/>
+<area shape="rect" id="Node000003" href="$classL4virtio_1_1Svr_1_1Scmi_1_1Scmi__dev.html" title="A server implementation of the virtio&#45;scmi protocol." alt="" coords="217,69,357,109"/>
+<area shape="poly" id="edge210_Node000000_Node000003" title=" " alt="" coords="173,69,217,76,216,81,172,74"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Device.html" title="Base class implementing a virtio console device with L4Re&#45;based notification handling." alt="" coords="415,5,575,45"/>
+<area shape="poly" id="edge209_Node000001_Node000002" title=" " alt="" coords="380,23,414,23,414,28,380,28"/>
 </map>

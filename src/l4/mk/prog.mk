@@ -16,14 +16,25 @@ ROLE = prog.mk
 include $(L4DIR)/mk/Makeconf
 $(GENERAL_D_LOC): $(L4DIR)/mk/prog.mk
 
+# our mode
+MODE 			?= static
+
+# include all Makeconf.locals, define common rules/variables
+include $(L4DIR)/mk/binary.inc
+
 # define INSTALLDIRs prior to including install.inc, where the install-
 # rules are defined.
 ifneq ($(filter host targetsys,$(MODE)),)
 INSTALLDIR_BIN		?= $(DROPS_STDDIR)/bin/$(MODE)
 INSTALLDIR_BIN_LOCAL	?= $(OBJ_BASE)/bin/$(MODE)
 else
-INSTALLDIR_BIN		?= $(DROPS_STDDIR)/bin/$(subst -,/,$(SYSTEM))
-INSTALLDIR_BIN_LOCAL	?= $(OBJ_BASE)/bin/$(subst -,/,$(SYSTEM))
+  ifeq ($(words $(VARIANTS)),1)
+    INSTALLDIR_BIN		?= $(DROPS_STDDIR)/bin/$(BID_install_subdir_base)
+    INSTALLDIR_BIN_LOCAL	?= $(OBJ_BASE)/bin/$(BID_install_subdir_base)
+  else
+    INSTALLDIR_BIN		?= $(DROPS_STDDIR)/bin/$(BID_install_subdir_var)
+    INSTALLDIR_BIN_LOCAL	?= $(OBJ_BASE)/bin/$(BID_install_subdir_var)
+  endif
 endif
 ifeq ($(CONFIG_BID_STRIP_BINARIES),y)
 INSTALLFILE_BIN 	?= $(call copy_stripped_binary,$(1),$(2),755)
@@ -37,12 +48,6 @@ INSTALLFILE		= $(INSTALLFILE_BIN)
 INSTALLDIR		= $(INSTALLDIR_BIN)
 INSTALLFILE_LOCAL	= $(INSTALLFILE_BIN_LOCAL)
 INSTALLDIR_LOCAL	= $(INSTALLDIR_BIN_LOCAL)
-
-# our mode
-MODE 			?= static
-
-# include all Makeconf.locals, define common rules/variables
-include $(L4DIR)/mk/binary.inc
 
 ifneq ($(SYSTEM),) # if we have a system, really build
 
@@ -66,15 +71,9 @@ LDFLAGS += $(addprefix -L, $(PRIVATE_LIBDIR) $(PRIVATE_LIBDIR_$(OSYSTEM)) $(PRIV
 # here because order of --defsym's is important
 ifeq ($(MODE),l4linux)
   L4LX_USER_KIP_ADDR = 0xbfdfd000
-  LDFLAGS += --defsym __L4_KIP_ADDR__=$(L4LX_USER_KIP_ADDR) \
-             --defsym __l4sys_invoke_direct=$(L4LX_USER_KIP_ADDR)+$(L4_KIP_OFFS_SYS_INVOKE) \
+  LDFLAGS += --defsym __l4sys_invoke_direct=$(L4LX_USER_KIP_ADDR)+$(L4_KIP_OFFS_SYS_INVOKE) \
              --defsym __l4sys_debugger_direct=$(L4LX_USER_KIP_ADDR)+$(L4_KIP_OFFS_SYS_DEBUGGER)
   CPPFLAGS += -DL4SYS_USE_UTCB_WRAP=1
-else
-ifneq ($(HOST_LINK),1)
-  LDFLAGS += --defsym __L4_KIP_ADDR__=$(L4_KIP_ADDR) \
-	     --defsym __L4_STACK_ADDR__=$(L4_STACK_ADDR)
-endif
 endif
 
 ifneq ($(HOST_LINK),1)
@@ -131,7 +130,7 @@ BID_LDFLAGS_FOR_LINKING = $(call BID_mode_var,NOPIEFLAGS) -MD -MF $(call BID_lin
                           $(addprefix -PC,$(REQUIRES_LIBS)) $(LDFLAGS)
 else
 BID_LDFLAGS_FOR_LINKING = $(call BID_mode_var,NOPIEFLAGS) -MD -MF $(call BID_link_deps_file,$@) \
-                          $(if $(HOST_LINK_TARGET),$(CCXX_FLAGS)) $(call ldflags_to_gcc,$(LDFLAGS))
+                          $(if $(HOST_LINK_TARGET),$(CARCHFLAGS) $(CCXX_FLAGS)) $(call ldflags_to_gcc,$(LDFLAGS))
 endif
 
 $(TARGET): $(OBJS) $(LIBDEPS)

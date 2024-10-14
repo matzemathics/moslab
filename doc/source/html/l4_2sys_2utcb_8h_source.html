@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>L4Re Operating System Framework – Interface and Usage Documentation: l4/sys/utcb.h Source File</title>
+<title>L4Re Operating System Framework: l4/sys/utcb.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,8 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="l4re.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="l4re-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,9 +27,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="L4Re_rgb_logo_quer_hg_h55.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">L4Re Operating System Framework – Interface and Usage Documentation
+   <div id="projectname">L4Re Operating System Framework
    </div>
+   <div id="projectbrief">Interface and Usage Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -331,8 +334,8 @@ $(document).ready(function(){initNavTree('l4_2sys_2utcb_8h_source.html',''); ini
 <div class="ttc" id="astructl4__thread__regs__t_html_a50e81e415f7d4ca398b320f9e9d507be"><div class="ttname"><a href="structl4__thread__regs__t.html#a50e81e415f7d4ca398b320f9e9d507be">l4_thread_regs_t::free_marker</a></div><div class="ttdeci">l4_umword_t free_marker</div><div class="ttdoc">Kernel free marker.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00115">utcb.h:115</a></div></div>
 <div class="ttc" id="astructl4__thread__regs__t_html_a5938a98c49f9b75e46046b36e6f65e89"><div class="ttname"><a href="structl4__thread__regs__t.html#a5938a98c49f9b75e46046b36e6f65e89">l4_thread_regs_t::error</a></div><div class="ttdeci">l4_umword_t error</div><div class="ttdoc">System call error codes.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00113">utcb.h:113</a></div></div>
 <div class="ttc" id="astructl4__thread__regs__t_html_aed661adcf9bc544584d9104741cd9908"><div class="ttname"><a href="structl4__thread__regs__t.html#aed661adcf9bc544584d9104741cd9908">l4_thread_regs_t::user</a></div><div class="ttdeci">l4_umword_t user[3]</div><div class="ttdoc">User values (ignored and preserved by the kernel)</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00117">utcb.h:117</a></div></div>
-<div class="ttc" id="astructl4__timeout__s_html"><div class="ttname"><a href="structl4__timeout__s.html">l4_timeout_s</a></div><div class="ttdoc">Basic timeout specification.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00047">__timeout.h:47</a></div></div>
-<div class="ttc" id="astructl4__timeout__s_html_a21ffd90db09f5ce67eaabe0cf616de5e"><div class="ttname"><a href="structl4__timeout__s.html#a21ffd90db09f5ce67eaabe0cf616de5e">l4_timeout_s::t</a></div><div class="ttdeci">l4_uint16_t t</div><div class="ttdoc">timeout value</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00048">__timeout.h:48</a></div></div>
+<div class="ttc" id="astructl4__timeout__s_html"><div class="ttname"><a href="structl4__timeout__s.html">l4_timeout_s</a></div><div class="ttdoc">Basic timeout specification.</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00048">__timeout.h:48</a></div></div>
+<div class="ttc" id="astructl4__timeout__s_html_a21ffd90db09f5ce67eaabe0cf616de5e"><div class="ttname"><a href="structl4__timeout__s.html#a21ffd90db09f5ce67eaabe0cf616de5e">l4_timeout_s::t</a></div><div class="ttdeci">l4_uint16_t t</div><div class="ttdoc">timeout value</div><div class="ttdef"><b>Definition</b> <a href="____timeout_8h_source.html#l00049">__timeout.h:49</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html"><div class="ttname"><a href="unionl4__msg__regs__t.html">l4_msg_regs_t</a></div><div class="ttdoc">Encapsulation of the message-register block in the UTCB.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00078">utcb.h:79</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html_ad7d601b3b3808afaefe4c09d42de8b99"><div class="ttname"><a href="unionl4__msg__regs__t.html#ad7d601b3b3808afaefe4c09d42de8b99">l4_msg_regs_t::mr</a></div><div class="ttdeci">l4_umword_t mr[L4_UTCB_GENERIC_DATA_SIZE]</div><div class="ttdoc">Message registers.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00080">utcb.h:80</a></div></div>
 <div class="ttc" id="aunionl4__msg__regs__t_html_ad86e60fc06bb86156b68a7e8cf48c32d"><div class="ttname"><a href="unionl4__msg__regs__t.html#ad86e60fc06bb86156b68a7e8cf48c32d">l4_msg_regs_t::mr64</a></div><div class="ttdeci">l4_uint64_t mr64[L4_UTCB_GENERIC_DATA_SIZE/(sizeof(l4_uint64_t)/sizeof(l4_umword_t))]</div><div class="ttdoc">Message registers 64bit alias.</div><div class="ttdef"><b>Definition</b> <a href="l4_2sys_2utcb_8h_source.html#l00081">utcb.h:81</a></div></div>
@@ -343,7 +346,7 @@ $(document).ready(function(){initNavTree('l4_2sys_2utcb_8h_source.html',''); ini
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1f581fa1f88782a0973f05f5fe437b46.html">l4</a></li><li class="navelem"><a class="el" href="dir_d458d878e154568f8572c436e514c759.html">sys</a></li><li class="navelem"><a class="el" href="l4_2sys_2utcb_8h.html">utcb.h</a></li>
-    <li class="footer">Generated on Tue Oct 17 2023 00:25:28 for L4Re Operating System Framework – Interface and Usage Documentation by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Aug 24 2024 15:54:31 for L4Re Operating System Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -1,0 +1,7 @@
+<map id="L4virtio::Svr::Console::Device::notify_queue" name="L4virtio::Svr::Console::Device::notify_queue">
+<area shape="rect" id="Node000001" title="Notify queue of available data." alt="" coords="5,5,172,45"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Virtqueue.html#a2aa2efa2e5f6ee73423ec9beab40232a" title="Get the no IRQ flag of this queue." alt="" coords="220,5,363,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,23,206,23,206,28,173,28"/>
+<area shape="rect" id="Node000003" href="$structL4virtio_1_1Virtqueue_1_1Avail_1_1Flags.html#a6d8ba20a2475c4e3b965d2994e071774" title="Get the no_irq bits ( 0 to 0 ) of raw." alt="" coords="411,5,564,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,23,397,23,397,28,363,28"/>
+</map>

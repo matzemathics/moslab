@@ -6,7 +6,7 @@
 include $(srcdir)/Modules.generic
 
 SUBSYSTEMS  :=	ABI KERNEL LIBUART LIBK DRIVERS MINILIBC CXXLIB CRT0 \
-		VERSION JABI TCBOFFSET
+		VERSION JABI TCBOFFSET STDWORKLOAD
 
 ifeq ($(CONFIG_UNIT_TEST),y)
 	# UTEST depends on KERNEL and CHECKSUM, must be listed after them
@@ -18,11 +18,7 @@ PREPROCESS_PARTS 	+= $(CONFIG_XARCH) $(CONFIG_ABI) 32bit \
 			   abs_syscalls big_endian jdb_thread_names \
 			   obj_space_phys
 
-PREPROCESS_PARTS-$(CONFIG_SERIAL)             += serial
-PREPROCESS_PARTS-$(CONFIG_JDB) += debug jdb log
-PREPROCESS_PARTS-$(CONFIG_SCHED_FIXED_PRIO)  += sched_fixed_prio
-PREPROCESS_PARTS-$(CONFIG_SCHED_WFQ)         += sched_wfq
-PREPROCESS_PARTS-$(CONFIG_SCHED_FP_WFQ)      += sched_fp_wfq
+PREPROCESS_PARTS-$(CONFIG_JDB) += debug log
 PREPROCESS_PARTS	+= $(PREPROCESS_PARTS-y)
 
 #
@@ -52,6 +48,7 @@ VPATH			+= drivers/$(CONFIG_XARCH) drivers
 PRIVATE_INCDIR		+= drivers/$(CONFIG_XARCH) drivers 
 INTERFACES_DRIVERS	:= mux_console console mem reset uart filter_console \
 			   processor delayloop io
+INTERFACES_DRIVERS	+= $(if $(CONFIG_UART_CHECKSUM),stream_crc32)
 io_IMPL			:= io io-sparc
 mem_IMPL		:= mem mem-sparc
 reset_IMPL		:= reset-sparc
@@ -85,18 +82,7 @@ NOBUILTIN	+= $(patsubst %.o, %, $(OBJ_MINILIBC))
 #
 JABI		:= libjabi.a
 VPATH		+= jabi/$(CONFIG_XARCH) jabi
-INTERFACES_JABI	:= jdb_ktrace
-
-
-#
-# ABI Subsystem
-#
-ABI 		:= libabi.a
-VPATH 		+= abi/$(CONFIG_XARCH) abi
-INTERFACES_ABI 	:= kip l4_types l4_fpage l4_msg_item l4_buf_desc l4_error
-
-kip_IMPL	:= kip kip-debug kip-sparc
-l4_types_IMPL	:= l4_types l4_types-debug
+INTERFACES_JABI	:= jdb_ktrace jdb_obj_info
 
 #
 # KERNEL subsystem
@@ -125,9 +111,9 @@ dirq_IMPL		:= dirq-sparc
 entry_frame_IMPL	:= entry_frame entry_frame-sparc
 kdb_ke_IMPL		+= kdb_ke-sparc
 kernel_task_IMPL	:= kernel_task kernel_task-sparc
-kernel_thread_IMPL	:= kernel_thread kernel_thread-std kernel_thread-sparc
+kernel_thread_IMPL	:= kernel_thread kernel_thread-sparc
 kernel_uart_IMPL	:= kernel_uart kernel_uart-libuart
-kmem_IMPL		:= kmem-sparc
+kmem_IMPL		:= kmem kmem-sparc
 kmem_alloc_IMPL		:= kmem_alloc kmem_alloc-sparc
 map_util_IMPL		:= map_util map_util-mem map_util-objs
 mem_layout_IMPL		:= mem_layout mem_layout-sparc
@@ -186,7 +172,7 @@ ASSRC_CRT0	:= crt0.S
 # 
 CXXLIB 			:= libcxx.a
 VPATH			+= lib/cxxlib
-INTERFACES_CXXLIB 	:= paranoia
+CXXSRC_CXXLIB 		:= paranoia.cc
 
 #
 # LIBK subsystem

@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /* POSIX.2 wordexp implementation.
    Copyright (C) 1997, 1998, 1999 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -488,10 +487,10 @@ parse_squote(char **word, size_t * word_length, size_t * max_length,
 #ifdef __WORDEXP_FULL
 static int eval_expr(char *expr, long int *result);
 
-static char *_itoa(unsigned long long int value, char *buflim)
+static char *_itoa(unsigned long long int value, char *buf)
 {
-	sprintf(buflim, "%llu", value);
-	return buflim;
+	sprintf(buf, "%llu", value);
+	return buf;
 }
 
 /* Functions to evaluate an arithmetic expression */
@@ -689,7 +688,7 @@ parse_arith(char **word, size_t * word_length, size_t * max_length,
 
 				result[20] = '\0';
 				*word = w_addstr(*word, word_length, max_length,
-								 _itoa(convertme, &result[20]));
+								 _itoa(convertme, result));
 				free(expr);
 				return *word ? 0 : WRDE_NOSPACE;
 			}
@@ -714,7 +713,7 @@ parse_arith(char **word, size_t * word_length, size_t * max_length,
 
 				result[20] = '\0';
 				*word = w_addstr(*word, word_length, max_length,
-								 _itoa(numresult, &result[20]));
+								 _itoa(numresult, result));
 				free(expr);
 				return *word ? 0 : WRDE_NOSPACE;
 			}
@@ -1310,7 +1309,7 @@ parse_param(char **word, size_t * word_length, size_t * max_length,
 		if (seen_hash) {
 			/* $# expands to the number of positional parameters */
 			buffer[20] = '\0';
-			value = _itoa(__libc_argc - 1, &buffer[20]);
+			value = _itoa(__libc_argc - 1, buffer);
 			seen_hash = 0;
 		} else {
 			/* Just $ on its own */
@@ -1335,13 +1334,13 @@ parse_param(char **word, size_t * word_length, size_t * max_length,
 		/* Is it `$$'? */
 		if (*env == '$') {
 			buffer[20] = '\0';
-			value = _itoa(getpid(), &buffer[20]);
+			value = _itoa(getpid(), buffer);
 		}
 		/* Is it `${#*}' or `${#@}'? */
 		else if ((*env == '*' || *env == '@') && seen_hash) {
 			buffer[20] = '\0';
 			value = _itoa(__libc_argc > 0 ? __libc_argc - 1 : 0,
-							   &buffer[20]);
+							   buffer);
 			*word = w_addstr(*word, word_length, max_length, value);
 			free(env);
 			free(pattern);
@@ -1767,7 +1766,7 @@ parse_param(char **word, size_t * word_length, size_t * max_length,
 		param_length[20] = '\0';
 		*word = w_addstr(*word, word_length, max_length,
 						 _itoa(value ? strlen(value) : 0,
-									&param_length[20]));
+									param_length));
 		if (free_value) {
 			assert(value != NULL);
 			free(value);

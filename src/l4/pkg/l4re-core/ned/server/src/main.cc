@@ -20,7 +20,7 @@
 
 static Dbg info(Dbg::Info);
 static Dbg boot_info(Dbg::Boot);
-l4re_aux_t* l4re_aux;
+l4re_aux_t const* l4re_aux;
 
 Ned::Foreign_server *Ned::foreign_server;
 
@@ -38,26 +38,41 @@ run(int argc, char const *const *argv)
     boot_info.cprintf("%s ", argv[i]);
   boot_info.cprintf("\n");
 
-  l4_umword_t *auxp = (l4_umword_t*)&argv[argc] + 1;
+  auto auxp = &argv[argc] + 1;
   while (*auxp)
     ++auxp;
   ++auxp;
 
   l4re_aux = 0;
 
+  auto *sentinel = reinterpret_cast<char const*>(0xf0);
   while (*auxp)
     {
-      if (*auxp == 0xf0)
-	l4re_aux = (l4re_aux_t*)auxp[1];
+      if (*auxp == sentinel)
+        l4re_aux = reinterpret_cast<l4re_aux_t const*>(auxp[1]);
       auxp += 2;
     }
 
-  Ned::Foreign_server svr;
+  static Ned::Foreign_server svr;
   Ned::foreign_server = &svr;
+
+  bool exit_opt = false;
+  bool wait_opt = false;
+  if (argc > 1)
+    {
+      exit_opt = !strcmp(argv[1], "--exit");
+      wait_opt = !strcmp(argv[1], "--wait-and-exit");
+      if (exit_opt || wait_opt)
+        {
+          argv++;
+          argc--;
+        }
+    }
 
   lua(argc, argv);
 
-  Ned::server_loop();
+  if (!exit_opt)
+    Ned::server_loop(wait_opt);
 
   return 0;
 };
@@ -74,6 +89,11 @@ main(int argc, char const *const *argv)
       L4::cerr << "FATAL: " << e;
       l4_sleep_forever();
     }
+  catch (Ned::App_termination)
+    {
+      return 0;
+    }
+
 
   l4_sleep_forever();
   return 0;

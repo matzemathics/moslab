@@ -1,0 +1,5 @@
+<map id="L4virtio::Svr::Console::Virtio_con::process_port_ready" name="L4virtio::Svr::Console::Virtio_con::process_port_ready">
+<area shape="rect" id="Node000001" title="Callback called on PORT_READY event." alt="" coords="5,5,165,60"/>
+<area shape="rect" id="Node000002" href="$classL4virtio_1_1Svr_1_1Console_1_1Virtio__con.html#aabb98e78ce5301c2a15e116871046cfd" title="Return the specified port." alt="" coords="213,13,373,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,30,199,30,199,35,165,35"/>
+</map>
