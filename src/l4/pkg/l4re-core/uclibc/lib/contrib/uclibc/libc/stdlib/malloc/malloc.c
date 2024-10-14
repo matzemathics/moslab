@@ -59,9 +59,9 @@ __UCLIBC_MUTEX_INIT(__malloc_mmb_heap_lock,PTHREAD_RECURSIVE_MUTEX_INITIALIZER_N
 static void *
 __malloc_from_heap (size_t size, struct heap_free_area **heap
 #ifdef HEAP_USE_LOCKING
-		, __UCLIBC_MUTEX_TYPE *heap_lock
+    , __UCLIBC_MUTEX_TYPE *heap_lock
 #endif
-		)
+    )
 {
   void *mem;
 
@@ -82,12 +82,12 @@ __malloc_from_heap (size_t size, struct heap_free_area **heap
        from the system, add it to the heap, and try again.  */
     {
       /* If we're trying to allocate a block bigger than the default
-	 MALLOC_HEAP_EXTEND_SIZE, make sure we get enough to hold it. */
+   MALLOC_HEAP_EXTEND_SIZE, make sure we get enough to hold it. */
       void *block;
       size_t block_size
-	= (size < MALLOC_HEAP_EXTEND_SIZE
-	   ? MALLOC_HEAP_EXTEND_SIZE
-	   : MALLOC_ROUND_UP_TO_PAGE_SIZE (size));
+  = (size < MALLOC_HEAP_EXTEND_SIZE
+     ? MALLOC_HEAP_EXTEND_SIZE
+     : MALLOC_ROUND_UP_TO_PAGE_SIZE (size));
 
       /* Allocate the new heap block.  */
 #ifdef MALLOC_USE_SBRK
@@ -95,24 +95,24 @@ __malloc_from_heap (size_t size, struct heap_free_area **heap
       __malloc_lock_sbrk ();
 
       /* Use sbrk we can, as it's faster than mmap, and guarantees
-	 contiguous allocation.  */
+   contiguous allocation.  */
       block = sbrk (block_size);
       if (likely (block != (void *)-1))
-	{
-	  /* Because sbrk can return results of arbitrary
-	     alignment, align the result to a MALLOC_ALIGNMENT boundary.  */
-	  long aligned_block = MALLOC_ROUND_UP ((long)block, MALLOC_ALIGNMENT);
-	  if (block != (void *)aligned_block)
-	    /* Have to adjust.  We should only have to actually do this
-	       the first time (after which we will have aligned the brk
-	       correctly).  */
-	    {
-	      /* Move the brk to reflect the alignment; our next allocation
-		 should start on exactly the right alignment.  */
-	      sbrk (aligned_block - (long)block);
-	      block = (void *)aligned_block;
-	    }
-	}
+  {
+    /* Because sbrk can return results of arbitrary
+       alignment, align the result to a MALLOC_ALIGNMENT boundary.  */
+    long aligned_block = MALLOC_ROUND_UP ((long)block, MALLOC_ALIGNMENT);
+    if (block != (void *)aligned_block)
+      /* Have to adjust.  We should only have to actually do this
+         the first time (after which we will have aligned the brk
+         correctly).  */
+      {
+        /* Move the brk to reflect the alignment; our next allocation
+     should start on exactly the right alignment.  */
+        sbrk (aligned_block - (long)block);
+        block = (void *)aligned_block;
+      }
+  }
 
       __malloc_unlock_sbrk ();
 
@@ -121,62 +121,62 @@ __malloc_from_heap (size_t size, struct heap_free_area **heap
       /* Otherwise, use mmap.  */
 #ifdef __ARCH_USE_MMU__
       block = mmap ((void *)0, block_size, PROT_READ | PROT_WRITE,
-		    MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
+        MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
 #else
       block = mmap ((void *)0, block_size, PROT_READ | PROT_WRITE,
-		    MAP_SHARED | MAP_ANONYMOUS | MAP_UNINITIALIZED, 0, 0);
+        MAP_SHARED | MAP_ANONYMOUS | MAP_UNINITIALIZED, 0, 0);
 #endif
 
 #endif /* MALLOC_USE_SBRK */
 
       if (likely (block != (void *)-1))
-	{
+  {
 #if !defined(MALLOC_USE_SBRK) && defined(__UCLIBC_UCLINUX_BROKEN_MUNMAP__)
-	  struct malloc_mmb *mmb, *prev_mmb, *new_mmb;
+    struct malloc_mmb *mmb, *prev_mmb, *new_mmb;
 #endif
 
-	  MALLOC_DEBUG (1, "adding system memory to heap: 0x%lx - 0x%lx (%d bytes)",
-			(long)block, (long)block + block_size, block_size);
+    MALLOC_DEBUG (1, "adding system memory to heap: 0x%lx - 0x%lx (%d bytes)",
+      (long)block, (long)block + block_size, block_size);
 
-	  /* Get back the heap lock.  */
-	  __heap_lock (heap_lock);
+    /* Get back the heap lock.  */
+    __heap_lock (heap_lock);
 
-	  /* Put BLOCK into the heap.  */
-	  __heap_free (heap, block, block_size);
+    /* Put BLOCK into the heap.  */
+    __heap_free (heap, block, block_size);
 
-	  MALLOC_DEBUG_INDENT (-1);
+    MALLOC_DEBUG_INDENT (-1);
 
-	  /* Try again to allocate.  */
-	  mem = __heap_alloc (heap, &size);
+    /* Try again to allocate.  */
+    mem = __heap_alloc (heap, &size);
 
 
 #if !defined(MALLOC_USE_SBRK) && defined(__UCLIBC_UCLINUX_BROKEN_MUNMAP__)
-	  /* Insert a record of BLOCK in sorted order into the
-	     __malloc_mmapped_blocks list.  */
+    /* Insert a record of BLOCK in sorted order into the
+       __malloc_mmapped_blocks list.  */
 
-	  new_mmb = malloc_from_heap (sizeof *new_mmb, &__malloc_mmb_heap, &__malloc_mmb_heap_lock);
+    new_mmb = malloc_from_heap (sizeof *new_mmb, &__malloc_mmb_heap, &__malloc_mmb_heap_lock);
 
-	  for (prev_mmb = 0, mmb = __malloc_mmapped_blocks;
-	       mmb;
-	       prev_mmb = mmb, mmb = mmb->next)
-	    if (block < mmb->mem)
-	      break;
+    for (prev_mmb = 0, mmb = __malloc_mmapped_blocks;
+         mmb;
+         prev_mmb = mmb, mmb = mmb->next)
+      if (block < mmb->mem)
+        break;
 
-	  new_mmb->next = mmb;
-	  new_mmb->mem = block;
-	  new_mmb->size = block_size;
+    new_mmb->next = mmb;
+    new_mmb->mem = block;
+    new_mmb->size = block_size;
 
-	  if (prev_mmb)
-	    prev_mmb->next = new_mmb;
-	  else
-	    __malloc_mmapped_blocks = new_mmb;
+    if (prev_mmb)
+      prev_mmb->next = new_mmb;
+    else
+      __malloc_mmapped_blocks = new_mmb;
 
-	  MALLOC_MMB_DEBUG (0, "new mmb at 0x%x: 0x%x[%d]",
-			    (unsigned)new_mmb,
-			    (unsigned)new_mmb->mem, block_size);
+    MALLOC_MMB_DEBUG (0, "new mmb at 0x%x: 0x%x[%d]",
+          (unsigned)new_mmb,
+          (unsigned)new_mmb->mem, block_size);
 #endif /* !MALLOC_USE_SBRK && __UCLIBC_UCLINUX_BROKEN_MUNMAP__ */
-	  __heap_unlock (heap_lock);
-	}
+    __heap_unlock (heap_lock);
+  }
     }
 
   if (likely (mem))
@@ -185,7 +185,7 @@ __malloc_from_heap (size_t size, struct heap_free_area **heap
       mem = MALLOC_SETUP (mem, size);
 
       MALLOC_DEBUG (-1, "malloc: returning 0x%lx (base:0x%lx, total_size:%ld)",
-		    (long)mem, (long)MALLOC_BASE(mem), (long)MALLOC_SIZE(mem));
+        (long)mem, (long)MALLOC_BASE(mem), (long)MALLOC_SIZE(mem));
     }
   else
     MALLOC_DEBUG (-1, "malloc: returning 0");
@@ -194,7 +194,7 @@ __malloc_from_heap (size_t size, struct heap_free_area **heap
 }
 
 void *
-malloc (size_t size)
+__wrap_malloc (size_t size)
 {
   void *mem;
 #ifdef MALLOC_DEBUGGING

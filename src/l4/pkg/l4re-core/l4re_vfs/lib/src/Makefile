@@ -12,3 +12,4 @@ CFLAGS   += -fvisibility=hidden
 CXXFLAGS += -fvisibility=hidden
 # No exception information as unwinder code might use malloc and friends
 CXXFLAGS += -fno-exceptions -fno-rtti
+LDFLAGS        += --wrap=malloc --wrap=free --wrap=realloc

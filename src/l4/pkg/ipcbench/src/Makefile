@@ -3,7 +3,7 @@ L4DIR         ?= $(PKGDIR)/../..
 
 TARGET                 = ipcbench ipcbench_client ipcbench_server \
                          ipcbench_syscall
-REQUIRES_LIBS          = libpthread
+REQUIRES_LIBS          = libpthread libc_be_mem
 SRC_C_ipcbench         = ipcbench.c
 SRC_C_ipcbench_client  = ipcclient.c
 SRC_C_ipcbench_server  = ipcserver.c
