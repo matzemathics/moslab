@@ -28,6 +28,8 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 #include <stdbool.h>
 
+void *__wrap_malloc();
+
 // Common logic for version locks.
 struct version_lock
 {
@@ -402,7 +404,7 @@ btree_allocate_node (struct btree *t, bool inner)
 
       // No free node available, allocate a new one.
       struct btree_node *new_node
-	= (struct btree_node *) (malloc (sizeof (struct btree_node)));
+	= (struct btree_node *) (__wrap_malloc (sizeof (struct btree_node)));
       version_lock_initialize_locked_exclusive (
 	&(new_node->version_lock)); // initialize the node in locked state.
       new_node->entry_count = 0;
