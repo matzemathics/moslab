@@ -1,13 +1,12 @@
 #include <stdio.h>
-
-// #include <l4/re/env>
-// #include <l4/re/util/cap_alloc>
-// #include <l4/re/util/br_manager>
+#include <cstring>
 
 #include <l4/re/util/object_registry>
 #include <l4/sys/cxx/ipc_epiface>
 
 #include <l4/logging-server/logging.h>
+
+#define MAX_TAG_LEN 20
 
 static L4Re::Util::Registry_server<> server;
 
@@ -17,8 +16,6 @@ struct LoggingServer: L4::Epiface_t<LoggingServer, Logger> {
 		    LoggingBuffer &args
     ) {
         (void)rights;
-        printf("in op_log\n");
-
         if (args.len >= LOG_MAX_LEN) {
             printf("len to big\n");
             // todo: buffer
@@ -27,16 +24,17 @@ struct LoggingServer: L4::Epiface_t<LoggingServer, Logger> {
 
         args.msg[args.len] = '\0';
 
-        printf("%s: %s\n", name, args.msg);
+        printf("[%s]: %s\n", name, args.msg);
         return 0;
     }
 
     void set_name(char const* new_name) {
-        this->name = new_name;
+        strncpy(this->name, new_name, MAX_TAG_LEN - 1);
+        name[MAX_TAG_LEN - 1] = 0;
     }
 
 private:
-    char const *name = "[unnamed]";
+    char name[MAX_TAG_LEN] = "unnamed";
 };
 
 #define NUM_INSTANCES 5
@@ -61,7 +59,11 @@ struct SessionServer: L4::Epiface_t<SessionServer, L4::Factory> {
         if (! tag.is_of<char const *>())
             return - L4_EINVAL;
 
-        if(next_instance >= NUM_INSTANCES)
+
+        if (next_instance >= NUM_INSTANCES)
+            return - L4_EINVAL;
+
+        if (strlen(tag.value<char const*>()) > MAX_TAG_LEN)
             return - L4_EINVAL;
 
         auto instance = &instances[next_instance++];
