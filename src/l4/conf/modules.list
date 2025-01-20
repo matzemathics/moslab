@@ -62,134 +62,13 @@ entry hello
 roottask moe --init=rom/hello
 module l4re
 module hello
-
-entry hello-cfg
-kernel fiasco -serial_esc
-roottask moe rom/hello.cfg
-module l4re
-module ned
 module hello.cfg
-module hello
 
-entry hello-2
-kernel fiasco -serial_esc
-roottask moe rom/hello-2.cfg
+entry logging
+roottask moe rom/logging.cfg
 module l4re
 module ned
-module hello-2.cfg
-module hello
+module[fname=server] logging-server
+module[fname=client] logging-client
+module logging.cfg
 
-entry hello-shared
-roottask moe --init=rom/ex_hello_shared
-module l4re
-module ex_hello_shared
-
-entry[arch=x86|amd64] framebuffer-example
-roottask moe rom/x86-fb.cfg
-module x86-fb.cfg
-module l4re
-module ned
-module io
-module x86-legacy.devs
-module x86-fb.io
-module fb-drv
-module mag
-module ex_fb_spectrum_cc
-
-entry[arch=x86|amd64|arm|arm64] L4Linux-basic
-roottask moe rom/l4lx.cfg
-module l4lx.cfg
-module l4re
-module ned
-module[arch=arm64] arch/l4/boot/dts/simple.dtb
-module[uncompress] vmlinuz
-module[perl] "ramdisk-$ENV{ARCH}.rd"
-
-entry[arch=x86|amd64] L4Linux-mag
-moe l4lx-gfx.cfg
-module l4re
-module ned
-module io
-module fb-drv
-module mag
-module x86-legacy.devs
-module l4lx-x86.io
-module[uncompress] vmlinuz
-module[perl] "ramdisk-$ENV{ARCH}.rd"
-
-entry[arch=arm|arm64|amd64] VM-basic
-moe vm-basic.cfg
-module l4re
-module ned
-module uvmm
-module[arch=arm,fname=virt.dtb]    dtb/virt-arm_virt-32.dtb
-module[arch=arm64,fname=virt.dtb]  dtb/virt-arm_virt-64.dtb
-module[arch=amd64,fname=virt.dtb]  dtb/virt-pc.dtb
-module[arch=arm,fname=linux,nostrip]      https://l4re.org/download/Linux-kernel/arm32/zImage-6.6.8
-module[arch=arm64,fname=linux,nostrip]    https://l4re.org/download/Linux-kernel/arm64/Image-6.6.8
-module[arch=amd64,fname=linux,nostrip]    https://l4re.org/download/Linux-kernel/x86-64/bzImage-6.6.8
-module[arch=arm,fname=ramdisk.cpio.gz]    https://l4re.org/download/ramdisks/ramdisk-armv7.cpio.gz
-module[arch=arm64,fname=ramdisk.cpio.gz]  https://l4re.org/download/ramdisks/ramdisk-armv8-64.cpio.gz
-module[arch=amd64]                        https://l4re.org/download/ramdisks/ramdisk-amd64.cpio.gz
-
-entry[arch=arm|arm64|amd64] VM-multi
-moe vm-multi.cfg
-module l4re
-module ned
-module cons
-module uvmm
-module[arch=arm,fname=virt.dtb]    dtb/virt-arm_virt-32.dtb
-module[arch=arm64,fname=virt.dtb]  dtb/virt-arm_virt-64.dtb
-module[arch=amd64,fname=virt.dtb]  dtb/virt-pc.dtb
-module[arch=arm,fname=linux,nostrip]      https://l4re.org/download/Linux-kernel/arm32/zImage-6.6.8
-module[arch=arm64,fname=linux,nostrip]    https://l4re.org/download/Linux-kernel/arm64/Image-6.6.8
-module[arch=amd64,fname=linux,nostrip]    https://l4re.org/download/Linux-kernel/x86-64/bzImage-6.6.8
-module[arch=arm,fname=ramdisk.cpio.gz]    https://l4re.org/download/ramdisks/ramdisk-armv7.cpio.gz
-module[arch=arm64,fname=ramdisk.cpio.gz]  https://l4re.org/download/ramdisks/ramdisk-armv8-64.cpio.gz
-module[arch=amd64,fname=ramdisk.cpio.gz]  https://l4re.org/download/ramdisks/ramdisk-amd64.cpio.gz
-
-entry[arch=arm|arm64|amd64] VM-multi-p2p
-moe vm-multi-p2p.cfg
-module l4re
-module ned
-module cons
-module l4vio_net_p2p
-module uvmm
-module[arch=arm,fname=virt.dtb]    dtb/virt-arm_virt-32.dtb
-module[arch=arm64,fname=virt.dtb]  dtb/virt-arm_virt-64.dtb
-module[arch=amd64,fname=virt.dtb]  dtb/virt-pc.dtb
-module[arch=arm,fname=linux,nostrip]      https://l4re.org/download/Linux-kernel/arm32/zImage-6.6.8
-module[arch=arm64,fname=linux,nostrip]    https://l4re.org/download/Linux-kernel/arm64/Image-6.6.8
-module[arch=amd64,fname=linux,nostrip]    https://l4re.org/download/Linux-kernel/x86-64/bzImage-6.6.8
-module[arch=arm,fname=ramdisk.cpio.gz]    https://l4re.org/download/ramdisks/ramdisk-armv7.cpio.gz
-module[arch=arm64,fname=ramdisk.cpio.gz]  https://l4re.org/download/ramdisks/ramdisk-armv8-64.cpio.gz
-module[arch=amd64,fname=ramdisk.cpio.gz]  https://l4re.org/download/ramdisks/ramdisk-amd64.cpio.gz
-
-entry[arch=arm|arm64|amd64] VM-basic-pci
-moe vm-basic-pci.cfg
-module l4re
-module ned
-module cons
-module io
-module[arch=arm|arm64,fname=pci.io] arm-virt64.io
-module[arch=amd64]                  pci.io
-module uvmm
-module[arch=arm,  fname=virt-pci.dtb]     dtb/virt-arm_virt-64_pci.dtb
-module[arch=arm64,fname=virt-pci.dtb]     dtb/virt-arm_virt-64_pci.dtb
-module[arch=amd64,fname=virt-pci.dtb]     dtb/virt-pc.dtb
-module[arch=arm,fname=linux,nostrip]      https://l4re.org/download/Linux-kernel/arm32/zImage-6.6.8
-module[arch=arm64,fname=linux,nostrip]    https://l4re.org/download/Linux-kernel/arm64/Image-6.6.8
-module[arch=amd64,fname=linux,nostrip]    https://l4re.org/download/Linux-kernel/x86-64/bzImage-6.6.8
-module[arch=arm,fname=ramdisk.cpio.gz]    https://l4re.org/download/ramdisks/ramdisk-armv7.cpio.gz
-module[arch=arm64,fname=ramdisk.cpio.gz]  https://l4re.org/download/ramdisks/ramdisk-armv8-64.cpio.gz
-module[arch=amd64,fname=ramdisk.cpio.gz]  https://l4re.org/download/ramdisks/ramdisk-amd64.cpio.gz
-
-entry ipcbench
-roottask moe rom/ipcbench.cfg
-module l4re
-module ned
-module ipcbench
-module ipcbench_client
-module ipcbench_server
-module ipcbench_syscall
-module ../pkg/ipcbench/conf/ipcbench.cfg
