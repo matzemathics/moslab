@@ -11,10 +11,8 @@
 static L4Re::Util::Registry_server<> server;
 
 struct LoggingServer: L4::Epiface_t<LoggingServer, Logger> {
-    int op_log(
-            Logger::Rights rights,
-		    LoggingBuffer &args
-    ) {
+    int op_log(Logger::Rights rights, LoggingBuffer &args)
+    {
         (void)rights;
         if (args.len >= LOG_MAX_LEN) {
             printf("len to big\n");
@@ -37,11 +35,6 @@ private:
     char name[MAX_TAG_LEN] = "unnamed";
 };
 
-#define NUM_INSTANCES 5
-
-static LoggingServer instances[NUM_INSTANCES];
-static size_t next_instance = 0;
-
 struct SessionServer: L4::Epiface_t<SessionServer, L4::Factory> {
     int op_create (
         L4::Factory::Rights rights,
@@ -59,14 +52,10 @@ struct SessionServer: L4::Epiface_t<SessionServer, L4::Factory> {
         if (! tag.is_of<char const *>())
             return - L4_EINVAL;
 
-
-        if (next_instance >= NUM_INSTANCES)
-            return - L4_EINVAL;
-
         if (strlen(tag.value<char const*>()) > MAX_TAG_LEN)
             return - L4_EINVAL;
 
-        auto instance = &instances[next_instance++];
+        auto instance = new LoggingServer();
 
         instance->set_name(tag.value<char const*>());
         server.registry()->register_obj(instance);
@@ -77,12 +66,10 @@ struct SessionServer: L4::Epiface_t<SessionServer, L4::Factory> {
 };
 
 int main(void) {
-    static SessionServer session;
-
     printf("Starting up session server.\n");
 
     // register session server
-    if(!server.registry()->register_obj(&session, "logging_server").is_valid()) {
+    if(!server.registry()->register_obj(new SessionServer(), "logging_server").is_valid()) {
         printf("Register of 'session_server' failed\n");
         return 1;
     }
