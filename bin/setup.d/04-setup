@@ -498,7 +498,7 @@ add_gen()
 add_std_qemu_options()
 {
   if [ -z "${Makeconf_added_qemu_std[$1]}" ]; then
-    echo "QEMU_OPTIONS += -serial stdio" >> $1
+    # echo "QEMU_OPTIONS += -serial stdio" >> $1
     Makeconf_added_qemu_std[$1]=1
   fi
 
