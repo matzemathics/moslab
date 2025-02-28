@@ -13,6 +13,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cassert>
+#include <pthread.h>
 
 #ifdef TEST_ENV
 #include <cstdio>
@@ -107,6 +108,7 @@ static_assert(MetaChunk::MAX_NODES <= Slab::INDEX_MASK);
 
 struct Allocator {
     MetaChunk *meta;
+    pthread_mutex_t mutex;
 
     uint32_t find_pointer(void *p, MetaChunk **meta, Path path);
 };
@@ -308,21 +310,28 @@ uint32_t Allocator::find_pointer(void *p, MetaChunk **meta, Path path) {
 
 void *my_malloc(size_t size) noexcept
 {
+    pthread_mutex_lock(&allocator.mutex);
     enter_kdebug("malloc");
     if (allocator.meta == nullptr) {
         allocator.meta = allocate_meta();
     }
 
-    return allocator.meta->allocate(size);
+    void *result = allocator.meta->allocate(size);
+    pthread_mutex_unlock(&allocator.mutex);
+    return result;
 }
 
 void my_free(void *p) noexcept
 {
+    pthread_mutex_lock(&allocator.mutex);
     Path path;
     MetaChunk *meta;
     uint32_t depth = allocator.find_pointer(p, &meta, path);
 
-    if (!meta) return;
+    if (!meta) {
+        pthread_mutex_unlock(&allocator.mutex);
+        return;
+    }
 
     Slab *current = path[depth];
     current->splits(0);
@@ -347,13 +356,17 @@ void my_free(void *p) noexcept
         // unchanged, so no further changes for parents
         else break;
     }
+
+    pthread_mutex_unlock(&allocator.mutex);
 }
 
 void *my_realloc(void *p, size_t size) noexcept
 {
+    pthread_mutex_lock(&allocator.mutex);
     Path path = { nullptr };
     MetaChunk *meta;
     uint32_t depth = allocator.find_pointer(p, &meta, path);
+    pthread_mutex_unlock(&allocator.mutex);
 
     if (size <= (CHUNK_SIZE >> depth)) {
         // already large enough
