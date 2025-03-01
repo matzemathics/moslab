@@ -1,16 +1,18 @@
-#include <stdio.h>
+#include <cstdio>
 #include <cstring>
+#include <string>
 
-#include <l4/re/util/object_registry>
 #include <l4/sys/cxx/ipc_epiface>
+#include <l4/re/util/object_registry>
+#include <l4/cxx/exceptions>
 
 #include <l4/logging-server/logging.h>
-
-#include <string>
+#include "terminal.h"
 
 #define MAX_TAG_LEN 20
 
 static L4Re::Util::Registry_server<> server;
+static Terminal *terminal;
 
 struct LoggingServer: L4::Epiface_t<LoggingServer, Logger> {
     LoggingServer(const char *name) : name(name) {}
@@ -18,20 +20,26 @@ struct LoggingServer: L4::Epiface_t<LoggingServer, Logger> {
     int op_log(Logger::Rights rights, LoggingBuffer &args)
     {
         (void)rights;
+
+        buffer.append((const char*)args.msg, args.len);
+
         if (args.len >= LOG_MAX_LEN) {
-            printf("len to big\n");
-            // todo: buffer
-            return 1;
+            return 0;
         }
 
-        args.msg[args.len] = '\0';
+        terminal->print_str("[", ~0U);
+        terminal->print_str(name.c_str(), ~0U);
+        terminal->print_str("]: ", ~0U);
+        terminal->print_str(buffer.c_str(), ~0U);
+        terminal->print_str("\n", ~0U);
+        buffer.clear();
 
-        printf("[%s]: %s\n", name.c_str(), args.msg);
         return 0;
     }
 
 private:
     std::string name;
+    std::string buffer;
 };
 
 struct SessionServer: L4::Epiface_t<SessionServer, L4::Factory> {
@@ -63,7 +71,9 @@ struct SessionServer: L4::Epiface_t<SessionServer, L4::Factory> {
 };
 
 int main(void) {
-    printf("Starting up session server.\n");
+    if (Terminal::init(&terminal)) {
+	    return 1;
+    }
 
     // register session server
     if(!server.registry()->register_obj(new SessionServer(), "logging_server").is_valid()) {

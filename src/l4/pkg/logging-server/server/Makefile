@@ -7,10 +7,10 @@ include $(L4DIR)/mk/Makeconf
 MODE            = static
 TARGET          = logging-server
 
-SRC_CC          = server.cc
+SRC_CC          = server.cc terminal.cc
 CXXFLAGS        += -Wall -Wreorder
 
-REQUIRES_LIBS    = cxx_libc_io cxx_io libpthread libstdc++ libc_be_mem
+REQUIRES_LIBS    = cxx_libc_io cxx_io libpthread libstdc++ libc_be_mem libgfxbitmap
 
 include $(L4DIR)/mk/prog.mk
 

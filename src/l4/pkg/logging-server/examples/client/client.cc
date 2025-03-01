@@ -25,13 +25,9 @@ int main()
       printf("Could not get server capability!\n");
       return 1;
     }
- 
-  LoggingBuffer buf;
-  strcpy((char*)&buf.msg, "Hello World");
-  buf.len = sizeof "Hello World";
 
   int return_code = 0;
-  if ((return_code = server->log(buf)) != 0)
+  if ((return_code = server->log_all("abcdefghijklmnopqrstuvwxyz")) != 0)
     {
       printf("Error talking to server: %d\n", return_code);
       return 1;

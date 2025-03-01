@@ -12,6 +12,7 @@
 #include <l4/re/util/cap_alloc>
 #include <l4/re/util/object_registry>
 #include <l4/re/util/br_manager>
+
 #include <l4/sys/cxx/ipc_epiface>
 
 #include "shared.h"
