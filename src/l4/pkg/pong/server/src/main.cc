@@ -55,11 +55,14 @@ main()
   env.add(&lr);
   env.add(&lb);
 
+  L4::cerr << "Starting paddle server...\n";
+
   // start the paddle server (thread)
   paddle_server.start();
 
   Obstacle *o;
 
+  L4::cout << "Starting main loop...\n";
   // main loop
   while (1)
     {

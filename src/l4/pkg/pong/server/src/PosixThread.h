@@ -10,6 +10,9 @@
 #pragma once
 
 #include <l4/re/error_helper>
+#include <l4/cxx/l4iostream>
+#include <l4/cxx/iostream>
+
 #include <pthread-l4.h>
 #include <pthread.h>
 
@@ -19,7 +22,7 @@ namespace L4
 class PosixThread
 {
 public:
-  PosixThread() : _thread(){};
+  PosixThread() {};
   virtual ~PosixThread(){};
 
   L4::Cap<L4::Thread>
@@ -31,7 +34,9 @@ public:
   void
   start()
   {
-    L4Re::chksys(pthread_create(&_thread, NULL, &PosixThread::start_run, this));
+    L4::cerr << "in start\n";
+    auto res = pthread_create(&_thread, NULL, &PosixThread::start_run, this);
+    L4::cerr << res << " returned\n";
   };
 
 private:
@@ -43,6 +48,7 @@ private:
   static void *
   start_run(void *arg)
   {
+    L4::cerr << "in start_run\n";
     static_cast<PosixThread *>(arg)->run();
     return NULL;
   };

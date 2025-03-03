@@ -1,4 +1,4 @@
-requires: libstdc++  libc_be_mem libio-vbus
+requires: libstdc++  libc_be_mem libio-vbus libpthread
 provides: keyboard-server
 maintainer: your@email.example.com
 

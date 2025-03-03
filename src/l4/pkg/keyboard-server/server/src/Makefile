@@ -7,6 +7,6 @@ TARGET		= $(PKGNAME)
 SRC_CC      = main.cc
 
 # list requirements of your program here
-REQUIRES_LIBS   = libstdc++ libc_be_mem libio
+REQUIRES_LIBS   = libstdc++ libc_be_mem libio libpthread
 
 include $(L4DIR)/mk/prog.mk

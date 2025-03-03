@@ -81,7 +81,9 @@ roottask moe rom/keyboard.cfg
 module l4re
 module ned
 module io
+module fb-drv
 module[fname=keyboard] keyboard-server
+module pong-server
 module x86-fb.io
 module keyboard.cfg
 module x86-legacy.devs

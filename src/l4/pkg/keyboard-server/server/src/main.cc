@@ -8,12 +8,26 @@
 #include <l4/util/port_io.h>
 #include <l4/irq/irq.h>
 #include <l4/util/util.h>
- 
+#include <l4/sys/exception>
+
+#include <pthread.h>
 #include <stdio.h>
+
+void *hello_thread(void *_input) {
+    printf("Hello World!\n");
+    return nullptr;
+}
 
 int main(int argc, const char *argv[])
 {
     printf("Starting keyboard server...\n");
+
+    pthread_t thread;
+    pthread_attr_t attr;
+
+    pthread_attr_init(&attr);
+    printf("Starting a hello thread...\n");
+    pthread_create(&thread, &attr, &hello_thread, NULL);
 
     auto vbus = L4Re::Env::env()->get_cap<L4vbus::Vbus>("vbus");
     auto icu = L4Re::Env::env()->get_cap<L4::Icu>("icu");

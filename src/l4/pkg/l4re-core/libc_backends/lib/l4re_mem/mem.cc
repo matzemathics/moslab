@@ -18,6 +18,7 @@
 #ifdef TEST_ENV
 #include <cstdio>
 #else
+#include <cstdio>
 #include <l4/sys/kdebug.h>
 #include <l4/re/rm>
 #include <l4/re/env>
@@ -119,7 +120,6 @@ static MetaChunk *allocate_meta() {
 #ifdef TEST_ENV
     MetaChunk *meta = (MetaChunk*) malloc(CHUNK_SIZE * 2);
 #else
-    enter_kdebug("allocate_meta");
     auto ds = L4Re::Util::cap_alloc.alloc<L4Re::Dataspace>();
 
     if (!ds.is_valid())
@@ -131,18 +131,18 @@ static MetaChunk *allocate_meta() {
         return 0;
 
     MetaChunk *meta = nullptr;
-    result = L4Re::Env::env()->rm()->reserve_area(
-        &meta,
-        // as many chunks as managed by a single MetaChunk
-        CHUNK_SIZE * (MetaChunk::CHUNKS + 1),
-        L4Re::Rm::F::Search_addr,
-        CHUNK_BITS
-    );
+    // result = L4Re::Env::env()->rm()->reserve_area(
+    //     &meta,
+    //     // as many chunks as managed by a single MetaChunk
+    //     CHUNK_SIZE * (MetaChunk::CHUNKS + 1),
+    //     L4Re::Rm::F::Search_addr | L4Re::Rm::F::RW,
+    //     CHUNK_BITS
+    // );
 
     result = L4Re::Env::env()->rm()->attach(
         &meta,
         CHUNK_SIZE*2,
-        L4Re::Rm::F::In_area | L4Re::Rm::F::R | L4Re::Rm::F::W,
+        L4Re::Rm::F::Search_addr | L4Re::Rm::F::RW,
         ds
     );
 #endif
@@ -180,13 +180,17 @@ void *MetaChunk::allocate(size_t size) {
         break;
     }
 
-    if (chunk_num == CHUNKS)
+    if (chunk_num == CHUNKS) {
+        fprintf(stderr, "oom\n");
         // TODO: allocate new meta chunk
         return nullptr;
+    }
 
-    if (chunk_num == num_roots)
+    if (chunk_num == num_roots) {
+        fprintf(stderr, "oom\n");
         // TODO: allocate new chunk
         return nullptr;
+    }
 
     Path path = { nullptr };
 
@@ -311,13 +315,14 @@ uint32_t Allocator::find_pointer(void *p, MetaChunk **meta, Path path) {
 void *my_malloc(size_t size) noexcept
 {
     pthread_mutex_lock(&allocator.mutex);
-    enter_kdebug("malloc");
+
     if (allocator.meta == nullptr) {
         allocator.meta = allocate_meta();
     }
 
     void *result = allocator.meta->allocate(size);
     pthread_mutex_unlock(&allocator.mutex);
+    printf("allocated %d bytes @ 0x%x\n", size, result);
     return result;
 }
 
