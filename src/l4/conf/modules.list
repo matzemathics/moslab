@@ -76,3 +76,13 @@ module x86-fb.io
 module logging.cfg
 module x86-legacy.devs
 
+entry keyboard
+roottask moe rom/keyboard.cfg
+module l4re
+module ned
+module io
+module[fname=keyboard] keyboard-server
+module x86-fb.io
+module keyboard.cfg
+module x86-legacy.devs
+

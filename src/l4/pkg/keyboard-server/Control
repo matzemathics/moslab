@@ -1,0 +1,4 @@
+requires: libstdc++  libc_be_mem libio-vbus
+provides: keyboard-server
+maintainer: your@email.example.com
+
