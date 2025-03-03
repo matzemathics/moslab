@@ -735,7 +735,9 @@ int __pthread_initialize_manager(void)
 
 #ifdef USE_TLS
   /* Allocate memory for the thread descriptor and the dtv.  */
+  enter_kdebug("before");
   tcbp = _dl_allocate_tls (NULL);
+  enter_kdebug("after");
   if (tcbp == NULL) {
     free(__pthread_manager_thread_bos);
 #ifdef NOT_FOR_L4
