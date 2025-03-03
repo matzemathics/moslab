@@ -15,23 +15,22 @@ int main(int argc, const char *argv[])
 {
     printf("Starting keyboard server...\n");
 
-    L4::Cap<L4vbus::Vbus> vbus = L4Re::Env::env()->get_cap<L4vbus::Vbus>("vbus");
+    auto vbus = L4Re::Env::env()->get_cap<L4vbus::Vbus>("vbus");
+    auto icu = L4Re::Env::env()->get_cap<L4::Icu>("icu");
 
     if (!vbus.is_valid()) {
         printf("Could not get vbus cap\n");
         return 1;
     }
 
-    printf("mask: %d\n", l4_ipc_error(vbus->mask(0), l4_utcb()));
+    // printf("mask: %d\n", l4_ipc_error(vbus->mask(0), l4_utcb()));
 
     auto device = vbus->root();
     auto child = L4vbus::Device();
-    auto found = false;
     l4vbus_device_t info;
 
     while (device.next_device(&child, L4VBUS_MAX_DEPTH, &info) == 0) {
         printf("Found device `%s'\n", info.name);
-        if (strcmp(info.name, "ps2") == 0) { found = true; break; }
     }
 
     if (l4io_request_ioport(0x60, 1) != 0) {
@@ -41,6 +40,8 @@ int main(int argc, const char *argv[])
     if (l4io_request_ioport(0x64, 1) != 0) {
         printf("request_ioport(0x64) failed\n");
     }
+
+#ifdef CONFIGURE_IO_PORT
 
     // disable PS/2 devices
     while (l4util_in8(0x64) & 0x02)
@@ -110,7 +111,11 @@ int main(int argc, const char *argv[])
 
     printf("Press a key\n");
     while ((l4util_in8(0x64) & 0x01) == 0)
+        ;
     l4util_in8(0x60);
+
+#endif
+
     printf("Initialisation done...\n");
 
     auto irq_cap = L4Re::Util::cap_alloc.alloc<L4::Irq>();
@@ -130,11 +135,11 @@ int main(int argc, const char *argv[])
     }
 
     l4_icu_info_t icu_info;
-    res = L4::Cap<L4::Icu>(vbus)->info(&icu_info);
-    printf("Icu::info = { features = %d, nr_irqs = %d, nr_msis = %d }\n",
+    res = L4::Cap<L4::Icu>(icu)->info(&icu_info);
+    printf("Icu::info = { features = %x, nr_irqs = %d, nr_msis = %d }\n",
             icu_info.features, icu_info.nr_irqs, icu_info.nr_msis);
 
-    res = vbus->bind(0, irq_cap);
+    res = icu->bind(0x1, irq_cap);
 	printf("Icu::bind: %d\n", l4_error(res));
 
     if (l4_error(res) < 0) {
@@ -147,7 +152,15 @@ int main(int argc, const char *argv[])
     while (true) {
         l4_umword_t label;
         res = irq_cap->wait(&label);
-        printf("received irq\n");
+        while (l4util_in8(0x64) & 0x01) {
+            char code = l4util_in8(0x60);
+            if (code == 0x0f) {
+                printf("tab read.\n");
+            }
+            else {
+                printf("code = %x\n", code);
+            }
+        }
     }
 
     return 0;
